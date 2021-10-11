@@ -1,0 +1,14 @@
+
+.contenedor {
+  position: relative;
+  top: 0;
+  left: 0;
+  margin-left: 280px;
+  margin-top: 75px;
+  width: calc(100vw - 280px);
+  height: calc(100vh - 75px);
+  padding: 10px;
+  overflow: hidden;
+  overflow-y: auto;
+
+}
