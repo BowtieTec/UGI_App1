@@ -8,11 +8,23 @@ const routes: Routes = [
     component: HomeComponent,
     children: [
       {
-        path: '',
+        path: 'dashboard',
         loadChildren: () =>
           import('../dashboard/dashboard.module').then(
             (m) => m.DashboardModule
           ),
+      },
+      {
+        path: 'managment',
+        loadChildren: () =>
+          import('../managment/managment.module').then(
+            (m) => m.ManagmentModule
+          ),
+      },
+      {
+        path: 'parking',
+        loadChildren: () =>
+          import('../parking/parking.module').then((m) => m.ParkingModule),
       },
     ],
   },

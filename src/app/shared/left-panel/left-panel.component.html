@@ -1,18 +1,18 @@
 <div class="nmenu" id="clmenu" onclick="closeMenu()"></div>
-<div class="panelLeft" id="menu">
+<div class="panelLeft animate__animated animate__fadeInLeft" id="menu">
   <div class="logo">
     <img src="/assets/img/logo.png">
   </div>
   <div class="menu">
     <div class="titleNav">Menú</div>
     <ul class="nav flex-column">
-      <li class="nav-item active">
-        <a class="nav-link" href="home">
+      <li class="nav-item" routerLinkActive="active">
+        <a class="nav-link" routerLink="/home/dashboard">
           <span><i class="fas fa-tachometer-alt"></i></span>
           Dashboard</a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">
+      <li class="nav-item" routerLinkActive="active">
+        <a class="nav-link" routerLink="/home/managment">
           <span><i class="fas fa-chart-line"></i></span>
           Administración</a>
       </li>

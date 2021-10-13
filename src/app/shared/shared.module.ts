@@ -6,6 +6,7 @@ import { HeaderComponent } from './header/header.component';
 import { LocationPanelComponent } from './location-panel/location-panel.component';
 import { CardKpiComponent } from './card-kpi/card-kpi.component';
 import { BarChartComponent } from './bar-chart/bar-chart.component';
+import { LoadingComponent } from './loading/loading.component';
 
 @NgModule({
   declarations: [
@@ -14,6 +15,7 @@ import { BarChartComponent } from './bar-chart/bar-chart.component';
     LocationPanelComponent,
     CardKpiComponent,
     BarChartComponent,
+    LoadingComponent,
   ],
   imports: [CommonModule, RouterModule],
   exports: [
@@ -22,6 +24,7 @@ import { BarChartComponent } from './bar-chart/bar-chart.component';
     LocationPanelComponent,
     CardKpiComponent,
     BarChartComponent,
+    LoadingComponent,
   ],
 })
 export class SharedModule {}
