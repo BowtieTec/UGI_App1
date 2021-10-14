@@ -26,6 +26,21 @@ const routes: Routes = [
         loadChildren: () =>
           import('../parking/parking.module').then((m) => m.ParkingModule),
       },
+      {
+        path: 'courtesy',
+        loadChildren: () =>
+          import('../courtesy/courtesy.module').then((m) => m.CourtesyModule),
+      },
+      {
+        path: 'report',
+        loadChildren: () =>
+          import('../report/report.module').then((m) => m.ReportModule),
+      },
+      {
+        path: 'user',
+        loadChildren: () =>
+          import('../user/user.module').then((m) => m.UserModule),
+      },
     ],
   },
 ];
