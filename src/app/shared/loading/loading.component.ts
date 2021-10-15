@@ -20,12 +20,10 @@ export class LoadingComponent implements AfterViewInit {
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationStart) {
         this.loading = true;
-        console.log('Navigation Start');
       } else if (
         event instanceof NavigationEnd ||
         event instanceof NavigationCancel
       ) {
-        console.log('Navigation End');
       }
     });
   }
