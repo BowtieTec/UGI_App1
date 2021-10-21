@@ -37,16 +37,11 @@ export class AuthService {
   login(login: UserRequestModel) {
     this.message.showLoading();
     this.http
-      .post<UserResponseModel>(`${this.apiUrl}admin/signin`, login)
-      .subscribe(
-        (data) => {
-          this.saveUser(data.data);
-          this.message.OkTimeOut('!Listo!');
-          this.route.navigate(['/home/dashboard']);
-        },
-        (err) => {
-          this.message.errorTimeOut('', 'Correo o contraseña incorrectos');
-        }
-      );
+      .post<UserResponseModel>(`${this.apiUrl}backoffice/admin/signin`, login)
+      .subscribe((data) => {
+        this.saveUser(data.data);
+        this.message.OkTimeOut('!Listo!');
+        this.route.navigate(['/home/dashboard']);
+      });
   }
 }

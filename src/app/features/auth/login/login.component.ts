@@ -3,10 +3,6 @@ import { UserRequestModel } from '../../../shared/model/UserRequest.model';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../../shared/services/auth.service';
 import { MessageService } from '../../../shared/services/message.service';
-import {
-  AuthModel,
-  UserResponseModel,
-} from '../../../shared/model/UserResponse.model';
 
 @Component({
   selector: 'app-login',
@@ -15,7 +11,6 @@ import {
 })
 export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
-  newLogin = new UserRequestModel();
 
   constructor(
     private formBuilder: FormBuilder,
@@ -40,12 +35,16 @@ export class LoginComponent implements OnInit {
       //TODO: Descomentar las validacioens cuando se suba a produccion. Esto se comentó porque el email y contraseña admin son de prueba y no cumplen con los requerimientos
       email: [
         'admin@email.com',
-        [
-          Validators.required,
-          Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,3}$'),
-        ],
+        /*   [
+             Validators.required,
+             Validators.pattern(
+               "^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$"
+             ),
+           ],*/
       ],
-      password: ['123123123', [Validators.required, Validators.minLength(8)]],
+      password: [
+        '123123123' /* [Validators.required, Validators.minLength(8)]*/,
+      ],
     });
   }
 

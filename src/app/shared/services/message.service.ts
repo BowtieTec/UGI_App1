@@ -1,18 +1,19 @@
 import { Injectable } from '@angular/core';
 import Swal from 'sweetalert2';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MessageService {
-  constructor() {}
+  constructor(private router: Router) {}
 
   showLoading() {
     Swal.showLoading();
   }
 
   hideLoading() {
-    Swal.hideLoading();
+    Swal.close();
   }
 
   error(title: string, text: string, footer: string = '') {

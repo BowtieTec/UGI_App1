@@ -3,10 +3,9 @@
 // The list of file replacements can be found in `angular.json`.
 const Ip = '104.248.11.89';
 const Port = '3000';
-const ApiEndpoint = 'backoffice';
 export const environment = {
   production: false,
-  serverAPI: `http://${Ip}:${Port}/${ApiEndpoint}/`,
+  serverAPI: `http://${Ip}:${Port}/`,
   secretKey: '3%UC!C$WR7m$v^as@Sq8$4!^Mb25WS4i',
 };
 
