@@ -133,7 +133,6 @@
                     <map-marker
                       [position] = "coordsMark" ></map-marker >
                   </google-map >
-
                 </div >
               </div >
             </div >
@@ -147,16 +146,18 @@
                 <div class = "col-xl-3 col-lg-4 col-md-6 col-sm-12" >
                   <div class = "panels" >
                     <ul class = "opcionActivo " >
-                      <li ><input formControlName = "isOpen0"
-                                  id = "lunes"
-                                  type = "checkbox"
-                                  value = "lunes" ><label for = "lunes" >Lunes</label ></li >
+                      <li ><input
+                        formControlName = "isOpen0"
+                        id = "lunes"
+                        type = "checkbox"
+                        value = "lunes" ><label
+                        for = "lunes" >Lunes</label ></li >
                     </ul >
-                    <div *ngIf = "newParkingForm.controls['isOpen0'].value"
-                         class = "animate__animated animate__fadeInDown" >
+                    <div
+                      class = "animate__animated animate__fadeInDown" >
                       Hora inicio
                       <input class = "form-control inputClass"
-                             formControlName = "opening_time0"
+                             formControlName = "openning_time0"
                              type = "time" >
                       <hr >
                       Hora fin
@@ -174,11 +175,11 @@
                                   type = "checkbox"
                                   value = "Martes" ><label for = "Martes" >Martes</label ></li >
                     </ul >
-                    <div *ngIf = "newParkingForm.controls['isOpen1'].value"
-                         class = "animate__animated animate__fadeInDown" >
+                    <div
+                      class = "animate__animated animate__fadeInDown" >
                       Hora inicio
                       <input class = "form-control inputClass"
-                             formControlName = "opening_time1"
+                             formControlName = "openning_time1"
                              name = "mini"
                              type = "time" >
                       <hr >
@@ -198,11 +199,11 @@
                                   value = "Miercoles" ><label
                         for = "Miercoles" >Miércoles</label ></li >
                     </ul >
-                    <div *ngIf = "newParkingForm.controls['isOpen2'].value"
-                         class = "animate__animated animate__fadeInDown" >
+                    <div
+                      class = "animate__animated animate__fadeInDown" >
                       Hora inicio
                       <input class = "form-control inputClass"
-                             formControlName = "opening_time2"
+                             formControlName = "openning_time2"
                              type = "time" >
                       <hr >
                       Hora fin
@@ -220,11 +221,11 @@
                                   type = "checkbox"
                                   value = "Jueves" ><label for = "Jueves" >Jueves</label ></li >
                     </ul >
-                    <div *ngIf = "newParkingForm.controls['isOpen3'].value"
-                         class = "animate__animated animate__fadeInDown" >
+                    <div
+                      class = "animate__animated animate__fadeInDown" >
                       Hora inicio
                       <input class = "form-control inputClass"
-                             formControlName = "opening_time3"
+                             formControlName = "openning_time3"
                              type = "time" >
                       <hr >
                       Hora fin
@@ -242,11 +243,11 @@
                                   type = "checkbox"
                                   value = "Viernes" ><label for = "Viernes" >Viernes</label ></li >
                     </ul >
-                    <div *ngIf = "newParkingForm.controls['isOpen4'].value"
-                         class = "animate__animated animate__fadeInDown" >
+                    <div
+                      class = "animate__animated animate__fadeInDown" >
                       Hora inicio
                       <input class = "form-control inputClass"
-                             formControlName = "opening_time4"
+                             formControlName = "openning_time4"
                              type = "time" >
                       <hr >
                       Hora fin
@@ -264,11 +265,11 @@
                                   type = "checkbox"
                                   value = "Sabado" ><label for = "Sabado" >Sábado</label ></li >
                     </ul >
-                    <div *ngIf = "newParkingForm.controls['isOpen5'].value"
-                         class = "animate__animated animate__fadeInDown" >
+                    <div
+                      class = "animate__animated animate__fadeInDown" >
                       Hora inicio
                       <input class = "form-control inputClass"
-                             formControlName = "opening_time5"
+                             formControlName = "openning_time5"
                              type = "time" >
                       <hr >
                       Hora fin
@@ -280,18 +281,18 @@
                 </div >
                 <div class = "col-xl-3 col-lg-4 col-md-6 col-sm-12" >
                   <div class = "panels" >
-                    <ul class = "opcionActivo " >
+                    <ul class = "opcionActivo" >
                       <li ><input formControlName = "isOpen6"
                                   id = "Domingo"
                                   type = "checkbox"
                                   value = "Domingo" ><label for = "Domingo" >Domingo
                       </label ></li >
                     </ul >
-                    <div *ngIf = "newParkingForm.controls['isOpen6'].value"
-                         class = "animate__animated animate__fadeInDown" >
+                    <div
+                      class = "animate__animated animate__fadeInDown" >
                       Hora inicio
                       <input class = "form-control inputClass"
-                             formControlName = "opening_time6"
+                             formControlName = "openning_time6"
                              type = "time" >
                       <hr >
                       Hora fin
@@ -451,9 +452,9 @@
                       [class.is-invalid] = "controlInvalid('pay_method')"
                       class = "inputClass"
                       formControlName = "pay_method" >
-                      <option value = "0" >Tarjeta</option >
-                      <option value = "1" >Efectivo</option >
-                      <option value = "2" >Bitcoins</option >
+                      <option *ngFor = "let option of settingsOptions.paymentMethods"
+                              value = "{{option.id}}" >{{option.description}}</option >
+
                     </select >
                     <small *ngIf = "controlInvalid('pay_method')"
                            class = "text-danger" >* Este campo es obligatorio</small >
@@ -465,55 +466,264 @@
                     <select [class.is-invalid] = "controlInvalid('currency')"
                             class = "inputClass"
                             formControlName = "currency" >
-                      <option value = "0" >Quetzales</option >
-                      <option value = "1" >Dólares</option >
-                      <option value = "2" >Bitcoins</option >
+                      <option *ngFor = "let option of settingsOptions.currencyOptions"
+                              value = "{{option.id}}" >{{option.description}}</option >
                     </select >
                     <small *ngIf = "controlInvalid('currency')"
                            class = "text-danger" >* Este campo es obligatorio</small >
                   </div >
                 </div >
+
+                <div class = "row mt-3" >
+                  <div class = " col-md-6 col-sm-12" >
+                    <div class = "row col-xl-12 col-lg-12 col-sm-12" >
+                      <ul class = "opcionActivo " >
+                        <li ><input formControlName = "is_our_visa_credential"
+                                    id = "is_our_visa_credential"
+                                    type = "checkbox"
+                                    value = "is_show_map" ><label for = "is_our_visa_credential" >Credenciales
+                                                                                                  Visa</label ></li >
+                      </ul >
+                    </div >
+                  </div >
+                  <div class = " col-md-6 col-sm-12" >
+                    <div class = "row col-xl-12 col-lg-12 col-sm-12" >
+                      <ul class = "opcionActivo " >
+                        <li ><input formControlName = "is_our_bac_credential"
+                                    id = "is_our_bac_credential"
+                                    type = "checkbox"
+                                    value = "is_show_map" ><label for = "is_our_bac_credential" >Credenciales
+                                                                                                 BAC</label ></li >
+                      </ul >
+                    </div >
+                  </div >
+                </div >
+                <div class = "row" >
+                  <div
+                    id = "visaCredential"
+                    class = " col-md-6 col-sm-12" >
+                    <div *ngIf = "newParkingForm.controls['is_our_visa_credential'].value"
+                         class = "animate__animated animate__fadeInLeft" >
+                      <div class = "m-3 relative" >
+                        <label class = "labelInput" >ID Comerciante</label >
+                        <input [class.is-invalid] = "controlInvalid('merchant_id_visa')"
+                               class = "form-control inputClass"
+                               formControlName = "merchant_id_visa"
+                               placeholder = "ID Mercante"
+                               type = "text" >
+                        <small *ngIf = "controlInvalid('merchant_id_visa')"
+                               class = "text-danger" >* Este campo es obligatorio</small >
+                      </div >
+                      <div class = "m-3 relative" >
+                        <label class = "labelInput" >Llave de transacción</label >
+                        <input [class.is-invalid] = "controlInvalid('transaction_key_visa')"
+                               class = "form-control inputClass"
+                               formControlName = "transaction_key_visa"
+                               placeholder = "Llave de transacción:"
+                               type = "text" >
+                        <small *ngIf = "controlInvalid('transaction_key_visa')"
+                               class = "text-danger" >* Este campo es obligatorio</small >
+                      </div >
+                      <div class = "m-3 relative" >
+                        <label class = "labelInput" >URL</label >
+                        <input [class.is-invalid] = "controlInvalid('url_visa')"
+                               class = "form-control inputClass"
+                               formControlName = "url_visa"
+                               placeholder = "URL:"
+                               type = "text" >
+                        <small *ngIf = "controlInvalid('url_visa')"
+                               class = "text-danger" >* Este campo es obligatorio</small >
+                      </div >
+                    </div >
+                  </div >
+                  <div *ngIf = "newParkingForm.controls['is_our_bac_credential'].value "
+                       id = "BacCredential"
+                       class = " col-md-6 col-sm-12 animate__animated animate__fadeInLeft" >
+                    <div class = "m-3 relative" >
+                      <label class = "labelInput" >ID Comerciante</label >
+                      <input [class.is-invalid] = "controlInvalid('merchant_id_bac')"
+                             class = "form-control inputClass"
+                             formControlName = "merchant_id_bac"
+                             placeholder = "ID Comerciante:"
+                             type = "text" >
+                      <small *ngIf = "controlInvalid('merchant_id_bac')"
+                             class = "text-danger" >* Este campo es obligatorio</small >
+                    </div >
+                    <div class = "m-3 relative" >
+                      <label class = "labelInput" >ID Proveedor</label >
+                      <input [class.is-invalid] = "controlInvalid('acquirer_id_bac')"
+                             class = "form-control inputClass"
+                             formControlName = "acquirer_id_bac"
+                             placeholder = "ID Proveedor"
+                             type = "text" >
+                      <small *ngIf = "controlInvalid('acquirer_id_bac')"
+                             class = "text-danger" >* Este campo es obligatorio</small >
+                    </div >
+                    <div class = "m-3 relative" >
+                      <label class = "labelInput" >Moneda</label >
+                      <select [class.is-invalid] = "controlInvalid('purchase_currency_bac')"
+                              class = "inputClass"
+                              formControlName = "purchase_currency_bac" >
+                        <option *ngFor = "let option of settingsOptions.currencyOptions"
+                                value = "{{option.id}}" >{{option.description}}</option >
+                      </select >
+                      <small *ngIf = "controlInvalid('purchase_currency_bac')"
+                             class = "text-danger" >* Este campo es obligatorio</small >
+                    </div >
+                    <div class = "m-3 relative" >
+                      <label class = "labelInput" >PMTNPSSW</label >
+                      <input [class.is-invalid] = "controlInvalid('pmtnpssw_bac')"
+                             class = "form-control inputClass"
+                             formControlName = "pmtnpssw_bac"
+                             placeholder = "PMTNPSSW:"
+                             type = "text" >
+                      <small *ngIf = "controlInvalid('pmtnpssw_bac')"
+                             class = "text-danger" >* Este campo es obligatorio</small >
+                    </div >
+                    <div class = "m-3 relative" >
+                      <label class = "labelInput" >URL</label >
+                      <input [class.is-invalid] = "controlInvalid('url_bac')"
+                             class = "form-control inputClass"
+                             formControlName = "url_bac"
+                             placeholder = "URL:"
+                             type = "text" >
+                      <small *ngIf = "controlInvalid('url_bac')"
+                             class = "text-danger" >* Este campo es obligatorio</small >
+                    </div >
+                  </div >
+                </div >
               </div >
 
             </div >
-            <div *ngIf = "step == this.totalSteps"
+            <div *ngIf = "step ==5"
                  class = "animate__animated animate__fadeInLeft"
                  id = "stepFive" >
+              <h6 >Configuración de antenas</h6 >
+              <div class = "d-grid gap-2 d-md-flex justify-content-md-end" >
+                <button class = "btn btn-success"
+                        type = "button"
+                        (click) = "addAntenna()" >Agregar (+)
+                </button >
+              </div >
+              <div
+                class = "container " >
+                <div formArrayName = "antennas"
+                     *ngFor = "let control of antennas.controls; index as i"
+                     class = "row" >
+                  <h4 >
+                    Antena
+                    <small class = "text-muted" >#{{i + 1}}</small >
+                  </h4 >
+                  <div [formGroupName] = "i" >
+                    <div class = "row" >
+                      <div class = "col-md-5 col-sm-12" >
+                        <div class = "m-3 relative " >
+                          <label class = "labelInput" >Tipo de acceso</label >
+                          <select
+                            [class.is-invalid] = "controlInvalid('type_access')"
+                            class = "inputClass"
+                            formControlName = "type_access" >
+                            <option *ngFor = "let access of this.accessList"
+                                    value = "{{access.value}}" >{{access.accessType}}</option >
+                          </select >
+                          <small *ngIf = "controlInvalid('type_access')"
+                                 class = "text-danger" >* Este campo es obligatorio</small >
+                        </div >
+                      </div >
+
+                      <div class = "col-md-5 col-sm-12" >
+                        <div class = "m-3 relative " >
+                          <label class = "labelInput" >Nombre de acceso:</label >
+                          <input [class.is-invalid] = "controlInvalid('name_access')"
+                                 class = "form-control inputClass"
+                                 formControlName = "name_access"
+
+                                 placeholder = "Nombre de acceso:"
+                                 type = "text" >
+                          <small *ngIf = "controlInvalid('name_access')"
+                                 class = "text-danger" >* Este campo es obligatorio</small >
+                        </div >
+                      </div >
+                    </div >
+                    <div class = "row" >
+                      <div class = "col-md-5 col-sm-12" >
+                        <div class = "m-3 relative" >
+                          <label class = "labelInput" >MAC:</label >
+                          <input [class.is-invalid] = "controlInvalid('mac_access')"
+                                 class = "form-control inputClass"
+                                 formControlName = "mac_access"
+
+                                 placeholder = "MAC:"
+                                 type = "text" >
+                          <small *ngIf = "controlInvalid('mac_access')"
+                                 class = "text-danger" >* Este campo es obligatorio</small >
+                        </div >
+                      </div >
+                      <div class = "col-md-5 col-sm-12" >
+                        <div class = "m-3 relative" >
+                          <label class = "labelInput" >Antena:</label >
+                          <input [class.is-invalid] = "controlInvalid('antenna_access')"
+                                 class = "form-control inputClass"
+                                 formControlName = "antenna_access"
+
+                                 placeholder = "Antena:"
+                                 type = "text" >
+                          <small *ngIf = "controlInvalid('antenna_access')"
+                                 class = "text-danger" >* Este campo es obligatorio</small >
+                        </div >
+                      </div >
+                    </div >
+                  </div >
+                  <hr >
+                </div >
+              </div >
+            </div >
+            <div *ngIf = "step == this.totalSteps"
+                 class = "animate__animated animate__fadeInLeft"
+                 id = "lastStep" >
               <div class = "titleCards" >
                 Confirmación
               </div >
               <div class = "panels" >
                 <h6 >Datos generales</h6 >
                 <div class = "row" >
-                  <div class = "col-lg-4 col-md-6 col-sm-12" >
-                    <p > Nombre:</p >
-                    <p >Dirección:</p >
-                    <p >Número de parqueos:</p >
-                    <p >Número de parqueos especiales:</p >
-                    <p >Uso de ticket:</p >
-                    <p >Precio por perdida de ficha:</p >
-                    <p >Método de pago:</p >
-                    <p >Promoción por perdidaPromoción primer ingreso: No</p >
-                    <p >Patrocinador: N/A</p >
-                    <p >Parqueo de prueba: No</p >
-                    <p >Precio con Bowtie:</p >
-                    <p >Tiempo para salir:</p >
-                    <p >Afiliación de visanet:</p >
-                    <p >Reglamento:</p >
+                  <div class = "col-lg-6 col-md-6 col-sm-12" >
+
+                    <h5 >Nombre: <small class = "text-muted" >{{this.newParkingForm.controls['name'].value}}</small >
+                    </h5 >
+                    <h5 >Dirección:
+                      <small class = "text-muted" >{{this.newParkingForm.controls['address'].value}}</small ></h5 >
+                    <h5 >Número de parqueos:
+                      <small class = "text-muted" >{{this.newParkingForm.controls['parking_spaces'].value}}</small >
+                    </h5 >
+                    <h5 >Número de parqueos
+                         especiales:
+                      <small class = "text-muted" >{{this.newParkingForm.controls['special_parking_spaces'].value}}</small >
+                    </h5 >
+                    <h5 >Tiempo para
+                         salir:<small class = "text-muted" >{{this.newParkingForm.controls['minutes_to_exit'].value}}</small >
+                    </h5 >
+                    <h5 >Tiempo para
+                         salir:<small class = "text-muted" >{{this.newParkingForm.controls['minutes_to_exit'].value}}</small >
+                    </h5 >
+                    <h5 >Reglamento:
+                      <small class = "text-muted" >{{this.newParkingForm.controls['rules'].value}}</small ></h5 >
                   </div >
-                  <div class = "col-lg-4 col-md-6 col-sm-12" >
-                    <p >Tipo de documento:</p >
-                    <p >Número de resoución</p >
-                    <p >Serie:</p >
-                    <p >Folio:</p >
-                    <p >Código SAT:</p >
-                  </div >
-                  <div class = "col-lg-4 col-md-6 col-sm-12" >
-                    <p >Rango inicial:</p >
-                    <p >Rango final:</p >
-                    <p >Dispositivo:</p >
-                    <p >Fecha de autorización:</p >
-                    <p >Código de establecimiento:</p >
+                  <div class = "col-lg-6 col-md-6 col-sm-12" >
+                    <h5 >Reglamento:
+                      <small class = "text-muted" >{{this.newParkingForm.controls['nit'].value}}</small >
+                    </h5 >
+                    <h5 >Reglamento:
+                      <small class = "text-muted" >{{this.newParkingForm.controls['business_address'].value}}</small >
+                    </h5 >
+                    <h5 >Reglamento:
+                      <small class = "text-muted" >{{this.newParkingForm.controls['business_name'].value}}</small >
+                    </h5 >
+                    <h5 >Metodo de pago:
+                      <small class = "text-muted" >{{this.newParkingForm.controls['pay_method'].value}}</small >
+                    </h5 >
+                    <h5 >Reglamento:
+                      <small class = "text-muted" >{{this.newParkingForm.controls['rules'].value}}</small ></h5 >
                   </div >
                 </div >
               </div >

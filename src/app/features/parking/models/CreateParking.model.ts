@@ -17,26 +17,52 @@ export class Coordinates {
 
 export class CreateParkingStepTwoModel {
   parkingId: string = '';
-  schedules?: Schedule[];
+  schedules?: Schedule[] = new Array<Schedule>();
+
+  constructor() {}
 }
 
 export class Schedule {
-  isOpen: boolean = false;
+  isOpen: boolean = true;
   day: number = 0;
-  openning_time?: Time;
-  closing_time?: Time;
+  openning_time?: TimeData;
+  closing_time?: TimeData;
 }
 
-export class Time {
+export class TimeData {
   hour: string = '00';
   minute: string = '00';
   second: string = '00';
 }
 
 export class CreateParkingStepFourModel {
+  parkingId: string = '';
   nit: string = '';
   business_address: string = '';
   business_name: string = '';
   pay_method: number = 0;
   currency: number = 0;
+  is_our_visa_credential: boolean = false;
+  is_our_bac_credential: boolean = false;
+  visa_credential!: VisaCredentialModel;
+  bac_credential!: BacCredentialModel;
+}
+
+export class VisaCredentialModel {
+  merchant_id: string = '';
+  transaction_key: string = '';
+  url: string = '';
+}
+
+export class BacCredentialModel {
+  merchant_id: string = '';
+  acquirer_id: string = '';
+  purchase_currency: string = '';
+  pmtnpssw: string = '';
+  url: string = '';
+}
+
+export class AccessModel {
+  value: number = 0;
+  accessType: string = '';
 }

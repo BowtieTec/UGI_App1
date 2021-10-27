@@ -1,5 +1,5 @@
-export class RequestModel {
+export class ResponseModel {
   success: boolean = false;
   message: string = '';
-  data = [];
+  data: any;
 }
