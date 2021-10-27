@@ -49,14 +49,21 @@ export class NewParkingComponent implements OnInit {
     this.step + number > this.totalSteps
       ? (this.step = 1)
       : this.step + number == 0
-      ? (this.step = this.totalSteps)
-      : (this.step = this.step + number);
+        ? (this.step = this.totalSteps)
+        : (this.step = this.step + number);
   }
 
   controlInvalid(control: string) {
     return (
       this.newParkingForm.get(control)?.invalid &&
       this.newParkingForm.get(control)?.touched
+    );
+  }
+
+  FormArrayInvalid(control: string, i: number) {
+    return (
+      this.antennas.controls[i].get(control)?.invalid &&
+      this.antennas.controls[i].get(control)?.touched
     );
   }
 
@@ -442,7 +449,7 @@ export class NewParkingComponent implements OnInit {
           acquirer_id: this.newParkingForm.controls['acquirer_id_bac'].value,
           pmtnpssw: this.newParkingForm.controls['pmtnpssw_bac'].value,
           purchase_currency:
-            this.newParkingForm.controls['purchase_currency_bac'].value,
+          this.newParkingForm.controls['purchase_currency_bac'].value,
         },
       };
     } catch (e) {
@@ -450,6 +457,9 @@ export class NewParkingComponent implements OnInit {
     }
   }
 
+  private getStepFive() {
+
+  }
   //* Start Google Maps */
   addMapMark(event: google.maps.MouseEvent) {
     this.coordsMark = { lat: event.latLng.lat(), lng: event.latLng.lng() };
@@ -471,7 +481,7 @@ export class NewParkingComponent implements OnInit {
 
   createAccess(): FormGroup {
     return this.formBuilder.group({
-      type_access: [0, [Validators.required]],
+      type_access: [0, Validators.required],
       name_access: ['', Validators.required],
       mac_access: ['', Validators.required],
       antenna_access: ['', Validators.required],
@@ -481,6 +491,5 @@ export class NewParkingComponent implements OnInit {
   /* End Google Maps */
   addAntenna() {
     this.antennas.push(this.createAccess());
-    console.log(this.newParkingForm);
   }
 }

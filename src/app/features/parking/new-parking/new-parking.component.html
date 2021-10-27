@@ -620,13 +620,13 @@
                         <div class = "m-3 relative " >
                           <label class = "labelInput" >Tipo de acceso</label >
                           <select
-                            [class.is-invalid] = "controlInvalid('type_access')"
+                            [class.is-invalid] = "FormArrayInvalid('type_access', i)"
                             class = "inputClass"
                             formControlName = "type_access" >
                             <option *ngFor = "let access of this.accessList"
                                     value = "{{access.value}}" >{{access.accessType}}</option >
                           </select >
-                          <small *ngIf = "controlInvalid('type_access')"
+                          <small *ngIf = "FormArrayInvalid('type_access', i)"
                                  class = "text-danger" >* Este campo es obligatorio</small >
                         </div >
                       </div >
@@ -634,13 +634,12 @@
                       <div class = "col-md-5 col-sm-12" >
                         <div class = "m-3 relative " >
                           <label class = "labelInput" >Nombre de acceso:</label >
-                          <input [class.is-invalid] = "controlInvalid('name_access')"
+                          <input [class.is-invalid] = "FormArrayInvalid('name_access', i)"
                                  class = "form-control inputClass"
                                  formControlName = "name_access"
-
                                  placeholder = "Nombre de acceso:"
                                  type = "text" >
-                          <small *ngIf = "controlInvalid('name_access')"
+                          <small *ngIf = "FormArrayInvalid('name_access', i)"
                                  class = "text-danger" >* Este campo es obligatorio</small >
                         </div >
                       </div >
@@ -649,26 +648,26 @@
                       <div class = "col-md-5 col-sm-12" >
                         <div class = "m-3 relative" >
                           <label class = "labelInput" >MAC:</label >
-                          <input [class.is-invalid] = "controlInvalid('mac_access')"
+                          <input [class.is-invalid] = "FormArrayInvalid('mac_access', i)"
                                  class = "form-control inputClass"
                                  formControlName = "mac_access"
 
                                  placeholder = "MAC:"
                                  type = "text" >
-                          <small *ngIf = "controlInvalid('mac_access')"
+                          <small *ngIf = "FormArrayInvalid('mac_access', i)"
                                  class = "text-danger" >* Este campo es obligatorio</small >
                         </div >
                       </div >
                       <div class = "col-md-5 col-sm-12" >
                         <div class = "m-3 relative" >
                           <label class = "labelInput" >Antena:</label >
-                          <input [class.is-invalid] = "controlInvalid('antenna_access')"
+                          <input [class.is-invalid] = "FormArrayInvalid('antenna_access', i)"
                                  class = "form-control inputClass"
                                  formControlName = "antenna_access"
 
                                  placeholder = "Antena:"
                                  type = "text" >
-                          <small *ngIf = "controlInvalid('antenna_access')"
+                          <small *ngIf = "FormArrayInvalid('antenna_access', i)"
                                  class = "text-danger" >* Este campo es obligatorio</small >
                         </div >
                       </div >
