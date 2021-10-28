@@ -10,29 +10,9 @@ export class CreateParkingStepOneModel {
   minutes_to_exit: number = 0;
 }
 
-export class Coordinates {
-  latitude: number = 0.0;
-  longitude: number = 0.0;
-}
-
 export class CreateParkingStepTwoModel {
   parkingId: string = '';
   schedules?: Schedule[] = new Array<Schedule>();
-
-  constructor() {}
-}
-
-export class Schedule {
-  isOpen: boolean = true;
-  day: number = 0;
-  openning_time?: TimeData;
-  closing_time?: TimeData;
-}
-
-export class TimeData {
-  hour: string = '00';
-  minute: string = '00';
-  second: string = '00';
 }
 
 export class CreateParkingStepFourModel {
@@ -46,6 +26,32 @@ export class CreateParkingStepFourModel {
   is_our_bac_credential: boolean = false;
   visa_credential!: VisaCredentialModel;
   bac_credential!: BacCredentialModel;
+}
+
+export class CreateParkingStepFiveModel {
+  parking: string = '';
+  type: number = 0;
+  name: string = '';
+  antena: string = '';
+  mac: string = '';
+}
+
+export class Coordinates {
+  latitude: number = 0.0;
+  longitude: number = 0.0;
+}
+
+export class Schedule {
+  isOpen: boolean = true;
+  day: number = 0;
+  openning_time?: TimeData;
+  closing_time?: TimeData;
+}
+
+export class TimeData {
+  hour: string = '00';
+  minute: string = '00';
+  second: string = '00';
 }
 
 export class VisaCredentialModel {

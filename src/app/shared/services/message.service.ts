@@ -25,6 +25,25 @@ export class MessageService {
     });
   }
 
+  warning(text: string, title: string = '!Cuidado!') {
+    Swal.fire({
+      icon: 'warning',
+      title,
+      text,
+
+    });
+  }
+
+  warningTimeOut(text: string, title: string = '!Cuidado!') {
+    Swal.fire({
+      icon: 'warning',
+      title,
+      text,
+      timer: 2000,
+      showConfirmButton: false,
+    });
+  }
+
   errorTimeOut(title: string, text: string, footer: string = '') {
     Swal.fire({
       icon: 'error',

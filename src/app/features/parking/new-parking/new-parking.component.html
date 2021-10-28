@@ -94,12 +94,14 @@
                 <div class = "col-xl-6 col-lg-6  col-sm-12" >
                   <div class = "mb-4 relative" >
                     <label class = "labelInput" >Pais</label >
-                    <select
-                      class = "inputClass"
-                      formControlName = "country" >
+                    <select [class.is-invalid] = "controlInvalid('country')"
+                            class = "inputClass"
+                            formControlName = "country" >
                       <option *ngFor = "let country of countries"
                               [value] = "country.id" >{{country.name}}</option >
                     </select >
+                    <small *ngIf = "controlInvalid('country')"
+                           class = "text-danger" >* Este campo es obligatorio</small >
                   </div >
                 </div >
               </div >
@@ -408,7 +410,7 @@
                 </table >
               </div >
             </div >
-            <div *ngIf = "step ==4"
+            <div *ngIf = "step ==4 && this.settingsOptions != undefined"
                  class = "animate__animated animate__fadeInLeft"
                  id = "stepFour" >
               <h6 >Facturación</h6 >

@@ -5,6 +5,7 @@ import { MessageService } from '../../../shared/services/message.service';
 import { ResponseModel } from '../../../shared/model/Request.model';
 import {
   AccessModel,
+  CreateParkingStepFiveModel,
   CreateParkingStepFourModel,
   CreateParkingStepOneModel,
   CreateParkingStepTwoModel,
@@ -94,16 +95,31 @@ export class ParkingService {
       .toPromise();
   }
 
+  setStepFive(stepFive: CreateParkingStepFiveModel): Promise<any> {
+
+    return this.http
+      .post<ResponseModel>(
+        `${this.apiUrl}backoffice/parking/station`,
+        stepFive
+      )
+      .pipe(
+        map((data) => {
+          return data.success;
+        })
+      ).toPromise()
+  }
+
   saveParkingSteps(
     parkingStepOne: CreateParkingStepOneModel,
     parkingStepTwo: CreateParkingStepTwoModel,
-    parkingStepFour: CreateParkingStepFourModel
+    parkingStepFour: CreateParkingStepFourModel,
+    parkingStepFive: CreateParkingStepFiveModel[]
   ) {
     this.message.showLoading();
     this.setStepOne(parkingStepOne)
       .then((data) => {
         parkingStepTwo.parkingId = data.data.id;
-        console.log(parkingStepTwo.parkingId);
+
         return this.setStepTwo(parkingStepTwo);
       })
       .then((data) => {
@@ -111,13 +127,26 @@ export class ParkingService {
         return this.setStepFour(parkingStepFour);
       })
       .then((data) => {
-        console.log(data);
-        return data;
+        console.log('Paso 5');
+        let promises = Array<Promise<any>>();
+        parkingStepFive.forEach((antenna: CreateParkingStepFiveModel) => {
+          antenna.parking = data.data.id;
+          console.log(antenna);
+          promises.push(this.setStepFive(antenna));
+        });
+        Promise.all(promises).then((data) => {
+          data.forEach((response, i) => {
+            //TODO: Filtrar los resultados que sean falsos y mostrarlos en un mensaje.
+          });
+          return data;
+        });
       })
       .then((data) => {
-        console.log(data);
         this.message.hideLoading();
         this.message.OkTimeOut('Parqueo guardado');
+      })
+      .catch((error) => {
+        throw error;
       });
   }
 }

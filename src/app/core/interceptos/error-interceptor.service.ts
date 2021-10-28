@@ -18,8 +18,13 @@ export class GlobalErrorHandler implements ErrorHandler {
     // } else {
     //   this.message.error('Error', 'Er');
     // }
-    console.log(error);
-    if (error.status === 401) {
+    console.log(error.rejection);
+    if (error.status === 400) {
+      this.message.error(
+        'Sesión vencida',
+        'Datos faltantes o incorrectos. Porfavor verifique que no falten datos. Si el problema persiste comunicarse con administracion.'
+      );
+    } else if (error.status === 401) {
       this.message.error(
         'Sesión vencida',
         'El tiempo de sesión ha vencido. Por favor vuelva a iniciar sesión.'
@@ -33,11 +38,26 @@ export class GlobalErrorHandler implements ErrorHandler {
       );
     } else if (error.status === 409) {
       this.message.error('Error', `${error.error.message}`);
-    } else {
+    } else if (!(error instanceof HttpErrorResponse)) {
+      error = error.rejection; // get the error object
+      if (error.status == 400) {
+        this.message.error(
+          'Error',
+          'Datos faltantes o incorrectos. Por favor verificar que los datos estén correctamente llenados.'
+        );
+      } else {
+        this.message.error(
+          'Error desconocido',
+          typeof error == 'string' ? error : error.error.message
+        );
+      }
+    } else if (error.message.split(':').length == 1) {
+      this.message.errorTimeOut('Error', error.message);
+    } else if (error.message.split(':').length > 1) {
       let message = error.message.split(':');
       this.message.error(
         'Error',
-        `${message.length > 0 ? message[1] : message[0]}`
+        `${message.length > 1 ? message[1] : message[0]}`
       );
       //TODO: error.message enviar al Log.
     }

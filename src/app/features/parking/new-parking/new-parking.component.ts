@@ -3,6 +3,7 @@ import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MessageService } from '../../../shared/services/message.service';
 import {
   AccessModel,
+  CreateParkingStepFiveModel,
   CreateParkingStepFourModel,
   CreateParkingStepOneModel,
   CreateParkingStepTwoModel,
@@ -11,6 +12,7 @@ import { ResponseModel } from '../../../shared/model/Request.model';
 import { CountriesModel } from '../models/Countries.model';
 import { ParkingService } from '../services/parking.service';
 import { SettingsOptionsModel } from '../models/SettingsOption.model';
+import { throwError } from 'rxjs';
 
 @Component({
   selector: 'app-new-parking',
@@ -29,6 +31,7 @@ export class NewParkingComponent implements OnInit {
   accessList: AccessModel[] = [];
   parkingStepFour!: CreateParkingStepFourModel;
   settingsOptions!: SettingsOptionsModel;
+  private parkingStepFive!: CreateParkingStepFiveModel[];
 
   constructor(
     private formBuilder: FormBuilder,
@@ -49,8 +52,8 @@ export class NewParkingComponent implements OnInit {
     this.step + number > this.totalSteps
       ? (this.step = 1)
       : this.step + number == 0
-        ? (this.step = this.totalSteps)
-        : (this.step = this.step + number);
+      ? (this.step = this.totalSteps)
+      : (this.step = this.step + number);
   }
 
   controlInvalid(control: string) {
@@ -69,6 +72,7 @@ export class NewParkingComponent implements OnInit {
 
   saveParking() {
     this.message.showLoading();
+
     if (this.newParkingForm.invalid) {
       this.message.errorTimeOut(
         '',
@@ -78,10 +82,12 @@ export class NewParkingComponent implements OnInit {
       this.parkingStepOne = this.getStepOne();
       this.parkingStepTwo = this.getStepTwo();
       this.parkingStepFour = this.getStepFour();
+      this.parkingStepFive = this.getStepFive();
       this.parkingService.saveParkingSteps(
         this.parkingStepOne,
         this.parkingStepTwo,
-        this.parkingStepFour
+        this.parkingStepFour,
+        this.parkingStepFive
       );
     }
     Object.values(this.newParkingForm.controls).forEach((control) =>
@@ -104,13 +110,11 @@ export class NewParkingComponent implements OnInit {
       })
       .then(() => {
         this.accessList = this.parkingService.getAccesses();
-        console.log(this.accessList);
         return this.parkingService.getSettingsOptions();
       })
       .then((data) => {
         data.subscribe((result: SettingsOptionsModel) => {
           this.settingsOptions = result;
-          console.log(this.settingsOptions);
         });
       })
       .then(() => this.message.hideLoading());
@@ -126,7 +130,7 @@ export class NewParkingComponent implements OnInit {
       minutes_to_exit: ['', [Validators.required, Validators.min(0)]],
       rules: [''],
       is_show_map: [false],
-      country: [],
+      country: [0, [Validators.required, Validators.min(1)]],
       /*-- Second Step-- */
       //Monday
       isOpen0: [true],
@@ -217,10 +221,7 @@ export class NewParkingComponent implements OnInit {
                 this.newParkingForm.controls['openning_time0'].value.split(
                   ':'
                 )[1],
-              second:
-                this.newParkingForm.controls['openning_time0'].value.split(
-                  ':'
-                )[2],
+              second: '00',
             },
             closing_time: {
               hour: this.newParkingForm.controls['closing_time0'].value.split(
@@ -230,10 +231,7 @@ export class NewParkingComponent implements OnInit {
                 this.newParkingForm.controls['closing_time0'].value.split(
                   ':'
                 )[1],
-              second:
-                this.newParkingForm.controls['closing_time0'].value.split(
-                  ':'
-                )[2],
+              second: '00',
             },
           },
           {
@@ -247,10 +245,7 @@ export class NewParkingComponent implements OnInit {
                 this.newParkingForm.controls['openning_time1'].value.split(
                   ':'
                 )[1],
-              second:
-                this.newParkingForm.controls['openning_time1'].value.split(
-                  ':'
-                )[2],
+              second: '00',
             },
             closing_time: {
               hour: this.newParkingForm.controls['closing_time1'].value.split(
@@ -260,10 +255,7 @@ export class NewParkingComponent implements OnInit {
                 this.newParkingForm.controls['closing_time1'].value.split(
                   ':'
                 )[1],
-              second:
-                this.newParkingForm.controls['closing_time1'].value.split(
-                  ':'
-                )[2],
+              second: '00',
             },
           },
           {
@@ -277,10 +269,7 @@ export class NewParkingComponent implements OnInit {
                 this.newParkingForm.controls['openning_time2'].value.split(
                   ':'
                 )[1],
-              second:
-                this.newParkingForm.controls['openning_time2'].value.split(
-                  ':'
-                )[2],
+              second: '00',
             },
             closing_time: {
               hour: this.newParkingForm.controls['closing_time2'].value.split(
@@ -290,10 +279,7 @@ export class NewParkingComponent implements OnInit {
                 this.newParkingForm.controls['closing_time2'].value.split(
                   ':'
                 )[1],
-              second:
-                this.newParkingForm.controls['closing_time2'].value.split(
-                  ':'
-                )[2],
+              second: '00',
             },
           },
           {
@@ -307,10 +293,7 @@ export class NewParkingComponent implements OnInit {
                 this.newParkingForm.controls['openning_time3'].value.split(
                   ':'
                 )[1],
-              second:
-                this.newParkingForm.controls['openning_time3'].value.split(
-                  ':'
-                )[2],
+              second: '00',
             },
             closing_time: {
               hour: this.newParkingForm.controls['closing_time3'].value.split(
@@ -320,10 +303,7 @@ export class NewParkingComponent implements OnInit {
                 this.newParkingForm.controls['closing_time3'].value.split(
                   ':'
                 )[1],
-              second:
-                this.newParkingForm.controls['closing_time3'].value.split(
-                  ':'
-                )[2],
+              second: '00',
             },
           },
           {
@@ -337,10 +317,7 @@ export class NewParkingComponent implements OnInit {
                 this.newParkingForm.controls['openning_time4'].value.split(
                   ':'
                 )[1],
-              second:
-                this.newParkingForm.controls['openning_time4'].value.split(
-                  ':'
-                )[2],
+              second: '00',
             },
             closing_time: {
               hour: this.newParkingForm.controls['closing_time4'].value.split(
@@ -350,10 +327,7 @@ export class NewParkingComponent implements OnInit {
                 this.newParkingForm.controls['closing_time4'].value.split(
                   ':'
                 )[1],
-              second:
-                this.newParkingForm.controls['closing_time4'].value.split(
-                  ':'
-                )[2],
+              second: '00',
             },
           },
           {
@@ -367,10 +341,7 @@ export class NewParkingComponent implements OnInit {
                 this.newParkingForm.controls['openning_time5'].value.split(
                   ':'
                 )[1],
-              second:
-                this.newParkingForm.controls['openning_time5'].value.split(
-                  ':'
-                )[2],
+              second: '00',
             },
             closing_time: {
               hour: this.newParkingForm.controls['closing_time5'].value.split(
@@ -380,10 +351,7 @@ export class NewParkingComponent implements OnInit {
                 this.newParkingForm.controls['closing_time5'].value.split(
                   ':'
                 )[1],
-              second:
-                this.newParkingForm.controls['closing_time5'].value.split(
-                  ':'
-                )[2],
+              second: '00',
             },
           },
           {
@@ -397,10 +365,7 @@ export class NewParkingComponent implements OnInit {
                 this.newParkingForm.controls['openning_time6'].value.split(
                   ':'
                 )[1],
-              second:
-                this.newParkingForm.controls['openning_time6'].value.split(
-                  ':'
-                )[2],
+              second: '00',
             },
             closing_time: {
               hour: this.newParkingForm.controls['closing_time6'].value.split(
@@ -410,10 +375,7 @@ export class NewParkingComponent implements OnInit {
                 this.newParkingForm.controls['closing_time6'].value.split(
                   ':'
                 )[1],
-              second:
-                this.newParkingForm.controls['closing_time6'].value.split(
-                  ':'
-                )[2],
+              second: '00',
             },
           },
         ],
@@ -449,7 +411,7 @@ export class NewParkingComponent implements OnInit {
           acquirer_id: this.newParkingForm.controls['acquirer_id_bac'].value,
           pmtnpssw: this.newParkingForm.controls['pmtnpssw_bac'].value,
           purchase_currency:
-          this.newParkingForm.controls['purchase_currency_bac'].value,
+            this.newParkingForm.controls['purchase_currency_bac'].value,
         },
       };
     } catch (e) {
@@ -457,9 +419,20 @@ export class NewParkingComponent implements OnInit {
     }
   }
 
-  private getStepFive() {
-
+  private getStepFive(): CreateParkingStepFiveModel[] {
+    let antennas: CreateParkingStepFiveModel[] = [];
+    this.antennas.value.forEach((antenna: any) =>
+      antennas.push({
+        parking: '',
+        name: antenna.name_access,
+        type: antenna.type_access,
+        antena: antenna.antenna_access,
+        mac: antenna.mac_access,
+      })
+    );
+    return antennas;
   }
+
   //* Start Google Maps */
   addMapMark(event: google.maps.MouseEvent) {
     this.coordsMark = { lat: event.latLng.lat(), lng: event.latLng.lng() };
@@ -490,6 +463,17 @@ export class NewParkingComponent implements OnInit {
 
   /* End Google Maps */
   addAntenna() {
-    this.antennas.push(this.createAccess());
+    if (this.antennas.invalid) {
+      this.message.warningTimeOut(
+        'No ha llenado todos los datos. Para continuar porfavor llene los datos necesarios.'
+      );
+      Object.values(this.antennas.controls).forEach((group) => {
+        Object.values((group as FormArray).controls).forEach((control) => {
+          control.markAsTouched();
+        });
+      });
+    } else {
+      this.antennas.push(this.createAccess());
+    }
   }
 }
