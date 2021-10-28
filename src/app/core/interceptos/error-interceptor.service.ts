@@ -18,11 +18,11 @@ export class GlobalErrorHandler implements ErrorHandler {
     // } else {
     //   this.message.error('Error', 'Er');
     // }
-    console.log(error.rejection);
+    console.log(error);
     if (error.status === 400) {
       this.message.error(
-        'Sesión vencida',
-        'Datos faltantes o incorrectos. Porfavor verifique que no falten datos. Si el problema persiste comunicarse con administracion.'
+        'Datos incorrectos',
+        'Datos faltantes o incorrectos. Por favor verifique que no falten datos. Si el problema persiste comunicarse con administración.'
       );
     } else if (error.status === 401) {
       this.message.error(
@@ -44,6 +44,11 @@ export class GlobalErrorHandler implements ErrorHandler {
         this.message.error(
           'Error',
           'Datos faltantes o incorrectos. Por favor verificar que los datos estén correctamente llenados.'
+        );
+      } else if (error.status == 404) {
+        this.message.error(
+          'Función no encontrada',
+          'Verifique que tiene conexión a internet. Si el problema persiste comuníquese con el administrador.'
         );
       } else {
         this.message.error(

@@ -5,7 +5,7 @@ const Ip = '104.248.11.89';
 const Port = '3000';
 export const environment = {
   production: false,
-  serverAPI: `http://${Ip}:${Port}/`,
+  serverAPI: `http://${Ip}:${Port}/v1/`,
   secretKey: '3%UC!C$WR7m$v^as@Sq8$4!^Mb25WS4i',
 };
 

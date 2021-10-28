@@ -5,14 +5,13 @@ import {
   AccessModel,
   CreateParkingStepFiveModel,
   CreateParkingStepFourModel,
-  CreateParkingStepOneModel,
   CreateParkingStepTwoModel,
 } from '../models/CreateParking.model';
-import { ResponseModel } from '../../../shared/model/Request.model';
-import { CountriesModel } from '../models/Countries.model';
+
 import { ParkingService } from '../services/parking.service';
 import { SettingsOptionsModel } from '../models/SettingsOption.model';
-import { throwError } from 'rxjs';
+
+import { UtilitiesService } from '../../../shared/services/utilities.service';
 
 @Component({
   selector: 'app-new-parking',
@@ -23,18 +22,17 @@ export class NewParkingComponent implements OnInit {
   newParkingForm!: FormGroup;
   totalSteps = 6;
   step = 1;
-  coords = { lat: 0, lng: 0 };
-  coordsMark = { lat: 0, lng: 0 };
-  countries: CountriesModel[] = [];
+
   accessList: AccessModel[] = [];
   settingsOptions!: SettingsOptionsModel;
 
   constructor(
     private formBuilder: FormBuilder,
     private message: MessageService,
-    private parkingService: ParkingService
+    private parkingService: ParkingService,
+    private utilitiesService: UtilitiesService
   ) {
-    this.createForm();
+    this.newParkingForm = this.createForm();
     this.getInitialData();
   }
 
@@ -44,12 +42,17 @@ export class NewParkingComponent implements OnInit {
     return this.newParkingForm.get('antennas') as FormArray;
   }
 
+  get stepOneForm() {
+    return this.newParkingForm.get('stepOne') as FormGroup;
+  }
+
   changeStep(number: number) {
     this.step + number > this.totalSteps
       ? (this.step = 1)
       : this.step + number == 0
       ? (this.step = this.totalSteps)
       : (this.step = this.step + number);
+    console.log(this.parkingService.parkingStepOne);
   }
 
   controlInvalid(control: string) {
@@ -75,54 +78,59 @@ export class NewParkingComponent implements OnInit {
         'Valide que todos los datos estén correctamente llenados'
       );
     } else {
-      this.parkingService.parkingStepOne = this.getStepOne();
       this.parkingService.parkingStepTwo = this.getStepTwo();
       this.parkingService.parkingStepFour = this.getStepFour();
       this.parkingService.parkingStepFive = this.getStepFive();
-      this.parkingService.saveParkingSteps();
     }
-    Object.values(this.newParkingForm.controls).forEach((control) =>
-      control.markAsTouched()
-    );
+    this.utilitiesService.markAsTouched(this.newParkingForm);
   }
 
   private getInitialData() {
     this.message.showLoading();
-    this.getPosition()
-      .then((r) => (this.coords = { ...r }))
-      .then(() => {
-        return this.parkingService
-          .getCountries()
-          .subscribe((data: ResponseModel) =>
-            data.data.forEach((country: CountriesModel) =>
-              this.countries.push(country)
-            )
-          );
-      })
-      .then(() => {
-        this.accessList = this.parkingService.getAccesses();
-        return this.parkingService.getSettingsOptions();
-      })
-      .then((data) => {
-        data.subscribe((result: SettingsOptionsModel) => {
-          this.parkingService.settingsOptions = result;
-          this.settingsOptions = this.parkingService.settingsOptions;
-        });
-      })
-      .then(() => this.message.hideLoading());
+    this.accessList = this.parkingService.getAccesses();
+    this.parkingService
+      .getSettingsOptions()
+      .subscribe((result: SettingsOptionsModel) => {
+        this.parkingService.settingsOptions = result;
+        this.settingsOptions = this.parkingService.settingsOptions;
+        this.message.hideLoading();
+      });
   }
 
   private createForm() {
-    this.newParkingForm = this.formBuilder.group({
-      /*-- First Step-- */
-      name: ['', Validators.required],
-      address: ['', Validators.required],
-      parking_spaces: ['', [Validators.required, Validators.min(0)]],
-      special_parking_spaces: ['', [Validators.required, Validators.min(0)]],
-      minutes_to_exit: ['', [Validators.required, Validators.min(0)]],
-      rules: [''],
-      is_show_map: [false],
-      country: [0, [Validators.required, Validators.min(1)]],
+    return this.formBuilder.group({
+      /*-- First Step --*/
+      stepOne: this.formBuilder.group({
+        name: [this.parkingService.parkingStepOne.name, Validators.required],
+        address: [
+          this.parkingService.parkingStepOne.address,
+          Validators.required,
+        ],
+        parking_spaces: [
+          this.parkingService.parkingStepOne.parking_spaces == 0
+            ? ''
+            : this.parkingService.parkingStepOne.parking_spaces,
+          [Validators.required, Validators.min(0)],
+        ],
+        special_parking_spaces: [
+          this.parkingService.parkingStepOne.special_parking_spaces == 0
+            ? ''
+            : this.parkingService.parkingStepOne.special_parking_spaces,
+          [Validators.required, Validators.min(0)],
+        ],
+        minutes_to_exit: [
+          this.parkingService.parkingStepOne.minutes_to_exit == 0
+            ? ''
+            : this.parkingService.parkingStepOne.special_parking_spaces,
+          [Validators.required, Validators.min(0)],
+        ],
+        rules: [this.parkingService.parkingStepOne.rules, Validators.required],
+        is_show_map: [this.parkingService.parkingStepOne.is_show_map],
+        country: [
+          this.parkingService.parkingStepOne.country,
+          [Validators.required, Validators.min(1)],
+        ],
+      }),
       /*-- Second Step-- */
       //Monday
       isOpen0: [true],
@@ -173,28 +181,6 @@ export class NewParkingComponent implements OnInit {
       /* ---Five Step--- */
       antennas: this.formBuilder.array([this.createAccess()]),
     });
-  }
-
-  private getStepOne(): CreateParkingStepOneModel {
-    try {
-      return {
-        address: this.newParkingForm.controls['address'].value,
-        coordinates: {
-          latitude: this.coordsMark.lat,
-          longitude: this.coordsMark.lng,
-        },
-        country: this.newParkingForm.controls['country'].value,
-        is_show_map: this.newParkingForm.controls['is_show_map'].value,
-        minutes_to_exit: this.newParkingForm.controls['minutes_to_exit'].value,
-        name: this.newParkingForm.controls['name'].value,
-        parking_spaces: this.newParkingForm.controls['parking_spaces'].value,
-        rules: this.newParkingForm.controls['rules'].value,
-        special_parking_spaces:
-          this.newParkingForm.controls['special_parking_spaces'].value,
-      };
-    } catch (e) {
-      throw e;
-    }
   }
 
   private getStepTwo(): CreateParkingStepTwoModel {
@@ -426,23 +412,6 @@ export class NewParkingComponent implements OnInit {
   }
 
   //* Start Google Maps */
-  addMapMark(event: google.maps.MouseEvent) {
-    this.coordsMark = { lat: event.latLng.lat(), lng: event.latLng.lng() };
-  }
-
-  getPosition(): Promise<any> {
-    return new Promise((resolve, reject) => {
-      navigator.geolocation.getCurrentPosition(
-        (resp) => {
-          resolve({
-            lng: resp.coords.longitude,
-            lat: resp.coords.latitude,
-          });
-        },
-        (err) => reject(err)
-      );
-    });
-  }
 
   createAccess(): FormGroup {
     return this.formBuilder.group({

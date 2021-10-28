@@ -13,8 +13,7 @@ import {
 import { Router } from '@angular/router';
 import { catchError, map } from 'rxjs/operators';
 import { SettingsOptionsModel } from '../models/SettingsOption.model';
-
-import { Observable } from 'rxjs';
+import { Observable, Subscribable } from 'rxjs';
 import { CountriesModel } from '../models/Countries.model';
 
 @Injectable({
@@ -22,12 +21,14 @@ import { CountriesModel } from '../models/Countries.model';
 })
 export class ParkingService {
   private apiUrl = environment.serverAPI;
-  parkingStepOne!: CreateParkingStepOneModel;
-  parkingStepTwo!: CreateParkingStepTwoModel;
+  parkingStepOne: CreateParkingStepOneModel = new CreateParkingStepOneModel();
+  parkingStepTwo: CreateParkingStepTwoModel = new CreateParkingStepTwoModel();
   countries: CountriesModel[] = [];
   accessList: AccessModel[] = [];
-  parkingStepFour!: CreateParkingStepFourModel;
-  parkingStepFive!: CreateParkingStepFiveModel[];
+  parkingStepFour: CreateParkingStepFourModel =
+    new CreateParkingStepFourModel();
+  parkingStepFive: CreateParkingStepFiveModel[] =
+    new Array<CreateParkingStepFiveModel>();
   settingsOptions!: SettingsOptionsModel;
 
   constructor(
@@ -58,18 +59,19 @@ export class ParkingService {
     ];
   }
 
-  setStepOne(stepOne: CreateParkingStepOneModel): Promise<any> {
+  setStepOne(): Subscribable<ResponseModel> {
     console.log('Paso 1');
     return this.http
-      .post<ResponseModel>(`${this.apiUrl}backoffice/parking/create`, stepOne)
+      .post<ResponseModel>(
+        `${this.apiUrl}backoffice/parking/create`,
+        this.parkingStepOne
+      )
       .pipe(
         map((data) => {
-          if (!data.success) throw data.message;
           console.log(data);
           return data;
         })
-      )
-      .toPromise();
+      );
   }
 
   setStepTwo(stepTwo: CreateParkingStepTwoModel): Promise<any> {
@@ -114,40 +116,40 @@ export class ParkingService {
       .toPromise();
   }
 
-  saveParkingSteps() {
-    this.message.showLoading();
-    this.setStepOne(this.parkingStepOne)
-      .then((data) => {
-        this.parkingStepTwo.parkingId = data.data.id;
+  /* saveParkingSteps() {
+     this.message.showLoading();
+     this.setStepOne(this.parkingStepOne)
+       .then((data) => {
+         this.parkingStepTwo.parkingId = data.data.id;
 
-        return this.setStepTwo(this.parkingStepTwo);
-      })
-      .then((data) => {
-        this.parkingStepFour.parkingId = data.data.id;
-        return this.setStepFour(this.parkingStepFour);
-      })
-      .then((data) => {
-        console.log('Paso 5');
-        let promises = Array<Promise<any>>();
-        this.parkingStepFive.forEach((antenna: CreateParkingStepFiveModel) => {
-          antenna.parking = data.data.id;
-          console.log(antenna);
-          promises.push(this.setStepFive(antenna));
-        });
-        Promise.all(promises).then((data) => {
-          console.log(data);
-          data.forEach((response, i) => {
-            //TODO: Filtrar los resultados que sean falsos y mostrarlos en un mensaje.
-          });
-          return data;
-        });
-      })
-      .then((data) => {
-        this.message.hideLoading();
-        this.message.OkTimeOut('Parqueo guardado');
-      })
-      .catch((error) => {
-        throw error;
-      });
-  }
+         return this.setStepTwo(this.parkingStepTwo);
+       })
+       .then((data) => {
+         this.parkingStepFour.parkingId = data.data.id;
+         return this.setStepFour(this.parkingStepFour);
+       })
+       .then((data) => {
+         console.log('Paso 5');
+         let promises = Array<Promise<any>>();
+         this.parkingStepFive.forEach((antenna: CreateParkingStepFiveModel) => {
+           antenna.parking = data.data.id;
+           console.log(antenna);
+           promises.push(this.setStepFive(antenna));
+         });
+         Promise.all(promises).then((data) => {
+           console.log(data);
+           data.forEach((response, i) => {
+             //TODO: Filtrar los resultados que sean falsos y mostrarlos en un mensaje.
+           });
+           return data;
+         });
+       })
+       .then((data) => {
+         this.message.hideLoading();
+         this.message.OkTimeOut('Parqueo guardado');
+       })
+       .catch((error) => {
+         throw error;
+       });
+   }*/
 }

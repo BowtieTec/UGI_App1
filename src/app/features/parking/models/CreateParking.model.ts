@@ -1,8 +1,9 @@
 export class CreateParkingStepOneModel {
+  parkingId: string = '';
   name: string = '';
   address: string = '';
   is_show_map: boolean = false;
-  coordinates?: Coordinates;
+  coordinates: Coordinates = new Coordinates();
   country: number = 0;
   parking_spaces: number = 0;
   special_parking_spaces: number = 0;

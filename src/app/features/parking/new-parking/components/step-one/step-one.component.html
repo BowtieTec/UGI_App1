@@ -1,0 +1,138 @@
+<form [formGroup] = "stepOneForm"
+      class = "needs-validation"
+      id = "form-wrapper"
+      method = "post"
+      name = "form-wrapper"
+      novalidate = "" >
+  <div class = "titleCards" >
+    Datos generales
+  </div >
+  <div class = "row"
+       *ngIf = "countries.length>0" >
+    <div class = "col-xl-6 col-lg-6  col-sm-12" >
+      <div class = "mb-4 relative" >
+        <label class = "labelInput" >Nombre</label >
+        <input
+          [class.is-invalid] = "controlInvalid('name')"
+          class = "form-control inputClass"
+          formControlName = "name"
+          placeholder = "NOMBRE:"
+          type = "text" >
+        <small *ngIf = "controlInvalid('name')"
+               class = "text-danger" >* Este campo es obligatorio</small >
+      </div >
+    </div >
+    <div class = "col-xl-6 col-lg-6  col-sm-12" >
+      <div class = "mb-4 relative" >
+        <label class = "labelInput" >Dirección</label >
+        <input
+          [class.is-invalid] = "controlInvalid('address')"
+          class = "form-control inputClass"
+          formControlName = "address"
+          placeholder = "DIRECCIÓN:"
+          type = "text" >
+        <small *ngIf = "controlInvalid('address')"
+               class = "text-danger" >* Este campo es
+                                      obligatorio</small >
+      </div >
+    </div >
+    <div class = "col-xl-6 col-lg-6  col-sm-12" >
+      <div class = "mb-4 relative" >
+        <label class = "labelInput" >Número de parqueos</label >
+        <input [class.is-invalid] = "controlInvalid('parking_spaces')"
+               class = "form-control inputClass"
+               formControlName = "parking_spaces"
+               placeholder = "NÚMERO DE PARQUEOS:"
+               type = "number" >
+        <small *ngIf = "controlInvalid('parking_spaces')"
+               class = "text-danger" >* El valor no es válido</small >
+      </div >
+    </div >
+    <div class = "col-xl-6 col-lg-6  col-sm-12" >
+      <div class = "mb-4 relative" >
+        <label class = "labelInput" >* El valor no es válido</label >
+        <input
+          [class.is-invalid] = "controlInvalid('special_parking_spaces')"
+          class = "form-control inputClass"
+          formControlName = "special_parking_spaces"
+          placeholder = "NÚMERO DE PARQUEOS ESPECIALES:"
+          type = "number" >
+        <small *ngIf = "controlInvalid('special_parking_spaces')"
+               class = "text-danger" >* El valor no es válido</small >
+      </div >
+    </div >
+    <div class = "col-xl-6 col-lg-6  col-sm-12" >
+      <div class = "mb-4 relative" >
+        <label class = "labelInput" >Tiempo de salida (Minutos)</label >
+        <input [class.is-invalid] = "controlInvalid('minutes_to_exit')"
+               class = "form-control inputClass"
+               formControlName = "minutes_to_exit"
+               placeholder = "TIEMPO DE SALIDA:"
+               type = "number" >
+        <small *ngIf = "controlInvalid('minutes_to_exit')"
+               class = "text-danger" >* Este campo es obligatorio</small >
+      </div >
+    </div >
+    <div class = "col-xl-6 col-lg-6  col-sm-12" >
+      <div class = "mb-4 relative" >
+        <label class = "labelInput" >Pais</label >
+        <select [class.is-invalid] = "controlInvalid('country')"
+                class = "inputClass"
+                formControlName = "country" >
+          <option *ngFor = "let country of countries"
+                  [value] = "country.id" >{{country.name}}</option >
+        </select >
+        <small *ngIf = "controlInvalid('country')"
+               class = "text-danger" >* Este campo es obligatorio</small >
+      </div >
+    </div >
+  </div >
+  <div class = "row" >
+    <div class = "col-xl-12 col-lg-12  col-sm-12 " >
+      <div class = "mb-4 relative" >
+        <label class = "labelInput" >Reglamento Interno</label >
+        <textarea class = "form-control inputClass"
+                  [class.is-invalid] = "controlInvalid('rules')"
+                  formControlName = "rules"
+                  placeholder = "REGLAMENTO INTERNO"
+                  rows = "5" >
+                    </textarea >
+        <small *ngIf = "controlInvalid('rules')"
+               class = "text-danger" >* Este campo es obligatorio</small >
+      </div >
+    </div >
+  </div >
+  <div class = "row col-xl-12 col-lg-12 col-sm-12" >
+    <ul class = "opcionActivo " >
+      <li ><input formControlName = "is_show_map"
+                  id = "is_show_map"
+                  type = "checkbox"
+                  value = "is_show_map" ><label for = "is_show_map" >Ubicar en el mapa</label ></li >
+    </ul >
+  </div >
+  <div class = "row col-xl-12 col-lg-12 col-sm-12 " >
+    <div *ngIf = "stepOneForm.controls['is_show_map'].value"
+         class = "animate__animated animate__fadeIn" >
+      <google-map (mapClick) = "addMapMark($event)"
+                  [center] = "coords"
+                  height = "500"
+                  width = "100%" >
+        <map-marker
+          [position] = "coordsMark" ></map-marker >
+      </google-map >
+    </div >
+  </div >
+  <div class = "text-center"
+       id = "q-box__buttons" >
+    <button (click) = "emmitStep(-1)"
+            class = "btn btn-primary m-2"
+            id = "prev-btn"
+            type = "button" >Anterior
+    </button >
+    <button (click) = "emmitStep(1)"
+            class = "btn btn-primary m-2"
+            id = "next-btn"
+            type = "button" >Siguiente
+    </button >
+  </div >
+</form >
