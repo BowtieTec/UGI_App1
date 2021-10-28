@@ -25,24 +25,20 @@ export class NewParkingComponent implements OnInit {
   step = 1;
   coords = { lat: 0, lng: 0 };
   coordsMark = { lat: 0, lng: 0 };
-  parkingStepOne!: CreateParkingStepOneModel;
-  parkingStepTwo!: CreateParkingStepTwoModel;
   countries: CountriesModel[] = [];
   accessList: AccessModel[] = [];
-  parkingStepFour!: CreateParkingStepFourModel;
   settingsOptions!: SettingsOptionsModel;
-  private parkingStepFive!: CreateParkingStepFiveModel[];
 
   constructor(
     private formBuilder: FormBuilder,
     private message: MessageService,
     private parkingService: ParkingService
-  ) {}
-
-  ngOnInit(): void {
+  ) {
     this.createForm();
     this.getInitialData();
   }
+
+  ngOnInit(): void {}
 
   get antennas() {
     return this.newParkingForm.get('antennas') as FormArray;
@@ -79,16 +75,11 @@ export class NewParkingComponent implements OnInit {
         'Valide que todos los datos estén correctamente llenados'
       );
     } else {
-      this.parkingStepOne = this.getStepOne();
-      this.parkingStepTwo = this.getStepTwo();
-      this.parkingStepFour = this.getStepFour();
-      this.parkingStepFive = this.getStepFive();
-      this.parkingService.saveParkingSteps(
-        this.parkingStepOne,
-        this.parkingStepTwo,
-        this.parkingStepFour,
-        this.parkingStepFive
-      );
+      this.parkingService.parkingStepOne = this.getStepOne();
+      this.parkingService.parkingStepTwo = this.getStepTwo();
+      this.parkingService.parkingStepFour = this.getStepFour();
+      this.parkingService.parkingStepFive = this.getStepFive();
+      this.parkingService.saveParkingSteps();
     }
     Object.values(this.newParkingForm.controls).forEach((control) =>
       control.markAsTouched()
@@ -100,7 +91,7 @@ export class NewParkingComponent implements OnInit {
     this.getPosition()
       .then((r) => (this.coords = { ...r }))
       .then(() => {
-        this.parkingService
+        return this.parkingService
           .getCountries()
           .subscribe((data: ResponseModel) =>
             data.data.forEach((country: CountriesModel) =>
@@ -114,7 +105,8 @@ export class NewParkingComponent implements OnInit {
       })
       .then((data) => {
         data.subscribe((result: SettingsOptionsModel) => {
-          this.settingsOptions = result;
+          this.parkingService.settingsOptions = result;
+          this.settingsOptions = this.parkingService.settingsOptions;
         });
       })
       .then(() => this.message.hideLoading());

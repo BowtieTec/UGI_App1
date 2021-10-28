@@ -15,12 +15,20 @@ import { catchError, map } from 'rxjs/operators';
 import { SettingsOptionsModel } from '../models/SettingsOption.model';
 
 import { Observable } from 'rxjs';
+import { CountriesModel } from '../models/Countries.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ParkingService {
   private apiUrl = environment.serverAPI;
+  parkingStepOne!: CreateParkingStepOneModel;
+  parkingStepTwo!: CreateParkingStepTwoModel;
+  countries: CountriesModel[] = [];
+  accessList: AccessModel[] = [];
+  parkingStepFour!: CreateParkingStepFourModel;
+  parkingStepFive!: CreateParkingStepFiveModel[];
+  settingsOptions!: SettingsOptionsModel;
 
   constructor(
     private http: HttpClient,
@@ -96,45 +104,38 @@ export class ParkingService {
   }
 
   setStepFive(stepFive: CreateParkingStepFiveModel): Promise<any> {
-
     return this.http
-      .post<ResponseModel>(
-        `${this.apiUrl}backoffice/parking/station`,
-        stepFive
-      )
+      .post<ResponseModel>(`${this.apiUrl}backoffice/parking/station`, stepFive)
       .pipe(
         map((data) => {
           return data.success;
         })
-      ).toPromise()
+      )
+      .toPromise();
   }
 
-  saveParkingSteps(
-    parkingStepOne: CreateParkingStepOneModel,
-    parkingStepTwo: CreateParkingStepTwoModel,
-    parkingStepFour: CreateParkingStepFourModel,
-    parkingStepFive: CreateParkingStepFiveModel[]
-  ) {
+  saveParkingSteps() {
     this.message.showLoading();
-    this.setStepOne(parkingStepOne)
+    this.setStepOne(this.parkingStepOne)
       .then((data) => {
-        parkingStepTwo.parkingId = data.data.id;
+        this.parkingStepTwo.parkingId = data.data.id;
 
-        return this.setStepTwo(parkingStepTwo);
+        return this.setStepTwo(this.parkingStepTwo);
       })
       .then((data) => {
-        parkingStepFour.parkingId = data.data.id;
-        return this.setStepFour(parkingStepFour);
+        this.parkingStepFour.parkingId = data.data.id;
+        return this.setStepFour(this.parkingStepFour);
       })
       .then((data) => {
         console.log('Paso 5');
         let promises = Array<Promise<any>>();
-        parkingStepFive.forEach((antenna: CreateParkingStepFiveModel) => {
+        this.parkingStepFive.forEach((antenna: CreateParkingStepFiveModel) => {
           antenna.parking = data.data.id;
           console.log(antenna);
           promises.push(this.setStepFive(antenna));
         });
         Promise.all(promises).then((data) => {
+          console.log(data);
           data.forEach((response, i) => {
             //TODO: Filtrar los resultados que sean falsos y mostrarlos en un mensaje.
           });
