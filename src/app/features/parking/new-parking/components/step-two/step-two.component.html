@@ -1,1 +1,184 @@
-<p>step-two works!</p>
+<form [formGroup] = "stepTwoForm"
+      class = "needs-validation"
+      id = "form-wrapper"
+      method = "post"
+      name = "form-wrapper"
+      novalidate = "" >
+  <div class = "titleCards" >
+    Horario
+  </div >
+  <div class = "row" >
+    <div class = "col-xl-3 col-lg-4 col-md-6 col-sm-12" >
+      <div class = "panels" >
+        <ul class = "opcionActivo " >
+          <li ><input
+            formControlName = "isOpen0"
+            id = "lunes"
+            type = "checkbox"
+            value = "lunes" ><label
+            for = "lunes" >Lunes</label ></li >
+        </ul >
+        <div
+          class = "animate__animated animate__fadeInDown" >
+          Hora inicio
+          <input class = "form-control inputClass"
+                 formControlName = "openning_time0"
+                 type = "time" >
+          <hr >
+          Hora fin
+          <input class = "form-control inputClass"
+                 formControlName = "closing_time0"
+                 type = "time" >
+        </div >
+      </div >
+    </div >
+    <div class = "col-xl-3 col-lg-4 col-md-6 col-sm-12" >
+      <div class = "panels" >
+        <ul class = "opcionActivo " >
+          <li ><input formControlName = "isOpen1"
+                      id = "Martes"
+                      type = "checkbox"
+                      value = "Martes" ><label for = "Martes" >Martes</label ></li >
+        </ul >
+        <div
+          class = "animate__animated animate__fadeInDown" >
+          Hora inicio
+          <input class = "form-control inputClass"
+                 formControlName = "openning_time1"
+                 name = "mini"
+                 type = "time" >
+          <hr >
+          Hora fin
+          <input class = "form-control inputClass"
+                 formControlName = "closing_time1"
+                 type = "time" >
+        </div >
+      </div >
+    </div >
+    <div class = "col-xl-3 col-lg-4 col-md-6 col-sm-12" >
+      <div class = "panels" >
+        <ul class = "opcionActivo " >
+          <li ><input formControlName = "isOpen2"
+                      id = "Miercoles"
+                      type = "checkbox"
+                      value = "Miercoles" ><label
+            for = "Miercoles" >Miércoles</label ></li >
+        </ul >
+        <div
+          class = "animate__animated animate__fadeInDown" >
+          Hora inicio
+          <input class = "form-control inputClass"
+                 formControlName = "openning_time2"
+                 type = "time" >
+          <hr >
+          Hora fin
+          <input class = "form-control inputClass"
+                 formControlName = "closing_time2"
+                 type = "time" >
+        </div >
+      </div >
+    </div >
+    <div class = "col-xl-3 col-lg-4 col-md-6 col-sm-12" >
+      <div class = "panels" >
+        <ul class = "opcionActivo " >
+          <li ><input formControlName = "isOpen3"
+                      id = "Jueves"
+                      type = "checkbox"
+                      value = "Jueves" ><label for = "Jueves" >Jueves</label ></li >
+        </ul >
+        <div
+          class = "animate__animated animate__fadeInDown" >
+          Hora inicio
+          <input class = "form-control inputClass"
+                 formControlName = "openning_time3"
+                 type = "time" >
+          <hr >
+          Hora fin
+          <input class = "form-control inputClass"
+                 formControlName = "closing_time3"
+                 type = "time" >
+        </div >
+      </div >
+    </div >
+    <div class = "col-xl-3 col-lg-4 col-md-6 col-sm-12" >
+      <div class = "panels" >
+        <ul class = "opcionActivo " >
+          <li ><input formControlName = "isOpen4"
+                      id = "Viernes"
+                      type = "checkbox"
+                      value = "Viernes" ><label for = "Viernes" >Viernes</label ></li >
+        </ul >
+        <div
+          class = "animate__animated animate__fadeInDown" >
+          Hora inicio
+          <input class = "form-control inputClass"
+                 formControlName = "openning_time4"
+                 type = "time" >
+          <hr >
+          Hora fin
+          <input class = "form-control inputClass"
+                 formControlName = "closing_time4"
+                 type = "time" >
+        </div >
+      </div >
+    </div >
+    <div class = "col-xl-3 col-lg-4 col-md-6 col-sm-12" >
+      <div class = "panels" >
+        <ul class = "opcionActivo " >
+          <li ><input formControlName = "isOpen5"
+                      id = "Sabado"
+                      type = "checkbox"
+                      value = "Sabado" ><label for = "Sabado" >Sábado</label ></li >
+        </ul >
+        <div
+          class = "animate__animated animate__fadeInDown" >
+          Hora inicio
+          <input class = "form-control inputClass"
+                 formControlName = "openning_time5"
+                 type = "time" >
+          <hr >
+          Hora fin
+          <input class = "form-control inputClass"
+                 formControlName = "closing_time5"
+                 type = "time" >
+        </div >
+      </div >
+    </div >
+    <div class = "col-xl-3 col-lg-4 col-md-6 col-sm-12" >
+      <div class = "panels" >
+        <ul class = "opcionActivo" >
+          <li ><input formControlName = "isOpen6"
+                      id = "Domingo"
+                      type = "checkbox"
+                      value = "Domingo" ><label for = "Domingo" >Domingo
+          </label ></li >
+        </ul >
+        <div
+          class = "animate__animated animate__fadeInDown" >
+          Hora inicio
+          <input class = "form-control inputClass"
+                 formControlName = "openning_time6"
+                 type = "time" >
+          <hr >
+          Hora fin
+          <input class = "form-control inputClass"
+                 formControlName = "closing_time6"
+                 type = "time" >
+        </div >
+      </div >
+    </div >
+    <div class = "text-center"
+         id = "q-box__buttons" >
+      <button (click) = "emmitStep(-1)"
+              class = "btn btn-primary m-2"
+              id = "prev-btn"
+              type = "button" >Anterior
+      </button >
+      <button (click) = "emmitStep(1)"
+              class = "btn btn-primary m-2"
+              id = "next-btn"
+              type = "button" >Siguiente
+      </button >
+    </div >
+  </div >
+</form >

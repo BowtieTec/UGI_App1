@@ -1,1 +1,113 @@
-<p>step-three works!</p>
+<div class = "titleCards" >
+  Tarifa
+</div >
+<div class = "row" >
+  <div class = "col-xl-6 col-lg-6  col-sm-12" >
+    <div class = "mb-4 relative" >
+      <label class = "labelInput" >Tipo de tarifa</label >
+      <select class = "inputClass"
+              name = "" >
+        <option value = "" >TIPO DE TARIFA</option >
+        <option value = "" >Hora / fracción</option >
+        <option value = "" >Bloque</option >
+        <option value = "" >Mixta</option >
+      </select >
+    </div >
+  </div >
+  <div class = "col-xl-6 col-lg-6  col-sm-12" >
+    <div class = "mb-4 relative" >
+                    <textarea class = "form-control inputClass"
+                              placeholder = "REGLAMENTO INTERNO"
+                              rows = "4" ></textarea >
+    </div >
+  </div >
+  <div class = "row d-none" >
+    <div class = "col-xl-6 col-lg-6 col-md-6 col-sm-12" >
+      <div class = "mb-4 relative" >
+        <label class = "labelInput" >Hora</label >
+        <input class = "form-control inputClass"
+               placeholder = "HORA:"
+               type = "text" >
+      </div >
+    </div >
+    <div class = "col-xl-6 col-lg-6 col-md-6 col-sm-12" >
+      <div class = "mb-4 relative" >
+        <label class = "labelInput" >Fracción</label >
+        <input class = "form-control inputClass"
+               placeholder = "FRACCIÓN:"
+               type = "text" >
+      </div >
+    </div >
+  </div >
+  <table class = "table d-none" >
+    <hr />
+    <tbody >
+    <tr >
+      <th scope = "row" >1</th >
+      <td >
+        <div class = "row" >
+          <div class = "col-xl-4 col-lg-6 col-md-6 col-sm-12" >
+            <div class = " relative" >
+              <label class = "labelInput" >Inicio</label >
+              <input class = "form-control inputClass"
+                     placeholder = "INICIO:"
+                     type = "text" >
+            </div >
+            <div class = "mb-4 relative" >
+              <label class = "labelInput" >Tipo de tarifa</label >
+              <select class = "inputClass"
+                      name = "" >
+                <option value = "" >Seleccione</option >
+                <option value = "" >Hora</option >
+                <option value = "" >Minutos</option >
+              </select >
+            </div >
+          </div >
+          <div class = "col-xl-4 col-lg-6 col-md-6 col-sm-12" >
+            <div class = " relative" >
+              <label class = "labelInput" >Fin</label >
+              <input class = "form-control inputClass"
+                     placeholder = "FIN:"
+                     type = "text" >
+            </div >
+            <div class = "mb-4 relative" >
+              <label class = "labelInput" >Tipo de tarifa</label >
+              <select class = "inputClass"
+                      id = ""
+                      name = "" >
+                <option value = "" >Seleccione</option >
+                <option value = "" >Hora</option >
+                <option value = "" >Minutos</option >
+              </select >
+            </div >
+          </div >
+          <div class = "col-xl-4 col-lg-6 col-md-6 col-sm-12" >
+            <div class = " relative" >
+              <label class = "labelInput" >Precio</label >
+              <input class = "form-control inputClass"
+                     placeholder = "PRECIO:"
+                     type = "text" >
+            </div >
+            <div class = "mb-4 relative" >
+              <button class = "btn btn-primary" >Agregar bloque</button >
+            </div >
+          </div >
+        </div >
+      </td >
+    </tr >
+    </tbody >
+  </table >
+  <div class = "text-center"
+       id = "q-box__buttons" >
+    <button (click) = "emmitStep(-1)"
+            class = "btn btn-primary m-2"
+            id = "prev-btn"
+            type = "button" >Anterior
+    </button >
+    <button (click) = "emmitStep(1)"
+            class = "btn btn-primary m-2"
+            id = "next-btn"
+            type = "button" >Siguiente
+    </button >
+  </div >
+</div >

@@ -65,7 +65,7 @@ export class StepOneComponent implements OnInit {
   private getStepOne(): CreateParkingStepOneModel {
     try {
       return {
-        parkingId: '',
+        parkingId: this.parkingService.parkingStepOne.parkingId,
         address: this.stepOneForm.controls['address'].value,
         coordinates: {
           latitude: this.coordsMark.lat,
@@ -110,8 +110,9 @@ export class StepOneComponent implements OnInit {
             this.parkingService.parkingStepOne.parkingId = data.data.id;
           } else {
             this.utilitiesService.markAsTouched(this.stepOneForm);
-            throw data.message;
+            this.message.error('', data.message);
           }
+          console.log('Etapa 2');
         });
       } else {
         this.message.errorTimeOut(

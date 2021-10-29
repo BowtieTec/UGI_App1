@@ -8,17 +8,17 @@ export class GlobalErrorHandler implements ErrorHandler {
   constructor(private message: MessageService, private router: Router) {}
 
   handleError(error: any) {
-    // console.log(error);
-    // if (!(error instanceof HttpErrorResponse)) {
-    //   error = error.rejection; // get the error object
-    //   this.message.error(
-    //     '',
-    //     typeof error == 'string' ? error : error.error.message
-    //   );
-    // } else {
-    //   this.message.error('Error', 'Er');
-    // }
     console.log(error);
+    if (!(error instanceof HttpErrorResponse)) {
+      this.message.error(
+        '',
+        typeof error.rejection == 'string'
+          ? error.rejection
+          : error.rejection.error.message
+      );
+    } else {
+      this.message.error('Error', 'Er');
+    }
     if (error.status === 400) {
       this.message.error(
         'Datos incorrectos',

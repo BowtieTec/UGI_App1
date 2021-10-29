@@ -46,13 +46,28 @@ export class NewParkingComponent implements OnInit {
     return this.newParkingForm.get('stepOne') as FormGroup;
   }
 
+  get stepTwoForm() {
+    return this.newParkingForm.get('stepTwo') as FormGroup;
+  }
+
+  get stepThreeForm() {
+    return this.newParkingForm.get('stepThree') as FormGroup;
+  }
+
+  get stepFourForm() {
+    return this.newParkingForm.get('stepFour') as FormGroup;
+  }
+
+  get stepFiveForm() {
+    return this.newParkingForm.get('stepFive') as FormGroup;
+  }
+
   changeStep(number: number) {
     this.step + number > this.totalSteps
       ? (this.step = 1)
       : this.step + number == 0
       ? (this.step = this.totalSteps)
       : (this.step = this.step + number);
-    console.log(this.parkingService.parkingStepOne);
   }
 
   controlInvalid(control: string) {
@@ -71,17 +86,17 @@ export class NewParkingComponent implements OnInit {
 
   saveParking() {
     this.message.showLoading();
-
-    if (this.newParkingForm.invalid) {
+    console.log(this.parkingService.parkingStepOne);
+    console.log(this.parkingService.parkingStepTwo);
+    /*if (this.newParkingForm.invalid) {
       this.message.errorTimeOut(
         '',
         'Valide que todos los datos estén correctamente llenados'
       );
     } else {
-      this.parkingService.parkingStepTwo = this.getStepTwo();
       this.parkingService.parkingStepFour = this.getStepFour();
       this.parkingService.parkingStepFive = this.getStepFive();
-    }
+    }*/
     this.utilitiesService.markAsTouched(this.newParkingForm);
   }
 
@@ -132,269 +147,60 @@ export class NewParkingComponent implements OnInit {
         ],
       }),
       /*-- Second Step-- */
-      //Monday
-      isOpen0: [true],
-      openning_time0: ['00:00:00'],
-      closing_time0: ['00:00:00'],
-      //Tuesday
-      isOpen1: [true],
-      openning_time1: ['00:00:00'],
-      closing_time1: ['00:00:00'],
-      //Wednesday
-      isOpen2: [true],
-      openning_time2: ['00:00:00'],
-      closing_time2: ['00:00:00'],
-      //Thursday
-      isOpen3: [true],
-      openning_time3: ['00:00:00'],
-      closing_time3: ['00:00:00'],
-      //Friday
-      isOpen4: [true],
-      openning_time4: ['00:00:00'],
-      closing_time4: ['00:00:00'],
-      //Saturday
-      isOpen5: [true],
-      openning_time5: ['00:00:00'],
-      closing_time5: ['00:00:00'],
-      //Sunday
-      isOpen6: [true],
-      openning_time6: ['00:00:00'],
-      closing_time6: ['00:00:00'],
+      stepTwo: this.formBuilder.group({
+        //Monday
+        isOpen0: [true],
+        openning_time0: ['00:00:00'],
+        closing_time0: ['00:00:00'],
+        //Tuesday
+        isOpen1: [true],
+        openning_time1: ['00:00:00'],
+        closing_time1: ['00:00:00'],
+        //Wednesday
+        isOpen2: [true],
+        openning_time2: ['00:00:00'],
+        closing_time2: ['00:00:00'],
+        //Thursday
+        isOpen3: [true],
+        openning_time3: ['00:00:00'],
+        closing_time3: ['00:00:00'],
+        //Friday
+        isOpen4: [true],
+        openning_time4: ['00:00:00'],
+        closing_time4: ['00:00:00'],
+        //Saturday
+        isOpen5: [true],
+        openning_time5: ['00:00:00'],
+        closing_time5: ['00:00:00'],
+        //Sunday
+        isOpen6: [true],
+        openning_time6: ['00:00:00'],
+        closing_time6: ['00:00:00'],
+      }),
       /*-- Fourth Step-- */
-      nit: [''],
-      business_address: [''],
-      business_name: [''],
-      pay_method: [0],
-      currency: [0],
-      is_our_visa_credential: false,
-      is_our_bac_credential: false,
-      //Visa Credential
-      merchant_id_visa: [''],
-      transaction_key_visa: [''],
-      url_visa: [''],
-      //  BAC Credential
-      merchant_id_bac: [''],
-      acquirer_id_bac: [''],
-      purchase_currency_bac: [0],
-      pmtnpssw_bac: [''],
-      url_bac: [''],
+      stepFour: this.formBuilder.group({
+        nit: ['', [Validators.required, this.utilitiesService.validateNIT]],
+        business_address: ['', Validators.required],
+        business_name: ['', Validators.required],
+        pay_method: ['', Validators.required],
+        currency: ['', Validators.required],
+        is_our_visa_credential: false,
+        is_our_bac_credential: false,
+        //Visa Credential
+        merchant_id_visa: [''],
+        transaction_key_visa: [''],
+        url_visa: [''],
+        //  BAC Credential
+        merchant_id_bac: [''],
+        acquirer_id_bac: [''],
+        purchase_currency_bac: [''],
+        pmtnpssw_bac: [''],
+        url_bac: [''],
+      }),
+
       /* ---Five Step--- */
       antennas: this.formBuilder.array([this.createAccess()]),
     });
-  }
-
-  private getStepTwo(): CreateParkingStepTwoModel {
-    try {
-      return {
-        parkingId: '',
-        schedules: [
-          {
-            isOpen: this.newParkingForm.controls['isOpen0'].value,
-            day: 0,
-            openning_time: {
-              hour: this.newParkingForm.controls['openning_time0'].value.split(
-                ':'
-              )[0],
-              minute:
-                this.newParkingForm.controls['openning_time0'].value.split(
-                  ':'
-                )[1],
-              second: '00',
-            },
-            closing_time: {
-              hour: this.newParkingForm.controls['closing_time0'].value.split(
-                ':'
-              )[0],
-              minute:
-                this.newParkingForm.controls['closing_time0'].value.split(
-                  ':'
-                )[1],
-              second: '00',
-            },
-          },
-          {
-            isOpen: this.newParkingForm.controls['isOpen1'].value,
-            day: 1,
-            openning_time: {
-              hour: this.newParkingForm.controls['openning_time1'].value.split(
-                ':'
-              )[0],
-              minute:
-                this.newParkingForm.controls['openning_time1'].value.split(
-                  ':'
-                )[1],
-              second: '00',
-            },
-            closing_time: {
-              hour: this.newParkingForm.controls['closing_time1'].value.split(
-                ':'
-              )[0],
-              minute:
-                this.newParkingForm.controls['closing_time1'].value.split(
-                  ':'
-                )[1],
-              second: '00',
-            },
-          },
-          {
-            isOpen: this.newParkingForm.controls['isOpen2'].value,
-            day: 2,
-            openning_time: {
-              hour: this.newParkingForm.controls['openning_time2'].value.split(
-                ':'
-              )[0],
-              minute:
-                this.newParkingForm.controls['openning_time2'].value.split(
-                  ':'
-                )[1],
-              second: '00',
-            },
-            closing_time: {
-              hour: this.newParkingForm.controls['closing_time2'].value.split(
-                ':'
-              )[0],
-              minute:
-                this.newParkingForm.controls['closing_time2'].value.split(
-                  ':'
-                )[1],
-              second: '00',
-            },
-          },
-          {
-            isOpen: this.newParkingForm.controls['isOpen3'].value,
-            day: 3,
-            openning_time: {
-              hour: this.newParkingForm.controls['openning_time3'].value.split(
-                ':'
-              )[0],
-              minute:
-                this.newParkingForm.controls['openning_time3'].value.split(
-                  ':'
-                )[1],
-              second: '00',
-            },
-            closing_time: {
-              hour: this.newParkingForm.controls['closing_time3'].value.split(
-                ':'
-              )[0],
-              minute:
-                this.newParkingForm.controls['closing_time3'].value.split(
-                  ':'
-                )[1],
-              second: '00',
-            },
-          },
-          {
-            isOpen: this.newParkingForm.controls['isOpen4'].value,
-            day: 4,
-            openning_time: {
-              hour: this.newParkingForm.controls['openning_time4'].value.split(
-                ':'
-              )[0],
-              minute:
-                this.newParkingForm.controls['openning_time4'].value.split(
-                  ':'
-                )[1],
-              second: '00',
-            },
-            closing_time: {
-              hour: this.newParkingForm.controls['closing_time4'].value.split(
-                ':'
-              )[0],
-              minute:
-                this.newParkingForm.controls['closing_time4'].value.split(
-                  ':'
-                )[1],
-              second: '00',
-            },
-          },
-          {
-            isOpen: this.newParkingForm.controls['isOpen5'].value,
-            day: 5,
-            openning_time: {
-              hour: this.newParkingForm.controls['openning_time5'].value.split(
-                ':'
-              )[0],
-              minute:
-                this.newParkingForm.controls['openning_time5'].value.split(
-                  ':'
-                )[1],
-              second: '00',
-            },
-            closing_time: {
-              hour: this.newParkingForm.controls['closing_time5'].value.split(
-                ':'
-              )[0],
-              minute:
-                this.newParkingForm.controls['closing_time5'].value.split(
-                  ':'
-                )[1],
-              second: '00',
-            },
-          },
-          {
-            isOpen: this.newParkingForm.controls['isOpen6'].value,
-            day: 6,
-            openning_time: {
-              hour: this.newParkingForm.controls['openning_time6'].value.split(
-                ':'
-              )[0],
-              minute:
-                this.newParkingForm.controls['openning_time6'].value.split(
-                  ':'
-                )[1],
-              second: '00',
-            },
-            closing_time: {
-              hour: this.newParkingForm.controls['closing_time6'].value.split(
-                ':'
-              )[0],
-              minute:
-                this.newParkingForm.controls['closing_time6'].value.split(
-                  ':'
-                )[1],
-              second: '00',
-            },
-          },
-        ],
-      };
-    } catch (e) {
-      throw e;
-    }
-  }
-
-  private getStepFour(): CreateParkingStepFourModel {
-    try {
-      return {
-        parkingId: '',
-        business_address:
-          this.newParkingForm.controls['business_address'].value,
-        business_name: this.newParkingForm.controls['business_name'].value,
-        currency: this.newParkingForm.controls['currency'].value,
-        is_our_bac_credential:
-          this.newParkingForm.controls['is_our_bac_credential'].value,
-        is_our_visa_credential:
-          this.newParkingForm.controls['is_our_visa_credential'].value,
-        nit: this.newParkingForm.controls['nit'].value,
-        pay_method: this.newParkingForm.controls['pay_method'].value,
-        visa_credential: {
-          url: this.newParkingForm.controls['url_visa'].value,
-          merchant_id: this.newParkingForm.controls['merchant_id_visa'].value,
-          transaction_key:
-            this.newParkingForm.controls['transaction_key_visa'].value,
-        },
-        bac_credential: {
-          url: this.newParkingForm.controls['url_bac'].value,
-          merchant_id: this.newParkingForm.controls['merchant_id_bac'].value,
-          acquirer_id: this.newParkingForm.controls['acquirer_id_bac'].value,
-          pmtnpssw: this.newParkingForm.controls['pmtnpssw_bac'].value,
-          purchase_currency:
-            this.newParkingForm.controls['purchase_currency_bac'].value,
-        },
-      };
-    } catch (e) {
-      throw e;
-    }
   }
 
   private getStepFive(): CreateParkingStepFiveModel[] {

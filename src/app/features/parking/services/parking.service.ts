@@ -68,41 +68,39 @@ export class ParkingService {
       )
       .pipe(
         map((data) => {
-          console.log(data);
           return data;
         })
       );
   }
 
-  setStepTwo(stepTwo: CreateParkingStepTwoModel): Promise<any> {
+  setStepTwo(): Observable<ResponseModel> {
     console.log('Paso 2');
     return this.http
-      .post<ResponseModel>(`${this.apiUrl}backoffice/parking/schedule`, stepTwo)
+      .post<ResponseModel>(
+        `${this.apiUrl}backoffice/parking/schedule`,
+        this.parkingStepTwo
+      )
       .pipe(
         map((data) => {
           if (!data.success) throw data.message;
-          console.log(data);
           return data;
         })
-      )
-      .toPromise();
+      );
   }
 
-  setStepFour(stepFour: CreateParkingStepFourModel): Promise<any> {
+  setStepFour(): Observable<ResponseModel> {
     console.log('Paso 4');
     return this.http
       .post<ResponseModel>(
         `${this.apiUrl}backoffice/parking/payment-invoice`,
-        stepFour
+        this.parkingStepFour
       )
       .pipe(
         map((data) => {
           if (!data.success) throw data.message;
-          console.log(data);
           return data;
         })
-      )
-      .toPromise();
+      );
   }
 
   setStepFive(stepFive: CreateParkingStepFiveModel): Promise<any> {
@@ -116,40 +114,44 @@ export class ParkingService {
       .toPromise();
   }
 
-  /* saveParkingSteps() {
-     this.message.showLoading();
-     this.setStepOne(this.parkingStepOne)
-       .then((data) => {
-         this.parkingStepTwo.parkingId = data.data.id;
+  saveParkingSteps() {
+    console.log(this.parkingStepOne);
+    console.log(this.parkingStepTwo);
+  }
 
-         return this.setStepTwo(this.parkingStepTwo);
-       })
-       .then((data) => {
-         this.parkingStepFour.parkingId = data.data.id;
-         return this.setStepFour(this.parkingStepFour);
-       })
-       .then((data) => {
-         console.log('Paso 5');
-         let promises = Array<Promise<any>>();
-         this.parkingStepFive.forEach((antenna: CreateParkingStepFiveModel) => {
-           antenna.parking = data.data.id;
-           console.log(antenna);
-           promises.push(this.setStepFive(antenna));
-         });
-         Promise.all(promises).then((data) => {
-           console.log(data);
-           data.forEach((response, i) => {
-             //TODO: Filtrar los resultados que sean falsos y mostrarlos en un mensaje.
+  /*     this.message.showLoading();
+       this.setStepOne(this.parkingStepOne)
+         .then((data) => {
+           this.parkingStepTwo.parkingId = data.data.id;
+
+           return this.setStepTwo(this.parkingStepTwo);
+         })
+         .then((data) => {
+           this.parkingStepFour.parkingId = data.data.id;
+           return this.setStepFour(this.parkingStepFour);
+         })
+         .then((data) => {
+           console.log('Paso 5');
+           let promises = Array<Promise<any>>();
+           this.parkingStepFive.forEach((antenna: CreateParkingStepFiveModel) => {
+             antenna.parking = data.data.id;
+             console.log(antenna);
+             promises.push(this.setStepFive(antenna));
            });
-           return data;
+           Promise.all(promises).then((data) => {
+             console.log(data);
+             data.forEach((response, i) => {
+               //TODO: Filtrar los resultados que sean falsos y mostrarlos en un mensaje.
+             });
+             return data;
+           });
+         })
+         .then((data) => {
+           this.message.hideLoading();
+           this.message.OkTimeOut('Parqueo guardado');
+         })
+         .catch((error) => {
+           throw error;
          });
-       })
-       .then((data) => {
-         this.message.hideLoading();
-         this.message.OkTimeOut('Parqueo guardado');
-       })
-       .catch((error) => {
-         throw error;
-       });
-   }*/
+     }*/
 }
