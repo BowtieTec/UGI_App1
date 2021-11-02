@@ -1,0 +1,88 @@
+<div class = "titleCards" >
+  Confirmación
+</div >
+<div class = "panels" >
+  <h6 >Datos generales</h6 >
+  <div class = "row" >
+    <div class = "col-lg-6 col-md-6 col-sm-12" >
+
+      <h5 >Nombre: <small class = "text-muted" >{{this.stepOne.name}}</small >
+      </h5 >
+      <h5 >Dirección:
+        <small class = "text-muted" >{{this.stepOne.address}}</small ></h5 >
+      <h5 >Número de parqueos:
+        <small class = "text-muted" >{{this.stepOne.parking_spaces}}</small >
+      </h5 >
+      <h5 >Número de parqueos
+           especiales:
+        <small class = "text-muted" >{{this.stepOne.parking_spaces}}</small >
+      </h5 >
+      <h5 >Tiempo para
+           salir:<small class = "text-muted" >{{this.stepOne.minutes_to_exit}}</small >
+      </h5 >
+      <h5 >Pais:<small class = "text-muted" >{{this.getCountryById(this.stepOne.country).name}}</small >
+      </h5 >
+
+    </div >
+    <div class = "col-lg-6 col-md-6 col-sm-12" >
+      <h5 >Nit:
+        <small class = "text-muted" >{{this.stepFour.nit}}</small >
+      </h5 >
+      <h5 >Dirección de facturación:
+        <small class = "text-muted" >{{this.stepFour.business_address}}</small >
+      </h5 >
+      <h5 >Nombre de factura:
+        <small class = "text-muted" >{{this.stepFour.business_name}}</small >
+      </h5 >
+      <h5 >Método de pago:
+        <small class = "text-muted" >{{this.getPayMethodById(this.stepFour.pay_method).description}}</small >
+      </h5 >
+      <h5 >Moneda de facturación:
+        <small class = "text-muted" >{{this.getCurrencyById(this.stepFour.currency).description}}</small ></h5 >
+    </div >
+  </div >
+</div >
+<div class = "panels" >
+  <h6 >Tabla de horarios</h6 >
+  <table class = "table" >
+    <thead >
+    <tr >
+      <th scope = "col" >Día</th >
+      <th scope = "col" >Desde</th >
+      <th scope = "col" >Hasta</th >
+    </tr >
+    </thead >
+    <tbody >
+    <tr *ngFor = "let schedule of stepTwo.schedules" >
+      <td >{{this.getDayById(schedule.day).description}}</td >
+      <td >{{schedule.openning_time | time}}</td >
+      <td >{{schedule.closing_time | time}}</td >
+    </tr >
+    </tbody >
+  </table >
+</div >
+<div class = "panels" >
+  <h6 >Antenas</h6 >
+  <table class = "table" >
+    <thead >
+    <tr >
+      <th scope = "col" >Tipo de Acceso</th >
+      <th scope = "col" >Nombre</th >
+      <th scope = "col" >MAC</th >
+      <th scope = "col" >Antena</th >
+    </tr >
+    </thead >
+    <tbody >
+    <tr *ngFor = "let antenna of stepFive" >
+      <td >{{this.getTypeAntennaById(antenna.type).accessType}}</td >
+      <td >{{antenna.name}}</td >
+      <td >{{antenna.mac}}</td >
+      <td >{{antenna.antena}}</td >
+    </tr >
+    </tbody >
+  </table >
+</div >
+<div
+  class = "panels" >
+  <h6 >Tarifas</h6 >
+</div >

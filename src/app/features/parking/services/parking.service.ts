@@ -12,9 +12,15 @@ import {
 } from '../models/CreateParking.model';
 import { Router } from '@angular/router';
 import { catchError, map } from 'rxjs/operators';
-import { SettingsOptionsModel } from '../models/SettingsOption.model';
+import {
+  CurrencyOptionModel,
+  Day,
+  PaymentMethodModel,
+  SettingsOptionsModel,
+} from '../models/SettingsOption.model';
 import { Observable, Subscribable } from 'rxjs';
 import { CountriesModel } from '../models/Countries.model';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Injectable({
   providedIn: 'root',
@@ -23,19 +29,38 @@ export class ParkingService {
   private apiUrl = environment.serverAPI;
   parkingStepOne: CreateParkingStepOneModel = new CreateParkingStepOneModel();
   parkingStepTwo: CreateParkingStepTwoModel = new CreateParkingStepTwoModel();
-  countries: CountriesModel[] = [];
-  accessList: AccessModel[] = [];
   parkingStepFour: CreateParkingStepFourModel =
     new CreateParkingStepFourModel();
   parkingStepFive: CreateParkingStepFiveModel[] =
     new Array<CreateParkingStepFiveModel>();
   settingsOptions!: SettingsOptionsModel;
+  countries: CountriesModel[] = new Array<CountriesModel>();
 
   constructor(
     private http: HttpClient,
     private message: MessageService,
-    private route: Router
-  ) {}
+    private route: Router,
+    private formBuilder: FormBuilder
+  ) {
+    this.getCountries()
+      .toPromise()
+      .then((data) => {
+        this.countries = data.data;
+      })
+      .then(() => {
+        this.getSettingsOptions()
+          .toPromise()
+          .then((data) => {
+            this.settingsOptions = data;
+          })
+          .catch((err) => {
+            this.message.error(
+              '',
+              'No se pudo obtener la información inicial. Si el problema perciste comunicarse con el administrador'
+            );
+          });
+      });
+  }
 
   getCountries() {
     return this.http.get<ResponseModel>(`${this.apiUrl}utilities/countries`);
@@ -57,6 +82,18 @@ export class ParkingService {
       { value: 0, accessType: 'Entrada' },
       { value: 1, accessType: 'Salida' },
     ];
+  }
+
+  createAccess(): FormGroup {
+    return this.formBuilder.group({
+      type_access: [0, Validators.required],
+      name_access: ['', Validators.required],
+      mac_access: ['', Validators.required],
+      antenna_access: ['', Validators.required],
+      isWrong: [false],
+      isRight: [false],
+      message: [''],
+    });
   }
 
   setStepOne(): Subscribable<ResponseModel> {
@@ -103,15 +140,45 @@ export class ParkingService {
       );
   }
 
-  setStepFive(stepFive: CreateParkingStepFiveModel): Promise<any> {
+  setStepFive(antenna: CreateParkingStepFiveModel): Promise<ResponseModel> {
     return this.http
-      .post<ResponseModel>(`${this.apiUrl}backoffice/parking/station`, stepFive)
-      .pipe(
-        map((data) => {
-          return data.success;
-        })
-      )
+      .post<ResponseModel>(`${this.apiUrl}backoffice/parking/station`, antenna)
       .toPromise();
+  }
+
+  getCountryById(id: number): CountriesModel {
+    let country = this.countries.find((x) => x.id == id);
+    if (country === undefined) {
+      this.message.errorTimeOut(
+        '',
+        'No se encontró el país seleccionado. Verifique la información. Si el problema persiste comunicarse con el administrador.'
+      );
+      country = new CountriesModel();
+    }
+    return country;
+  }
+
+  getPayMethodById(id: number) {
+    let result = this.settingsOptions.paymentMethods.find((x) => x.id == id);
+    return result === undefined ? (result = new PaymentMethodModel()) : result;
+  }
+
+  getCurrencyById(id: number) {
+    let result = this.settingsOptions.currencyOptions.find((x) => x.id == id);
+    return result === undefined ? (result = new CurrencyOptionModel()) : result;
+  }
+
+  getDayById(id: number) {
+    let result = this.settingsOptions.days.find((x) => x.id == id);
+    if (result === undefined) {
+      result = new Day();
+    }
+    return result;
+  }
+
+  getTypeAntennaById(id: number): AccessModel {
+    let result = this.getAccesses().find((x: AccessModel) => x.value == id);
+    return result === undefined ? (result = new AccessModel()) : result;
   }
 
   saveParkingSteps() {

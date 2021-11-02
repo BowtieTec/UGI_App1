@@ -23,7 +23,6 @@ export class NewParkingComponent implements OnInit {
   totalSteps = 6;
   step = 1;
 
-  accessList: AccessModel[] = [];
   settingsOptions!: SettingsOptionsModel;
 
   constructor(
@@ -37,10 +36,6 @@ export class NewParkingComponent implements OnInit {
   }
 
   ngOnInit(): void {}
-
-  get antennas() {
-    return this.newParkingForm.get('antennas') as FormArray;
-  }
 
   get stepOneForm() {
     return this.newParkingForm.get('stepOne') as FormGroup;
@@ -77,13 +72,6 @@ export class NewParkingComponent implements OnInit {
     );
   }
 
-  FormArrayInvalid(control: string, i: number) {
-    return (
-      this.antennas.controls[i].get(control)?.invalid &&
-      this.antennas.controls[i].get(control)?.touched
-    );
-  }
-
   saveParking() {
     this.message.showLoading();
     console.log(this.parkingService.parkingStepOne);
@@ -102,7 +90,6 @@ export class NewParkingComponent implements OnInit {
 
   private getInitialData() {
     this.message.showLoading();
-    this.accessList = this.parkingService.getAccesses();
     this.parkingService
       .getSettingsOptions()
       .subscribe((result: SettingsOptionsModel) => {
@@ -197,50 +184,15 @@ export class NewParkingComponent implements OnInit {
         pmtnpssw_bac: [''],
         url_bac: [''],
       }),
-
       /* ---Five Step--- */
-      antennas: this.formBuilder.array([this.createAccess()]),
+      stepFive: this.formBuilder.group({
+        antennas: this.formBuilder.array([this.parkingService.createAccess()]),
+      }),
     });
   }
 
-  private getStepFive(): CreateParkingStepFiveModel[] {
-    let antennas: CreateParkingStepFiveModel[] = [];
-    this.antennas.value.forEach((antenna: any) =>
-      antennas.push({
-        parking: '',
-        name: antenna.name_access,
-        type: antenna.type_access,
-        antena: antenna.antenna_access,
-        mac: antenna.mac_access,
-      })
-    );
-    return antennas;
-  }
 
   //* Start Google Maps */
 
-  createAccess(): FormGroup {
-    return this.formBuilder.group({
-      type_access: [0, Validators.required],
-      name_access: ['', Validators.required],
-      mac_access: ['', Validators.required],
-      antenna_access: ['', Validators.required],
-    });
-  }
-
   /* End Google Maps */
-  addAntenna() {
-    if (this.antennas.invalid) {
-      this.message.warningTimeOut(
-        'No ha llenado todos los datos. Para continuar porfavor llene los datos necesarios.'
-      );
-      Object.values(this.antennas.controls).forEach((group) => {
-        Object.values((group as FormArray).controls).forEach((control) => {
-          control.markAsTouched();
-        });
-      });
-    } else {
-      this.antennas.push(this.createAccess());
-    }
-  }
 }

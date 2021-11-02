@@ -11,14 +11,26 @@ import { StepTwoComponent } from './new-parking/components/step-two/step-two.com
 import { StepThreeComponent } from './new-parking/components/step-three/step-three.component';
 import { StepFourComponent } from './new-parking/components/step-four/step-four.component';
 import { StepFiveComponent } from './new-parking/components/step-five/step-five.component';
+import { StepSixComponent } from './new-parking/components/step-six/step-six.component';
+import { SharedModule } from '../../shared/shared.module';
 
 @NgModule({
-  declarations: [ParkingComponent, NewParkingComponent, StepOneComponent, StepTwoComponent, StepThreeComponent, StepFourComponent, StepFiveComponent],
+  declarations: [
+    ParkingComponent,
+    NewParkingComponent,
+    StepOneComponent,
+    StepTwoComponent,
+    StepThreeComponent,
+    StepFourComponent,
+    StepFiveComponent,
+    StepSixComponent,
+  ],
   imports: [
     CommonModule,
     ParkingRoutingModule,
     ReactiveFormsModule,
     GoogleMapsModule,
+    SharedModule,
   ],
 })
 export class ParkingModule {}

@@ -1,5 +1,10 @@
 import { Injectable } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
+import {
+  AbstractControl,
+  FormArray,
+  FormControl,
+  FormGroup,
+} from '@angular/forms';
 
 @Injectable({
   providedIn: 'root',
@@ -17,6 +22,14 @@ export class UtilitiesService {
     let resp: boolean | undefined =
       form.get(control)?.invalid && form.get(control)?.touched;
     return resp == undefined ? false : resp;
+  }
+
+  controlInvalidArray(arrayForm: FormArray) {
+    Object.values(arrayForm.controls).forEach((group) => {
+      Object.values((group as FormArray).controls).forEach((control) => {
+        control.markAsTouched();
+      });
+    });
   }
 
   validateNIT(control: FormControl): { [s: string]: boolean } | null {

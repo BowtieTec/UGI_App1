@@ -1,26 +1,26 @@
-export interface PaymentMethodModel {
-  id: number;
-  description: string;
+export class PaymentMethodModel {
+  id: number = 0;
+  description: string = '';
 }
 
-export interface CurrencyOptionModel {
-  id: number;
-  description: string;
+export class CurrencyOptionModel {
+  id: number = 0;
+  description: string = '';
 }
 
-export interface ParkingStatusModel {
-  id: number;
-  description: string;
+export class ParkingStatusModel {
+  id: number = 0;
+  description: string = '';
 }
 
-export interface Day {
-  id: number;
-  description: string;
+export class Day {
+  id: number = 0;
+  description: string = '';
 }
 
-export interface SettingsOptionsModel {
-  paymentMethods: PaymentMethodModel[];
-  currencyOptions: CurrencyOptionModel[];
-  parkingStatus: ParkingStatusModel[];
-  days: Day[];
+export class SettingsOptionsModel {
+  paymentMethods: PaymentMethodModel[] = Array<PaymentMethodModel>();
+  currencyOptions: CurrencyOptionModel[] = Array<CurrencyOptionModel>();
+  parkingStatus: ParkingStatusModel[] = Array<ParkingStatusModel>();
+  days: Day[] = Array<Day>();
 }

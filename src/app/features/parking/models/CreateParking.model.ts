@@ -45,8 +45,8 @@ export class Coordinates {
 export class Schedule {
   isOpen: boolean = true;
   day: number = 0;
-  openning_time?: TimeData;
-  closing_time?: TimeData;
+  openning_time: TimeData = new TimeData();
+  closing_time: TimeData = new TimeData();
 }
 
 export class TimeData {
