@@ -61,7 +61,7 @@ export class NewParkingComponent implements OnInit {
     this.message.showLoading();
     console.log(this.parkingService.parkingStepOne);
     console.log(this.parkingService.parkingStepTwo);
-    this.utilitiesService.markAsTouched(this.newParkingForm);
+    this.message.OkTimeOut('Parqueo guardado');
   }
 
   private getInitialData() {

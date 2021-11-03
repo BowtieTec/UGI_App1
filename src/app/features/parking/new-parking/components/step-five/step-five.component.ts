@@ -65,6 +65,7 @@ export class StepFiveComponent implements OnInit {
 
   emmitStep(number: number) {
     if (number == 1) {
+      this.message.showLoading();
       if (this.stepFiveForm.valid) {
         this.parkingService.parkingStepFive = this.getStepFive();
         console.log('Paso 5');
@@ -75,31 +76,39 @@ export class StepFiveComponent implements OnInit {
             promises.push(this.parkingService.setStepFive(antenna));
           }
         );
-        Promise.all(promises).then(
-          (data) => {
-            let allIsRight = true;
-            data.forEach((response, i) => {
-              if (response.success) {
-                this.antennas.controls[i].get('isWrong')?.setValue(false);
-                this.antennas.controls[i].get('isRight')?.setValue(true);
-              } else {
-                //TODO: Verificar el funcionamiento
-                allIsRight = false;
-                this.antennas.controls[i].get('isWrong')?.setValue(true);
-                this.antennas.controls[i].get('isRight')?.setValue(false);
+        Promise.all(promises)
+          .then(
+            (data) => {
+              let allIsRight = true;
+              data.forEach((response, i) => {
+                if (response.success) {
+                  this.antennas.controls[i].get('isWrong')?.setValue(false);
+                  this.antennas.controls[i].get('isRight')?.setValue(true);
+                } else {
+                  //TODO: Verificar el funcionamiento
+                  /*allIsRight = false;
+                  this.antennas.controls[i].get('isWrong')?.setValue(true);
+                  this.antennas.controls[i].get('isRight')?.setValue(false);*/
+                  this.message.error(
+                    '',
+                    'Verifique los datos. Hay datos repetidos.'
+                  );
+                }
+                this.antennas.controls[i]
+                  .get('message')
+                  ?.setValue(response.message);
+              });
+              if (allIsRight) {
+                this.changeStep.emit(number);
               }
-              this.antennas.controls[i]
-                .get('message')
-                ?.setValue(response.message);
-            });
-            if (allIsRight) {
-              this.changeStep.emit(number);
+            },
+            (err) => {
+              console.log(err);
             }
-          },
-          (err) => {
-            console.log(err);
-          }
-        );
+          )
+          .then(() => {
+            this.message.hideLoading();
+          });
       } else {
         this.message.errorTimeOut(
           '',
