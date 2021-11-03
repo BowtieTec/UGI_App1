@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../services/user.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UtilitiesService } from '../../../../../shared/services/utilities.service';
+import { ResponseModel } from '../../../../../shared/model/Request.model';
+import { NewUserModel } from '../../models/newUserModel';
 
 @Component({
   selector: 'app-new-user',

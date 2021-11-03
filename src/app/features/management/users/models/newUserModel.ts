@@ -1,4 +1,5 @@
 export class NewUserModel {
+  id?: string = '';
   name: string = '';
   last_name: string = '';
   user: string = '';
@@ -6,4 +7,5 @@ export class NewUserModel {
   password: string = '';
   role: string = '';
   idParking: string = '';
+  status?: number;
 }

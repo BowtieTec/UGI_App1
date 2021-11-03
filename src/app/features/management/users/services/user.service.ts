@@ -5,7 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { ResponseModel } from '../../../../shared/model/Request.model';
 import { RolesModel } from '../models/RolesModel';
 import { NewUserModel } from '../models/newUserModel';
-import { UtilitiesService } from '../../../../shared/services/utilities.service';
+import { AuthService } from '../../../../shared/services/auth.service';
 
 @Injectable({
   providedIn: 'root',
@@ -17,7 +17,8 @@ export class UserService {
 
   constructor(
     private messageService: MessageService,
-    private http: HttpClient
+    private http: HttpClient,
+    private authService: AuthService
   ) {
     this.getInitialData();
   }
@@ -40,5 +41,12 @@ export class UserService {
   getRoles() {
     this.messageService.showLoading();
     return this.http.get<ResponseModel>(`${this.apiUrl}backoffice/role`);
+  }
+
+  getAdminsByParking() {
+    this.messageService.showLoading();
+    return this.http.get<ResponseModel>(
+      `${this.apiUrl}backoffice/admin/?page=1&per_page=1000&status=3&parking=fe449e24-6b99-461f-a9f0-d8edae472072`
+    );
   }
 }

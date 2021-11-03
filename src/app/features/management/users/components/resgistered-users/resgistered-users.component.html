@@ -35,21 +35,18 @@
   <table class = "table" >
     <thead >
     <tr >
-      <th scope = "col"
-          style = "width: 4%" >ID
+      <th scope = "col" >Nombre
       </th >
-      <th scope = "col" >Nombre completo</th >
-      <th scope = "col" >Teléfono</th >
+      <th scope = "col" >Email</th >
       <th scope = "col text-center"
           style = "width: 21%" >Acciones
       </th >
     </tr >
     </thead >
     <tbody >
-    <tr >
-      <th scope = "row" >1</th >
-      <td >Alfredo Obregon</td >
-      <td >1234-1234</td >
+    <tr *ngFor = "let user of users" >
+      <td >{{user.name + ' ' + user.last_name}}</td >
+      <td >{{user.email}}</td >
       <td >
         <button title = "Editar"
                 class = "buttonRowEdit" ><i class = "fas fa-user-edit" ></i >
