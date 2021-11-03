@@ -7,6 +7,7 @@ import {
 import { MessageService } from '../../../../../shared/services/message.service';
 import { ParkingService } from '../../../services/parking.service';
 import { UtilitiesService } from '../../../../../shared/services/utilities.service';
+import { ResponseModel } from '../../../../../shared/model/Request.model';
 
 @Component({
   selector: 'app-step-five',
@@ -16,58 +17,74 @@ import { UtilitiesService } from '../../../../../shared/services/utilities.servi
 export class StepFiveComponent implements OnInit {
   @Input() stepFiveForm!: FormGroup;
   @Output() changeStep = new EventEmitter<number>();
+  isEditing: boolean = false;
+  idParking = this.parkingService.parkingStepOne.parkingId;
   accessList: AccessModel[] = this.parkingService.getAccesses();
+  antennas: CreateParkingStepFiveModel[] =
+    new Array<CreateParkingStepFiveModel>();
 
   constructor(
     private formBuilder: FormBuilder,
     private message: MessageService,
     private parkingService: ParkingService,
     private utilitiesService: UtilitiesService
-  ) {}
+  ) {
+    this.getInitialData();
+  }
 
   ngOnInit(): void {}
 
-  get antennas() {
-    return this.stepFiveForm.get('antennas') as FormArray;
+  getAccessName(type: number): AccessModel {
+    let result = this.accessList.find((x) => x.value == type);
+
+    return result === undefined ? new AccessModel() : result;
   }
 
-  FormArrayInvalid(control: string, i: number) {
-    return (
-      this.antennas.controls[i].get(control)?.invalid &&
-      this.antennas.controls[i].get(control)?.touched
-    );
+  controlInvalid(control: string) {
+    return this.utilitiesService.controlInvalid(this.stepFiveForm, control);
   }
 
-  private getStepFive(): CreateParkingStepFiveModel[] {
-    let antennas: CreateParkingStepFiveModel[] = [];
-    this.antennas.value.forEach((antenna: any) =>
-      antennas.push({
-        parking: this.parkingService.parkingStepOne.parkingId,
-        name: antenna.name_access,
-        type: antenna.type_access,
-        antena: antenna.antenna_access,
-        mac: antenna.mac_access,
-      })
-    );
-    return antennas;
+  private getStepFive(): CreateParkingStepFiveModel {
+    return {
+      parking: this.parkingService.parkingStepOne.parkingId,
+      name: this.stepFiveForm.controls['name_access'].value,
+      type: this.stepFiveForm.controls['type_access'].value,
+      antena: this.stepFiveForm.controls['antenna_access'].value,
+      mac: this.stepFiveForm.controls['mac_access'].value,
+    };
   }
 
   addAntenna() {
-    if (this.antennas.invalid) {
+    if (this.stepFiveForm.invalid) {
       this.message.warningTimeOut(
-        'No ha llenado todos los datos. Para continuar porfavor llene los datos necesarios.'
+        'No ha llenado todos los datos. Para continuar por favor llene los datos necesarios.'
       );
-      this.utilitiesService.controlInvalidArray(this.antennas);
     } else {
-      this.antennas.push(this.parkingService.createAccess());
+      this.message.showLoading();
+      if (!this.isEditing) {
+        this.parkingService
+          .setStepFive(this.getStepFive())
+          .then((data: ResponseModel) => {
+            if (data.success) {
+              this.getInitialData().then(() => {
+                this.message.OkTimeOut('Guardado');
+              });
+            } else {
+              this.message.error(
+                '',
+                'No pudo guardarse la antena, error: ' + data.message
+              );
+            }
+          });
+      } else {
+        //Edit antenna
+      }
     }
   }
 
   emmitStep(number: number) {
     if (number == 1) {
       if (this.stepFiveForm.valid) {
-        this.parkingService.parkingStepFive = this.getStepFive();
-        console.log('Paso 5');
         let promises = Array<Promise<any>>();
         this.parkingService.parkingStepFive.forEach(
           (antenna: CreateParkingStepFiveModel) => {
@@ -78,37 +95,47 @@ export class StepFiveComponent implements OnInit {
         Promise.all(promises).then(
           (data) => {
             let allIsRight = true;
-            data.forEach((response, i) => {
-              if (response.success) {
-                this.antennas.controls[i].get('isWrong')?.setValue(false);
-                this.antennas.controls[i].get('isRight')?.setValue(true);
-              } else {
-                //TODO: Verificar el funcionamiento
-                allIsRight = false;
-                this.antennas.controls[i].get('isWrong')?.setValue(true);
-                this.antennas.controls[i].get('isRight')?.setValue(false);
-              }
-              this.antennas.controls[i]
-                .get('message')
-                ?.setValue(response.message);
-            });
+            data.forEach((response, i) => {});
             if (allIsRight) {
               this.changeStep.emit(number);
             }
           },
-          (err) => {
-            console.log(err);
-          }
+          (err) => {}
         );
       } else {
         this.message.errorTimeOut(
           '',
           'Datos faltantes o incorrectos. Validar que los datos sean correctos.'
         );
-        this.utilitiesService.controlInvalidArray(this.antennas);
       }
     } else {
       this.changeStep.emit(number);
     }
   }
+
+  private getInitialData() {
+    return this.parkingService
+      .getAntennas(this.idParking)
+      .toPromise()
+      .then((data: ResponseModel) => {
+        if (data.success) {
+          this.antennas = [];
+          data.data.stations.forEach((station: CreateParkingStepFiveModel) => {
+            this.antennas.push(station);
+          });
+        }
+        console.log(data);
+        console.log(this.antennas);
+      })
+      .then(() => {})
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
+  editAntenna(antenna: CreateParkingStepFiveModel) {}
+
+  deleteAntenna(antenna: CreateParkingStepFiveModel) {}
+
+  downloadQR(antenna: CreateParkingStepFiveModel) {}
 }

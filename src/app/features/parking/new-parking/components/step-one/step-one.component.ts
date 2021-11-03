@@ -43,13 +43,14 @@ export class StepOneComponent implements OnInit {
       .then(() => {
         return this.parkingService
           .getCountries()
-          .subscribe((data: ResponseModel) =>
+          .toPromise()
+          .then((data: ResponseModel) =>
             data.data.forEach((country: CountriesModel) => {
               this.countries.push(country);
             })
           );
       })
-      .then(() => {
+      .then((data) => {
         this.message.hideLoading();
       });
   }

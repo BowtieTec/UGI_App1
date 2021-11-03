@@ -1,6 +1,6 @@
-import { ErrorHandler, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { environment } from '../../../../environments/environment';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { MessageService } from '../../../shared/services/message.service';
 import { ResponseModel } from '../../../shared/model/Request.model';
 import {
@@ -82,18 +82,6 @@ export class ParkingService {
       { value: 0, accessType: 'Entrada' },
       { value: 1, accessType: 'Salida' },
     ];
-  }
-
-  createAccess(): FormGroup {
-    return this.formBuilder.group({
-      type_access: [0, Validators.required],
-      name_access: ['', Validators.required],
-      mac_access: ['', Validators.required],
-      antenna_access: ['', Validators.required],
-      isWrong: [false],
-      isRight: [false],
-      message: [''],
-    });
   }
 
   setStepOne(): Subscribable<ResponseModel> {
@@ -179,6 +167,14 @@ export class ParkingService {
   getTypeAntennaById(id: number): AccessModel {
     let result = this.getAccesses().find((x: AccessModel) => x.value == id);
     return result === undefined ? (result = new AccessModel()) : result;
+  }
+
+  getAntennas(idParking: string) {
+    const header = new HttpHeaders().append('', '');
+    const params = new HttpParams().append('parking', idParking);
+    return this.http.get<ResponseModel>(
+      `${this.apiUrl}backoffice/parking/${idParking}/station/`
+    );
   }
 
   saveParkingSteps() {
