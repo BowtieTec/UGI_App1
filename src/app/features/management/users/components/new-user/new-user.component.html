@@ -1,0 +1,106 @@
+<form [formGroup] = "newUserForm" >
+  <div class = "panels animate__animated animate__fadeInLeft" >
+    <div class = "titleCards" >
+      <span ><i class = "fas fa-user-plus" ></i ></span > Nuevo usuario
+    </div >
+    <div class = "row" >
+      <div class = "col-xl-12 col-lg-12  col-sm-12" >
+        <div class = "mb-4 relative" >
+          <label class = "labelInput" >Nombre </label >
+          <input class = "form-control inputClass"
+                 [class.is-invalid] = "controlInvalid('name')"
+                 formControlName = "name"
+                 placeholder = "NOMBRE:"
+                 type = "text" >
+          <small *ngIf = "controlInvalid('name')"
+                 class = "text-danger" >* Este campo es obligatorio</small >
+        </div >
+      </div >
+      <div class = "col-xl-12 col-lg-12  col-sm-12" >
+        <div class = "mb-4 relative" >
+          <label class = "labelInput" >Apellido</label >
+          <input class = "form-control inputClass"
+                 [class.is-invalid] = "controlInvalid('last_name')"
+                 formControlName = "last_name"
+                 placeholder = "APELLIDO:"
+                 type = "text" >
+          <small *ngIf = "controlInvalid('last_name')"
+                 class = "text-danger" >* Este campo es obligatorio</small >
+        </div >
+      </div >
+      <div class = "col-xl-12 col-lg-12  col-sm-12" >
+        <div class = "mb-4 relative" >
+          <label class = "labelInput" >Email</label >
+          <input class = "form-control inputClass"
+                 [class.is-invalid] = "controlInvalid('email')"
+                 formControlName = "email"
+                 placeholder = "EMAIL:"
+                 type = "text" >
+          <small *ngIf = "controlInvalid('email')"
+                 class = "text-danger" >* Este campo es obligatorio</small >
+        </div >
+      </div >
+      <div class = "col-xl-12 col-lg-12 col-xs-12" >
+        <div class = "mb-4 relative" >
+          <label class = "labelInput" >Tipo de usuario</label >
+          <select class = "inputClass"
+                  [class.is-invalid] = "controlInvalid('role')"
+                  formControlName = "role"
+                  id = ""
+                  name = "" >
+            <option value = "" >TIPO DE USUARIO</option >
+            <option *ngFor = "let role of Roles"
+                    value = "{{role.id}}" >{{role.name}}</option >
+
+          </select >
+          <small *ngIf = "controlInvalid('role')"
+                 class = "text-danger" >* Este campo es obligatorio</small >
+        </div >
+        <div class = "col-xl-12 col-lg-12  col-sm-12" >
+          <div class = "mb-4 relative" >
+            <label class = "labelInput" >Nombre de usuario</label >
+            <input class = "form-control inputClass"
+                   [class.is-invalid] = "controlInvalid('user')"
+                   formControlName = "user"
+                   placeholder = "NOMBRE DE USUARIO:"
+                   type = "text" >
+            <small *ngIf = "controlInvalid('user')"
+                   class = "text-danger" >* Este campo es obligatorio</small >
+          </div >
+        </div >
+
+      </div >
+      <div class = "col-xl-12 col-lg-12  col-sm-12" >
+        <div class = "mb-4 relative" >
+          <label class = "labelInput" >Parqueos</label >
+          <select class = "inputClass"
+                  [class.is-invalid] = "controlInvalid('idParking')"
+                  formControlName = "idParking"
+                  name = "" >
+            <option value = "" >Parqueo a asignar</option >
+            <option *ngFor = "let role of Roles"
+                    value = "{{role.id}}" >{{role.name}}</option >
+
+          </select >
+          <small *ngIf = "controlInvalid('idParking')"
+                 class = "text-danger" >* Este campo es obligatorio</small >
+        </div >
+      </div >
+      <div class = "col-xl-12 col-lg-12 col-sm-12" >
+        <div class = "text-center" >
+          <button class = "btn btn-primary me-3"
+                  type = "button"
+                  onclick = "saveNewUser()" >GUARDAR
+          </button >
+          <button class = "btn btn-secundary "
+                  type = "button"
+                  onclick = "cleanForm()" >Limpiar
+          </button >
+        </div >
+        <div class = "mb-4 relative" ></div >
+      </div >
+
+    </div >
+  </div >
+
+</form >

@@ -35,6 +35,46 @@ body {
   min-width: 50px;
 }
 
+.buttonRowEdit {
+  background: #198754;
+  color: white;
+  border: 1px solid #198754;
+  border-radius: 4px;
+  height: 32px;
+  font-size: 12px;
+  min-width: 50px;
+}
+
+.buttonRowEdit:Hover {
+  background: white;
+  color: #198754;
+  border: 1px solid #198754;
+  border-radius: 4px;
+  height: 32px;
+  font-size: 12px;
+  min-width: 50px;
+}
+
+.buttonRowDelete {
+  background: #c36554;
+  color: White;
+  border: 1px solid #c36554;
+  border-radius: 4px;
+  height: 32px;
+  font-size: 12px;
+  min-width: 50px;
+}
+
+.buttonRowDelete:Hover {
+  background: white;
+  color: #c36554;
+  border: 1px solid #c36554;
+  border-radius: 4px;
+  height: 32px;
+  font-size: 12px;
+  min-width: 50px;
+}
+
 .btn-delete {
   background: #c36554;
   border: 0px;

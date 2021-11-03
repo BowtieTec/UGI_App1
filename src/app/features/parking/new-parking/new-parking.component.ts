@@ -1,16 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MessageService } from '../../../shared/services/message.service';
-import {
-  AccessModel,
-  CreateParkingStepFiveModel,
-  CreateParkingStepFourModel,
-  CreateParkingStepTwoModel,
-} from '../models/CreateParking.model';
-
 import { ParkingService } from '../services/parking.service';
 import { SettingsOptionsModel } from '../models/SettingsOption.model';
-
 import { UtilitiesService } from '../../../shared/services/utilities.service';
 
 @Component({
@@ -65,26 +57,10 @@ export class NewParkingComponent implements OnInit {
       : (this.step = this.step + number);
   }
 
-  controlInvalid(control: string) {
-    return (
-      this.newParkingForm.get(control)?.invalid &&
-      this.newParkingForm.get(control)?.touched
-    );
-  }
-
   saveParking() {
     this.message.showLoading();
     console.log(this.parkingService.parkingStepOne);
     console.log(this.parkingService.parkingStepTwo);
-    /*if (this.newParkingForm.invalid) {
-      this.message.errorTimeOut(
-        '',
-        'Valide que todos los datos estén correctamente llenados'
-      );
-    } else {
-      this.parkingService.parkingStepFour = this.getStepFour();
-      this.parkingService.parkingStepFive = this.getStepFive();
-    }*/
     this.utilitiesService.markAsTouched(this.newParkingForm);
   }
 
@@ -190,9 +166,4 @@ export class NewParkingComponent implements OnInit {
       }),
     });
   }
-
-
-  //* Start Google Maps */
-
-  /* End Google Maps */
 }

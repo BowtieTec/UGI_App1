@@ -15,10 +15,10 @@ const routes: Routes = [
           ),
       },
       {
-        path: 'managment',
+        path: 'management',
         loadChildren: () =>
-          import('../managment/managment.module').then(
-            (m) => m.ManagmentModule
+          import('../management/management.module').then(
+            (m) => m.ManagementModule
           ),
       },
       {
