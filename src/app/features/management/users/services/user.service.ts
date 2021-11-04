@@ -44,7 +44,7 @@ export class UserService {
   getAdminsByParking() {
     this.messageService.showLoading();
     return this.http.get<ResponseModel>(
-      `${this.apiUrl}backoffice/admin/?page=1&per_page=1000&status=3&parking=fe449e24-6b99-461f-a9f0-d8edae472072`
+      `${this.apiUrl}backoffice/admin/admins?page=1&per_page=1000&status=3`
     );
   }
 
