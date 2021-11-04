@@ -6,6 +6,6 @@ export class NewUserModel {
   email: string = '';
   password: string = '';
   role: string = '';
-  idParking: string = '';
+  idParking?: string = '';
   status?: number;
 }

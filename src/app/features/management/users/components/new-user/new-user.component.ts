@@ -1,8 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { UserService } from '../../services/user.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UtilitiesService } from '../../../../../shared/services/utilities.service';
-import { ResponseModel } from '../../../../../shared/model/Request.model';
 import { NewUserModel } from '../../models/newUserModel';
 import { MessageService } from '../../../../../shared/services/message.service';
 
@@ -12,6 +11,7 @@ import { MessageService } from '../../../../../shared/services/message.service';
   styleUrls: ['./new-user.component.css'],
 })
 export class NewUserComponent implements OnInit {
+  // @Output() messageEvent = new EventEmitter<Boolean>();
   newUserForm: FormGroup;
 
   constructor(
@@ -50,7 +50,6 @@ export class NewUserComponent implements OnInit {
   getNewUserDataForm(): NewUserModel {
     return {
       email: this.newUserForm.controls['email'].value,
-      idParking: 'e449e24-6b99-461f-a9f0-d8edae472072',
       last_name: this.newUserForm.controls['last_name'].value,
       name: this.newUserForm.controls['name'].value,
       password: this.newUserForm.controls['password'].value,
@@ -67,11 +66,11 @@ export class NewUserComponent implements OnInit {
       .then((data) => {
         if (data.success) {
           this.messageServices.OkTimeOut('Guardado');
+          this.userService.getAdminsByParking();
         } else {
           this.messageServices.error('', data.message);
         }
-      })
-      .catch((err) => {});
+      });
   }
 
   cleanForm() {

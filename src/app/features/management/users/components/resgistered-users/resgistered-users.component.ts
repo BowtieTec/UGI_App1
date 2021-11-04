@@ -9,26 +9,11 @@ import { UserService } from '../../services/user.service';
   styleUrls: ['./resgistered-users.component.css'],
 })
 export class ResgisteredUsersComponent implements OnInit {
-  users: NewUserModel[] = new Array<NewUserModel>();
-
-  constructor(private userService: UserService) {
-    this.getInitialData();
-  }
+  constructor(private userService: UserService) {}
 
   ngOnInit(): void {}
 
-  getInitialData() {
-    this.userService
-      .getAdminsByParking()
-      .toPromise()
-      .then((data: ResponseModel) => {
-        data.data.administradores.data.forEach(
-          (administrator: NewUserModel) => {
-            this.users.push(administrator);
-          }
-        );
-      })
-      .then(() => {
-      });
+  get users() {
+    return this.userService.users;
   }
 }

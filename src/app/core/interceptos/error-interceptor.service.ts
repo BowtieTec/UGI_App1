@@ -8,10 +8,18 @@ export class GlobalErrorHandler implements ErrorHandler {
   constructor(private message: MessageService, private router: Router) {}
 
   handleError(error: any) {
+    if (!(error instanceof HttpErrorResponse)) {
+      error = error.rejection; // get the error object
+    }
     if (error.status === 400) {
+      console.log(error);
       this.message.error(
         'Datos incorrectos',
-        'Datos faltantes o incorrectos. Por favor verifique que no falten datos. Si el problema persiste comunicarse con administración.'
+        'Datos faltantes o incorrectos: ' +
+          (error.error.messages != undefined
+            ? error.error.messages + '.'
+            : '') +
+          ' Si el problema persiste comunicarse con administración. '
       );
     } else if (error.status === 401) {
       this.message.error(
@@ -28,7 +36,6 @@ export class GlobalErrorHandler implements ErrorHandler {
     } else if (error.status === 409) {
       this.message.error('Error', `${error.error.message}`);
     } else {
-      console.log(error);
       this.message.error('Error', 'Error desconocido');
     }
   }
