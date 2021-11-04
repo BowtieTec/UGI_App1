@@ -33,9 +33,7 @@ export class UserService {
       .then((data) => {
         this.messageService.hideLoading();
       })
-      .catch((err) => {
-        console.log(err);
-      });
+      .catch((err) => {});
   }
 
   getRoles() {
@@ -47,6 +45,13 @@ export class UserService {
     this.messageService.showLoading();
     return this.http.get<ResponseModel>(
       `${this.apiUrl}backoffice/admin/?page=1&per_page=1000&status=3&parking=fe449e24-6b99-461f-a9f0-d8edae472072`
+    );
+  }
+
+  saveNewUser(newUser: NewUserModel) {
+    return this.http.post<ResponseModel>(
+      `${this.apiUrl}backoffice/admin/signup`,
+      newUser
     );
   }
 }

@@ -18,6 +18,12 @@ export class UtilitiesService {
     );
   }
 
+  markAsUnTouched(form: FormGroup) {
+    Object.values(form.controls).forEach((control: AbstractControl) =>
+      control.markAsUntouched()
+    );
+  }
+
   controlInvalid(form: FormGroup, control: string): boolean {
     let resp: boolean | undefined =
       form.get(control)?.invalid && form.get(control)?.touched;
@@ -48,5 +54,9 @@ export class UtilitiesService {
       };
     }
     return null;
+  }
+
+  get getPatterEmail() {
+    return "^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$";
   }
 }

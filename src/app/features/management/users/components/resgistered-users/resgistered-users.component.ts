@@ -29,7 +29,6 @@ export class ResgisteredUsersComponent implements OnInit {
         );
       })
       .then(() => {
-        console.log(this.users);
       });
   }
 }

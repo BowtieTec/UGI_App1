@@ -8,17 +8,6 @@ export class GlobalErrorHandler implements ErrorHandler {
   constructor(private message: MessageService, private router: Router) {}
 
   handleError(error: any) {
-    console.log(error);
-    if (!(error instanceof HttpErrorResponse)) {
-      this.message.error(
-        '',
-        typeof error.rejection == 'string'
-          ? error.rejection
-          : error.rejection.error.message
-      );
-    } else {
-      this.message.error('Error', 'Er');
-    }
     if (error.status === 400) {
       this.message.error(
         'Datos incorrectos',
@@ -38,33 +27,9 @@ export class GlobalErrorHandler implements ErrorHandler {
       );
     } else if (error.status === 409) {
       this.message.error('Error', `${error.error.message}`);
-    } else if (!(error instanceof HttpErrorResponse)) {
-      error = error.rejection; // get the error object
-      if (error.status == 400) {
-        this.message.error(
-          'Error',
-          'Datos faltantes o incorrectos. Por favor verificar que los datos estén correctamente llenados.'
-        );
-      } else if (error.status == 404) {
-        this.message.error(
-          'Función no encontrada',
-          'Verifique que tiene conexión a internet. Si el problema persiste comuníquese con el administrador.'
-        );
-      } else {
-        this.message.error(
-          'Error desconocido',
-          typeof error == 'string' ? error : error.error.message
-        );
-      }
-    } else if (error.message.split(':').length == 1) {
-      this.message.errorTimeOut('Error', error.message);
-    } else if (error.message.split(':').length > 1) {
-      let message = error.message.split(':');
-      this.message.error(
-        'Error',
-        `${message.length > 1 ? message[1] : message[0]}`
-      );
-      //TODO: error.message enviar al Log.
+    } else {
+      console.log(error);
+      this.message.error('Error', 'Error desconocido');
     }
   }
 }

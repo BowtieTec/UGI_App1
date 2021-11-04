@@ -68,9 +68,20 @@
                    class = "text-danger" >* Este campo es obligatorio</small >
           </div >
         </div >
-
+        <div class = "col-xl-12 col-lg-12  col-sm-12" >
+          <div class = "mb-4 relative" >
+            <label class = "labelInput" >Contraseña</label >
+            <input class = "form-control inputClass"
+                   [class.is-invalid] = "controlInvalid('password')"
+                   formControlName = "password"
+                   placeholder = "CONTRASEÑA:"
+                   type = "text" >
+            <small *ngIf = "controlInvalid('password')"
+                   class = "text-danger" >* Este campo es obligatorio</small >
+          </div >
+        </div >
       </div >
-      <div class = "col-xl-12 col-lg-12  col-sm-12" >
+      <!--<div class = "col-xl-12 col-lg-12  col-sm-12" >
         <div class = "mb-4 relative" >
           <label class = "labelInput" >Parqueos</label >
           <select class = "inputClass"
@@ -85,16 +96,16 @@
           <small *ngIf = "controlInvalid('idParking')"
                  class = "text-danger" >* Este campo es obligatorio</small >
         </div >
-      </div >
+      </div >-->
       <div class = "col-xl-12 col-lg-12 col-sm-12" >
         <div class = "text-center" >
           <button class = "btn btn-primary me-3"
                   type = "button"
-                  onclick = "saveNewUser()" >GUARDAR
+                  (click) = "saveNewUser()" >GUARDAR
           </button >
           <button class = "btn btn-secundary "
                   type = "button"
-                  onclick = "cleanForm()" >Limpiar
+                  (click) = "cleanForm()" >Limpiar
           </button >
         </div >
         <div class = "mb-4 relative" ></div >
@@ -102,5 +113,4 @@
 
     </div >
   </div >
-
 </form >

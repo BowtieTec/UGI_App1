@@ -50,7 +50,7 @@ export class StepOneComponent implements OnInit {
           );
       })
       .then(() => {
-        this.message.hideLoading();
+        //  this.message.hideLoading();
       });
   }
 
@@ -112,7 +112,6 @@ export class StepOneComponent implements OnInit {
             this.utilitiesService.markAsTouched(this.stepOneForm);
             this.message.error('', data.message);
           }
-          console.log('Etapa 2');
         });
       } else {
         this.message.errorTimeOut(

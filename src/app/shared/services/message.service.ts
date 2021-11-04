@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
   providedIn: 'root',
 })
 export class MessageService {
-  constructor(private router: Router) {}
+  constructor() {}
 
   showLoading() {
     Swal.showLoading();
@@ -16,7 +16,7 @@ export class MessageService {
     Swal.close();
   }
 
-  error(title: string, text: string, footer: string = '') {
+  error(title: string = '', text: string = '', footer: string = '') {
     Swal.fire({
       icon: 'error',
       title,
@@ -30,11 +30,10 @@ export class MessageService {
       icon: 'warning',
       title,
       text,
-
     });
   }
 
-  warningTimeOut(text: string, title: string = '!Cuidado!') {
+  warningTimeOut(text: string = '', title: string = '!Cuidado!') {
     Swal.fire({
       icon: 'warning',
       title,
@@ -44,7 +43,7 @@ export class MessageService {
     });
   }
 
-  errorTimeOut(title: string, text: string, footer: string = '') {
+  errorTimeOut(title: string = '', text: string = '', footer: string = '') {
     Swal.fire({
       icon: 'error',
       title,

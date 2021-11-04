@@ -16,6 +16,9 @@ export class EncryptionService {
   constructor() {}
 
   encrypt(sentence: string): string {
+    if (sentence == undefined) {
+      return '{}';
+    }
     return CryptoJS.AES.encrypt(
       CryptoJS.enc.Utf8.parse(sentence),
       this.secretKey
@@ -23,12 +26,18 @@ export class EncryptionService {
   }
 
   decrypt(sentence: string): string {
+    if (sentence == undefined) {
+      return '{}';
+    }
     return CryptoJS.AES.decrypt(sentence, this.secretKey).toString(
       CryptoJS.enc.Utf8
     );
   }
 
   encryptKey(sentence: string): string {
+    if (sentence == undefined) {
+      return '{}';
+    }
     return CryptoJS.HmacSHA256(
       CryptoJS.enc.Utf8.parse(sentence),
       this.secretKey
@@ -36,6 +45,9 @@ export class EncryptionService {
   }
 
   decryptKey(sentence: string): string {
+    if (sentence == undefined) {
+      return '{}';
+    }
     return CryptoJS.HmacSHA256(sentence, this.secretKey).toString(
       CryptoJS.enc.Utf8
     );

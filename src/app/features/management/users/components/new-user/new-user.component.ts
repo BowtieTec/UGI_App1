@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UtilitiesService } from '../../../../../shared/services/utilities.service';
 import { ResponseModel } from '../../../../../shared/model/Request.model';
 import { NewUserModel } from '../../models/newUserModel';
+import { MessageService } from '../../../../../shared/services/message.service';
 
 @Component({
   selector: 'app-new-user',
@@ -16,7 +17,8 @@ export class NewUserComponent implements OnInit {
   constructor(
     private userService: UserService,
     private formBuilder: FormBuilder,
-    private utilitiesService: UtilitiesService
+    private utilitiesService: UtilitiesService,
+    private messageServices: MessageService
   ) {
     this.newUserForm = this.createForm();
   }
@@ -31,7 +33,13 @@ export class NewUserComponent implements OnInit {
     return this.formBuilder.group({
       name: [this.userService.newUser.name, [Validators.required]],
       last_name: [this.userService.newUser.last_name, [Validators.required]],
-      email: [this.userService.newUser.email, [Validators.required]],
+      email: [
+        this.userService.newUser.email,
+        [
+          Validators.required,
+          Validators.pattern(this.utilitiesService.getPatterEmail),
+        ],
+      ],
       user: [this.userService.newUser.user, [Validators.required]],
       password: [this.userService.newUser.password, [Validators.required]],
       role: [this.userService.newUser.role, [Validators.required]],
@@ -39,9 +47,42 @@ export class NewUserComponent implements OnInit {
     });
   }
 
-  saveNewUser() {}
+  getNewUserDataForm(): NewUserModel {
+    return {
+      email: this.newUserForm.controls['email'].value,
+      idParking: 'e449e24-6b99-461f-a9f0-d8edae472072',
+      last_name: this.newUserForm.controls['last_name'].value,
+      name: this.newUserForm.controls['name'].value,
+      password: this.newUserForm.controls['password'].value,
+      role: '6ededbe2-d712-42c5-b82a-06d2ddf1b2d2',
+      user: this.newUserForm.controls['user'].value,
+    };
+  }
 
-  cleanForm() {}
+  saveNewUser() {
+    this.messageServices.showLoading();
+    this.userService
+      .saveNewUser(this.getNewUserDataForm())
+      .toPromise()
+      .then((data) => {
+        if (data.success) {
+          this.messageServices.OkTimeOut('Guardado');
+        } else {
+          this.messageServices.error('', data.message);
+        }
+      })
+      .catch((err) => {});
+  }
+
+  cleanForm() {
+    this.newUserForm.controls['email'].setValue('');
+    this.newUserForm.controls['last_name'].setValue('');
+    this.newUserForm.controls['name'].setValue('');
+    this.newUserForm.controls['password'].setValue('');
+    this.newUserForm.controls['role'].setValue('');
+    this.newUserForm.controls['user'].setValue('');
+    this.utilitiesService.markAsUnTouched(this.newUserForm);
+  }
 
   controlInvalid(control: string): boolean {
     return this.utilitiesService.controlInvalid(this.newUserForm, control);

@@ -68,7 +68,7 @@ export class StepFiveComponent implements OnInit {
       this.message.showLoading();
       if (this.stepFiveForm.valid) {
         this.parkingService.parkingStepFive = this.getStepFive();
-        console.log('Paso 5');
+
         let promises = Array<Promise<any>>();
         this.parkingService.parkingStepFive.forEach(
           (antenna: CreateParkingStepFiveModel) => {
@@ -102,9 +102,7 @@ export class StepFiveComponent implements OnInit {
                 this.changeStep.emit(number);
               }
             },
-            (err) => {
-              console.log(err);
-            }
+            (err) => {}
           )
           .then(() => {
             this.message.hideLoading();
