@@ -2,44 +2,20 @@
   <div class = "titleCards" >
     <span ><i class = "fas fa-users" ></i ></span > Usuarios registrados
   </div >
-  <div class = "row" >
-    <div class = "col-xl-6 col-lg-6  col-sm-12" >
-      <div class = "mb-4 relative" >
-        <label class = "labelInput" >Nombre </label >
-        <input class = "form-control inputClass"
 
-               placeholder = "NOMBRE:"
-               type = "text" >
-      </div >
-    </div >
-    <div class = "col-xl-6 col-lg-6  col-sm-12" >
-      <div class = "mb-4 relative" >
-        <label class = "labelInput" >Teléfono</label >
-        <input class = "form-control inputClass"
-               placeholder = "TELÉFONO:"
-               type = "text" >
-      </div >
-    </div >
-    <div class = "col-xl-12 col-lg-12 col-sm-12" >
-      <div class = "text-center" >
-        <button class = "btn btn-primary me-3"
-                onclick = "location.href='#'" >Buscar
-        </button >
-        <button class = "btn btn-secundary "
-                onclick = "location.href='#'" >Limpiar
-        </button >
-      </div >
-    </div >
-  </div >
-  <hr >
-  <table class = "table" >
+  <table *ngIf = "users.length>0"
+         datatable
+         [dtOptions] = "dtOptions"
+         class = "table table-striped" >
+    <!-- row-border  hover table-striped-->
     <thead >
     <tr >
       <th scope = "col" >Nombre
       </th >
       <th scope = "col" >Email</th >
       <th scope = "col text-center"
-          style = "width: 21%" >Acciones
+          style = "width: 21%"
+      >Acciones
       </th >
     </tr >
     </thead >
@@ -48,11 +24,13 @@
         *ngFor = "let user of users" >
       <td >{{user.name + ' ' + user.last_name}}</td >
       <td >{{user.email}}</td >
-      <td >
+      <td class = "" >
         <button title = "Editar"
-                class = "buttonRowEdit" ><i class = "fas fa-user-edit" ></i >
+                (click) = "editUser(user)"
+                class = "buttonRowEdit me-1" ><i class = "fas fa-user-edit" ></i >
         </button >
-        <button class = "buttonRowDelete m-1" ><i class = "fas fa-user-times" ></i >
+        <button (click) = "deleteUser(user)"
+                class = "buttonRowDelete" ><i class = "fas fa-user-times" ></i >
         </button >
       </td >
     </tr >

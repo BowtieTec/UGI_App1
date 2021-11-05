@@ -8,6 +8,7 @@ export class GlobalErrorHandler implements ErrorHandler {
   constructor(private message: MessageService, private router: Router) {}
 
   handleError(error: any) {
+    console.log(error);
     if (!(error instanceof HttpErrorResponse)) {
       error = error.rejection; // get the error object
     }

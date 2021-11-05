@@ -7,6 +7,8 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { GoogleMapsModule } from '@angular/google-maps';
 import { GlobalErrorHandler } from './core/interceptos/error-interceptor.service';
 import { AuthInterceptorService } from './core/interceptos/auth-interceptor.service';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { DataTablesModule } from 'angular-datatables';
 
 @NgModule({
   declarations: [AppComponent],
@@ -17,6 +19,8 @@ import { AuthInterceptorService } from './core/interceptos/auth-interceptor.serv
     ReactiveFormsModule,
     HttpClientModule,
     GoogleMapsModule,
+    NgbModule,
+    DataTablesModule,
   ],
   providers: [
     { provide: ErrorHandler, useClass: GlobalErrorHandler },

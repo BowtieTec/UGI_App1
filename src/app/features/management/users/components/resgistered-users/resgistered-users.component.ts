@@ -1,7 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { ResponseModel } from '../../../../../shared/model/Request.model';
+import { Component, Input, OnInit } from '@angular/core';
 import { NewUserModel } from '../../models/newUserModel';
 import { UserService } from '../../services/user.service';
+import { Subject } from 'rxjs';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { DataTableOptions } from '../../../../../shared/model/DataTableOptions';
+import { DataTableDirective } from 'angular-datatables';
 
 @Component({
   selector: 'app-resgistered-users',
@@ -9,11 +12,31 @@ import { UserService } from '../../services/user.service';
   styleUrls: ['./resgistered-users.component.css'],
 })
 export class ResgisteredUsersComponent implements OnInit {
-  constructor(private userService: UserService) {}
+  @Input() subject: Subject<NewUserModel> = new Subject<NewUserModel>();
+  formGroup: FormGroup;
+  dtOptions: DataTables.Settings = {};
+  datatableElement!: DataTableDirective;
 
-  ngOnInit(): void {}
+  constructor(
+    private userService: UserService,
+    private formBuilder: FormBuilder
+  ) {
+    this.formGroup = formBuilder.group({ filter: [''] });
+  }
+
+  ngOnInit(): void {
+    this.dtOptions = DataTableOptions.getSpanishOptions(10);
+  }
 
   get users() {
     return this.userService.users;
+  }
+
+  deleteUser(user: NewUserModel) {
+    this.userService.deleteUser(user.id == undefined ? '' : user.id);
+  }
+
+  editUser(user: NewUserModel) {
+    this.subject.next(user);
   }
 }

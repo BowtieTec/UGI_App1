@@ -7,7 +7,9 @@ import { ResgisteredUsersComponent } from './users/components/resgistered-users/
 import { NewUserComponent } from './users/components/new-user/new-user.component';
 import { UsersComponent } from './users/users.component';
 import { SharedModule } from '../../shared/shared.module';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
+import { DataTablesModule } from 'angular-datatables';
 
 @NgModule({
   declarations: [
@@ -21,6 +23,10 @@ import { ReactiveFormsModule } from '@angular/forms';
     ManagementRoutingModule,
     SharedModule,
     ReactiveFormsModule,
+    SharedModule,
+    NgbPaginationModule,
+    FormsModule,
+    DataTablesModule,
   ],
 })
 export class ManagementModule {}

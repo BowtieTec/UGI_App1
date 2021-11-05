@@ -8,6 +8,8 @@ import { CardKpiComponent } from './card-kpi/card-kpi.component';
 import { BarChartComponent } from './bar-chart/bar-chart.component';
 import { LoadingComponent } from './loading/loading.component';
 import { TimePipe } from './pipes/time.pipe';
+import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
+import { FilterPipe } from './pipes/filter.pipe';
 
 @NgModule({
   declarations: [
@@ -18,8 +20,9 @@ import { TimePipe } from './pipes/time.pipe';
     BarChartComponent,
     LoadingComponent,
     TimePipe,
+    FilterPipe,
   ],
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, NgbPaginationModule],
   exports: [
     LeftPanelComponent,
     HeaderComponent,
@@ -28,6 +31,7 @@ import { TimePipe } from './pipes/time.pipe';
     BarChartComponent,
     LoadingComponent,
     TimePipe,
+    FilterPipe,
   ],
 })
 export class SharedModule {}
