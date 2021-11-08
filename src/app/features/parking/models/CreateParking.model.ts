@@ -30,6 +30,7 @@ export class CreateParkingStepFourModel {
 }
 
 export class CreateParkingStepFiveModel {
+  id?: string = '';
   parking: string = '';
   type: number = 0;
   name: string = '';

@@ -161,7 +161,10 @@ export class NewParkingComponent implements OnInit {
       }),
       /* ---Five Step--- */
       stepFive: this.formBuilder.group({
-        antennas: this.formBuilder.array([this.parkingService.createAccess()]),
+        type_access: ['', Validators.required],
+        name_access: ['', Validators.required],
+        mac_access: ['', Validators.required],
+        antenna_access: ['', Validators.required],
       }),
     });
   }

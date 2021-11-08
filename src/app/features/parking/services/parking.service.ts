@@ -56,7 +56,7 @@ export class ParkingService {
           .catch((err) => {
             this.message.error(
               '',
-              'No se pudo obtener la información inicial. Si el problema perciste comunicarse con el administrador'
+              'No se pudo obtener la información inicial. Si el problema persiste comunicarse con el administrador'
             );
           });
       });
@@ -84,19 +84,8 @@ export class ParkingService {
     ];
   }
 
-  createAccess(): FormGroup {
-    return this.formBuilder.group({
-      type_access: [0, Validators.required],
-      name_access: ['', Validators.required],
-      mac_access: ['', Validators.required],
-      antenna_access: ['', Validators.required],
-      isWrong: [false],
-      isRight: [false],
-      message: [''],
-    });
-  }
-
   setStepOne(): Subscribable<ResponseModel> {
+    console.log('Paso 1');
     return this.http
       .post<ResponseModel>(
         `${this.apiUrl}backoffice/parking/create`,
@@ -110,6 +99,7 @@ export class ParkingService {
   }
 
   setStepTwo(): Observable<ResponseModel> {
+    console.log('Paso 2');
     return this.http
       .post<ResponseModel>(
         `${this.apiUrl}backoffice/parking/schedule`,
@@ -124,6 +114,7 @@ export class ParkingService {
   }
 
   setStepFour(): Observable<ResponseModel> {
+    console.log('Paso 4');
     return this.http
       .post<ResponseModel>(
         `${this.apiUrl}backoffice/parking/payment-invoice`,
@@ -178,7 +169,20 @@ export class ParkingService {
     return result === undefined ? (result = new AccessModel()) : result;
   }
 
-  saveParkingSteps() {}
+  getAntennas(idParking: string) {
+    const header = new HttpHeaders().append('', '');
+    const params = new HttpParams().append('parking', idParking);
+    return this.http.get<ResponseModel>(
+      `${this.apiUrl}backoffice/parking/${idParking}/station/`
+    );
+  }
+
+  getQR(stationID: string): Observable<Blob> {
+    return this.http.get(
+      `${this.apiUrl}backoffice/parking/station/${stationID}/downloadqr`,
+      { responseType: 'blob' }
+    );
+  }
 
   /*     this.message.showLoading();
        this.setStepOne(this.parkingStepOne)
@@ -192,15 +196,15 @@ export class ParkingService {
            return this.setStepFour(this.parkingStepFour);
          })
          .then((data) => {
-
+           console.log('Paso 5');
            let promises = Array<Promise<any>>();
            this.parkingStepFive.forEach((antenna: CreateParkingStepFiveModel) => {
              antenna.parking = data.data.id;
-
+             console.log(antenna);
              promises.push(this.setStepFive(antenna));
            });
            Promise.all(promises).then((data) => {
-
+             console.log(data);
              data.forEach((response, i) => {
                //TODO: Filtrar los resultados que sean falsos y mostrarlos en un mensaje.
              });
@@ -212,7 +216,13 @@ export class ParkingService {
            this.message.OkTimeOut('Parqueo guardado');
          })
          .catch((error) => {
-
+           throw error;
          });
      }*/
+  editStepFive(antennaToEdit: CreateParkingStepFiveModel) {
+    return this.http.put<ResponseModel>(
+      `${this.apiUrl}backoffice/parking/station/${antennaToEdit.id}`,
+      antennaToEdit
+    );
+  }
 }

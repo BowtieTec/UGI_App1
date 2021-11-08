@@ -75,6 +75,26 @@ body {
   min-width: 50px;
 }
 
+.buttonRowQR {
+  background: #167ccf;
+  color: #ffffff;
+  border: 1px solid #167ccf;
+  border-radius: 4px;
+  height: 32px;
+  font-size: 12px;
+  min-width: 50px;
+}
+
+.buttonRowQR:Hover {
+  background: white;
+  color: #167ccf;
+  border: 1px solid #167ccf;
+  border-radius: 4px;
+  height: 32px;
+  font-size: 12px;
+  min-width: 50px;
+}
+
 .btn-delete {
   background: #c36554;
   border: 0px;

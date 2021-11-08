@@ -50,7 +50,7 @@ export class StepOneComponent implements OnInit {
           );
       })
       .then(() => {
-          this.message.hideLoading();
+        this.message.hideLoading();
       });
   }
 
