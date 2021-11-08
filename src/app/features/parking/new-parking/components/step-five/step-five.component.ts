@@ -139,6 +139,7 @@ export class StepFiveComponent implements OnInit {
     this.stepFiveForm.controls['name_access'].setValue('');
     this.stepFiveForm.controls['mac_access'].setValue('');
     this.stepFiveForm.controls['antenna_access'].setValue('');
+    this.utilitiesService.markAsUnTouched(this.stepFiveForm);
   }
 
   downloadQR(antenna: CreateParkingStepFiveModel) {
