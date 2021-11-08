@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import {
   AccessModel,
   CreateParkingStepFiveModel,
@@ -8,7 +8,6 @@ import { MessageService } from '../../../../../shared/services/message.service';
 import { ParkingService } from '../../../services/parking.service';
 import { UtilitiesService } from '../../../../../shared/services/utilities.service';
 import { ResponseModel } from '../../../../../shared/model/Request.model';
-import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-step-five',
@@ -29,8 +28,7 @@ export class StepFiveComponent implements OnInit {
     private formBuilder: FormBuilder,
     private message: MessageService,
     private parkingService: ParkingService,
-    private utilitiesService: UtilitiesService,
-    private sanitizer: DomSanitizer
+    private utilitiesService: UtilitiesService
   ) {
     this.getInitialData();
   }
@@ -45,16 +43,6 @@ export class StepFiveComponent implements OnInit {
 
   controlInvalid(control: string) {
     return this.utilitiesService.controlInvalid(this.stepFiveForm, control);
-  }
-
-  private getStepFive(): CreateParkingStepFiveModel {
-    return {
-      parking: this.parkingService.parkingStepOne.parkingId,
-      name: this.stepFiveForm.controls['name_access'].value,
-      type: this.stepFiveForm.controls['type_access'].value,
-      antena: this.stepFiveForm.controls['antenna_access'].value,
-      mac: this.stepFiveForm.controls['mac_access'].value,
-    };
   }
 
   addAntenna() {
@@ -116,6 +104,42 @@ export class StepFiveComponent implements OnInit {
     }
   }
 
+  editAntenna(antenna: CreateParkingStepFiveModel) {}
+
+  deleteAntenna(antenna: CreateParkingStepFiveModel) {}
+
+  downloadQR(antenna: CreateParkingStepFiveModel) {
+    this.message.showLoading();
+    antenna.id == undefined ? (antenna.id = '') : true;
+    this.parkingService.getQR(antenna.id).subscribe(
+      (data) => {
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(data);
+        a.download = antenna.name;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        this.message.hideLoading();
+      },
+      (err) => {
+        this.message.error(
+          '',
+          'No pudo descargarse el QR. Por favor verifique si los datos existen. Si el problema persiste, comunicarse con el administrador'
+        );
+      }
+    );
+  }
+
+  private getStepFive(): CreateParkingStepFiveModel {
+    return {
+      parking: this.parkingService.parkingStepOne.parkingId,
+      name: this.stepFiveForm.controls['name_access'].value,
+      type: this.stepFiveForm.controls['type_access'].value,
+      antena: this.stepFiveForm.controls['antenna_access'].value,
+      mac: this.stepFiveForm.controls['mac_access'].value,
+    };
+  }
+
   private getInitialData() {
     return this.parkingService
       .getAntennas(this.idParking)
@@ -134,20 +158,5 @@ export class StepFiveComponent implements OnInit {
       .catch((err) => {
         console.log(err);
       });
-  }
-
-  editAntenna(antenna: CreateParkingStepFiveModel) {}
-
-  deleteAntenna(antenna: CreateParkingStepFiveModel) {}
-
-  downloadQR(antenna: CreateParkingStepFiveModel) {
-    this.message.showLoading();
-    antenna.id == undefined ? (antenna.id = '') : true;
-    this.parkingService.getQR(antenna.id).subscribe((data) => {
-      let blob = new Blob([data], { type: 'image/jpg' });
-      let url = window.URL.createObjectURL(blob);
-      this.message.hideLoading();
-      window.open(url);
-    });
   }
 }
