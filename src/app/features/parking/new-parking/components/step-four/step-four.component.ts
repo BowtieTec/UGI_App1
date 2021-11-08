@@ -27,6 +27,37 @@ export class StepFourComponent implements OnInit {
 
   ngOnInit(): void {}
 
+  controlInvalid(control: string): boolean {
+    return this.utilitiesService.controlInvalid(this.stepFourForm, control);
+  }
+
+  emmitStep(number: number) {
+    if (number == 1) {
+      if (this.stepFourForm.valid) {
+        this.parkingService.parkingStepFour = this.getStepFour();
+        this.parkingService.parkingStepFour.parkingId =
+          this.parkingService.parkingStepOne.parkingId;
+        this.parkingService.setStepFour().subscribe((data) => {
+          if (data.success) {
+            this.changeStep.emit(number);
+            this.message.OkTimeOut('Parqueo Guardado');
+          } else {
+            this.utilitiesService.markAsTouched(this.stepFourForm);
+            this.message.error('', data.message);
+          }
+        });
+      } else {
+        this.message.errorTimeOut(
+          '',
+          'Datos faltantes o incorrectos. Validar que los datos sean correctos.'
+        );
+        this.utilitiesService.markAsTouched(this.stepFourForm);
+      }
+    } else {
+      this.changeStep.emit(number);
+    }
+  }
+
   private getStepFour(): CreateParkingStepFourModel {
     try {
       return {
@@ -57,37 +88,6 @@ export class StepFourComponent implements OnInit {
       };
     } catch (e) {
       throw e;
-    }
-  }
-
-  controlInvalid(control: string): boolean {
-    return this.utilitiesService.controlInvalid(this.stepFourForm, control);
-  }
-
-  emmitStep(number: number) {
-    if (number == 1) {
-      if (this.stepFourForm.valid) {
-        this.parkingService.parkingStepFour = this.getStepFour();
-        this.parkingService.parkingStepFour.parkingId =
-          this.parkingService.parkingStepOne.parkingId;
-        this.parkingService.setStepFour().subscribe((data) => {
-          if (data.success) {
-            this.changeStep.emit(number);
-            this.message.OkTimeOut('Parqueo Guardado');
-          } else {
-            this.utilitiesService.markAsTouched(this.stepFourForm);
-            this.message.error('', data.message);
-          }
-        });
-      } else {
-        this.message.errorTimeOut(
-          '',
-          'Datos faltantes o incorrectos. Validar que los datos sean correctos.'
-        );
-        this.utilitiesService.markAsTouched(this.stepFourForm);
-      }
-    } else {
-      this.changeStep.emit(number);
     }
   }
 }

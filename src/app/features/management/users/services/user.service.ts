@@ -6,15 +6,15 @@ import { ResponseModel } from '../../../../shared/model/Request.model';
 import { RolesModel } from '../models/RolesModel';
 import { NewUserModel } from '../models/newUserModel';
 
-
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
-  private apiUrl = environment.serverAPI;
   roles: RolesModel[] = new Array<RolesModel>();
   newUser: NewUserModel = new NewUserModel();
   users: NewUserModel[] = new Array<NewUserModel>();
+  private apiUrl = environment.serverAPI;
+
   constructor(
     private messageService: MessageService,
     private http: HttpClient
@@ -35,8 +35,7 @@ export class UserService {
       .then(() => {
         this.getAdminsByParking();
       })
-      .catch((err) => {
-      });
+      .catch((err) => {});
   }
 
   getRoles() {
@@ -45,7 +44,6 @@ export class UserService {
   }
 
   getAdminsByParking() {
-
     this.http
       .get<ResponseModel>(
         `${this.apiUrl}backoffice/admin/admins?page=1&per_page=1000&status=3`

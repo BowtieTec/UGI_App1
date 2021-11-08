@@ -4,8 +4,8 @@
       method = "post"
       name = "form-wrapper"
       novalidate = "" >
-  <div id = "steps-container"
-       *ngIf = "settingsOptions" >
+  <div *ngIf = "settingsOptions"
+       id = "steps-container" >
     <h6 >Facturación</h6 >
     <div class = "row" >
       <div class = " col-md-6 col-sm-12" >
@@ -96,8 +96,8 @@
       </div >
       <div class = "row" >
         <div
-          id = "visaCredential"
-          class = " col-md-6 col-sm-12" >
+          class = " col-md-6 col-sm-12"
+          id = "visaCredential" >
           <div *ngIf = "stepFourForm.controls['is_our_visa_credential'].value"
                class = "animate__animated animate__fadeInLeft" >
             <div class = "m-3 relative" >
@@ -133,8 +133,8 @@
           </div >
         </div >
         <div *ngIf = "stepFourForm.controls['is_our_bac_credential'].value "
-             id = "BacCredential"
-             class = " col-md-6 col-sm-12 animate__animated animate__fadeInLeft" >
+             class = " col-md-6 col-sm-12 animate__animated animate__fadeInLeft"
+             id = "BacCredential" >
           <div class = "m-3 relative" >
             <label class = "labelInput" >ID Comerciante</label >
             <input [class.is-invalid] = "controlInvalid('merchant_id_bac')"

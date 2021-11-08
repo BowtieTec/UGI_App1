@@ -1,5 +1,5 @@
-<form [formGroup] = "stepOneForm"
-      *ngIf = "countries.length>0"
+<form *ngIf = "countries.length>0"
+      [formGroup] = "stepOneForm"
       class = "needs-validation"
       id = "form-wrapper"
       method = "post"
@@ -8,8 +8,12 @@
   <div class = "titleCards" >
     Datos generales
   </div >
-  <div class = "row"
-  >
+  <div *ngIf = "ParkingId != ''"
+       class = "alert alert-primary"
+       role = "alert" >
+    Este paso ya no puede ser editado desde esta pantalla.
+  </div >
+  <div class = "row" >
     <div class = "col-xl-6 col-lg-6  col-sm-12" >
       <div class = "mb-4 relative" >
         <label class = "labelInput" >Nombre</label >
@@ -92,8 +96,8 @@
     <div class = "col-xl-12 col-lg-12  col-sm-12 " >
       <div class = "mb-4 relative" >
         <label class = "labelInput" >Reglamento Interno</label >
-        <textarea class = "form-control inputClass"
-                  [class.is-invalid] = "controlInvalid('rules')"
+        <textarea [class.is-invalid] = "controlInvalid('rules')"
+                  class = "form-control inputClass"
                   formControlName = "rules"
                   placeholder = "REGLAMENTO INTERNO"
                   rows = "5" >

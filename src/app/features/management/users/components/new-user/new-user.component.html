@@ -7,8 +7,8 @@
       <div class = "col-xl-12 col-lg-12  col-sm-12" >
         <div class = "mb-4 relative" >
           <label class = "labelInput" >Nombre </label >
-          <input class = "form-control inputClass"
-                 [class.is-invalid] = "controlInvalid('name')"
+          <input [class.is-invalid] = "controlInvalid('name')"
+                 class = "form-control inputClass"
                  formControlName = "name"
                  placeholder = "NOMBRE:"
                  type = "text" >
@@ -19,8 +19,8 @@
       <div class = "col-xl-12 col-lg-12  col-sm-12" >
         <div class = "mb-4 relative" >
           <label class = "labelInput" >Apellido</label >
-          <input class = "form-control inputClass"
-                 [class.is-invalid] = "controlInvalid('last_name')"
+          <input [class.is-invalid] = "controlInvalid('last_name')"
+                 class = "form-control inputClass"
                  formControlName = "last_name"
                  placeholder = "APELLIDO:"
                  type = "text" >
@@ -31,8 +31,8 @@
       <div class = "col-xl-12 col-lg-12  col-sm-12" >
         <div class = "mb-4 relative" >
           <label class = "labelInput" >Email</label >
-          <input class = "form-control inputClass"
-                 [class.is-invalid] = "controlInvalid('email')"
+          <input [class.is-invalid] = "controlInvalid('email')"
+                 class = "form-control inputClass"
                  formControlName = "email"
                  placeholder = "EMAIL:"
                  type = "text" >
@@ -43,8 +43,8 @@
       <div class = "col-xl-12 col-lg-12 col-xs-12" >
         <div class = "mb-4 relative" >
           <label class = "labelInput" >Tipo de usuario</label >
-          <select class = "inputClass"
-                  [class.is-invalid] = "controlInvalid('role')"
+          <select [class.is-invalid] = "controlInvalid('role')"
+                  class = "inputClass"
                   formControlName = "role"
                   id = ""
                   name = "" >
@@ -59,8 +59,8 @@
         <div class = "col-xl-12 col-lg-12  col-sm-12" >
           <div class = "mb-4 relative" >
             <label class = "labelInput" >Nombre de usuario</label >
-            <input class = "form-control inputClass"
-                   [class.is-invalid] = "controlInvalid('user')"
+            <input [class.is-invalid] = "controlInvalid('user')"
+                   class = "form-control inputClass"
                    formControlName = "user"
                    placeholder = "NOMBRE DE USUARIO:"
                    type = "text" >
@@ -71,8 +71,8 @@
         <div class = "col-xl-12 col-lg-12  col-sm-12" >
           <div class = "mb-4 relative" >
             <label class = "labelInput" >Contraseña</label >
-            <input class = "form-control inputClass"
-                   [class.is-invalid] = "controlInvalid('password')"
+            <input [class.is-invalid] = "controlInvalid('password')"
+                   class = "form-control inputClass"
                    formControlName = "password"
                    placeholder = "CONTRASEÑA:"
                    type = "password" >
@@ -99,13 +99,13 @@
       </div >-->
       <div class = "col-xl-12 col-lg-12 col-sm-12" >
         <div class = "text-center" >
-          <button class = "btn btn-primary me-3"
-                  type = "button"
-                  (click) = "saveNewUser()" >GUARDAR
+          <button (click) = "saveNewUser()"
+                  class = "btn btn-primary me-3"
+                  type = "button" >GUARDAR
           </button >
-          <button class = "btn btn-secundary "
-                  type = "button"
-                  (click) = "cleanForm()" >Limpiar
+          <button (click) = "cleanForm()"
+                  class = "btn btn-secundary "
+                  type = "button" >Limpiar
           </button >
         </div >
         <div class = "mb-4 relative" ></div >

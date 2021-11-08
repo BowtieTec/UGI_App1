@@ -24,12 +24,12 @@ export class ResgisteredUsersComponent implements OnInit {
     this.formGroup = formBuilder.group({ filter: [''] });
   }
 
-  ngOnInit(): void {
-    this.dtOptions = DataTableOptions.getSpanishOptions(10);
-  }
-
   get users() {
     return this.userService.users;
+  }
+
+  ngOnInit(): void {
+    this.dtOptions = DataTableOptions.getSpanishOptions(10);
   }
 
   deleteUser(user: NewUserModel) {

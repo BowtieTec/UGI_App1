@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MessageService } from '../../../../../shared/services/message.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { CountriesModel } from '../../../models/Countries.model';
 import { ParkingService } from '../../../services/parking.service';
 import { ResponseModel } from '../../../../../shared/model/Request.model';
@@ -32,6 +32,10 @@ export class StepOneComponent implements OnInit {
     private utilitiesService: UtilitiesService
   ) {}
 
+  get ParkingId() {
+    return this.parkingService.parkingStepOne.parkingId;
+  }
+
   ngOnInit(): void {
     this.message.showLoading();
     this.getPosition()
@@ -62,6 +66,47 @@ export class StepOneComponent implements OnInit {
     this.coordsMark = { lat: event.latLng.lat(), lng: event.latLng.lng() };
   }
 
+  getPosition(): Promise<any> {
+    return new Promise((resolve, reject) => {
+      navigator.geolocation.getCurrentPosition(
+        (resp) => {
+          resolve({
+            lng: resp.coords.longitude,
+            lat: resp.coords.latitude,
+          });
+        },
+        (err) => reject(err)
+      );
+    });
+  }
+
+  emmitStep(number: number) {
+    if (number == 1 && this.parkingService.parkingStepOne.parkingId == '') {
+      if (this.stepOneForm.valid) {
+        this.parkingService.parkingStepOne = this.getStepOne();
+        this.parkingService.setStepOne().subscribe((data) => {
+          if (data.success) {
+            this.changeStep.emit(number);
+            this.message.OkTimeOut('Parqueo Guardado');
+            this.parkingService.parkingStepOne.parkingId = data.data.id;
+            this.utilitiesService.disableForm(this.stepOneForm);
+          } else {
+            this.utilitiesService.markAsTouched(this.stepOneForm);
+            this.message.error('', data.message);
+          }
+        });
+      } else {
+        this.message.errorTimeOut(
+          '',
+          'Datos faltantes o incorrectos. Validar que los datos sean correctos.'
+        );
+        this.utilitiesService.markAsTouched(this.stepOneForm);
+      }
+    } else {
+      this.changeStep.emit(number);
+    }
+  }
+
   private getStepOne(): CreateParkingStepOneModel {
     try {
       return {
@@ -82,46 +127,6 @@ export class StepOneComponent implements OnInit {
       };
     } catch (e) {
       throw e;
-    }
-  }
-
-  getPosition(): Promise<any> {
-    return new Promise((resolve, reject) => {
-      navigator.geolocation.getCurrentPosition(
-        (resp) => {
-          resolve({
-            lng: resp.coords.longitude,
-            lat: resp.coords.latitude,
-          });
-        },
-        (err) => reject(err)
-      );
-    });
-  }
-
-  emmitStep(number: number) {
-    if (number == 1) {
-      if (this.stepOneForm.valid) {
-        this.parkingService.parkingStepOne = this.getStepOne();
-        this.parkingService.setStepOne().subscribe((data) => {
-          if (data.success) {
-            this.changeStep.emit(number);
-            this.message.OkTimeOut('Parqueo Guardado');
-            this.parkingService.parkingStepOne.parkingId = data.data.id;
-          } else {
-            this.utilitiesService.markAsTouched(this.stepOneForm);
-            this.message.error('', data.message);
-          }
-        });
-      } else {
-        this.message.errorTimeOut(
-          '',
-          'Datos faltantes o incorrectos. Validar que los datos sean correctos.'
-        );
-        this.utilitiesService.markAsTouched(this.stepOneForm);
-      }
-    } else {
-      this.changeStep.emit(number);
     }
   }
 }

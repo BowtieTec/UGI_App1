@@ -21,8 +21,8 @@
                 [class.is-invalid] = "controlInvalid('type_access')"
                 class = "inputClass"
                 formControlName = "type_access" >
-                <option selected
-                        *ngIf = "this.stepFiveForm.controls['type_access'].value == ''"
+                <option *ngIf = "this.stepFiveForm.controls['type_access'].value == ''"
+                        selected
                         value = '' >---- Tipo de acceso ----
                 </option >
                 <option *ngFor = "let access of this.accessList"
@@ -76,9 +76,9 @@
 
         </div >
         <div class = "d-grid gap-2 d-md-flex justify-content-md-center m-3" >
-          <button class = "btn btn-success"
-                  type = "button"
-                  (click) = "addAntenna()" >Guardar
+          <button (click) = "addAntenna()"
+                  class = "btn btn-success"
+                  type = "button" >Guardar
           </button >
         </div >
         <hr >
@@ -105,9 +105,9 @@
         <td >{{antenna.mac}}</td >
         <td >{{antenna.antena}}</td >
         <td >
-          <button title = "Editar"
-                  (click) = "editAntenna(antenna)"
-                  class = "buttonRowEdit" ><i class = "fas fa-user-edit" ></i >
+          <button (click) = "editAntenna(antenna)"
+                  class = "buttonRowEdit"
+                  title = "Editar" ><i class = "fas fa-user-edit" ></i >
           </button >
           <button
             (click) = "deleteAntenna(antenna)"
@@ -129,6 +129,11 @@
             class = "btn btn-primary m-2"
             id = "prev-btn"
             type = "button" >Anterior
+    </button >
+    <button (click) = "emmitStep(1)"
+            class = "btn btn-primary m-2"
+            id = "next-btn"
+            type = "button" >Siguiente
     </button >
   </div >
 </form >

@@ -23,10 +23,37 @@ export class StepTwoComponent implements OnInit {
 
   ngOnInit(): void {}
 
+  emmitStep(number: number) {
+    if (number == 1) {
+      if (this.stepTwoForm.valid) {
+        this.parkingService.parkingStepTwo = this.getStepTwo();
+        this.parkingService.parkingStepTwo.parkingId =
+          this.parkingService.parkingStepOne.parkingId;
+        this.parkingService.setStepTwo().subscribe((data) => {
+          if (data.success) {
+            this.changeStep.emit(number);
+            this.message.OkTimeOut('Guardado');
+          } else {
+            this.utilitiesService.markAsTouched(this.stepTwoForm);
+            this.message.error('', data.message);
+          }
+        });
+      } else {
+        this.message.errorTimeOut(
+          '',
+          'Datos faltantes o incorrectos. Validar que los datos sean correctos.'
+        );
+        this.utilitiesService.markAsTouched(this.stepTwoForm);
+      }
+    } else {
+      this.changeStep.emit(number);
+    }
+  }
+
   private getStepTwo(): CreateParkingStepTwoModel {
     try {
       return {
-        parkingId: '',
+        parkingId: this.parkingService.parkingStepOne.parkingId,
         schedules: [
           {
             isOpen: this.stepTwoForm.controls['isOpen0'].value,
@@ -172,33 +199,6 @@ export class StepTwoComponent implements OnInit {
       };
     } catch (e) {
       throw e;
-    }
-  }
-
-  emmitStep(number: number) {
-    if (number == 1) {
-      if (this.stepTwoForm.valid) {
-        this.parkingService.parkingStepTwo = this.getStepTwo();
-        this.parkingService.parkingStepTwo.parkingId =
-          this.parkingService.parkingStepOne.parkingId;
-        this.parkingService.setStepTwo().subscribe((data) => {
-          if (data.success) {
-            this.changeStep.emit(number);
-            this.message.OkTimeOut('Guardado');
-          } else {
-            this.utilitiesService.markAsTouched(this.stepTwoForm);
-            this.message.error('', data.message);
-          }
-        });
-      } else {
-        this.message.errorTimeOut(
-          '',
-          'Datos faltantes o incorrectos. Validar que los datos sean correctos.'
-        );
-        this.utilitiesService.markAsTouched(this.stepTwoForm);
-      }
-    } else {
-      this.changeStep.emit(number);
     }
   }
 }

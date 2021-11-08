@@ -27,8 +27,6 @@ export class NewParkingComponent implements OnInit {
     this.getInitialData();
   }
 
-  ngOnInit(): void {}
-
   get stepOneForm() {
     return this.newParkingForm.get('stepOne') as FormGroup;
   }
@@ -49,12 +47,15 @@ export class NewParkingComponent implements OnInit {
     return this.newParkingForm.get('stepFive') as FormGroup;
   }
 
+  ngOnInit(): void {
+  }
+
   changeStep(number: number) {
     this.step + number > this.totalSteps
       ? (this.step = 1)
       : this.step + number == 0
-      ? (this.step = this.totalSteps)
-      : (this.step = this.step + number);
+        ? (this.step = this.totalSteps)
+        : (this.step = this.step + number);
   }
 
   saveParking() {

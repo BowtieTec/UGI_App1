@@ -2,10 +2,7 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { ParkingService } from '../../../services/parking.service';
 import { CountriesModel } from '../../../models/Countries.model';
 import { MessageService } from '../../../../../shared/services/message.service';
-import {
-  Day,
-  SettingsOptionsModel,
-} from '../../../models/SettingsOption.model';
+import { Day } from '../../../models/SettingsOption.model';
 import { AccessModel } from '../../../models/CreateParking.model';
 
 @Component({
@@ -73,5 +70,9 @@ export class StepSixComponent implements OnInit {
 
   getTypeAntennaById(id: number): AccessModel {
     return this.parkingService.getTypeAntennaById(id);
+  }
+
+  emmitStep(number: number) {
+    this.changeStep.emit(number);
   }
 }

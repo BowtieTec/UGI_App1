@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { UserRequestModel } from '../../../shared/model/UserRequest.model';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { AuthService } from '../../../shared/services/auth.service';
 import { MessageService } from '../../../shared/services/message.service';
 

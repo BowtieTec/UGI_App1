@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import {
   AccessModel,
   CreateParkingStepFiveModel,
@@ -91,35 +91,7 @@ export class StepFiveComponent implements OnInit {
   }
 
   emmitStep(number: number) {
-    if (number == 1) {
-      this.message.showLoading();
-      if (this.stepFiveForm.valid) {
-        let promises = Array<Promise<any>>();
-        this.parkingService.parkingStepFive.forEach(
-          (antenna: CreateParkingStepFiveModel) => {
-            //TODO: No Push a las antenas que ya han sido agregadas.
-            promises.push(this.parkingService.setStepFive(antenna));
-          }
-        );
-        Promise.all(promises).then(
-          (data) => {
-            let allIsRight = true;
-            data.forEach((response, i) => {});
-            if (allIsRight) {
-              this.changeStep.emit(number);
-            }
-          },
-          (err) => {}
-        );
-      } else {
-        this.message.errorTimeOut(
-          '',
-          'Datos faltantes o incorrectos. Validar que los datos sean correctos.'
-        );
-      }
-    } else {
-      this.changeStep.emit(number);
-    }
+    this.changeStep.emit(number);
   }
 
   editAntenna(antenna: CreateParkingStepFiveModel) {

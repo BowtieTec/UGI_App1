@@ -8,9 +8,8 @@ describe('ResgisteredUsersComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ResgisteredUsersComponent ]
-    })
-    .compileComponents();
+      declarations: [ResgisteredUsersComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

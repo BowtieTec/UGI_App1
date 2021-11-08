@@ -1,4 +1,4 @@
-import { ErrorHandler, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { environment } from '../../../../environments/environment';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { MessageService } from '../../../shared/services/message.service';
@@ -11,7 +11,7 @@ import {
   CreateParkingStepTwoModel,
 } from '../models/CreateParking.model';
 import { Router } from '@angular/router';
-import { catchError, map } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import {
   CurrencyOptionModel,
   Day,
@@ -20,13 +20,12 @@ import {
 } from '../models/SettingsOption.model';
 import { Observable, Subscribable } from 'rxjs';
 import { CountriesModel } from '../models/Countries.model';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ParkingService {
-  private apiUrl = environment.serverAPI;
   parkingStepOne: CreateParkingStepOneModel = new CreateParkingStepOneModel();
   parkingStepTwo: CreateParkingStepTwoModel = new CreateParkingStepTwoModel();
   parkingStepFour: CreateParkingStepFourModel =
@@ -35,6 +34,7 @@ export class ParkingService {
     new Array<CreateParkingStepFiveModel>();
   settingsOptions!: SettingsOptionsModel;
   countries: CountriesModel[] = new Array<CountriesModel>();
+  private apiUrl = environment.serverAPI;
 
   constructor(
     private http: HttpClient,
@@ -85,7 +85,6 @@ export class ParkingService {
   }
 
   setStepOne(): Subscribable<ResponseModel> {
-    console.log('Paso 1');
     return this.http
       .post<ResponseModel>(
         `${this.apiUrl}backoffice/parking/create`,
@@ -99,7 +98,6 @@ export class ParkingService {
   }
 
   setStepTwo(): Observable<ResponseModel> {
-    console.log('Paso 2');
     return this.http
       .post<ResponseModel>(
         `${this.apiUrl}backoffice/parking/schedule`,
@@ -114,7 +112,6 @@ export class ParkingService {
   }
 
   setStepFour(): Observable<ResponseModel> {
-    console.log('Paso 4');
     return this.http
       .post<ResponseModel>(
         `${this.apiUrl}backoffice/parking/payment-invoice`,
@@ -184,41 +181,6 @@ export class ParkingService {
     );
   }
 
-  /*     this.message.showLoading();
-       this.setStepOne(this.parkingStepOne)
-         .then((data) => {
-           this.parkingStepTwo.parkingId = data.data.id;
-
-           return this.setStepTwo(this.parkingStepTwo);
-         })
-         .then((data) => {
-           this.parkingStepFour.parkingId = data.data.id;
-           return this.setStepFour(this.parkingStepFour);
-         })
-         .then((data) => {
-           console.log('Paso 5');
-           let promises = Array<Promise<any>>();
-           this.parkingStepFive.forEach((antenna: CreateParkingStepFiveModel) => {
-             antenna.parking = data.data.id;
-             console.log(antenna);
-             promises.push(this.setStepFive(antenna));
-           });
-           Promise.all(promises).then((data) => {
-             console.log(data);
-             data.forEach((response, i) => {
-               //TODO: Filtrar los resultados que sean falsos y mostrarlos en un mensaje.
-             });
-             return data;
-           });
-         })
-         .then((data) => {
-           this.message.hideLoading();
-           this.message.OkTimeOut('Parqueo guardado');
-         })
-         .catch((error) => {
-           throw error;
-         });
-     }*/
   editStepFive(antennaToEdit: CreateParkingStepFiveModel) {
     return this.http.put<ResponseModel>(
       `${this.apiUrl}backoffice/parking/station/${antennaToEdit.id}`,

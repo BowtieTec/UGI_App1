@@ -59,4 +59,16 @@ export class UtilitiesService {
   get getPatterEmail() {
     return "^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$";
   }
+
+  disableForm(form: FormGroup) {
+    for (let controlsKey in form.controls) {
+      form.controls[controlsKey].disable();
+    }
+  }
+
+  enableForm(form: FormGroup) {
+    for (let controlsKey in form.controls) {
+      form.controls[controlsKey].enable();
+    }
+  }
 }

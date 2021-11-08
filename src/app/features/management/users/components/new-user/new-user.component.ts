@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { UserService } from '../../services/user.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UtilitiesService } from '../../../../../shared/services/utilities.service';
@@ -25,6 +25,10 @@ export class NewUserComponent implements OnInit {
     this.newUserForm = this.createForm();
   }
 
+  get Roles() {
+    return this.userService.roles;
+  }
+
   ngOnInit(): void {
     this.subject.subscribe((user: NewUserModel) => {
       this.newUserForm.controls['name'].setValue(user.name);
@@ -36,28 +40,6 @@ export class NewUserComponent implements OnInit {
       this.newUserForm.controls['name'].setValue(user.name);
       this.newUserForm.controls['idParking'].setValue(user.idParking);
       this.isEdit = true;
-    });
-  }
-
-  get Roles() {
-    return this.userService.roles;
-  }
-
-  private createForm() {
-    return this.formBuilder.group({
-      name: [this.userService.newUser.name, [Validators.required]],
-      last_name: [this.userService.newUser.last_name, [Validators.required]],
-      email: [
-        this.userService.newUser.email,
-        [
-          Validators.required,
-          Validators.pattern(this.utilitiesService.getPatterEmail),
-        ],
-      ],
-      user: [this.userService.newUser.user, [Validators.required]],
-      password: [this.userService.newUser.password, [Validators.required]],
-      role: [this.userService.newUser.role, [Validators.required]],
-      idParking: [this.userService.newUser.idParking, [Validators.required]],
     });
   }
 
@@ -120,5 +102,23 @@ export class NewUserComponent implements OnInit {
 
   controlInvalid(control: string): boolean {
     return this.utilitiesService.controlInvalid(this.newUserForm, control);
+  }
+
+  private createForm() {
+    return this.formBuilder.group({
+      name: [this.userService.newUser.name, [Validators.required]],
+      last_name: [this.userService.newUser.last_name, [Validators.required]],
+      email: [
+        this.userService.newUser.email,
+        [
+          Validators.required,
+          Validators.pattern(this.utilitiesService.getPatterEmail),
+        ],
+      ],
+      user: [this.userService.newUser.user, [Validators.required]],
+      password: [this.userService.newUser.password, [Validators.required]],
+      role: [this.userService.newUser.role, [Validators.required]],
+      idParking: [this.userService.newUser.idParking, [Validators.required]],
+    });
   }
 }

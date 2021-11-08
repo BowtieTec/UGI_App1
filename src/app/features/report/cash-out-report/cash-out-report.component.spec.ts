@@ -8,9 +8,8 @@ describe('CashOutReportComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ CashOutReportComponent ]
-    })
-    .compileComponents();
+      declarations: [CashOutReportComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {
