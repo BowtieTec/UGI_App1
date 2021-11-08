@@ -162,7 +162,7 @@ export class NewParkingComponent implements OnInit {
       }),
       /* ---Five Step--- */
       stepFive: this.formBuilder.group({
-        type_access: [0, Validators.required],
+        type_access: ['', Validators.required],
         name_access: ['', Validators.required],
         mac_access: ['', Validators.required],
         antenna_access: ['', Validators.required],

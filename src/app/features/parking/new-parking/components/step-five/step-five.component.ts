@@ -17,10 +17,9 @@ import { ResponseModel } from '../../../../../shared/model/Request.model';
 export class StepFiveComponent implements OnInit {
   @Input() stepFiveForm!: FormGroup;
   @Output() changeStep = new EventEmitter<number>();
-  isEditing: boolean = false;
+  idEditAntenna: string = '';
   idParking = this.parkingService.parkingStepOne.parkingId;
   accessList: AccessModel[] = this.parkingService.getAccesses();
-  fileUrl: any;
   antennas: CreateParkingStepFiveModel[] =
     new Array<CreateParkingStepFiveModel>();
 
@@ -52,13 +51,14 @@ export class StepFiveComponent implements OnInit {
       );
     } else {
       this.message.showLoading();
-      if (!this.isEditing) {
+      if (this.idEditAntenna == '') {
         this.parkingService
           .setStepFive(this.getStepFive())
           .then((data: ResponseModel) => {
             if (data.success) {
               this.getInitialData().then(() => {
                 this.message.OkTimeOut('Guardado');
+                this.cleanForm();
               });
             } else {
               this.message.error(
@@ -68,7 +68,24 @@ export class StepFiveComponent implements OnInit {
             }
           });
       } else {
-        //Edit antenna
+        let antennaToEdit: CreateParkingStepFiveModel = this.getStepFive();
+        antennaToEdit.id = this.idEditAntenna;
+        this.parkingService
+          .editStepFive(antennaToEdit)
+          .subscribe((data: ResponseModel) => {
+            if (data.success) {
+              this.cleanForm();
+              this.getInitialData().then(() => {
+                this.message.OkTimeOut('Guardado');
+              });
+            } else {
+              this.message.error(
+                '',
+                'No pudo guardarse la antena, error: ' + data.message
+              );
+            }
+            this.idEditAntenna = '';
+          });
       }
     }
   }
@@ -104,9 +121,24 @@ export class StepFiveComponent implements OnInit {
     }
   }
 
-  editAntenna(antenna: CreateParkingStepFiveModel) {}
+  editAntenna(antenna: CreateParkingStepFiveModel) {
+    antenna.id == undefined ? (antenna.id = '') : true;
+    this.idEditAntenna = antenna.id;
+    this.stepFiveForm.controls['type_access'].setValue(antenna.type);
+    this.stepFiveForm.controls['name_access'].setValue(antenna.name);
+    this.stepFiveForm.controls['mac_access'].setValue(antenna.mac);
+    this.stepFiveForm.controls['antenna_access'].setValue(antenna.antena);
+  }
 
   deleteAntenna(antenna: CreateParkingStepFiveModel) {}
+
+  cleanForm() {
+    this.idEditAntenna = '';
+    this.stepFiveForm.controls['type_access'].setValue('');
+    this.stepFiveForm.controls['name_access'].setValue('');
+    this.stepFiveForm.controls['mac_access'].setValue('');
+    this.stepFiveForm.controls['antenna_access'].setValue('');
+  }
 
   downloadQR(antenna: CreateParkingStepFiveModel) {
     this.message.showLoading();

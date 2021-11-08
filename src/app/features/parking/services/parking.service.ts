@@ -20,7 +20,7 @@ import {
 } from '../models/SettingsOption.model';
 import { Observable, Subscribable } from 'rxjs';
 import { CountriesModel } from '../models/Countries.model';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 
 @Injectable({
   providedIn: 'root',
@@ -219,4 +219,10 @@ export class ParkingService {
            throw error;
          });
      }*/
+  editStepFive(antennaToEdit: CreateParkingStepFiveModel) {
+    return this.http.put<ResponseModel>(
+      `${this.apiUrl}backoffice/parking/station/${antennaToEdit.id}`,
+      antennaToEdit
+    );
+  }
 }

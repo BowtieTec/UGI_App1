@@ -21,6 +21,10 @@
                 [class.is-invalid] = "controlInvalid('type_access')"
                 class = "inputClass"
                 formControlName = "type_access" >
+                <option selected
+                        *ngIf = "this.stepFiveForm.controls['type_access'].value == ''"
+                        value = '' >---- Tipo de acceso ----
+                </option >
                 <option *ngFor = "let access of this.accessList"
                         value = "{{access.value}}" >{{access.accessType}}</option >
               </select >
