@@ -36,7 +36,6 @@ export class UserService {
         this.getAdminsByParking();
       })
       .catch((err) => {
-        console.log(err);
       });
   }
 
@@ -46,7 +45,7 @@ export class UserService {
   }
 
   getAdminsByParking() {
-    console.log('Entrando ' + this.users.length);
+
     this.http
       .get<ResponseModel>(
         `${this.apiUrl}backoffice/admin/admins?page=1&per_page=1000&status=3`
@@ -65,7 +64,6 @@ export class UserService {
             last_name: administrator.last_name,
           });
         });
-        console.log('Saliendo ' + this.users.length);
       });
   }
 

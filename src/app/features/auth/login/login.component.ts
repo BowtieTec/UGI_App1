@@ -34,7 +34,7 @@ export class LoginComponent implements OnInit {
       //TODO: Quitar los valores por defecto. Estos solo fueron puestos para hacer mas facil el logueo dentro del sistema mientras se desarrolla.
       //TODO: Descomentar las validacioens cuando se suba a produccion. Esto se comentó porque el email y contraseña admin son de prueba y no cumplen con los requerimientos
       email: [
-        'email@email.com',
+        '',
         /*   [
              Validators.required,
              Validators.pattern(
@@ -42,9 +42,7 @@ export class LoginComponent implements OnInit {
              ),
            ],*/
       ],
-      password: [
-        '123123123' /* [Validators.required, Validators.minLength(8)]*/,
-      ],
+      password: ['' /* [Validators.required, Validators.minLength(8)]*/],
     });
   }
 
