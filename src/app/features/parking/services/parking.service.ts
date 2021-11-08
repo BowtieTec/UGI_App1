@@ -56,7 +56,7 @@ export class ParkingService {
           .catch((err) => {
             this.message.error(
               '',
-              'No se pudo obtener la información inicial. Si el problema perciste comunicarse con el administrador'
+              'No se pudo obtener la información inicial. Si el problema persiste comunicarse con el administrador'
             );
           });
       });
@@ -177,9 +177,11 @@ export class ParkingService {
     );
   }
 
-  saveParkingSteps() {
-    console.log(this.parkingStepOne);
-    console.log(this.parkingStepTwo);
+  getQR(stationID: string): Observable<Blob> {
+    return this.http.get(
+      `${this.apiUrl}backoffice/parking/station/${stationID}/downloadqr`,
+      { responseType: 'blob' }
+    );
   }
 
   /*     this.message.showLoading();

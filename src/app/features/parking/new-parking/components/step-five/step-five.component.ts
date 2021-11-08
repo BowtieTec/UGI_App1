@@ -8,6 +8,7 @@ import { MessageService } from '../../../../../shared/services/message.service';
 import { ParkingService } from '../../../services/parking.service';
 import { UtilitiesService } from '../../../../../shared/services/utilities.service';
 import { ResponseModel } from '../../../../../shared/model/Request.model';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-step-five',
@@ -20,6 +21,7 @@ export class StepFiveComponent implements OnInit {
   isEditing: boolean = false;
   idParking = this.parkingService.parkingStepOne.parkingId;
   accessList: AccessModel[] = this.parkingService.getAccesses();
+  fileUrl: any;
   antennas: CreateParkingStepFiveModel[] =
     new Array<CreateParkingStepFiveModel>();
 
@@ -27,7 +29,8 @@ export class StepFiveComponent implements OnInit {
     private formBuilder: FormBuilder,
     private message: MessageService,
     private parkingService: ParkingService,
-    private utilitiesService: UtilitiesService
+    private utilitiesService: UtilitiesService,
+    private sanitizer: DomSanitizer
   ) {
     this.getInitialData();
   }
@@ -137,5 +140,14 @@ export class StepFiveComponent implements OnInit {
 
   deleteAntenna(antenna: CreateParkingStepFiveModel) {}
 
-  downloadQR(antenna: CreateParkingStepFiveModel) {}
+  downloadQR(antenna: CreateParkingStepFiveModel) {
+    this.message.showLoading();
+    antenna.id == undefined ? (antenna.id = '') : true;
+    this.parkingService.getQR(antenna.id).subscribe((data) => {
+      let blob = new Blob([data], { type: 'image/jpg' });
+      let url = window.URL.createObjectURL(blob);
+      this.message.hideLoading();
+      window.open(url);
+    });
+  }
 }
