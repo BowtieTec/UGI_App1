@@ -15,7 +15,6 @@ export class ResgisteredUsersComponent implements OnInit {
   @Input() subject: Subject<NewUserModel> = new Subject<NewUserModel>();
   formGroup: FormGroup;
   dtOptions: DataTables.Settings = {};
-  datatableElement!: DataTableDirective;
 
   constructor(
     private userService: UserService,

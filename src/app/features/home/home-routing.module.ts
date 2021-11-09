@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
+import { AuthGuard } from '../../core/Services/auth.guard';
 
 const routes: Routes = [
   {
@@ -9,6 +10,7 @@ const routes: Routes = [
     children: [
       {
         path: 'dashboard',
+        canActivate: [AuthGuard],
         loadChildren: () =>
           import('../dashboard/dashboard.module').then(
             (m) => m.DashboardModule
@@ -16,6 +18,7 @@ const routes: Routes = [
       },
       {
         path: 'management',
+        canActivate: [AuthGuard],
         loadChildren: () =>
           import('../management/management.module').then(
             (m) => m.ManagementModule
@@ -23,18 +26,27 @@ const routes: Routes = [
       },
       {
         path: 'parking',
+        canActivate: [AuthGuard],
         loadChildren: () =>
           import('../parking/parking.module').then((m) => m.ParkingModule),
       },
       {
         path: 'courtesy',
+        canActivate: [AuthGuard],
         loadChildren: () =>
           import('../courtesy/courtesy.module').then((m) => m.CourtesyModule),
       },
       {
         path: 'report',
+        canActivate: [AuthGuard],
         loadChildren: () =>
           import('../report/report.module').then((m) => m.ReportModule),
+      },
+      {
+        path: '',
+        canActivate: [AuthGuard],
+        redirectTo: 'dashboard',
+        pathMatch: 'full',
       },
     ],
   },

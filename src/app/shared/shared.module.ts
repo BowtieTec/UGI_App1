@@ -10,6 +10,7 @@ import { LoadingComponent } from './loading/loading.component';
 import { TimePipe } from './pipes/time.pipe';
 import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 import { FilterPipe } from './pipes/filter.pipe';
+import { Page404Component } from './page404/page404.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { FilterPipe } from './pipes/filter.pipe';
     LoadingComponent,
     TimePipe,
     FilterPipe,
+    Page404Component,
   ],
   imports: [CommonModule, RouterModule, NgbPaginationModule],
   exports: [

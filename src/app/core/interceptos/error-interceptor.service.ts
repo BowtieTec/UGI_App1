@@ -2,10 +2,15 @@ import { ErrorHandler, Injectable } from '@angular/core';
 import { MessageService } from '../../shared/services/message.service';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
+import { AuthService } from '../../shared/services/auth.service';
 
 @Injectable()
 export class GlobalErrorHandler implements ErrorHandler {
-  constructor(private message: MessageService, private router: Router) {}
+  constructor(
+    private message: MessageService,
+    private router: Router,
+    private auth: AuthService
+  ) {}
 
   handleError(error: any) {
     console.log(error);
@@ -27,7 +32,8 @@ export class GlobalErrorHandler implements ErrorHandler {
         'Sesión vencida',
         'El tiempo de sesión ha vencido. Por favor vuelva a iniciar sesión.'
       );
-      this.router.navigateByUrl('/');
+      this.auth.cleanUser();
+      this.router.navigate(['/']);
     } else if (error.status === 404) {
       this.message.error(
         'Servicio no encontrado.',

@@ -9,6 +9,7 @@ import {
 import { Observable, throwError } from 'rxjs';
 import { AuthService } from '../../shared/services/auth.service';
 import { catchError } from 'rxjs/operators';
+import { EncryptionService } from '../../shared/services/encryption.service';
 
 @Injectable({
   providedIn: 'root',

@@ -8,4 +8,5 @@ export class NewUserModel {
   role: string = '';
   idParking?: string = '';
   status?: number;
+  Admin?: string;
 }

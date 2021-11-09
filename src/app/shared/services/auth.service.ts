@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { UserRequestModel } from '../model/UserRequest.model';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpStatusCode } from '@angular/common/http';
 import { AuthModel, UserResponseModel } from '../model/UserResponse.model';
 import { environment } from '../../../environments/environment';
 import { MessageService } from './message.service';
@@ -32,6 +32,10 @@ export class AuthService {
     return {
       ...JSON.parse(this.crypto.decrypt(sentence!)),
     };
+  }
+
+  cleanUser() {
+    localStorage.removeItem(this.crypto.encryptKey('User'));
   }
 
   login(login: UserRequestModel) {

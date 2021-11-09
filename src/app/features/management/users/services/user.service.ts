@@ -23,6 +23,7 @@ export class UserService {
   }
 
   getInitialData() {
+    this.messageService.showLoading();
     this.getRoles()
       .toPromise()
       .then((data: ResponseModel) => {
@@ -35,6 +36,9 @@ export class UserService {
       .then(() => {
         this.getAdminsByParking();
       })
+      .then(() => {
+        this.messageService.hideLoading();
+      })
       .catch((err) => {});
   }
 
@@ -44,6 +48,7 @@ export class UserService {
   }
 
   getAdminsByParking() {
+    this.messageService.showLoading();
     this.http
       .get<ResponseModel>(
         `${this.apiUrl}backoffice/admin/admins?page=1&per_page=1000&status=3`
@@ -62,6 +67,7 @@ export class UserService {
             last_name: administrator.last_name,
           });
         });
+        this.messageService.hideLoading();
       });
   }
 
