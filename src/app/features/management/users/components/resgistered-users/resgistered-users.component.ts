@@ -41,7 +41,7 @@ export class ResgisteredUsersComponent
   }
 
   ngOnInit(): void {
-    this.dtOptions = DataTableOptions.getSpanishOptions(5);
+    this.dtOptions = DataTableOptions.getSpanishOptions(10);
     this.getUsers();
     this.subject.subscribe((user: NewUserModel) => {
       console.log('Rerenderizando');
