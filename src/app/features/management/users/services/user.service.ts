@@ -88,22 +88,15 @@ export class UserService {
   }
 
   editUser(newUser: NewUserModel) {
-    return this.http.post<ResponseModel>(
-      `${this.apiUrl}backoffice/admin/edit`,
+    return this.http.put<ResponseModel>(
+      `${this.apiUrl}backoffice/admin/update/${newUser.id}`,
       newUser
     );
   }
 
   deleteUser(id: string) {
-    this.http
-      .delete<ResponseModel>(`${this.apiUrl}backoffice/admin/${id}`)
-      .subscribe((data) => {
-        if (data.success) {
-          this.messageService.Ok('Eliminado');
-          this.getAdminsByParking();
-        } else {
-          this.messageService.error('', data.message);
-        }
-      });
+    return this.http.delete<ResponseModel>(
+      `${this.apiUrl}backoffice/admin/${id}`
+    );
   }
 }

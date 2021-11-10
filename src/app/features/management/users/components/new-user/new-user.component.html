@@ -32,6 +32,7 @@
         <div class = "mb-4 relative" >
           <label class = "labelInput" >Email</label >
           <input [class.is-invalid] = "controlInvalid('email')"
+                 [readOnly] = "isEdit"
                  class = "form-control inputClass"
                  formControlName = "email"
                  placeholder = "EMAIL:"
@@ -73,6 +74,7 @@
             <label class = "labelInput" >Contraseña</label >
             <input [class.is-invalid] = "controlInvalid('password')"
                    class = "form-control inputClass"
+                   [readOnly] = "isEdit"
                    formControlName = "password"
                    placeholder = "CONTRASEÑA:"
                    type = "password" >

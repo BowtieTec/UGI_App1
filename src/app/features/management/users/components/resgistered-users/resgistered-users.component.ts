@@ -51,8 +51,17 @@ export class ResgisteredUsersComponent
   }
 
   deleteUser(user: NewUserModel) {
-    this.rerender();
-    //this.userService.deleteUser(user.id == undefined ? '' : user.id);
+    this.message.showLoading();
+    this.userService
+      .deleteUser(user.id == undefined ? '' : user.id)
+      .subscribe((data) => {
+        if (data.success) {
+          this.message.Ok('Eliminado');
+          this.getUsers();
+        } else {
+          this.message.errorTimeOut('', data.message);
+        }
+      });
   }
 
   editUser(user: NewUserModel) {

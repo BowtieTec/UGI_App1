@@ -31,17 +31,19 @@ export class NewUserComponent implements OnInit {
 
   ngOnInit(): void {
     this.subject.subscribe((user: NewUserModel) => {
-      console.log('Casi entrando');
+      console.log(user);
       if (user.name.length > 0) {
-        console.log('Adentro isEdit es: ' + this.isEdit);
         this.newUserForm.controls['name'].setValue(user.name);
         this.newUserForm.controls['last_name'].setValue(user.last_name);
         this.newUserForm.controls['email'].setValue(user.email);
         this.newUserForm.controls['user'].setValue(user.user);
-        this.newUserForm.controls['password'].setValue(user.password);
+        this.newUserForm.controls['password'].setValue(
+          'EstaPuedeOnoSerLaContraseña'
+        );
         this.newUserForm.controls['role'].setValue(user.role);
         this.newUserForm.controls['name'].setValue(user.name);
         this.newUserForm.controls['idParking'].setValue(user.idParking);
+        this.newUserForm.controls['id'].setValue(user.id);
         this.isEdit = true;
       }
     });
@@ -53,19 +55,22 @@ export class NewUserComponent implements OnInit {
       last_name: this.newUserForm.controls['last_name'].value,
       name: this.newUserForm.controls['name'].value,
       password: this.newUserForm.controls['password'].value,
-      role: '6ededbe2-d712-42c5-b82a-06d2ddf1b2d2',
+      role: this.newUserForm.controls['role'].value,
       user: this.newUserForm.controls['user'].value,
+      id: this.newUserForm.controls['id'].value,
     };
   }
 
   saveNewUser() {
     this.messageServices.showLoading();
     if (this.isEdit) {
+      console.log(this.getNewUserDataForm());
       this.userService
         .editUser(this.getNewUserDataForm())
         .toPromise()
         .then((data) => {
           if (data.success) {
+            this.cleanForm();
             this.messageServices.OkTimeOut('Guardado');
           } else {
             this.messageServices.error('', data.message);
@@ -85,7 +90,6 @@ export class NewUserComponent implements OnInit {
           }
           this.cleanForm();
           this.isEdit = false;
-          // this.userService.getAdminsByParking();
         })
         .then(() => {
           this.cleanForm();
@@ -111,6 +115,7 @@ export class NewUserComponent implements OnInit {
 
   private createForm() {
     return this.formBuilder.group({
+      id: [''],
       name: [this.userService.newUser.name, [Validators.required]],
       last_name: [this.userService.newUser.last_name, [Validators.required]],
       email: [
