@@ -5,6 +5,8 @@ import { HttpClient } from '@angular/common/http';
 import { ResponseModel } from '../../../../shared/model/Request.model';
 import { RolesModel } from '../models/RolesModel';
 import { NewUserModel } from '../models/newUserModel';
+import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -34,7 +36,7 @@ export class UserService {
         this.messageService.hideLoading();
       })
       .then(() => {
-        this.getAdminsByParking();
+        return this.getUsers().subscribe((data) => {});
       })
       .then(() => {
         this.messageService.hideLoading();
@@ -45,6 +47,13 @@ export class UserService {
   getRoles() {
     this.messageService.showLoading();
     return this.http.get<ResponseModel>(`${this.apiUrl}backoffice/role`);
+  }
+
+  getUsers(): Observable<any> {
+    this.messageService.showLoading();
+    return this.http.get<ResponseModel>(
+      `${this.apiUrl}backoffice/admin/admins?page=1&per_page=1000&status=3`
+    );
   }
 
   getAdminsByParking() {

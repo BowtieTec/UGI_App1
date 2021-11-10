@@ -31,15 +31,19 @@ export class NewUserComponent implements OnInit {
 
   ngOnInit(): void {
     this.subject.subscribe((user: NewUserModel) => {
-      this.newUserForm.controls['name'].setValue(user.name);
-      this.newUserForm.controls['last_name'].setValue(user.last_name);
-      this.newUserForm.controls['email'].setValue(user.email);
-      this.newUserForm.controls['user'].setValue(user.user);
-      this.newUserForm.controls['password'].setValue(user.password);
-      this.newUserForm.controls['role'].setValue(user.role);
-      this.newUserForm.controls['name'].setValue(user.name);
-      this.newUserForm.controls['idParking'].setValue(user.idParking);
-      this.isEdit = true;
+      console.log('Casi entrando');
+      if (user.name.length > 0) {
+        console.log('Adentro isEdit es: ' + this.isEdit);
+        this.newUserForm.controls['name'].setValue(user.name);
+        this.newUserForm.controls['last_name'].setValue(user.last_name);
+        this.newUserForm.controls['email'].setValue(user.email);
+        this.newUserForm.controls['user'].setValue(user.user);
+        this.newUserForm.controls['password'].setValue(user.password);
+        this.newUserForm.controls['role'].setValue(user.role);
+        this.newUserForm.controls['name'].setValue(user.name);
+        this.newUserForm.controls['idParking'].setValue(user.idParking);
+        this.isEdit = true;
+      }
     });
   }
 
@@ -56,7 +60,6 @@ export class NewUserComponent implements OnInit {
 
   saveNewUser() {
     this.messageServices.showLoading();
-    console.log(this.isEdit);
     if (this.isEdit) {
       this.userService
         .editUser(this.getNewUserDataForm())
@@ -64,12 +67,10 @@ export class NewUserComponent implements OnInit {
         .then((data) => {
           if (data.success) {
             this.messageServices.OkTimeOut('Guardado');
-            this.cleanForm();
           } else {
             this.messageServices.error('', data.message);
           }
-
-          this.isEdit = false;
+          this.subject.next(new NewUserModel());
         });
     } else {
       this.userService
@@ -77,14 +78,18 @@ export class NewUserComponent implements OnInit {
         .toPromise()
         .then((data) => {
           if (data.success) {
+            this.cleanForm();
             this.messageServices.OkTimeOut('Guardado');
           } else {
             this.messageServices.error('', data.message);
           }
-          this.userService.getAdminsByParking();
+          this.cleanForm();
+          this.isEdit = false;
+          // this.userService.getAdminsByParking();
         })
         .then(() => {
-          this.userService.getAdminsByParking();
+          this.cleanForm();
+          this.subject.next(new NewUserModel());
         });
     }
   }

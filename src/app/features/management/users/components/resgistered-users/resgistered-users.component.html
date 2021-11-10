@@ -3,10 +3,10 @@
     <span ><i class = "fas fa-users" ></i ></span > Usuarios registrados
   </div >
 
-  <table *ngIf = "users.length>0"
+  <table datatable
          [dtOptions] = "dtOptions"
-         class = "table table-striped"
-         datatable >
+         [dtTrigger] = "dtTrigger"
+         class = "table table-striped" >
     <!-- row-border  hover table-striped-->
     <thead >
     <tr >
