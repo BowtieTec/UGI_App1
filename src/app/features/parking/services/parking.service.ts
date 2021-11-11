@@ -18,7 +18,7 @@ import {
   PaymentMethodModel,
   SettingsOptionsModel,
 } from '../models/SettingsOption.model';
-import { Observable, Subscribable } from 'rxjs';
+import { Observable, Observer, Subscribable } from 'rxjs';
 import { CountriesModel } from '../models/Countries.model';
 import { FormBuilder } from '@angular/forms';
 
@@ -177,7 +177,7 @@ export class ParkingService {
   getQR(stationID: string): Observable<Blob> {
     return this.http.get(
       `${this.apiUrl}backoffice/parking/station/${stationID}/downloadqr`,
-      { responseType: 'blob' }
+      {responseType: 'blob'}
     );
   }
 
@@ -185,6 +185,12 @@ export class ParkingService {
     return this.http.put<ResponseModel>(
       `${this.apiUrl}backoffice/parking/station/${antennaToEdit.id}`,
       antennaToEdit
+    );
+  }
+
+  deleteAntenna(id: string) {
+    return this.http.delete<ResponseModel>(
+      `${this.apiUrl}backoffice/parking/station/${id}`
     );
   }
 }

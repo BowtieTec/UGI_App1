@@ -9,6 +9,7 @@ import { GlobalErrorHandler } from './core/interceptos/error-interceptor.service
 import { AuthInterceptorService } from './core/interceptos/auth-interceptor.service';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { DataTablesModule } from 'angular-datatables';
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -21,6 +22,7 @@ import { DataTablesModule } from 'angular-datatables';
     GoogleMapsModule,
     NgbModule,
     DataTablesModule,
+    SharedModule,
   ],
   providers: [
     { provide: ErrorHandler, useClass: GlobalErrorHandler },

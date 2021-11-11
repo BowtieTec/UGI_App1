@@ -103,7 +103,17 @@ export class StepFiveComponent implements OnInit {
     this.stepFiveForm.controls['antenna_access'].setValue(antenna.antena);
   }
 
-  deleteAntenna(antenna: CreateParkingStepFiveModel) {}
+  deleteAntenna(antenna: CreateParkingStepFiveModel) {
+    this.message.showLoading();
+    antenna.id == undefined ? (antenna.id = '') : true;
+    this.parkingService.deleteAntenna(antenna.id).subscribe((data) => {
+      if (data.success) {
+        this.getInitialData().then(() => {
+          this.message.OkTimeOut('Borrado');
+        });
+      }
+    });
+  }
 
   cleanForm() {
     this.idEditAntenna = '';
@@ -157,12 +167,7 @@ export class StepFiveComponent implements OnInit {
             this.antennas.push(station);
           });
         }
-        console.log(data);
-        console.log(this.antennas);
       })
-      .then(() => {})
-      .catch((err) => {
-        console.log(err);
-      });
+      .catch((e) => {});
   }
 }
