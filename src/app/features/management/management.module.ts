@@ -2,14 +2,15 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { ManagementRoutingModule } from './management-routing.module';
-import { ManagementMenuComponent } from './management-menu/management-menu.component';
-import { ResgisteredUsersComponent } from './users/components/resgistered-users/resgistered-users.component';
-import { NewUserComponent } from './users/components/new-user/new-user.component';
-import { UsersComponent } from './users/users.component';
+import { ManagementMenuComponent } from './management-menu.component';
+import { ResgisteredUsersComponent } from './components/users/components/resgistered-users/resgistered-users.component';
+import { NewUserComponent } from './components/users/components/new-user/new-user.component';
+import { UsersComponent } from './components/users/users.component';
 import { SharedModule } from '../../shared/shared.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbNavModule, NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 import { DataTablesModule } from 'angular-datatables';
+import { RolesComponent } from './components/roles/roles.component';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { DataTablesModule } from 'angular-datatables';
     ResgisteredUsersComponent,
     NewUserComponent,
     UsersComponent,
+    RolesComponent,
   ],
   imports: [
     CommonModule,
@@ -27,6 +29,7 @@ import { DataTablesModule } from 'angular-datatables';
     NgbPaginationModule,
     FormsModule,
     DataTablesModule,
+    NgbNavModule,
   ],
 })
 export class ManagementModule {}

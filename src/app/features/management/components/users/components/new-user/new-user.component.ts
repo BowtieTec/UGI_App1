@@ -1,9 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { UserService } from '../../services/user.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { UtilitiesService } from '../../../../../shared/services/utilities.service';
+import { UtilitiesService } from '../../../../../../shared/services/utilities.service';
 import { NewUserModel } from '../../models/newUserModel';
-import { MessageService } from '../../../../../shared/services/message.service';
+import { MessageService } from '../../../../../../shared/services/message.service';
 import { Subject } from 'rxjs';
 
 @Component({

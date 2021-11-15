@@ -8,10 +8,10 @@ const routes: Routes = [
     loadChildren: () =>
       import('./features/features.module').then((m) => m.FeaturesModule),
   },
-  {
+  /*  {
     path: '**',
     component: Page404Component,
-  },
+  },*/
 ];
 
 @NgModule({

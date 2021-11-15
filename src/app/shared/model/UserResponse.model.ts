@@ -14,8 +14,33 @@ export class UserModel {
   name: string = '';
   last_name: string = '';
   email: string = '';
+  parking!: ParkingAuthModel;
+  role!: RoleAuthModel;
   user: string = '';
   status: number = 0;
-  created_at!: Date;
-  updated_at!: Date;
+}
+
+export class ParkingAuthModel {
+  id: string = '';
+  name: string = '';
+  address: string = '';
+  parking_spaces: string = '';
+  special_parking_spaces: string = '';
+  rules: string = '';
+  status: number = 0;
+  nit: any;
+  business_address: any;
+  business_name: any;
+  minutes_to_exit: number = 0;
+  is_show_map: number = 0;
+  currency: any;
+  pay_method: any;
+  is_our_bac_credential: any;
+  is_our_visa_credential: any;
+}
+
+export class RoleAuthModel {
+  id: string = '';
+  name: string = '';
+  isSudo: boolean = false;
 }

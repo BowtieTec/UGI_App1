@@ -10,9 +10,9 @@ import { NewUserModel } from '../../models/newUserModel';
 import { UserService } from '../../services/user.service';
 import { Subject } from 'rxjs';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { DataTableOptions } from '../../../../../shared/model/DataTableOptions';
+import { DataTableOptions } from '../../../../../../shared/model/DataTableOptions';
 import { DataTableDirective } from 'angular-datatables';
-import { MessageService } from '../../../../../shared/services/message.service';
+import { MessageService } from '../../../../../../shared/services/message.service';
 
 @Component({
   selector: 'app-resgistered-users',

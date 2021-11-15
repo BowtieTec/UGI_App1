@@ -1,7 +1,11 @@
 import { Injectable } from '@angular/core';
 import { UserRequestModel } from '../model/UserRequest.model';
 import { HttpClient, HttpStatusCode } from '@angular/common/http';
-import { AuthModel, UserResponseModel } from '../model/UserResponse.model';
+import {
+  AuthModel,
+  ParkingAuthModel,
+  UserResponseModel,
+} from '../model/UserResponse.model';
 import { environment } from '../../../environments/environment';
 import { MessageService } from './message.service';
 import { EncryptionService } from './encryption.service';
@@ -25,6 +29,10 @@ export class AuthService {
       this.crypto.encryptKey('User'),
       this.crypto.encrypt(JSON.stringify(user).replace('/n', ''))
     );
+  }
+
+  getParking(): ParkingAuthModel {
+    return this.getUser().user.parking;
   }
 
   getUser(): AuthModel {
