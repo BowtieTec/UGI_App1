@@ -83,22 +83,6 @@
           </div >
         </div >
       </div >
-      <!--<div class = "col-xl-12 col-lg-12  col-sm-12" >
-        <div class = "mb-4 relative" >
-          <label class = "labelInput" >Parqueos</label >
-          <select class = "inputClass"
-                  [class.is-invalid] = "controlInvalid('idParking')"
-                  formControlName = "idParking"
-                  name = "" >
-            <option value = "" >Parqueo a asignar</option >
-            <option *ngFor = "let role of Roles"
-                    value = "{{role.id}}" >{{role.name}}</option >
-
-          </select >
-          <small *ngIf = "controlInvalid('idParking')"
-                 class = "text-danger" >* Este campo es obligatorio</small >
-        </div >
-      </div >-->
       <div class = "col-xl-12 col-lg-12 col-sm-12" >
         <div class = "text-center" >
           <button (click) = "saveNewUser()"

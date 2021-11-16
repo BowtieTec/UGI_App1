@@ -4,9 +4,10 @@ export class CourtesyTypeModel {
 }
 
 export class CourtesyModel {
+  id?: string = '';
   parkingId: string = '';
   quantity: number = 0;
   value: number = 0;
   type: number = 0;
-  name: string = '';
+  name?: string = '';
 }

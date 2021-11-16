@@ -1,0 +1,72 @@
+<form action = ""
+      [formGroup] = "newRoleForm" >
+  <div class = "panels animate__animated animate__fadeInLeft" >
+    <div class = "titleCards" >
+      <span ><i class = "fas fa-dragon" ></i ></span > Roles y permisos
+    </div >
+    <div class = "row" >
+      <div class = "col-xl-6 col-lg-12 col-xs-12" >
+        <div class = "mb-4 relative" >
+          <label class = "labelInput" >Roles</label >
+          <select [class.is-invalid] = "controlInvalid('role')"
+                  class = "inputClass"
+                  (change) = "changeRole()"
+                  formControlName = "role" >
+            <option value = "" >TIPO DE USUARIO</option >
+            <option *ngFor = "let role of Roles"
+                    value = "{{role.id}}" >{{role.name}}</option >
+          </select >
+          <small *ngIf = "controlInvalid('role')"
+                 class = "text-danger" >* Este campo es obligatorio</small >
+        </div >
+      </div >
+      <div class = "col-xl-6 col-lg-12 col-xs-12" >
+        <div class = "mb-4 relative" >
+          <label class = "labelInput" >Permisos</label >
+          <select [class.is-invalid] = "controlInvalid('permission')"
+                  class = "inputClass"
+                  formControlName = "permission" >
+            <option value = "" > Permisos</option >
+            <option *ngFor = "let permission of permissions"
+                    value = "{{permission.id}}" >{{permission.description}}</option >
+          </select >
+          <small *ngIf = "controlInvalid('permission')"
+                 class = "text-danger" >* Este campo es obligatorio</small >
+        </div >
+      </div >
+    </div >
+    <table datatable
+           [dtOptions] = "dtOptions"
+           [dtTrigger] = "dtTrigger"
+           class = "table table-striped" >
+      <!-- row-border  hover table-striped-->
+      <thead >
+      <tr >
+        <th scope = "col" >Identificador
+        </th >
+        <th scope = "col" >Permiso</th >
+        <th scope = "col" >Primera asignación</th >
+        <th scope = "col" >Ultimo Cambio</th >
+        <th scope = "col text-center"
+            style = "width: 4%"
+        >Acciones
+        </th >
+      </tr >
+      </thead >
+      <tbody >
+      <tr *ngFor = "let permission of permissionsForRoleData; let i = index"
+          class = "animate__animated animate__fadeIn" >
+        <td >{{i + 1}}</td >
+        <td >{{permission.description}}</td >
+        <td >{{permission.created_at | date:'medium'}}</td >
+        <td >{{permission.updated_at | date:'medium'}}</td >
+        <td class = "" >
+          <button (click) = "deletePermission(permission)"
+                  class = "buttonRowDelete" ><i class = "fas fa-trash" ></i >
+          </button >
+        </td >
+      </tr >
+      </tbody >
+    </table >
+  </div >
+</form >

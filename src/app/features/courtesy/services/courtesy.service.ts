@@ -30,4 +30,11 @@ export class CourtesyService {
       `${this.apiUrl}backoffice/cortesy/cortesiesDetails/${id}`
     );
   }
+
+  getPDF(id: string) {
+    return this.http.get(
+      `${this.apiUrl}backoffice/cortesy/cortesiespdf/${id}`,
+      { responseType: 'blob' }
+    );
+  }
 }

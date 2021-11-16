@@ -1,21 +1,37 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { CourtesyService } from '../services/courtesy.service';
 import { MessageService } from '../../../shared/services/message.service';
 import { CourtesyModel, CourtesyTypeModel } from '../models/Courtesy.model';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UtilitiesService } from '../../../shared/services/utilities.service';
 import { AuthService } from '../../../shared/services/auth.service';
+import { DataTableDirective } from 'angular-datatables';
+import { Subject } from 'rxjs';
+import { DataTableOptions } from '../../../shared/model/DataTableOptions';
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-courtesy',
   templateUrl: './courtesy.component.html',
   styleUrls: ['./courtesy.component.css'],
 })
-export class CourtesyComponent implements OnInit {
+export class CourtesyComponent implements OnInit, AfterViewInit, OnDestroy {
+  @ViewChild(DataTableDirective)
+  dtElement!: DataTableDirective;
+  dtOptions: DataTables.Settings = {};
+  dtTrigger: Subject<any> = new Subject();
+  formGroup: FormGroup;
+
   courtesyTypes: CourtesyTypeModel[] = [];
   newCourtesyForm: FormGroup;
   parkingId: string = this.authService.getParking().id;
-  courtesys: CourtesyModel[] = [];
+  courtesies: CourtesyModel[] = [];
 
   constructor(
     private courtesyService: CourtesyService,
@@ -25,14 +41,16 @@ export class CourtesyComponent implements OnInit {
     private authService: AuthService
   ) {
     this.messageService.showLoading();
+    this.formGroup = formBuilder.group({ filter: [''] });
     this.newCourtesyForm = this.createForm();
     this.getInitialData().then(() => {
-      console.log(this.courtesys);
       this.messageService.hideLoading();
     });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.dtOptions = DataTableOptions.getSpanishOptions(10);
+  }
 
   getTypeDescription(id: number) {
     return this.courtesyTypes.find((x) => x.id == id);
@@ -54,17 +72,10 @@ export class CourtesyComponent implements OnInit {
         }
       })
       .then(() => {
-        this.courtesyService
-          .getCourtesys(this.parkingId)
-          .toPromise()
-          .then((data) => {
-            console.log(data);
-            if (data.success) {
-              this.courtesys = data.data;
-            } else {
-              this.messageService.error('', data.message);
-            }
-          });
+        return this.getCourtesies();
+      })
+      .then(() => {
+        this.messageService.hideLoading();
       });
   }
 
@@ -96,7 +107,19 @@ export class CourtesyComponent implements OnInit {
     }
   }
 
-  getCourtesys() {}
+  getCourtesies() {
+    return this.courtesyService
+      .getCourtesys(this.parkingId)
+      .toPromise()
+      .then((data) => {
+        if (data.success) {
+          this.courtesies = data.data;
+          this.rerender();
+        } else {
+          this.messageService.error('', data.message);
+        }
+      });
+  }
 
   saveCourtesy() {
     this.messageService.showLoading();
@@ -110,8 +133,36 @@ export class CourtesyComponent implements OnInit {
         } else {
           this.messageService.error('', data.message);
         }
-        this.messageService.hideLoading();
+        this.getCourtesies().then(() => {
+          this.messageService.hideLoading();
+        });
       });
     }
+  }
+
+  private rerender() {
+    this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+      dtInstance.destroy();
+      this.dtTrigger.next();
+    });
+  }
+
+  ngAfterViewInit(): void {
+    this.dtTrigger.next();
+  }
+
+  ngOnDestroy(): void {
+    this.dtTrigger.unsubscribe();
+  }
+
+  downloadPDF(courtesies: CourtesyModel) {
+    console.log(courtesies);
+    this.messageService.showLoading();
+    courtesies.id == undefined ? (courtesies.id = '') : true;
+    this.courtesyService.getPDF(courtesies.id).subscribe((data) => {
+      console.log(data);
+      saveAs(data, courtesies.name + '.pdf');
+      this.messageService.OkTimeOut();
+    });
   }
 }

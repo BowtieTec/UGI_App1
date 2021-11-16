@@ -44,7 +44,6 @@ export class ResgisteredUsersComponent
     this.dtOptions = DataTableOptions.getSpanishOptions(10);
     this.getUsers();
     this.subject.subscribe((user: NewUserModel) => {
-      console.log('Rerenderizando');
       this.getUsers();
       //this.rerender();
     });
