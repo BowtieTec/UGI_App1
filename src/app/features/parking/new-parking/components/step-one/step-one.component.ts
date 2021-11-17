@@ -87,6 +87,7 @@ export class StepOneComponent implements OnInit {
         this.parkingService.parkingStepOne = this.getStepOne();
         this.parkingService.setStepOne().subscribe((data) => {
           if (data.success) {
+            console.log(data);
             this.changeStep.emit(number);
             this.message.OkTimeOut('Parqueo Guardado');
             this.parkingService.parkingStepOne.parkingId = data.data.id;

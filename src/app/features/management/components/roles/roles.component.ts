@@ -1,18 +1,9 @@
-import {
-  AfterViewInit,
-  Component,
-  OnDestroy,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { UserService } from '../users/services/user.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UtilitiesService } from '../../../../shared/services/utilities.service';
 import { MessageService } from '../../../../shared/services/message.service';
 import { PermissionsModel } from './models/Permissions.model';
-import { DataTableDirective } from 'angular-datatables';
-import { Subject } from 'rxjs';
-import { DataTableOptions } from '../../../../shared/model/DataTableOptions';
 import { RolesService } from './services/roles.service';
 
 @Component({
@@ -20,16 +11,11 @@ import { RolesService } from './services/roles.service';
   templateUrl: './roles.component.html',
   styleUrls: ['./roles.component.css'],
 })
-export class RolesComponent implements OnInit, AfterViewInit, OnDestroy {
+export class RolesComponent implements OnInit {
   newRoleForm: FormGroup;
-  permissionsForRole: Array<PermissionsModel> = [];
-  @ViewChild(DataTableDirective)
-  dtElement!: DataTableDirective;
-  dtOptions: DataTables.Settings = {};
-  dtTrigger: Subject<any> = new Subject();
-  formGroup: FormGroup;
   permissions: PermissionsModel[] = [];
   permissionsForRoleData: PermissionsModel[] = [];
+  modules: string[] = [];
 
   constructor(
     private userService: UserService,
@@ -39,11 +25,9 @@ export class RolesComponent implements OnInit, AfterViewInit, OnDestroy {
     private messageServices: MessageService
   ) {
     this.newRoleForm = this.createForm();
-    this.formGroup = formBuilder.group({ filter: [''] });
   }
 
   ngOnInit(): void {
-    this.dtOptions = DataTableOptions.getSpanishOptions(10);
     this.getInitialData();
   }
 
@@ -52,6 +36,16 @@ export class RolesComponent implements OnInit, AfterViewInit, OnDestroy {
     this.getPermissions().then(() => {
       this.messageServices.hideLoading();
     });
+  }
+
+  get getModules() {
+    return [...new Set(Array.from(this.permissions, (x) => x.module))];
+  }
+
+  getPermissionsForModules(module: string): Array<PermissionsModel> {
+    let result = this.permissions.filter((x) => x.module == module);
+    result = result == undefined ? [] : result;
+    return this.permissions.filter((x) => x.module == module);
   }
 
   get Roles() {
@@ -75,7 +69,8 @@ export class RolesComponent implements OnInit, AfterViewInit, OnDestroy {
       .toPromise()
       .then((data) => {
         if (data.success) {
-          this.permissions = data.data.permissions;
+          this.permissions = data.data.permissions.sort((x: any) => x.module);
+          this.modules = this.getModules;
         } else {
           this.messageServices.error(
             '',
@@ -83,21 +78,6 @@ export class RolesComponent implements OnInit, AfterViewInit, OnDestroy {
           );
         }
       });
-  }
-
-  private rerender() {
-    this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
-      dtInstance.destroy();
-      this.dtTrigger.next();
-    });
-  }
-
-  ngAfterViewInit(): void {
-    this.dtTrigger.next();
-  }
-
-  ngOnDestroy(): void {
-    this.dtTrigger.unsubscribe();
   }
 
   getPermissionsForRole(id: string) {
@@ -121,11 +101,12 @@ export class RolesComponent implements OnInit, AfterViewInit, OnDestroy {
       });
   }
 
-  deletePermission(permission: PermissionsModel) {}
-
   changeRole() {
-    this.getPermissionsForRole(this.newRoleForm.controls['role'].value).then(
-      () => this.rerender()
-    );
+    //this.messageServices.showLoading();
+  }
+
+  onChangeCheckBox(perm: PermissionsModel, event: Event) {
+    console.log(event.target);
+    //this.permissionsForRoleData.push(perm);
   }
 }

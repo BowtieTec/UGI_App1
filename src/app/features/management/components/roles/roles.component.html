@@ -35,38 +35,50 @@
         </div >
       </div >
     </div >
-    <table datatable
-           [dtOptions] = "dtOptions"
-           [dtTrigger] = "dtTrigger"
-           class = "table table-striped" >
-      <!-- row-border  hover table-striped-->
-      <thead >
-      <tr >
-        <th scope = "col" >Identificador
-        </th >
-        <th scope = "col" >Permiso</th >
-        <th scope = "col" >Primera asignación</th >
-        <th scope = "col" >Ultimo Cambio</th >
-        <th scope = "col text-center"
-            style = "width: 4%"
-        >Acciones
-        </th >
-      </tr >
-      </thead >
-      <tbody >
-      <tr *ngFor = "let permission of permissionsForRoleData; let i = index"
-          class = "animate__animated animate__fadeIn" >
-        <td >{{i + 1}}</td >
-        <td >{{permission.description}}</td >
-        <td >{{permission.created_at | date:'medium'}}</td >
-        <td >{{permission.updated_at | date:'medium'}}</td >
-        <td class = "" >
-          <button (click) = "deletePermission(permission)"
-                  class = "buttonRowDelete" ><i class = "fas fa-trash" ></i >
-          </button >
-        </td >
-      </tr >
-      </tbody >
-    </table >
+    <div class = "row" >
+      <div class = "accordion col-sm-4"
+           id = "accordionPanelsStayOpenExample" >
+        <div *ngFor = "let module of modules; index as i"
+             class = "accordion-item " >
+          <h2 class = "accordion-header  "
+              [attr.id] = "'panelsStayOpen-heading-'+i" >
+            <button class = "accordion-button collapsed"
+                    type = "button"
+                    data-bs-toggle = "collapse"
+                    [attr.data-bs-target] = "'#panelsStayOpen-collapse-'+i"
+                    aria-expanded = "true"
+                    [attr.aria-controls] = "'panelsStayOpen-collapse-'+i" >
+              {{module | titlecase}}
+            </button >
+          </h2 >
+          <div [attr.id] = "'panelsStayOpen-collapse-'+i"
+               class = "accordion-collapse collapse"
+               [attr.aria-labelledby] = "'panelsStayOpen-heading-'+i" >
+            <div class = "accordion-body" >
+              <!-- Start Body -->
+              <div class = "btn-group btn-group-vertical"
+                   role = "group"
+                   aria-label = "Basic checkbox toggle button group" >
+                <div *ngFor = "let perm of getPermissionsForModules(module); index as i" >
+                  <input type = "checkbox"
+                         class = "btn-check"
+                         value = "{{perm.id}}"
+                         (change) = "onChangeCheckBox(perm,  $event)"
+                         [attr.id] = "module+'-'+i"
+                         autocomplete = "off" >
+                  <label class = "btn btn-outline-success"
+                         [attr.for] = "module+'-'+i" ><i class = "fas fa-check" ></i >  {{ perm.description }}
+                  </label >
+                </div >
+              </div >
+              <!-- End Body -->
+            </div >
+          </div >
+        </div >
+      </div >
+      <div class = "col-sm-4" >
+        <button class = "btn btn-outline-dark" >Guardar</button >
+      </div >
+    </div >
   </div >
 </form >
