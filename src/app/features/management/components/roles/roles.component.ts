@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../users/services/user.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UtilitiesService } from '../../../../shared/services/utilities.service';
 import { MessageService } from '../../../../shared/services/message.service';
 import { PermissionsModel } from './models/Permissions.model';
 import { RolesService } from './services/roles.service';
+import { RolesModel } from '../users/models/RolesModel';
 
 @Component({
   selector: 'app-roles',
@@ -12,72 +12,62 @@ import { RolesService } from './services/roles.service';
   styleUrls: ['./roles.component.css'],
 })
 export class RolesComponent implements OnInit {
-  newRoleForm: FormGroup;
-  permissions: PermissionsModel[] = [];
-  permissionsForRoleData: PermissionsModel[] = [];
-  modules: string[] = [];
+  allPermissions: PermissionsModel[] = [];
+  roleIdSelected: string = '';
+  roles: RolesModel[] = this.userService.roles;
 
   constructor(
     private userService: UserService,
-    private formBuilder: FormBuilder,
     private utilitiesService: UtilitiesService,
     private roleService: RolesService,
     private messageServices: MessageService
-  ) {
-    this.newRoleForm = this.createForm();
-  }
+  ) {}
 
   ngOnInit(): void {
-    this.getInitialData();
-  }
-
-  getInitialData() {
-    this.messageServices.showLoading();
-    this.getPermissions().then(() => {
-      this.messageServices.hideLoading();
-    });
-  }
-
-  get getModules() {
-    return [...new Set(Array.from(this.permissions, (x) => x.module))];
-  }
-
-  getPermissionsForModules(module: string): Array<PermissionsModel> {
-    let result = this.permissions.filter((x) => x.module == module);
-    result = result == undefined ? [] : result;
-    return this.permissions.filter((x) => x.module == module);
+    this.getAllPermissions();
   }
 
   get Roles() {
-    return this.userService.roles;
+    return this.roles;
   }
 
-  controlInvalid(control: string) {
-    return this.utilitiesService.controlInvalid(this.newRoleForm, control);
+  get getModules() {
+    return [...new Set(Array.from(this.allPermissions, (x) => x.module))];
   }
 
-  private createForm() {
-    return this.formBuilder.group({
-      role: [this.userService.newUser.role, [Validators.required]],
-      permission: ['', [Validators.required]],
-    });
-  }
-
-  getPermissions() {
-    return this.roleService
+  getAllPermissions() {
+    this.messageServices.showLoading();
+    this.roleService
       .getAllPermissions()
       .toPromise()
       .then((data) => {
-        if (data.success) {
-          this.permissions = data.data.permissions.sort((x: any) => x.module);
-          this.modules = this.getModules;
-        } else {
-          this.messageServices.error(
-            '',
-            'No pudo obtenerse la data necesaria. Por favor intente mas tarde.'
-          );
-        }
+        this.allPermissions = data.data.permissions;
+        this.messageServices.hideLoading();
       });
+  }
+
+  getPermissionsForModules(module: string): Array<PermissionsModel> {
+    return this.allPermissions.filter((x) => x.module == module);
+  }
+
+  changeRole() {
+    this.messageServices.showLoading();
+    this.getPermissionsForRole(this.roleIdSelected).then(
+      (data: PermissionsModel[]) => {
+        this.cleanAllPermission();
+        data.forEach((item: any) => {
+          let found = this.allPermissions.find((x) => x.id == item.id);
+          if (found) {
+            found.checked = true;
+          }
+        });
+        this.messageServices.hideLoading();
+      }
+    );
+  }
+
+  cleanAllPermission() {
+    this.allPermissions.forEach((x) => (x.checked = false));
   }
 
   getPermissionsForRole(id: string) {
@@ -85,12 +75,8 @@ export class RolesComponent implements OnInit {
       .getPermissionsForRole()
       .toPromise()
       .then((data) => {
-        console.log(data.data.roles);
-        this.permissionsForRoleData = data.data.roles.find(
-          (x: any) => x.id == id
-        ).permissions;
-        console.log(this.permissionsForRoleData);
         if (data.success) {
+          return data.data.roles.find((x: any) => x.id == id).permissions;
         } else {
           this.messageServices.error(
             '',
@@ -101,12 +87,7 @@ export class RolesComponent implements OnInit {
       });
   }
 
-  changeRole() {
-    //this.messageServices.showLoading();
-  }
-
-  onChangeCheckBox(perm: PermissionsModel, event: Event) {
-    console.log(event.target);
-    //this.permissionsForRoleData.push(perm);
+  savePermissions() {
+    console.log(this.allPermissions.filter((x) => (x.checked = true)));
   }
 }

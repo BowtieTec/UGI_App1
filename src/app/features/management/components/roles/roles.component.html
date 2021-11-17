@@ -1,84 +1,84 @@
-<form action = ""
-      [formGroup] = "newRoleForm" >
+<form action = "" >
   <div class = "panels animate__animated animate__fadeInLeft" >
     <div class = "titleCards" >
       <span ><i class = "fas fa-dragon" ></i ></span > Roles y permisos
     </div >
     <div class = "row" >
-      <div class = "col-xl-6 col-lg-12 col-xs-12" >
+      <div class = "col-xl-4 col-lg-4 col-xs-12" >
         <div class = "mb-4 relative" >
           <label class = "labelInput" >Roles</label >
-          <select [class.is-invalid] = "controlInvalid('role')"
-                  class = "inputClass"
-                  (change) = "changeRole()"
-                  formControlName = "role" >
+          <select
+            class = "inputClass"
+            [(ngModel)] = "roleIdSelected"
+            name = "roleId"
+            id = "roleId"
+            (change) = "changeRole()" >
             <option value = "" >TIPO DE USUARIO</option >
             <option *ngFor = "let role of Roles"
                     value = "{{role.id}}" >{{role.name}}</option >
           </select >
-          <small *ngIf = "controlInvalid('role')"
-                 class = "text-danger" >* Este campo es obligatorio</small >
+
         </div >
       </div >
-      <div class = "col-xl-6 col-lg-12 col-xs-12" >
-        <div class = "mb-4 relative" >
-          <label class = "labelInput" >Permisos</label >
-          <select [class.is-invalid] = "controlInvalid('permission')"
-                  class = "inputClass"
-                  formControlName = "permission" >
-            <option value = "" > Permisos</option >
-            <option *ngFor = "let permission of permissions"
-                    value = "{{permission.id}}" >{{permission.description}}</option >
-          </select >
-          <small *ngIf = "controlInvalid('permission')"
-                 class = "text-danger" >* Este campo es obligatorio</small >
-        </div >
-      </div >
-    </div >
-    <div class = "row" >
-      <div class = "accordion col-sm-4"
-           id = "accordionPanelsStayOpenExample" >
-        <div *ngFor = "let module of modules; index as i"
-             class = "accordion-item " >
-          <h2 class = "accordion-header  "
-              [attr.id] = "'panelsStayOpen-heading-'+i" >
-            <button class = "accordion-button collapsed"
-                    type = "button"
-                    data-bs-toggle = "collapse"
-                    [attr.data-bs-target] = "'#panelsStayOpen-collapse-'+i"
-                    aria-expanded = "true"
-                    [attr.aria-controls] = "'panelsStayOpen-collapse-'+i" >
-              {{module | titlecase}}
-            </button >
-          </h2 >
-          <div [attr.id] = "'panelsStayOpen-collapse-'+i"
-               class = "accordion-collapse collapse"
-               [attr.aria-labelledby] = "'panelsStayOpen-heading-'+i" >
-            <div class = "accordion-body" >
-              <!-- Start Body -->
-              <div class = "btn-group btn-group-vertical"
-                   role = "group"
-                   aria-label = "Basic checkbox toggle button group" >
-                <div *ngFor = "let perm of getPermissionsForModules(module); index as i" >
-                  <input type = "checkbox"
-                         class = "btn-check"
-                         value = "{{perm.id}}"
-                         (change) = "onChangeCheckBox(perm,  $event)"
-                         [attr.id] = "module+'-'+i"
-                         autocomplete = "off" >
-                  <label class = "btn btn-outline-success"
-                         [attr.for] = "module+'-'+i" ><i class = "fas fa-check" ></i >  {{ perm.description }}
-                  </label >
+      <div class = "row" >
+        <div class = "accordion accordion-flush col-sm-12 col-xl-4 "
+             id = "accordionExample" >
+          <div class = "accordion-item"
+               *ngFor = "let module of getModules; index as i" >
+            <h2 class = "accordion-header"
+                [attr.id] = "'heading-'+i" >
+              <button class = "accordion-button collapsed"
+                      type = "button"
+                      data-bs-toggle = "collapse"
+                      [attr.data-bs-target] = "'#collapse-'+i"
+                      aria-expanded = "true"
+                      [attr.aria-controls] = "'collapse-'+i" >
+                {{module | titlecase}}
+              </button >
+            </h2 >
+            <div [attr.id] = "'collapse-'+i"
+                 class = "accordion-collapse collapse"
+                 [attr.aria-labelledby] = "'heading-'+i" >
+              <div class = "accordion-body" >
+                <!--  body  -->
+                <div class = "btn-group"
+                     role = "group"
+                     aria-label = "Basic checkbox toggle button group" >
+                  <div class = "row" >
+                    <div *ngFor = " let item of getPermissionsForModules(module)" >
+                      <input type = "checkbox"
+                             class = "form-check-input"
+                             value = "{{item.checked}}"
+                             id = "{{item.id}}"
+                             [(ngModel)] = "item.checked"
+                             name = "{{item.description}}"
+                             autocomplete = "off" >
+
+                      <label class = "form-check-label ms-2"
+                             [for] = "item.description" > {{  item.description}}</label >
+                    </div >
+                  </div >
                 </div >
               </div >
-              <!-- End Body -->
             </div >
           </div >
         </div >
       </div >
-      <div class = "col-sm-4" >
-        <button class = "btn btn-outline-dark" >Guardar</button >
-      </div >
     </div >
+    <div class = "col-sm-4" >
+      <button class = "btn btn-outline-dark"
+              (click) = "savePermissions()" >Guardar
+      </button >
+    </div >
+    <!--    <div class = "row" >-->
+    <!--      <div *ngFor = "let item of allPermissions" >-->
+    <!--        <input type = "checkbox"-->
+    <!--               [(ngModel)] = "item.checked"-->
+    <!--               name = "{{item.description}}"-->
+    <!--               id = "{{item.id}}"-->
+    <!--               value = "{{item.checked}}" > {{item.description}}-->
+    <!--      </div >-->
+
+    <!--    </div >-->
   </div >
 </form >

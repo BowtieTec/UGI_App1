@@ -8,4 +8,5 @@ export class PermissionsModel {
   description?: string = '';
   created_at?: Date;
   updated_at?: Date;
+  checked: boolean = false;
 }
