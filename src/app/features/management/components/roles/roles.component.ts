@@ -2,7 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { UserService } from '../users/services/user.service';
 import { UtilitiesService } from '../../../../shared/services/utilities.service';
 import { MessageService } from '../../../../shared/services/message.service';
-import { PermissionsModel } from './models/Permissions.model';
+import {
+  PermissionSaveModel,
+  PermissionsModel,
+} from './models/Permissions.model';
 import { RolesService } from './services/roles.service';
 import { RolesModel } from '../users/models/RolesModel';
 
@@ -88,6 +91,33 @@ export class RolesComponent implements OnInit {
   }
 
   savePermissions() {
-    console.log(this.allPermissions.filter((x) => (x.checked = true)));
+    if (this.roleIdSelected.length > 0) {
+      let permissionsToSave: PermissionSaveModel = new PermissionSaveModel();
+      permissionsToSave.roleId = this.roleIdSelected;
+      permissionsToSave.permissions = this.allPermissions.filter(
+        (x) => x.checked
+      );
+      let idsArray: Array<any> = [];
+      Array.from(permissionsToSave.permissions, (x) => x.id).forEach((data) => {
+        idsArray.push({
+          id: data,
+        });
+      });
+      permissionsToSave.permissions = idsArray;
+      this.roleService
+        .savePermissionsForRole(permissionsToSave)
+        .subscribe((data) => {
+          if (data.success) {
+            this.messageServices.OkTimeOut();
+          } else {
+            this.messageServices.error(
+              '',
+              'Los permisos no pudieron guardarse. ' + data.message
+            );
+          }
+        });
+    } else {
+      this.messageServices.warning('Debe seleccionar un role para continuar');
+    }
   }
 }

@@ -10,3 +10,8 @@ export class PermissionsModel {
   updated_at?: Date;
   checked: boolean = false;
 }
+
+export class PermissionSaveModel {
+  roleId: string = '';
+  permissions: Array<any> = [];
+}

@@ -3,7 +3,10 @@ import { MessageService } from '../../../../../shared/services/message.service';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../../../../environments/environment';
 import { ResponseModel } from '../../../../../shared/model/Request.model';
-import { PermissionsModel } from '../models/Permissions.model';
+import {
+  PermissionSaveModel,
+  PermissionsModel,
+} from '../models/Permissions.model';
 
 @Injectable({
   providedIn: 'root',
@@ -24,5 +27,10 @@ export class RolesService {
 
   getPermissionsForRole() {
     return this.http.get<ResponseModel>(`${this.apiUrl}backoffice/role/`);
+  }
+
+  savePermissionsForRole(permissions: PermissionSaveModel) {
+
+    return this.http.post<ResponseModel>(`${this.apiUrl}backoffice/role/update`, permissions);
   }
 }
