@@ -31,7 +31,6 @@ export class NewUserComponent implements OnInit {
 
   ngOnInit(): void {
     this.subject.subscribe((user: NewUserModel) => {
-      console.log(user);
       if (user.name.length > 0) {
         this.newUserForm.controls['name'].setValue(user.name);
         this.newUserForm.controls['last_name'].setValue(user.last_name);
@@ -64,26 +63,40 @@ export class NewUserComponent implements OnInit {
   saveNewUser() {
     this.messageServices.showLoading();
     if (this.isEdit) {
-      console.log(this.getNewUserDataForm());
       this.userService
         .editUser(this.getNewUserDataForm())
         .toPromise()
         .then((data) => {
           if (data.success) {
-            this.cleanForm();
-            this.messageServices.OkTimeOut('Guardado');
+            return data.data;
           } else {
             this.messageServices.error('', data.message);
           }
-          this.subject.next(new NewUserModel());
-        });
+        })
+        .then((data) => {
+          console.log(data);
+          this.userService
+            .saveRole(this.getNewUserDataForm().role, data.admin.id)
+            .toPromise()
+            .then((data) => {
+              if (data.success) {
+                this.cleanForm();
+                this.messageServices.OkTimeOut('Guardado');
+              } else {
+                this.messageServices.error('', data.message);
+              }
+            })
+            .then((data) => {
+              this.subject.next(new NewUserModel());
+            });
+        })
+        .then((data) => {});
     } else {
       this.userService
         .saveNewUser(this.getNewUserDataForm())
         .toPromise()
         .then((data) => {
           if (data.success) {
-            this.cleanForm();
             this.messageServices.OkTimeOut('Guardado');
           } else {
             this.messageServices.error('', data.message);

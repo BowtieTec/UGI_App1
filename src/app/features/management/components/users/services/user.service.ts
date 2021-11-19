@@ -99,4 +99,16 @@ export class UserService {
       `${this.apiUrl}backoffice/admin/${id}`
     );
   }
+
+  saveRole(role: string, id: string) {
+    const assignRole = {
+      adminId: id,
+      roleId: role,
+    };
+    console.log(assignRole);
+    return this.http.put<ResponseModel>(
+      `${this.apiUrl}backoffice/admin/role`,
+      assignRole
+    );
+  }
 }
