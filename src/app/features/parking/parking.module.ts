@@ -13,6 +13,11 @@ import { StepFourComponent } from './new-parking/components/step-four/step-four.
 import { StepFiveComponent } from './new-parking/components/step-five/step-five.component';
 import { StepSixComponent } from './new-parking/components/step-six/step-six.component';
 import { SharedModule } from '../../shared/shared.module';
+import { TariffComponent } from './tariff/tariff.component';
+import {
+  NgbDatepickerModule,
+  NgbTimepickerModule,
+} from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -24,6 +29,7 @@ import { SharedModule } from '../../shared/shared.module';
     StepFourComponent,
     StepFiveComponent,
     StepSixComponent,
+    TariffComponent,
   ],
   imports: [
     CommonModule,
@@ -31,6 +37,8 @@ import { SharedModule } from '../../shared/shared.module';
     ReactiveFormsModule,
     GoogleMapsModule,
     SharedModule,
+    NgbDatepickerModule,
+    NgbTimepickerModule,
   ],
 })
 export class ParkingModule {}

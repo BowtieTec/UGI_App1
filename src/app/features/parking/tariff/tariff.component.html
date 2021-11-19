@@ -1,0 +1,163 @@
+<div class = "row" >
+  <div class = "col-sm-12 col-md-12 col-xl-6 animate__animated animate__fadeInDown" >
+    <h1 class = "display-6" >Rango de tiempo</h1 >
+    <div class = "btn-group"
+         role = "group"
+         aria-label = "Basic radio toggle button group" >
+      <input type = "radio"
+             class = "btn-check "
+             name = "rangeTime"
+             (click) = "timeRange=1"
+             id = "holidayTxt"
+             autocomplete = "off"
+             checked >
+      <label class = "btn btn-outline-success m-1"
+             for = "holidayTxt" >Días festivo</label >
+
+      <input type = "radio"
+             class = "btn-check "
+             name = "rangeTime"
+             (click) = "timeRange=2"
+             id = "timeRange"
+             autocomplete = "off" >
+      <label class = "btn btn-outline-success m-1"
+             for = "timeRange" >Por rangos</label >
+
+      <input type = "radio"
+             class = "btn-check"
+             name = "rangeTime"
+             (click) = "timeRange=3"
+             id = "timeslot"
+             autocomplete = "off" >
+      <label class = "btn btn-outline-success m-1"
+             for = "timeslot" >Por bloques</label >
+
+      <input type = "radio"
+             class = "btn-check"
+             name = "rangeTime"
+             id = "default"
+             (click) = "timeRange=4"
+             autocomplete = "off" >
+      <label class = "btn btn-outline-success m-1"
+             for = "default" >Default</label >
+    </div >
+    <div class = "row mt-md-2 mt-xl-3" >
+      <div *ngIf = "timeRange == 1"
+           class = "animate__animated animate__fadeInUp " >
+        <h4 >Días festivos</h4 >
+        <form class = "form-inline" >
+          <div class = "form-group hidden" >
+            <div class = "input-group" >
+              <input name = "datepicker"
+                     class = "form-control"
+                     ngbDatepicker
+                     #datepicker = "ngbDatepicker"
+                     [autoClose] = "'outside'"
+                     (dateSelect) = "onDateSelection($event)"
+                     [displayMonths] = "2"
+                     [dayTemplate] = "t"
+                     outsideDays = "hidden"
+                     [startDate] = "fromDate!"
+                     tabindex = "-1" >
+              <ng-template #t
+                           let-date
+                           let-focused = "focused" >
+        <span class = "custom-day"
+              [class.focused] = "focused"
+              [class.range] = "isRange(date)"
+              [class.faded] = "isHovered(date) || isInside(date)"
+              (mouseenter) = "hoveredDate = date"
+              (mouseleave) = "hoveredDate = null" >
+          {{ date.day }}
+        </span >
+              </ng-template >
+            </div >
+          </div >
+          <div class = "form-group" >
+            <div class = "input-group" >
+              <input #dpFromDate
+                     class = "form-control"
+                     placeholder = "yyyy-mm-dd"
+                     name = "dpFromDate"
+                     [value] = "formatter.format(fromDate)"
+                     (input) = "fromDate = validateInput(fromDate, dpFromDate.value)" >
+              <div class = "input-group-append" >
+                <button class = "btn btn-outline-secondary calendar"
+                        (click) = "datepicker.toggle()"
+                        type = "button" ></button >
+              </div >
+            </div >
+          </div >
+          <div class = "form-group ml-2" >
+            <div class = "input-group" >
+              <input #dpToDate
+                     class = "form-control"
+                     placeholder = "yyyy-mm-dd"
+                     name = "dpToDate"
+                     [value] = "formatter.format(toDate)"
+                     (input) = "toDate = validateInput(toDate, dpToDate.value)" >
+              <div class = "input-group-append" >
+                <button class = "btn btn-outline-secondary calendar"
+                        (click) = "datepicker.toggle()"
+                        type = "button" ></button >
+              </div >
+            </div >
+          </div >
+        </form >
+
+
+      </div >
+      <div *ngIf = "timeRange == 2"
+           class = "animate__animated animate__fadeInUp " >
+        <h4 >Rango de horas</h4 >
+      </div >
+      <div *ngIf = "timeRange == 3"
+           class = "animate__animated animate__fadeInUp " >
+        <h4 >Por bloques de hora</h4 >
+      </div >
+      <div *ngIf = "timeRange == 4"
+           class = "animate__animated animate__fadeInUp " >
+        <h4 >Por defecto</h4 >
+      </div >
+    </div >
+  </div >
+  <div class = "col-xl-2 " ></div >
+  <div class = "col-sm-12  col-md-12 col-xl-4 animate__animated animate__fadeInDown" >
+    <h1 class = "display-6" >Tipo de costo</h1 >
+    <div class = "btn-group"
+         role = "group"
+         aria-label = "Basic radio toggle button group" >
+      <input type = "radio"
+             class = "btn-check"
+             name = "costType"
+             (click) = "costType=1"
+             id = "hourFraction"
+             autocomplete = "off"
+             checked >
+      <label class = "btn btn-outline-success m-1"
+             for = "hourFraction" >Hora / Fracción</label >
+
+      <input type = "radio"
+             class = "btn-check"
+             name = "costType"
+             (click) = "costType=2"
+             id = "fixedTariff"
+             autocomplete = "off" >
+      <label class = "btn btn-outline-success m-1"
+             for = "fixedTariff" >Tarifa fija</label >
+    </div >
+    <div class = "row" >
+      <div *ngIf = "costType==1"
+           class = "animate__animated animate__fadeInUp " >
+        <h1 class = "display-6" >Hora / Fracción</h1 >
+
+
+      </div >
+      <div *ngIf = "costType==2"
+           class = "animate__animated animate__fadeInUp " >
+        <h1 class = "display-6" >Tarifa fija</h1 >
+
+      </div >
+    </div >
+  </div >
+</div >
