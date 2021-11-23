@@ -33,7 +33,7 @@
               <select class = "inputClass"
                       formControlName = "type"
                       [class.is-invalid] = "controlInvalid('type')" >
-                <option *ngIf = "!newCourtesyForm.controls['type'].value > 0"
+                <option *ngIf = "newCourtesyForm.controls['type'].value <= 0"
                         value = "" >Tipo de cortesía
                 </option >
                 <option *ngFor = "let type of courtesyTypes"

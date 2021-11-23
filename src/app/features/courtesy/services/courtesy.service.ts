@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../../environments/environment';
 import { ResponseModel } from '../../../shared/model/Request.model';
-import { CourtesyModel, CourtesyTypeModel } from '../models/Courtesy.model';
+import { CourtesyModel } from '../models/Courtesy.model';
 
 @Injectable({
   providedIn: 'root',

@@ -9,8 +9,9 @@ import { Component, OnInit } from '@angular/core';
 export class TariffComponent implements OnInit {
   timeRange: number = 1;
   costType: number = 1;
-
-  constructor() {}
+  disableRanges: boolean = false;
 
   ngOnInit(): void {}
+
+  saveRule() {}
 }

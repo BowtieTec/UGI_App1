@@ -53,7 +53,10 @@ export class CourtesyComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   getTypeDescription(id: number) {
-    return this.courtesyTypes.find((x) => x.id == id);
+    let newDescription = this.courtesyTypes.find((x) => x.id == id);
+    return newDescription == undefined
+      ? new CourtesyTypeModel()
+      : newDescription;
   }
 
   getInitialData() {

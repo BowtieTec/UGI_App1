@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../../../environments/environment';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { MessageService } from '../../../shared/services/message.service';
 import { ResponseModel } from '../../../shared/model/Request.model';
 import {
@@ -18,7 +18,7 @@ import {
   PaymentMethodModel,
   SettingsOptionsModel,
 } from '../models/SettingsOption.model';
-import { Observable, Observer, Subscribable } from 'rxjs';
+import { Observable, Subscribable } from 'rxjs';
 import { CountriesModel } from '../models/Countries.model';
 import { FormBuilder } from '@angular/forms';
 
@@ -145,12 +145,12 @@ export class ParkingService {
 
   getPayMethodById(id: number) {
     let result = this.settingsOptions.paymentMethods.find((x) => x.id == id);
-    return result === undefined ? (result = new PaymentMethodModel()) : result;
+    return result === undefined ? new PaymentMethodModel() : result;
   }
 
   getCurrencyById(id: number) {
     let result = this.settingsOptions.currencyOptions.find((x) => x.id == id);
-    return result === undefined ? (result = new CurrencyOptionModel()) : result;
+    return result === undefined ? new CurrencyOptionModel() : result;
   }
 
   getDayById(id: number) {
@@ -163,12 +163,10 @@ export class ParkingService {
 
   getTypeAntennaById(id: number): AccessModel {
     let result = this.getAccesses().find((x: AccessModel) => x.value == id);
-    return result === undefined ? (result = new AccessModel()) : result;
+    return result === undefined ? new AccessModel() : result;
   }
 
   getAntennas(idParking: string) {
-    const header = new HttpHeaders().append('', '');
-    const params = new HttpParams().append('parking', idParking);
     return this.http.get<ResponseModel>(
       `${this.apiUrl}backoffice/parking/${idParking}/station/`
     );
