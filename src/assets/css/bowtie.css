@@ -3,9 +3,11 @@
 body {
   background: #ffffff;
   font-family: 'Poppins', sans-serif;
-  font-size: 14px;
+  font-size: 12px;
 }
-
+.bgBody{
+  background: #f7f7f7;
+}
 .btn {
   border-radius: 6px !important;
   box-shadow: 0 0 0 0 rgb(49 132 253 / 0%) !important;
@@ -16,7 +18,7 @@ body {
 }
 
 .buttonIcon {
-  background: #1400a4;
+  background: #021C70;
   color: #fff;
   border: 0px;
   border-radius: 4px;
@@ -27,8 +29,8 @@ body {
 
 .buttonEdit {
   background: #fff;
-  color: #1400a4;
-  border: 1px solid #1400a4;
+  color: #021C70;
+  border: 1px solid #021C70;
   border-radius: 4px;
   height: 32px;
   font-size: 12px;
@@ -36,43 +38,35 @@ body {
 }
 
 .buttonRowEdit {
-  background: #198754;
+  background: #05ccae;
   color: white;
-  border: 1px solid #198754;
+  border: 1px solid #05ccae;
   border-radius: 4px;
   height: 32px;
   font-size: 12px;
-  min-width: 50px;
+  min-width: 40px;
 }
 
 .buttonRowEdit:Hover {
-  background: white;
-  color: #198754;
-  border: 1px solid #198754;
-  border-radius: 4px;
-  height: 32px;
-  font-size: 12px;
-  min-width: 50px;
+  background: #05b197;
+  color: #ffffff;
+  border: 1px solid #06b197;
 }
 
 .buttonRowDelete {
-  background: #c36554;
+  background: #fb6e7b;
   color: White;
-  border: 1px solid #c36554;
+  border: 1px solid #fb6f7b;
   border-radius: 4px;
   height: 32px;
   font-size: 12px;
-  min-width: 50px;
+  min-width: 40px;
 }
 
 .buttonRowDelete:Hover {
-  background: white;
-  color: #c36554;
-  border: 1px solid #c36554;
-  border-radius: 4px;
-  height: 32px;
-  font-size: 12px;
-  min-width: 50px;
+  background: #e14d58;
+  color: #ffffff;
+  border: 1px solid #e14e59;
 }
 
 .buttonRowQR {
@@ -103,17 +97,17 @@ body {
 
 .btn-primary {
   color: #fff;
-  background-color: #c79034;
-  border-color: #c79034;
+  background-color: #415BA6;
+  border-color: #415BA6;
 }
 
 .btn-success {
-  background: #54c370;
+  background: #10ceb2;
   border: 0px
 }
 
 .btn-secundary {
-  border: 2px solid #c5d5f0;
+  border: 2px solid #415ba1;
 }
 
 .btn-s {
@@ -241,11 +235,11 @@ input[type=number]:focus,
 }
 
 .chkbx-toggle:checked + label {
-  background-color: #1400a4;
+  background-color: #021C70;
 }
 
 .chkbx-toggle:checked + label::before {
-  background-color: #1400a4;
+  background-color: #021C70;
 }
 
 .chkbx-toggle:checked + label::after {
@@ -267,13 +261,13 @@ input[type=number]:focus,
 
 .loginBody {
   /*TODO: Arreglar el background para que la iamgen solo afecte al Login y no al resto de la aplicación*/
-  /*background-image: url(../img/backlogin.png);*/
+  background-image: url(../img/backlogin.png);
   background-size: 15%;
-  background-color: #1400a4;
+  background-color: #021C70;
 }
 
 .form-group input {
-  border: 1px solid #1400a4;
+  border: 1px solid #2BC9B1;
   border-radius: 4px;
   margin-bottom: 15px;
   padding: 10px;
@@ -291,7 +285,7 @@ input[type=number]:focus,
 
 button.login {
   width: 100%;
-  background: #c79034;
+  background: #415BA6;
   border-radius: 4px;
   border: 0px;
 }
@@ -358,13 +352,13 @@ button.login {
 }
 
 .titleCards span {
-  color: #c79034;
+  color: #415BA6;
   margin-right: 15px;
 }
 
 .cardMenu {
   position: relative;
-  border: 1px solid #1400a4;
+  border: 1px solid #021C70;
   margin: auto;
   border-radius: 8px;
   padding: 15px;
@@ -379,7 +373,7 @@ button.login {
 }
 
 .cardMenuIcon {
-  background: #1400a4;
+  background: #021C70;
   text-align: center;
   color: #fff;
   border-radius: 8px;
@@ -411,7 +405,7 @@ label.labelInput {
   font-size: 11px;
   margin: -10px 0px 0 5px;
   padding: 0;
-  color: #1400a4;
+  color: #021C70;
   border-radius: 4px;
   display: none;
 }
@@ -443,7 +437,7 @@ label.labelInput {
 }
 
 .tContent span {
-  color: #1400a4;
+  color: #021C70;
   font-weight: 300;
   font-size: 12px;
 }
@@ -461,7 +455,7 @@ ul.opcionActivo li label {
   display: inline-block;
   background-color: rgba(255, 255, 255, .9);
   border: 2px solid rgb(29 139 250);
-  color: #1400a4;
+  color: #021C70;
   border-radius: 8px;
   white-space: nowrap;
   margin: 3px 0px;
@@ -502,8 +496,8 @@ ul.opcionActivo li input[type="checkbox"]:checked + label::before {
 }
 
 ul.opcionActivo li input[type="checkbox"]:checked + label {
-  border: 2px solid #1400a4;
-  background-color: #1400a4;
+  border: 1px solid #008974;
+  background-color: #05ccae;
   color: #fff;
   transition: all .2s;
 }
@@ -528,8 +522,8 @@ ul.opcionActivo li input[type="radio"]:checked + label::before {
 }
 
 ul.opcionActivo li input[type="radio"]:checked + label {
-  border: 2px solid #1400a4;
-  background-color: #1400a4;
+  border: 2px solid #021C70;
+  background-color: #021C70;
   color: #fff;
   transition: all .2s;
 }
@@ -546,7 +540,19 @@ ul.opcionActivo li input[type="radio"] {
 ul.opcionActivo li input[type="radio"]:focus + label {
   border: 2px solid #e9a1ff;
 }
+.table-striped>tbody>tr:nth-of-type(odd) {
+  --bs-table-accent-bg: rgb(247 247 247);;
+  color: var(--bs-table-striped-color);
+}
 
+table.dataTable tbody tr {
+  background-color: #ffffff;
+  border: #05ccae;
+}
+table.dataTable th, table.dataTable td {
+  box-sizing: content-box;
+  vertical-align: middle;
+}
 @media (max-width: 480px) {
   body {
     font-size: 14px;
@@ -555,7 +561,7 @@ ul.opcionActivo li input[type="radio"]:focus + label {
   .loginBody {
     background-image: url(../img/backlogin.png);
     background-size: 75%;
-    background-color: #1400a4;
+    background-color: #021C70;
   }
 
 
@@ -587,3 +593,4 @@ ul.opcionActivo li input[type="radio"]:focus + label {
   }
 
 }
+
