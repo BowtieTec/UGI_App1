@@ -35,7 +35,7 @@
 }
 
 .menu ul > li > a span {
-  color: #1400a4;
+  color: #415ba1;
   font-weight: 600;
   padding: 0 16px;
   font-size: 18px;
@@ -49,7 +49,7 @@
 }
 
 .menu ul > li.active {
-  background: #1400a4;
+  background: #415ba1;
   color: #fff;
   border-radius: 8px;
 }

@@ -13,8 +13,8 @@
       <th scope = "col" >Nombre
       </th >
       <th scope = "col" >Email</th >
-      <th scope = "col text-center"
-          style = "width: 21%"
+      <th scope = "col text-right"
+          style = "width: 20%"
       >Acciones
       </th >
     </tr >
@@ -24,7 +24,7 @@
         class = "animate__animated animate__fadeIn" >
       <td >{{user.name + ' ' + user.last_name}}</td >
       <td >{{user.email}}</td >
-      <td class = "" >
+      <td class = "text-right" >
         <button (click) = "editUser(user)"
                 class = "buttonRowEdit me-1"
                 title = "Editar" ><i class = "fas fa-user-edit" ></i >

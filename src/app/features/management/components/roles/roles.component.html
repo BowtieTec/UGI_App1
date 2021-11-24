@@ -1,10 +1,10 @@
 <form action = "" >
   <div class = "panels animate__animated animate__fadeInLeft" >
     <div class = "titleCards" >
-      <span ><i class = "fas fa-dragon" ></i ></span > Roles y permisos
+      <span ><i class = "fas fa-user" ></i ></span > Roles y permisos
     </div >
     <div class = "row" >
-      <div class = "col-xl-4 col-lg-4 col-xs-12" >
+      <div class = "col-xl-4 col-lg-8 col-md-12 col-xs-12" >
         <div class = "mb-4 relative" >
           <label class = "labelInput" >Roles</label >
           <select
@@ -20,14 +20,40 @@
 
         </div >
       </div >
-      <div class = "row" >
-        <div class = "accordion accordion-flush col-sm-12 col-xl-4 "
+      
+      <div  class = "row" >
+        <div *ngFor = "let module of getModules; index as i" class=" col-xl-3 col-lg-4 col-md-6 col-sm-12 col-xs-12">
+          <div class="panels">
+          <div class="title">{{module | titlecase}}</div>
+          <div class = "text-center" >
+            <div class = "btn-group"
+                 role = "group"
+                 aria-label = "Basic checkbox toggle button group" >
+              <div class = "row" >
+                <div>
+                  <ul class="opcionActivo">
+                  <li *ngFor = " let item of getPermissionsForModules(module)"><input type = "checkbox"
+                         class = "form-check-input"
+                         value = "{{item.checked}}"
+                         id = "{{item.id}}"
+                         [(ngModel)] = "item.checked"
+                         name = "{{item.description}}"
+                         autocomplete = "off" >
+                  <label class = "form-check-label ms-2"
+                         [for] = "item.id" > {{  item.description}}</label ></li></ul>
+                </div >
+              </div >
+            </div >
+          </div >
+        </div>
+        </div>
+        <!-- div  class = "accordion accordion-flush col-sm-12 col-xl-4 "
              id = "accordionExample" >
           <div class = "accordion-item"
                *ngFor = "let module of getModules; index as i" >
             <h2 class = "accordion-header"
                 [attr.id] = "'heading-'+i" >
-              <button class = "accordion-button collapsed"
+              <button class = "inputClass accordion-button collapsed"
                       type = "button"
                       data-bs-toggle = "collapse"
                       [attr.data-bs-target] = "'#collapse-'+i"
@@ -37,10 +63,10 @@
               </button >
             </h2 >
             <div [attr.id] = "'collapse-'+i"
-                 class = "accordion-collapse collapse"
+                 class = "inputClass accordion-collapse collapse"
                  [attr.aria-labelledby] = "'heading-'+i" >
               <div class = "accordion-body" >
-                <!--  body  -->
+                
                 <div class = "btn-group"
                      role = "group"
                      aria-label = "Basic checkbox toggle button group" >
@@ -62,23 +88,19 @@
               </div >
             </div >
           </div >
-        </div >
+        </div -->
       </div >
     </div >
     <div class = "col-sm-4" >
-      <button class = "btn btn-outline-dark"
+      <button class = "btn btn-primary"
               (click) = "savePermissions()" >Guardar
       </button >
     </div >
-    <!--    <div class = "row" >-->
-    <!--      <div *ngFor = "let item of allPermissions" >-->
-    <!--        <input type = "checkbox"-->
-    <!--               [(ngModel)] = "item.checked"-->
-    <!--               name = "{{item.description}}"-->
-    <!--               id = "{{item.id}}"-->
-    <!--               value = "{{item.checked}}" > {{item.description}}-->
-    <!--      </div >-->
-
-    <!--    </div >-->
+    <!-- <div class = "row" >
+      <div *ngFor = "let item of allPermissions" >
+        <input type = "checkbox" [(ngModel)] = "item.checked" name = "{{item.description}}" id = "{{item.id}}" value = "{{item.checked}}"> 
+        {{item.description}}
+      </div >
+    </div> -->
   </div >
 </form >

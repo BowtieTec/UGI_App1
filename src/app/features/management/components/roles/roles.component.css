@@ -1,0 +1,54 @@
+.cardBody{
+        background: #fff;
+    border: 1px solid #d9d9d9;
+    border-radius: 4px;
+    padding: 10px;
+    margin-bottom: 15px;
+}
+.panels > .title {
+    margin: -15px;
+    padding: 5px 15px;
+    background: #00c2d6;
+    border: 1px solid #00c2d6;
+  
+    border-radius: 4px 4px 0 0;
+    color: #fff;
+    margin-bottom: 10px;
+}
+ul.opcionActivo {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 0;
+}
+ul.opcionActivo li label {
+    padding: 8px 12px;
+    cursor: pointer;
+    min-width: 150px;
+    text-align: left;
+}
+ul.opcionActivo li label {
+    display: inline-block;
+    background-color: rgba(255, 255, 255, .9);
+    border: 1px solid rgb(65 91 161);
+    color: #021C70;
+    border-radius: 8px;
+    white-space: nowrap;
+    margin: 3px 0px;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    transition: all .2s;
+}
+ul.opcionActivo li input[type="checkbox"]:checked + label {
+    border: 1px solid #008974;
+    background-color: #05ccae;
+    color: #fff;
+    transition: all .2s;
+  }
+
+ul.opcionActivo li {
+    display: block;
+}
