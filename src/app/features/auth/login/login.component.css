@@ -1,5 +1,10 @@
-body{
-  background-color:#021C70;
+.bglogin {
+  background: #011c6f;
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
 }
 .login-form {
   position: absolute;
