@@ -13,6 +13,7 @@
       <input type = "radio"
              class = "btn-check "
              name = "rangeTime"
+
              (click) = "timeRange=1"
              id = "holidayTxt"
              autocomplete = "off"
@@ -52,50 +53,81 @@
            class = "animate__animated animate__fadeInUp " >
         <h4 >Días festivos</h4 >
 
-        <div class = "input-group mb-3" >
-          <span class = "input-group-text" >Desde</span >
-          <input [readOnly] = "disableRanges"
-                 type = "datetime-local"
-                 class = "form-control"
-                 aria-describedby = "basic-addon1" >
-        </div >
-        <div class = "input-group mb-3" >
-          <span class = "input-group-text" >Hasta</span >
-          <input [readOnly] = "disableRanges"
-                 type = "datetime-local"
-                 class = "form-control"
-                 aria-describedby = "basic-addon1" >
-        </div >
+        <form action = ""
+              [formGroup] = "holidayForm" >
+          <div class = "input-group mb-3" >
+            <span class = "input-group-text" >Desde</span >
+            <input [readOnly] = "disableRanges"
+                   type = "datetime-local"
+                   [class.is-invalid] = "validateHolidayForm('from')"
+
+                   formControlName = "from"
+                   class = "form-control"
+                   aria-describedby = "basic-addon1" >
+            <small *ngIf = "validateHolidayForm('from')"
+                   class = "text-danger" >* Este campo es obligatorio</small >
+          </div >
+          <div class = "input-group mb-3" >
+            <span class = "input-group-text" >Hasta</span >
+            <input [readOnly] = "disableRanges"
+                   type = "datetime-local"
+                   class = "form-control"
+                   [class.is-invalid] = "validateHolidayForm('to')"
+
+                   formControlName = "to"
+                   aria-describedby = "basic-addon1" >
+            <small *ngIf = "validateHolidayForm('to')"
+                   class = "text-danger" >* Este campo es obligatorio</small >
+          </div >
+        </form >
 
       </div >
       <div *ngIf = "timeRange == 2"
            class = "animate__animated animate__fadeInUp " >
         <h4 >Rango de horas</h4 >
-        <div class = "input-group mb-3" >
-          <span class = "input-group-text" >Desde</span >
-          <input [readOnly] = "disableRanges"
-                 type = "time"
-                 class = "form-control"
-                 aria-describedby = "basic-addon1" >
-        </div >
-        <div class = "input-group mb-3" >
-          <span class = "input-group-text" >Hasta</span >
-          <input [readOnly] = "disableRanges"
-                 type = "time"
-                 class = "form-control"
-                 aria-describedby = "basic-addon1" >
-        </div >
+        <form action = ""
+              [formGroup] = "rankForm" >
+          <div class = "input-group mb-3" >
+            <span class = "input-group-text" >Desde</span >
+            <input [readOnly] = "disableRanges"
+                   type = "time"
+                   [class.is-invalid] = "validateRankForm('from')"
+                   class = "form-control"
+                   formControlName = "from"
+                   aria-describedby = "basic-addon1" >
+            <small *ngIf = "validateRankForm('from')"
+                   class = "text-danger" >* Este campo es obligatorio</small >
+          </div >
+          <div class = "input-group mb-3" >
+            <span class = "input-group-text" >Hasta</span >
+            <input [readOnly] = "disableRanges"
+                   formControlName = "to"
+                   [class.is-invalid] = "validateRankForm('to')"
+                   type = "time"
+                   class = "form-control"
+                   aria-describedby = "basic-addon1" >
+            <small *ngIf = "validateRankForm('to')"
+                   class = "text-danger" >* Este campo es obligatorio</small >
+          </div >
+        </form >
       </div >
       <div *ngIf = "timeRange == 3"
            class = "animate__animated animate__fadeInUp " >
         <h4 >Por bloques de hora</h4 >
-        <div class = "input-group mb-3" >
-          <span class = "input-group-text" >Cantidad de horas</span >
-          <input [readOnly] = "disableRanges"
-                 type = "number"
-                 class = "form-control"
-                 aria-describedby = "basic-addon1" >
-        </div >
+        <form action = ""
+              [formGroup] = "blockForm" >
+          <div class = "input-group mb-3" >
+            <span class = "input-group-text" >Cantidad de horas</span >
+            <input [readOnly] = "disableRanges"
+                   type = "number"
+                   formControlName = "blockSize"
+                   [class.is-invalid] = "validateBlockForm('blockSize')"
+                   class = "form-control"
+                   aria-describedby = "basic-addon1" >
+            <small *ngIf = "validateBlockForm('blockSize')"
+                   class = "text-danger" >* Este campo es obligatorio</small >
+          </div >
+        </form >
       </div >
       <div *ngIf = "timeRange == 4"
            class = "animate__animated animate__fadeInUp " >
