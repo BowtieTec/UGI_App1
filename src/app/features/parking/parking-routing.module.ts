@@ -6,8 +6,8 @@ import { TariffComponent } from './tariff/tariff.component';
 
 const routes: Routes = [
   { path: 'parkingToday', component: ParkingComponent, outlet: 'home' }, //List of parking today
-  { path: 'new', component: NewParkingComponent, outlet: 'home' }, // New Parking
-  { path: '', component: TariffComponent, outlet: 'home' }, //Tariff
+  { path: '', component: NewParkingComponent, outlet: 'home' }, // New Parking
+  { path: 'Tariff', component: TariffComponent, outlet: 'home' }, //Tariff
 ];
 
 @NgModule({
