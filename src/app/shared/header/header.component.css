@@ -36,6 +36,35 @@
   padding: 0px 30px 25px;
 }
 
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 180px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  padding: 10px 5px;
+  font-size: 14px;
+  color: #666;
+  z-index: 1;
+  right: 0;
+  cursor: pointer;
+}
+
+.dropdown-content a:hover {
+  background-color: #ddd;
+}
+
 @media (max-width: 480px) {
   .headerDashboard {
     width: 100vw;

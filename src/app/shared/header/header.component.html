@@ -1,35 +1,41 @@
-<div class="headerDashboard animate__animated animate__fadeInDown">
-  <nav class="navbar navbar-light">
-    <div class="container-fluid">
-      <form class="d-flex search">
-        <div class="input-group">
-              <span class="input-group-prepend">
-                <div class="input-group-text bg-transparent border-0"><i class="fa fa-search"></i></div>
-            </span>
-          <input aria-label="Search" class="form-control me-2 border-0" placeholder="Buscar usuarios" type="search">
-        </div>
-      </form>
-      <div class="d-flex menuMobile d-block d-sm-none ">
-        <span onclick="menuMovil()"><i class="fas fa-bars"></i></span>
-      </div>
-      <div class="d-flex icons">
-        <span><i class="fas fa-bell"></i></span>
-        <div class="dropdown">
-          <div class="profileImage">
-            <img src = "assets/img/profile.jpg" >
-          </div>
-          <div class="dropdown-content">
-            <ul class="nav flex-column">
-              <li class="nav-item">
-                <a class="nav-link" href="#">
-                  <span><i class="fas fa-tachometer-alt"></i></span>
-                  Cerrar sesión</a>
-              </li>
+<div class = "headerDashboard animate__animated animate__fadeInDown" >
+  <nav class = "navbar navbar-light" >
+    <div class = "container-fluid" >
+      <form class = "d-flex search" >
+        <div class = "input-group" >
+              <span class = "input-group-prepend" >
+                <div class = "input-group-text bg-transparent border-0" ><em class = "fa fa-search" ></em ></div >
+            </span >
+          <input aria-label = "Search"
+                 class = "form-control me-2 border-0"
+                 placeholder = "Buscar usuarios"
+                 type = "search" >
+        </div >
+      </form >
+      <div class = "d-flex menuMobile d-block d-sm-none " >
+        <span onclick = "menuMovil()" ><em class = "fas fa-bars" ></em ></span >
+      </div >
+      <div class = "d-flex icons" >
+        <span ><em class = "fas fa-bell" ></em ></span >
+        <div class = "dropdown" >
+          <div class = "profileImage" >
+            <img src = "assets/img/profile.jpg"
+                 alt = "Imagen de perfil" >
+          </div >
+          <div
+            class = "dropdown-content" >
+            <ul class = "nav flex-column" >
+              <li class = "nav-item" >
+                <a class = "nav-link"
+                   (click) = "logout()" >
+                  <span ><em class = "fa fa-tachometer-alt" ></em ></span >
+                  Cerrar sesión</a >
+              </li >
 
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-  </nav>
-</div>
+            </ul >
+          </div >
+        </div >
+      </div >
+    </div >
+  </nav >
+</div >
