@@ -10,7 +10,7 @@
     <div class = "col-lg-12 col-md-12 col-sm-12 col-xs-12" >
       <div class = "panels " >
         <div class = "titleCards" >
-          <span ><i class = "fas fa-sitemap" ></i ></span > Cortesias
+          <span ><em class = "fas fa-sitemap" ></em ></span > Cortesías
         </div >
         <div class = "row justify-content-center" >
 
@@ -23,7 +23,7 @@
                      formControlName = "name"
                      [class.is-invalid] = "controlInvalid('name')" >
               <small *ngIf = "controlInvalid('name')"
-                     class = "text-danger" >* Este campo es obligatorio</small >
+                     class = "text-danger animate__animated  animate__rotateIn" >* Este campo es obligatorio</small >
             </div >
           </div >
 
@@ -40,7 +40,7 @@
                         value = "{{type.id}}" >{{type.description}}</option >
               </select >
               <small *ngIf = "controlInvalid('type')"
-                     class = "text-danger" >* Este campo es obligatorio</small >
+                     class = "text-danger animate__animated  animate__rotateIn" >* Este campo es obligatorio</small >
             </div >
           </div >
 
@@ -54,7 +54,7 @@
                        formControlName = "quantity"
                        [class.is-invalid] = "controlInvalid('quantity')" >
                 <small *ngIf = "controlInvalid('quantity')"
-                       class = "text-danger" >* Este campo es obligatorio</small >
+                       class = "text-danger animate__animated  animate__rotateIn" >* Este campo es obligatorio</small >
               </div >
             </div >
             <div class = "col-xl-4 col-lg-6 col-sm-12" >
@@ -66,7 +66,7 @@
                        formControlName = "value"
                        [class.is-invalid] = "controlInvalid('value')" >
                 <small *ngIf = "controlInvalid('value')"
-                       class = "text-danger" >* Este campo es obligatorio</small >
+                       class = "text-danger animate__animated  animate__rotateIn" >* Este campo es obligatorio</small >
               </div >
             </div >
           </div >
@@ -89,6 +89,7 @@
       <div class = "row" >
         <div class = "col-lg-12" >
           <table datatable
+                 aria-label = "Tabla de cortesias"
                  [dtOptions] = "dtOptions"
                  [dtTrigger] = "dtTrigger"
                  class = "table hover table-striped animate__animated animate__fadeInLeft " >
@@ -99,7 +100,7 @@
               <th scope = "col" >Cantidad</th >
               <th scope = "col" >Valor</th >
               <th scope = "col"
-                  style = "width: 4%" ><i class = "fas fa-file-pdf" ></i ></th >
+                  style = "width: 4%" ><em class = "fas fa-file-pdf" ></em ></th >
             </tr >
             </thead >
             <tbody >
@@ -111,7 +112,7 @@
               <td >
                 <button
                   class = "btn btn-outline-danger "
-                  (click) = "downloadPDF(courtesy)" ><i class = "fas fa-file-pdf" ></i >
+                  (click) = "downloadPDF(courtesy)" ><em class = "fas fa-file-pdf" ></em >
                 </button >
               </td >
             </tr >

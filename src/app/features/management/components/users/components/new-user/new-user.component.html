@@ -1,7 +1,7 @@
 <form [formGroup] = "newUserForm" >
   <div class = "panels animate__animated animate__fadeInLeft" >
     <div class = "titleCards" >
-      <span ><i class = "fas fa-user-plus" ></i ></span > Nuevo usuario
+      <span ><em class = "fas fa-user-plus" ></em ></span > Nuevo usuario
     </div >
     <div class = "row" >
       <div class = "col-xl-12 col-lg-12  col-sm-12" >
@@ -13,7 +13,7 @@
                  placeholder = "NOMBRE:"
                  type = "text" >
           <small *ngIf = "controlInvalid('name')"
-                 class = "text-danger" >* Este campo es obligatorio</small >
+                 class = "text-danger animate__animated  animate__rotateIn" >* Este campo es obligatorio</small >
         </div >
       </div >
       <div class = "col-xl-12 col-lg-12  col-sm-12" >
@@ -25,7 +25,7 @@
                  placeholder = "APELLIDO:"
                  type = "text" >
           <small *ngIf = "controlInvalid('last_name')"
-                 class = "text-danger" >* Este campo es obligatorio</small >
+                 class = "text-danger animate__animated  animate__rotateIn" >* Este campo es obligatorio</small >
         </div >
       </div >
       <div class = "col-xl-12 col-lg-12  col-sm-12" >
@@ -38,7 +38,7 @@
                  placeholder = "EMAIL:"
                  type = "text" >
           <small *ngIf = "controlInvalid('email')"
-                 class = "text-danger" >* Este campo es obligatorio</small >
+                 class = "text-danger animate__animated  animate__rotateIn" >* Este campo es obligatorio</small >
         </div >
       </div >
       <div class = "col-xl-12 col-lg-12 col-xs-12" >
@@ -55,7 +55,7 @@
 
           </select >
           <small *ngIf = "controlInvalid('role')"
-                 class = "text-danger" >* Este campo es obligatorio</small >
+                 class = "text-danger animate__animated  animate__rotateIn" >* Este campo es obligatorio</small >
         </div >
         <div class = "col-xl-12 col-lg-12  col-sm-12" >
           <div class = "mb-4 relative" >
@@ -66,7 +66,7 @@
                    placeholder = "NOMBRE DE USUARIO:"
                    type = "text" >
             <small *ngIf = "controlInvalid('user')"
-                   class = "text-danger" >* Este campo es obligatorio</small >
+                   class = "text-danger animate__animated  animate__rotateIn" >* Este campo es obligatorio</small >
           </div >
         </div >
         <div class = "col-xl-12 col-lg-12  col-sm-12" >
@@ -79,7 +79,7 @@
                    placeholder = "CONTRASEÑA:"
                    type = "password" >
             <small *ngIf = "controlInvalid('password')"
-                   class = "text-danger" >* Este campo es obligatorio</small >
+                   class = "text-danger animate__animated  animate__rotateIn" >* Este campo es obligatorio</small >
           </div >
         </div >
       </div >

@@ -30,20 +30,20 @@
               </select >
               <small
                 *ngIf = "controlInvalid('type_access')"
-                class = "text-danger" >* Este campo es obligatorio</small >
+                class = "text-danger animate__animated  animate__rotateIn" >* Este campo es obligatorio</small >
             </div >
           </div >
 
           <div class = "col-md-5 col-sm-12" >
             <div class = "m-3 relative " >
               <label class = "labelInput" >Nombre de acceso:</label >
-              <input [class.is-invalid] = "controlInvalid('name_access')"
-                     class = "form-control inputClass"
-                     formControlName = "name_access"
-                     placeholder = "Nombre de acceso:"
-                     type = "text" >
-              <small *ngIf = "controlInvalid('name_access')"
-                     class = "text-danger" >* Este campo es obligatorio</small >
+              <emnput [class.is-invalid] = "controlInvalid('name_access')"
+                      class = "form-control inputClass"
+                      formControlName = "name_access"
+                      placeholder = "Nombre de acceso:"
+                      type = "text" >
+                <small *ngIf = "controlInvalid('name_access')"
+                       class = "text-danger animate__animated  animate__rotateIn" >* Este campo es obligatorio</small >
             </div >
           </div >
         </div >
@@ -51,26 +51,26 @@
           <div class = "col-md-5 col-sm-12" >
             <div class = "m-3 relative" >
               <label class = "labelInput" >MAC:</label >
-              <input [class.is-invalid] = "controlInvalid('mac_access')"
-                     class = "form-control inputClass"
-                     formControlName = "mac_access"
-                     placeholder = "MAC:"
-                     type = "text" >
-              <small *ngIf = "controlInvalid('mac_access')"
-                     class = "text-danger" >* Este campo es obligatorio</small >
+              <emnput [class.is-invalid] = "controlInvalid('mac_access')"
+                      class = "form-control inputClass"
+                      formControlName = "mac_access"
+                      placeholder = "MAC:"
+                      type = "text" >
+                <small *ngIf = "controlInvalid('mac_access')"
+                       class = "text-danger animate__animated  animate__rotateIn" >* Este campo es obligatorio</small >
             </div >
           </div >
           <div class = "col-md-5 col-sm-12" >
             <div class = "m-3 relative" >
               <label class = "labelInput" >Antena:</label >
-              <input [class.is-invalid] = "controlInvalid('antenna_access')"
-                     class = "form-control inputClass"
-                     formControlName = "antenna_access"
+              <emnput [class.is-invalid] = "controlInvalid('antenna_access')"
+                      class = "form-control inputClass"
+                      formControlName = "antenna_access"
 
-                     placeholder = "Antena:"
-                     type = "text" >
-              <small *ngIf = "controlInvalid('antenna_access')"
-                     class = "text-danger" >* Este campo es obligatorio</small >
+                      placeholder = "Antena:"
+                      type = "text" >
+                <small *ngIf = "controlInvalid('antenna_access')"
+                       class = "text-danger animate__animated  animate__rotateIn" >* Este campo es obligatorio</small >
             </div >
           </div >
 
@@ -86,7 +86,8 @@
       </div >
 
     </div >
-    <table class = "table" >
+    <table class = "table"
+           aria-label = "Tabla de accesos" >
       <thead >
       <tr >
         <th scope = "col" >Nombre de acceso</th >
@@ -99,23 +100,25 @@
       </tr >
       </thead >
       <tbody >
-      <tr *ngFor = "let antenna of antennas" >
-        <th >{{antenna.name}}</th >
-        <th >{{getAccessName(antenna.type).accessType}}</th >
+      <tr *ngFor = "let antenna of antennas; index as i" >
+        <th id = "{{antenna.name + i}}" >{{antenna.name}}</th >
+        <th id = "{{antenna.type + i}}" >{{getAccessName(antenna.type).accessType}}</th >
         <td >{{antenna.mac}}</td >
         <td >{{antenna.antena}}</td >
         <td >
-          <button (click) = "editAntenna(antenna)"
+          <button (click) = "
+            editAntenna(antenna)
+        "
                   class = "buttonRowEdit"
-                  title = "Editar" ><i class = "fas fa-user-edit" ></i >
+                  title = "Editar" ><em class = "fas fa-user-edit" ></em >
           </button >
           <button
             (click) = "deleteAntenna(antenna)"
-            class = "buttonRowDelete m-1" ><i class = "fas fa-user-times" ></i >
+            class = "buttonRowDelete m-1" ><em class = "fas fa-user-times" ></em >
           </button >
           <button
             (click) = "downloadQR(antenna)"
-            class = "buttonRowQR m-1" ><i class = "fas fa-qrcode" ></i >
+            class = "buttonRowQR m-1" ><em class = "fas fa-qrcode" ></em >
           </button >
 
         </td >

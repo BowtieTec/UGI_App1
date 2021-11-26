@@ -17,7 +17,7 @@
                  placeholder = "Nombre:"
                  type = "text" >
           <small *ngIf = "controlInvalid('business_name')"
-                 class = "text-danger" >* Este campo es obligatorio</small >
+                 class = "text-danger animate__animated  animate__rotateIn" >* Este campo es obligatorio</small >
         </div >
         <div class = "m-3 relative" >
           <label class = "labelInput" >NIT</label >
@@ -40,7 +40,7 @@
                  placeholder = "Dirección:"
                  type = "text" >
           <small *ngIf = "controlInvalid('business_address')"
-                 class = "text-danger" >* Este campo es obligatorio</small >
+                 class = "text-danger animate__animated  animate__rotateIn" >* Este campo es obligatorio</small >
         </div >
         <div class = "m-3 relative" >
           <label class = "labelInput" >Método de pago</label >
@@ -53,7 +53,7 @@
 
           </select >
           <small *ngIf = "controlInvalid('pay_method')"
-                 class = "text-danger" >* Este campo es obligatorio</small >
+                 class = "text-danger animate__animated  animate__rotateIn" >* Este campo es obligatorio</small >
         </div >
       </div >
       <div class = " col-md-6 col-sm-12" >
@@ -66,7 +66,7 @@
                     value = "{{option.id}}" >{{option.description}}</option >
           </select >
           <small *ngIf = "controlInvalid('currency')"
-                 class = "text-danger" >* Este campo es obligatorio</small >
+                 class = "text-danger animate__animated  animate__rotateIn" >* Este campo es obligatorio</small >
         </div >
       </div >
 
@@ -108,7 +108,7 @@
                      placeholder = "ID Mercante"
                      type = "text" >
               <small *ngIf = "controlInvalid('merchant_id_visa')"
-                     class = "text-danger" >* Este campo es obligatorio</small >
+                     class = "text-danger animate__animated  animate__rotateIn" >* Este campo es obligatorio</small >
             </div >
             <div class = "m-3 relative" >
               <label class = "labelInput" >Llave de transacción</label >
@@ -118,7 +118,7 @@
                      placeholder = "Llave de transacción:"
                      type = "text" >
               <small *ngIf = "controlInvalid('transaction_key_visa')"
-                     class = "text-danger" >* Este campo es obligatorio</small >
+                     class = "text-danger animate__animated  animate__rotateIn" >* Este campo es obligatorio</small >
             </div >
             <div class = "m-3 relative" >
               <label class = "labelInput" >URL</label >
@@ -128,7 +128,7 @@
                      placeholder = "URL:"
                      type = "text" >
               <small *ngIf = "controlInvalid('url_visa')"
-                     class = "text-danger" >* Este campo es obligatorio</small >
+                     class = "text-danger animate__animated  animate__rotateIn" >* Este campo es obligatorio</small >
             </div >
           </div >
         </div >
@@ -143,7 +143,7 @@
                    placeholder = "ID Comerciante:"
                    type = "text" >
             <small *ngIf = "controlInvalid('merchant_id_bac')"
-                   class = "text-danger" >* Este campo es obligatorio</small >
+                   class = "text-danger animate__animated  animate__rotateIn" >* Este campo es obligatorio</small >
           </div >
           <div class = "m-3 relative" >
             <label class = "labelInput" >ID Proveedor</label >
@@ -153,7 +153,7 @@
                    placeholder = "ID Proveedor"
                    type = "text" >
             <small *ngIf = "controlInvalid('acquirer_id_bac')"
-                   class = "text-danger" >* Este campo es obligatorio</small >
+                   class = "text-danger animate__animated  animate__rotateIn" >* Este campo es obligatorio</small >
           </div >
           <div class = "m-3 relative" >
             <label class = "labelInput" >Moneda</label >
@@ -164,7 +164,7 @@
                       value = "{{option.id}}" >{{option.description}}</option >
             </select >
             <small *ngIf = "controlInvalid('purchase_currency_bac')"
-                   class = "text-danger" >* Este campo es obligatorio</small >
+                   class = "text-danger animate__animated  animate__rotateIn" >* Este campo es obligatorio</small >
           </div >
           <div class = "m-3 relative" >
             <label class = "labelInput" >PMTNPSSW</label >
@@ -174,7 +174,7 @@
                    placeholder = "PMTNPSSW:"
                    type = "text" >
             <small *ngIf = "controlInvalid('pmtnpssw_bac')"
-                   class = "text-danger" >* Este campo es obligatorio</small >
+                   class = "text-danger animate__animated  animate__rotateIn" >* Este campo es obligatorio</small >
           </div >
           <div class = "m-3 relative" >
             <label class = "labelInput" >URL</label >
@@ -184,7 +184,7 @@
                    placeholder = "URL:"
                    type = "text" >
             <small *ngIf = "controlInvalid('url_bac')"
-                   class = "text-danger" >* Este campo es obligatorio</small >
+                   class = "text-danger animate__animated  animate__rotateIn" >* Este campo es obligatorio</small >
           </div >
         </div >
       </div >
