@@ -26,6 +26,8 @@ import {
   DefaultHourHalfInputModel,
   DefaultHourHalfRuleModel,
 } from './model/DefaultTariff.model';
+import { ParkingService } from '../../../services/parking.service';
+import { CreateTariffModel } from '../../../models/Tariff.model';
 
 @Component({
   selector: 'app-step-three',
@@ -49,7 +51,8 @@ export class StepThreeComponent {
   constructor(
     private formBuilder: FormBuilder,
     private utilitiesService: UtilitiesService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private parkingService: ParkingService
   ) {
     this.holidayForm = this.createHolidayOrRankForm();
     this.rankForm = this.createHolidayOrRankForm();
@@ -61,7 +64,32 @@ export class StepThreeComponent {
   }
 
   saveRule() {
-    //const newRule = this.getTariffModel();
+    this.messageService.showLoading();
+    const newRule = new CreateTariffModel();
+    newRule.parking = this.parkingService.parkingStepOne.parkingId;
+    newRule.rule = this.getTariffModel();
+    if (!newRule.rule) {
+      this.messageService.error(
+        '',
+        'No pudo obtenerse la tarifa para ser guardada.'
+      );
+    } else {
+      console.log(newRule);
+      this.parkingService
+        .setRule(newRule)
+        .then((data) => {
+          if (data.success) {
+            this.messageService.OkTimeOut();
+            console.log(data);
+          } else {
+            this.messageService.error('', data.message);
+          }
+          return data;
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    }
   }
 
   validateHolidayForm(control: string) {
@@ -153,90 +181,78 @@ export class StepThreeComponent {
     };
   }
 
-  get optionsSelected() {
-    return {
-      timeRange: this.timeRange,
-      costType: this.costType,
-    };
-  }
-
-  gefOptions(time: number, cost: number) {
-    return {
-      timeRange: time,
-      costType: cost,
-    };
+  validateSelected(time: number, cost: number) {
+    return this.timeRange === time && this.costType === cost;
   }
 
   getTariffModel() {
+    console.log('Get Tarif model');
+    console.log(this.validateSelected(1, 1));
     //Holiday and Hour and Half
-    if (this.optionsSelected == this.gefOptions(1, 1)) {
+    if (this.validateSelected(1, 1)) {
       const input: HolidayHourHalfInputModel = {
         ...this.holidayFormValues,
         ...this.hourHalfFormValues,
       };
-      return new HolidayHourHalfRuleModel(input);
+      return new HolidayHourHalfRuleModel(input).rule;
     }
     //Holiday and Fixed Cost
-    if (this.optionsSelected == this.gefOptions(1, 2)) {
+    if (this.validateSelected(1, 2)) {
       const input: HolidayFixedCostInputModel = {
         ...this.holidayFormValues,
         ...this.fixedCostFormValue,
       };
-      return new HolidayHourFixedCostModel(input);
+      return new HolidayHourFixedCostModel(input).rule;
     }
     //Rank and Hour and Half Cost
-    if (this.optionsSelected == this.gefOptions(2, 1)) {
+    if (this.validateSelected(2, 1)) {
       const input: RankHourHalfInputModel = {
         ...this.rankFormValues,
         ...this.hourHalfFormValues,
       };
-      return new RankHourHalfRuleModel(input);
+      return new RankHourHalfRuleModel(input).rule;
     }
     //Rank and Fixed Cost
-    if (this.optionsSelected == this.gefOptions(2, 2)) {
+    if (this.validateSelected(2, 2)) {
       const input: RankFixedCostInputModel = {
         ...this.rankFormValues,
         ...this.fixedCostFormValue,
       };
-      return new RankFixedCostRuleModel(input);
+      return new RankFixedCostRuleModel(input).rule;
     }
     //Blocks and Hour and Half
-    if (this.optionsSelected == this.gefOptions(3, 1)) {
+    if (this.validateSelected(3, 1)) {
       const input: BlockHourHalfInputModel = {
         ...this.blockFormValues,
         ...this.hourHalfFormValues,
       };
-      return new BlockHourHalfRuleModel(input);
+      return new BlockHourHalfRuleModel(input).rule;
     }
     //Blocks and Fixed Cost
-    if (this.optionsSelected == this.gefOptions(3, 2)) {
+    if (this.validateSelected(3, 2)) {
       const input: BlockFixedCostInputModel = {
         ...this.blockFormValues,
         ...this.fixedCostFormValue,
       };
-      return new BlockFixedCostRuleModel(input);
+      return new BlockFixedCostRuleModel(input).rule;
     }
     //Default and Hour and Half Cost
-    if (this.optionsSelected == this.gefOptions(4, 1)) {
+    if (this.validateSelected(4, 1)) {
       const input: DefaultHourHalfInputModel = {
         ...this.defaultFormValues,
         ...this.hourHalfFormValues,
       };
-      return new DefaultHourHalfRuleModel(input);
+      return new DefaultHourHalfRuleModel(input).rule;
     }
     //Default and Fixed Cost
-    if (this.optionsSelected == this.gefOptions(4, 2)) {
+    if (this.validateSelected(4, 2)) {
       const input: DefaultFixedCostInputModel = {
         ...this.defaultFormValues,
         ...this.fixedCostFormValue,
       };
-      return new DefaultFixedCostRuleModel(input);
+      return new DefaultFixedCostRuleModel(input).rule;
     }
 
-    this.messageService.error(
-      '',
-      'No pudo obtenerse la tarifa para ser guardada.'
-    );
     return false;
   }
 

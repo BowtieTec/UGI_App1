@@ -21,6 +21,7 @@ import {
 import { Observable, Subscribable } from 'rxjs';
 import { CountriesModel } from '../models/Countries.model';
 import { FormBuilder } from '@angular/forms';
+import { CreateTariffModel } from '../models/Tariff.model';
 
 @Injectable({
   providedIn: 'root',
@@ -175,7 +176,7 @@ export class ParkingService {
   getQR(stationID: string): Observable<Blob> {
     return this.http.get(
       `${this.apiUrl}backoffice/parking/station/${stationID}/downloadqr`,
-      {responseType: 'blob'}
+      { responseType: 'blob' }
     );
   }
 
@@ -190,5 +191,11 @@ export class ParkingService {
     return this.http.delete<ResponseModel>(
       `${this.apiUrl}backoffice/parking/station/${id}`
     );
+  }
+
+  setRule(rule: CreateTariffModel) {
+    return this.http
+      .post<ResponseModel>(`${this.apiUrl}backoffice/tariff`, rule)
+      .toPromise();
   }
 }

@@ -15,7 +15,6 @@ export class HolidayFixedCostInputModel {
 
 export class HolidayHourHalfRuleModel {
   constructor(private holidayInput: HolidayHourHalfInputModel) {}
-
   rule = [
     {
       conditions: {
