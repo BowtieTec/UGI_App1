@@ -1,5 +1,5 @@
 export class UserResponseModel {
-  sucess: boolean = false;
+  success: boolean = false;
   message: string = '';
   data!: AuthModel;
 }
