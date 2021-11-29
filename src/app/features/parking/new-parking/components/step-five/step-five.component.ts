@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import {
   AccessModel,
@@ -14,7 +14,7 @@ import { ResponseModel } from '../../../../../shared/model/Request.model';
   templateUrl: './step-five.component.html',
   styleUrls: ['./step-five.component.css'],
 })
-export class StepFiveComponent implements OnInit {
+export class StepFiveComponent {
   @Input() stepFiveForm!: FormGroup;
   @Output() changeStep = new EventEmitter<number>();
   idEditAntenna: string = '';
@@ -29,10 +29,11 @@ export class StepFiveComponent implements OnInit {
     private parkingService: ParkingService,
     private utilitiesService: UtilitiesService
   ) {
-    this.getInitialData();
+    this.message.showLoading();
+    this.getInitialData().then(() => {
+      this.message.hideLoading();
+    });
   }
-
-  ngOnInit(): void {}
 
   getAccessName(type: number): AccessModel {
     let result = this.accessList.find((x) => x.value == type);
@@ -45,12 +46,12 @@ export class StepFiveComponent implements OnInit {
   }
 
   addAntenna() {
+    this.message.showLoading();
     if (this.stepFiveForm.invalid) {
       this.message.warningTimeOut(
         'No ha llenado todos los datos. Para continuar por favor llene los datos necesarios.'
       );
     } else {
-      this.message.showLoading();
       if (this.idEditAntenna == '') {
         this.parkingService
           .setStepFive(this.getStepFive())
@@ -94,8 +95,12 @@ export class StepFiveComponent implements OnInit {
     this.changeStep.emit(number);
   }
 
+  validateId(id: string | undefined) {
+    return id == undefined ? '' : id;
+  }
+
   editAntenna(antenna: CreateParkingStepFiveModel) {
-    antenna.id == undefined ? (antenna.id = '') : true;
+    antenna.id = this.validateId(antenna.id);
     this.idEditAntenna = antenna.id;
     this.stepFiveForm.controls['type_access'].setValue(antenna.type);
     this.stepFiveForm.controls['name_access'].setValue(antenna.name);
@@ -105,7 +110,7 @@ export class StepFiveComponent implements OnInit {
 
   deleteAntenna(antenna: CreateParkingStepFiveModel) {
     this.message.showLoading();
-    antenna.id == undefined ? (antenna.id = '') : true;
+    antenna.id = this.validateId(antenna.id);
     this.parkingService.deleteAntenna(antenna.id).subscribe((data) => {
       if (data.success) {
         this.getInitialData().then(() => {
@@ -126,7 +131,7 @@ export class StepFiveComponent implements OnInit {
 
   downloadQR(antenna: CreateParkingStepFiveModel) {
     this.message.showLoading();
-    antenna.id == undefined ? (antenna.id = '') : true;
+    antenna.id = this.validateId(antenna.id);
     this.parkingService.getQR(antenna.id).subscribe(
       (data) => {
         const a = document.createElement('a');
@@ -140,7 +145,7 @@ export class StepFiveComponent implements OnInit {
       (err) => {
         this.message.error(
           '',
-          'No pudo descargarse el QR. Por favor verifique si los datos existen. Si el problema persiste, comunicarse con el administrador'
+          'No pudo descargarse el QR. Por favor verifique si los datos existen.'
         );
       }
     );
@@ -168,6 +173,8 @@ export class StepFiveComponent implements OnInit {
           });
         }
       })
-      .catch((e) => {});
+      .catch((e) => {
+        return;
+      });
   }
 }

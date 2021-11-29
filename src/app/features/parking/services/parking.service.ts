@@ -57,7 +57,7 @@ export class ParkingService {
           .catch((err) => {
             this.message.error(
               '',
-              'No se pudo obtener la información inicial. Si el problema persiste comunicarse con el administrador'
+              'No se pudo obtener la información inicial.'
             );
           });
       });
@@ -137,7 +137,7 @@ export class ParkingService {
     if (country === undefined) {
       this.message.errorTimeOut(
         '',
-        'No se encontró el país seleccionado. Verifique la información. Si el problema persiste comunicarse con el administrador.'
+        'No se encontró el país seleccionado. Verifique la información.'
       );
       country = new CountriesModel();
     }

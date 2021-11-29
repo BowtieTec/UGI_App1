@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MessageService } from '../../../../../shared/services/message.service';
 import { ParkingService } from '../../../services/parking.service';
@@ -11,7 +11,7 @@ import { CreateParkingStepFourModel } from '../../../models/CreateParking.model'
   templateUrl: './step-four.component.html',
   styleUrls: ['./step-four.component.css'],
 })
-export class StepFourComponent implements OnInit {
+export class StepFourComponent {
   @Input() stepFourForm!: FormGroup;
   @Output() changeStep = new EventEmitter<number>();
   settingsOptions!: SettingsOptionsModel;
@@ -25,13 +25,22 @@ export class StepFourComponent implements OnInit {
     this.settingsOptions = this.parkingService.settingsOptions;
   }
 
-  ngOnInit(): void {}
+  get isVisaSelected() {
+    const selected = this.stepFourForm.get('pay_method')?.value;
+    return selected != 1 && selected;
+  }
+
+  get isBacSelected() {
+    const selected = this.stepFourForm.get('pay_method')?.value;
+    return selected != 0 && selected;
+  }
 
   controlInvalid(control: string): boolean {
     return this.utilitiesService.controlInvalid(this.stepFourForm, control);
   }
 
   emmitStep(number: number) {
+    this.message.showLoading();
     if (number == 1) {
       if (this.stepFourForm.valid) {
         this.parkingService.parkingStepFour = this.getStepFour();
@@ -54,40 +63,37 @@ export class StepFourComponent implements OnInit {
         this.utilitiesService.markAsTouched(this.stepFourForm);
       }
     } else {
+      this.message.hideLoading();
       this.changeStep.emit(number);
     }
   }
 
   private getStepFour(): CreateParkingStepFourModel {
-    try {
-      return {
-        parkingId: '',
-        business_address: this.stepFourForm.controls['business_address'].value,
-        business_name: this.stepFourForm.controls['business_name'].value,
-        currency: this.stepFourForm.controls['currency'].value,
-        is_our_bac_credential:
-          this.stepFourForm.controls['is_our_bac_credential'].value,
-        is_our_visa_credential:
-          this.stepFourForm.controls['is_our_visa_credential'].value,
-        nit: this.stepFourForm.controls['nit'].value,
-        pay_method: this.stepFourForm.controls['pay_method'].value,
-        visa_credential: {
-          url: this.stepFourForm.controls['url_visa'].value,
-          merchant_id: this.stepFourForm.controls['merchant_id_visa'].value,
-          transaction_key:
-            this.stepFourForm.controls['transaction_key_visa'].value,
-        },
-        bac_credential: {
-          url: this.stepFourForm.controls['url_bac'].value,
-          merchant_id: this.stepFourForm.controls['merchant_id_bac'].value,
-          acquirer_id: this.stepFourForm.controls['acquirer_id_bac'].value,
-          pmtnpssw: this.stepFourForm.controls['pmtnpssw_bac'].value,
-          purchase_currency:
-            this.stepFourForm.controls['purchase_currency_bac'].value,
-        },
-      };
-    } catch (e) {
-      throw e;
-    }
+    return {
+      parkingId: '',
+      business_address: this.stepFourForm.controls['business_address'].value,
+      business_name: this.stepFourForm.controls['business_name'].value,
+      currency: this.stepFourForm.controls['currency'].value,
+      is_our_bac_credential:
+        this.stepFourForm.controls['is_our_bac_credential'].value,
+      is_our_visa_credential:
+        this.stepFourForm.controls['is_our_visa_credential'].value,
+      nit: this.stepFourForm.controls['nit'].value,
+      pay_method: this.stepFourForm.controls['pay_method'].value,
+      visa_credential: {
+        url: this.stepFourForm.controls['url_visa'].value,
+        merchant_id: this.stepFourForm.controls['merchant_id_visa'].value,
+        transaction_key:
+          this.stepFourForm.controls['transaction_key_visa'].value,
+      },
+      bac_credential: {
+        url: this.stepFourForm.controls['url_bac'].value,
+        merchant_id: this.stepFourForm.controls['merchant_id_bac'].value,
+        acquirer_id: this.stepFourForm.controls['acquirer_id_bac'].value,
+        pmtnpssw: this.stepFourForm.controls['pmtnpssw_bac'].value,
+        purchase_currency:
+          this.stepFourForm.controls['purchase_currency_bac'].value,
+      },
+    };
   }
 }

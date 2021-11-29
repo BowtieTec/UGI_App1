@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MessageService } from '../../../shared/services/message.service';
 import { ParkingService } from '../services/parking.service';
@@ -10,7 +10,7 @@ import { UtilitiesService } from '../../../shared/services/utilities.service';
   templateUrl: './new-parking.component.html',
   styleUrls: ['./new-parking.component.css'],
 })
-export class NewParkingComponent implements OnInit {
+export class NewParkingComponent {
   newParkingForm!: FormGroup;
   totalSteps = 6;
   step = 1;
@@ -47,15 +47,8 @@ export class NewParkingComponent implements OnInit {
     return this.newParkingForm.get('stepFive') as FormGroup;
   }
 
-  ngOnInit(): void {
-  }
-
   changeStep(number: number) {
-    this.step + number > this.totalSteps
-      ? (this.step = 1)
-      : this.step + number == 0
-        ? (this.step = this.totalSteps)
-        : (this.step = this.step + number);
+    this.step = this.step + number;
   }
 
   saveParking() {
@@ -142,23 +135,23 @@ export class NewParkingComponent implements OnInit {
       }),
       /*-- Fourth Step-- */
       stepFour: this.formBuilder.group({
-        nit: ['', [Validators.required, this.utilitiesService.validateNIT]],
-        business_address: ['', Validators.required],
-        business_name: ['', Validators.required],
-        pay_method: ['', Validators.required],
-        currency: ['', Validators.required],
+        nit: [null, [Validators.required, this.utilitiesService.validateNIT]],
+        business_address: [null, Validators.required],
+        business_name: [null, Validators.required],
+        pay_method: [null, Validators.required],
+        currency: [null, Validators.required],
         is_our_visa_credential: false,
         is_our_bac_credential: false,
         //Visa Credential
-        merchant_id_visa: [''],
-        transaction_key_visa: [''],
-        url_visa: [''],
+        merchant_id_visa: [null],
+        transaction_key_visa: [null],
+        url_visa: [null],
         //  BAC Credential
-        merchant_id_bac: [''],
-        acquirer_id_bac: [''],
-        purchase_currency_bac: [''],
-        pmtnpssw_bac: [''],
-        url_bac: [''],
+        merchant_id_bac: [null],
+        acquirer_id_bac: [null],
+        purchase_currency_bac: [null],
+        pmtnpssw_bac: [null],
+        url_bac: [null],
       }),
       /* ---Five Step--- */
       stepFive: this.formBuilder.group({

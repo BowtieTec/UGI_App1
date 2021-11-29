@@ -7,7 +7,8 @@ import Swal from 'sweetalert2';
 })
 export class MessageService {
   loading: boolean = false;
-  constructor() {}
+  footer: string =
+    '<div class="text-center"> <bold> Si el problema persiste, por favor comunicarse con el administrador.</bold> </div>';
 
   showLoading() {
     this.loading = true;
@@ -17,13 +18,23 @@ export class MessageService {
     this.loading = false;
   }
 
+  uncontrolledError(text: string = 'Error no controlado') {
+    this.hideLoading();
+    Swal.fire({
+      icon: 'error',
+      text,
+      title: 'Error no controlado',
+      footer: this.footer,
+    });
+  }
+
   error(title: string = '', text: string = '', footer: string = '') {
     this.hideLoading();
     Swal.fire({
       icon: 'error',
       title,
       text,
-      footer,
+      footer: this.footer,
     });
   }
 
@@ -33,6 +44,7 @@ export class MessageService {
       icon: 'warning',
       title,
       text,
+      footer: this.footer,
     });
   }
 
@@ -44,6 +56,7 @@ export class MessageService {
       text,
       timer: 2000,
       showConfirmButton: false,
+      footer: this.footer,
     });
   }
 

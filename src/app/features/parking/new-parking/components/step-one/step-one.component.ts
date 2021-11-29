@@ -82,6 +82,7 @@ export class StepOneComponent implements OnInit {
   }
 
   emmitStep(number: number) {
+    this.message.showLoading();
     if (number == 1 && this.parkingService.parkingStepOne.parkingId == '') {
       if (this.stepOneForm.valid) {
         this.parkingService.parkingStepOne = this.getStepOne();
@@ -105,12 +106,12 @@ export class StepOneComponent implements OnInit {
         this.utilitiesService.markAsTouched(this.stepOneForm);
       }
     } else {
+      this.message.hideLoading();
       this.changeStep.emit(number);
     }
   }
 
   private getStepOne(): CreateParkingStepOneModel {
-    try {
       return {
         parkingId: this.parkingService.parkingStepOne.parkingId,
         address: this.stepOneForm.controls['address'].value,
@@ -127,8 +128,5 @@ export class StepOneComponent implements OnInit {
         special_parking_spaces:
           this.stepOneForm.controls['special_parking_spaces'].value,
       };
-    } catch (e) {
-      throw e;
-    }
   }
 }

@@ -40,6 +40,7 @@ export class StepThreeComponent {
   timeRange: number = 1;
   costType: number = 1;
   disableRanges: boolean = false;
+  generalDataForm: FormGroup;
   holidayForm: FormGroup;
   rankForm: FormGroup;
   blockForm: FormGroup;
@@ -54,6 +55,8 @@ export class StepThreeComponent {
     private messageService: MessageService,
     private parkingService: ParkingService
   ) {
+    this.generalDataForm = this.createGeneralDataForm();
+
     this.holidayForm = this.createHolidayOrRankForm();
     this.rankForm = this.createHolidayOrRankForm();
     this.blockForm = this.createBlockForm();
@@ -65,9 +68,19 @@ export class StepThreeComponent {
 
   saveRule() {
     this.messageService.showLoading();
-    const newRule = new CreateTariffModel();
-    newRule.parking = this.parkingService.parkingStepOne.parkingId;
-    newRule.rule = this.getTariffModel();
+    if (!this.formCostTypeSelected?.valid) {
+      this.messageService.error(
+        '',
+        'Formulario de costos invalido. Porfavor verifique que los datos sean correctos. '
+      );
+      return;
+    }
+    const newRule: CreateTariffModel = {
+      ...this.generalDataFormValues,
+      rule: this.getTariffModel(),
+      parking: this.parkingService.parkingStepOne.parkingId,
+    };
+    console.log(newRule);
     if (!newRule.rule) {
       this.messageService.error(
         '',
@@ -87,9 +100,13 @@ export class StepThreeComponent {
           return data;
         })
         .catch((e) => {
-          console.log(e);
+          this.messageService.uncontrolledError(e.message);
         });
     }
+  }
+
+  validateGeneralDataForm(control: string) {
+    return this.utilitiesService.controlInvalid(this.generalDataForm, control);
   }
 
   validateHolidayForm(control: string) {
@@ -116,26 +133,42 @@ export class StepThreeComponent {
     return this.utilitiesService.controlInvalid(this.fixedCostForm, control);
   }
 
+  private createGeneralDataForm() {
+    return this.formBuilder.group({
+      name: ['', Validators.required],
+      description: ['', Validators.required],
+      isShowDescription: [true],
+    });
+  }
+
   createHolidayOrRankForm() {
     return this.formBuilder.group({
       from: ['', Validators.required],
       to: ['', Validators.required],
-      fromMinute: [null, Validators.required],
+      fromMinute: [null, [Validators.required, Validators.min(0)]],
     });
   }
 
   createBlockForm() {
     return this.formBuilder.group({
-      lowerLimit: [null, Validators.required],
-      upperLimit: [null, Validators.required],
-      fromMinute: [null, Validators.required],
+      lowerLimit: [null, [Validators.required, Validators.min(0)]],
+      upperLimit: [null, [Validators.required, Validators.min(0)]],
+      fromMinute: [null, [Validators.required, Validators.min(0)]],
     });
   }
 
   createDefaultForm() {
     return this.formBuilder.group({
-      fromMinute: [null, Validators.required],
+      fromMinute: [null, [Validators.required, Validators.min(0)]],
     });
+  }
+
+  get generalDataFormValues() {
+    return {
+      name: this.generalDataForm.get('name')!.value,
+      description: this.generalDataForm.get('description')!.value,
+      isShowDescription: this.generalDataForm.get('isShowDescription')!.value,
+    };
   }
 
   get holidayFormValues() {
@@ -181,13 +214,15 @@ export class StepThreeComponent {
     };
   }
 
+  get isValidGeneralData() {
+    return this.generalDataForm.valid;
+  }
+
   validateSelected(time: number, cost: number) {
     return this.timeRange === time && this.costType === cost;
   }
 
   getTariffModel() {
-    console.log('Get Tarif model');
-    console.log(this.validateSelected(1, 1));
     //Holiday and Hour and Half
     if (this.validateSelected(1, 1)) {
       const input: HolidayHourHalfInputModel = {
@@ -269,7 +304,56 @@ export class StepThreeComponent {
     });
   }
 
+  get formTimeRangeSelected() {
+    switch (this.timeRange) {
+      case 1:
+        return this.holidayForm;
+      case 2:
+        return this.rankForm;
+      case 3:
+        return this.blockForm;
+      case 4:
+        return this.defaultForm;
+      default:
+        return null;
+    }
+  }
+
+  get formCostTypeSelected() {
+    switch (this.timeRange) {
+      case 1:
+        return this.hourAHalfForm;
+      case 2:
+        return this.fixedCostForm;
+      default:
+        return null;
+    }
+  }
+
+  setDisableRanges() {
+    const result = this.formTimeRangeSelected?.valid;
+    if (!result) {
+      this.messageService.error(
+        '',
+        'Formulario de rangos de tiempo inválido. Por favor validar que los datos sean correctos.'
+      );
+      return;
+    }
+    if (!this.isValidGeneralData) {
+      this.messageService.error(
+        '',
+        'Formulario de datos generales inválido. Por favor validar que los datos sean correctos.'
+      );
+      return;
+    }
+    if (result) {
+      this.disableRanges = !this.disableRanges;
+    }
+  }
+
   emmitStep(number: number) {
+    this.messageService.showLoading();
     this.changeStep.emit(number);
+    this.messageService.OkTimeOut();
   }
 }

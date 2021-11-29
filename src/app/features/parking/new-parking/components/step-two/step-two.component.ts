@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MessageService } from '../../../../../shared/services/message.service';
 import { ParkingService } from '../../../services/parking.service';
@@ -10,7 +10,7 @@ import { CreateParkingStepTwoModel } from '../../../models/CreateParking.model';
   templateUrl: './step-two.component.html',
   styleUrls: ['./step-two.component.css'],
 })
-export class StepTwoComponent implements OnInit {
+export class StepTwoComponent {
   @Input() stepTwoForm!: FormGroup;
   @Output() changeStep = new EventEmitter<number>();
 
@@ -21,9 +21,8 @@ export class StepTwoComponent implements OnInit {
     private utilitiesService: UtilitiesService
   ) {}
 
-  ngOnInit(): void {}
-
   emmitStep(number: number) {
+    this.message.showLoading();
     if (number == 1) {
       if (this.stepTwoForm.valid) {
         this.parkingService.parkingStepTwo = this.getStepTwo();
@@ -46,6 +45,7 @@ export class StepTwoComponent implements OnInit {
         this.utilitiesService.markAsTouched(this.stepTwoForm);
       }
     } else {
+      this.message.hideLoading();
       this.changeStep.emit(number);
     }
   }
@@ -198,6 +198,7 @@ export class StepTwoComponent implements OnInit {
         ],
       };
     } catch (e) {
+      console.log(e);
       throw e;
     }
   }
