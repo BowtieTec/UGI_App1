@@ -46,7 +46,6 @@ export class AuthGuard implements CanActivate {
       .getMenuOptionsValidated()
       .then((options): boolean => {
         this.messageService.hideLoading();
-
         if (options.find((option) => option.module == route.url.toString())) {
           return true;
         } else {

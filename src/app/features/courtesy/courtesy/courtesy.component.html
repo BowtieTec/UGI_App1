@@ -7,12 +7,14 @@
         name = "form-wrapper"
         novalidate = ""
         [formGroup] = "newCourtesyForm" >
-    <div class = "col-lg-12 col-md-12 col-sm-12 col-xs-12" >
+    <div
+      class = "col-lg-12 col-md-12 col-sm-12 col-xs-12" >
       <div class = "panels " >
         <div class = "titleCards" >
           <span ><em class = "fas fa-sitemap" ></em ></span > Cortesías
         </div >
-        <div class = "row justify-content-center" >
+        <div *ngIf = "ifHaveAction(createCourtesy)"
+             class = "row justify-content-center" >
 
           <div class = "col-xl-4 col-lg-6  col-sm-12" >
             <div class = "mb-4 relative" >
@@ -83,9 +85,9 @@
       </div >
     </div >
   </form >
-  <div class = "col-lg-12 col-md-12 col-sm-12 col-xs-12" >
+  <div *ngIf = "ifHaveAction(listCourtesy)"
+       class = "col-lg-12 col-md-12 col-sm-12 col-xs-12" >
     <div class = "panels" >
-
       <div class = "row" >
         <div class = "col-lg-12" >
           <table datatable
@@ -111,6 +113,7 @@
               <td >{{courtesy.value}}</td >
               <td >
                 <button
+                  *ngIf = "ifHaveAction(downloadCourtesy)"
                   class = "btn btn-outline-danger "
                   (click) = "downloadPDF(courtesy)" ><em class = "fas fa-file-pdf" ></em >
                 </button >

@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { UtilitiesService } from '../../../../../shared/services/utilities.service';
-import { MessageService } from '../../../../../shared/services/message.service';
+import { UtilitiesService } from '../../../../../../shared/services/utilities.service';
+import { MessageService } from '../../../../../../shared/services/message.service';
 import {
   HolidayFixedCostInputModel,
   HolidayHourFixedCostModel,
@@ -26,8 +26,8 @@ import {
   DefaultHourHalfInputModel,
   DefaultHourHalfRuleModel,
 } from './model/DefaultTariff.model';
-import { ParkingService } from '../../../services/parking.service';
-import { CreateTariffModel } from '../../../models/Tariff.model';
+import { ParkingService } from '../../../../services/parking.service';
+import { CreateTariffModel } from '../../../../models/Tariff.model';
 
 @Component({
   selector: 'app-step-three',

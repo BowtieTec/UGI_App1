@@ -1,13 +1,13 @@
 <div class = "panels animate__animated animate__fadeInLeft" >
   <div class = "titleCards" >
-    <span ><i class = "fas fa-users" ></i ></span > Usuarios registrados
+    <span ><em class = "fas fa-users" ></em ></span > Usuarios registrados
   </div >
 
   <table datatable
          [dtOptions] = "dtOptions"
          [dtTrigger] = "dtTrigger"
-         class = "table table-striped" >
-    <!-- row-border  hover table-striped-->
+         class = "table table-striped"
+         aria-label = "Tabla de usuarios" >
     <thead >
     <tr >
       <th scope = "col" >Nombre
@@ -25,12 +25,15 @@
       <td >{{user.name + ' ' + user.last_name}}</td >
       <td >{{user.email}}</td >
       <td class = "text-right" >
-        <button (click) = "editUser(user)"
+        <button *ngIf = "ifHaveAction(editUser)"
+                (click) = "editTheUser(user)"
                 class = "buttonRowEdit me-1"
-                title = "Editar" ><i class = "fas fa-user-edit" ></i >
+                title = "Editar" ><em class = "fas fa-user-edit" ></em >
         </button >
-        <button (click) = "deleteUser(user)"
-                class = "buttonRowDelete" ><i class = "fas fa-user-times" ></i >
+        <button
+          *ngIf = "ifHaveAction(deleteUser)"
+          (click) = "deleteTheUser(user)"
+          class = "buttonRowDelete" ><em class = "fas fa-user-times" ></em >
         </button >
       </td >
     </tr >

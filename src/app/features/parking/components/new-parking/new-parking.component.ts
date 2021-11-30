@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MessageService } from '../../../shared/services/message.service';
-import { ParkingService } from '../services/parking.service';
-import { SettingsOptionsModel } from '../models/SettingsOption.model';
-import { UtilitiesService } from '../../../shared/services/utilities.service';
+import { MessageService } from '../../../../shared/services/message.service';
+import { ParkingService } from '../../services/parking.service';
+import { SettingsOptionsModel } from '../../models/SettingsOption.model';
+import { UtilitiesService } from '../../../../shared/services/utilities.service';
 
 @Component({
   selector: 'app-new-parking',
@@ -98,7 +98,9 @@ export class NewParkingComponent {
         rules: [this.parkingService.parkingStepOne.rules, Validators.required],
         is_show_map: [this.parkingService.parkingStepOne.is_show_map],
         country: [
-          this.parkingService.parkingStepOne.country,
+          this.parkingService.parkingStepOne.country
+            ? 0
+            : this.parkingService.parkingStepOne.country,
           [Validators.required, Validators.min(1)],
         ],
       }),
@@ -155,10 +157,10 @@ export class NewParkingComponent {
       }),
       /* ---Five Step--- */
       stepFive: this.formBuilder.group({
-        type_access: ['', Validators.required],
-        name_access: ['', Validators.required],
-        mac_access: ['', Validators.required],
-        antenna_access: ['', Validators.required],
+        type_access: [null, Validators.required],
+        name_access: [null, Validators.required],
+        mac_access: [null, Validators.required],
+        antenna_access: [null, Validators.required],
       }),
     });
   }

@@ -5,16 +5,15 @@ import { environment } from '../../../environments/environment';
 import { AuthService } from './auth.service';
 import { map } from 'rxjs/operators';
 import { OptionMenuModel } from '../model/OptionMenu.model';
-import { Message } from '@angular/compiler/src/i18n/i18n_ast';
 import { MessageService } from './message.service';
-import { Observable } from 'rxjs';
+
 
 @Injectable({
   providedIn: 'root',
 })
 export class PermissionsService {
   private apiUrl = environment.serverAPI;
-
+  actions: string[] = [];
   constructor(
     private http: HttpClient,
     private auth: AuthService,
@@ -34,6 +33,14 @@ export class PermissionsService {
       );
   }
 
+  get actionsOfPermissions() {
+    return this.actions;
+  }
+
+  ifHaveAction(action: string) {
+    return !!this.actions.find((x) => x == action);
+  }
+
   getMenuOptionsValidated() {
     this.messageService.showLoading();
     let options: OptionMenuModel[] = environment.leftMenu;
@@ -41,6 +48,7 @@ export class PermissionsService {
     return this.getPermissions()
       .toPromise()
       .then((permissions: any) => {
+        this.actions = permissions.permissions.map((a: any) => a.action);
         options.forEach((option: OptionMenuModel) => {
           if (
             permissions.permissions.find(

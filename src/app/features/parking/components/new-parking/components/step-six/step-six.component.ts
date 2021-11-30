@@ -1,16 +1,16 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { ParkingService } from '../../../services/parking.service';
-import { CountriesModel } from '../../../models/Countries.model';
-import { MessageService } from '../../../../../shared/services/message.service';
-import { Day } from '../../../models/SettingsOption.model';
-import { AccessModel } from '../../../models/CreateParking.model';
+import { Component, EventEmitter, Output } from '@angular/core';
+import { ParkingService } from '../../../../services/parking.service';
+import { CountriesModel } from '../../../../models/Countries.model';
+import { MessageService } from '../../../../../../shared/services/message.service';
+import { Day } from '../../../../models/SettingsOption.model';
+import { AccessModel } from '../../../../models/CreateParking.model';
 
 @Component({
   selector: 'app-step-six',
   templateUrl: './step-six.component.html',
   styleUrls: ['./step-six.component.css'],
 })
-export class StepSixComponent implements OnInit {
+export class StepSixComponent {
   @Output() changeStep = new EventEmitter<number>();
   countries: CountriesModel[] = new Array<CountriesModel>();
 
@@ -33,15 +33,9 @@ export class StepSixComponent implements OnInit {
   get stepFour() {
     return this.parkingService.parkingStepFour;
   }
-
-  // get stepThree(){
-  //   return this.parkingService.three;
-
   get stepFive() {
     return this.parkingService.parkingStepFive;
   }
-
-  ngOnInit(): void {}
 
   getInitialData() {
     return this.parkingService

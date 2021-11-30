@@ -42,6 +42,10 @@ export class AuthService {
     };
   }
 
+  get isSudo() {
+    return this.getUser().user.role.isSudo;
+  }
+
   cleanUser() {
     localStorage.removeItem(this.crypto.encryptKey('User'));
   }

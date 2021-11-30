@@ -1,11 +1,13 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ParkingComponent } from './parking/parking.component';
-import { NewParkingComponent } from './new-parking/new-parking.component';
+import { ParkingComponent } from './components/parking/parking.component';
+import { NewParkingComponent } from './components/new-parking/new-parking.component';
+import { ParkingMenuComponent } from './parking-menu.component';
 
 const routes: Routes = [
   { path: 'parkingToday', component: ParkingComponent, outlet: 'home' }, //List of parking today
-  { path: '', component: NewParkingComponent, outlet: 'home' }, // New Parking
+  { path: '¨newParking', component: NewParkingComponent, outlet: 'home' }, // New Parking
+  { path: '', component: ParkingMenuComponent, outlet: 'home' }, // New Parking
 ];
 
 @NgModule({

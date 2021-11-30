@@ -24,7 +24,7 @@
           placeholder = "NOMBRE:"
           type = "text" >
         <small *ngIf = "controlInvalid('name')"
-               class = "text-danger animate__animated  animate__rotateIn" >* Este campo es obligatorio</small >
+               class = "text-danger animate__animated  animate__rotateIn" >* El valor no es valido</small >
       </div >
     </div >
     <div class = "col-xl-6 col-lg-6  col-sm-12" >
@@ -37,8 +37,7 @@
           placeholder = "DIRECCIÓN:"
           type = "text" >
         <small *ngIf = "controlInvalid('address')"
-               class = "text-danger" >* Este campo es
-                                      obligatorio</small >
+               class = "text-danger" >* El valor no es valido</small >
       </div >
     </div >
     <div class = "col-xl-6 col-lg-6  col-sm-12" >
@@ -75,7 +74,7 @@
                placeholder = "TIEMPO DE SALIDA:"
                type = "number" >
         <small *ngIf = "controlInvalid('minutes_to_exit')"
-               class = "text-danger animate__animated  animate__rotateIn" >* Este campo es obligatorio</small >
+               class = "text-danger animate__animated  animate__rotateIn" >* El valor no es valido</small >
       </div >
     </div >
     <div class = "col-xl-6 col-lg-6  col-sm-12" >
@@ -84,11 +83,14 @@
         <select [class.is-invalid] = "controlInvalid('country')"
                 class = "inputClass"
                 formControlName = "country" >
+          <option
+            value = "0" > País
+          </option >
           <option *ngFor = "let country of countries"
                   [value] = "country.id" >{{country.name}}</option >
         </select >
         <small *ngIf = "controlInvalid('country')"
-               class = "text-danger animate__animated  animate__rotateIn" >* Este campo es obligatorio</small >
+               class = "text-danger animate__animated  animate__rotateIn" >* El valor no es valido</small >
       </div >
     </div >
   </div >
@@ -103,7 +105,7 @@
                   rows = "5" >
                     </textarea >
         <small *ngIf = "controlInvalid('rules')"
-               class = "text-danger animate__animated  animate__rotateIn" >* Este campo es obligatorio</small >
+               class = "text-danger animate__animated  animate__rotateIn" >* El valor no es valido</small >
       </div >
     </div >
   </div >
