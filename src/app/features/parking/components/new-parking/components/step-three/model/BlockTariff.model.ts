@@ -1,4 +1,6 @@
 export class BlockHourHalfInputModel {
+  myDescriptionTime: string = '';
+  myDescriptionCost: string = '';
   lowerLimit: number = 0;
   upperLimit: number = 0;
   fromMinute: number = 0;
@@ -7,6 +9,8 @@ export class BlockHourHalfInputModel {
 }
 
 export class BlockFixedCostInputModel {
+  myDescriptionTime: string = '';
+  myDescriptionCost: string = '';
   lowerLimit: number = 0;
   upperLimit: number = 0;
   fromMinute: number = 0;
@@ -16,6 +20,8 @@ export class BlockFixedCostInputModel {
 export class BlockHourHalfRuleModel {
   constructor(private blockInput: BlockHourHalfInputModel) {}
 
+  myDescription: string =
+    this.blockInput.myDescriptionTime + ' ' + this.blockInput.myDescriptionCost;
   rule = [
     {
       conditions: {
@@ -84,6 +90,8 @@ export class BlockHourHalfRuleModel {
 export class BlockFixedCostRuleModel {
   constructor(private blockInput: BlockFixedCostInputModel) {}
 
+  myDescription: string =
+    this.blockInput.myDescriptionTime + ' ' + this.blockInput.myDescriptionCost;
   rule = [
     {
       conditions: {

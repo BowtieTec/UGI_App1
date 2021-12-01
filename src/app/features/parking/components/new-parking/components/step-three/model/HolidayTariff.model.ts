@@ -1,4 +1,7 @@
+
 export class HolidayHourHalfInputModel {
+  myDescriptionTime: string = '';
+  myDescriptionCost: string = '';
   fromDate: Date = new Date();
   toDate: Date = new Date();
   fromMinute: number = 0;
@@ -7,6 +10,8 @@ export class HolidayHourHalfInputModel {
 }
 
 export class HolidayFixedCostInputModel {
+  myDescriptionTime: string = '';
+  myDescriptionCost: string = '';
   fromDate: Date = new Date();
   toDate: Date = new Date();
   fromMinute: number = 0;
@@ -15,6 +20,11 @@ export class HolidayFixedCostInputModel {
 
 export class HolidayHourHalfRuleModel {
   constructor(private holidayInput: HolidayHourHalfInputModel) {}
+
+  myDescription: string =
+    this.holidayInput.myDescriptionTime +
+    ' ' +
+    this.holidayInput.myDescriptionCost;
   rule = [
     {
       conditions: {
@@ -78,6 +88,10 @@ export class HolidayHourHalfRuleModel {
 export class HolidayHourFixedCostModel {
   constructor(private holidayInput: HolidayFixedCostInputModel) {}
 
+  myDescription: string =
+    this.holidayInput.myDescriptionTime +
+    ' ' +
+    this.holidayInput.myDescriptionCost;
   rule = {
     decisions: [
       {
@@ -110,7 +124,7 @@ export class HolidayHourFixedCostModel {
           ],
         },
         event: {
-          type: 'Tarifa fija y dia festivo',
+          type: 'Dia festivo y costo fijo',
           params: {
             value: this.holidayInput.fixedCost,
             path: 1,

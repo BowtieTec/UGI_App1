@@ -83,7 +83,7 @@
              autocomplete = "off"
              checked >
       <label class = "btn btn-outline-success m-1"
-             for = "holidayTxt" >Días festivo</label >
+             for = "holidayTxt" >Fechas especiales</label >
 
       <input type = "radio"
              class = "btn-check "
@@ -93,13 +93,13 @@
              id = "timeRange"
              autocomplete = "off" >
       <label class = "btn btn-outline-success m-1"
-             for = "timeRange" >Por rangos</label >
+             for = "timeRange" >Por horarios</label >
 
       <input type = "radio"
              class = "btn-check"
              name = "rangeTime"
              [disabled] = "disableRanges"
-             (click) = "timeRange=3; costType = 2"
+             (click) = "timeRange=3;"
              id = "timeslot"
              autocomplete = "off" >
       <label class = "btn btn-outline-success m-1"
@@ -113,12 +113,12 @@
              (click) = "timeRange=4"
              autocomplete = "off" >
       <label class = "btn btn-outline-success m-1"
-             for = "default" >Default</label >
+             for = "default" >Por defecto</label >
     </div >
     <div class = "row mt-md-2 mt-xl-3 mt-4" >
       <div *ngIf = "timeRange == 1"
            class = "animate__animated animate__fadeInUp " >
-        <h4 >Días festivos</h4 >
+        <h4 >Fechas especiales o dias festivos</h4 >
 
         <form action = ""
               [formGroup] = "holidayForm" >
@@ -170,7 +170,7 @@
       </div >
       <div *ngIf = "timeRange == 2"
            class = "animate__animated animate__fadeInUp " >
-        <h4 >Rango de horas</h4 >
+        <h4 >Por horarios o rango de horas</h4 >
         <form action = ""
               [formGroup] = "rankForm" >
           <div class = "mb-3" >
@@ -220,7 +220,7 @@
       </div >
       <div *ngIf = "timeRange == 3"
            class = "animate__animated animate__fadeInUp " >
-        <h4 >Por bloques de hora</h4 >
+        <h4 >Por bloques de horas</h4 >
         <form action = ""
               [formGroup] = "blockForm" >
           <div class = "mb-3" >

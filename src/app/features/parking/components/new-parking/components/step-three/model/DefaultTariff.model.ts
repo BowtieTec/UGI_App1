@@ -11,7 +11,6 @@ export class DefaultFixedCostInputModel {
 
 export class DefaultHourHalfRuleModel {
   constructor(private defaultInput: DefaultHourHalfInputModel) {}
-
   rule = [
     {
       conditions: {

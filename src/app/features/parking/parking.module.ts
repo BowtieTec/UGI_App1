@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, CurrencyPipe, DatePipe } from '@angular/common';
 
 import { ParkingRoutingModule } from './parking-routing.module';
 import { ParkingComponent } from './components/parking/parking.component';
@@ -42,5 +42,6 @@ import { ParkingMenuComponent } from './parking-menu.component';
     NgbTimepickerModule,
     NgbModule,
   ],
+  providers: [DatePipe, CurrencyPipe],
 })
 export class ParkingModule {}

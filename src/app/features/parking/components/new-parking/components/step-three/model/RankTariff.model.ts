@@ -1,6 +1,8 @@
 import { Time } from '@angular/common';
 
 export class RankHourHalfInputModel {
+  myDescriptionTime: string = '';
+  myDescriptionCost: string = '';
   fromTime!: Time;
   toTime!: Time;
   fromMinute: number = 0;
@@ -9,6 +11,8 @@ export class RankHourHalfInputModel {
 }
 
 export class RankFixedCostInputModel {
+  myDescriptionTime: string = '';
+  myDescriptionCost: string = '';
   fromTime!: Time;
   toTime!: Time;
   fromMinute: number = 0;
@@ -18,6 +22,8 @@ export class RankFixedCostInputModel {
 export class RankHourHalfRuleModel {
   constructor(private rankInput: RankHourHalfInputModel) {}
 
+  myDescription: string =
+    this.rankInput.myDescriptionTime + ' ' + this.rankInput.myDescriptionCost;
   rule = [
     {
       conditions: {
@@ -111,6 +117,8 @@ export class RankHourHalfRuleModel {
 export class RankFixedCostRuleModel {
   constructor(private rankInput: RankFixedCostInputModel) {}
 
+  myDescription: string =
+    this.rankInput.myDescriptionTime + ' ' + this.rankInput.myDescriptionCost;
   rule = [
     {
       conditions: {
