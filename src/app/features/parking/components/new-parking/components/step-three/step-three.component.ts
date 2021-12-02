@@ -7,7 +7,7 @@ import {
   HolidayHourFixedCostModel,
   HolidayHourHalfInputModel,
   HolidayHourHalfRuleModel,
-} from './model/HolidayTariff.model';
+} from './model/HolidayTariff.model' ;
 import {
   RankFixedCostInputModel,
   RankFixedCostRuleModel,
@@ -29,6 +29,8 @@ import {
 import { ParkingService } from '../../../../services/parking.service';
 import { CreateTariffModel } from '../../../../models/Tariff.model';
 import { CurrencyPipe, DatePipe } from '@angular/common';
+import {DateGreaterValidations, NumberGreaterValidations
+} from "../../../../../../shared/validators/GreatherThan.validations";
 
 @Component({
   selector: 'app-step-three',
@@ -257,7 +259,7 @@ export class StepThreeComponent {
       from: ['', Validators.required],
       to: ['', [Validators.required]],
       fromMinute: [null, [Validators.required, Validators.min(0)]],
-    });
+    }, {validators: [DateGreaterValidations()]});
   }
 
   createBlockForm() {
@@ -265,7 +267,7 @@ export class StepThreeComponent {
       lowerLimit: [null, [Validators.required, Validators.min(0)]],
       upperLimit: [null, [Validators.required, Validators.min(0)]],
       fromMinute: [null, [Validators.required, Validators.min(0)]],
-    });
+    }, {validators: [NumberGreaterValidations()]});
   }
 
   createDefaultForm() {
@@ -349,7 +351,22 @@ export class StepThreeComponent {
 
   setDisableRanges() {
     const result = this.formTimeRangeSelected?.valid;
+    console.log(this.formTimeRangeSelected);
     if (!result) {
+      if(this.formTimeRangeSelected?.errors?.datesInvalid){
+        this.messageService.error(
+          '',
+          'La segunda fecha "Hasta" debe ser mayor a la fecha "Desde".'
+        );
+        return;
+      }
+      if(this.formTimeRangeSelected?.errors?.quantitiesInvalid){
+        this.messageService.error(
+          '',
+          'El limite inferior es mayor al limite superior.'
+        );
+        return;
+      }
       this.messageService.error(
         '',
         'Formulario de rangos de tiempo inválido. Por favor validar que los datos sean correctos.'

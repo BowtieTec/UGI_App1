@@ -43,7 +43,9 @@ export class StepOneComponent implements OnInit {
         if (this.coords.lng == 0 && this.coords.lat == 0) {
           this.coords = { ...r };
         }
-      })
+      }).catch(()=>{
+        this.message.error('', 'Se necesita poder acceder a la ubicación para mostrar el mapa y seleccionar la ubicación del parqueo.');
+    })
       .then(() => {
         return this.parkingService
           .getCountries()
@@ -99,6 +101,14 @@ export class StepOneComponent implements OnInit {
           }
         });
       } else {
+        if( this.stepOneForm.errors?.parkingSpacesInvalid){
+          this.message.error(
+            '',
+            'La cantidad de parqueos especiales debe ser menor a la cantidad de parqueos.'
+          );
+        return ;
+        }
+
         this.message.errorTimeOut(
           '',
           'Datos faltantes o incorrectos. Validar que los datos sean correctos.'
