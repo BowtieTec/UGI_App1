@@ -59,8 +59,8 @@
           <div *ngIf="byDate" class="animate__animated animate__bounceInDown ">
             <div class="col-xl-4 col-lg-6 col-sm-12">
               <div class="mb-5 relative">
-                <label class="labelInput" for="" style="display:block">Fecha de inicio</label>
-                <input type="date" class="form-control inputClass datetimepicker" name="Appointment_time" placeholder="Fecha/Hora de entrada">
+                <label class="labelInput" for="dateInOut" style="display:block">Fecha de inicio</label>
+                <input type="date" class="form-control inputClass datetimepicker" id="dateInOut" name="Appointment_time" placeholder="Fecha/Hora de entrada">
               </div>
             </div>
             <div class="col-xl-4 col-lg-6 col-sm-12">
@@ -71,7 +71,6 @@
             </div>
           </div>
           <hr>
-
           <div class="col-xl-12 col-lg-12 col-sm-12">
             <div class="text-center">
               <button (click)="createMonthly()"  class="btn btn-primary ">CREAR</button>
