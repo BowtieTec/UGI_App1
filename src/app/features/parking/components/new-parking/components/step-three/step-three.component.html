@@ -402,36 +402,35 @@
     </div >
   </div >
 </div >
-<div class = "m-4" >
+<div class = "m-4 animate__animated animate__fadeInDown" >
   <hr >
 </div >
-<div class = "animate__animated animate__rotateInDownLeft" >
+<div class = "" *ngIf="tariffs.length > 0" >
   <h1 class = "display-6 text-center" >Reglas de la tarifa para este parqueo</h1 >
   <!--  Reglas de tarifa  -->
-  <div class = "me-5 ms-5 mb-2 animate__animated  animate__rotateInUpRight" >
+  <div *ngFor="let tariff of tariffs; index as i"
+    class = "me-5 ms-5 mb-2 animate__animated  animate__rotateInUpRight" >
     <div class = "card border-success mb-3" >
-      <div class = "card-header" >Regla #1</div >
+      <div class = "card-header" >Regla #{{i+1}}</div >
       <div class = "card-body text-success" >
-        <h5 class = "card-title" >Tarifa fija</h5 >
+        <h5 class = "card-title" >{{tariff.description}}</h5 >
         <p class = "card-text" >
-          Some quick example text to build on the card title and make up the bulk of the card's content.
+         {{tariff.static_description}}
         </p >
       </div >
     </div >
   </div >
-
-
-  <div class = "text-center"
-       id = "q-box__buttons" >
-    <button (click) = "emmitStep(-1)"
-            class = "btn btn-primary m-2"
-            id = "prev-btn"
-            type = "button" >Anterior
-    </button >
-    <button (click) = "emmitStep(1)"
-            class = "btn btn-primary m-2"
-            id = "next-btn"
-            type = "button" >Siguiente
-    </button >
-  </div >
+ </div >
+<div class = "text-center"
+     id = "q-box__buttons" >
+  <button (click) = "emmitStep(-1)"
+          class = "btn btn-primary m-2"
+          id = "prev-btn"
+          type = "button" >Anterior
+  </button >
+  <button (click) = "emmitStep(1)"
+          class = "btn btn-primary m-2"
+          id = "next-btn"
+          type = "button" >Siguiente
+  </button >
 </div >

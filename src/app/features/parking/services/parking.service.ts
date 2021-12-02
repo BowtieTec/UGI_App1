@@ -198,4 +198,10 @@ export class ParkingService {
       .post<ResponseModel>(`${this.apiUrl}backoffice/tariff`, rule)
       .toPromise();
   }
+
+  getTariffsSaved(parkingId: string) {
+    return this.http
+      .get<ResponseModel>(`${this.apiUrl}backoffice/tariff/parking/${parkingId}`)
+      .toPromise();
+  }
 }

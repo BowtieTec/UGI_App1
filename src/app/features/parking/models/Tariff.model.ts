@@ -1,5 +1,5 @@
 export class CreateTariffModel {
-  myDescription?: string = '';
+  static_description?: string = '';
   parking: string = '';
   name: string = '';
   description: string = '';

@@ -1,7 +1,7 @@
 
 export class HolidayHourHalfInputModel {
-  myDescriptionTime: string = '';
-  myDescriptionCost: string = '';
+  static_descriptionTime: string = '';
+  static_descriptionCost: string = '';
   fromDate: Date = new Date();
   toDate: Date = new Date();
   fromMinute: number = 0;
@@ -10,8 +10,8 @@ export class HolidayHourHalfInputModel {
 }
 
 export class HolidayFixedCostInputModel {
-  myDescriptionTime: string = '';
-  myDescriptionCost: string = '';
+  static_descriptionTime: string = '';
+  static_descriptionCost: string = '';
   fromDate: Date = new Date();
   toDate: Date = new Date();
   fromMinute: number = 0;
@@ -21,10 +21,10 @@ export class HolidayFixedCostInputModel {
 export class HolidayHourHalfRuleModel {
   constructor(private holidayInput: HolidayHourHalfInputModel) {}
 
-  myDescription: string =
-    this.holidayInput.myDescriptionTime +
+  static_description: string =
+    this.holidayInput.static_descriptionTime +
     ' ' +
-    this.holidayInput.myDescriptionCost;
+    this.holidayInput.static_descriptionCost;
   rule = [
     {
       conditions: {
@@ -88,49 +88,47 @@ export class HolidayHourHalfRuleModel {
 export class HolidayHourFixedCostModel {
   constructor(private holidayInput: HolidayFixedCostInputModel) {}
 
-  myDescription: string =
-    this.holidayInput.myDescriptionTime +
+  static_description: string =
+    this.holidayInput.static_descriptionTime +
     ' ' +
-    this.holidayInput.myDescriptionCost;
-  rule = {
-    decisions: [
-      {
-        conditions: {
-          all: [
-            {
-              fact: 'date_out',
-              operator: 'dateIsGreaterThan',
-              value: this.holidayInput.fromDate,
-            },
-            {
-              fact: 'date_out',
-              operator: 'dateIsLessThan',
-              value: this.holidayInput.toDate,
-            },
-            {
-              any: [
-                {
-                  fact: 'hour',
-                  operator: 'greaterThanInclusive',
-                  value: 1,
-                },
-                {
-                  fact: 'minute',
-                  operator: 'greaterThanInclusive',
-                  value: this.holidayInput.fromMinute,
-                },
-              ],
-            },
-          ],
-        },
-        event: {
-          type: 'Dia festivo y costo fijo',
-          params: {
-            value: this.holidayInput.fixedCost,
-            path: 1,
+    this.holidayInput.static_descriptionCost;
+  rule = [
+    {
+      conditions: {
+        all: [
+          {
+            fact: 'date_out',
+            operator: 'dateIsGreaterThan',
+            value: this.holidayInput.fromDate,
           },
+          {
+            fact: 'date_out',
+            operator: 'dateIsLessThan',
+            value: this.holidayInput.toDate,
+          },
+          {
+            any: [
+              {
+                fact: 'hour',
+                operator: 'greaterThanInclusive',
+                value: 1,
+              },
+              {
+                fact: 'minute',
+                operator: 'greaterThanInclusive',
+                value: this.holidayInput.fromMinute,
+              },
+            ],
+          },
+        ],
+      },
+      event: {
+        type: 'Dia festivo y costo fijo',
+        params: {
+          value: this.holidayInput.fixedCost,
+          path: 1,
         },
       },
-    ],
-  };
+    },
+  ]
 }

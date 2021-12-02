@@ -43,6 +43,8 @@ export class StepThreeComponent {
   timeRange: number = 1;
   costType: number = 1;
   disableRanges: boolean = false;
+  tariffs: Array<any> = [];
+
   generalDataForm: FormGroup;
   holidayForm: FormGroup;
   rankForm: FormGroup;
@@ -90,7 +92,7 @@ export class StepThreeComponent {
     );
     const fromMinute = this.holidayForm.get('fromMinute')!.value;
     return {
-      myDescriptionTime: `Día festivo: Desde ${fromDate} Hasta el ${toDate} con un tiempo de gracia de ${fromMinute} minutos.`,
+      static_descriptionTime: `Día festivo: Desde ${fromDate} Hasta el ${toDate} con un tiempo de gracia de ${fromMinute} minutos.`,
       fromDate,
       toDate,
       fromMinute,
@@ -102,7 +104,7 @@ export class StepThreeComponent {
     const toTime = this.rankForm.get('to')!.value;
     const fromMinute = this.rankForm.get('fromMinute')!.value;
     return {
-      myDescriptionTime: `Por Horarios o rangos: Desde las ${fromTime} Hasta las ${toTime}, con un tiempo de gracia de ${fromMinute} minutos.`,
+      static_descriptionTime: `Por Horarios o rangos: Desde las ${fromTime} Hasta las ${toTime}, con un tiempo de gracia de ${fromMinute} minutos.`,
       fromTime,
       toTime,
       fromMinute,
@@ -114,7 +116,7 @@ export class StepThreeComponent {
     const upperLimit = this.blockForm.get('upperLimit')!.value;
     const fromMinute = this.blockForm.get('fromMinute')!.value;
     return {
-      myDescriptionTime: `Por bloques: De ${lowerLimit} a ${upperLimit} horas, con un tiempo de gracia de ${fromMinute} minutos.`,
+      static_descriptionTime: `Por bloques: De ${lowerLimit} a ${upperLimit} horas, con un tiempo de gracia de ${fromMinute} minutos.`,
       lowerLimit,
       upperLimit,
       fromMinute,
@@ -124,7 +126,7 @@ export class StepThreeComponent {
   get defaultFormValues() {
     const fromMinute = this.defaultForm.get('fromMinute')!.value;
     return {
-      myDescriptionTime: `Tarifa por defecto con un tiempo de gracia de ${fromMinute} minutos.`,
+      static_descriptionTime: `Tarifa por defecto con un tiempo de gracia de ${fromMinute} minutos.`,
       fromMinute,
     };
   }
@@ -133,7 +135,7 @@ export class StepThreeComponent {
     const costHour = this.hourAHalfForm.get('hourCost')!.value;
     const costAHalf = this.hourAHalfForm.get('halfCost')!.value;
     return {
-      myDescriptionCost: `Hora/Fracción: Costo por hora: ${this.currencyPipe.transform(
+      static_descriptionCost: `Hora/Fracción: Costo por hora: ${this.currencyPipe.transform(
         costHour,
         'GTQ'
       )} Costo por fracción: ${this.currencyPipe.transform(costAHalf, 'GTQ')}`,
@@ -145,7 +147,7 @@ export class StepThreeComponent {
   get fixedCostFormValue() {
     const fixedCost = this.fixedCostForm.get('fixedCost')!.value;
     return {
-      myDescriptionCost: `Único pago o Tarifa única: ${this.currencyPipe.transform(
+      static_descriptionCost: `Único pago o Tarifa única: ${this.currencyPipe.transform(
         fixedCost,
         'GTQ'
       )}`,
@@ -193,37 +195,38 @@ export class StepThreeComponent {
       );
       return;
     }
+
     const newRule: CreateTariffModel = {
       ...this.generalDataFormValues,
       rules: ruleModelData.rule,
       parking: this.parkingService.parkingStepOne.parkingId,
-      myDescription: ruleModelData.myDescription,
+      static_description: ruleModelData.static_description,
     };
     console.log(newRule);
-
     if (!newRule.rules) {
       this.messageService.error(
         '',
         'No pudo obtenerse la tarifa para ser guardada.'
       );
     } else {
-      console.log(newRule);
-      // this.parkingService
-      //   .setRule(newRule)
-      //   .then((data) => {
-      //     if (data.success) {
-      //       this.messageService.OkTimeOut();
-      //       console.log(data);
-      //     } else {
-      //       this.messageService.error('', data.message);
-      //     }
-      //     return data;
-      //   })
-      //   .catch((e) => {
-      //     this.messageService.uncontrolledError(e.message);
-      //   });
+      this.parkingService
+        .setRule(newRule)
+        .then((data) => {
+          if (data.success) {
+            this.messageService.OkTimeOut();
+          } else {
+            this.messageService.error('', data.message);
+          }
+          return data;
+        }).then(()=>{
+        this.getTariffs();
+      })
+        .catch((e) => {
+          this.messageService.uncontrolledError(e.message);
+        });
       this.messageService.OkTimeOut();
     }
+
   }
 
   validateGeneralDataForm(control: string) {
@@ -351,7 +354,6 @@ export class StepThreeComponent {
 
   setDisableRanges() {
     const result = this.formTimeRangeSelected?.valid;
-    console.log(this.formTimeRangeSelected);
     if (!result) {
       if(this.formTimeRangeSelected?.errors?.datesInvalid){
         this.messageService.error(
@@ -410,6 +412,14 @@ export class StepThreeComponent {
   private createFixedCostForm() {
     return this.formBuilder.group({
       fixedCost: [null, Validators.required],
+    });
+  }
+
+  private getTariffs(){
+    this.parkingService.getTariffsSaved(this.parkingService.parkingStepOne.parkingId).then(data => {
+      if(data.success){
+        this.tariffs = data.data.rules;
+      }
     });
   }
 }

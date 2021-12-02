@@ -1,6 +1,6 @@
 export class BlockHourHalfInputModel {
-  myDescriptionTime: string = '';
-  myDescriptionCost: string = '';
+  static_descriptionTime: string = '';
+  static_descriptionCost: string = '';
   lowerLimit: number = 0;
   upperLimit: number = 0;
   fromMinute: number = 0;
@@ -9,8 +9,8 @@ export class BlockHourHalfInputModel {
 }
 
 export class BlockFixedCostInputModel {
-  myDescriptionTime: string = '';
-  myDescriptionCost: string = '';
+  static_descriptionTime: string = '';
+  static_descriptionCost: string = '';
   lowerLimit: number = 0;
   upperLimit: number = 0;
   fromMinute: number = 0;
@@ -20,8 +20,8 @@ export class BlockFixedCostInputModel {
 export class BlockHourHalfRuleModel {
   constructor(private blockInput: BlockHourHalfInputModel) {}
 
-  myDescription: string =
-    this.blockInput.myDescriptionTime + ' ' + this.blockInput.myDescriptionCost;
+  static_description: string =
+    this.blockInput.static_descriptionTime + ' ' + this.blockInput.static_descriptionCost;
   rule = [
     {
       conditions: {
@@ -90,8 +90,8 @@ export class BlockHourHalfRuleModel {
 export class BlockFixedCostRuleModel {
   constructor(private blockInput: BlockFixedCostInputModel) {}
 
-  myDescription: string =
-    this.blockInput.myDescriptionTime + ' ' + this.blockInput.myDescriptionCost;
+  static_description: string =
+    this.blockInput.static_descriptionTime + ' ' + this.blockInput.static_descriptionCost;
   rule = [
     {
       conditions: {
