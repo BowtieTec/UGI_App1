@@ -19,6 +19,7 @@ import {
   NgbTimepickerModule,
 } from '@ng-bootstrap/ng-bootstrap';
 import { ParkingMenuComponent } from './parking-menu.component';
+import { MonthlyParkingComponent } from './components/monthly-parking/monthly-parking.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { ParkingMenuComponent } from './parking-menu.component';
     StepFiveComponent,
     StepSixComponent,
     ParkingMenuComponent,
+    MonthlyParkingComponent,
   ],
   imports: [
     CommonModule,

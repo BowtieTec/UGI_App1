@@ -1,0 +1,86 @@
+<div class="row justify-content-center">
+  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+    <div class="panels">
+      <div class="titleCards">
+        <span><i class="fas fa-sitemap"></i></span> Nuevo parqueo por mes
+      </div>
+      <form action = "" [formGroup]="monthlyForm">
+        <div class="row justify-content-center mb-4">
+          <div class="col-xl-4 col-lg-6 col-sm-12">
+            <div class="mb-4 relative">
+              <label class="labelInput">Parqueo</label>
+              <select class="inputClass" >
+                <option value="">PARQUEO</option>
+                <option value="">Parqueo 1</option>
+                <option value="">Parqueo 2</option>
+                <option value="">Parqueo 3</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-xl-4 col-lg-6  col-sm-12">
+            <div class="mb-4 relative">
+              <label class="labelInput">Cobro</label>
+              <input type="number" min="0.00" step="0.01" class="form-control inputClass" placeholder="COBRO POR MES:">
+            </div>
+          </div>
+          <hr>
+          <div class="col-xl-12 col-lg-12 col-sm-12 text-center mb-4">
+            <h6>Días habilitados para entrada</h6>
+            <ul class="opcionActivo">
+              <li class="m-1" ><input type="checkbox" id="checkboxTwo" value="Martes" ><label for="checkboxTwo">Martes</label></li>
+              <li class="m-1"><input type="checkbox" id="checkboxThree" value="Miércoles" ><label for="checkboxThree">Miércoles</label></li>
+              <li class="m-1"><input type="checkbox" id="checkboxOne" value="Lunes"><label for="checkboxOne">Lunes</label></li>
+              <li class="m-1"><input type="checkbox" id="checkboxFour" value="Jueves"><label for="checkboxFour">Jueves</label></li>
+              <li class="m-1"><input type="checkbox" id="checkboxFive" value="Viernes"><label for="checkboxFive">Viernes</label></li>
+              <li class="m-1"><input type="checkbox" id="checkboxSix" value="Sábado" ><label for="checkboxSix">Sábado</label></li>
+              <li class="m-1"><input type="checkbox" id="checkboxSeven" value="Domingo"><label for="checkboxSeven">Domingo</label></li>
+            </ul>
+          </div>
+          <div class="col-xl-4 col-lg-6  col-sm-12 ">
+            <div class="mb-4 relative">
+              <label class="labelInput">Celular</label>
+              <input type="text" class="form-control inputClass" placeholder="CELULAR:">
+            </div>
+          </div>
+          <div class="col-xl-4 col-lg-6  col-sm-12 ">
+            <div class="mb-4 relative">
+              <label class="labelInput">Identificador</label>
+              <input type="text" class="form-control inputClass" placeholder="IDENTIFICADOR:">
+            </div>
+          </div>
+
+          <div class="col-xl-12 col-lg-12 col-sm-12 text-center  mb-4">
+            <ul class="opcionActivo">
+              <li class="m-1"><input formControlName="unlimited" type="checkbox" id="radioOne" ><label for="radioOne">Ilimitado</label></li>
+              <li class="m-1"><input formControlName="byDate" id="byDateRadio" type="checkbox" ><label for="byDateRadio">Por fecha</label></li>
+            </ul>
+          </div>
+
+          <div *ngIf="byDate" class="animate__animated animate__bounceInDown ">
+            <div class="col-xl-4 col-lg-6 col-sm-12">
+              <div class="mb-5 relative">
+                <label class="labelInput" for="" style="display:block">Fecha de inicio</label>
+                <input type="date" class="form-control inputClass datetimepicker" name="Appointment_time" placeholder="Fecha/Hora de entrada">
+              </div>
+            </div>
+            <div class="col-xl-4 col-lg-6 col-sm-12">
+              <div class="mb-4 relative">
+                <label class="labelInput" for="" style="display:block">Fecha de fin</label>
+                <input type="date" class="form-control inputClass datetimepicker" name="Appointment_time" placeholder="Fecha/Hora de salida">
+              </div>
+            </div>
+          </div>
+          <hr>
+
+          <div class="col-xl-12 col-lg-12 col-sm-12">
+            <div class="text-center">
+              <button (click)="createMonthly()"  class="btn btn-primary ">CREAR</button>
+            </div>
+          </div>
+        </div>
+      </form >
+
+    </div>
+  </div>
+
+</div>
