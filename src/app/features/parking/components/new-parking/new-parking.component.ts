@@ -72,68 +72,74 @@ export class NewParkingComponent {
   private createForm() {
     return this.formBuilder.group({
       /*-- First Step --*/
-      stepOne: this.formBuilder.group({
-        name: [this.parkingService.parkingStepOne.name, Validators.required],
-        address: [
-          this.parkingService.parkingStepOne.address,
-          Validators.required,
-        ],
-        parking_spaces: [
-          this.parkingService.parkingStepOne.parking_spaces == 0
-            ? ''
-            : this.parkingService.parkingStepOne.parking_spaces,
-          [Validators.required, Validators.min(0)],
-        ],
-        special_parking_spaces: [
-          this.parkingService.parkingStepOne.special_parking_spaces == 0
-            ? ''
-            : this.parkingService.parkingStepOne.special_parking_spaces,
-          [Validators.required, Validators.min(0)],
-        ],
-        minutes_to_exit: [
-          this.parkingService.parkingStepOne.minutes_to_exit == 0
-            ? ''
-            : this.parkingService.parkingStepOne.special_parking_spaces,
-          [Validators.required, Validators.min(0)],
-        ],
-        rules: [this.parkingService.parkingStepOne.rules, Validators.required],
-        is_show_map: [this.parkingService.parkingStepOne.is_show_map],
-        country: [
-          this.parkingService.parkingStepOne.country
-            ? 0
-            : this.parkingService.parkingStepOne.country,
-          [Validators.required, Validators.min(1)],
-        ],
-      }, {validators: [NumberParkingGreaterValidations()]}),
+      stepOne: this.formBuilder.group(
+        {
+          name: [this.parkingService.parkingStepOne.name, Validators.required],
+          address: [
+            this.parkingService.parkingStepOne.address,
+            Validators.required,
+          ],
+          parking_spaces: [
+            this.parkingService.parkingStepOne.parking_spaces == 0
+              ? ''
+              : this.parkingService.parkingStepOne.parking_spaces,
+            [Validators.required, Validators.min(0)],
+          ],
+          special_parking_spaces: [
+            this.parkingService.parkingStepOne.special_parking_spaces == 0
+              ? ''
+              : this.parkingService.parkingStepOne.special_parking_spaces,
+            [Validators.required, Validators.min(0)],
+          ],
+          minutes_to_exit: [
+            this.parkingService.parkingStepOne.minutes_to_exit == 0
+              ? ''
+              : this.parkingService.parkingStepOne.special_parking_spaces,
+            [Validators.required, Validators.min(0)],
+          ],
+          rules: [
+            this.parkingService.parkingStepOne.rules,
+            Validators.required,
+          ],
+          is_show_map: [this.parkingService.parkingStepOne.is_show_map],
+          country: [
+            this.parkingService.parkingStepOne.country
+              ? 0
+              : this.parkingService.parkingStepOne.country,
+            [Validators.required, Validators.min(1)],
+          ],
+        },
+        { validators: [NumberParkingGreaterValidations()] }
+      ),
       /*-- Second Step-- */
       stepTwo: this.formBuilder.group({
         //Monday
-        isOpen0: [true],
-        openning_time0: ['00:00:00'],
+        isOpen0: [{ value: true, disabled: true }],
+        openning_time0: ['06:00:00'],
         closing_time0: ['00:00:00'],
         //Tuesday
-        isOpen1: [true],
-        openning_time1: ['00:00:00'],
+        isOpen1: [{ value: true, disabled: true }],
+        openning_time1: ['06:00:00'],
         closing_time1: ['00:00:00'],
         //Wednesday
-        isOpen2: [true],
-        openning_time2: ['00:00:00'],
+        isOpen2: [{ value: true, disabled: true }],
+        openning_time2: ['06:00:00'],
         closing_time2: ['00:00:00'],
         //Thursday
-        isOpen3: [true],
-        openning_time3: ['00:00:00'],
+        isOpen3: [{ value: true, disabled: true }],
+        openning_time3: ['06:00:00'],
         closing_time3: ['00:00:00'],
         //Friday
-        isOpen4: [true],
-        openning_time4: ['00:00:00'],
+        isOpen4: [{ value: true, disabled: true }],
+        openning_time4: ['06:00:00'],
         closing_time4: ['00:00:00'],
         //Saturday
-        isOpen5: [true],
-        openning_time5: ['00:00:00'],
+        isOpen5: [{ value: true, disabled: true }],
+        openning_time5: ['06:00:00'],
         closing_time5: ['00:00:00'],
         //Sunday
-        isOpen6: [true],
-        openning_time6: ['00:00:00'],
+        isOpen6: [{ value: true, disabled: true }],
+        openning_time6: ['06:00:00'],
         closing_time6: ['00:00:00'],
       }),
       /*-- Fourth Step-- */

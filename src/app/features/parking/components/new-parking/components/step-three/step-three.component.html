@@ -59,7 +59,7 @@
     </div >
   </form >
 </div >
-<hr >
+<hr *ngIf = "isValidGeneralData" >
 <div class = "row" >
   <div
     *ngIf = "isValidGeneralData"
@@ -403,19 +403,26 @@
   </div >
 </div >
 <div class = "m-4 animate__animated animate__fadeInDown" >
-  <hr >
+  <hr *ngIf = "ifHaveTariffData" >
 </div >
-<div class = "" *ngIf="tariffs.length > 0" >
+<div
+  *ngIf = " ifHaveTariffData> 0" >
   <h1 class = "display-6 text-center" >Reglas de la tarifa para este parqueo</h1 >
   <!--  Reglas de tarifa  -->
-  <div *ngFor="let tariff of tariffs; index as i"
-    class = "me-5 ms-5 mb-2 animate__animated  animate__rotateInUpRight" >
+  <div *ngFor = "let tariff of tariffs; index as i"
+       class = "me-5 ms-5 mb-2 animate__animated  animate__rotateInUpRight" >
     <div class = "card border-success mb-3" >
-      <div class = "card-header" >Regla #{{i+1}}</div >
+      <div class = "card-header" >Regla #{{i + 1}}</div >
       <div class = "card-body text-success" >
         <h5 class = "card-title" >{{tariff.description}}</h5 >
         <p class = "card-text" >
-         {{tariff.static_description}}
+          {{tariff.static_description}}
+          <br >
+          <br >
+          <button type = "button"
+                  (click) = "deleteTariff(tariff.id)"
+                  class = "btn btn-danger" ><em class = "fas fa-trash" ></em >
+          </button >
         </p >
       </div >
     </div >

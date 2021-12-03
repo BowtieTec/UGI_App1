@@ -201,7 +201,15 @@ export class ParkingService {
 
   getTariffsSaved(parkingId: string) {
     return this.http
-      .get<ResponseModel>(`${this.apiUrl}backoffice/tariff/parking/${parkingId}`)
+      .get<ResponseModel>(
+        `${this.apiUrl}backoffice/tariff/parking/${parkingId}`
+      )
+      .toPromise();
+  }
+
+  deleteTariff(id: string) {
+    return this.http
+      .delete<ResponseModel>(`${this.apiUrl}backoffice/tariff/rule/${id}`)
       .toPromise();
   }
 }

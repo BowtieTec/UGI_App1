@@ -185,6 +185,10 @@ export class StepThreeComponent {
     }
   }
 
+  get ifHaveTariffData() {
+    return this.tariffs && this.tariffs.length > 0;
+  }
+
   saveRule() {
     const ruleModelData = this.getTariffModel();
     this.messageService.showLoading();
@@ -218,15 +222,15 @@ export class StepThreeComponent {
             this.messageService.error('', data.message);
           }
           return data;
-        }).then(()=>{
-        this.getTariffs();
-      })
+        })
+        .then(() => {
+          this.getTariffs();
+        })
         .catch((e) => {
           this.messageService.uncontrolledError(e.message);
         });
       this.messageService.OkTimeOut();
     }
-
   }
 
   validateGeneralDataForm(control: string) {
@@ -258,19 +262,25 @@ export class StepThreeComponent {
   }
 
   createHolidayOrRankForm() {
-    return this.formBuilder.group({
-      from: ['', Validators.required],
-      to: ['', [Validators.required]],
-      fromMinute: [null, [Validators.required, Validators.min(0)]],
-    }, {validators: [DateGreaterValidations()]});
+    return this.formBuilder.group(
+      {
+        from: ['', Validators.required],
+        to: ['', [Validators.required]],
+        fromMinute: [null, [Validators.required, Validators.min(0)]],
+      },
+      { validators: [DateGreaterValidations()] }
+    );
   }
 
   createBlockForm() {
-    return this.formBuilder.group({
-      lowerLimit: [null, [Validators.required, Validators.min(0)]],
-      upperLimit: [null, [Validators.required, Validators.min(0)]],
-      fromMinute: [null, [Validators.required, Validators.min(0)]],
-    }, {validators: [NumberGreaterValidations()]});
+    return this.formBuilder.group(
+      {
+        lowerLimit: [null, [Validators.required, Validators.min(0)]],
+        upperLimit: [null, [Validators.required, Validators.min(0)]],
+        fromMinute: [null, [Validators.required, Validators.min(0)]],
+      },
+      { validators: [NumberGreaterValidations()] }
+    );
   }
 
   createDefaultForm() {
@@ -355,14 +365,14 @@ export class StepThreeComponent {
   setDisableRanges() {
     const result = this.formTimeRangeSelected?.valid;
     if (!result) {
-      if(this.formTimeRangeSelected?.errors?.datesInvalid){
+      if (this.formTimeRangeSelected?.errors?.datesInvalid) {
         this.messageService.error(
           '',
           'La segunda fecha "Hasta" debe ser mayor a la fecha "Desde".'
         );
         return;
       }
-      if(this.formTimeRangeSelected?.errors?.quantitiesInvalid){
+      if (this.formTimeRangeSelected?.errors?.quantitiesInvalid) {
         this.messageService.error(
           '',
           'El limite inferior es mayor al limite superior.'
@@ -415,11 +425,30 @@ export class StepThreeComponent {
     });
   }
 
-  private getTariffs(){
-    this.parkingService.getTariffsSaved(this.parkingService.parkingStepOne.parkingId).then(data => {
-      if(data.success){
-        this.tariffs = data.data.rules;
-      }
-    });
+  private getTariffs() {
+    this.parkingService
+      .getTariffsSaved(this.parkingService.parkingStepOne.parkingId)
+      .then((data) => {
+        if (data.success) {
+          this.tariffs = data.data.rules;
+        }
+      });
+  }
+
+  deleteTariff(id: string) {
+    this.messageService.showLoading();
+    this.parkingService
+      .deleteTariff(id)
+      .then((data) => {
+        if (!data.success) this.messageService.error('', data.message);
+
+        return data;
+      })
+      .then((data) => {
+        if (data.success) {
+          this.getTariffs();
+          this.messageService.OkTimeOut();
+        }
+      });
   }
 }
