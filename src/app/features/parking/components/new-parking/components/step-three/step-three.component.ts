@@ -186,7 +186,7 @@ export class StepThreeComponent {
   }
 
   get ifHaveTariffData() {
-    return this.tariffs && this.tariffs.length > 0;
+    return this.tariffs && this.tariffs?.length > 0;
   }
 
   saveRule() {
