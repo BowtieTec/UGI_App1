@@ -16,6 +16,13 @@
       <app-parking ></app-parking >
     </ng-template >
   </ng-container >
+  <ng-container ngbNavItem
+                *ngIf = "ifHaveAction(listParking)" >
+    <a ngbNavLink ><em class = "fas fa-calendar-check" ></em > Parqueos mensuales</a >
+    <ng-template ngbNavContent >
+      <app-monthly-parking ></app-monthly-parking >
+    </ng-template >
+  </ng-container >
 </nav >
 <div [ngbNavOutlet] = "nav"
      class = "mt-2" ></div >

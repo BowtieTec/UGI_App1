@@ -36,6 +36,7 @@ export class CreateParkingStepFiveModel {
   name: string = '';
   antena: string = '';
   mac: string = '';
+  isPrivate: boolean = false;
 }
 
 export class Coordinates {

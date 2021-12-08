@@ -51,43 +51,46 @@ export class StepFiveComponent {
       this.message.warningTimeOut(
         'No ha llenado todos los datos. Para continuar por favor llene los datos necesarios.'
       );
-    } else {
-      if (this.idEditAntenna == '') {
-        this.parkingService
-          .setStepFive(this.getStepFive())
-          .then((data: ResponseModel) => {
-            if (data.success) {
-              this.getInitialData().then(() => {
-                this.message.OkTimeOut('Guardado');
-                this.cleanForm();
-              });
-            } else {
-              this.message.error(
-                '',
-                'No pudo guardarse la antena, error: ' + data.message
-              );
-            }
-          });
-      } else {
-        let antennaToEdit: CreateParkingStepFiveModel = this.getStepFive();
-        antennaToEdit.id = this.idEditAntenna;
-        this.parkingService
-          .editStepFive(antennaToEdit)
-          .subscribe((data: ResponseModel) => {
-            if (data.success) {
+      return;
+    }
+    if (this.idEditAntenna == '') {
+      console.log(this.getStepFive());
+      this.parkingService
+        .setStepFive(this.getStepFive())
+        .then((data: ResponseModel) => {
+          console.log(data);
+          if (data.success) {
+            this.getInitialData().then(() => {
+              this.message.OkTimeOut('Guardado');
               this.cleanForm();
-              this.getInitialData().then(() => {
-                this.message.OkTimeOut('Guardado');
-              });
-            } else {
-              this.message.error(
-                '',
-                'No pudo guardarse la antena, error: ' + data.message
-              );
-            }
-            this.idEditAntenna = '';
-          });
-      }
+            });
+          } else {
+            this.message.error(
+              '',
+              'No pudo guardarse la antena, error: ' + data.message
+            );
+          }
+        });
+    } else {
+      let antennaToEdit: CreateParkingStepFiveModel = this.getStepFive();
+      antennaToEdit.id = this.idEditAntenna;
+      this.parkingService
+        .editStepFive(antennaToEdit)
+        .subscribe((data: ResponseModel) => {
+          console.log(data);
+          if (data.success) {
+            this.cleanForm();
+            this.getInitialData().then(() => {
+              this.message.OkTimeOut('Guardado');
+            });
+          } else {
+            this.message.error(
+              '',
+              'No pudo guardarse la antena, error: ' + data.message
+            );
+          }
+          this.idEditAntenna = '';
+        });
     }
   }
 
@@ -106,6 +109,7 @@ export class StepFiveComponent {
     this.stepFiveForm.controls['name_access'].setValue(antenna.name);
     this.stepFiveForm.controls['mac_access'].setValue(antenna.mac);
     this.stepFiveForm.controls['antenna_access'].setValue(antenna.antena);
+    this.stepFiveForm.controls['isPrivate'].setValue(antenna.isPrivate);
   }
 
   deleteAntenna(antenna: CreateParkingStepFiveModel) {
@@ -126,6 +130,7 @@ export class StepFiveComponent {
     this.stepFiveForm.controls['name_access'].setValue('');
     this.stepFiveForm.controls['mac_access'].setValue('');
     this.stepFiveForm.controls['antenna_access'].setValue('');
+    this.stepFiveForm.controls['isPrivate'].setValue('');
     this.utilitiesService.markAsUnTouched(this.stepFiveForm);
   }
 
@@ -158,6 +163,7 @@ export class StepFiveComponent {
       type: this.stepFiveForm.controls['type_access'].value,
       antena: this.stepFiveForm.controls['antenna_access'].value,
       mac: this.stepFiveForm.controls['mac_access'].value,
+      isPrivate: this.stepFiveForm.controls['isPrivate'].value,
     };
   }
 

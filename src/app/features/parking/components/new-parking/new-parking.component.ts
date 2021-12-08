@@ -168,6 +168,7 @@ export class NewParkingComponent {
         name_access: [null, Validators.required],
         mac_access: [null, Validators.required],
         antenna_access: [null, Validators.required],
+        isPrivate: [false],
       }),
     });
   }
