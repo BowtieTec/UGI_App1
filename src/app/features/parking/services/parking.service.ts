@@ -212,4 +212,37 @@ export class ParkingService {
       .delete<ResponseModel>(`${this.apiUrl}backoffice/tariff/rule/${id}`)
       .toPromise();
   }
+
+  getUsersByTelephone(telephone: string) {
+    return this.http
+      .get<ResponseModel>(
+        `${this.apiUrl}backoffice/user/search?number=${telephone}`
+      )
+      .toPromise();
+  }
+
+  createMonthlySubscription(subscription: any) {
+    return this.http
+      .post<ResponseModel>(
+        `${this.apiUrl}backoffice/monthly-subscription/create`,
+        subscription
+      )
+      .toPromise();
+  }
+
+  getProfilesOfMonthlySubscription(parkingId: string) {
+    return this.http
+      .get<ResponseModel>(
+        `${this.apiUrl}backoffice/monthly-subscription/profiles/${parkingId}`
+      )
+      .toPromise();
+  }
+
+  getMonthlySubscription(parkingId: string) {
+    return this.http
+      .get<ResponseModel>(
+        `${this.apiUrl}backoffice/monthly-subscription/all/${parkingId}`
+      )
+      .toPromise();
+  }
 }

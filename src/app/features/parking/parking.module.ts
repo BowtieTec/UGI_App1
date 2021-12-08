@@ -4,7 +4,7 @@ import { CommonModule, CurrencyPipe, DatePipe } from '@angular/common';
 import { ParkingRoutingModule } from './parking-routing.module';
 import { ParkingComponent } from './components/parking/parking.component';
 import { NewParkingComponent } from './components/new-parking/new-parking.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { GoogleMapsModule } from '@angular/google-maps';
 import { StepOneComponent } from './components/new-parking/components/step-one/step-one.component';
 import { StepTwoComponent } from './components/new-parking/components/step-two/step-two.component';
@@ -20,6 +20,7 @@ import {
 } from '@ng-bootstrap/ng-bootstrap';
 import { ParkingMenuComponent } from './parking-menu.component';
 import { MonthlyParkingComponent } from './components/monthly-parking/monthly-parking.component';
+import { DataTablesModule } from 'angular-datatables';
 
 @NgModule({
   declarations: [
@@ -43,6 +44,8 @@ import { MonthlyParkingComponent } from './components/monthly-parking/monthly-pa
     NgbDatepickerModule,
     NgbTimepickerModule,
     NgbModule,
+    FormsModule,
+    DataTablesModule,
   ],
   providers: [DatePipe, CurrencyPipe],
 })
