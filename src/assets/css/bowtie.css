@@ -64,9 +64,41 @@ body {
 }
 
 .buttonRowDelete:Hover {
-  background: #e14d58;
+  background: #ef2f3d;
   color: #ffffff;
-  border: 1px solid #e14e59;
+  border: 1px solid #ef2f3d;
+}
+
+.buttonRowDisable {
+  background: #f18872;
+  color: White;
+  border: 1px solid #f18872;
+  border-radius: 4px;
+  height: 32px;
+  font-size: 12px;
+  min-width: 40px;
+}
+
+.buttonRowDisable:Hover {
+  background: #f8370d;
+  color: #ffffff;
+  border: 1px solid #f8370d;
+}
+
+.buttonRowCancel {
+  background: #666464;
+  color: White;
+  border: 1px solid #666464;
+  border-radius: 4px;
+  height: 32px;
+  font-size: 12px;
+  min-width: 40px;
+}
+
+.buttonRowCancel:Hover {
+  background: #000000;
+  color: #ffffff;
+  border: 1px solid #000000;
 }
 
 .buttonRowQR {

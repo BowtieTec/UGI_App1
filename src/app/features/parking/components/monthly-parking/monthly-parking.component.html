@@ -23,14 +23,17 @@
               <label class = "labelInput" >Cobro</label >
               <input class = "form-control inputClass"
                      formControlName = "amount"
+                     [class.is-invalid] = "controlInvalid('amount')"
                      min = "0.00"
                      placeholder = "Monto mensual:"
                      step = "0.01"
                      type = "number" >
+              <small *ngIf = "controlInvalid('amount')"
+                     class = "text-danger animate__animated  animate__rotateIn" >* Este campo es obligatorio</small >
             </div >
           </div >
           <hr >
-          <div class = "col-xl-12 col-lg-12 col-sm-12 text-center mb-4" >
+          <div class = "col-xl-12 col-lg-12 col-sm-12 text-center " >
             <h6 >Días habilitados para entrada</h6 >
             <ul class = "opcionActivo" >
               <li class = "m-1" ><input formControlName = "monday"
@@ -74,6 +77,10 @@
                        placeholder = "Seleccionar usuario"
                        type = "text" >
               </div >
+              <small *ngIf = "nameTelephone.length<=0"
+                     class = "text-info animate__animated  animate__rotateIn" >* Este campo es obligatorio, utilice el
+                                                                               botón buscar para ubicar al
+                                                                               usuario.</small >
             </div >
             <div class = "col-xl-4 col-lg-6  col-sm-12 " >
               <!-- Button trigger modal -->
@@ -139,7 +146,6 @@
                   </div >
                 </div >
               </div >
-
             </div >
           </div >
           <div class = "col-xl-12 col-lg-12 col-sm-12 text-center  mb-4" >
@@ -160,6 +166,7 @@
           <div class = "col-xl-6 col-lg-8 col-sm-12 text-center mb-4" >
             <select class = "form-select"
                     formControlName = "profile_subscription"
+                    [class.is-invalid] = "controlInvalid('profile_subscription')"
                     aria-label = "Default select example" >
               <option value = ""
                       *ngIf = "!this.monthlyForm.controls['profile_subscription'].value"
@@ -168,6 +175,9 @@
               <option *ngFor = "let profile of profiles"
                       [value] = "profile.id" >{{profile.name}}</option >
             </select >
+            <small *ngIf = "controlInvalid('profile_subscription')"
+                   class = "text-danger animate__animated  animate__rotateIn" >* Este campo es obligatorio</small >
+
           </div >
 
 
@@ -220,18 +230,22 @@
              class = "table hover table-striped animate__animated animate__fadeInLeft " >
         <thead >
         <tr >
-          <th style = "width: 150px"
+          <th style = "width: 9%"
               scope = "col" >Usuario
           </th >
-          <th style = "width: 150px"
+          <th style = "width: 9%"
               scope = "col" >Correo
           </th >
           <th scope = "col" >Teléfono</th >
           <th scope = "col" >Monto</th >
           <th scope = "col" >Ilimitado o por fechas</th >
+          <th scope = "col" >Estado</th >
           <th scope = "col" >Perfil de acceso</th >
           <th scope = "col" >Fecha de inicio</th >
           <th scope = "col" >Fecha de Finalización</th >
+          <th style = "width: 10%"
+              scope = "col" >Acciones
+          </th >
         </tr >
         </thead >
         <tbody >
@@ -241,9 +255,37 @@
           <td >{{subscription.user.phone_number}}</td >
           <td >{{subscription.amount | currency:'GTQ' }}</td >
           <td >{{subscription.isUnlimited ? 'Ilimitado' : 'Por fechas'}}</td >
+          <td >
+            <span *ngIf = "subscription.status==0"
+                  class = "badge rounded-pill bg-dark" >Cancelado</span >
+            <span *ngIf = "subscription.status==1"
+                  class = "badge rounded-pill bg-info text-dark" >Pendiente de confirmación</span >
+            <span *ngIf = "subscription.status==2"
+                  class = "badge rounded-pill bg-success" >Activo</span >
+            <span *ngIf = "subscription.status==3"
+                  class = "badge rounded-pill bg-warning text-dark" >Desactivado</span >
+            <span *ngIf = "subscription.status==4"
+                  class = "badge rounded-pill bg-secondary" >Pendiente de pago</span >
+            <span *ngIf = "subscription.status==5"
+                  class = "badge rounded-pill bg-danger" >Rechazado</span >
+          </td >
           <td >{{subscription.profile_subscription.name}}</td >
           <td >{{subscription.begin_date | date: 'longDate'}}</td >
           <td >{{subscription.finish_date | date: 'longDate'}}</td >
+          <td >
+            <button (click) = "disableSubscription(subscription.id)"
+                    class = "buttonRowDisable  ms-1 me-1"
+                    title = "Deshabilitar suscripción" ><em class = "fas fa-exclamation " ></em >
+            </button >
+            <button (click) = "cancelSubscription(subscription.id)"
+                    class = "buttonRowCancel me-1"
+                    title = "Cancelar Suscripción" ><em class = "fas fa-ban" ></em >
+            </button >
+            <button (click) = "deleteSubscription(subscription.id)"
+                    class = "buttonRowDelete"
+                    title = "Eliminar Suscripción" ><em class = "fas fa-trash-alt" ></em >
+            </button >
+          </td >
         </tr >
         </tbody >
       </table >

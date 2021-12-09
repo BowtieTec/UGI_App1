@@ -2,7 +2,6 @@ import {
   AfterViewInit,
   Component,
   OnDestroy,
-  OnInit,
   ViewChild,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -18,6 +17,7 @@ import { AuthService } from '../../../../shared/services/auth.service';
 import { DataTableDirective } from 'angular-datatables';
 import { Subject } from 'rxjs';
 import { DataTableOptions } from '../../../../shared/model/DataTableOptions';
+import { ResponseModel } from '../../../../shared/model/Request.model';
 
 @Component({
   selector: 'app-monthly-parking',
@@ -92,8 +92,14 @@ export class MonthlyParkingComponent implements AfterViewInit, OnDestroy {
   }
 
   createMonthly() {
+    if (!this.monthlyForm.valid || !this.userSelected.id) {
+      this.message.error(' Hacen falta datos o son inválidos.');
+      return;
+    }
     this.message.showLoading();
     const newSubscription: any = this.getFormValue();
+    if (!newSubscription) return;
+
     this.parkingService
       .createMonthlySubscription(newSubscription)
       .then((data) => {
@@ -113,9 +119,7 @@ export class MonthlyParkingComponent implements AfterViewInit, OnDestroy {
       .getUsersByTelephone(this.monthlyForm.controls['telephone'].value)
       .then((data) => {
         if (data.success) {
-          this.userSearched.push(data.data.user);
-          console.log(data.data.user);
-          //  TODO: Recibir el array de users
+          this.userSearched = data.data.users;
         }
       })
       .then(() => {
@@ -142,11 +146,20 @@ export class MonthlyParkingComponent implements AfterViewInit, OnDestroy {
   }
 
   getFormValue() {
+    const enables_days = this.getDays();
+    if (enables_days.length <= 0) {
+      this.message.error(
+        '',
+        'No ha seleccionado dias permitidos para entrar al parqueo mensual.'
+      );
+      return;
+    }
+
     return {
       userId: this.userSelected.id,
       parkingId: this.authService.getParking().id,
       amount: this.monthlyForm.controls['amount'].value,
-      enables_days: this.getDays(),
+      enables_days,
       isUnlimited: this.isUnlimitedForm.value,
       begin_date: this.monthlyForm.controls['begin_date'].value,
       finish_date: this.monthlyForm.controls['finish_date'].value,
@@ -215,8 +228,7 @@ export class MonthlyParkingComponent implements AfterViewInit, OnDestroy {
       .getMonthlySubscription(parkingId)
       .then((data) => {
         if (data.success) {
-          this.subscriptions = data.data.profiles;
-          console.log(this.subscriptions);
+          this.subscriptions = data.data.subscriptions;
         } else {
           this.message.error('', data.message);
         }
@@ -238,5 +250,35 @@ export class MonthlyParkingComponent implements AfterViewInit, OnDestroy {
         this.dtTrigger.next();
       });
     }
+  }
+
+  disableSubscription(idSubscription: string) {
+    this.parkingService.disableSubscription(idSubscription).then((data) => {
+      this.resolveResponse(data);
+    });
+  }
+
+  cancelSubscription(idSubscription: string) {
+    this.parkingService.cancelSubscription(idSubscription).then((data) => {
+      this.resolveResponse(data);
+    });
+  }
+
+  deleteSubscription(idSubscription: string) {
+    this.parkingService.deleteSubscription(idSubscription).then((data) => {
+      this.resolveResponse(data);
+    });
+  }
+
+  resolveResponse(data: ResponseModel) {
+    if (data.success) {
+      this.getMonthlySubscription().then(() => this.message.Ok());
+    } else {
+      this.message.error('', data.message);
+    }
+  }
+
+  controlInvalid(control: string): boolean {
+    return this.utilitiesService.controlInvalid(this.monthlyForm, control);
   }
 }

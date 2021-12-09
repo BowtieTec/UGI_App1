@@ -245,4 +245,30 @@ export class ParkingService {
       )
       .toPromise();
   }
+
+  disableSubscription(idSubscription: string) {
+    return this.http
+      .put<ResponseModel>(
+        `${this.apiUrl}backoffice/monthly-subscription/disable/${idSubscription}`,
+        idSubscription
+      )
+      .toPromise();
+  }
+
+  cancelSubscription(idSubscription: string) {
+    return this.http
+      .put<ResponseModel>(
+        `${this.apiUrl}backoffice/monthly-subscription/cancel/${idSubscription}`,
+        idSubscription
+      )
+      .toPromise();
+  }
+
+  deleteSubscription(idSubscription: string) {
+    return this.http
+      .delete<ResponseModel>(
+        `${this.apiUrl}backoffice/monthly-subscription/${idSubscription}`
+      )
+      .toPromise();
+  }
 }
