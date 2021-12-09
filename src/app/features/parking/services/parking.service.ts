@@ -22,6 +22,7 @@ import { Observable, Subscribable } from 'rxjs';
 import { CountriesModel } from '../models/Countries.model';
 import { FormBuilder } from '@angular/forms';
 import { CreateTariffModel } from '../models/Tariff.model';
+import { CreateProfilesModel } from '../models/MontlyParking.model';
 
 @Injectable({
   providedIn: 'root',
@@ -268,6 +269,15 @@ export class ParkingService {
     return this.http
       .delete<ResponseModel>(
         `${this.apiUrl}backoffice/monthly-subscription/${idSubscription}`
+      )
+      .toPromise();
+  }
+
+  createAccessProfile(profile: CreateProfilesModel) {
+    return this.http
+      .post<ResponseModel>(
+        `${this.apiUrl}backoffice/monthly-subscription/profiles/`,
+        profile
       )
       .toPromise();
   }

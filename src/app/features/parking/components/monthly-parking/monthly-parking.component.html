@@ -21,9 +21,9 @@
           <div class = "col-xl-4 col-lg-6  col-sm-12" >
             <div class = "mb-4 relative" >
               <label class = "labelInput" >Cobro</label >
-              <input class = "form-control inputClass"
+              <input [class.is-invalid] = "controlInvalid('amount')"
+                     class = "form-control inputClass"
                      formControlName = "amount"
-                     [class.is-invalid] = "controlInvalid('amount')"
                      min = "0.00"
                      placeholder = "Monto mensual:"
                      step = "0.01"
@@ -109,6 +109,15 @@
                               type = "button" ></button >
                     </div >
                     <div class = "modal-body" >
+                      <div *ngIf = "loadingUser"
+                           class = "progress mb-5" >
+                        <div aria-valuemax = "100"
+                             aria-valuemin = "0"
+                             aria-valuenow = "75"
+                             class = "progress-bar progress-bar-striped progress-bar-animated"
+                             role = "progressbar"
+                             style = "width: 100%" ></div >
+                      </div >
                       <div class = "input-group mb-3" >
                         <span class = "input-group-text"
                               id = "basic-addon1" >Tel</span >
@@ -133,8 +142,12 @@
                           {{user.name + ' ' + user.last_name + ' Teléfono: ' + user.phone_number}}
                         </button >
                       </div >
-
-
+                    </div >
+                    <div *ngIf = "userSearched.length> 0" >
+                      <div class = "alert alert-primary"
+                           role = "alert" >
+                        Para seleccionar un usuario, dar clic en la fila que se desea seleccionar.
+                      </div >
                     </div >
                     <div class = "modal-footer" >
                       <button class = "btn btn-secondary"
@@ -164,23 +177,28 @@
             </ul >
           </div >
           <div class = "col-xl-6 col-lg-8 col-sm-12 text-center mb-4" >
-            <select class = "form-select"
-                    formControlName = "profile_subscription"
-                    [class.is-invalid] = "controlInvalid('profile_subscription')"
-                    aria-label = "Default select example" >
-              <option value = ""
-                      *ngIf = "!this.monthlyForm.controls['profile_subscription'].value"
-                      selected >Perfiles de parqueo
-              </option >
-              <option *ngFor = "let profile of profiles"
-                      [value] = "profile.id" >{{profile.name}}</option >
-            </select >
-            <small *ngIf = "controlInvalid('profile_subscription')"
-                   class = "text-danger animate__animated  animate__rotateIn" >* Este campo es obligatorio</small >
-
+            <div class = "input-group" >
+              <select aria-label = "Default select example"
+                      class = "form-select"
+                      formControlName = "profile_subscription" >
+                <option selected
+                        value = "" >Sin perfil de acceso
+                </option >
+                <option *ngFor = "let profile of profiles"
+                        [value] = "profile.id" >{{profile.name}}</option >
+              </select >
+              <!-- Button trigger modal -->
+              <button class = "btn btn-primary"
+                      data-bs-target = "#newAccessProfiles"
+                      data-bs-toggle = "modal"
+                      type = "button" >
+                <em class = "fas fa-plus" ></em >
+              </button >
+            </div >
+            <small class = "text-info animate__animated animate__rotateIn" >* Los perfiles de parqueo permiten al
+                                                                            usuario acceder al conjunto de antenas
+                                                                            que ese perfil contiene.</small >
           </div >
-
-
           <div *ngIf = "byDate"
                class = "animate__animated animate__bounceInDown " >
             <div class = "col-xl-4 col-lg-6 col-sm-12" >
@@ -212,7 +230,6 @@
               </div >
             </div >
           </div >
-
           <div class = "col-xl-12 col-lg-12 col-sm-12" >
             <div class = "text-center" >
               <button (click) = "createMonthly()"
@@ -223,18 +240,18 @@
         </div >
       </form >
       <hr >
-      <table datatable
-             aria-label = "Tabla de parqueos mensuales"
-             [dtOptions] = "dtOptions"
+      <table [dtOptions] = "dtOptions"
              [dtTrigger] = "dtTrigger"
-             class = "table hover table-striped animate__animated animate__fadeInLeft " >
+             aria-label = "Tabla de parqueos mensuales"
+             class = "table hover table-striped animate__animated animate__fadeInLeft "
+             datatable >
         <thead >
-        <tr >
-          <th style = "width: 9%"
-              scope = "col" >Usuario
+        <tr class = "text-center" >
+          <th scope = "col"
+              style = "width: 9%" >Usuario
           </th >
-          <th style = "width: 9%"
-              scope = "col" >Correo
+          <th scope = "col"
+              style = "width: 9%" >Correo
           </th >
           <th scope = "col" >Teléfono</th >
           <th scope = "col" >Monto</th >
@@ -243,13 +260,14 @@
           <th scope = "col" >Perfil de acceso</th >
           <th scope = "col" >Fecha de inicio</th >
           <th scope = "col" >Fecha de Finalización</th >
-          <th style = "width: 10%"
-              scope = "col" >Acciones
+          <th scope = "col"
+              style = "width: 12%" >Acciones
           </th >
         </tr >
         </thead >
         <tbody >
-        <tr *ngFor = "let subscription of subscriptions" >
+        <tr class = "text-center"
+            *ngFor = "let subscription of subscriptions" >
           <td >{{subscription.user.name + ' ' + subscription.user.last_name}}</td >
           <td >{{subscription.user.email}}</td >
           <td >{{subscription.user.phone_number}}</td >
@@ -290,6 +308,80 @@
         </tbody >
       </table >
 
+    </div >
+  </div >
+</div >
+<div aria-hidden = "true"
+     aria-labelledby = "staticBackdropLabel"
+     class = "modal fade"
+     data-bs-backdrop = "static"
+     data-bs-keyboard = "false"
+     id = "newAccessProfiles"
+     tabindex = "-1" >
+  <div class = "modal-dialog modal-lg" >
+    <div class = "modal-content" >
+      <div class = "modal-header" >
+        <h5 class = "modal-title" >Crear perfil de acceso</h5 >
+        <button aria-label = "Close"
+                class = "btn-close"
+                data-bs-dismiss = "modal"
+                type = "button" ></button >
+      </div >
+      <div
+        class = "modal-body" >
+        <div *ngIf = "stationsByParking.length > 0" >
+          <div class = "input-group mb-3" >
+                        <span class = "input-group-text"
+                              id = "perfilName" >Nombre del perfil</span >
+            <input [(ngModel)] = "nameProfile"
+                   aria-describedby = "basic-addon1"
+                   aria-label = "Nombre del perfil"
+                   class = "form-control "
+                   placeholder = "Nombre del perfil"
+                   type = "text" >
+          </div >
+          <div class = "list-group" >
+            <label *ngFor = "let station of stationsByParking"
+                   class = "list-group-item" >
+              <input [(ngModel)] = "station.addStation"
+                     class = "form-check-input me-1"
+                     type = "checkbox"
+                     value = "" >
+              {{station.name}}
+            </label >
+          </div >
+        </div >
+        <div *ngIf = "!stationsByParking.length > 0" >
+          <div class = "alert alert-info"
+               role = "alert" >
+            <h4 class = "alert-heading" >No se encontraron estaciones privadas</h4 >
+            <p >Para crear un perfil, es necesario tener estaciones privadas. Las estaciones privadas pueden
+                configurarse al crear un parqueo nuevo o en la sección de estaciones.
+                Las estaciones privadas permiten a los usuarios ser accedidas solo por las personas que tengan uno de
+                los perfiles de
+                acceso habilitados.</p >
+            <hr >
+            <p class = "mb-0" >Si usted cree que este mensaje es un error, o desea mas información, por favor
+                               comunicarse
+                               con el administrador.</p >
+          </div >
+        </div >
+      </div >
+      <div class = "modal-footer" >
+        <button (click) = "createNewProfile()"
+                *ngIf = "stationsByParking.length> 0"
+                class = "btn btn-primary"
+                data-bs-dismiss = "modal"
+                type = "button" >Crear perfil
+
+        </button >
+      </div >
+      <div class = "modal-footer" >
+        <button class = "btn btn-secondary"
+                data-bs-dismiss = "modal"
+                type = "button" >Cerrar
+        </button >
+      </div >
     </div >
   </div >
 </div >

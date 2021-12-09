@@ -33,3 +33,23 @@ export class SubscriptionModel {
     deleted: 0,
   };
 }
+
+export class GetStationModel {
+  id?: string = '';
+  type: number = 0;
+  name: string = '';
+  antena: string = '';
+  mac: string = '';
+  isPrivate: boolean = false;
+  addStation?: boolean = false;
+}
+
+export class CreateProfilesModel {
+  parkingId: string = '';
+  name: string = '';
+  stations: IdModel[] = [];
+}
+
+export class IdModel {
+  id: string = '';
+}

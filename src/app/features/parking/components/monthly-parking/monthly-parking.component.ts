@@ -1,14 +1,12 @@
-import {
-  AfterViewInit,
-  Component,
-  OnDestroy,
-  ViewChild,
-} from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MessageService } from '../../../../shared/services/message.service';
 import { ParkingService } from '../../services/parking.service';
 import { UtilitiesService } from '../../../../shared/services/utilities.service';
 import {
+  CreateProfilesModel,
+  GetStationModel,
+  IdModel,
   MonthlyUserModel,
   ProfilesModel,
   SubscriptionModel,
@@ -30,12 +28,15 @@ export class MonthlyParkingComponent implements AfterViewInit, OnDestroy {
   userSearched: Array<MonthlyUserModel> = [];
   profiles: ProfilesModel[] = [];
   subscriptions: SubscriptionModel[] = [];
+  stationsByParking: GetStationModel[] = [];
+  nameProfile: string = '';
 
   @ViewChild(DataTableDirective)
   dtElement!: DataTableDirective;
   dtOptions: DataTables.Settings = DataTableOptions.getSpanishOptions(10);
   dtTrigger: Subject<any> = new Subject();
   formGroup: FormGroup;
+  loadingUser: boolean = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -53,6 +54,7 @@ export class MonthlyParkingComponent implements AfterViewInit, OnDestroy {
       .then(() => {
         this.rerender();
       })
+      .then(() => this.getAntennasByParking())
       .then((data) => {
         this.message.hideLoading();
       });
@@ -73,6 +75,10 @@ export class MonthlyParkingComponent implements AfterViewInit, OnDestroy {
     return `${this.completeNameSelected}, Teléfono: ${this.userSelected.phone_number} `;
   }
 
+  get isUnlimitedForm() {
+    return this.monthlyForm.controls['isUnlimited'];
+  }
+
   createForm() {
     return this.formBuilder.group({
       amount: [null, [Validators.required, Validators.min(0)]],
@@ -87,7 +93,7 @@ export class MonthlyParkingComponent implements AfterViewInit, OnDestroy {
       isUnlimited: [true],
       begin_date: [null],
       finish_date: [null],
-      profile_subscription: ['', [Validators.required, Validators.min(1)]],
+      profile_subscription: [''],
     });
   }
 
@@ -97,9 +103,11 @@ export class MonthlyParkingComponent implements AfterViewInit, OnDestroy {
       return;
     }
     this.message.showLoading();
-    const newSubscription: any = this.getFormValue();
+    let newSubscription: any = this.getFormValue();
     if (!newSubscription) return;
-
+    if (this.monthlyForm.controls['profile_subscription'].value == '') {
+      delete newSubscription.profile_subscription;
+    }
     this.parkingService
       .createMonthlySubscription(newSubscription)
       .then((data) => {
@@ -114,6 +122,7 @@ export class MonthlyParkingComponent implements AfterViewInit, OnDestroy {
   }
 
   searchUser() {
+    this.loadingUser = true;
     this.message.showLoading();
     this.parkingService
       .getUsersByTelephone(this.monthlyForm.controls['telephone'].value)
@@ -124,15 +133,8 @@ export class MonthlyParkingComponent implements AfterViewInit, OnDestroy {
       })
       .then(() => {
         this.message.hideLoading();
+        this.loadingUser = false;
       });
-  }
-
-  get isUnlimitedForm() {
-    return this.monthlyForm.controls['isUnlimited'];
-  }
-
-  get isByDateForm() {
-    return this.monthlyForm.controls['byDate'];
   }
 
   userSelect(user: any) {
@@ -166,6 +168,96 @@ export class MonthlyParkingComponent implements AfterViewInit, OnDestroy {
       profile_subscription:
         this.monthlyForm.controls['profile_subscription'].value,
     };
+  }
+
+  getProfiles() {
+    const parkingId = this.authService.getParking().id;
+    return this.parkingService
+      .getProfilesOfMonthlySubscription(parkingId)
+      .then((data) => {
+        if (data.success) {
+          this.profiles = data.data.profiles;
+          console.log(this.profiles);
+        } else {
+          this.message.error(data.message);
+        }
+      });
+  }
+
+  getMonthlySubscription() {
+    const parkingId = this.authService.getParking().id;
+    return this.parkingService
+      .getMonthlySubscription(parkingId)
+      .then((data) => {
+        if (data.success) {
+          this.subscriptions = data.data.subscriptions;
+        } else {
+          this.message.error('', data.message);
+        }
+      });
+  }
+
+  ngAfterViewInit(): void {
+    this.dtTrigger.next();
+  }
+
+  ngOnDestroy(): void {
+    this.dtTrigger.unsubscribe();
+  }
+
+  disableSubscription(idSubscription: string) {
+    this.parkingService.disableSubscription(idSubscription).then((data) => {
+      this.resolveResponse(data);
+    });
+  }
+
+  cancelSubscription(idSubscription: string) {
+    this.parkingService.cancelSubscription(idSubscription).then((data) => {
+      this.resolveResponse(data);
+    });
+  }
+
+  deleteSubscription(idSubscription: string) {
+    this.parkingService.deleteSubscription(idSubscription).then((data) => {
+      this.resolveResponse(data);
+    });
+  }
+
+  resolveResponse(data: ResponseModel) {
+    if (data.success) {
+      this.getMonthlySubscription()
+        .then(() => this.getProfiles())
+        .then(() => this.message.Ok());
+    } else {
+      this.message.error('', data.message);
+    }
+  }
+
+  controlInvalid(control: string): boolean {
+    return this.utilitiesService.controlInvalid(this.monthlyForm, control);
+  }
+
+  createNewProfile() {
+    if (this.nameProfile.length <= 0) {
+      this.message.error('', 'No ha asignado un nombre el perfil de acceso');
+      return;
+    }
+    if (this.getStationsToCreateProfile().length <= 0) {
+      this.message.error('', 'No ha elegido estaciones para el perfil');
+      return;
+    }
+    const newProfile: CreateProfilesModel = {
+      parkingId: this.authService.getParking().id,
+      name: this.nameProfile,
+      stations: this.getStationsToCreateProfile(),
+    };
+    this.parkingService.createAccessProfile(newProfile).then((data) => {
+      this.resolveResponse(data);
+    });
+  }
+
+  getStationsToCreateProfile(): any {
+    return this.stationsByParking.filter((x) => x.addStation);
   }
 
   private getDays() {
@@ -208,41 +300,6 @@ export class MonthlyParkingComponent implements AfterViewInit, OnDestroy {
     ].filter((day) => day.isEnable === true);
   }
 
-  getProfiles() {
-    const parkingId = this.authService.getParking().id;
-    return this.parkingService
-      .getProfilesOfMonthlySubscription(parkingId)
-      .then((data) => {
-        if (data.success) {
-          this.profiles = data.data.profiles;
-          console.log(this.profiles);
-        } else {
-          this.message.error(data.message);
-        }
-      });
-  }
-
-  getMonthlySubscription() {
-    const parkingId = this.authService.getParking().id;
-    return this.parkingService
-      .getMonthlySubscription(parkingId)
-      .then((data) => {
-        if (data.success) {
-          this.subscriptions = data.data.subscriptions;
-        } else {
-          this.message.error('', data.message);
-        }
-      });
-  }
-
-  ngAfterViewInit(): void {
-    this.dtTrigger.next();
-  }
-
-  ngOnDestroy(): void {
-    this.dtTrigger.unsubscribe();
-  }
-
   private rerender() {
     if (this.dtElement != undefined) {
       this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
@@ -252,33 +309,24 @@ export class MonthlyParkingComponent implements AfterViewInit, OnDestroy {
     }
   }
 
-  disableSubscription(idSubscription: string) {
-    this.parkingService.disableSubscription(idSubscription).then((data) => {
-      this.resolveResponse(data);
-    });
-  }
-
-  cancelSubscription(idSubscription: string) {
-    this.parkingService.cancelSubscription(idSubscription).then((data) => {
-      this.resolveResponse(data);
-    });
-  }
-
-  deleteSubscription(idSubscription: string) {
-    this.parkingService.deleteSubscription(idSubscription).then((data) => {
-      this.resolveResponse(data);
-    });
-  }
-
-  resolveResponse(data: ResponseModel) {
-    if (data.success) {
-      this.getMonthlySubscription().then(() => this.message.Ok());
-    } else {
-      this.message.error('', data.message);
-    }
-  }
-
-  controlInvalid(control: string): boolean {
-    return this.utilitiesService.controlInvalid(this.monthlyForm, control);
+  getAntennasByParking() {
+    this.message.showLoading();
+    this.parkingService
+      .getAntennas(this.authService.getParking().id)
+      .subscribe((data) => {
+        if (data.success) {
+          this.stationsByParking = data.data.stations;
+          /*
+          Para ver ejemplo de como se ver[ia con estaciones privadas,
+          solo se debe comentar las siguientes dos lineas que pertenecen al filter:
+          */
+          this.stationsByParking = this.stationsByParking.filter(
+            (x) => x.isPrivate
+          );
+        } else {
+          this.message.error('', data.message);
+        }
+        this.message.hideLoading();
+      });
   }
 }
