@@ -2,10 +2,11 @@
   <div class = "col-lg-12 col-md-12 col-sm-12 col-xs-12" >
     <div class = "panels" >
       <div class = "titleCards" >
-        <span ><em class = "fas fa-sitemap" ></em ></span > Nuevo parqueo por mes
+        <span ><em class = "fas fa-sitemap" ></em ></span >Parqueos mensuales
       </div >
       <form [formGroup] = "monthlyForm"
-            action = "" >
+            action = ""
+            *ngIf = "ifHaveAction(createMonthlyParking)" >
         <div class = "row justify-content-center mb-4" >
           <div class = "col-xl-4 col-lg-6  col-sm-12" >
             <div class = "mb-4 relative" >
@@ -21,7 +22,6 @@
                      class = "text-danger animate__animated  animate__rotateIn" >* Este campo es obligatorio</small >
             </div >
           </div >
-          <hr >
           <div class = "col-xl-12 col-lg-12 col-sm-12 text-center " >
             <h6 >Días habilitados para entrada</h6 >
             <ul class = "opcionActivo" >
@@ -178,6 +178,7 @@
               </select >
               <!-- Button trigger modal -->
               <button class = "btn btn-primary"
+                      *ngIf = "ifHaveAction(createAccessProfileMonthlyParking)"
                       data-bs-target = "#newAccessProfiles"
                       data-bs-toggle = "modal"
                       type = "button" >
@@ -281,14 +282,17 @@
           <td >{{subscription.finish_date | date: 'longDate'}}</td >
           <td >
             <button (click) = "disableSubscription(subscription.id)"
+                    *ngIf = "ifHaveAction(disableMonthlyParking)"
                     class = "buttonRowDisable  ms-1 me-1"
                     title = "Deshabilitar suscripción" ><em class = "fas fa-exclamation " ></em >
             </button >
             <button (click) = "cancelSubscription(subscription.id)"
+                    *ngIf = "ifHaveAction(cancelMonthlyParking)"
                     class = "buttonRowCancel me-1"
                     title = "Cancelar Suscripción" ><em class = "fas fa-ban" ></em >
             </button >
             <button (click) = "deleteSubscription(subscription.id)"
+                    *ngIf = "ifHaveAction(deleteMonthlyParking)"
                     class = "buttonRowDelete"
                     title = "Eliminar Suscripción" ><em class = "fas fa-trash-alt" ></em >
             </button >

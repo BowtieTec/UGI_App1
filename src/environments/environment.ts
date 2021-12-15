@@ -90,18 +90,17 @@ export const environment = {
   createParking: 'createParking',
   createCourtesy: 'createCourtesy',
   createUser: 'createUser',
-
   listAntennas: 'listAntennas',
   createAntennas: 'createAntennas',
   deleteAntennas: 'deleteAntennas',
   editAntennas: 'editAntennas',
   downloadQRAntenna: 'downloadQRAntenna',
-
   listMonthlyParking: 'listMonthlyParking',
   createMonthlyParking: 'createMonthlyParking',
   deleteMonthlyParking: 'deleteMonthlyParking',
   cancelMonthlyParking: 'cancelMonthlyParking',
   disableMonthlyParking: 'disableMonthlyParking',
+  createAccessProfileMonthlyParking: 'createAccessProfileMonthlyParking',
 };
 
 /*

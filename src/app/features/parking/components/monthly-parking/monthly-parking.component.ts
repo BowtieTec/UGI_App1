@@ -15,6 +15,8 @@ import { DataTableDirective } from 'angular-datatables';
 import { Subject } from 'rxjs';
 import { DataTableOptions } from '../../../../shared/model/DataTableOptions';
 import { ResponseModel } from '../../../../shared/model/Request.model';
+import { PermissionsService } from '../../../../shared/services/permissions.service';
+import { environment } from '../../../../../environments/environment';
 
 @Component({
   selector: 'app-monthly-parking',
@@ -37,12 +39,21 @@ export class MonthlyParkingComponent implements AfterViewInit, OnDestroy {
   formGroup: FormGroup;
   loadingUser: boolean = false;
 
+  private actions: string[] = this.permissionService.actionsOfPermissions;
+  createMonthlyParking = environment.createMonthlyParking;
+  deleteMonthlyParking = environment.deleteMonthlyParking;
+  cancelMonthlyParking = environment.cancelMonthlyParking;
+  disableMonthlyParking = environment.disableMonthlyParking;
+  createAccessProfileMonthlyParking =
+    environment.createAccessProfileMonthlyParking;
+
   constructor(
     private formBuilder: FormBuilder,
     private message: MessageService,
     private parkingService: ParkingService,
     private utilitiesService: UtilitiesService,
-    private authService: AuthService
+    private authService: AuthService,
+    private permissionService: PermissionsService
   ) {
     this.message.showLoading();
     this.formGroup = formBuilder.group({ filter: [''] });
@@ -327,5 +338,9 @@ export class MonthlyParkingComponent implements AfterViewInit, OnDestroy {
         this.dtTrigger.next();
       });
     }
+  }
+
+  ifHaveAction(action: string) {
+    return !!this.actions.find((x) => x == action);
   }
 }
