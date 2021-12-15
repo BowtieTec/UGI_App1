@@ -23,14 +23,14 @@
             <div *ngIf = "step == 1"
                  class = "animate__animated animate__fadeInLeft"
                  id = "stepOne" >
-              <app-step-one (changeStep) = "changeStep($event)"
-                            [stepOneForm] = "stepOneForm" ></app-step-one >
+              <app-general-data (changeStep) = "changeStep($event)"
+                                [stepOneForm] = "stepOneForm" ></app-general-data >
             </div >
             <div *ngIf = "step ==2"
                  class = "animate__animated animate__fadeInLeft"
                  id = "stepTwo" >
-              <app-step-two (changeStep) = "changeStep($event)"
-                            [stepTwoForm] = "stepTwoForm" ></app-step-two >
+              <app-schedule (changeStep) = "changeStep($event)"
+                            [stepTwoForm] = "stepTwoForm" ></app-schedule >
             </div >
             <div *ngIf = "step ==3"
                  class = "animate__animated animate__fadeInLeft"
@@ -41,21 +41,24 @@
             <div *ngIf = "step ==4 && this.settingsOptions != undefined"
                  class = "animate__animated animate__fadeInLeft"
                  id = "stepFour" >
-              <app-step-four (changeStep) = "changeStep($event)"
-                             [stepFourForm] = "stepFourForm" ></app-step-four >
+              <app-billing-data (changeStep) = "changeStep($event)"
+                                [stepFourForm] = "stepFourForm" ></app-billing-data >
 
             </div >
             <div *ngIf = "step ==5"
                  class = "animate__animated animate__fadeInLeft"
                  id = "stepFive" >
-              <app-step-five (changeStep) = "changeStep($event)"
-                             [stepFiveForm] = "stepFiveForm" ></app-step-five >
+              <app-antennas
+                [showButtons] = "true"
+                (changeStep) = "changeStep($event)" >
+
+              </app-antennas >
             </div >
             <div
               *ngIf = "step == this.totalSteps"
               class = "animate__animated animate__fadeInLeft"
               id = "lastStep" >
-              <app-step-six (changeStep) = "changeStep($event)" ></app-step-six >
+              <app-resume (changeStep) = "changeStep($event)" ></app-resume >
             </div >
           </div >
           <div class = "text-center"

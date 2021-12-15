@@ -34,10 +34,10 @@ import {DateGreaterValidations, NumberGreaterValidations
 
 @Component({
   selector: 'app-step-three',
-  templateUrl: './step-three.component.html',
-  styleUrls: ['./step-three.component.css'],
+  templateUrl: './tariff.component.html',
+  styleUrls: ['./tariff.component.css'],
 })
-export class StepThreeComponent {
+export class TariffComponent {
   @Input() stepOneForm!: FormGroup;
   @Output() changeStep = new EventEmitter<number>();
   timeRange: number = 1;

@@ -4,14 +4,13 @@
       method = "post"
       name = "form-wrapper"
       novalidate = "" >
-  <h6 >Configuración de antenas</h6 >
   <div
     class = "container " >
     <div
       class = "row" >
-      <h4 >
+      <div class = "titleCards" >
         Agregar Antena
-      </h4 >
+      </div >
       <div >
         <div class = "row" >
           <div class = "col-md-5 col-sm-12" >
@@ -138,6 +137,7 @@
     </table >
   </div >
   <div class = "text-center"
+       *ngIf = "this.showButtons"
        id = "q-box__buttons" >
     <button (click) = "emmitStep(-1)"
             class = "btn btn-primary m-2"

@@ -7,11 +7,11 @@ import { SettingsOptionsModel } from '../../../../models/SettingsOption.model';
 import { CreateParkingStepFourModel } from '../../../../models/CreateParking.model';
 
 @Component({
-  selector: 'app-step-four',
-  templateUrl: './step-four.component.html',
-  styleUrls: ['./step-four.component.css'],
+  selector: 'app-billing-data',
+  templateUrl: './billing-data.component.html',
+  styleUrls: ['./billing-data.component.css'],
 })
-export class StepFourComponent {
+export class BillingDataComponent {
   @Input() stepFourForm!: FormGroup;
   @Output() changeStep = new EventEmitter<number>();
   settingsOptions!: SettingsOptionsModel;

@@ -6,11 +6,11 @@ import { UtilitiesService } from '../../../../../../shared/services/utilities.se
 import { CreateParkingStepTwoModel } from '../../../../models/CreateParking.model';
 
 @Component({
-  selector: 'app-step-two',
-  templateUrl: './step-two.component.html',
-  styleUrls: ['./step-two.component.css'],
+  selector: 'app-schedule',
+  templateUrl: './schedule.component.html',
+  styleUrls: ['./schedule.component.css'],
 })
-export class StepTwoComponent {
+export class ScheduleComponent {
   @Input() stepTwoForm!: FormGroup;
   @Output() changeStep = new EventEmitter<number>();
 

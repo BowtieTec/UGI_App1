@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {
   AccessModel,
   CreateParkingStepFiveModel,
@@ -8,17 +8,21 @@ import { MessageService } from '../../../../../../shared/services/message.servic
 import { ParkingService } from '../../../../services/parking.service';
 import { UtilitiesService } from '../../../../../../shared/services/utilities.service';
 import { ResponseModel } from '../../../../../../shared/model/Request.model';
+import { AuthService } from '../../../../../../shared/services/auth.service';
 
 @Component({
-  selector: 'app-step-five',
-  templateUrl: './step-five.component.html',
-  styleUrls: ['./step-five.component.css'],
+  selector: 'app-antennas',
+  templateUrl: './antennas.component.html',
+  styleUrls: ['./antennas.component.css'],
 })
-export class StepFiveComponent {
-  @Input() stepFiveForm!: FormGroup;
+export class AntennasComponent {
+  @Input() showButtons: boolean = false;
+  stepFiveForm!: FormGroup;
   @Output() changeStep = new EventEmitter<number>();
   idEditAntenna: string = '';
-  idParking = this.parkingService.parkingStepOne.parkingId;
+  idParking =
+    this.parkingService.parkingStepOne.parkingId ||
+    this.authService.getParking().id;
   accessList: AccessModel[] = this.parkingService.getAccesses();
   antennas: CreateParkingStepFiveModel[] =
     new Array<CreateParkingStepFiveModel>();
@@ -27,12 +31,14 @@ export class StepFiveComponent {
     private formBuilder: FormBuilder,
     private message: MessageService,
     private parkingService: ParkingService,
-    private utilitiesService: UtilitiesService
+    private utilitiesService: UtilitiesService,
+    private authService: AuthService
   ) {
     this.message.showLoading();
     this.getInitialData().then(() => {
       this.message.hideLoading();
     });
+    this.stepFiveForm = this.createForm();
   }
 
   getAccessName(type: number): AccessModel {
@@ -158,7 +164,7 @@ export class StepFiveComponent {
 
   private getStepFive(): CreateParkingStepFiveModel {
     return {
-      parking: this.parkingService.parkingStepOne.parkingId,
+      parking: this.idParking,
       name: this.stepFiveForm.controls['name_access'].value,
       type: this.stepFiveForm.controls['type_access'].value,
       antena: this.stepFiveForm.controls['antenna_access'].value,
@@ -182,5 +188,15 @@ export class StepFiveComponent {
       .catch((e) => {
         return;
       });
+  }
+
+  private createForm() {
+    return this.formBuilder.group({
+      type_access: [null],
+      name_access: [null],
+      mac_access: [null, Validators.required],
+      antenna_access: [null],
+      isPrivate: [false],
+    });
   }
 }

@@ -6,11 +6,11 @@ import { Day } from '../../../../models/SettingsOption.model';
 import { AccessModel } from '../../../../models/CreateParking.model';
 
 @Component({
-  selector: 'app-step-six',
-  templateUrl: './step-six.component.html',
-  styleUrls: ['./step-six.component.css'],
+  selector: 'app-resume',
+  templateUrl: './resume.component.html',
+  styleUrls: ['./resume.component.css'],
 })
-export class StepSixComponent {
+export class ResumeComponent {
   @Output() changeStep = new EventEmitter<number>();
   countries: CountriesModel[] = new Array<CountriesModel>();
 

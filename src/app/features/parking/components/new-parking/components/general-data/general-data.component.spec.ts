@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { StepThreeComponent } from './step-three.component';
+import { GeneralDataComponent } from './general-data.component';
 
-describe('StepThreeComponent', () => {
-  let component: StepThreeComponent;
-  let fixture: ComponentFixture<StepThreeComponent>;
+describe('StepOneComponent', () => {
+  let component: GeneralDataComponent;
+  let fixture: ComponentFixture<GeneralDataComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [StepThreeComponent],
+      declarations: [GeneralDataComponent],
     }).compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(StepThreeComponent);
+    fixture = TestBed.createComponent(GeneralDataComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
