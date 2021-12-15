@@ -5,7 +5,6 @@ import { HttpClient } from '@angular/common/http';
 import { ResponseModel } from '../../../../../shared/model/Request.model';
 import { RolesModel } from '../models/RolesModel';
 import { NewUserModel } from '../models/newUserModel';
-import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
 @Injectable({

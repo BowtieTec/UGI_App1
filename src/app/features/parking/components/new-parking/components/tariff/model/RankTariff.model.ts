@@ -20,10 +20,10 @@ export class RankFixedCostInputModel {
 }
 
 export class RankHourHalfRuleModel {
-  constructor(private rankInput: RankHourHalfInputModel) {}
-
   static_description: string =
-    this.rankInput.static_descriptionTime + ' ' + this.rankInput.static_descriptionCost;
+    this.rankInput.static_descriptionTime +
+    ' ' +
+    this.rankInput.static_descriptionCost;
   rule = [
     {
       conditions: {
@@ -112,13 +112,15 @@ export class RankHourHalfRuleModel {
       },
     },
   ];
+
+  constructor(private rankInput: RankHourHalfInputModel) {}
 }
 
 export class RankFixedCostRuleModel {
-  constructor(private rankInput: RankFixedCostInputModel) {}
-
   static_description: string =
-    this.rankInput.static_descriptionTime + ' ' + this.rankInput.static_descriptionCost;
+    this.rankInput.static_descriptionTime +
+    ' ' +
+    this.rankInput.static_descriptionCost;
   rule = [
     {
       conditions: {
@@ -174,4 +176,6 @@ export class RankFixedCostRuleModel {
       },
     },
   ];
+
+  constructor(private rankInput: RankFixedCostInputModel) {}
 }

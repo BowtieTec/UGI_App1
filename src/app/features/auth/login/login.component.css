@@ -7,8 +7,9 @@
   bottom: 0;
   background-image: url(../../../../assets/img/backlogin.png);
   background-size: 15%;
-  
+
 }
+
 .login-form {
   position: absolute;
   width: 350px;

@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
 import { MessageService } from '../services/message.service';
-import {AuthModel} from "../model/UserResponse.model";
+import { AuthModel } from '../model/UserResponse.model';
 
 @Component({
   selector: 'app-header',
@@ -10,13 +10,13 @@ import {AuthModel} from "../model/UserResponse.model";
   styleUrls: ['./header.component.css'],
 })
 export class HeaderComponent {
-  authData: AuthModel= this.auth.getUser();
+  authData: AuthModel = this.auth.getUser();
+
   constructor(
     private auth: AuthService,
     private route: Router,
-    private messageService: MessageService,
-  ) {
-  }
+    private messageService: MessageService
+  ) {}
 
   logout() {
     this.auth.cleanUser();

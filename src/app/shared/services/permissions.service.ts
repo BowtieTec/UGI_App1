@@ -7,18 +7,22 @@ import { map } from 'rxjs/operators';
 import { OptionMenuModel } from '../model/OptionMenu.model';
 import { MessageService } from './message.service';
 
-
 @Injectable({
   providedIn: 'root',
 })
 export class PermissionsService {
-  private apiUrl = environment.serverAPI;
   actions: string[] = [];
+  private apiUrl = environment.serverAPI;
+
   constructor(
     private http: HttpClient,
     private auth: AuthService,
     private messageService: MessageService
   ) {}
+
+  get actionsOfPermissions() {
+    return this.actions;
+  }
 
   getPermissions() {
     const userId = this.auth.getUser().user.id;
@@ -31,10 +35,6 @@ export class PermissionsService {
           return data.data;
         })
       );
-  }
-
-  get actionsOfPermissions() {
-    return this.actions;
   }
 
   ifHaveAction(action: string) {

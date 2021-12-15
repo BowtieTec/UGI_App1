@@ -3,12 +3,12 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {
   AccessModel,
   CreateParkingStepFiveModel,
-} from '../../../../models/CreateParking.model';
-import { MessageService } from '../../../../../../shared/services/message.service';
-import { ParkingService } from '../../../../services/parking.service';
-import { UtilitiesService } from '../../../../../../shared/services/utilities.service';
-import { ResponseModel } from '../../../../../../shared/model/Request.model';
-import { AuthService } from '../../../../../../shared/services/auth.service';
+} from '../../models/CreateParking.model';
+import { MessageService } from '../../../../shared/services/message.service';
+import { ParkingService } from '../../services/parking.service';
+import { UtilitiesService } from '../../../../shared/services/utilities.service';
+import { ResponseModel } from '../../../../shared/model/Request.model';
+import { AuthService } from '../../../../shared/services/auth.service';
 
 @Component({
   selector: 'app-antennas',

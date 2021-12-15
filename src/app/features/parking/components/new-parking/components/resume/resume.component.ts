@@ -33,6 +33,7 @@ export class ResumeComponent {
   get stepFour() {
     return this.parkingService.parkingStepFour;
   }
+
   get stepFive() {
     return this.parkingService.parkingStepFive;
   }

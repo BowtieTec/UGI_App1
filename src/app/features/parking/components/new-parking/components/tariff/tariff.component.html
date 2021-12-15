@@ -3,25 +3,25 @@
 </div >
 
 <div >
-  <div class = "alert alert-info animate__animated animate__zoomInDown"
-       *ngIf = "disableRanges"
+  <div *ngIf = "disableRanges"
+       class = "alert alert-info animate__animated animate__zoomInDown"
        role = "alert" >
     <p class = "mb-0" >Datos congelados, ahora elige el costo que se aplicará a este rango.</p >
   </div >
   <h1 class = "display-6" >Datos generales</h1 >
-  <form action = ""
-        [formGroup] = "generalDataForm" >
+  <form [formGroup] = "generalDataForm"
+        action = "" >
     <div class = "row" >
       <div class = "col-6" >
         <div class = "mb-3" >
           <div class = "input-group " >
             <span class = "input-group-text" >Nombre</span >
-            <input [readOnly] = "disableRanges"
-                   type = "text"
-                   [class.is-invalid] = "validateGeneralDataForm('name')"
-                   formControlName = "name"
+            <input [class.is-invalid] = "validateGeneralDataForm('name')"
+                   [readOnly] = "disableRanges"
+                   aria-describedby = "basic-addon1"
                    class = "form-control"
-                   aria-describedby = "basic-addon1" >
+                   formControlName = "name"
+                   type = "text" >
           </div >
           <small *ngIf = "validateGeneralDataForm('name')"
                  class = "text-danger animate__animated  animate__rotateIn" >* Este campo es obligatorio</small >
@@ -29,12 +29,12 @@
         <div >
           <ul class = "opcionActivo" >
             <li >
-              <input type = "checkbox"
-                     id = "isShowDescription"
+              <input class = "form-check-input"
                      formControlName = "isShowDescription"
-                     class = "form-check-input" >
-              <label for = "isShowDescription"
-                     class = "form-check-label ms-2" >
+                     id = "isShowDescription"
+                     type = "checkbox" >
+              <label class = "form-check-label ms-2"
+                     for = "isShowDescription" >
                 Mostrar descripción
               </label >
             </li >
@@ -43,11 +43,11 @@
       </div >
       <div class = "col-6" >
         <div class = "form-floating" >
-              <textarea class = "form-control"
-                        [class.is-invalid] = "validateGeneralDataForm('description')"
+              <textarea [class.is-invalid] = "validateGeneralDataForm('description')"
                         [readOnly] = "disableRanges"
-                        id = "descriptionTextArea"
+                        class = "form-control"
                         formControlName = "description"
+                        id = "descriptionTextArea"
                         placeholder = "Descripción de la tarifa"
                         style = "height: 100px" ></textarea >
           <label for = "descriptionTextArea" >Descripción de tarifa</label >
@@ -64,54 +64,54 @@
   <div
     *ngIf = "isValidGeneralData"
     class = " col-md-12 col-xl-6 animate__animated animate__fadeInDown" >
-    <div class = "alert alert-info animate__animated animate__zoomInDown"
-         *ngIf = "disableRanges"
+    <div *ngIf = "disableRanges"
+         class = "alert alert-info animate__animated animate__zoomInDown"
          role = "alert" >
       <p class = "mb-0" >Esto ya no es editable, ahora elige el costo que se aplicará a este rango.</p >
     </div >
     <h1 class = "display-6"
     >Rango de tiempo</h1 >
-    <div class = "btn-group"
-         role = "group"
-         aria-label = "Basic radio toggle button group" >
-      <input type = "radio"
-             class = "btn-check "
-             name = "rangeTime"
+    <div aria-label = "Basic radio toggle button group"
+         class = "btn-group"
+         role = "group" >
+      <input (click) = "timeRange=1"
              [disabled] = "disableRanges"
-             (click) = "timeRange=1"
-             id = "holidayTxt"
              autocomplete = "off"
-             checked >
+             checked
+             class = "btn-check "
+             id = "holidayTxt"
+             name = "rangeTime"
+             type = "radio" >
       <label class = "btn btn-outline-success m-1"
              for = "holidayTxt" >Fechas especiales</label >
 
-      <input type = "radio"
-             class = "btn-check "
-             name = "rangeTime"
+      <input (click) = "timeRange=2"
              [disabled] = "disableRanges"
-             (click) = "timeRange=2"
+             autocomplete = "off"
+             class = "btn-check "
              id = "timeRange"
-             autocomplete = "off" >
+             name = "rangeTime"
+             type = "radio" >
       <label class = "btn btn-outline-success m-1"
              for = "timeRange" >Por horarios</label >
 
-      <input type = "radio"
-             class = "btn-check"
-             name = "rangeTime"
+      <input (click) = "timeRange=3;"
              [disabled] = "disableRanges"
-             (click) = "timeRange=3;"
+             autocomplete = "off"
+             class = "btn-check"
              id = "timeslot"
-             autocomplete = "off" >
+             name = "rangeTime"
+             type = "radio" >
       <label class = "btn btn-outline-success m-1"
              for = "timeslot" >Por bloques</label >
 
-      <input type = "radio"
-             class = "btn-check"
-             name = "rangeTime"
+      <input (click) = "timeRange=4"
              [disabled] = "disableRanges"
+             autocomplete = "off"
+             class = "btn-check"
              id = "default"
-             (click) = "timeRange=4"
-             autocomplete = "off" >
+             name = "rangeTime"
+             type = "radio" >
       <label class = "btn btn-outline-success m-1"
              for = "default" >Por defecto</label >
     </div >
@@ -120,17 +120,17 @@
            class = "animate__animated animate__fadeInUp " >
         <h4 >Fechas especiales o dias festivos</h4 >
 
-        <form action = ""
-              [formGroup] = "holidayForm" >
+        <form [formGroup] = "holidayForm"
+              action = "" >
           <div class = "mb-3" >
             <div class = "input-group " >
               <span class = "input-group-text" >Desde</span >
-              <input [readOnly] = "disableRanges"
-                     type = "datetime-local"
-                     [class.is-invalid] = "validateHolidayForm('from')"
-                     formControlName = "from"
+              <input [class.is-invalid] = "validateHolidayForm('from')"
+                     [readOnly] = "disableRanges"
+                     aria-describedby = "basic-addon1"
                      class = "form-control"
-                     aria-describedby = "basic-addon1" >
+                     formControlName = "from"
+                     type = "datetime-local" >
 
             </div >
             <small *ngIf = "validateHolidayForm('from')"
@@ -139,12 +139,12 @@
           <div class = "mb-3" >
             <div class = "input-group " >
               <span class = "input-group-text" >Hasta</span >
-              <input [readOnly] = "disableRanges"
-                     type = "datetime-local"
+              <input [class.is-invalid] = "validateHolidayForm('to')"
+                     [readOnly] = "disableRanges"
+                     aria-describedby = "basic-addon1"
                      class = "form-control"
-                     [class.is-invalid] = "validateHolidayForm('to')"
                      formControlName = "to"
-                     aria-describedby = "basic-addon1" >
+                     type = "datetime-local" >
 
             </div >
             <small *ngIf = "validateHolidayForm('to')"
@@ -153,13 +153,13 @@
           <div class = "mb-3" >
             <div class = "input-group " >
               <span class = "input-group-text" >Tiempo de gracia</span >
-              <input [readOnly] = "disableRanges"
-                     type = "number"
+              <input [class.is-invalid] = "validateHolidayForm('fromMinute')"
+                     [readOnly] = "disableRanges"
+                     aria-describedby = "basic-addon1"
                      class = "form-control"
-                     placeholder = "En minutos"
-                     [class.is-invalid] = "validateHolidayForm('fromMinute')"
                      formControlName = "fromMinute"
-                     aria-describedby = "basic-addon1" >
+                     placeholder = "En minutos"
+                     type = "number" >
 
             </div >
             <small *ngIf = "validateHolidayForm('fromMinute')"
@@ -171,17 +171,17 @@
       <div *ngIf = "timeRange == 2"
            class = "animate__animated animate__fadeInUp " >
         <h4 >Por horarios o rango de horas</h4 >
-        <form action = ""
-              [formGroup] = "rankForm" >
+        <form [formGroup] = "rankForm"
+              action = "" >
           <div class = "mb-3" >
             <div class = "input-group " >
               <span class = "input-group-text" >Desde</span >
-              <input [readOnly] = "disableRanges"
-                     type = "time"
-                     [class.is-invalid] = "validateRankForm('from')"
+              <input [class.is-invalid] = "validateRankForm('from')"
+                     [readOnly] = "disableRanges"
+                     aria-describedby = "basic-addon1"
                      class = "form-control"
                      formControlName = "from"
-                     aria-describedby = "basic-addon1" >
+                     type = "time" >
 
             </div >
             <small *ngIf = "validateRankForm('from')"
@@ -190,12 +190,12 @@
           <div class = "mb-3" >
             <div class = "input-group " >
               <span class = "input-group-text" >Hasta</span >
-              <input [readOnly] = "disableRanges"
-                     formControlName = "to"
-                     [class.is-invalid] = "validateRankForm('to')"
-                     type = "time"
+              <input [class.is-invalid] = "validateRankForm('to')"
+                     [readOnly] = "disableRanges"
+                     aria-describedby = "basic-addon1"
                      class = "form-control"
-                     aria-describedby = "basic-addon1" >
+                     formControlName = "to"
+                     type = "time" >
 
             </div >
             <small *ngIf = "validateRankForm('to')"
@@ -204,13 +204,13 @@
           <div class = "mb-3" >
             <div class = "input-group " >
               <span class = "input-group-text" >Tiempo de gracia</span >
-              <input [readOnly] = "disableRanges"
-                     type = "number"
+              <input [class.is-invalid] = "validateRankForm('fromMinute')"
+                     [readOnly] = "disableRanges"
+                     aria-describedby = "basic-addon1"
                      class = "form-control"
-                     placeholder = "En minutos"
-                     [class.is-invalid] = "validateRankForm('fromMinute')"
                      formControlName = "fromMinute"
-                     aria-describedby = "basic-addon1" >
+                     placeholder = "En minutos"
+                     type = "number" >
 
             </div >
             <small *ngIf = "validateRankForm('fromMinute')"
@@ -221,18 +221,18 @@
       <div *ngIf = "timeRange == 3"
            class = "animate__animated animate__fadeInUp " >
         <h4 >Por bloques de horas</h4 >
-        <form action = ""
-              [formGroup] = "blockForm" >
+        <form [formGroup] = "blockForm"
+              action = "" >
           <div class = "mb-3" >
             <div class = "input-group " >
               <span class = "input-group-text" >Límite inferior</span >
-              <input [readOnly] = "disableRanges"
-                     type = "number"
-                     placeholder = "Desde 0 horas"
-                     formControlName = "lowerLimit"
-                     [class.is-invalid] = "validateBlockForm('lowerLimit')"
+              <input [class.is-invalid] = "validateBlockForm('lowerLimit')"
+                     [readOnly] = "disableRanges"
+                     aria-describedby = "basic-addon1"
                      class = "form-control"
-                     aria-describedby = "basic-addon1" >
+                     formControlName = "lowerLimit"
+                     placeholder = "Desde 0 horas"
+                     type = "number" >
 
             </div >
             <small *ngIf = "validateBlockForm('lowerLimit')"
@@ -241,13 +241,13 @@
           <div class = "mb-3" >
             <div class = "input-group " >
               <span class = "input-group-text" >Límite superior</span >
-              <input [readOnly] = "disableRanges"
-                     type = "number"
-                     placeholder = "Hasta 4 horas"
-                     formControlName = "upperLimit"
-                     [class.is-invalid] = "validateBlockForm('upperLimit')"
+              <input [class.is-invalid] = "validateBlockForm('upperLimit')"
+                     [readOnly] = "disableRanges"
+                     aria-describedby = "basic-addon1"
                      class = "form-control"
-                     aria-describedby = "basic-addon1" >
+                     formControlName = "upperLimit"
+                     placeholder = "Hasta 4 horas"
+                     type = "number" >
 
             </div >
             <small *ngIf = "validateBlockForm('upperLimit')"
@@ -256,13 +256,13 @@
           <div class = "mb-3" >
             <div class = "input-group " >
               <span class = "input-group-text" >Tiempo de gracia</span >
-              <input [readOnly] = "disableRanges"
-                     type = "number"
+              <input [class.is-invalid] = "validateBlockForm('fromMinute')"
+                     [readOnly] = "disableRanges"
+                     aria-describedby = "basic-addon1"
                      class = "form-control"
-                     placeholder = "En minutos"
-                     [class.is-invalid] = "validateBlockForm('fromMinute')"
                      formControlName = "fromMinute"
-                     aria-describedby = "basic-addon1" >
+                     placeholder = "En minutos"
+                     type = "number" >
             </div >
             <small *ngIf = "validateBlockForm('fromMinute')"
                    class = "text-danger animate__animated  animate__rotateIn" >* Este campo es obligatorio</small >
@@ -271,18 +271,18 @@
       </div >
       <div *ngIf = "timeRange == 4"
            class = "animate__animated animate__fadeInUp " >
-        <form action = ""
-              [formGroup] = "defaultForm" >
+        <form [formGroup] = "defaultForm"
+              action = "" >
           <div class = "mb-3" >
             <div class = "input-group " >
               <span class = "input-group-text" >Tiempo de gracia</span >
-              <input [readOnly] = "disableRanges"
-                     type = "number"
+              <input [class.is-invalid] = "validateDefaultForm('fromMinute')"
+                     [readOnly] = "disableRanges"
+                     aria-describedby = "basic-addon1"
                      class = "form-control"
-                     placeholder = "En minutos"
-                     [class.is-invalid] = "validateDefaultForm('fromMinute')"
                      formControlName = "fromMinute"
-                     aria-describedby = "basic-addon1" >
+                     placeholder = "En minutos"
+                     type = "number" >
             </div >
             <small *ngIf = "validateDefaultForm('fromMinute')"
                    class = "text-danger animate__animated  animate__rotateIn" >* Este campo es obligatorio</small >
@@ -296,9 +296,9 @@
       </div >
     </div >
     <div class = " text-center mt-4" >
-      <button type = "button"
-              (click) = "setDisableRanges()"
-              class = "btn btn-warning btn-lg " >{{disableRanges ? 'Descongelar datos' : 'Congelar datos'}}
+      <button (click) = "setDisableRanges()"
+              class = "btn btn-warning btn-lg "
+              type = "button" >{{disableRanges ? 'Descongelar datos' : 'Congelar datos'}}
       </button >
     </div >
   </div >
@@ -306,27 +306,27 @@
   <div *ngIf = "disableRanges"
        class = "col-sm-12  col-md-12 col-xl-5 animate__animated animate__fadeInDown" >
     <h4 class = "display-6" >Tipo de costo</h4 >
-    <div class = "btn-group"
-         role = "group"
-         aria-label = "Basic radio toggle button group" >
-      <input [readOnly] = "disableRanges"
-             type = "radio"
-             class = "btn-check"
-             name = "costType"
-             (click) = "costType=1"
-             id = "hourFraction"
+    <div aria-label = "Basic radio toggle button group"
+         class = "btn-group"
+         role = "group" >
+      <input (click) = "costType=1"
+             [readOnly] = "disableRanges"
              autocomplete = "off"
-             checked >
+             checked
+             class = "btn-check"
+             id = "hourFraction"
+             name = "costType"
+             type = "radio" >
       <label class = "btn btn-outline-success m-1 "
 
              for = "hourFraction" >Hora / Fracción</label >
-      <input [readOnly] = "disableRanges"
-             type = "radio"
+      <input (click) = "costType=2"
+             [readOnly] = "disableRanges"
+             autocomplete = "off"
              class = "btn-check "
-             name = "costType"
-             (click) = "costType=2"
              id = "fixedTariff"
-             autocomplete = "off" >
+             name = "costType"
+             type = "radio" >
       <label class = "btn btn-outline-success m-1"
              for = "fixedTariff" >Tarifa fija</label >
     </div >
@@ -334,20 +334,20 @@
       <div *ngIf = "costType==1"
            class = "animate__animated animate__fadeInUp " >
         <h4 >Hora / Fracción</h4 >
-        <form action = ""
-              [formGroup] = "hourAHalfForm" >
+        <form [formGroup] = "hourAHalfForm"
+              action = "" >
           <div class = "row " >
             <div class = "mb-3" >
               <div class = "input-group " >
             <span class = "input-group-text"
                   id = "basic-addon1" >Precio por hora</span >
-                <input type = "number"
+                <input [class.is-invalid] = "validateHourHalfCost('hourCost')"
+                       aria-describedby = "basic-addon1"
+                       aria-label = "cost"
                        class = "form-control"
                        formControlName = "hourCost"
                        placeholder = "123.12"
-                       aria-label = "cost"
-                       aria-describedby = "basic-addon1"
-                       [class.is-invalid] = "validateHourHalfCost('hourCost')" >
+                       type = "number" >
               </div >
               <small *ngIf = "validateHourHalfCost('hourCost')"
                      class = "text-danger animate__animated  animate__rotateIn" >* Este campo es obligatorio</small >
@@ -357,13 +357,13 @@
             <div class = "mb-3" >
               <div class = "input-group " >
                 <span class = "input-group-text" >Precio por fracción</span >
-                <input type = "number"
-                       class = "form-control"
-                       placeholder = "123.12"
-                       aria-label = "cost"
+                <input [class.is-invalid] = "validateHourHalfCost('halfCost')"
                        aria-describedby = "basic-addon1"
+                       aria-label = "cost"
+                       class = "form-control"
                        formControlName = "halfCost"
-                       [class.is-invalid] = "validateHourHalfCost('halfCost')" >
+                       placeholder = "123.12"
+                       type = "number" >
               </div >
               <small *ngIf = "validateHourHalfCost('halfCost')"
                      class = "text-danger animate__animated animate__rotateIn" >* Este campo es obligatorio</small >
@@ -375,18 +375,18 @@
            class = "animate__animated animate__fadeInUp " >
         <h4 >Tarifa fija</h4 >
 
-        <form action = ""
-              [formGroup] = "fixedCostForm" >
+        <form [formGroup] = "fixedCostForm"
+              action = "" >
           <div class = "mb-3" >
             <div class = "input-group" >
               <span class = "input-group-text" >Precio fijo</span >
-              <input type = "number"
-                     class = "form-control"
-                     placeholder = "123.12"
-                     aria-label = "cost"
+              <input [class.is-invalid] = "validateFixedCost('fixedCost')"
                      aria-describedby = "basic-addon1"
+                     aria-label = "cost"
+                     class = "form-control"
                      formControlName = "fixedCost"
-                     [class.is-invalid] = "validateFixedCost('fixedCost')" >
+                     placeholder = "123.12"
+                     type = "number" >
             </div >
             <small *ngIf = "validateFixedCost('fixedCost')"
                    class = "text-danger animate__animated  animate__rotateIn" >* Este campo es obligatorio</small >
@@ -395,9 +395,9 @@
       </div >
     </div >
     <div class = " text-center mt-4" >
-      <button type = "button"
-              (click) = "saveRule()"
-              class = "btn btn-success btn-lg " >Guardar
+      <button (click) = "saveRule()"
+              class = "btn btn-success btn-lg "
+              type = "button" >Guardar
       </button >
     </div >
   </div >
@@ -419,15 +419,15 @@
           {{tariff.static_description}}
           <br >
           <br >
-          <button type = "button"
-                  (click) = "deleteTariff(tariff.id)"
-                  class = "btn btn-danger" ><em class = "fas fa-trash" ></em >
+          <button (click) = "deleteTariff(tariff.id)"
+                  class = "btn btn-danger"
+                  type = "button" ><em class = "fas fa-trash" ></em >
           </button >
         </p >
       </div >
     </div >
   </div >
- </div >
+</div >
 <div class = "text-center"
      id = "q-box__buttons" >
   <button (click) = "emmitStep(-1)"

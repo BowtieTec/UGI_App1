@@ -24,6 +24,10 @@ export class AuthService {
     private route: Router
   ) {}
 
+  get isSudo() {
+    return this.getUser().user.role.isSudo;
+  }
+
   saveUser(user: AuthModel) {
     localStorage.setItem(
       this.crypto.encryptKey('User'),
@@ -40,10 +44,6 @@ export class AuthService {
     return {
       ...JSON.parse(this.crypto.decrypt(sentence!)),
     };
-  }
-
-  get isSudo() {
-    return this.getUser().user.role.isSudo;
   }
 
   cleanUser() {

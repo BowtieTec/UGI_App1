@@ -15,35 +15,35 @@
       <div class = "d-flex menuMobile d-block d-sm-none " >
         <span onclick = "menuMovil()" ><em class = "fas fa-bars" ></em ></span >
       </div >
-      <span class="badge bg-info">{{this.authData.user.name + ' ' + this.authData.user.last_name}}</span>
-      <span class="badge bg-info">{{this.authData.user.email}}</span>
-      <span class="badge bg-info">  {{this.authData.user.role.name}}</span>
+      <span class = "badge bg-info" >{{this.authData.user.name + ' ' + this.authData.user.last_name}}</span >
+      <span class = "badge bg-info" >{{this.authData.user.email}}</span >
+      <span class = "badge bg-info" >  {{this.authData.user.role.name}}</span >
 
       <div class = "d-flex icons" >
         <span ><em class = "fas fa-bell" ></em ></span >
         <div class = "dropdown" >
           <div class = "" >
-            <em class="far fa-user-circle fa-3x"></em>
+            <em class = "far fa-user-circle fa-3x" ></em >
 
           </div >
           <div
             class = "dropdown-content" >
             <ul class = "nav flex-column" >
               <li class = "nav-item" >
-                <a class = "nav-link"
-                   (click) = "logout()" >
+                <a (click) = "logout()"
+                   class = "nav-link" >
                   <span ><em class = "fa fa-tachometer-alt" ></em ></span >
                   Cerrar sesión</a >
               </li >
-              <li class="nav-item text-center">
+              <li class = "nav-item text-center" >
                 {{this.authData.user.name + ' ' + this.authData.user.last_name}}
-              </li>
-              <li class="nav-item text-center">
+              </li >
+              <li class = "nav-item text-center" >
                 {{this.authData.user.email}}
-              </li>
-              <li class="nav-item text-center">
+              </li >
+              <li class = "nav-item text-center" >
                 {{this.authData.user.role.name}}
-              </li>
+              </li >
             </ul >
           </div >
         </div >

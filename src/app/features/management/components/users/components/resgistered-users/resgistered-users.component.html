@@ -3,11 +3,11 @@
     <span ><em class = "fas fa-users" ></em ></span > Usuarios registrados
   </div >
 
-  <table datatable
-         [dtOptions] = "dtOptions"
+  <table [dtOptions] = "dtOptions"
          [dtTrigger] = "dtTrigger"
+         aria-label = "Tabla de usuarios"
          class = "table table-striped"
-         aria-label = "Tabla de usuarios" >
+         datatable >
     <thead >
     <tr >
       <th scope = "col" >Nombre
@@ -25,14 +25,14 @@
       <td >{{user.name + ' ' + user.last_name}}</td >
       <td >{{user.email}}</td >
       <td class = "text-right" >
-        <button *ngIf = "ifHaveAction(editUser)"
-                (click) = "editTheUser(user)"
+        <button (click) = "editTheUser(user)"
+                *ngIf = "ifHaveAction(editUser)"
                 class = "buttonRowEdit me-1"
                 title = "Editar" ><em class = "fas fa-user-edit" ></em >
         </button >
         <button
-          *ngIf = "ifHaveAction(deleteUser)"
           (click) = "deleteTheUser(user)"
+          *ngIf = "ifHaveAction(deleteUser)"
           class = "buttonRowDelete" ><em class = "fas fa-user-times" ></em >
         </button >
       </td >

@@ -93,16 +93,6 @@ export class CourtesyComponent implements OnInit, AfterViewInit, OnDestroy {
       });
   }
 
-  private createForm() {
-    return this.formBuilder.group({
-      name: ['', [Validators.required]],
-      type: ['', [Validators.required]],
-      value: ['', [Validators.required, Validators.min(1)]],
-      quantity: ['', [Validators.required, Validators.min(1)]],
-      parkingId: [this.authService.getParking().id],
-    });
-  }
-
   controlInvalid(control: string) {
     return this.utilitiesService.controlInvalid(this.newCourtesyForm, control);
   }
@@ -148,15 +138,6 @@ export class CourtesyComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  private rerender() {
-    if (this.dtElement != undefined) {
-      this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
-        dtInstance.destroy();
-        this.dtTrigger.next();
-      });
-    }
-  }
-
   ngAfterViewInit(): void {
     this.dtTrigger.next();
   }
@@ -172,5 +153,24 @@ export class CourtesyComponent implements OnInit, AfterViewInit, OnDestroy {
       saveAs(data, courtesies.name + '.pdf');
       this.messageService.OkTimeOut();
     });
+  }
+
+  private createForm() {
+    return this.formBuilder.group({
+      name: ['', [Validators.required]],
+      type: ['', [Validators.required]],
+      value: ['', [Validators.required, Validators.min(1)]],
+      quantity: ['', [Validators.required, Validators.min(1)]],
+      parkingId: [this.authService.getParking().id],
+    });
+  }
+
+  private rerender() {
+    if (this.dtElement != undefined) {
+      this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+        dtInstance.destroy();
+        this.dtTrigger.next();
+      });
+    }
   }
 }

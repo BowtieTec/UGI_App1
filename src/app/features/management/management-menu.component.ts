@@ -9,9 +9,9 @@ import { environment } from '../../../environments/environment';
   styleUrls: ['./management-menu.component.css'],
 })
 export class ManagementMenuComponent {
-  private actions: string[] = [];
   assignRole = environment.assignRole;
   createUser = environment.createUser;
+  private actions: string[] = [];
 
   constructor(
     private authService: AuthService,

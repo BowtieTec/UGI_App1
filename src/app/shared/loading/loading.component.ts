@@ -1,10 +1,5 @@
-import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
-import {
-  NavigationCancel,
-  NavigationEnd,
-  NavigationStart,
-  Router,
-} from '@angular/router';
+import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { MessageService } from '../services/message.service';
 
 @Component({
@@ -12,22 +7,10 @@ import { MessageService } from '../services/message.service';
   templateUrl: './loading.component.html',
   styleUrls: ['./loading.component.css'],
 })
-export class LoadingComponent implements AfterViewInit {
+export class LoadingComponent {
   constructor(private router: Router, private messageService: MessageService) {}
 
   get loading() {
     return this.messageService.loading;
-  }
-
-  ngAfterViewInit(): void {
-    /*  this.router.events.subscribe((event) => {
-        if (event instanceof NavigationStart) {
-          this.messageService.showLoading();
-        } else if (
-          event instanceof NavigationEnd ||
-          event instanceof NavigationCancel
-        ) {
-        }
-      });*/
   }
 }

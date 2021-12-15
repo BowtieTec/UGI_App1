@@ -1,4 +1,3 @@
-
 export class HolidayHourHalfInputModel {
   static_descriptionTime: string = '';
   static_descriptionCost: string = '';
@@ -19,8 +18,6 @@ export class HolidayFixedCostInputModel {
 }
 
 export class HolidayHourHalfRuleModel {
-  constructor(private holidayInput: HolidayHourHalfInputModel) {}
-
   static_description: string =
     this.holidayInput.static_descriptionTime +
     ' ' +
@@ -83,11 +80,11 @@ export class HolidayHourHalfRuleModel {
       },
     },
   ];
+
+  constructor(private holidayInput: HolidayHourHalfInputModel) {}
 }
 
 export class HolidayHourFixedCostModel {
-  constructor(private holidayInput: HolidayFixedCostInputModel) {}
-
   static_description: string =
     this.holidayInput.static_descriptionTime +
     ' ' +
@@ -130,5 +127,7 @@ export class HolidayHourFixedCostModel {
         },
       },
     },
-  ]
+  ];
+
+  constructor(private holidayInput: HolidayFixedCostInputModel) {}
 }

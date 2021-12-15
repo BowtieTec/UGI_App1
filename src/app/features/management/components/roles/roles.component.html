@@ -8,11 +8,11 @@
         <div class = "mb-4 relative" >
           <label class = "labelInput" >Roles</label >
           <select
-            class = "inputClass"
+            (change) = "changeRole()"
             [(ngModel)] = "roleIdSelected"
-            name = "roleId"
+            class = "inputClass"
             id = "roleId"
-            (change) = "changeRole()" >
+            name = "roleId" >
             <option value = "" >TIPO DE USUARIO</option >
             <option *ngFor = "let role of Roles"
                     value = "{{role.id}}" >{{role.name}}</option >
@@ -21,37 +21,39 @@
         </div >
       </div >
 
-      <div  class = "row" >
-        <div *ngFor = "let module of getModules; index as i" class=" col-xl-3 col-lg-4 col-md-6 col-sm-12 col-xs-12">
-          <div class="panels">
-          <div class="title">{{module | titlecase}}</div>
-          <div class = "text-center" >
-            <div class = "btn-group"
-                 role = "group"
-                 aria-label = "Basic checkbox toggle button group" >
-              <div class = "row" >
-                <div>
-                  <ul class="opcionActivo">
-                  <li *ngFor = " let item of getPermissionsForModules(module)"><input type = "checkbox"
-                         class = "form-check-input"
-                         value = "{{item.checked}}"
-                         id = "{{item.id}}"
-                         [(ngModel)] = "item.checked"
-                         name = "{{item.description}}"
-                         autocomplete = "off" >
-                  <label class = "form-check-label ms-2"
-                         [for] = "item.id" > {{  item.description}}</label ></li></ul>
+      <div class = "row" >
+        <div *ngFor = "let module of getModules; index as i"
+             class = " col-xl-3 col-lg-4 col-md-6 col-sm-12 col-xs-12" >
+          <div class = "panels" >
+            <div class = "title" >{{module | titlecase}}</div >
+            <div class = "text-center" >
+              <div aria-label = "Basic checkbox toggle button group"
+                   class = "btn-group"
+                   role = "group" >
+                <div class = "row" >
+                  <div >
+                    <ul class = "opcionActivo" >
+                      <li *ngFor = " let item of getPermissionsForModules(module)" ><input [(ngModel)] = "item.checked"
+                                                                                           autocomplete = "off"
+                                                                                           class = "form-check-input"
+                                                                                           id = "{{item.id}}"
+                                                                                           name = "{{item.description}}"
+                                                                                           type = "checkbox"
+                                                                                           value = "{{item.checked}}" >
+                        <label [for] = "item.id"
+                               class = "form-check-label ms-2" > {{  item.description}}</label ></li >
+                    </ul >
+                  </div >
                 </div >
               </div >
             </div >
           </div >
-        </div>
-        </div>
+        </div >
       </div >
     </div >
     <div class = "col-sm-12 text-center" >
-      <button class = "btn btn-primary"
-              (click) = "savePermissions()" >Guardar
+      <button (click) = "savePermissions()"
+              class = "btn btn-primary" >Guardar
       </button >
     </div >
   </div >

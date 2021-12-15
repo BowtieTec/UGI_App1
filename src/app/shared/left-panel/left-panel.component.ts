@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { PermissionsService } from '../services/permissions.service';
-import { environment } from '../../../environments/environment';
 import { OptionMenuModel } from '../model/OptionMenu.model';
 
 @Component({

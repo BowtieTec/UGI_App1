@@ -5,9 +5,11 @@ body {
   font-family: 'Poppins', sans-serif;
   font-size: 12px;
 }
-.bgBody{
+
+.bgBody {
   background: #f7f7f7;
 }
+
 .btn {
   border-radius: 6px !important;
   box-shadow: 0 0 0 0 rgb(49 132 253 / 0%) !important;
@@ -553,7 +555,8 @@ ul.opcionActivo li input[type="radio"] {
 ul.opcionActivo li input[type="radio"]:focus + label {
   border: 2px solid #e9a1ff;
 }
-.table-striped>tbody>tr:nth-of-type(odd) {
+
+.table-striped > tbody > tr:nth-of-type(odd) {
   --bs-table-accent-bg: rgb(247 247 247);;
   color: var(--bs-table-striped-color);
 }
@@ -562,10 +565,12 @@ table.dataTable tbody tr {
   background-color: #ffffff;
   border: #05ccae;
 }
+
 table.dataTable th, table.dataTable td {
   box-sizing: content-box;
   vertical-align: middle;
 }
+
 @media (max-width: 480px) {
   body {
     font-size: 14px;

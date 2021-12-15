@@ -73,6 +73,14 @@ export class ResgisteredUsersComponent
     this.subject.next(user);
   }
 
+  ngAfterViewInit(): void {
+    this.dtTrigger.next();
+  }
+
+  ngOnDestroy(): void {
+    this.dtTrigger.unsubscribe();
+  }
+
   private getUsers() {
     this.userService
       .getUsers()
@@ -96,13 +104,5 @@ export class ResgisteredUsersComponent
       dtInstance.destroy();
       this.dtTrigger.next();
     });
-  }
-
-  ngAfterViewInit(): void {
-    this.dtTrigger.next();
-  }
-
-  ngOnDestroy(): void {
-    this.dtTrigger.unsubscribe();
   }
 }

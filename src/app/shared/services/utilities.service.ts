@@ -10,7 +10,9 @@ import {
   providedIn: 'root',
 })
 export class UtilitiesService {
-  constructor() {}
+  get getPatterEmail() {
+    return "^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$";
+  }
 
   markAsTouched(form: FormGroup) {
     Object.values(form.controls).forEach((control: AbstractControl) =>
@@ -48,16 +50,12 @@ export class UtilitiesService {
     for (let i = 0; i < nitArray.length - 1; i++) {
       total = total + nitArray[i] * (i + 2);
     }
-    if (!(Math.round(Math.round(total % 11) % 11) == checker)) {
+    if (Math.round(Math.round(total % 11) % 11) != checker) {
       return {
         nitRight: true,
       };
     }
     return null;
-  }
-
-  get getPatterEmail() {
-    return "^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$";
   }
 
   disableForm(form: FormGroup) {

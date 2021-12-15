@@ -7,7 +7,7 @@ import {
   HolidayHourFixedCostModel,
   HolidayHourHalfInputModel,
   HolidayHourHalfRuleModel,
-} from './model/HolidayTariff.model' ;
+} from './model/HolidayTariff.model';
 import {
   RankFixedCostInputModel,
   RankFixedCostRuleModel,
@@ -29,8 +29,10 @@ import {
 import { ParkingService } from '../../../../services/parking.service';
 import { CreateTariffModel } from '../../../../models/Tariff.model';
 import { CurrencyPipe, DatePipe } from '@angular/common';
-import {DateGreaterValidations, NumberGreaterValidations
-} from "../../../../../../shared/validators/GreatherThan.validations";
+import {
+  DateGreaterValidations,
+  NumberGreaterValidations,
+} from '../../../../../../shared/validators/GreatherThan.validations';
 
 @Component({
   selector: 'app-step-three',
@@ -404,6 +406,23 @@ export class TariffComponent {
     this.messageService.OkTimeOut();
   }
 
+  deleteTariff(id: string) {
+    this.messageService.showLoading();
+    this.parkingService
+      .deleteTariff(id)
+      .then((data) => {
+        if (!data.success) this.messageService.error('', data.message);
+
+        return data;
+      })
+      .then((data) => {
+        if (data.success) {
+          this.getTariffs();
+          this.messageService.OkTimeOut();
+        }
+      });
+  }
+
   private createGeneralDataForm() {
     return this.formBuilder.group({
       name: ['', Validators.required],
@@ -431,23 +450,6 @@ export class TariffComponent {
       .then((data) => {
         if (data.success) {
           this.tariffs = data.data.rules;
-        }
-      });
-  }
-
-  deleteTariff(id: string) {
-    this.messageService.showLoading();
-    this.parkingService
-      .deleteTariff(id)
-      .then((data) => {
-        if (!data.success) this.messageService.error('', data.message);
-
-        return data;
-      })
-      .then((data) => {
-        if (data.success) {
-          this.getTariffs();
-          this.messageService.OkTimeOut();
         }
       });
   }

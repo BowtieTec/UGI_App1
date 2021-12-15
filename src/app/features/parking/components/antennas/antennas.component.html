@@ -41,8 +41,8 @@
                      formControlName = "name_access"
                      placeholder = "Nombre de acceso:"
                      type = "text" >
-                <small *ngIf = "controlInvalid('name_access')"
-                       class = "text-danger animate__animated  animate__rotateIn" >* Este campo es obligatorio</small >
+              <small *ngIf = "controlInvalid('name_access')"
+                     class = "text-danger animate__animated  animate__rotateIn" >* Este campo es obligatorio</small >
             </div >
           </div >
         </div >
@@ -55,8 +55,8 @@
                      formControlName = "mac_access"
                      placeholder = "MAC:"
                      type = "text" >
-                <small *ngIf = "controlInvalid('mac_access')"
-                       class = "text-danger animate__animated  animate__rotateIn" >* Este campo es obligatorio</small >
+              <small *ngIf = "controlInvalid('mac_access')"
+                     class = "text-danger animate__animated  animate__rotateIn" >* Este campo es obligatorio</small >
             </div >
           </div >
           <div class = "col-md-5 col-sm-12" >
@@ -94,8 +94,8 @@
       </div >
 
     </div >
-    <table class = "table"
-           aria-label = "Tabla de accesos" >
+    <table aria-label = "Tabla de accesos"
+           class = "table" >
       <thead >
       <tr >
         <th scope = "col" >Nombre de acceso</th >
@@ -136,8 +136,8 @@
       </tbody >
     </table >
   </div >
-  <div class = "text-center"
-       *ngIf = "this.showButtons"
+  <div *ngIf = "this.showButtons"
+       class = "text-center"
        id = "q-box__buttons" >
     <button (click) = "emmitStep(-1)"
             class = "btn btn-primary m-2"

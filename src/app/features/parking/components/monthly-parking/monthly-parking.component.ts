@@ -6,7 +6,6 @@ import { UtilitiesService } from '../../../../shared/services/utilities.service'
 import {
   CreateProfilesModel,
   GetStationModel,
-  IdModel,
   MonthlyUserModel,
   ProfilesModel,
   SubscriptionModel,
@@ -260,6 +259,27 @@ export class MonthlyParkingComponent implements AfterViewInit, OnDestroy {
     return this.stationsByParking.filter((x) => x.addStation);
   }
 
+  getAntennasByParking() {
+    this.message.showLoading();
+    this.parkingService
+      .getAntennas(this.authService.getParking().id)
+      .subscribe((data) => {
+        if (data.success) {
+          this.stationsByParking = data.data.stations;
+          /*
+          Para ver ejemplo de como se ver[ia con estaciones privadas,
+          solo se debe comentar las siguientes dos lineas que pertenecen al filter:
+          */
+          this.stationsByParking = this.stationsByParking.filter(
+            (x) => x.isPrivate
+          );
+        } else {
+          this.message.error('', data.message);
+        }
+        this.message.hideLoading();
+      });
+  }
+
   private getDays() {
     return [
       {
@@ -307,26 +327,5 @@ export class MonthlyParkingComponent implements AfterViewInit, OnDestroy {
         this.dtTrigger.next();
       });
     }
-  }
-
-  getAntennasByParking() {
-    this.message.showLoading();
-    this.parkingService
-      .getAntennas(this.authService.getParking().id)
-      .subscribe((data) => {
-        if (data.success) {
-          this.stationsByParking = data.data.stations;
-          /*
-          Para ver ejemplo de como se ver[ia con estaciones privadas,
-          solo se debe comentar las siguientes dos lineas que pertenecen al filter:
-          */
-          this.stationsByParking = this.stationsByParking.filter(
-            (x) => x.isPrivate
-          );
-        } else {
-          this.message.error('', data.message);
-        }
-        this.message.hideLoading();
-      });
   }
 }

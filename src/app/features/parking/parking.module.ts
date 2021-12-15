@@ -10,7 +10,7 @@ import { GeneralDataComponent } from './components/new-parking/components/genera
 import { ScheduleComponent } from './components/new-parking/components/schedule/schedule.component';
 import { TariffComponent } from './components/new-parking/components/tariff/tariff.component';
 import { BillingDataComponent } from './components/new-parking/components/billing-data/billing-data.component';
-import { AntennasComponent } from './components/new-parking/components/antennas/antennas.component';
+import { AntennasComponent } from './components/antennas/antennas.component';
 import { ResumeComponent } from './components/new-parking/components/resume/resume.component';
 import { SharedModule } from '../../shared/shared.module';
 import {
