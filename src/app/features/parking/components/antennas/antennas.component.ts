@@ -9,6 +9,8 @@ import { ParkingService } from '../../services/parking.service';
 import { UtilitiesService } from '../../../../shared/services/utilities.service';
 import { ResponseModel } from '../../../../shared/model/Request.model';
 import { AuthService } from '../../../../shared/services/auth.service';
+import { PermissionsService } from '../../../../shared/services/permissions.service';
+import { environment } from '../../../../../environments/environment';
 
 @Component({
   selector: 'app-antennas',
@@ -27,12 +29,19 @@ export class AntennasComponent {
   antennas: CreateParkingStepFiveModel[] =
     new Array<CreateParkingStepFiveModel>();
 
+  private actions: string[] = this.permissionService.actionsOfPermissions;
+  editAntennaAction = environment.editAntennas;
+  deleteAntennaAction = environment.deleteAntennas;
+  createAntennaAction = environment.createAntennas;
+  downloadQRAntennaAction = environment.downloadQRAntenna;
+
   constructor(
     private formBuilder: FormBuilder,
     private message: MessageService,
     private parkingService: ParkingService,
     private utilitiesService: UtilitiesService,
-    private authService: AuthService
+    private authService: AuthService,
+    private permissionService: PermissionsService
   ) {
     this.message.showLoading();
     this.getInitialData().then(() => {
@@ -198,5 +207,9 @@ export class AntennasComponent {
       antenna_access: [null],
       isPrivate: [false],
     });
+  }
+
+  ifHaveAction(action: string) {
+    return !!this.actions.find((x) => x == action);
   }
 }

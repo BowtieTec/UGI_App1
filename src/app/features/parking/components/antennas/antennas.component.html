@@ -8,10 +8,11 @@
     class = "container " >
     <div
       class = "row" >
-      <div class = "titleCards" >
+      <div class = "titleCards"
+           *ngIf = "ifHaveAction(createAntennaAction)" >
         Agregar Antena
       </div >
-      <div >
+      <div *ngIf = "ifHaveAction(createAntennaAction)" >
         <div class = "row" >
           <div class = "col-md-5 col-sm-12" >
             <div class = "m-3 relative " >
@@ -116,18 +117,19 @@
         <td >{{antenna.antena}}</td >
         <td >{{antenna.isPrivate ? 'Privado' : 'Público'}}</td >
         <td >
-          <button (click) = "
-            editAntenna(antenna)
-        "
+          <button (click) = " editAntenna(antenna) "
+                  *ngIf = "ifHaveAction(editAntennaAction)"
                   class = "buttonRowEdit"
-                  title = "Editar" ><em class = "fas fa-user-edit" ></em >
+                  title = "Editar" ><em class = "fas fa-edit" ></em >
           </button >
           <button
             (click) = "deleteAntenna(antenna)"
-            class = "buttonRowDelete m-1" ><em class = "fas fa-user-times" ></em >
+            *ngIf = "ifHaveAction(deleteAntennaAction)"
+            class = "buttonRowDelete m-1" ><em class = "fas fa-trash" ></em >
           </button >
           <button
             (click) = "downloadQR(antenna)"
+            *ngIf = "ifHaveAction(downloadQRAntennaAction)"
             class = "buttonRowQR m-1" ><em class = "fas fa-qrcode" ></em >
           </button >
 

@@ -11,19 +11,14 @@ import { environment } from '../../../environments/environment';
 export class ParkingMenuComponent {
   listParking = environment.listParking;
   createParking = environment.createParking;
-
-  private actions: string[] = [];
+  listAntennas = environment.listAntennas;
+  listMonthlyParking = environment.listMonthlyParking;
+  private actions: string[] = this.permissionService.actionsOfPermissions;
 
   constructor(
     private authService: AuthService,
     private permissionService: PermissionsService
-  ) {
-    this.getActions();
-  }
-
-  getActions() {
-    this.actions = this.permissionService.actionsOfPermissions;
-  }
+  ) {}
 
   ifHaveAction(action: string) {
     return !!this.actions.find((x) => x == action);

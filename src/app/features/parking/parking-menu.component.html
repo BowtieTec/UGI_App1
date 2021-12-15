@@ -16,14 +16,14 @@
       <app-parking ></app-parking >
     </ng-template >
   </ng-container >
-  <ng-container *ngIf = "ifHaveAction(listParking)"
+  <ng-container *ngIf = "ifHaveAction(listMonthlyParking)"
                 ngbNavItem >
     <a ngbNavLink ><em class = "fas fa-calendar-check" ></em > Parqueos mensuales</a >
     <ng-template ngbNavContent >
       <app-monthly-parking ></app-monthly-parking >
     </ng-template >
   </ng-container >
-  <ng-container *ngIf = "ifHaveAction(listParking)"
+  <ng-container *ngIf = "ifHaveAction(listAntennas)"
                 ngbNavItem >
     <a ngbNavLink ><em class = "fas fa-broadcast-tower" ></em > Antenas</a >
     <ng-template ngbNavContent >
