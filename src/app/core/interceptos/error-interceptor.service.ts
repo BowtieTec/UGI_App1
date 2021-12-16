@@ -13,11 +13,11 @@ export class GlobalErrorHandler implements ErrorHandler {
   ) {}
 
   handleError(error: any) {
+    console.log(error);
     if (!(error instanceof HttpErrorResponse)) {
       error = error.rejection; // get the error object
     }
     if (error.status === 400) {
-      console.log(error);
       this.message.error(
         'Datos incorrectos',
         'Datos faltantes o incorrectos: ' +
