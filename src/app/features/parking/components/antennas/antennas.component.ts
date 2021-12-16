@@ -11,6 +11,7 @@ import { ResponseModel } from '../../../../shared/model/Request.model';
 import { AuthService } from '../../../../shared/services/auth.service';
 import { PermissionsService } from '../../../../shared/services/permissions.service';
 import { environment } from '../../../../../environments/environment';
+import { ParkingModel } from '../../models/Parking.model';
 
 @Component({
   selector: 'app-antennas',
@@ -18,16 +19,15 @@ import { environment } from '../../../../../environments/environment';
   styleUrls: ['./antennas.component.css'],
 })
 export class AntennasComponent {
-  @Input() showButtons: boolean = false;
+  @Input() isCreatingParking: boolean = false;
   stepFiveForm!: FormGroup;
   @Output() changeStep = new EventEmitter<number>();
   idEditAntenna: string = '';
-  idParking =
-    this.parkingService.parkingStepOne.parkingId ||
-    this.authService.getParking().id;
+  idParking: string;
   accessList: AccessModel[] = this.parkingService.getAccesses();
   antennas: CreateParkingStepFiveModel[] =
     new Array<CreateParkingStepFiveModel>();
+  allParking: ParkingModel[] = Array<ParkingModel>();
 
   private actions: string[] = this.permissionService.actionsOfPermissions;
   editAntennaAction = environment.editAntennas;
@@ -48,6 +48,9 @@ export class AntennasComponent {
       this.message.hideLoading();
     });
     this.stepFiveForm = this.createForm();
+    this.idParking = this.isCreatingParking
+      ? this.parkingService.parkingStepOne.parkingId
+      : this.authService.getParking().id;
   }
 
   getAccessName(type: number): AccessModel {
@@ -73,10 +76,9 @@ export class AntennasComponent {
       this.parkingService
         .setStepFive(this.getStepFive())
         .then((data: ResponseModel) => {
-          console.log(data);
           if (data.success) {
             this.getInitialData().then(() => {
-              this.message.OkTimeOut('Guardado');
+              this.message.OkTimeOut(data.message);
               this.cleanForm();
             });
           } else {
@@ -88,11 +90,11 @@ export class AntennasComponent {
         });
     } else {
       let antennaToEdit: CreateParkingStepFiveModel = this.getStepFive();
+      console.log(antennaToEdit);
       antennaToEdit.id = this.idEditAntenna;
       this.parkingService
         .editStepFive(antennaToEdit)
         .subscribe((data: ResponseModel) => {
-          console.log(data);
           if (data.success) {
             this.cleanForm();
             this.getInitialData().then(() => {
@@ -120,6 +122,7 @@ export class AntennasComponent {
   editAntenna(antenna: CreateParkingStepFiveModel) {
     antenna.id = this.validateId(antenna.id);
     this.idEditAntenna = antenna.id;
+    this.stepFiveForm.controls['parking'].setValue(antenna.parking.id);
     this.stepFiveForm.controls['type_access'].setValue(antenna.type);
     this.stepFiveForm.controls['name_access'].setValue(antenna.name);
     this.stepFiveForm.controls['mac_access'].setValue(antenna.mac);
@@ -141,6 +144,7 @@ export class AntennasComponent {
 
   cleanForm() {
     this.idEditAntenna = '';
+    this.stepFiveForm.controls['parking'].setValue(this.idParking);
     this.stepFiveForm.controls['type_access'].setValue('');
     this.stepFiveForm.controls['name_access'].setValue('');
     this.stepFiveForm.controls['mac_access'].setValue('');
@@ -173,7 +177,7 @@ export class AntennasComponent {
 
   private getStepFive(): CreateParkingStepFiveModel {
     return {
-      parking: this.idParking,
+      parking: this.stepFiveForm.controls['parking'].value || this.idParking,
       name: this.stepFiveForm.controls['name_access'].value,
       type: this.stepFiveForm.controls['type_access'].value,
       antena: this.stepFiveForm.controls['antenna_access'].value,
@@ -192,6 +196,21 @@ export class AntennasComponent {
           data.data.stations.forEach((station: CreateParkingStepFiveModel) => {
             this.antennas.push(station);
           });
+        } else {
+          this.antennas = [];
+        }
+        return data;
+      })
+      .catch(() => {
+        return;
+      })
+      .then((data) => {
+        if (this.authService.isSudo) {
+          this.parkingService.getAllParking().then((data) => {
+            if (data.success) {
+              this.allParking = data.data.parkings;
+            }
+          });
         }
       })
       .catch((e) => {
@@ -201,7 +220,8 @@ export class AntennasComponent {
 
   private createForm() {
     return this.formBuilder.group({
-      type_access: [null],
+      parking: [this.idParking],
+      type_access: [0],
       name_access: [null],
       mac_access: [null, Validators.required],
       antenna_access: [null],
@@ -211,5 +231,23 @@ export class AntennasComponent {
 
   ifHaveAction(action: string) {
     return !!this.actions.find((x) => x == action);
+  }
+
+  searchAntennasByParking() {
+    if (this.authService.isSudo && !this.idEditAntenna) {
+      this.parkingService
+        .getAntennas(this.stepFiveForm.controls['parking'].value)
+        .toPromise()
+        .then((data: ResponseModel) => {
+          if (data.success) {
+            this.antennas = [];
+            data.data.stations.forEach(
+              (station: CreateParkingStepFiveModel) => {
+                this.antennas.push(station);
+              }
+            );
+          }
+        });
+    }
   }
 }

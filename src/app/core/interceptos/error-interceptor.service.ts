@@ -13,7 +13,6 @@ export class GlobalErrorHandler implements ErrorHandler {
   ) {}
 
   handleError(error: any) {
-    console.log(error);
     if (!(error instanceof HttpErrorResponse)) {
       error = error.rejection; // get the error object
     }

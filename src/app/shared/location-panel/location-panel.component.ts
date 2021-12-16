@@ -8,7 +8,7 @@ import { ParkingAuthModel } from '../model/UserResponse.model';
   templateUrl: './location-panel.component.html',
   styleUrls: ['./location-panel.component.css'],
 })
-export class LocationPanelComponent implements OnInit {
+export class LocationPanelComponent {
   date: Date = new Date();
   time = new Observable<string>((observer) => {
     setInterval(() => observer.next(new Date().toString()), 1000);
@@ -16,8 +16,4 @@ export class LocationPanelComponent implements OnInit {
   parking: ParkingAuthModel = this.auth.getParking();
 
   constructor(private auth: AuthService) {}
-
-  ngOnInit(): void {
-    console.log(this.parking);
-  }
 }

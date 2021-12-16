@@ -281,4 +281,10 @@ export class ParkingService {
       )
       .toPromise();
   }
+
+  getAllParking() {
+    return this.http
+      .get<ResponseModel>(`${this.apiUrl}backoffice/parking/enables`)
+      .toPromise();
+  }
 }

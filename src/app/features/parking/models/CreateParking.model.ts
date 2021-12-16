@@ -31,7 +31,7 @@ export class CreateParkingStepFourModel {
 
 export class CreateParkingStepFiveModel {
   id?: string = '';
-  parking: string = '';
+  parking: any;
   type: number = 0;
   name: string = '';
   antena: string = '';
