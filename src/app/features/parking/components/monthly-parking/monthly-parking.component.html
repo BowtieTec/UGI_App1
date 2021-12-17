@@ -157,12 +157,9 @@
                        formControlName = "isUnlimited"
                        id = "radioOne"
                        type = "checkbox" >
-                <label for = "radioOne" >Ilimitado</label ></li >
-              <li class = "m-1" >
-                <input (click) = "changeValueIsUnlimited()"
-                       id = "byDateRadio"
-                       type = "checkbox" >
-                <label for = "byDateRadio" >Por fecha</label ></li >
+                <label
+                  for = "radioOne" >{{this.isUnlimitedForm.value ? 'Ilimitado' : 'Por fecha'}}</label >
+              </li >
             </ul >
           </div >
           <div class = "col-xl-6 col-lg-8 col-sm-12 text-center mb-4" >
@@ -189,7 +186,7 @@
                                                                             usuario acceder al conjunto de antenas
                                                                             que ese perfil contiene.</small >
           </div >
-          <div *ngIf = "byDate"
+          <div *ngIf = "!this.isUnlimitedForm.value"
                class = "animate__animated animate__bounceInDown " >
             <div class = "col-xl-4 col-lg-6 col-sm-12" >
               <div class = "mb-5 relative" >
