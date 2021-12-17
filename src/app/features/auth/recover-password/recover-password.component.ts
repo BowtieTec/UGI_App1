@@ -14,7 +14,7 @@ export class RecoverPasswordComponent implements OnInit {
   recoveryPasswordForm: FormGroup;
   step: number = 1;
   userId: string = '';
-
+  email: string = '';
   constructor(
     private formBuilder: FormBuilder,
     private messageService: MessageService,
@@ -51,6 +51,7 @@ export class RecoverPasswordComponent implements OnInit {
   }
 
   sendConfirmation(email: string) {
+    this.email = email;
     return this.recoveryService
       .sendConfirmCode(email)
       .toPromise()
