@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Poppins:wght@100;200;300;400;500;600&display=swap');
 
 body {
   background: #ffffff;
@@ -294,7 +294,6 @@ input[type=number]:focus,
 }
 
 .loginBody {
-  /*TODO: Arreglar el background para que la iamgen solo afecte al Login y no al resto de la aplicación*/
   background-image: url(../img/backlogin.png);
   background-size: 15%;
   background-color: #021C70;
@@ -705,7 +704,7 @@ nav > .nav-link.active {
   right: 0;
   top: 0;
   bottom: 0;
-  background-image: url(../../../../assets/img/backlogin.png);
+  background-image: url(../img/backlogin.png);
   background-size: 15%;
 
 }
