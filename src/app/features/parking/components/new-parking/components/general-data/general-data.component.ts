@@ -1,11 +1,12 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MessageService } from '../../../../../../shared/services/message.service';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { CountriesModel } from '../../../../models/Countries.model';
 import { ParkingService } from '../../../../services/parking.service';
 import { ResponseModel } from '../../../../../../shared/model/Request.model';
 import { CreateParkingStepOneModel } from '../../../../models/CreateParking.model';
 import { UtilitiesService } from '../../../../../../shared/services/utilities.service';
+import {NumberParkingGreaterValidations} from "../../../../../../shared/validators/GreatherThan.validations";
 
 @Component({
   selector: 'app-general-data',
@@ -13,7 +14,7 @@ import { UtilitiesService } from '../../../../../../shared/services/utilities.se
   styleUrls: ['./general-data.component.css'],
 })
 export class GeneralDataComponent implements OnInit {
-  @Input() stepOneForm!: FormGroup;
+  stepOneForm: FormGroup = this.createForm();
   @Output() changeStep = new EventEmitter<number>();
   coords = {
     lat: this.parkingService.parkingStepOne.coordinates.latitude,
@@ -60,8 +61,6 @@ export class GeneralDataComponent implements OnInit {
         this.message.hideLoading();
       });
   }
-
-
 
   addMapMark(event: google.maps.MouseEvent) {
     this.coordsMark = { lat: event.latLng.lat(), lng: event.latLng.lng() };
@@ -136,5 +135,47 @@ export class GeneralDataComponent implements OnInit {
       special_parking_spaces:
         this.stepOneForm.controls['special_parking_spaces'].value,
     };
+  }
+
+  createForm(){
+    return this.formBuilder.group(
+      {
+        name: [this.parkingService.parkingStepOne.name, Validators.required],
+        address: [
+          this.parkingService.parkingStepOne.address,
+          Validators.required,
+        ],
+        parking_spaces: [
+          this.parkingService.parkingStepOne.parking_spaces == 0
+            ? ''
+            : this.parkingService.parkingStepOne.parking_spaces,
+          [Validators.required, Validators.min(0)],
+        ],
+        special_parking_spaces: [
+          this.parkingService.parkingStepOne.special_parking_spaces == 0
+            ? ''
+            : this.parkingService.parkingStepOne.special_parking_spaces,
+          [Validators.required, Validators.min(0)],
+        ],
+        minutes_to_exit: [
+          this.parkingService.parkingStepOne.minutes_to_exit == 0
+            ? ''
+            : this.parkingService.parkingStepOne.special_parking_spaces,
+          [Validators.required, Validators.min(0)],
+        ],
+        rules: [
+          this.parkingService.parkingStepOne.rules,
+          Validators.required,
+        ],
+        is_show_map: [this.parkingService.parkingStepOne.is_show_map],
+        country: [
+          this.parkingService.parkingStepOne.country
+            ? null
+            : this.parkingService.parkingStepOne.country,
+          [Validators.required, Validators.min(1)],
+        ],
+      },
+      {validators: [NumberParkingGreaterValidations()]}
+    )
   }
 }

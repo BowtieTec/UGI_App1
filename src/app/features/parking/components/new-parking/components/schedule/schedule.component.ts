@@ -11,7 +11,8 @@ import { CreateParkingStepTwoModel } from '../../../../models/CreateParking.mode
   styleUrls: ['./schedule.component.css'],
 })
 export class ScheduleComponent {
-  @Input() stepTwoForm!: FormGroup;
+  stepTwoForm: FormGroup = this.createForm();
+  @Input() parkingId!: string;
   @Output() changeStep = new EventEmitter<number>();
 
   constructor(
@@ -27,7 +28,7 @@ export class ScheduleComponent {
       if (this.stepTwoForm.valid) {
         this.parkingService.parkingStepTwo = this.getStepTwo();
         this.parkingService.parkingStepTwo.parkingId =
-          this.parkingService.parkingStepOne.parkingId;
+          this.parkingId;
         this.parkingService.setStepTwo().subscribe((data) => {
           if (data.success) {
             this.changeStep.emit(number);
@@ -53,7 +54,7 @@ export class ScheduleComponent {
   private getStepTwo(): CreateParkingStepTwoModel {
     try {
       return {
-        parkingId: this.parkingService.parkingStepOne.parkingId,
+        parkingId: this.parkingId,
         schedules: [
           {
             isOpen: this.stepTwoForm.controls['isOpen0'].value,
@@ -201,5 +202,37 @@ export class ScheduleComponent {
       console.log(e);
       throw e;
     }
+  }
+  private createForm() {
+    return this.formBuilder.group({
+      //Monday
+      isOpen0: [{value: true, disabled: true}],
+      openning_time0: ['06:00:00'],
+      closing_time0: ['00:00:00'],
+      //Tuesday
+      isOpen1: [{value: true, disabled: true}],
+      openning_time1: ['06:00:00'],
+      closing_time1: ['00:00:00'],
+      //Wednesday
+      isOpen2: [{value: true, disabled: true}],
+      openning_time2: ['06:00:00'],
+      closing_time2: ['00:00:00'],
+      //Thursday
+      isOpen3: [{value: true, disabled: true}],
+      openning_time3: ['06:00:00'],
+      closing_time3: ['00:00:00'],
+      //Friday
+      isOpen4: [{value: true, disabled: true}],
+      openning_time4: ['06:00:00'],
+      closing_time4: ['00:00:00'],
+      //Saturday
+      isOpen5: [{value: true, disabled: true}],
+      openning_time5: ['06:00:00'],
+      closing_time5: ['00:00:00'],
+      //Sunday
+      isOpen6: [{value: true, disabled: true}],
+      openning_time6: ['06:00:00'],
+      closing_time6: ['00:00:00'],
+    })
   }
 }

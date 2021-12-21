@@ -27,7 +27,9 @@ export class NewParkingComponent {
     this.newParkingForm = this.createForm();
     this.getInitialData();
   }
-
+get parkingId(){
+    return this.parkingService.parkingStepOne.parkingId;
+}
   get stepOneForm() {
     return this.newParkingForm.get('stepOne') as FormGroup;
   }
@@ -72,7 +74,7 @@ export class NewParkingComponent {
   private createForm() {
     return this.formBuilder.group({
       /*-- First Step --*/
-      stepOne: this.formBuilder.group(
+      /*stepOne: this.formBuilder.group(
         {
           name: [this.parkingService.parkingStepOne.name, Validators.required],
           address: [
@@ -110,9 +112,9 @@ export class NewParkingComponent {
           ],
         },
         { validators: [NumberParkingGreaterValidations()] }
-      ),
+      ),*/
       /*-- Second Step-- */
-      stepTwo: this.formBuilder.group({
+      /*stepTwo: this.formBuilder.group({
         //Monday
         isOpen0: [{ value: true, disabled: true }],
         openning_time0: ['06:00:00'],
@@ -141,9 +143,9 @@ export class NewParkingComponent {
         isOpen6: [{ value: true, disabled: true }],
         openning_time6: ['06:00:00'],
         closing_time6: ['00:00:00'],
-      }),
+      }),*/
       /*-- Fourth Step-- */
-      stepFour: this.formBuilder.group({
+      /*stepFour: this.formBuilder.group({
         nit: [null, [Validators.required, this.utilitiesService.validateNIT]],
         business_address: [null, Validators.required],
         business_name: [null, Validators.required],
@@ -161,15 +163,15 @@ export class NewParkingComponent {
         purchase_currency_bac: [null],
         pmtnpssw_bac: [null],
         url_bac: [null],
-      }),
+      }),*/
       /* ---Five Step--- */
-      stepFive: this.formBuilder.group({
+      /*stepFive: this.formBuilder.group({
         type_access: [null, Validators.required],
         name_access: [null, Validators.required],
         mac_access: [null, Validators.required],
         antenna_access: [null, Validators.required],
         isPrivate: [false],
-      }),
+      }),*/
     });
   }
 }

@@ -20,10 +20,10 @@ import { ParkingModel } from '../../models/Parking.model';
 })
 export class AntennasComponent {
   @Input() isCreatingParking: boolean = false;
+  @Input() parkingId: string = '';
   stepFiveForm!: FormGroup;
   @Output() changeStep = new EventEmitter<number>();
   idEditAntenna: string = '';
-  idParking: string;
   accessList: AccessModel[] = this.parkingService.getAccesses();
   antennas: CreateParkingStepFiveModel[] =
     new Array<CreateParkingStepFiveModel>();
@@ -48,9 +48,6 @@ export class AntennasComponent {
       this.message.hideLoading();
     });
     this.stepFiveForm = this.createForm();
-    this.idParking = this.isCreatingParking
-      ? this.parkingService.parkingStepOne.parkingId
-      : this.authService.getParking().id;
   }
 
   getAccessName(type: number): AccessModel {
@@ -144,12 +141,12 @@ export class AntennasComponent {
 
   cleanForm() {
     this.idEditAntenna = '';
-    this.stepFiveForm.controls['parking'].setValue(this.idParking);
+    this.stepFiveForm.controls['parking'].setValue(this.parkingId);
     this.stepFiveForm.controls['type_access'].setValue('');
     this.stepFiveForm.controls['name_access'].setValue('');
     this.stepFiveForm.controls['mac_access'].setValue('');
     this.stepFiveForm.controls['antenna_access'].setValue('');
-    this.stepFiveForm.controls['isPrivate'].setValue('');
+    this.stepFiveForm.controls['isPrivate'].setValue(false);
     this.utilitiesService.markAsUnTouched(this.stepFiveForm);
   }
 
@@ -177,7 +174,7 @@ export class AntennasComponent {
 
   private getStepFive(): CreateParkingStepFiveModel {
     return {
-      parking: this.stepFiveForm.controls['parking'].value || this.idParking,
+      parking: this.stepFiveForm.controls['parking'].value || this.parkingId,
       name: this.stepFiveForm.controls['name_access'].value,
       type: this.stepFiveForm.controls['type_access'].value,
       antena: this.stepFiveForm.controls['antenna_access'].value,
@@ -188,7 +185,7 @@ export class AntennasComponent {
 
   private getInitialData() {
     return this.parkingService
-      .getAntennas(this.idParking)
+      .getAntennas(this.parkingId)
       .toPromise()
       .then((data: ResponseModel) => {
         if (data.success) {
@@ -220,11 +217,11 @@ export class AntennasComponent {
 
   private createForm() {
     return this.formBuilder.group({
-      parking: [this.idParking],
-      type_access: [0],
-      name_access: [null],
-      mac_access: [null, Validators.required],
-      antenna_access: [null],
+      parking: [this.parkingId],
+      type_access: [0, Validators.required],
+      name_access: [''],
+      mac_access: ['', Validators.required],
+      antenna_access: [''],
       isPrivate: [false],
     });
   }

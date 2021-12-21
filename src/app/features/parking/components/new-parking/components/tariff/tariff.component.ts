@@ -35,12 +35,12 @@ import {
 } from '../../../../../../shared/validators/GreatherThan.validations';
 
 @Component({
-  selector: 'app-step-three',
+  selector: 'app-tariff',
   templateUrl: './tariff.component.html',
   styleUrls: ['./tariff.component.css'],
 })
 export class TariffComponent {
-  @Input() stepOneForm!: FormGroup;
+  @Input() parkingId!: string;
   @Output() changeStep = new EventEmitter<number>();
   timeRange: number = 1;
   costType: number = 1;
@@ -205,7 +205,7 @@ export class TariffComponent {
     const newRule: CreateTariffModel = {
       ...this.generalDataFormValues,
       rules: ruleModelData.rule,
-      parking: this.parkingService.parkingStepOne.parkingId,
+      parking: this.parkingId,
       static_description: ruleModelData.static_description,
     };
     console.log(newRule);
@@ -446,7 +446,7 @@ export class TariffComponent {
 
   private getTariffs() {
     this.parkingService
-      .getTariffsSaved(this.parkingService.parkingStepOne.parkingId)
+      .getTariffsSaved(this.parkingId)
       .then((data) => {
         if (data.success) {
           this.tariffs = data.data.rules;
