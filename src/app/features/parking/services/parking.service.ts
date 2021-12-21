@@ -83,6 +83,8 @@ export class ParkingService {
     return [
       { value: 0, accessType: 'Entrada' },
       { value: 1, accessType: 'Salida' },
+      {value: 2, accessType: 'Entrada restringida'},
+      {value: 3, accessType: 'Salida restringida'},
     ];
   }
 
