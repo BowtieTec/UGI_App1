@@ -36,8 +36,6 @@ export class GeneralDataComponent implements OnInit {
     return this.parkingService.parkingStepOne.parkingId;
   }
 
-  get countryControl(){return this.stepOneForm.get('country')?.value}
-
   ngOnInit(): void {
     this.message.showLoading();
     this.getPosition()
@@ -56,20 +54,14 @@ export class GeneralDataComponent implements OnInit {
         return this.parkingService
           .getCountries()
           .toPromise()
-          .then((data: ResponseModel) =>
-            data.data.forEach((country: CountriesModel) => {
-              this.countries.push(country);
-            })
-          );
+          .then((data: ResponseModel) => this.countries = data.data );
       })
       .then((data) => {
         this.message.hideLoading();
       });
   }
 
-  controlInvalid(control: string): boolean {
-    return this.utilitiesService.controlInvalid(this.stepOneForm, control);
-  }
+
 
   addMapMark(event: google.maps.MouseEvent) {
     this.coordsMark = { lat: event.latLng.lat(), lng: event.latLng.lng() };
