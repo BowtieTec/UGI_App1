@@ -104,7 +104,7 @@ export class NewParkingComponent {
           is_show_map: [this.parkingService.parkingStepOne.is_show_map],
           country: [
             this.parkingService.parkingStepOne.country
-              ? 0
+              ? null
               : this.parkingService.parkingStepOne.country,
             [Validators.required, Validators.min(1)],
           ],

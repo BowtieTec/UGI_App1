@@ -36,6 +36,8 @@ export class GeneralDataComponent implements OnInit {
     return this.parkingService.parkingStepOne.parkingId;
   }
 
+  get countryControl(){return this.stepOneForm.get('country')?.value}
+
   ngOnInit(): void {
     this.message.showLoading();
     this.getPosition()

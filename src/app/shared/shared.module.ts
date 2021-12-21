@@ -11,6 +11,11 @@ import { TimePipe } from './pipes/time.pipe';
 import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 import { FilterPipe } from './pipes/filter.pipe';
 import { Page404Component } from './page404/page404.component';
+import { InputContainerComponent } from './forms/input-container/input-container.component';
+import {ReactiveFormsModule} from "@angular/forms";
+import { SelectContainerComponent } from './forms/select-container/select-container.component';
+import { TextAreaContainerComponent } from './forms/text-area-container/text-area-container.component';
+import { CheckboxContainerComponent } from './forms/checkbox-container/checkbox-container.component';
 
 @NgModule({
   declarations: [
@@ -23,8 +28,12 @@ import { Page404Component } from './page404/page404.component';
     TimePipe,
     FilterPipe,
     Page404Component,
+    InputContainerComponent,
+    SelectContainerComponent,
+    TextAreaContainerComponent,
+    CheckboxContainerComponent,
   ],
-  imports: [CommonModule, RouterModule, NgbPaginationModule],
+  imports: [CommonModule, RouterModule, NgbPaginationModule, ReactiveFormsModule],
   exports: [
     LeftPanelComponent,
     HeaderComponent,
@@ -34,6 +43,10 @@ import { Page404Component } from './page404/page404.component';
     LoadingComponent,
     TimePipe,
     FilterPipe,
+    InputContainerComponent,
+    SelectContainerComponent,
+    TextAreaContainerComponent,
+    CheckboxContainerComponent,
   ],
 })
 export class SharedModule {}

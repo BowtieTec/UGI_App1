@@ -1,0 +1,14 @@
+<div [formGroup] = "formGroup" class="mb-2 relative">
+  <select [class.is-invalid] = "controlInvalid(controlName)"
+          class = "form-control inputClass "
+          formControlName = "{{controlName}}" >
+    <option *ngFor = "let item of data"
+            [value] = "item.id" >{{item.name}}</option >
+    <option value = "0"
+            [disabled] = "true"
+            [selected] = "true" >-- {{name}} --
+    </option >
+  </select >
+  <small *ngIf = "controlInvalid(controlName)"
+         class = "text-danger animate__animated animate__fadeIn" >* El valor no es valido</small >
+</div>

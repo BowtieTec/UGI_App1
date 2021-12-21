@@ -1,132 +1,86 @@
+<div class = "titleCards" >
+  Datos generales
+</div >
+<div
+  *ngIf = "ParkingId != ''"
+  class = "alert alert-primary"
+  role = "alert" >
+  Este paso ya no puede ser editado desde esta pantalla.
+</div >
 <form *ngIf = "countries.length>0"
       [formGroup] = "stepOneForm"
-      class = "needs-validation"
+      class = "needs-validation form-inline"
       id = "form-wrapper"
       method = "post"
       name = "form-wrapper"
       novalidate = "" >
-  <div class = "titleCards" >
-    Datos generales
-  </div >
-  <div *ngIf = "ParkingId != ''"
-       class = "alert alert-primary"
-       role = "alert" >
-    Este paso ya no puede ser editado desde esta pantalla.
-  </div >
-  <div class = "row" >
-    <div class = "col-xl-6 col-lg-6  col-sm-12" >
-      <div class = "mb-4 relative" >
-        <label class = "labelInput" >Nombre</label >
-        <input
-          [class.is-invalid] = "controlInvalid('name')"
-          class = "form-control inputClass"
-          formControlName = "name"
-          placeholder = "NOMBRE:"
-          type = "text" >
-        <small *ngIf = "controlInvalid('name')"
-               class = "text-danger animate__animated  animate__rotateIn" >* El valor no es valido</small >
+  <div class = "container form-group" >
+    <div class = "row" >
+      <app-input-container [formGroup] = "stepOneForm"
+                           class = "col-lg-6 col-md-5 col-sm-12 "
+                           controlName = "name"
+                           name = "Nombre" >
+      </app-input-container >
+      <app-input-container [formGroup] = "stepOneForm"
+                           class = "col-lg-6 col-md-5 col-sm-12 "
+                           controlName = "address"
+                           name = "Dirección" >
+      </app-input-container >
+    </div >
+    <div class = "row" >
+      <app-input-container [formGroup] = "stepOneForm"
+                           class = "col-lg-6 col-md-5 col-sm-12 "
+                           controlName = "parking_spaces"
+                           name = "Número de parqueos"
+                           type = 'number' >
+      </app-input-container >
+      <app-input-container [formGroup] = "stepOneForm"
+                           class = "col-lg-6 col-md-5 col-sm-12 "
+                           controlName = "special_parking_spaces"
+                           name = "Número de parqueos especiales"
+                           type = 'number' >
+      </app-input-container >
+    </div >
+    <div class = "row" >
+      <app-input-container [formGroup] = "stepOneForm"
+                           class = "col-lg-6 col-md-5 col-sm-12 "
+                           controlName = "minutes_to_exit"
+                           name = "Tiempo de salida"
+                           type = 'number' >
+      </app-input-container >
+      <div class = "col-lg-6 col-md-5 col-sm-12" >
+        <app-select-container
+          [data] = "countries"
+          [formGroup] = "stepOneForm"
+          controlName = "country"
+          name = "País" >
+        </app-select-container >
       </div >
     </div >
-    <div class = "col-xl-6 col-lg-6  col-sm-12" >
-      <div class = "mb-4 relative" >
-        <label class = "labelInput" >Dirección</label >
-        <input
-          [class.is-invalid] = "controlInvalid('address')"
-          class = "form-control inputClass"
-          formControlName = "address"
-          placeholder = "DIRECCIÓN:"
-          type = "text" >
-        <small *ngIf = "controlInvalid('address')"
-               class = "text-danger" >* El valor no es valido</small >
-      </div >
+    <div class = "row" >
+      <app-text-area-container
+        [formGroup] = "stepOneForm"
+        controlName = "rules"
+        name = "Reglamento interno" ></app-text-area-container >
     </div >
-    <div class = "col-xl-6 col-lg-6  col-sm-12" >
-      <div class = "mb-4 relative" >
-        <label class = "labelInput" >Número de parqueos</label >
-        <input [class.is-invalid] = "controlInvalid('parking_spaces')"
-               class = "form-control inputClass"
-               formControlName = "parking_spaces"
-               placeholder = "NÚMERO DE PARQUEOS:"
-               type = "number" >
-        <small *ngIf = "controlInvalid('parking_spaces')"
-               class = "text-danger" >* El valor no es válido</small >
+    <div class = "row" >
+      <app-checkbox-container
+        [formGroup] = "stepOneForm"
+        controlName = "is_show_map"
+        name = "Mostrar en el mapa"
+      ></app-checkbox-container >
+      <div class = "row col-xl-10 col-lg-10 col-sm-10 " >
+        <div *ngIf = "stepOneForm.controls['is_show_map'].value"
+             class = "animate__animated animate__fadeIn" >
+          <google-map (mapClick) = "addMapMark($event)"
+                      [center] = "coords"
+                      height = "500"
+                      width = "100%" >
+            <map-marker
+              [position] = "coordsMark" ></map-marker >
+          </google-map >
+        </div >
       </div >
-    </div >
-    <div class = "col-xl-6 col-lg-6  col-sm-12" >
-      <div class = "mb-4 relative" >
-        <label class = "labelInput" >* El valor no es válido</label >
-        <input
-          [class.is-invalid] = "controlInvalid('special_parking_spaces')"
-          class = "form-control inputClass"
-          formControlName = "special_parking_spaces"
-          placeholder = "NÚMERO DE PARQUEOS ESPECIALES:"
-          type = "number" >
-        <small *ngIf = "controlInvalid('special_parking_spaces')"
-               class = "text-danger" >* El valor no es válido</small >
-      </div >
-    </div >
-    <div class = "col-xl-6 col-lg-6  col-sm-12" >
-      <div class = "mb-4 relative" >
-        <label class = "labelInput" >Tiempo de salida (Minutos)</label >
-        <input [class.is-invalid] = "controlInvalid('minutes_to_exit')"
-               class = "form-control inputClass"
-               formControlName = "minutes_to_exit"
-               placeholder = "TIEMPO DE SALIDA:"
-               type = "number" >
-        <small *ngIf = "controlInvalid('minutes_to_exit')"
-               class = "text-danger animate__animated  animate__rotateIn" >* El valor no es valido</small >
-      </div >
-    </div >
-    <div class = "col-xl-6 col-lg-6  col-sm-12" >
-      <div class = "mb-4 relative" >
-        <label class = "labelInput" >Pais</label >
-        <select [class.is-invalid] = "controlInvalid('country')"
-                class = "inputClass"
-                formControlName = "country" >
-          <option
-            value = "0" > País
-          </option >
-          <option *ngFor = "let country of countries"
-                  [value] = "country.id" >{{country.name}}</option >
-        </select >
-        <small *ngIf = "controlInvalid('country')"
-               class = "text-danger animate__animated  animate__rotateIn" >* El valor no es valido</small >
-      </div >
-    </div >
-  </div >
-  <div class = "row" >
-    <div class = "col-xl-12 col-lg-12  col-sm-12 " >
-      <div class = "mb-4 relative" >
-        <label class = "labelInput" >Reglamento Interno</label >
-        <textarea [class.is-invalid] = "controlInvalid('rules')"
-                  class = "form-control inputClass"
-                  formControlName = "rules"
-                  placeholder = "REGLAMENTO INTERNO"
-                  rows = "5" >
-                    </textarea >
-        <small *ngIf = "controlInvalid('rules')"
-               class = "text-danger animate__animated  animate__rotateIn" >* El valor no es valido</small >
-      </div >
-    </div >
-  </div >
-  <div class = "row col-xl-12 col-lg-12 col-sm-12" >
-    <ul class = "opcionActivo " >
-      <li ><input formControlName = "is_show_map"
-                  id = "is_show_map"
-                  type = "checkbox"
-                  value = "is_show_map" ><label for = "is_show_map" >Ubicar en el mapa</label ></li >
-    </ul >
-  </div >
-  <div class = "row col-xl-12 col-lg-12 col-sm-12 " >
-    <div *ngIf = "stepOneForm.controls['is_show_map'].value"
-         class = "animate__animated animate__fadeIn" >
-      <google-map (mapClick) = "addMapMark($event)"
-                  [center] = "coords"
-                  height = "500"
-                  width = "100%" >
-        <map-marker
-          [position] = "coordsMark" ></map-marker >
-      </google-map >
     </div >
   </div >
   <div class = "text-center"
@@ -137,4 +91,5 @@
             type = "button" >Siguiente
     </button >
   </div >
+
 </form >
