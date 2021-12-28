@@ -8,8 +8,8 @@
     class = "container " >
     <div
       class = "row" >
-      <div class = "titleCards"
-           *ngIf = "ifHaveAction(createAntennaAction)" >
+      <div *ngIf = "ifHaveAction(createAntennaAction)"
+           class = "titleCards" >
         Agregar Antena
       </div >
       <span *ngIf = "idEditAntenna"
@@ -22,8 +22,8 @@
               <div class = "m-3 relative " >
                 <label class = "labelInput" >Parqueo</label >
                 <select
-                  class = "inputClass"
                   (change) = "searchAntennasByParking()"
+                  class = "inputClass"
                   formControlName = "parking" >
                   <option *ngFor = "let parking of this.allParking"
                           value = "{{parking.id}}" >{{parking.name}}</option >
@@ -132,8 +132,8 @@
         </tr >
         </thead >
         <tbody >
-        <tr class = "animate__animated animate__fadeIn"
-            *ngFor = "let antenna of antennas; index as i" >
+        <tr *ngFor = "let antenna of antennas; index as i"
+            class = "animate__animated animate__fadeIn" >
           <th id = "{{antenna.name + i}}" >{{antenna.name}}</th >
           <th id = "{{antenna.type + i}}" >{{getAccessName(antenna.type).accessType}}</th >
           <td >{{antenna.mac}}</td >

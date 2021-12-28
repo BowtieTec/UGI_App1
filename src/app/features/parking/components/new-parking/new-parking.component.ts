@@ -1,10 +1,9 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { MessageService } from '../../../../shared/services/message.service';
 import { ParkingService } from '../../services/parking.service';
 import { SettingsOptionsModel } from '../../models/SettingsOption.model';
 import { UtilitiesService } from '../../../../shared/services/utilities.service';
-import { NumberParkingGreaterValidations } from '../../../../shared/validators/GreatherThan.validations';
 
 @Component({
   selector: 'app-new-parking',
@@ -27,9 +26,11 @@ export class NewParkingComponent {
     this.newParkingForm = this.createForm();
     this.getInitialData();
   }
-get parkingId(){
+
+  get parkingId() {
     return this.parkingService.parkingStepOne.parkingId;
-}
+  }
+
   get stepOneForm() {
     return this.newParkingForm.get('stepOne') as FormGroup;
   }

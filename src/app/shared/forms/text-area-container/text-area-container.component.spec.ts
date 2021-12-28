@@ -8,9 +8,8 @@ describe('TextAreaContainerComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ TextAreaContainerComponent ]
-    })
-    .compileComponents();
+      declarations: [TextAreaContainerComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

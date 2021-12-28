@@ -12,7 +12,7 @@ import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 import { FilterPipe } from './pipes/filter.pipe';
 import { Page404Component } from './page404/page404.component';
 import { InputContainerComponent } from './forms/input-container/input-container.component';
-import {ReactiveFormsModule} from "@angular/forms";
+import { ReactiveFormsModule } from '@angular/forms';
 import { SelectContainerComponent } from './forms/select-container/select-container.component';
 import { TextAreaContainerComponent } from './forms/text-area-container/text-area-container.component';
 import { CheckboxContainerComponent } from './forms/checkbox-container/checkbox-container.component';
@@ -33,7 +33,12 @@ import { CheckboxContainerComponent } from './forms/checkbox-container/checkbox-
     TextAreaContainerComponent,
     CheckboxContainerComponent,
   ],
-  imports: [CommonModule, RouterModule, NgbPaginationModule, ReactiveFormsModule],
+  imports: [
+    CommonModule,
+    RouterModule,
+    NgbPaginationModule,
+    ReactiveFormsModule,
+  ],
   exports: [
     LeftPanelComponent,
     HeaderComponent,

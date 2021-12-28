@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MessageService } from '../../../../../../shared/services/message.service';
 import { ParkingService } from '../../../../services/parking.service';
 import { UtilitiesService } from '../../../../../../shared/services/utilities.service';
@@ -68,6 +68,28 @@ export class BillingDataComponent {
     }
   }
 
+  createForm() {
+    return this.formBuilder.group({
+      nit: [null, [Validators.required, this.utilitiesService.validateNIT]],
+      business_address: [null, Validators.required],
+      business_name: [null, Validators.required],
+      pay_method: [null, Validators.required],
+      currency: [null, Validators.required],
+      is_our_visa_credential: false,
+      is_our_bac_credential: false,
+      //Visa Credential
+      merchant_id_visa: [null],
+      transaction_key_visa: [null],
+      url_visa: [null],
+      //  BAC Credential
+      merchant_id_bac: [null],
+      acquirer_id_bac: [null],
+      purchase_currency_bac: [null],
+      pmtnpssw_bac: [null],
+      url_bac: [null],
+    });
+  }
+
   private getStepFour(): CreateParkingStepFourModel {
     return {
       parkingId: '',
@@ -95,26 +117,5 @@ export class BillingDataComponent {
           this.stepFourForm.controls['purchase_currency_bac'].value,
       },
     };
-  }
-  createForm(){
-    return this.formBuilder.group({
-      nit: [null, [Validators.required, this.utilitiesService.validateNIT]],
-      business_address: [null, Validators.required],
-      business_name: [null, Validators.required],
-      pay_method: [null, Validators.required],
-      currency: [null, Validators.required],
-      is_our_visa_credential: false,
-      is_our_bac_credential: false,
-      //Visa Credential
-      merchant_id_visa: [null],
-      transaction_key_visa: [null],
-      url_visa: [null],
-      //  BAC Credential
-      merchant_id_bac: [null],
-      acquirer_id_bac: [null],
-      purchase_currency_bac: [null],
-      pmtnpssw_bac: [null],
-      url_bac: [null],
-    })
   }
 }

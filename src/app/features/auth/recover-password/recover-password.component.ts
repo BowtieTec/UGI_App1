@@ -15,6 +15,7 @@ export class RecoverPasswordComponent implements OnInit {
   step: number = 1;
   userId: string = '';
   email: string = '';
+
   constructor(
     private formBuilder: FormBuilder,
     private messageService: MessageService,
@@ -40,8 +41,6 @@ export class RecoverPasswordComponent implements OnInit {
     return this.recoveryPasswordForm.get('validate_code');
   }
 
-  ngOnInit(): void {}
-
   get passwordsValues() {
     return {
       newPassword: this.newPasswordControl?.value,
@@ -49,6 +48,8 @@ export class RecoverPasswordComponent implements OnInit {
       userId: this.userId,
     };
   }
+
+  ngOnInit(): void {}
 
   sendConfirmation(email: string) {
     this.email = email;

@@ -1,12 +1,12 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { MessageService } from '../../../../../../shared/services/message.service';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CountriesModel } from '../../../../models/Countries.model';
 import { ParkingService } from '../../../../services/parking.service';
 import { ResponseModel } from '../../../../../../shared/model/Request.model';
 import { CreateParkingStepOneModel } from '../../../../models/CreateParking.model';
 import { UtilitiesService } from '../../../../../../shared/services/utilities.service';
-import {NumberParkingGreaterValidations} from "../../../../../../shared/validators/GreatherThan.validations";
+import { NumberParkingGreaterValidations } from '../../../../../../shared/validators/GreatherThan.validations';
 
 @Component({
   selector: 'app-general-data',
@@ -55,7 +55,7 @@ export class GeneralDataComponent implements OnInit {
         return this.parkingService
           .getCountries()
           .toPromise()
-          .then((data: ResponseModel) => this.countries = data.data );
+          .then((data: ResponseModel) => (this.countries = data.data));
       })
       .then((data) => {
         this.message.hideLoading();
@@ -118,26 +118,7 @@ export class GeneralDataComponent implements OnInit {
     }
   }
 
-  private getStepOne(): CreateParkingStepOneModel {
-    return {
-      parkingId: this.parkingService.parkingStepOne.parkingId,
-      address: this.stepOneForm.controls['address'].value,
-      coordinates: {
-        latitude: this.coordsMark.lat,
-        longitude: this.coordsMark.lng,
-      },
-      country: this.stepOneForm.controls['country'].value,
-      is_show_map: this.stepOneForm.controls['is_show_map'].value,
-      minutes_to_exit: this.stepOneForm.controls['minutes_to_exit'].value,
-      name: this.stepOneForm.controls['name'].value,
-      parking_spaces: this.stepOneForm.controls['parking_spaces'].value,
-      rules: this.stepOneForm.controls['rules'].value,
-      special_parking_spaces:
-        this.stepOneForm.controls['special_parking_spaces'].value,
-    };
-  }
-
-  createForm(){
+  createForm() {
     return this.formBuilder.group(
       {
         name: [this.parkingService.parkingStepOne.name, Validators.required],
@@ -163,10 +144,7 @@ export class GeneralDataComponent implements OnInit {
             : this.parkingService.parkingStepOne.special_parking_spaces,
           [Validators.required, Validators.min(0)],
         ],
-        rules: [
-          this.parkingService.parkingStepOne.rules,
-          Validators.required,
-        ],
+        rules: [this.parkingService.parkingStepOne.rules, Validators.required],
         is_show_map: [this.parkingService.parkingStepOne.is_show_map],
         country: [
           this.parkingService.parkingStepOne.country
@@ -175,7 +153,26 @@ export class GeneralDataComponent implements OnInit {
           [Validators.required, Validators.min(1)],
         ],
       },
-      {validators: [NumberParkingGreaterValidations()]}
-    )
+      { validators: [NumberParkingGreaterValidations()] }
+    );
+  }
+
+  private getStepOne(): CreateParkingStepOneModel {
+    return {
+      parkingId: this.parkingService.parkingStepOne.parkingId,
+      address: this.stepOneForm.controls['address'].value,
+      coordinates: {
+        latitude: this.coordsMark.lat,
+        longitude: this.coordsMark.lng,
+      },
+      country: this.stepOneForm.controls['country'].value,
+      is_show_map: this.stepOneForm.controls['is_show_map'].value,
+      minutes_to_exit: this.stepOneForm.controls['minutes_to_exit'].value,
+      name: this.stepOneForm.controls['name'].value,
+      parking_spaces: this.stepOneForm.controls['parking_spaces'].value,
+      rules: this.stepOneForm.controls['rules'].value,
+      special_parking_spaces:
+        this.stepOneForm.controls['special_parking_spaces'].value,
+    };
   }
 }

@@ -1,15 +1,15 @@
-<div class="relative"
-  [formGroup]="formGroup">
-  <div>
+<div [formGroup] = "formGroup"
+     class = "relative" >
+  <div >
     <small *ngIf = "controlInvalid(controlName)"
            class = "text-danger animate__animated animate__fadeIn" >* El valor no es válido</small >
     <input
-      class = "form-control inputClass"
       [class.is-invalid] = "controlInvalid(controlName)"
+      class = "form-control inputClass"
       formControlName = "{{controlName}}"
-      placeholder = "{{name}}:"
       id = "name"
+      placeholder = "{{name}}:"
       type = "{{type}}" >
 
   </div >
-</div>
+</div >

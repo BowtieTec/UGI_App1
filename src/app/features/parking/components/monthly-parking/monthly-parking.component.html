@@ -4,8 +4,8 @@
       <div class = "titleCards" >
         <span ><em class = "fas fa-sitemap" ></em ></span >Parqueos mensuales
       </div >
-      <form [formGroup] = "monthlyForm"
-            *ngIf = "ifHaveAction(createMonthlyParking)" >
+      <form *ngIf = "ifHaveAction(createMonthlyParking)"
+            [formGroup] = "monthlyForm" >
         <div class = "row justify-content-center mb-4" >
           <div class = "col-xl-4 col-lg-6  col-sm-12" >
             <div class = "mb-4 relative" >
@@ -173,8 +173,8 @@
                         [value] = "profile.id" >{{profile.name}}</option >
               </select >
               <!-- Button trigger modal -->
-              <button class = "btn btn-primary"
-                      *ngIf = "ifHaveAction(createAccessProfileMonthlyParking)"
+              <button *ngIf = "ifHaveAction(createAccessProfileMonthlyParking)"
+                      class = "btn btn-primary"
                       data-bs-target = "#newAccessProfiles"
                       data-bs-toggle = "modal"
                       type = "button" >

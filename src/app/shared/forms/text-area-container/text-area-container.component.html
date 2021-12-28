@@ -1,4 +1,4 @@
-<div [formGroup]="formGroup">
+<div [formGroup] = "formGroup" >
   <small *ngIf = "controlInvalid(controlName)"
          class = "text-danger animate__animated animate__fadeIn" >* El valor no es valido</small >
   <textarea [class.is-invalid] = "controlInvalid(controlName)"
@@ -7,4 +7,4 @@
             placeholder = "{{name}}:"
             rows = "5" >
                     </textarea >
-</div>
+</div >

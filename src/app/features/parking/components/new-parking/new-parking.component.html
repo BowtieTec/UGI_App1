@@ -31,21 +31,21 @@
                  class = "animate__animated animate__fadeInLeft"
                  id = "stepTwo" >
               <app-schedule (changeStep) = "changeStep($event)"
-                            [parkingId]="this.parkingId"></app-schedule >
+                            [parkingId] = "this.parkingId" ></app-schedule >
             </div >
             <div *ngIf = "step ==3"
                  class = "animate__animated animate__fadeInLeft"
                  id = "stepThree" >
               <app-tariff
-                [parkingId]="parkingId"
-                (changeStep) = "changeStep($event)"></app-tariff >
+                (changeStep) = "changeStep($event)"
+                [parkingId] = "parkingId" ></app-tariff >
             </div >
             <div *ngIf = "step ==4 && this.settingsOptions != undefined"
                  class = "animate__animated animate__fadeInLeft"
                  id = "stepFour" >
               <app-billing-data
-                [parkingId]="parkingId"
-                (changeStep) = "changeStep($event)" >
+                (changeStep) = "changeStep($event)"
+                [parkingId] = "parkingId" >
               </app-billing-data >
 
             </div >
@@ -54,8 +54,8 @@
                  id = "stepFive" >
               <app-antennas
                 (changeStep) = "changeStep($event)"
-                [parkingId]="parkingId"
-                [isCreatingParking] = "true" >
+                [isCreatingParking] = "true"
+                [parkingId] = "parkingId" >
               </app-antennas >
             </div >
             <div

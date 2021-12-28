@@ -38,14 +38,13 @@ export class MonthlyParkingComponent implements AfterViewInit, OnDestroy {
   dtTrigger: Subject<any> = new Subject();
   formGroup: FormGroup;
   loadingUser: boolean = false;
-
-  private actions: string[] = this.permissionService.actionsOfPermissions;
   createMonthlyParking = environment.createMonthlyParking;
   deleteMonthlyParking = environment.deleteMonthlyParking;
   cancelMonthlyParking = environment.cancelMonthlyParking;
   disableMonthlyParking = environment.disableMonthlyParking;
   createAccessProfileMonthlyParking =
     environment.createAccessProfileMonthlyParking;
+  private actions: string[] = this.permissionService.actionsOfPermissions;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -291,6 +290,10 @@ export class MonthlyParkingComponent implements AfterViewInit, OnDestroy {
       });
   }
 
+  ifHaveAction(action: string) {
+    return !!this.actions.find((x) => x == action);
+  }
+
   private getDays() {
     return [
       {
@@ -338,9 +341,5 @@ export class MonthlyParkingComponent implements AfterViewInit, OnDestroy {
         this.dtTrigger.next();
       });
     }
-  }
-
-  ifHaveAction(action: string) {
-    return !!this.actions.find((x) => x == action);
   }
 }

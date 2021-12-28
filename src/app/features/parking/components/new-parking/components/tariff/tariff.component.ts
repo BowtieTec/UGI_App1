@@ -445,12 +445,10 @@ export class TariffComponent {
   }
 
   private getTariffs() {
-    this.parkingService
-      .getTariffsSaved(this.parkingId)
-      .then((data) => {
-        if (data.success) {
-          this.tariffs = data.data.rules;
-        }
-      });
+    this.parkingService.getTariffsSaved(this.parkingId).then((data) => {
+      if (data.success) {
+        this.tariffs = data.data.rules;
+      }
+    });
   }
 }

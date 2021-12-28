@@ -1,6 +1,10 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {ControlContainer, FormGroup, FormGroupDirective} from "@angular/forms";
-import {UtilitiesService} from "../../services/utilities.service";
+import { Component, Input } from '@angular/core';
+import {
+  ControlContainer,
+  FormGroup,
+  FormGroupDirective,
+} from '@angular/forms';
+import { UtilitiesService } from '../../services/utilities.service';
 
 @Component({
   selector: 'app-select-container',
@@ -9,20 +13,19 @@ import {UtilitiesService} from "../../services/utilities.service";
   viewProviders: [
     {
       provide: ControlContainer,
-      useExisting: FormGroupDirective
-    }
-  ]
+      useExisting: FormGroupDirective,
+    },
+  ],
 })
 export class SelectContainerComponent {
   @Input() name!: string;
   @Input() controlName!: string;
   @Input() formGroup!: FormGroup;
   @Input() data: any = [];
-  constructor(private utilitiesService: UtilitiesService) { }
 
+  constructor(private utilitiesService: UtilitiesService) {}
 
   controlInvalid(control: string): boolean {
     return this.utilitiesService.controlInvalid(this.formGroup, control);
   }
-
 }
