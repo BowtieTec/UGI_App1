@@ -83,8 +83,8 @@ export class ParkingService {
     return [
       { value: 0, accessType: 'Entrada' },
       { value: 1, accessType: 'Salida' },
-      {value: 2, accessType: 'Entrada restringida'},
-      {value: 3, accessType: 'Salida restringida'},
+      { value: 2, accessType: 'Entrada restringida' },
+      { value: 3, accessType: 'Salida restringida' },
     ];
   }
 
@@ -287,6 +287,24 @@ export class ParkingService {
   getAllParking() {
     return this.http
       .get<ResponseModel>(`${this.apiUrl}backoffice/parking/enables`)
+      .toPromise();
+  }
+
+  getParked(parkedFormValues: { parkingId: string; status: string }) {
+    return this.http
+      .post<ResponseModel>(
+        `${this.apiUrl}backoffice/parking/parked`,
+        parkedFormValues
+      )
+      .toPromise();
+  }
+
+  getOutParked(parkedId: string, status: number) {
+    return this.http
+      .post<ResponseModel>(`${this.apiUrl}backoffice/parking/getOut`, {
+        parkedId,
+        status,
+      })
       .toPromise();
   }
 }

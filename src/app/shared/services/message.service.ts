@@ -109,4 +109,31 @@ export class MessageService {
       showConfirmButton: false,
     });
   }
+
+  async areYouSure(
+    title: string,
+    confirmButtonText: string = 'Si',
+    denyButtonText: string = 'No'
+  ) {
+    return Swal.fire({
+      title,
+      showDenyButton: true,
+      confirmButtonText,
+      denyButtonText,
+    }).then((result) => result);
+  }
+
+  async areYouSureWithCancel(
+    title: string,
+    confirmButtonText: string = 'Si',
+    denyButtonText: string = 'No'
+  ) {
+    return Swal.fire({
+      title,
+      showDenyButton: true,
+      showCancelButton: true,
+      confirmButtonText,
+      denyButtonText,
+    }).then((result) => result);
+  }
 }

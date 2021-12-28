@@ -28,12 +28,11 @@ export class AntennasComponent {
   antennas: CreateParkingStepFiveModel[] =
     new Array<CreateParkingStepFiveModel>();
   allParking: ParkingModel[] = Array<ParkingModel>();
-
-  private actions: string[] = this.permissionService.actionsOfPermissions;
   editAntennaAction = environment.editAntennas;
   deleteAntennaAction = environment.deleteAntennas;
   createAntennaAction = environment.createAntennas;
   downloadQRAntennaAction = environment.downloadQRAntenna;
+  private actions: string[] = this.permissionService.actionsOfPermissions;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -172,6 +171,28 @@ export class AntennasComponent {
     );
   }
 
+  ifHaveAction(action: string) {
+    return !!this.actions.find((x) => x == action);
+  }
+
+  searchAntennasByParking() {
+    if (this.authService.isSudo && !this.idEditAntenna) {
+      this.parkingService
+        .getAntennas(this.stepFiveForm.controls['parking'].value)
+        .toPromise()
+        .then((data: ResponseModel) => {
+          if (data.success) {
+            this.antennas = [];
+            data.data.stations.forEach(
+              (station: CreateParkingStepFiveModel) => {
+                this.antennas.push(station);
+              }
+            );
+          }
+        });
+    }
+  }
+
   private getStepFive(): CreateParkingStepFiveModel {
     return {
       parking: this.stepFiveForm.controls['parking'].value || this.parkingId,
@@ -189,12 +210,9 @@ export class AntennasComponent {
       .toPromise()
       .then((data: ResponseModel) => {
         if (data.success) {
-          this.antennas = [];
-          data.data.stations.forEach((station: CreateParkingStepFiveModel) => {
-            this.antennas.push(station);
-          });
+          this.antennas = data.data.stations;
         } else {
-          this.antennas = [];
+          this.message.error('', data.message);
         }
         return data;
       })
@@ -224,27 +242,5 @@ export class AntennasComponent {
       antenna_access: [''],
       isPrivate: [false],
     });
-  }
-
-  ifHaveAction(action: string) {
-    return !!this.actions.find((x) => x == action);
-  }
-
-  searchAntennasByParking() {
-    if (this.authService.isSudo && !this.idEditAntenna) {
-      this.parkingService
-        .getAntennas(this.stepFiveForm.controls['parking'].value)
-        .toPromise()
-        .then((data: ResponseModel) => {
-          if (data.success) {
-            this.antennas = [];
-            data.data.stations.forEach(
-              (station: CreateParkingStepFiveModel) => {
-                this.antennas.push(station);
-              }
-            );
-          }
-        });
-    }
   }
 }
