@@ -6,14 +6,14 @@
     <a
       ngbNavLink ><em class = "fas fa-plus-square" ></em > Nuevo parqueo</a >
     <ng-template ngbNavContent >
-      <app-new-parking ></app-new-parking >
+      <app-parked ></app-parked >
     </ng-template >
   </ng-container >
-  <ng-container *ngIf = "ifHaveAction(listParking)"
+  <ng-container *ngIf = "ifHaveAction(listParkedParking)"
                 ngbNavItem >
     <a ngbNavLink ><em class = "fas fa-parking" ></em > Parqueos</a >
     <ng-template ngbNavContent >
-      <app-parking ></app-parking >
+      <app-parked ></app-parked >
     </ng-template >
   </ng-container >
   <ng-container *ngIf = "ifHaveAction(listMonthlyParking)"
@@ -34,7 +34,7 @@
             <div class = "titleCards" >
               <span ><em class = "fas fa-broadcast-tower" ></em ></span > Configuración de antenas
             </div >
-            <app-antennas ></app-antennas >
+            <app-antennas [parkingId] = "this.parkingId" ></app-antennas >
           </div >
         </div >
       </div >

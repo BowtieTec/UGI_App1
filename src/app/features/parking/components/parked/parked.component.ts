@@ -11,13 +11,15 @@ import { DataTableDirective } from 'angular-datatables';
 import { DataTableOptions } from '../../../../shared/model/DataTableOptions';
 import { Subject } from 'rxjs';
 import { MessageService } from '../../../../shared/services/message.service';
+import { environment } from '../../../../../environments/environment';
+import { PermissionsService } from '../../../../shared/services/permissions.service';
 
 @Component({
-  selector: 'app-parking',
-  templateUrl: './parking.component.html',
-  styleUrls: ['./parking.component.css'],
+  selector: 'app-parked',
+  templateUrl: './parked.component.html',
+  styleUrls: ['./parked.component.css'],
 })
-export class ParkingComponent implements OnDestroy, AfterViewInit {
+export class ParkedComponent implements OnDestroy, AfterViewInit {
   parkedForm: FormGroup = this.createForm();
   parkingData: ParkingModel[] = [];
   parkedData: Array<ParkedModel> = [];
@@ -29,11 +31,16 @@ export class ParkingComponent implements OnDestroy, AfterViewInit {
   dtTrigger: Subject<any> = new Subject();
   formGroup: FormGroup;
 
+  getOutWithPayment = environment.getOutWithPaymentDoneParkedParking;
+  getOutWithoutPayment = environment.getOutWithoutPaymentDoneParkedParking;
+  private actions: string[] = this.permissionService.actionsOfPermissions;
+
   constructor(
     private formBuilder: FormBuilder,
     private parkingService: ParkingService,
     private authService: AuthService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private permissionService: PermissionsService
   ) {
     this.messageService.showLoading();
     this.getAllParking();
@@ -98,33 +105,59 @@ export class ParkingComponent implements OnDestroy, AfterViewInit {
     });
   }
 
-  ifHaveAction(disableMonthlyParking: any) {}
+  ifHaveAction(action: string) {
+    return !!this.actions.find((x) => x == action);
+  }
+
+  async getStatusToSave(parked_type: number) {
+    let status = 3;
+    if (parked_type == 0) {
+      if (this.ifHaveAction(this.getOutWithPayment)) {
+        status = 3;
+      } else if (this.ifHaveAction(this.getOutWithoutPayment)) {
+        status = 2;
+      }
+      if (
+        this.ifHaveAction(this.getOutWithoutPayment) &&
+        this.ifHaveAction(this.getOutWithPayment)
+      ) {
+        const statusWillUpdate = await this.messageService.areYouSureWithCancel(
+          '¿Dejar salir a usuario con el cobro pendiente o cancelado?',
+          'Con el cobro cancelado',
+          'Con el cobro pendiente'
+        );
+        if (statusWillUpdate.isConfirmed) status = 3;
+        if (statusWillUpdate.isDenied) status = 2;
+        if (statusWillUpdate.isDismissed) return -1;
+      }
+    }
+    return status;
+  }
 
   async getOut(parked: ParkedModel) {
-    let status: number = 3;
-    let isCancel: boolean = false;
-    if (parked.parked_type == 0) {
-      const statusWillUpdate = await this.messageService.areYouSureWithCancel(
-        '¿Dejar salir a usuario con el cobro pendiente o cancelado?',
-        'Con el cobro cancelado',
-        'Con el cobro pendiente'
+    if (parked.parked_type) {
+      this.messageService.error(
+        'Este parqueo no tiene un tipo de parqueo valido.'
       );
-      if (statusWillUpdate.isConfirmed) status = 3;
-      if (statusWillUpdate.isDenied) status = 2;
-      if (statusWillUpdate.isDismissed) return;
+      return;
     }
-
+    const status = await this.getStatusToSave(parked.parked_type);
+    if (status == -1) {
+      return;
+    }
     const result = await this.messageService.areYouSure(
       `¿Esta seguro que desea sacar al usuario ${parked.user_name} ${parked.user_last_name} del parqueo ${parked.parking_name}?`
     );
     if (result.isDenied) {
-      this.messageService.Ok('!No te preocupes!, no se hicieron cambios.');
+      this.messageService.infoTimeOut(
+        '!No te preocupes!, no se hicieron cambios.'
+      );
       return;
     }
     if (result.isConfirmed) {
       this.messageService.showLoading();
       this.parkingService
-        .getOutParked(parked.parked_id, status)
+        .getOutParked(parked.parked_id, status!)
         .then((data) => {
           if (data.success) {
             this.getParked();

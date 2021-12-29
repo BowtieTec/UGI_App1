@@ -37,10 +37,10 @@ export const environment = {
       isShow: true,
     },
     {
-      path: '/home/parking',
+      path: '/home/parked',
       module: 'parking',
       description: 'Parqueos',
-      icon: 'fa-parking',
+      icon: 'fa-parked',
       isShow: true,
     },
     {
@@ -101,6 +101,11 @@ export const environment = {
   cancelMonthlyParking: 'cancelMonthlyParking',
   disableMonthlyParking: 'disableMonthlyParking',
   createAccessProfileMonthlyParking: 'createAccessProfileMonthlyParking',
+
+  listParkedParking: 'listParkedParking',
+  getOutWithPaymentDoneParkedParking: 'getOutWithPaymentDoneParkedParking',
+  getOutWithoutPaymentDoneParkedParking:
+    'getOutWithoutPaymentDoneParkedParking',
 };
 
 /*

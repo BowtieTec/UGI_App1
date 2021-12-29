@@ -20,7 +20,7 @@ import { ParkingModel } from '../../models/Parking.model';
 })
 export class AntennasComponent {
   @Input() isCreatingParking: boolean = false;
-  @Input() parkingId: string = '';
+  @Input() parkingId: string = this.authService.getParking().id;
   stepFiveForm!: FormGroup;
   @Output() changeStep = new EventEmitter<number>();
   idEditAntenna: string = '';
@@ -204,7 +204,8 @@ export class AntennasComponent {
     };
   }
 
-  private getInitialData() {
+  getInitialData() {
+    this.message.showLoading();
     return this.parkingService
       .getAntennas(this.parkingId)
       .toPromise()
@@ -223,10 +224,14 @@ export class AntennasComponent {
         if (this.authService.isSudo) {
           this.parkingService.getAllParking().then((data) => {
             if (data.success) {
+              this.allParking = [];
               this.allParking = data.data.parkings;
             }
           });
         }
+      })
+      .then(() => {
+        this.message.hideLoading();
       })
       .catch((e) => {
         return;

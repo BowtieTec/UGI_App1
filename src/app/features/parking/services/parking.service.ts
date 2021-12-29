@@ -172,7 +172,7 @@ export class ParkingService {
 
   getAntennas(idParking: string) {
     return this.http.get<ResponseModel>(
-      `${this.apiUrl}backoffice/parking/${idParking}/station/`
+      `${this.apiUrl}backoffice/parking/${idParking}/station`
     );
   }
 

@@ -90,6 +90,7 @@
               <td >{{parked.parking_name}}</td >
               <td >
                 <button (click) = "getOut(parked)"
+                        *ngIf = "ifHaveAction(getOutWithPayment) || ifHaveAction(getOutWithoutPayment)"
                         class = "buttonRowDelete  ms-1 me-1"
                         title = "Sacar del parqueo" ><em class = "fas fa-door-open " ></em >
                 </button >

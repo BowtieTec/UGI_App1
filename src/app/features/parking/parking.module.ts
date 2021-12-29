@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule, CurrencyPipe, DatePipe } from '@angular/common';
 
 import { ParkingRoutingModule } from './parking-routing.module';
-import { ParkingComponent } from './components/parking/parking.component';
+import { ParkedComponent } from './components/parked/parked.component';
 import { NewParkingComponent } from './components/new-parking/new-parking.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { GoogleMapsModule } from '@angular/google-maps';
@@ -24,7 +24,7 @@ import { DataTablesModule } from 'angular-datatables';
 
 @NgModule({
   declarations: [
-    ParkingComponent,
+    ParkedComponent,
     NewParkingComponent,
     GeneralDataComponent,
     ScheduleComponent,
