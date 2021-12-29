@@ -97,4 +97,8 @@ export const environment = {
   cancelMonthlyParking: 'cancelMonthlyParking',
   disableMonthlyParking: 'disableMonthlyParking',
   createAccessProfileMonthlyParking: 'createAccessProfileMonthlyParking',
+  listParkedParking: 'listParkedParking',
+  getOutWithPaymentDoneParkedParking: 'getOutWithPaymentDoneParkedParking',
+  getOutWithoutPaymentDoneParkedParking:
+    'getOutWithoutPaymentDoneParkedParking',
 };
