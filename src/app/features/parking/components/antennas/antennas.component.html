@@ -116,15 +116,19 @@
           <hr >
         </div >
       </div >
-      <table *ngIf = "antennas.length > 0"
-             aria-label = "Tabla de accesos"
-             class = "table" >
+      <table
+        datatable
+        aria-label = "Tabla de antenas"
+        [dtOptions] = "dtOptions"
+        [dtTrigger] = "dtTrigger"
+        class = "table hover table-striped animate__animated animate__fadeInLeft " >
         <thead >
         <tr >
           <th scope = "col" >Nombre de acceso</th >
           <th scope = "col" >Tipo de acceso</th >
           <th scope = "col" >MAC</th >
           <th scope = "col" >Antena</th >
+          <th scope = "col" >Parqueo</th >
           <th scope = "col" >Privado o Público</th >
           <th scope = "col"
               style = "width: 20%" >Acciones
@@ -138,6 +142,7 @@
           <th id = "{{antenna.type + i}}" >{{getAccessName(antenna.type).accessType}}</th >
           <td >{{antenna.mac}}</td >
           <td >{{antenna.antena}}</td >
+          <td >{{antenna.parking.name}}</td >
           <td >{{antenna.isPrivate ? 'Privado' : 'Público'}}</td >
           <td >
             <button (click) = " editAntenna(antenna) "

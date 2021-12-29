@@ -1,4 +1,12 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {
   AccessModel,
@@ -12,13 +20,16 @@ import { AuthService } from '../../../../shared/services/auth.service';
 import { PermissionsService } from '../../../../shared/services/permissions.service';
 import { environment } from '../../../../../environments/environment';
 import { ParkingModel } from '../../models/Parking.model';
+import { DataTableDirective } from 'angular-datatables';
+import { DataTableOptions } from '../../../../shared/model/DataTableOptions';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-antennas',
   templateUrl: './antennas.component.html',
   styleUrls: ['./antennas.component.css'],
 })
-export class AntennasComponent {
+export class AntennasComponent implements AfterViewInit, OnDestroy {
   @Input() isCreatingParking: boolean = false;
   @Input() parkingId: string = this.authService.getParking().id;
   stepFiveForm!: FormGroup;
@@ -28,6 +39,13 @@ export class AntennasComponent {
   antennas: CreateParkingStepFiveModel[] =
     new Array<CreateParkingStepFiveModel>();
   allParking: ParkingModel[] = Array<ParkingModel>();
+  /*Table*/
+  @ViewChild(DataTableDirective)
+  dtElement!: DataTableDirective;
+  dtOptions: DataTables.Settings = DataTableOptions.getSpanishOptions(10);
+  dtTrigger: Subject<any> = new Subject();
+  formGroup: FormGroup;
+  /*Permissions*/
   editAntennaAction = environment.editAntennas;
   deleteAntennaAction = environment.deleteAntennas;
   createAntennaAction = environment.createAntennas;
@@ -43,10 +61,15 @@ export class AntennasComponent {
     private permissionService: PermissionsService
   ) {
     this.message.showLoading();
-    this.getInitialData().then(() => {
-      this.message.hideLoading();
-    });
+    this.getInitialData()
+      .then(() => {
+        this.message.hideLoading();
+      })
+      .then(() => {
+        this.rerender();
+      });
     this.stepFiveForm = this.createForm();
+    this.formGroup = formBuilder.group({ filter: [''] });
   }
 
   getAccessName(type: number): AccessModel {
@@ -182,12 +205,9 @@ export class AntennasComponent {
         .toPromise()
         .then((data: ResponseModel) => {
           if (data.success) {
-            this.antennas = [];
-            data.data.stations.forEach(
-              (station: CreateParkingStepFiveModel) => {
-                this.antennas.push(station);
-              }
-            );
+            this.parkingId = this.stepFiveForm.controls['parking'].value;
+            this.antennas = data.data.stations;
+            this.rerender();
           }
         });
     }
@@ -212,6 +232,7 @@ export class AntennasComponent {
       .then((data: ResponseModel) => {
         if (data.success) {
           this.antennas = data.data.stations;
+          this.rerender();
         } else {
           this.message.error('', data.message);
         }
@@ -224,7 +245,6 @@ export class AntennasComponent {
         if (this.authService.isSudo) {
           this.parkingService.getAllParking().then((data) => {
             if (data.success) {
-              this.allParking = [];
               this.allParking = data.data.parkings;
             }
           });
@@ -247,5 +267,22 @@ export class AntennasComponent {
       antenna_access: [''],
       isPrivate: [false],
     });
+  }
+
+  ngAfterViewInit(): void {
+    this.dtTrigger.next();
+  }
+
+  ngOnDestroy(): void {
+    this.dtTrigger.unsubscribe();
+  }
+
+  private rerender() {
+    if (this.dtElement != undefined) {
+      this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+        dtInstance.destroy();
+        this.dtTrigger.next();
+      });
+    }
   }
 }
