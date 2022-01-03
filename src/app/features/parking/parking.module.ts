@@ -1,33 +1,39 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, CurrencyPipe, DatePipe } from '@angular/common';
 
 import { ParkingRoutingModule } from './parking-routing.module';
-import { ParkingComponent } from './parking/parking.component';
-import { NewParkingComponent } from './new-parking/new-parking.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ParkedComponent } from './components/parked/parked.component';
+import { NewParkingComponent } from './components/new-parking/new-parking.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { GoogleMapsModule } from '@angular/google-maps';
-import { StepOneComponent } from './new-parking/components/step-one/step-one.component';
-import { StepTwoComponent } from './new-parking/components/step-two/step-two.component';
-import { StepThreeComponent } from './new-parking/components/step-three/step-three.component';
-import { StepFourComponent } from './new-parking/components/step-four/step-four.component';
-import { StepFiveComponent } from './new-parking/components/step-five/step-five.component';
-import { StepSixComponent } from './new-parking/components/step-six/step-six.component';
+import { GeneralDataComponent } from './components/new-parking/components/general-data/general-data.component';
+import { ScheduleComponent } from './components/new-parking/components/schedule/schedule.component';
+import { TariffComponent } from './components/new-parking/components/tariff/tariff.component';
+import { BillingDataComponent } from './components/new-parking/components/billing-data/billing-data.component';
+import { AntennasComponent } from './components/antennas/antennas.component';
+import { ResumeComponent } from './components/new-parking/components/resume/resume.component';
 import { SharedModule } from '../../shared/shared.module';
 import {
   NgbDatepickerModule,
+  NgbModule,
   NgbTimepickerModule,
 } from '@ng-bootstrap/ng-bootstrap';
+import { ParkingMenuComponent } from './parking-menu.component';
+import { MonthlyParkingComponent } from './components/monthly-parking/monthly-parking.component';
+import { DataTablesModule } from 'angular-datatables';
 
 @NgModule({
   declarations: [
-    ParkingComponent,
+    ParkedComponent,
     NewParkingComponent,
-    StepOneComponent,
-    StepTwoComponent,
-    StepThreeComponent,
-    StepFourComponent,
-    StepFiveComponent,
-    StepSixComponent,
+    GeneralDataComponent,
+    ScheduleComponent,
+    TariffComponent,
+    BillingDataComponent,
+    AntennasComponent,
+    ResumeComponent,
+    ParkingMenuComponent,
+    MonthlyParkingComponent,
   ],
   imports: [
     CommonModule,
@@ -37,6 +43,10 @@ import {
     SharedModule,
     NgbDatepickerModule,
     NgbTimepickerModule,
+    NgbModule,
+    FormsModule,
+    DataTablesModule,
   ],
+  providers: [DatePipe, CurrencyPipe],
 })
 export class ParkingModule {}

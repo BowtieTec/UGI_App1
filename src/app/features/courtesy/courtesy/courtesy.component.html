@@ -1,27 +1,29 @@
 <div class = "row justify-content-center animate__animated animate__fadeInLeft" >
-  <form action = ""
-        *ngIf = "courtesyTypes.length > 0"
+  <form *ngIf = "courtesyTypes.length > 0"
+        [formGroup] = "newCourtesyForm"
+        action = ""
         class = "needs-validation"
         id = "form-wrapper"
         method = "post"
         name = "form-wrapper"
-        novalidate = ""
-        [formGroup] = "newCourtesyForm" >
-    <div class = "col-lg-12 col-md-12 col-sm-12 col-xs-12" >
+        novalidate = "" >
+    <div
+      class = "col-lg-12 col-md-12 col-sm-12 col-xs-12" >
       <div class = "panels " >
         <div class = "titleCards" >
           <span ><em class = "fas fa-sitemap" ></em ></span > Cortesías
         </div >
-        <div class = "row justify-content-center" >
+        <div *ngIf = "ifHaveAction(createCourtesy)"
+             class = "row justify-content-center" >
 
           <div class = "col-xl-4 col-lg-6  col-sm-12" >
             <div class = "mb-4 relative" >
               <label class = "labelInput" >Nombre</label >
-              <input class = "form-control inputClass"
-                     placeholder = "NOMBRE:"
-                     type = "text"
+              <input [class.is-invalid] = "controlInvalid('name')"
+                     class = "form-control inputClass"
                      formControlName = "name"
-                     [class.is-invalid] = "controlInvalid('name')" >
+                     placeholder = "NOMBRE:"
+                     type = "text" >
               <small *ngIf = "controlInvalid('name')"
                      class = "text-danger animate__animated  animate__rotateIn" >* Este campo es obligatorio</small >
             </div >
@@ -30,9 +32,9 @@
           <div class = "col-xl-4 col-lg-6  col-sm-12" >
             <div class = "mb-4 relative" >
               <label class = "labelInput" > --- Tipo de cortesía ---</label >
-              <select class = "inputClass"
-                      formControlName = "type"
-                      [class.is-invalid] = "controlInvalid('type')" >
+              <select [class.is-invalid] = "controlInvalid('type')"
+                      class = "inputClass"
+                      formControlName = "type" >
                 <option *ngIf = "newCourtesyForm.controls['type'].value <= 0"
                         value = "" >Tipo de cortesía
                 </option >
@@ -48,11 +50,11 @@
             <div class = " col-xl-4 col-lg-6  col-sm-12" >
               <div class = "mb-4 relative" >
                 <label class = "labelInput" >Cantidad</label >
-                <input class = "form-control inputClass"
-                       placeholder = "Cantidad:"
-                       type = "number"
+                <input [class.is-invalid] = "controlInvalid('quantity')"
+                       class = "form-control inputClass"
                        formControlName = "quantity"
-                       [class.is-invalid] = "controlInvalid('quantity')" >
+                       placeholder = "Cantidad:"
+                       type = "number" >
                 <small *ngIf = "controlInvalid('quantity')"
                        class = "text-danger animate__animated  animate__rotateIn" >* Este campo es obligatorio</small >
               </div >
@@ -60,11 +62,11 @@
             <div class = "col-xl-4 col-lg-6 col-sm-12" >
               <div class = "mb-4 relative" >
                 <label class = "labelInput" >Valor</label >
-                <input class = "form-control inputClass"
-                       placeholder = "Valor: "
-                       type = "text"
+                <input [class.is-invalid] = "controlInvalid('value')"
+                       class = "form-control inputClass"
                        formControlName = "value"
-                       [class.is-invalid] = "controlInvalid('value')" >
+                       placeholder = "Valor: "
+                       type = "text" >
                 <small *ngIf = "controlInvalid('value')"
                        class = "text-danger animate__animated  animate__rotateIn" >* Este campo es obligatorio</small >
               </div >
@@ -72,8 +74,8 @@
           </div >
           <div class = "col-xl-12 col-lg-12 col-sm-12" >
             <div class = "text-center" >
-              <button class = "btn btn-primary "
-                      (click) = "saveCourtesy()" >Guardar
+              <button (click) = "saveCourtesy()"
+                      class = "btn btn-primary " >Guardar
               </button >
 
             </div >
@@ -83,16 +85,16 @@
       </div >
     </div >
   </form >
-  <div class = "col-lg-12 col-md-12 col-sm-12 col-xs-12" >
+  <div *ngIf = "ifHaveAction(listCourtesy)"
+       class = "col-lg-12 col-md-12 col-sm-12 col-xs-12" >
     <div class = "panels" >
-
       <div class = "row" >
         <div class = "col-lg-12" >
-          <table datatable
-                 aria-label = "Tabla de cortesias"
-                 [dtOptions] = "dtOptions"
+          <table [dtOptions] = "dtOptions"
                  [dtTrigger] = "dtTrigger"
-                 class = "table hover table-striped animate__animated animate__fadeInLeft " >
+                 aria-label = "Tabla de cortesias"
+                 class = "table hover table-striped animate__animated animate__fadeInLeft "
+                 datatable >
             <thead >
             <tr >
               <th scope = "col" >Nombre</th >
@@ -111,8 +113,9 @@
               <td >{{courtesy.value}}</td >
               <td >
                 <button
-                  class = "btn btn-outline-danger "
-                  (click) = "downloadPDF(courtesy)" ><em class = "fas fa-file-pdf" ></em >
+                  (click) = "downloadPDF(courtesy)"
+                  *ngIf = "ifHaveAction(downloadCourtesy)"
+                  class = "btn btn-outline-danger " ><em class = "fas fa-file-pdf" ></em >
                 </button >
               </td >
             </tr >

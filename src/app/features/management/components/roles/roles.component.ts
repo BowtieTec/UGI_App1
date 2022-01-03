@@ -26,16 +26,16 @@ export class RolesComponent implements OnInit {
     private messageServices: MessageService
   ) {}
 
-  ngOnInit(): void {
-    this.getAllPermissions();
-  }
-
   get Roles() {
     return this.roles;
   }
 
   get getModules() {
     return [...new Set(Array.from(this.allPermissions, (x) => x.module))];
+  }
+
+  ngOnInit(): void {
+    this.getAllPermissions();
   }
 
   getAllPermissions() {

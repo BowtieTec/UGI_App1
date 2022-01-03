@@ -29,6 +29,10 @@ export class NewUserComponent implements OnInit {
     return this.userService.roles;
   }
 
+  get userRoleSelected() {
+    return this.newUserForm.get('role')?.value;
+  }
+
   ngOnInit(): void {
     this.subject.subscribe((user: NewUserModel) => {
       if (user.name.length > 0) {
@@ -61,8 +65,10 @@ export class NewUserComponent implements OnInit {
   }
 
   saveNewUser() {
+    let newUserForm: NewUserModel = this.getNewUserDataForm();
     this.messageServices.showLoading();
     if (this.isEdit) {
+      delete newUserForm.password;
       this.userService
         .editUser(this.getNewUserDataForm())
         .toPromise()
@@ -74,28 +80,28 @@ export class NewUserComponent implements OnInit {
           }
         })
         .then((data) => {
-          console.log(data);
           this.userService
             .saveRole(this.getNewUserDataForm().role, data.admin.id)
             .toPromise()
-            .then((data) => {
-              if (data.success) {
+            .then((dataRole) => {
+              if (dataRole.success) {
                 this.cleanForm();
                 this.messageServices.OkTimeOut('Guardado');
               } else {
-                this.messageServices.error('', data.message);
+                this.messageServices.error('', dataRole.message);
               }
             })
-            .then((data) => {
+            .then(() => {
               this.subject.next(new NewUserModel());
             });
-        })
-        .then((data) => {});
+        });
     } else {
+      delete newUserForm.id;
       this.userService
-        .saveNewUser(this.getNewUserDataForm())
+        .saveNewUser(newUserForm)
         .toPromise()
         .then((data) => {
+          console.log(data);
           if (data.success) {
             this.messageServices.OkTimeOut('Guardado');
           } else {

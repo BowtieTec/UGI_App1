@@ -44,15 +44,15 @@
       <div class = "col-xl-12 col-lg-12 col-xs-12" >
         <div class = "mb-4 relative" >
           <label class = "labelInput" >Tipo de usuario</label >
-          <select [class.is-invalid] = "controlInvalid('role')"
-                  class = "inputClass"
-                  formControlName = "role"
-                  id = ""
-                  name = "" >
-            <option value = "" >TIPO DE USUARIO</option >
+          <select
+            [class.is-invalid] = "controlInvalid('role')"
+            class = "inputClass"
+            formControlName = "role" >
+            <option *ngIf = "!userRoleSelected"
+                    value = "" >TIPO DE USUARIO
+            </option >
             <option *ngFor = "let role of Roles"
                     value = "{{role.id}}" >{{role.name}}</option >
-
           </select >
           <small *ngIf = "controlInvalid('role')"
                  class = "text-danger animate__animated  animate__rotateIn" >* Este campo es obligatorio</small >
@@ -73,8 +73,8 @@
           <div class = "mb-4 relative" >
             <label class = "labelInput" >Contraseña</label >
             <input [class.is-invalid] = "controlInvalid('password')"
-                   class = "form-control inputClass"
                    [readOnly] = "isEdit"
+                   class = "form-control inputClass"
                    formControlName = "password"
                    placeholder = "CONTRASEÑA:"
                    type = "password" >

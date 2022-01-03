@@ -15,6 +15,8 @@ import { DataTableDirective } from 'angular-datatables';
 import { Subject } from 'rxjs';
 import { DataTableOptions } from '../../../shared/model/DataTableOptions';
 import { saveAs } from 'file-saver';
+import { PermissionsService } from '../../../shared/services/permissions.service';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-courtesy',
@@ -22,6 +24,10 @@ import { saveAs } from 'file-saver';
   styleUrls: ['./courtesy.component.css'],
 })
 export class CourtesyComponent implements OnInit, AfterViewInit, OnDestroy {
+  listCourtesy = environment.listCourtesy;
+  downloadCourtesy = environment.downloadCourtesy;
+  createCourtesy = environment.createCourtesy;
+
   @ViewChild(DataTableDirective)
   dtElement!: DataTableDirective;
   dtOptions: DataTables.Settings = {};
@@ -38,7 +44,8 @@ export class CourtesyComponent implements OnInit, AfterViewInit, OnDestroy {
     private messageService: MessageService,
     private formBuilder: FormBuilder,
     private utilitiesService: UtilitiesService,
-    private authService: AuthService
+    private authService: AuthService,
+    private permisionService: PermissionsService
   ) {
     this.messageService.showLoading();
     this.formGroup = formBuilder.group({ filter: [''] });
@@ -57,6 +64,10 @@ export class CourtesyComponent implements OnInit, AfterViewInit, OnDestroy {
     return newDescription == undefined
       ? new CourtesyTypeModel()
       : newDescription;
+  }
+
+  ifHaveAction(action: string) {
+    return this.permisionService.ifHaveAction(action);
   }
 
   getInitialData() {
@@ -82,32 +93,18 @@ export class CourtesyComponent implements OnInit, AfterViewInit, OnDestroy {
       });
   }
 
-  private createForm() {
-    return this.formBuilder.group({
-      name: ['', [Validators.required]],
-      type: ['', [Validators.required]],
-      value: ['', [Validators.required, Validators.min(1)]],
-      quantity: ['', [Validators.required, Validators.min(1)]],
-      parkingId: [this.authService.getParking().id],
-    });
-  }
-
   controlInvalid(control: string) {
     return this.utilitiesService.controlInvalid(this.newCourtesyForm, control);
   }
 
   getCourtesy(): CourtesyModel {
-    try {
-      return {
-        name: this.newCourtesyForm.controls['name'].value,
-        type: this.newCourtesyForm.controls['type'].value,
-        value: this.newCourtesyForm.controls['value'].value,
-        quantity: this.newCourtesyForm.controls['quantity'].value,
-        parkingId: this.parkingId,
-      };
-    } catch (e) {
-      throw e;
-    }
+    return {
+      name: this.newCourtesyForm.controls['name'].value,
+      type: this.newCourtesyForm.controls['type'].value,
+      value: this.newCourtesyForm.controls['value'].value,
+      quantity: this.newCourtesyForm.controls['quantity'].value,
+      parkingId: this.parkingId,
+    };
   }
 
   getCourtesies() {
@@ -128,9 +125,7 @@ export class CourtesyComponent implements OnInit, AfterViewInit, OnDestroy {
     this.messageService.showLoading();
     if (this.newCourtesyForm.valid) {
       let newCourtesy: CourtesyModel = this.getCourtesy();
-      console.log(newCourtesy);
       this.courtesyService.saveCourtesy(newCourtesy).subscribe((data) => {
-        console.log(data);
         if (data.success) {
           this.messageService.OkTimeOut();
         } else {
@@ -143,13 +138,6 @@ export class CourtesyComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  private rerender() {
-    this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
-      dtInstance.destroy();
-      this.dtTrigger.next();
-    });
-  }
-
   ngAfterViewInit(): void {
     this.dtTrigger.next();
   }
@@ -159,13 +147,30 @@ export class CourtesyComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   downloadPDF(courtesies: CourtesyModel) {
-    console.log(courtesies);
     this.messageService.showLoading();
-    courtesies.id == undefined ? (courtesies.id = '') : true;
+    courtesies.id = !courtesies.id ? '' : courtesies.id;
     this.courtesyService.getPDF(courtesies.id).subscribe((data) => {
-      console.log(data);
       saveAs(data, courtesies.name + '.pdf');
       this.messageService.OkTimeOut();
     });
+  }
+
+  private createForm() {
+    return this.formBuilder.group({
+      name: ['', [Validators.required]],
+      type: ['', [Validators.required]],
+      value: ['', [Validators.required, Validators.min(1)]],
+      quantity: ['', [Validators.required, Validators.min(1)]],
+      parkingId: [this.authService.getParking().id],
+    });
+  }
+
+  private rerender() {
+    if (this.dtElement != undefined) {
+      this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+        dtInstance.destroy();
+        this.dtTrigger.next();
+      });
+    }
   }
 }

@@ -1,6 +1,6 @@
-<div class = "animate__animated "
-     *ngIf = "loading"
+<div *ngIf = "loading"
      [ngClass] = "{'animate__fadeIn': loading, 'animate__fadeOut': !loading}"
+     class = "animate__animated "
      id = "loading" >
   <div class = "loader " ></div >
 </div >

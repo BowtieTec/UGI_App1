@@ -1,0 +1,105 @@
+<div class = "row justify-content-center " >
+  <div class = "col-lg-12 col-md-12 col-sm-12 col-xs-12 animate__animated animate__fadeInLeft" >
+    <div class = "panels" >
+      <div class = "titleCards" >
+        <span ><em class = "fas fa-sitemap" ></em ></span > Lista de parqueo hoy
+      </div >
+
+      <form [formGroup] = "parkedForm" >
+        <div class = "row" >
+          <div *ngIf = "isSudo"
+               class = "col-xl-6 col-lg-6 col-sm-12" >
+            <div class = "mb-4 relative" >
+              <app-select-container
+                (change) = "getParked()"
+                [data] = "this.parkingData"
+                [formGroup] = "parkedForm"
+                controlName = "parkingId"
+                name = "Parqueo" ></app-select-container >
+            </div >
+          </div >
+
+          <div class = "col-xl-6 col-lg-6  col-sm-12" >
+            <div class = "mb-4 relative" >
+              <app-select-container
+                (change) = "getParked()"
+                [data] = "statusParked"
+                [formGroup] = "parkedForm"
+                controlName = "status"
+                name = "Estado" ></app-select-container >
+            </div >
+          </div >
+        </div >
+      </form >
+
+
+    </div >
+  </div >
+  <div class = "col-lg-12 col-md-12 col-sm-12 col-xs-12" >
+    <div class = "panels" >
+
+      <div class = "row" >
+        <div *ngIf = "parkedData"
+             class = "col-lg-12" >
+          <table [dtOptions] = "dtOptions"
+                 [dtTrigger] = "dtTrigger"
+                 aria-label = "Tabla de usuarios parqueados"
+                 class = "table hover table-striped animate__animated animate__fadeInLeft "
+                 datatable >
+            <thead >
+            <tr class = "text-center" >
+              <th scope = "col" >ID</th >
+              <th scope = "col" >Usuario</th >
+              <th scope = "col" >Teléfono</th >
+              <th scope = "col" >Entrada</th >
+              <th scope = "col" >Salida</th >
+              <th scope = "col" >Estado</th >
+              <th scope = "col" >Tipo</th >
+              <th scope = "col" >Parqueo</th >
+              <th scope = "col"
+                  style = "width: 6%" >Acciones
+              </th >
+            </tr >
+            </thead >
+            <tbody >
+            <tr *ngFor = "let parked of parkedData"
+                class = "text-center" >
+              <td >***-{{ parked.parked_id | slice: -6}}</td >
+              <td >{{parked.user_name + ' ' + parked.user_last_name}}</td >
+              <td >{{parked.user_phone_number}}</td >
+              <td >{{parked.parked_entry_date | date: 'medium'}}</td >
+              <td >{{parked.parked_exit_date | date: 'medium'}}</td >
+              <td >
+              <span *ngIf = "parked.parked_status==0"
+                    class = "badge rounded-pill bg-dark" >Intentando entrar</span >
+                <span *ngIf = "parked.parked_status==2"
+                      class = "badge rounded-pill bg-info text-dark" >Fuera del parqueo</span >
+                <span *ngIf = "parked.parked_status==1"
+                      class = "badge rounded-pill bg-success" >Dentro del parqueo</span >
+                <span *ngIf = "parked.parked_status==3"
+                      class = "badge rounded-pill bg-warning text-dark" >Pagado</span >
+                <span *ngIf = "parked.parked_status==4"
+                      class = "badge rounded-pill bg-secondary" >Problemas con la estación</span >
+              </td >
+              <td >
+              <span *ngIf = "parked.parked_type==0"
+                    class = "badge rounded-pill bg-dark" >por Ticket</span >
+                <span *ngIf = "parked.parked_type==1"
+                      class = "badge rounded-pill bg-info text-dark" >Parqueo mensual</span >
+              </td >
+              <td >{{parked.parking_name}}</td >
+              <td >
+                <button (click) = "getOut(parked)"
+                        *ngIf = "ifHaveAction(getOutWithPayment) || ifHaveAction(getOutWithoutPayment)"
+                        class = "buttonRowDelete  ms-1 me-1"
+                        title = "Sacar del parqueo" ><em class = "fas fa-door-open " ></em >
+                </button >
+              </td >
+            </tr >
+            </tbody >
+          </table >
+        </div >
+      </div >
+    </div >
+  </div >
+</div >

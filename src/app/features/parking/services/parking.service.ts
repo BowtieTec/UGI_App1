@@ -22,6 +22,7 @@ import { Observable, Subscribable } from 'rxjs';
 import { CountriesModel } from '../models/Countries.model';
 import { FormBuilder } from '@angular/forms';
 import { CreateTariffModel } from '../models/Tariff.model';
+import { CreateProfilesModel } from '../models/MontlyParking.model';
 
 @Injectable({
   providedIn: 'root',
@@ -82,6 +83,8 @@ export class ParkingService {
     return [
       { value: 0, accessType: 'Entrada' },
       { value: 1, accessType: 'Salida' },
+      { value: 2, accessType: 'Entrada restringida' },
+      { value: 3, accessType: 'Salida restringida' },
     ];
   }
 
@@ -169,7 +172,7 @@ export class ParkingService {
 
   getAntennas(idParking: string) {
     return this.http.get<ResponseModel>(
-      `${this.apiUrl}backoffice/parking/${idParking}/station/`
+      `${this.apiUrl}backoffice/parking/${idParking}/station`
     );
   }
 
@@ -196,6 +199,112 @@ export class ParkingService {
   setRule(rule: CreateTariffModel) {
     return this.http
       .post<ResponseModel>(`${this.apiUrl}backoffice/tariff`, rule)
+      .toPromise();
+  }
+
+  getTariffsSaved(parkingId: string) {
+    return this.http
+      .get<ResponseModel>(
+        `${this.apiUrl}backoffice/tariff/parking/${parkingId}`
+      )
+      .toPromise();
+  }
+
+  deleteTariff(id: string) {
+    return this.http
+      .delete<ResponseModel>(`${this.apiUrl}backoffice/tariff/rule/${id}`)
+      .toPromise();
+  }
+
+  getUsersByTelephone(telephone: string) {
+    return this.http
+      .get<ResponseModel>(
+        `${this.apiUrl}backoffice/user/search?number=${telephone}`
+      )
+      .toPromise();
+  }
+
+  createMonthlySubscription(subscription: any) {
+    return this.http
+      .post<ResponseModel>(
+        `${this.apiUrl}backoffice/monthly-subscription/create`,
+        subscription
+      )
+      .toPromise();
+  }
+
+  getProfilesOfMonthlySubscription(parkingId: string) {
+    return this.http
+      .get<ResponseModel>(
+        `${this.apiUrl}backoffice/monthly-subscription/profiles/${parkingId}`
+      )
+      .toPromise();
+  }
+
+  getMonthlySubscription(parkingId: string) {
+    return this.http
+      .get<ResponseModel>(
+        `${this.apiUrl}backoffice/monthly-subscription/all/${parkingId}`
+      )
+      .toPromise();
+  }
+
+  disableSubscription(idSubscription: string) {
+    return this.http
+      .put<ResponseModel>(
+        `${this.apiUrl}backoffice/monthly-subscription/disable/${idSubscription}`,
+        idSubscription
+      )
+      .toPromise();
+  }
+
+  cancelSubscription(idSubscription: string) {
+    return this.http
+      .put<ResponseModel>(
+        `${this.apiUrl}backoffice/monthly-subscription/cancel/${idSubscription}`,
+        idSubscription
+      )
+      .toPromise();
+  }
+
+  deleteSubscription(idSubscription: string) {
+    return this.http
+      .delete<ResponseModel>(
+        `${this.apiUrl}backoffice/monthly-subscription/${idSubscription}`
+      )
+      .toPromise();
+  }
+
+  createAccessProfile(profile: CreateProfilesModel) {
+    return this.http
+      .post<ResponseModel>(
+        `${this.apiUrl}backoffice/monthly-subscription/profiles/`,
+        profile
+      )
+      .toPromise();
+  }
+
+  getAllParking() {
+    return this.http
+      .get<ResponseModel>(`${this.apiUrl}backoffice/parking/enables`)
+      .toPromise();
+  }
+
+  getParked(parkedFormValues: { parkingId: string; status: string }) {
+    return this.http
+      .post<ResponseModel>(
+        `${this.apiUrl}backoffice/parking/parked`,
+        parkedFormValues
+      )
+      .toPromise();
+  }
+
+  getOutParked(parkedId: string, status: number) {
+    return this.http
+      .post<ResponseModel>(`${this.apiUrl}backoffice/parking/getOut`, {
+        parkedId,
+        status,
+      })
       .toPromise();
   }
 }

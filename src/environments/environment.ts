@@ -2,11 +2,11 @@
 // `ng build` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
-const Ip = 'dev.bowtietech.pro';
-const Port = '3000';
+const Ip = 'localhost';
+const Port = '3001';
 export const environment = {
   production: false,
-  serverAPI: `https://${Ip}:${Port}/v1/`,
+  serverAPI: `http://${Ip}:${Port}/v1/`,
   secretKey: '3%UC!C$WR7m$v^as@Sq8$4!^Mb25WS4i',
   leftMenu: [
     {
@@ -79,6 +79,32 @@ export const environment = {
       isShow: true,
     },
   ],
+  assignRole: 'assignRole',
+  deleteUser: 'deleteUser',
+  editUser: 'editUser',
+  listParking: 'listParking',
+  listUser: 'listUser',
+  listCourtesy: 'listCourtesy',
+  downloadCourtesy: 'downloadCourtesy',
+  deleteRole: 'deleteRole',
+  createParking: 'createParking',
+  createCourtesy: 'createCourtesy',
+  createUser: 'createUser',
+  listAntennas: 'listAntennas',
+  createAntennas: 'createAntennas',
+  deleteAntennas: 'deleteAntennas',
+  editAntennas: 'editAntennas',
+  downloadQRAntenna: 'downloadQRAntenna',
+  listMonthlyParking: 'listMonthlyParking',
+  createMonthlyParking: 'createMonthlyParking',
+  deleteMonthlyParking: 'deleteMonthlyParking',
+  cancelMonthlyParking: 'cancelMonthlyParking',
+  disableMonthlyParking: 'disableMonthlyParking',
+  createAccessProfileMonthlyParking: 'createAccessProfileMonthlyParking',
+  listParkedParking: 'listParkedParking',
+  getOutWithPaymentDoneParkedParking: 'getOutWithPaymentDoneParkedParking',
+  getOutWithoutPaymentDoneParkedParking:
+    'getOutWithoutPaymentDoneParkedParking',
 };
 
 /*
@@ -88,4 +114,3 @@ export const environment = {
  * This import should be commented out in production mode because it will have a negative impact
  * on performance if an error is thrown.
  */
-// import 'zone.js/plugins/zone-error';  // Included with Angular CLI.

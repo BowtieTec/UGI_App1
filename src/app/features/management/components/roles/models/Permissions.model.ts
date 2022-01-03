@@ -1,5 +1,3 @@
-import { Time } from '@angular/common';
-
 export class PermissionsModel {
   id: number = 0;
   module: string = '';

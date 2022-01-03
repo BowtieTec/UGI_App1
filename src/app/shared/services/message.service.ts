@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import Swal from 'sweetalert2';
 
-
 @Injectable({
   providedIn: 'root',
 })
@@ -109,5 +108,32 @@ export class MessageService {
       text,
       showConfirmButton: false,
     });
+  }
+
+  async areYouSure(
+    title: string,
+    confirmButtonText: string = 'Si',
+    denyButtonText: string = 'No'
+  ) {
+    return Swal.fire({
+      title,
+      showDenyButton: true,
+      confirmButtonText,
+      denyButtonText,
+    }).then((result) => result);
+  }
+
+  async areYouSureWithCancel(
+    title: string,
+    confirmButtonText: string = 'Si',
+    denyButtonText: string = 'No'
+  ) {
+    return Swal.fire({
+      title,
+      showDenyButton: true,
+      showCancelButton: true,
+      confirmButtonText,
+      denyButtonText,
+    }).then((result) => result);
   }
 }

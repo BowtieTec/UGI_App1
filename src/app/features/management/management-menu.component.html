@@ -1,53 +1,17 @@
-<!--
-<div class = "row" >
-  <div class = "col-xs-12" >
-    <div class = "panels" >
-      <div class = "titleCards" >
-        <span ><i class = "fas fa-cog" ></i ></span > Opciones
-      </div >
-      <div class = "row" >
-        &lt;!&ndash;  Start Options &ndash;&gt;
-        <div class = "col-lg-3 col-md-4 col-sm-6" >
-          <div class = "cardMenu"
-               routerLink = "users" >
-            <div class = "cardMenuIcon" >
-              <i class = "fas fa-toolbox" ></i >
-            </div >
-            <div class = "cardMenuTitle" >
-              Usuarios
-            </div >
-          </div >
-        </div >
-        <div class = "col-lg-3 col-md-4 col-sm-6" >
-          <div class = "cardMenu"
-               routerLink = "roles" >
-            <div class = "cardMenuIcon" >
-              <i class = "fas fa-toolbox" ></i >
-            </div >
-            <div class = "cardMenuTitle" >
-              Roles
-            </div >
-          </div >
-        </div >
-        &lt;!&ndash;  End Options &ndash;&gt;
-      </div >
-    </div >
-  </div >
-</div >
-<router-outlet ></router-outlet >
--->
-<nav ngbNav
-     #nav = "ngbNav"
-     class = "nav-tabs " >
-  <ng-container ngbNavItem >
+<nav #nav = "ngbNav"
+     class = "nav-tabs "
+     ngbNav >
+  <ng-container *ngIf = "ifHaveAction(createUser)"
+                ngbNavItem >
     <a
-      ngbNavLink ><i class = "fas fa-users" ></i > Users</a >
+      ngbNavLink ><em class = "fas fa-users" ></em > Users</a >
     <ng-template ngbNavContent >
       <app-users ></app-users >
     </ng-template >
   </ng-container >
-  <ng-container ngbNavItem >
-    <a ngbNavLink ><i class = "fas fa-magic" ></i > Roles</a >
+  <ng-container *ngIf = "ifHaveAction(assignRole)"
+                ngbNavItem >
+    <a ngbNavLink ><em class = "fas fa-magic" ></em > Roles</a >
     <ng-template ngbNavContent >
       <app-roles ></app-roles >
     </ng-template >
