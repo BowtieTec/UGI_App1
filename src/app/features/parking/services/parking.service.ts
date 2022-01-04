@@ -81,10 +81,10 @@ export class ParkingService {
 
   getAccesses(): Array<AccessModel> {
     return [
-      { value: 0, accessType: 'Entrada' },
-      { value: 1, accessType: 'Salida' },
-      { value: 2, accessType: 'Entrada restringida' },
-      { value: 3, accessType: 'Salida restringida' },
+      { id: 0, name: 'Entrada' },
+      { id: 1, name: 'Salida' },
+      { id: 2, name: 'Entrada restringida' },
+      { id: 3, name: 'Salida restringida' },
     ];
   }
 
@@ -166,7 +166,7 @@ export class ParkingService {
   }
 
   getTypeAntennaById(id: number): AccessModel {
-    let result = this.getAccesses().find((x: AccessModel) => x.value == id);
+    let result = this.getAccesses().find((x: AccessModel) => x.id == id);
     return result === undefined ? new AccessModel() : result;
   }
 
