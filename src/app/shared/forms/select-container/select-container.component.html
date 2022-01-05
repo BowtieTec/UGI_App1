@@ -6,10 +6,13 @@
           class = "form-control inputClass "
           formControlName = "{{controlName}}" >
     <option *ngFor = "let item of data"
-            [value] = "item.id" >{{item.name}}</option >
+            [value] = "item.id" >{{item.name | titlecase}}</option >
     <option [disabled] = "true"
             [selected] = "true"
             value = "0" >-- {{name}} --
+    </option >
+    <option *ngIf = "data.length == 0"
+            value = "" > No hay datos disponibles
     </option >
   </select >
 
