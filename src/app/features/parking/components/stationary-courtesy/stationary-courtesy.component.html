@@ -1,0 +1,111 @@
+<form [formGroup] = "stationaryForm"
+      class = "needs-validation animate__animated animate__fadeInLeft form-group"
+      id = "form-wrapper"
+      method = "post"
+      name = "form-wrapper"
+      novalidate = "" >
+  <div
+    class = "container " >
+    <div
+      class = "row" >
+      <div *ngIf = "ifHaveAction(createAntennaAction) && !loading"
+           class = "titleCards" >
+        Crear cortesía
+      </div >
+      <div >
+        <div class = "row" >
+          <div class = "col-md-5 col-sm-12" >
+            <div class = "m-3 relative " >
+              <app-select-container
+                (change) = "searchAntennasByParking()"
+                [data] = "this.allParking"
+                [formGroup] = "this.stationaryForm"
+                controlName = "parkingId"
+                name = "Parqueos" ></app-select-container >
+
+            </div >
+          </div >
+          <div class = "col-md-5 col-sm-12" >
+            <div class = "m-3 relative " >
+              <app-select-container
+                [data] = " this.typeCourtesies"
+                [formGroup] = "this.stationaryForm"
+                controlName = "type"
+                name = "Tipos de cortesía" ></app-select-container >
+            </div >
+          </div >
+        </div >
+      </div >
+      <div class = "row" >
+        <div class = "col-md-5 col-sm-12" >
+          <div class = "m-3 relative " >
+            <app-input-container
+              [formGroup] = "stationaryForm"
+              controlName = "name"
+              name = "Nombre de la cortesía" >
+            </app-input-container >
+          </div >
+        </div >
+        <div class = "col-md-5 col-sm-12" >
+          <div class = "m-3 relative " >
+            <app-input-container
+              [formGroup] = "stationaryForm"
+              controlName = "value"
+              name = "Valor de la cortesia"
+              type = "number" >
+            </app-input-container >
+          </div >
+        </div >
+      </div >
+      <div class = "row" >
+        <div class = "col-md-5 col-sm-12 " >
+          <div class = "m-3 relative  " >
+            <app-select-container
+              [data] = " this.stations"
+              [formGroup] = "this.stationaryForm"
+              controlName = "stationId"
+              name = "Estaciones" ></app-select-container >
+            <!-- Button trigger modal -->
+            <button class = "buttonRowQR animate__animated animate__fadeInDown"
+                    data-bs-target = "#exampleModal"
+                    data-bs-toggle = "modal"
+                    type = "button" >+
+            </button >
+          </div >
+
+        </div >
+      </div >
+    </div >
+  </div >
+</form >
+
+<!-- Modal -->
+<div aria-hidden = "true"
+     aria-labelledby = "exampleModalLabel"
+     class = "modal fade "
+     id = "exampleModal"
+     tabindex = "-1" >
+  <div class = "modal-dialog modal-xl " >
+    <div class = "modal-content" >
+      <div class = "modal-header" >
+        <h5 class = "modal-title"
+            id = "exampleModalLabel" >Administrar antenas de cortesías estáticas</h5 >
+        <button aria-label = "Close"
+                class = "btn-close"
+                data-bs-dismiss = "modal"
+                type = "button" ></button >
+      </div >
+      <div class = "modal-body" >
+        <app-antennas-from-courtesy (stationsSaved) = "searchAntennasByParking()"
+                                    [parkingId] = "this.parkingId" ></app-antennas-from-courtesy >
+      </div >
+      <div class = "modal-footer" >
+        <button class = "btn btn-secondary"
+                data-bs-dismiss = "modal"
+                type = "button" >Close
+        </button >
+
+      </div >
+    </div >
+  </div >
+</div >

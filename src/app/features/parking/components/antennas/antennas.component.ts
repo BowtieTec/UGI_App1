@@ -201,18 +201,16 @@ export class AntennasComponent implements AfterViewInit, OnDestroy {
     return !!this.actions.find((x) => x == action);
   }
 
-  searchAntennasByParking() {
+  async searchAntennasByParking() {
     if (this.authService.isSudo && !this.idEditAntenna) {
-      this.parkingService
-        .getAntennas(this.stepFiveForm.controls['parking'].value)
-        .toPromise()
-        .then((data: ResponseModel) => {
-          if (data.success) {
-            this.parkingId = this.stepFiveForm.controls['parking'].value;
-            this.antennas = data.data.stations;
-            this.rerender();
-          }
-        });
+      const parkingId = this.stepFiveForm.controls['parking'].value;
+      this.antennas = await this.parkingService.searchAntennasByParking(
+        parkingId
+      );
+      if (this.antennas) {
+        this.parkingId = parkingId;
+        this.rerender();
+      }
     }
   }
 
