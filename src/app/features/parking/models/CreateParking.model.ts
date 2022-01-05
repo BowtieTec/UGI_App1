@@ -37,6 +37,8 @@ export class CreateParkingStepFiveModel {
   antena: string = '';
   mac: string = '';
   isPrivate: boolean = false;
+  created_at?: string = '';
+  updated_at?: string = '';
 }
 
 export class Coordinates {
@@ -72,6 +74,6 @@ export class BacCredentialModel {
 }
 
 export class AccessModel {
-  value: number = 0;
-  accessType: string = '';
+  id: number = 0;
+  name: string = '';
 }

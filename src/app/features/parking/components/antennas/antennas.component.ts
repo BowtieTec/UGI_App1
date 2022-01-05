@@ -42,7 +42,6 @@ export class AntennasComponent implements AfterViewInit, OnDestroy {
   /*Table*/
   @ViewChild(DataTableDirective)
   dtElement!: DataTableDirective;
-  dtOptions: DataTables.Settings = DataTableOptions.getSpanishOptions(10);
   dtTrigger: Subject<any> = new Subject();
   formGroup: FormGroup;
   /*Permissions*/
@@ -72,8 +71,12 @@ export class AntennasComponent implements AfterViewInit, OnDestroy {
     this.formGroup = formBuilder.group({ filter: [''] });
   }
 
+  get dtOptions() {
+    return DataTableOptions.getSpanishOptions(10);
+  }
+
   getAccessName(type: number): AccessModel {
-    let result = this.accessList.find((x) => x.value == type);
+    let result = this.accessList.find((x) => x.id == type);
 
     return result === undefined ? new AccessModel() : result;
   }

@@ -33,10 +33,10 @@ export const environment = {
       isShow: true,
     },
     {
-      path: '/home/parked',
+      path: '/home/parking',
       module: 'parking',
       description: 'Parqueos',
-      icon: 'fa-parked',
+      icon: 'fa-parking',
       isShow: true,
     },
     {
