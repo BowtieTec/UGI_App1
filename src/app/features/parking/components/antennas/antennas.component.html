@@ -25,8 +25,16 @@
                   [data] = "this.allParking"
                   [formGroup] = "this.stepFiveForm"
                   controlName = "parking"
-                  name = "Parqueo" ></app-select-container >
-
+                  name = "Parqueos" ></app-select-container >
+              </div >
+            </div >
+            <div class = "col-md-5 col-sm-12" >
+              <div class = "m-3 relative " >
+                <app-select-container
+                  [data] = "this.accessList"
+                  [formGroup] = "this.stepFiveForm"
+                  controlName = "type_access"
+                  name = "Tipos de acceso" ></app-select-container >
               </div >
             </div >
           </div >
@@ -40,8 +48,6 @@
                 </app-input-container >
               </div >
             </div >
-          </div >
-          <div class = "row" >
             <div class = "col-md-5 col-sm-12" >
               <div class = "m-3 relative" >
                 <app-input-container
@@ -51,6 +57,8 @@
                 </app-input-container >
               </div >
             </div >
+          </div >
+          <div class = "row" >
             <div class = "col-md-5 col-sm-12" >
               <div class = "m-3 relative" >
                 <app-input-container
@@ -60,18 +68,27 @@
                 </app-input-container >
               </div >
             </div >
+            <div class = "col-md-5 col-sm-12" >
+              <div class = "m-3 relative" >
+                <app-checkbox-container
+                  [formGroup] = "stepFiveForm"
+                  controlName = "isPrivate"
+                  name = "Privado" ></app-checkbox-container >
+              </div >
+            </div >
           </div >
           <div class = "d-grid gap-2 d-md-flex justify-content-md-center m-3" >
             <button (click) = "addAntenna()"
                     class = "btn btn-success animate__animated animate__fadeInDown"
                     type = "button" >Guardar
             </button >
+            <button (click) = "idEditAntenna = '' "
+                    *ngIf = "idEditAntenna"
+                    class = "btn btn-success animate__animated animate__fadeInDown"
+                    type = "button" >Cancelar edición
+            </button >
           </div >
-          <button (click) = "idEditAntenna = '' "
-                  *ngIf = "idEditAntenna"
-                  class = "btn btn-success animate__animated animate__fadeInDown"
-                  type = "button" >Cancelar edición
-          </button >
+
           <hr >
         </div >
       </div >
