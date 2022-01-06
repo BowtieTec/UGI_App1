@@ -112,9 +112,7 @@ export class ParkedComponent implements OnDestroy, AfterViewInit {
   async getStatusToSave(parked_type: number) {
     let status = 3;
     if (parked_type == 0) {
-      if (this.ifHaveAction(this.getOutWithPayment)) {
-        status = 3;
-      } else if (this.ifHaveAction(this.getOutWithoutPayment)) {
+      if (this.ifHaveAction(this.getOutWithoutPayment)) {
         status = 2;
       }
       if (
@@ -165,8 +163,7 @@ export class ParkedComponent implements OnDestroy, AfterViewInit {
           } else {
             this.messageService.error('', data.message);
           }
-        })
-        .then(() => {});
+        });
     }
   }
 

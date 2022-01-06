@@ -49,7 +49,6 @@ export class GlobalErrorHandler implements ErrorHandler {
       } else {
         this.message.error('', `${error.error.message}`);
       }
-
       return;
     }
     if (error.status == 500 || error.status == 501) {
@@ -57,6 +56,5 @@ export class GlobalErrorHandler implements ErrorHandler {
     }
     this.message.error('Error desconocido', error.error.message);
     console.log(error);
-    // window.location.reload();
   }
 }

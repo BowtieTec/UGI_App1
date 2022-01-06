@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MessageService } from '../../../shared/services/message.service';
 import { RecoveryPasswordService } from '../services/recovery-password.service';
@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
   templateUrl: './recover-password.component.html',
   styleUrls: ['./recover-password.component.css'],
 })
-export class RecoverPasswordComponent implements OnInit {
+export class RecoverPasswordComponent {
   recoveryPasswordForm: FormGroup;
   step: number = 1;
   userId: string = '';
@@ -48,8 +48,6 @@ export class RecoverPasswordComponent implements OnInit {
       userId: this.userId,
     };
   }
-
-  ngOnInit(): void {}
 
   sendConfirmation(email: string) {
     this.email = email;

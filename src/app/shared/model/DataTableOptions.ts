@@ -1,6 +1,4 @@
 export class DataTableOptions {
-  constructor() {}
-
   static getSpanishOptions(pageLength: number): DataTableOptions {
     return {
       destroy: true,

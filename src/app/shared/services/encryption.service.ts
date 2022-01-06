@@ -13,8 +13,6 @@ export class EncryptionService {
     padding: CryptoJS.pad.Pkcs7,
   };
 
-  constructor() {}
-
   encrypt(sentence: string): string {
     if (sentence == undefined) {
       return '{}';

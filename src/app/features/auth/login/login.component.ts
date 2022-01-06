@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { AuthService } from '../../../shared/services/auth.service';
 import { MessageService } from '../../../shared/services/message.service';
@@ -8,7 +8,7 @@ import { MessageService } from '../../../shared/services/message.service';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent {
   loginForm!: FormGroup;
 
   constructor(
@@ -25,8 +25,6 @@ export class LoginComponent implements OnInit {
       this.loginForm.get(control)?.touched
     );
   }
-
-  ngOnInit(): void {}
 
   createForm() {
     this.loginForm = this.formBuilder.group({

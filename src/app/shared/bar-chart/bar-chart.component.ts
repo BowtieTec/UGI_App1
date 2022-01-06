@@ -319,8 +319,6 @@ export class BarChartComponent implements OnInit {
     },
   };
 
-  constructor() {}
-
   ngOnInit(): void {
     let chart = new ApexCharts(document.querySelector('#dia'), this.diaOptions);
     let chart2 = new ApexCharts(

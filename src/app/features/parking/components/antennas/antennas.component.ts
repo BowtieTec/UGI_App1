@@ -244,9 +244,9 @@ export class AntennasComponent implements AfterViewInit, OnDestroy {
       })
       .then((data) => {
         if (this.authService.isSudo) {
-          this.parkingService.getAllParking().then((data) => {
-            if (data.success) {
-              this.allParking = data.data.parkings;
+          this.parkingService.getAllParking().then((parkings) => {
+            if (parkings.success) {
+              this.allParking = parkings.data.parkings;
             }
           });
         }

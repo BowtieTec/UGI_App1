@@ -95,12 +95,6 @@ export class AntennasFromCourtesyComponent implements AfterViewInit, OnDestroy {
     }
   }
 
-  downloadQR(antenna: StationsCourtesyModel) {}
-
-  deleteAntenna(antenna: StationsCourtesyModel) {}
-
-  editAntenna(antenna: StationsCourtesyModel) {}
-
   ngAfterViewInit(): void {
     this.dtTrigger.next();
   }

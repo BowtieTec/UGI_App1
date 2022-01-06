@@ -1,4 +1,4 @@
-import { FormGroup } from '@angular/forms';
+import { FormGroup, ValidationErrors } from '@angular/forms';
 
 export function DateGreaterValidations(): any {
   return (form: FormGroup) => {
@@ -9,7 +9,7 @@ export function DateGreaterValidations(): any {
   };
 }
 
-export function NumberGreaterValidations(): any {
+export function NumberGreaterValidations(): ValidationErrors | any {
   return (form: FormGroup) => {
     let lowerLimit: Date = form.controls['lowerLimit']?.value;
     let upperLimit: Date = form.controls['upperLimit']?.value;
@@ -18,7 +18,7 @@ export function NumberGreaterValidations(): any {
   };
 }
 
-export function NumberParkingGreaterValidations(): any {
+export function NumberParkingGreaterValidations(): ValidationErrors | null {
   return (form: FormGroup) => {
     let special_parking_spaces: Date =
       form.controls['special_parking_spaces']?.value;

@@ -35,12 +35,8 @@ export class UserService {
         this.messageService.hideLoading();
       })
       .then(() => {
-        return this.getUsers().subscribe((data) => {});
-      })
-      .then(() => {
         this.messageService.hideLoading();
-      })
-      .catch((err) => {});
+      });
   }
 
   getRoles() {

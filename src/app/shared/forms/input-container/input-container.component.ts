@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import {
   ControlContainer,
   FormGroup,
@@ -17,15 +17,13 @@ import { UtilitiesService } from '../../services/utilities.service';
     },
   ],
 })
-export class InputContainerComponent implements OnInit {
+export class InputContainerComponent {
   @Input() name!: string;
   @Input() controlName!: string;
   @Input() formGroup!: FormGroup;
   @Input() type: string = 'text';
 
   constructor(private utilitiesService: UtilitiesService) {}
-
-  ngOnInit(): void {}
 
   controlInvalid(control: string): boolean {
     return this.utilitiesService.controlInvalid(this.formGroup, control);

@@ -62,7 +62,7 @@ export class GeneralDataComponent implements OnInit {
       });
   }
 
-  addMapMark(event: google.maps.MouseEvent) {
+  addMapMark(event: google.maps.MapMouseEvent) {
     this.coordsMark = { lat: event.latLng.lat(), lng: event.latLng.lng() };
   }
 
@@ -121,10 +121,10 @@ export class GeneralDataComponent implements OnInit {
   createForm() {
     return this.formBuilder.group(
       {
-        name: [this.parkingService.parkingStepOne.name, Validators.required],
+        name: [this.parkingService.parkingStepOne.name, [Validators.required]],
         address: [
           this.parkingService.parkingStepOne.address,
-          Validators.required,
+          [Validators.required],
         ],
         parking_spaces: [
           this.parkingService.parkingStepOne.parking_spaces == 0

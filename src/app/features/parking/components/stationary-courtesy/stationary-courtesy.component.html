@@ -102,7 +102,6 @@
             <th scope = "col"
                 style = "width: 17%" >Creada en:
             </th >
-            <!--  <th scope = "col" >Acciones</th >-->
           </tr >
           </thead >
           <tbody >
@@ -115,26 +114,10 @@
             <td >{{antenna.name | titlecase}}</td >
             <td >{{antenna.mac}}</td >
             <td >{{antenna.created_at  | date: 'medium'}}</td >
-            <!--<td >
-              <button (click) = " editAntenna(antenna) "
-                      class = "buttonRowEdit"
-                      title = "Editar" ><em class = "fas fa-edit" ></em >
-              </button >
-              <button
-                (click) = "deleteAntenna(antenna)"
-                class = "buttonRowDelete m-1" ><em class = "fas fa-trash" ></em >
-              </button >
-              <button
-                (click) = "downloadQR(antenna)"
-                class = "buttonRowQR m-1" ><em class = "fas fa-qrcode" ></em >
-              </button >
-            </td >-->
           </tr >
           </tbody >
         </table >
       </div >
-
-
     </div >
   </div >
 </form >

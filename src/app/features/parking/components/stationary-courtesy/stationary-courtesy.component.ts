@@ -166,11 +166,17 @@ export class StationaryCourtesyComponent implements AfterViewInit, OnDestroy {
     this.dtTrigger.unsubscribe();
   }
 
-  editAntenna(antenna: StationsCourtesyModel) {}
+  editAntenna(antenna: StationsCourtesyModel) {
+    this.message.infoTimeOut('Funcion en construccion');
+  }
 
-  deleteAntenna(antenna: StationsCourtesyModel) {}
+  deleteAntenna(antenna: StationsCourtesyModel) {
+    this.message.infoTimeOut('Funcion en construccion');
+  }
 
-  downloadQR(antenna: StationsCourtesyModel) {}
+  downloadQR(antenna: StationsCourtesyModel) {
+    this.message.infoTimeOut('Funcion en construccion');
+  }
 
   private rerender() {
     if (this.dtElement != undefined) {
