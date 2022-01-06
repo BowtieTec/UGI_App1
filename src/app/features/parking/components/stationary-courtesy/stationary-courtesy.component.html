@@ -75,8 +75,15 @@
 
         </div >
       </div >
+      <div class = "row " >
+        <div class = "d-grid gap-2 d-md-flex justify-content-md-center m-3" >
+          <button (click) = "addStationaryCourtesies()"
+                  class = "btn btn-success animate__animated animate__fadeInDown"
+                  type = "button" >Guardar
+          </button >
+        </div >
 
-
+      </div >
       <div class = "row" >
         <table
           [dtOptions] = "dtOptions"
@@ -101,10 +108,10 @@
           <tbody >
           <tr *ngFor = "let antenna of this.stations; index as i"
               class = "animate__animated animate__fadeIn text-center" >
-            <th id = "{{antenna.name + i}}" >{{antenna.courtesy_detail.name  | titlecase}} </th >
-            <td >{{antenna.courtesy_detail.quantity}}</td >
-            <td >{{this.getTypeDescription(antenna.courtesy_detail?.type).description  | titlecase}}</td >
-            <td >{{antenna.courtesy_detail.value}}</td >
+            <th id = "{{antenna.name + i}}" >{{antenna.courtesy_detail!.name || 'Sin nombre'  | titlecase}} </th >
+            <td >{{antenna.courtesy_detail!.quantity || 'No tiene una cantidad'}}</td >
+            <td >{{this.getTypeDescription(antenna.courtesy_detail!.type).description   | titlecase}}</td >
+            <td >{{antenna.courtesy_detail!.value || 'Sin valor'}}</td >
             <td >{{antenna.name | titlecase}}</td >
             <td >{{antenna.mac}}</td >
             <td >{{antenna.created_at  | date: 'medium'}}</td >

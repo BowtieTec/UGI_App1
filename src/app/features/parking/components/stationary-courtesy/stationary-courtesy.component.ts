@@ -5,7 +5,7 @@ import {
   OnDestroy,
   ViewChild,
 } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MessageService } from '../../../../shared/services/message.service';
 import { ParkingService } from '../../services/parking.service';
 import { UtilitiesService } from '../../../../shared/services/utilities.service';
@@ -14,7 +14,10 @@ import { PermissionsService } from '../../../../shared/services/permissions.serv
 import { environment } from '../../../../../environments/environment';
 import { ParkingModel } from '../../models/Parking.model';
 import { CourtesyService } from '../../../courtesy/services/courtesy.service';
-import { StationsCourtesyModel } from '../../models/StationaryCourtesy.model';
+import {
+  CreateStationaryCourtesy,
+  StationsCourtesyModel,
+} from '../../models/StationaryCourtesy.model';
 import { CourtesyTypeModel } from '../../../courtesy/models/Courtesy.model';
 import { DataTableDirective } from 'angular-datatables';
 import { Subject } from 'rxjs';
@@ -84,21 +87,28 @@ export class StationaryCourtesyComponent implements AfterViewInit, OnDestroy {
     return !!this.actions.find((x) => x == action);
   }
 
+  get stationaryCourtesiesFormValue() {
+    return {
+      parkingId: this.stationaryForm.get('parkingId')?.value,
+      value: this.stationaryForm.get('value')?.value,
+      type: this.stationaryForm.get('type')?.value,
+      name: this.stationaryForm.get('name')?.value,
+      stationId: this.stationaryForm.get('stationId')?.value,
+    };
+  }
+
   createForm(): FormGroup {
     return this.formBuilder.group({
       parkingId: [this.parkingId],
-      value: [],
-      type: ['0'],
-      name: [],
-      stationId: ['0'],
+      value: ['', Validators.required],
+      type: ['0', Validators.required],
+      name: ['', Validators.required],
+      stationId: ['0', Validators.required],
     });
   }
 
-  getTypeDescription(id: number) {
-    let newDescription = this.courtesyTypes.find((x) => x.id == id);
-    return newDescription == undefined
-      ? new CourtesyTypeModel()
-      : newDescription;
+  validateParam(param: any) {
+    return param ? param : 'Sin valor';
   }
 
   async searchAntennasByParking() {
@@ -168,6 +178,38 @@ export class StationaryCourtesyComponent implements AfterViewInit, OnDestroy {
         dtInstance.destroy();
         this.dtTrigger.next();
       });
+    }
+  }
+
+  getTypeDescription(id: number) {
+    const newDescription = this.courtesyTypes.find((x) => x.id == id);
+    return newDescription == undefined
+      ? { id: null, description: 'Sin descripción' }
+      : newDescription;
+  }
+
+  async addStationaryCourtesies() {
+    if (this.stationaryForm.invalid) {
+      this.message.error('', 'Datos faltantes o incorrectos.');
+      return;
+    }
+    this.message.showLoading();
+    try {
+      const newCourtesy: CreateStationaryCourtesy =
+        this.stationaryCourtesiesFormValue;
+      const resp = await this.parkingService.createStationaryCourtesy(
+        newCourtesy
+      );
+      if (resp.success) {
+        await this.getInitialData();
+        this.rerender();
+        this.message.OkTimeOut();
+      } else {
+        this.message.error('', resp.message);
+      }
+    } finally {
+      await this.getInitialData();
+      setTimeout(() => this.message.hideLoading(), 3000);
     }
   }
 }

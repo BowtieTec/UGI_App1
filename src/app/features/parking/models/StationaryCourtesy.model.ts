@@ -6,18 +6,18 @@ export class StationsCourtesyModel {
   status?: number;
   created_at: Date = new Date();
   updated_at: Date = new Date();
-  courtesy_detail?: CourtesyDetail | null;
+  courtesy_detail?: CourtesyDetail = new CourtesyDetail();
 }
 
-export interface CourtesyDetail {
-  id: string;
-  name: string;
-  quantity: number;
-  type: number;
-  value: number;
-  haveStation: number;
-  created_at: Date;
-  updated_at: Date;
+export class CourtesyDetail {
+  id: string = '';
+  name: string = '';
+  quantity: number = 0;
+  type: number = 0;
+  value: number = 0;
+  haveStation: number = 0;
+  created_at: Date = new Date();
+  updated_at: Date = new Date();
 }
 
 export class CreateStation {
@@ -25,4 +25,12 @@ export class CreateStation {
   parking: string = '';
   antena: string = '';
   mac: string = '';
+}
+
+export class CreateStationaryCourtesy {
+  parkingId: string = '';
+  value: number = 0;
+  type: number = 0;
+  name: string = '';
+  stationId: string = '';
 }

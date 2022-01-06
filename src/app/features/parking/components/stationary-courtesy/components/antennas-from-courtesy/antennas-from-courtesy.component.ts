@@ -11,7 +11,7 @@ import {
   CreateStation,
   StationsCourtesyModel,
 } from '../../../../models/StationaryCourtesy.model';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MessageService } from '../../../../../../shared/services/message.service';
 import { ParkingService } from '../../../../services/parking.service';
 import { ParkingModel } from '../../../../models/Parking.model';
@@ -126,10 +126,10 @@ export class AntennasFromCourtesyComponent implements AfterViewInit, OnDestroy {
 
   private createAntennasForm() {
     return this.formBuilder.group({
-      parkingId: [this.parkingId],
-      mac: [],
-      name: [],
-      antena: [],
+      parkingId: [this.parkingId, Validators.required],
+      mac: [Validators.required],
+      name: [Validators.required],
+      antena: [Validators.required],
     });
   }
 

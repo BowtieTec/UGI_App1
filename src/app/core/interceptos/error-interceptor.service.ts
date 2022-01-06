@@ -41,7 +41,15 @@ export class GlobalErrorHandler implements ErrorHandler {
       return;
     }
     if (error.status === 409) {
-      this.message.error('', `${error.error.message}`);
+      if (error.error.message.includes('QueryFailedError')) {
+        this.message.error(
+          '',
+          'Parece haber un error en la base de datos. Intenta seleccionando otros datos. Si necesitas seleccionar estos datos en concreto comunicáselo a tu administrador'
+        );
+      } else {
+        this.message.error('', `${error.error.message}`);
+      }
+
       return;
     }
     if (error.status == 500 || error.status == 501) {

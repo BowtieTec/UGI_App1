@@ -25,6 +25,7 @@ import { CreateTariffModel } from '../models/Tariff.model';
 import { CreateProfilesModel } from '../models/MontlyParking.model';
 import {
   CreateStation,
+  CreateStationaryCourtesy,
   StationsCourtesyModel,
 } from '../models/StationaryCourtesy.model';
 
@@ -348,6 +349,16 @@ export class ParkingService {
       .post<ResponseModel>(
         `${this.apiUrl}backoffice/station_cortesy/station`,
         newStation
+      )
+      .toPromise()
+      .then((data) => data);
+  }
+
+  createStationaryCourtesy(newCourtesy: CreateStationaryCourtesy) {
+    return this.http
+      .post<ResponseModel>(
+        `${this.apiUrl}backoffice/station_cortesy/courtesy`,
+        newCourtesy
       )
       .toPromise()
       .then((data) => data);
