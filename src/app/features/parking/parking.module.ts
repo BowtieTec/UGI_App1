@@ -21,6 +21,8 @@ import {
 import { ParkingMenuComponent } from './parking-menu.component';
 import { MonthlyParkingComponent } from './components/monthly-parking/monthly-parking.component';
 import { DataTablesModule } from 'angular-datatables';
+import { StationaryCourtesyComponent } from './components/stationary-courtesy/stationary-courtesy.component';
+import { AntennasFromCourtesyComponent } from './components/stationary-courtesy/components/antennas-from-courtesy/antennas-from-courtesy.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +36,8 @@ import { DataTablesModule } from 'angular-datatables';
     ResumeComponent,
     ParkingMenuComponent,
     MonthlyParkingComponent,
+    StationaryCourtesyComponent,
+    AntennasFromCourtesyComponent,
   ],
   imports: [
     CommonModule,

@@ -1,0 +1,171 @@
+<form [formGroup] = "stationaryForm"
+      class = "needs-validation animate__animated animate__fadeInLeft form-group"
+      id = "form-wrapper"
+      method = "post"
+      name = "form-wrapper"
+      novalidate = "" >
+  <div
+    class = "container " >
+    <div
+      class = "row" >
+      <div *ngIf = "ifHaveAction(createAntennaAction) && !loading"
+           class = "titleCards" >
+        Crear cortesía
+      </div >
+      <div >
+        <div class = "row" >
+          <div class = "col-md-5 col-sm-12" >
+            <div class = "m-3 relative " >
+              <app-select-container
+                (change) = "searchAntennasByParking()"
+                [data] = "this.allParking"
+                [formGroup] = "this.stationaryForm"
+                controlName = "parkingId"
+                name = "Parqueos" ></app-select-container >
+
+            </div >
+          </div >
+          <div class = "col-md-5 col-sm-12" >
+            <div class = "m-3 relative " >
+              <app-select-container
+                [data] = " this.typeCourtesies"
+                [formGroup] = "this.stationaryForm"
+                controlName = "type"
+                name = "Tipos de cortesía" ></app-select-container >
+            </div >
+          </div >
+        </div >
+      </div >
+      <div class = "row" >
+        <div class = "col-md-5 col-sm-12" >
+          <div class = "m-3 relative " >
+            <app-input-container
+              [formGroup] = "stationaryForm"
+              controlName = "name"
+              name = "Nombre de la cortesía" >
+            </app-input-container >
+          </div >
+        </div >
+        <div class = "col-md-5 col-sm-12" >
+          <div class = "m-3 relative " >
+            <app-input-container
+              [formGroup] = "stationaryForm"
+              controlName = "value"
+              name = "Valor de la cortesia"
+              type = "number" >
+            </app-input-container >
+          </div >
+        </div >
+      </div >
+      <div class = "row" >
+        <div class = "col-md-5 col-sm-12 " >
+          <div class = "m-3 relative  " >
+            <app-select-container
+              [data] = " this.stations"
+              [formGroup] = "this.stationaryForm"
+              controlName = "stationId"
+              name = "Estaciones" ></app-select-container >
+            <!-- Button trigger modal -->
+            <button class = "buttonRowQR animate__animated animate__fadeInDown"
+                    data-bs-target = "#exampleModal"
+                    data-bs-toggle = "modal"
+                    type = "button" >+
+            </button >
+          </div >
+
+        </div >
+      </div >
+      <div class = "row " >
+        <div class = "d-grid gap-2 d-md-flex justify-content-md-center m-3" >
+          <button (click) = "addStationaryCourtesies()"
+                  class = "btn btn-success animate__animated animate__fadeInDown"
+                  type = "button" >Guardar
+          </button >
+        </div >
+
+      </div >
+      <div class = "row" >
+        <table
+          [dtOptions] = "dtOptions"
+          [dtTrigger] = "dtTrigger"
+          aria-label = "Tabla de cortesías estacionarias"
+          class = "table hover table-striped animate__animated animate__fadeInLeft "
+          datatable >
+          <thead >
+          <tr class = "text-center" >
+            <th scope = "col" >Nombre de cortesía</th >
+            <th scope = "col" >Cantidad</th >
+            <th scope = "col" >Tipo</th >
+            <th scope = "col" >Valor</th >
+            <th scope = "col" >Antena</th >
+            <th scope = "col" >MAC</th >
+            <th scope = "col"
+                style = "width: 17%" >Creada en:
+            </th >
+            <!--  <th scope = "col" >Acciones</th >-->
+          </tr >
+          </thead >
+          <tbody >
+          <tr *ngFor = "let antenna of this.stations; index as i"
+              class = "animate__animated animate__fadeIn text-center" >
+            <th id = "{{antenna.name + i}}" >{{antenna.courtesy_detail!.name || 'Sin nombre'  | titlecase}} </th >
+            <td >{{antenna.courtesy_detail!.quantity || 'No tiene una cantidad'}}</td >
+            <td >{{this.getTypeDescription(antenna.courtesy_detail!.type).description   | titlecase}}</td >
+            <td >{{antenna.courtesy_detail!.value || 'Sin valor'}}</td >
+            <td >{{antenna.name | titlecase}}</td >
+            <td >{{antenna.mac}}</td >
+            <td >{{antenna.created_at  | date: 'medium'}}</td >
+            <!--<td >
+              <button (click) = " editAntenna(antenna) "
+                      class = "buttonRowEdit"
+                      title = "Editar" ><em class = "fas fa-edit" ></em >
+              </button >
+              <button
+                (click) = "deleteAntenna(antenna)"
+                class = "buttonRowDelete m-1" ><em class = "fas fa-trash" ></em >
+              </button >
+              <button
+                (click) = "downloadQR(antenna)"
+                class = "buttonRowQR m-1" ><em class = "fas fa-qrcode" ></em >
+              </button >
+            </td >-->
+          </tr >
+          </tbody >
+        </table >
+      </div >
+
+
+    </div >
+  </div >
+</form >
+
+<!-- Modal -->
+<div aria-hidden = "true"
+     aria-labelledby = "exampleModalLabel"
+     class = "modal fade "
+     id = "exampleModal"
+     tabindex = "-1" >
+  <div class = "modal-dialog modal-xl " >
+    <div class = "modal-content" >
+      <div class = "modal-header" >
+        <h5 class = "modal-title"
+            id = "exampleModalLabel" >Administrar antenas de cortesías estáticas</h5 >
+        <button aria-label = "Close"
+                class = "btn-close"
+                data-bs-dismiss = "modal"
+                type = "button" ></button >
+      </div >
+      <div class = "modal-body" >
+        <app-antennas-from-courtesy (stationsSaved) = "searchAntennasByParking()"
+                                    [parkingId] = "this.parkingId" ></app-antennas-from-courtesy >
+      </div >
+      <div class = "modal-footer" >
+        <button class = "btn btn-secondary"
+                data-bs-dismiss = "modal"
+                type = "button" >Close
+        </button >
+
+      </div >
+    </div >
+  </div >
+</div >

@@ -23,6 +23,11 @@ import { CountriesModel } from '../models/Countries.model';
 import { FormBuilder } from '@angular/forms';
 import { CreateTariffModel } from '../models/Tariff.model';
 import { CreateProfilesModel } from '../models/MontlyParking.model';
+import {
+  CreateStation,
+  CreateStationaryCourtesy,
+  StationsCourtesyModel,
+} from '../models/StationaryCourtesy.model';
 
 @Injectable({
   providedIn: 'root',
@@ -306,5 +311,56 @@ export class ParkingService {
         status,
       })
       .toPromise();
+  }
+
+  async searchAntennasByParking(parking: string) {
+    return this.getAntennas(parking)
+      .toPromise()
+      .then((data: ResponseModel) => {
+        if (data.success) {
+          return data.data.stations;
+        } else {
+          this.message.error(data.message);
+        }
+      });
+  }
+
+  getAntennasWithStationaryCourtesy(
+    parkingId: string
+  ): Promise<Array<StationsCourtesyModel>> {
+    return this.http
+      .get<ResponseModel>(
+        `${this.apiUrl}backoffice/station_cortesy/${parkingId}/station`
+      )
+      .toPromise()
+      .then((data) => {
+        if (data.success) {
+          return data.data.stations;
+        }
+        return new Array<StationsCourtesyModel>();
+      })
+      .catch((err) => {
+        return new Array<StationsCourtesyModel>();
+      });
+  }
+
+  createStationWithCourtesy(newStation: CreateStation) {
+    return this.http
+      .post<ResponseModel>(
+        `${this.apiUrl}backoffice/station_cortesy/station`,
+        newStation
+      )
+      .toPromise()
+      .then((data) => data);
+  }
+
+  createStationaryCourtesy(newCourtesy: CreateStationaryCourtesy) {
+    return this.http
+      .post<ResponseModel>(
+        `${this.apiUrl}backoffice/station_cortesy/courtesy`,
+        newCourtesy
+      )
+      .toPromise()
+      .then((data) => data);
   }
 }
