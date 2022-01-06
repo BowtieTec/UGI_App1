@@ -1,4 +1,10 @@
-import { Component, Input } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  Input,
+  OnDestroy,
+  ViewChild,
+} from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MessageService } from '../../../../shared/services/message.service';
 import { ParkingService } from '../../services/parking.service';
@@ -9,21 +15,32 @@ import { environment } from '../../../../../environments/environment';
 import { ParkingModel } from '../../models/Parking.model';
 import { CourtesyService } from '../../../courtesy/services/courtesy.service';
 import { StationsCourtesyModel } from '../../models/StationaryCourtesy.model';
+import { CourtesyTypeModel } from '../../../courtesy/models/Courtesy.model';
+import { DataTableDirective } from 'angular-datatables';
+import { Subject } from 'rxjs';
+import { DataTableOptions } from '../../../../shared/model/DataTableOptions';
 
 @Component({
   selector: 'app-stationary-courtesy',
   templateUrl: './stationary-courtesy.component.html',
   styleUrls: ['./stationary-courtesy.component.css'],
 })
-export class StationaryCourtesyComponent {
+export class StationaryCourtesyComponent implements AfterViewInit, OnDestroy {
   loading: boolean = true;
   @Input() parkingId: string = this.authService.getParking().id;
   stationaryForm: FormGroup;
-
+  courtesyTypes: CourtesyTypeModel[] = [];
   idEditAntenna: string = '';
   allParking: ParkingModel[] = Array<ParkingModel>();
   typeCourtesies: Array<{ id: number; name: string }> = [];
   stations: StationsCourtesyModel[] = [];
+
+  /*Table*/
+  @ViewChild(DataTableDirective)
+  dtElement!: DataTableDirective;
+  dtTrigger: Subject<any> = new Subject();
+  formGroup: FormGroup;
+
   /* Permissions */
   editAntennaAction = environment.editAntennas;
   deleteAntennaAction = environment.deleteAntennas;
@@ -41,8 +58,12 @@ export class StationaryCourtesyComponent {
     private courtesyService: CourtesyService
   ) {
     this.stationaryForm = this.createForm();
-
+    this.formGroup = formBuilder.group({ filter: [''] });
     this.getInitialData();
+  }
+
+  get dtOptions() {
+    return DataTableOptions.getSpanishOptions(10);
   }
 
   async getTypeCourtesies(): Promise<Array<{ id: number; name: string }>> {
@@ -73,26 +94,27 @@ export class StationaryCourtesyComponent {
     });
   }
 
+  getTypeDescription(id: number) {
+    let newDescription = this.courtesyTypes.find((x) => x.id == id);
+    return newDescription == undefined
+      ? new CourtesyTypeModel()
+      : newDescription;
+  }
+
   async searchAntennasByParking() {
     if (this.authService.isSudo && !this.idEditAntenna) {
       this.message.showLoading();
       this.parkingId = this.stationaryForm.controls['parkingId']?.value;
-      this.stations =
+      const newStations =
         await this.parkingService.getAntennasWithStationaryCourtesy(
           this.parkingId
         );
-      if (this.stations) {
-        //this.rerender();
-      }
+      this.stations = newStations.filter((x) => x.courtesy_detail);
+      this.rerender();
+
       this.message.hideLoading();
     }
     return this.stations;
-  }
-
-  assignAntennasSearched() {
-    this.parkingService
-      .searchAntennasByParking(this.parkingId)
-      .then((data) => (this.stations = data));
   }
 
   async getInitialData() {
@@ -102,11 +124,13 @@ export class StationaryCourtesyComponent {
         this.parkingService.getAllParking().then((data) => data.data.parkings),
         this.getTypeCourtesies(),
         this.parkingService.getAntennasWithStationaryCourtesy(this.parkingId),
+        this.courtesyService.getTypes().toPromise(),
       ])
         .then((resp) => {
           this.allParking = resp[0];
           this.typeCourtesies = resp[1];
-          this.stations = resp[2];
+          this.stations = resp[2].filter((x) => x.courtesy_detail);
+          this.courtesyTypes = resp[3].data.type;
         })
         .catch((x) => {
           this.message.errorTimeOut(
@@ -115,15 +139,35 @@ export class StationaryCourtesyComponent {
           );
         })
         .then(() => {
+          this.rerender();
           this.message.hideLoading();
         });
       this.loading = false;
     } catch (ex) {
       throw new Error(ex.message);
-    } finally {
-      setTimeout(() => {
-        this.message.hideLoading();
-      }, 3000);
+    }
+  }
+
+  ngAfterViewInit(): void {
+    this.dtTrigger.next();
+  }
+
+  ngOnDestroy(): void {
+    this.dtTrigger.unsubscribe();
+  }
+
+  editAntenna(antenna: StationsCourtesyModel) {}
+
+  deleteAntenna(antenna: StationsCourtesyModel) {}
+
+  downloadQR(antenna: StationsCourtesyModel) {}
+
+  private rerender() {
+    if (this.dtElement != undefined) {
+      this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+        dtInstance.destroy();
+        this.dtTrigger.next();
+      });
     }
   }
 }

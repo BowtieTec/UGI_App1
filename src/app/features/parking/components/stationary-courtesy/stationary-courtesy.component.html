@@ -75,6 +75,59 @@
 
         </div >
       </div >
+
+
+      <div class = "row" >
+        <table
+          [dtOptions] = "dtOptions"
+          [dtTrigger] = "dtTrigger"
+          aria-label = "Tabla de cortesías estacionarias"
+          class = "table hover table-striped animate__animated animate__fadeInLeft "
+          datatable >
+          <thead >
+          <tr class = "text-center" >
+            <th scope = "col" >Nombre de cortesía</th >
+            <th scope = "col" >Cantidad</th >
+            <th scope = "col" >Tipo</th >
+            <th scope = "col" >Valor</th >
+            <th scope = "col" >Antena</th >
+            <th scope = "col" >MAC</th >
+            <th scope = "col"
+                style = "width: 17%" >Creada en:
+            </th >
+            <!--  <th scope = "col" >Acciones</th >-->
+          </tr >
+          </thead >
+          <tbody >
+          <tr *ngFor = "let antenna of this.stations; index as i"
+              class = "animate__animated animate__fadeIn text-center" >
+            <th id = "{{antenna.name + i}}" >{{antenna.courtesy_detail.name  | titlecase}} </th >
+            <td >{{antenna.courtesy_detail.quantity}}</td >
+            <td >{{this.getTypeDescription(antenna.courtesy_detail?.type).description  | titlecase}}</td >
+            <td >{{antenna.courtesy_detail.value}}</td >
+            <td >{{antenna.name | titlecase}}</td >
+            <td >{{antenna.mac}}</td >
+            <td >{{antenna.created_at  | date: 'medium'}}</td >
+            <!--<td >
+              <button (click) = " editAntenna(antenna) "
+                      class = "buttonRowEdit"
+                      title = "Editar" ><em class = "fas fa-edit" ></em >
+              </button >
+              <button
+                (click) = "deleteAntenna(antenna)"
+                class = "buttonRowDelete m-1" ><em class = "fas fa-trash" ></em >
+              </button >
+              <button
+                (click) = "downloadQR(antenna)"
+                class = "buttonRowQR m-1" ><em class = "fas fa-qrcode" ></em >
+              </button >
+            </td >-->
+          </tr >
+          </tbody >
+        </table >
+      </div >
+
+
     </div >
   </div >
 </form >

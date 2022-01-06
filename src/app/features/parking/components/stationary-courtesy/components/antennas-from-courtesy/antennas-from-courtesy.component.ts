@@ -68,10 +68,12 @@ export class AntennasFromCourtesyComponent implements AfterViewInit, OnDestroy {
       Promise.all([
         this.parkingService.getAllParking().then((data) => data.data.parkings),
         this.parkingService.getAntennasWithStationaryCourtesy(this.parkingId),
-      ]).then((resp) => {
-        this.allParking = resp[0];
-        this.stations = resp[1];
-      });
+      ])
+        .then((resp) => {
+          this.allParking = resp[0];
+          this.stations = resp[1];
+        })
+        .then(() => this.rerender());
     } catch (ex) {
       throw new Error(ex.message);
     } finally {
