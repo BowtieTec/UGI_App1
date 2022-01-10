@@ -5,7 +5,7 @@
       name = "form-wrapper"
       novalidate = "" >
   <div
-    class = "container " >
+    class = " " >
     <div
       class = "row" >
       <div *ngIf = "ifHaveAction(createAntennaAction) && !loading"
@@ -13,7 +13,7 @@
         Crear cortesía
       </div >
       <div >
-        <div class = "row" >
+        <div class = "row justify-content-center" >
           <div class = "col-md-5 col-sm-12" >
             <div class = "m-3 relative " >
               <app-select-container
@@ -36,7 +36,7 @@
           </div >
         </div >
       </div >
-      <div class = "row" >
+      <div class = "row justify-content-center" >
         <div class = "col-md-5 col-sm-12" >
           <div class = "m-3 relative " >
             <app-input-container
@@ -57,19 +57,23 @@
           </div >
         </div >
       </div >
-      <div class = "row" >
+      <div class = "row justify-content-center" >
         <div class = "col-md-5 col-sm-12 " >
           <div class = "m-3 relative  " >
             <app-select-container
               [data] = " this.stations"
               [formGroup] = "this.stationaryForm"
               controlName = "stationId"
-              name = "Estaciones" ></app-select-container >
-            <!-- Button trigger modal -->
-            <button class = "buttonRowQR animate__animated animate__fadeInDown"
+              name = "Estaciones" style="position: relative;
+              display: inline-block;
+              width: 80%;"></app-select-container >
+            
+            <button class = "btn-primary btn-input animate__animated animate__fadeInDown"
                     data-bs-target = "#exampleModal"
                     data-bs-toggle = "modal"
-                    type = "button" >+
+                    type = "button" style="    position: absolute;
+                    display: inline-block;
+                    padding: 9px!important;">+
             </button >
           </div >
 
