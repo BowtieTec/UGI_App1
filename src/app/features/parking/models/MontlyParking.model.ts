@@ -20,18 +20,21 @@ export class SubscriptionModel {
   isUnlimited: number = 1;
   status: number = 1;
   amount: number = 400;
-  user = {
-    id: '',
-    name: '',
-    last_name: '',
-    email: '',
-    phone_number: '',
-  };
-  profile_subscription = {
-    id: 0,
-    name: '',
-    deleted: 0,
-  };
+  user: SubscriptionUserModel | null = null;
+  profile_subscription: null | SubscriptionUserModel = null;
+}
+export class SubscriptionProfileModel {
+  id: string = '';
+  name: string = '';
+  deleted: string = '';
+}
+export class SubscriptionUserModel {
+  id: string =  '';
+  name: string = '';
+  last_name: string = '';
+  email: string = '';
+  phone_number: string = '';
+
 }
 
 export class GetStationModel {

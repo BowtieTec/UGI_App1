@@ -57,8 +57,8 @@ export class MonthlyParkingComponent implements AfterViewInit, OnDestroy {
     this.message.showLoading();
     this.formGroup = formBuilder.group({ filter: [''] });
     this.getProfiles()
-      .then(() => {
-        return this.getMonthlySubscription();
+     .then(() => {
+         return this.getMonthlySubscription();
       })
       .then(() => {
         this.rerender();
@@ -186,7 +186,6 @@ export class MonthlyParkingComponent implements AfterViewInit, OnDestroy {
       .then((data) => {
         if (data.success) {
           this.profiles = data.data.profiles;
-          console.log(this.profiles);
         } else {
           this.message.error(data.message);
         }
@@ -195,7 +194,7 @@ export class MonthlyParkingComponent implements AfterViewInit, OnDestroy {
 
   getMonthlySubscription() {
     const parkingId = this.authService.getParking().id;
-    return this.parkingService
+   return this.parkingService
       .getMonthlySubscription(parkingId)
       .then((data) => {
         if (data.success) {

@@ -16,23 +16,23 @@
                            aria-describedby = "button-addon2"
                            aria-label = "Seleccionar usuario"
                            class = "form-control inputClass"
-                           
+
                            placeholder = "Buscar Usuario"
                            type = "text" >
                            <div class="iconInput">
                             <em class = "fas fa-search" ></em >
                           </div>
                     <button style="position: absolute; width: 100%; height: 100%;  opacity: 0;" data-bs-target = "#staticBackdrop" data-bs-toggle = "modal" type = "button" >
-                    
+
                   </button >
                   </div >
                   <small *ngIf = "nameTelephone.length<=0"
                          class = "text-info animate__animated  animate__rotateIn" >* Este campo es obligatorio.</small >
-                         
+
                 </div >
-                
+
                   <!-- Button trigger modal -->
-                  
+
                   <!-- Modal -->
                   <div aria-hidden = "true"
                        aria-labelledby = "staticBackdropLabel"
@@ -52,7 +52,7 @@
                                   type = "button" ></button >
                         </div >
                         <div class = "modal-body" >
-                          
+
                           <div class = "input-group mb-3" >
                             <span style="background: #415ba2; color: #fff;" class = "input-group-text" id = "basic-addon1" >Tel</span >
                             <input aria-describedby = "basic-addon1"
@@ -96,12 +96,12 @@
                                   data-bs-dismiss = "modal"
                                   type = "button" >Cancelar
                           </button >
-    
+
                         </div >
                       </div >
                     </div >
                   </div >
-                
+
               </div >
             </div>
             <hr>
@@ -160,14 +160,14 @@
                     </div >
                   </div >
                 </div >
-              
-              
+
+
               </div>
               </div>
             </div>
-            
+
           <hr>
-         
+
           <div class = "col-xl-12 col-lg-12 col-sm-12 text-center " >
             <h6 >Días habilitados para entrada</h6 >
             <ul class = "opcionActivo" >
@@ -202,7 +202,7 @@
             </ul >
           </div >
           <hr>
-          
+
           <div class = "col-xl-4 col-lg-4 col-sm-12 text-center mb-4" >
             <h6>Perfil de acceso</h6>
             <div class = "input-group" >
@@ -213,7 +213,7 @@
                         value = "" >Sin perfil de acceso
                 </option >
                 <option *ngFor = "let profile of profiles"
-                        [value] = "profile.id" >{{profile.name}}</option >
+                        [value] = "profile.id" >{{profile.name }}</option >
               </select >
               <!-- Button trigger modal -->
               <div class="input-group-append">
@@ -231,7 +231,7 @@
                                                                             que ese perfil contiene.</small >
           </div >
           <hr>
-            
+
             <div class = "col-xl-4 col-lg-6  col-sm-12 text-center" >
               <div class = "mb-4 relative" >
                 <h6>Tarifa</h6>
@@ -305,7 +305,7 @@
             <span *ngIf = "subscription.status==5"
                   class = "badge rounded-pill bg-danger" >Rechazado</span >
           </td >
-          <td >{{subscription.profile_subscription.name}}</td >
+          <td >{{subscription.profile_subscription?.name | titlecase}}</td >
           <td >{{subscription.begin_date | date: 'longDate'}}</td >
           <td >{{subscription.finish_date | date: 'longDate'}}</td >
           <td >
@@ -396,7 +396,7 @@
                 type = "button" >Crear perfil
 
         </button >
-      
+
         <button class = "btn btn-secondary"
                 data-bs-dismiss = "modal"
                 type = "button" >Cerrar
