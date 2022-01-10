@@ -3,7 +3,7 @@
   <small *ngIf = "controlInvalid(controlName)"
          class = "text-danger animate__animated animate__fadeIn" >* El valor no es valido</small >
   <select [class.is-invalid] = "controlInvalid(controlName)"
-          class = "form-control inputClass "
+          class = "inputClass "
           formControlName = "{{controlName}}" >
     <option *ngFor = "let item of data"
             [value] = "item.id" >{{item.name | titlecase}}</option >

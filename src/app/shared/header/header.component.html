@@ -15,34 +15,39 @@
       <div class = "d-flex menuMobile d-block d-sm-none " >
         <span onclick = "menuMovil()" ><em class = "fas fa-bars" ></em ></span >
       </div >
-      <span class = "badge bg-info" >{{this.authData.user.name + ' ' + this.authData.user.last_name}}</span >
+      <!-- <span class = "badge bg-info" >{{this.authData.user.name + ' ' + this.authData.user.last_name}}</span >
       <span class = "badge bg-info" >{{this.authData.user.email}}</span >
-      <span class = "badge bg-info" >  {{this.authData.user.role.name}}</span >
+      <span class = "badge bg-info" >  {{this.authData.user.role.name}}</span > -->
 
       <div class = "d-flex icons" >
-        <span ><em class = "fas fa-bell" ></em ></span >
-        <div class = "dropdown" >
-          <div class = "" >
+        <!-- <span ><em class = "fas fa-bell" ></em ></span > -->
+        <div class = "dropdown dropdownHeader" >
+          <div >
+            <div class = "nameHeader" >{{this.authData.user.name + ' ' + this.authData.user.last_name}}</div>
             <em class = "far fa-user-circle fa-3x" ></em >
 
           </div >
           <div
             class = "dropdown-content" >
             <ul class = "nav flex-column" >
-              <li class = "nav-item" >
-                <a (click) = "logout()"
-                   class = "nav-link" >
-                  <span ><em class = "fa fa-tachometer-alt" ></em ></span >
-                  Cerrar sesión</a >
-              </li >
-              <li class = "nav-item text-center" >
+              
+              <!-- <li class = "nav-item text-center" >
                 {{this.authData.user.name + ' ' + this.authData.user.last_name}}
               </li >
+              <hr> -->
               <li class = "nav-item text-center" >
                 {{this.authData.user.email}}
               </li >
+              
               <li class = "nav-item text-center" >
-                {{this.authData.user.role.name}}
+                <div style="font-size:12px; font-weight:600">{{this.authData.user.role.name}}</div>
+              </li >
+              <hr>
+              <li class = "nav-item" >
+                <a (click) = "logout()"
+                   class = "nav-link" >
+                  <span ><em class = "fa fa-power-off" ></em ></span >
+                  Cerrar sesión</a >
               </li >
             </ul >
           </div >
