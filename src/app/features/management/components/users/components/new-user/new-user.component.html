@@ -82,6 +82,15 @@
                    class = "text-danger animate__animated  animate__rotateIn" >* Este campo es obligatorio</small >
           </div >
         </div >
+        <div class = "col-xl-12 col-lg-12  col-sm-12" *ngIf="ifHaveAction(changeParkingAtCreateUser)">
+          <div class = "mb-4 relative" >
+           <app-select-container
+           [formGroup]="newUserForm"
+           name="Parqueo"
+           controlName="parking"
+           [data]="allParking"></app-select-container>
+          </div >
+        </div >
       </div >
       <div class = "col-xl-12 col-lg-12 col-sm-12" >
         <div class = "text-center" >

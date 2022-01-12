@@ -5,6 +5,10 @@ import { UtilitiesService } from '../../../../../../shared/services/utilities.se
 import { NewUserModel } from '../../models/newUserModel';
 import { MessageService } from '../../../../../../shared/services/message.service';
 import { Subject } from 'rxjs';
+import {ParkingModel} from "../../../../../parking/models/Parking.model";
+import {ParkingService} from "../../../../../parking/services/parking.service";
+import {PermissionsService} from "../../../../../../shared/services/permissions.service";
+import {environment} from "../../../../../../../environments/environment";
 
 @Component({
   selector: 'app-new-user',
@@ -15,14 +19,17 @@ export class NewUserComponent implements OnInit {
   @Input() subject = new Subject<NewUserModel>();
   newUserForm: FormGroup;
   isEdit: boolean = false;
-
+  allParking:ParkingModel[] = [];
+  changeParkingAtCreateUser: string = environment.changeParkingAtCreateUser;
   constructor(
     private userService: UserService,
     private formBuilder: FormBuilder,
     private utilitiesService: UtilitiesService,
-    private messageServices: MessageService
+    private messageServices: MessageService,
+    private parkingService: ParkingService, private permissionService: PermissionsService
   ) {
     this.newUserForm = this.createForm();
+    this.getInitialData();
   }
 
   get Roles() {
@@ -33,6 +40,9 @@ export class NewUserComponent implements OnInit {
     return this.newUserForm.get('role')?.value;
   }
 
+  ifHaveAction(action: string) {
+    return this.permissionService.ifHaveAction(action);
+  }
   ngOnInit(): void {
     this.subject.subscribe((user: NewUserModel) => {
       if (user.name.length > 0) {
@@ -45,13 +55,19 @@ export class NewUserComponent implements OnInit {
         );
         this.newUserForm.controls['role'].setValue(user.role);
         this.newUserForm.controls['name'].setValue(user.name);
-        this.newUserForm.controls['idParking'].setValue(user.idParking);
+        this.newUserForm.controls['idParking'].setValue(user.parking);
         this.newUserForm.controls['id'].setValue(user.id);
         this.isEdit = true;
       }
     });
   }
+ async getInitialData(){
+    this.messageServices.showLoading();
+    this.allParking = await this.parkingService.getAllParking().then(x => x.data.parkings);
 
+    this.messageServices.hideLoading();
+   console.log(this.allParking);
+ }
   getNewUserDataForm(): NewUserModel {
     return {
       email: this.newUserForm.controls['email'].value,
@@ -61,6 +77,7 @@ export class NewUserComponent implements OnInit {
       role: this.newUserForm.controls['role'].value,
       user: this.newUserForm.controls['user'].value,
       id: this.newUserForm.controls['id'].value,
+      parking: this.newUserForm.controls['parking'].value,
     };
   }
 
@@ -124,6 +141,7 @@ export class NewUserComponent implements OnInit {
     this.newUserForm.controls['password'].setValue('');
     this.newUserForm.controls['role'].setValue('');
     this.newUserForm.controls['user'].setValue('');
+    this.newUserForm.controls['parking'].setValue('');
     this.utilitiesService.markAsUnTouched(this.newUserForm);
     this.isEdit = false;
   }
@@ -147,7 +165,7 @@ export class NewUserComponent implements OnInit {
       user: [this.userService.newUser.user, [Validators.required]],
       password: [this.userService.newUser.password, [Validators.required]],
       role: [this.userService.newUser.role, [Validators.required]],
-      idParking: [this.userService.newUser.idParking, [Validators.required]],
+      parking: [this.userService.newUser.parking, [Validators.required]],
     });
   }
 }

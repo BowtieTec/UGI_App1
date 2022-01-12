@@ -11,7 +11,7 @@ import { environment } from '../../../environments/environment';
 export class ManagementMenuComponent {
   assignRole = environment.assignRole;
   createUser = environment.createUser;
-  private actions: string[] = [];
+
 
   constructor(
     private authService: AuthService,

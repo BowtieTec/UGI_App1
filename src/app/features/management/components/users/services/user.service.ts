@@ -6,6 +6,7 @@ import { ResponseModel } from '../../../../../shared/model/Request.model';
 import { RolesModel } from '../models/RolesModel';
 import { NewUserModel } from '../models/newUserModel';
 import { Observable } from 'rxjs';
+import {AuthService} from "../../../../../shared/services/auth.service";
 
 @Injectable({
   providedIn: 'root',
@@ -18,6 +19,7 @@ export class UserService {
 
   constructor(
     private messageService: MessageService,
+    private authService: AuthService,
     private http: HttpClient
   ) {
     this.getInitialData();
@@ -65,7 +67,7 @@ export class UserService {
             name: administrator.name,
             id: administrator.id,
             user: administrator.user,
-            idParking: administrator.idParking,
+            parking: administrator.idParking,
             email: administrator.email,
             password: administrator.password,
             last_name: administrator.last_name,
@@ -76,10 +78,19 @@ export class UserService {
   }
 
   saveNewUser(newUser: NewUserModel) {
-    return this.http.post<ResponseModel>(
-      `${this.apiUrl}backoffice/admin/signup`,
-      newUser
-    );
+if(this.authService.isSudo){
+  console.log('Entrando isSudo')
+  return this.http.post<ResponseModel>(
+    `${this.apiUrl}backoffice/admin/signup-superadmin`,
+    newUser
+  );
+}else{
+  return this.http.post<ResponseModel>(
+    `${this.apiUrl}backoffice/admin/signup`,
+    newUser
+  );
+}
+
   }
 
   editUser(newUser: NewUserModel) {

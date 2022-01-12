@@ -101,4 +101,5 @@ export const environment = {
   getOutWithPaymentDoneParkedParking: 'getOutWithPaymentDoneParkedParking',
   getOutWithoutPaymentDoneParkedParking:
     'getOutWithoutPaymentDoneParkedParking',
+  changeParkingAtCreateUser: 'changeParkingAtCreateUser'
 };
