@@ -34,7 +34,6 @@ export class ParkedComponent implements OnDestroy, AfterViewInit {
   getOutWithPayment = environment.getOutWithPaymentDoneParkedParking;
   getOutWithoutPayment = environment.getOutWithoutPaymentDoneParkedParking;
   private actions: string[] = this.permissionService.actionsOfPermissions;
-
   constructor(
     private formBuilder: FormBuilder,
     private parkingService: ParkingService,

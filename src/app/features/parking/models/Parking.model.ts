@@ -23,7 +23,7 @@ export const StatusParked = [
   },
   {
     id: 1,
-    name: 'En el parqueo',
+    name: 'Dentro del parqueo',
   },
   {
     id: 2,

@@ -66,7 +66,7 @@
                 class = "text-center" >
               <td >***-{{ parked.parked_id | slice: -6}}</td >
               <td >{{parked.user_name + ' ' + parked.user_last_name}}</td >
-              <td >{{parked.user_phone_number}}</td >
+              <td >****-{{parked.user_phone_number | slice: -4}}</td >
               <td >{{parked.parked_entry_date | date: 'medium'}}</td >
               <td >{{parked.parked_exit_date | date: 'medium'}}</td >
               <td >
@@ -90,7 +90,7 @@
               <td >{{parked.parking_name}}</td >
               <td >
                 <button (click) = "getOut(parked)"
-                        *ngIf = "ifHaveAction(getOutWithPayment) || ifHaveAction(getOutWithoutPayment)"
+                        *ngIf = "(ifHaveAction(getOutWithPayment) || ifHaveAction(getOutWithoutPayment)) && parked.parked_status!=2 "
                         class = "buttonRowDelete  ms-1 me-1"
                         title = "Sacar del parqueo" ><em class = "fas fa-door-open " ></em >
                 </button >
