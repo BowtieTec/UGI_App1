@@ -29,7 +29,7 @@ export class ParkedComponent implements OnDestroy, AfterViewInit {
   dtElement!: DataTableDirective;
   dtOptions: DataTables.Settings = DataTableOptions.getSpanishOptions(10);
   dtTrigger: Subject<any> = new Subject();
-  formGroup: FormGroup;
+  formGroup: FormGroup = this.formBuilder.group({filter: ['']});
 
   getOutWithPayment = environment.getOutWithPaymentDoneParkedParking;
   getOutWithoutPayment = environment.getOutWithoutPaymentDoneParkedParking;
@@ -42,12 +42,16 @@ export class ParkedComponent implements OnDestroy, AfterViewInit {
     private messageService: MessageService,
     private permissionService: PermissionsService
   ) {
-    this.messageService.showLoading();
-    this.getAllParking();
-    this.formGroup = formBuilder.group({ filter: [''] });
-    this.getParked().then(() => this.messageService.hideLoading());
+  this.getInitialData();
   }
-
+async getInitialData(){
+  this.messageService.showLoading();
+  await this.getAllParking();
+  if (this.isSudo){
+    await this.parkedForm.get('parkingId')?.setValue(this.authService.getParking().id)
+  }
+  await this.getParked().then(() => this.messageService.hideLoading());
+}
   get isSudo() {
     return this.authService.isSudo;
   }
@@ -59,11 +63,11 @@ export class ParkedComponent implements OnDestroy, AfterViewInit {
     });
   }
 
-  getAllParking() {
+  async getAllParking() {
     if (!this.authService.isSudo) {
       return;
     }
-    this.parkingService.getAllParking().then((data) => {
+   return this.parkingService.getAllParking().then((data) => {
       if (data.success) {
         this.parkingData = data.data.parkings;
       }
@@ -94,6 +98,7 @@ export class ParkedComponent implements OnDestroy, AfterViewInit {
   async getParked() {
     this.messageService.showLoading();
     const params = this.getParkedFormValues();
+
     return this.parkingService.getParked(params).then((data) => {
       if (data.success) {
         this.parkedData = data.data.parked;

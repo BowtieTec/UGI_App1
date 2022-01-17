@@ -6,10 +6,10 @@
       </div >
       <form *ngIf = "ifHaveAction(createMonthlyParking)"
             [formGroup] = "monthlyForm" >
-        <div class = "row justify-content-center mb-4" >
+        <div class = "row justify-content-center mb-4 " >
             <div class="col-md-12 col-sm-12">
-              <div class = "row justify-content-center" >
-                <div class = "col-xl-4 col-lg-4 col-md-12 text-center mb-4" >
+              <div class = "row justify-content-center " >
+                <div class = "col-xl-4 col-lg-4 col-md-12 text-center mb-4 animate__animated animate__fadeInLeft" >
                   <h6>Seleccione un usuario</h6>
                   <div class = "input-group mb-3" >
                     <input [value] = "nameTelephone"
@@ -23,16 +23,11 @@
                             <em class = "fas fa-search" ></em >
                           </div>
                     <button style="position: absolute; width: 100%; height: 100%;  opacity: 0;" data-bs-target = "#staticBackdrop" data-bs-toggle = "modal" type = "button" >
-
                   </button >
                   </div >
                   <small *ngIf = "nameTelephone.length<=0"
-                         class = "text-info animate__animated  animate__rotateIn" >* Este campo es obligatorio.</small >
-
+                         class = "text-info animate__animated animate__rotateIn" >* Este campo es obligatorio.</small >
                 </div >
-
-                  <!-- Button trigger modal -->
-
                   <!-- Modal -->
                   <div aria-hidden = "true"
                        aria-labelledby = "staticBackdropLabel"
@@ -85,12 +80,6 @@
                             </button >
                           </div >
                         </div >
-                        <!-- <div *ngIf = "userSearched.length> 0" >
-                          <div class = "alert alert-primary"
-                               role = "alert" >
-                            Para seleccionar un usuario, dar clic en la fila que se desea seleccionar.
-                          </div >
-                        </div > -->
                         <div class = "modal-footer" >
                           <button class = "btn btn-secondary"
                                   data-bs-dismiss = "modal"
@@ -101,11 +90,10 @@
                       </div >
                     </div >
                   </div >
-
               </div >
             </div>
             <hr>
-            <div class="col-md-6 col-sm-12">
+            <div class="col-md-6 col-sm-12 animate__animated animate__fadeInRight">
               <div class = "row justify-content-center" >
                 <div class = "col-xl-12 col-lg-12 col-sm-12 text-center  text-center" >
                   <h6>Tipo de parqueo</h6>
@@ -165,10 +153,8 @@
               </div>
               </div>
             </div>
-
           <hr>
-
-          <div class = "col-xl-12 col-lg-12 col-sm-12 text-center " >
+          <div class = "col-xl-12 col-lg-12 col-sm-12 text-center animate__animated animate__fadeInLeft" >
             <h6 >Días habilitados para entrada</h6 >
             <ul class = "opcionActivo" >
               <li class = "m-1" ><input formControlName = "monday"
@@ -203,7 +189,7 @@
           </div >
           <hr>
 
-          <div class = "col-xl-4 col-lg-4 col-sm-12 text-center mb-4" >
+          <div class = "col-xl-4 col-lg-4 col-sm-12 text-center mb-4 animate__animated animate__fadeInRight" >
             <h6>Perfil de acceso</h6>
             <div class = "input-group" >
               <select aria-label = "Default select example"
@@ -232,7 +218,7 @@
           </div >
           <hr>
 
-            <div class = "col-xl-4 col-lg-6  col-sm-12 text-center" >
+            <div class = "col-xl-4 col-lg-6  col-sm-12 text-center animate__animated animate__fadeInLeft" >
               <div class = "mb-4 relative" >
                 <h6>Tarifa</h6>
                 <label class = "labelInput" >Cobro</label >
@@ -248,7 +234,7 @@
               </div >
             </div >
           <hr>
-          <div class = "col-xl-12 col-lg-12 col-sm-12" >
+          <div class = "col-xl-12 col-lg-12 col-sm-12 animate__animated animate__fadeInRight" >
             <div class = "text-center" >
               <button (click) = "createMonthly()"
                       class = "btn btn-primary " >CREAR
@@ -261,7 +247,7 @@
       <table [dtOptions] = "dtOptions"
              [dtTrigger] = "dtTrigger"
              aria-label = "Tabla de parqueos mensuales"
-             class = "table hover table-striped animate__animated animate__fadeInLeft "
+             class = "table hover table-striped animate__animated animate__fadeInLeft"
              datatable >
         <thead >
         <tr class = "text-center" >
