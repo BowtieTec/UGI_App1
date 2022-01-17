@@ -101,5 +101,8 @@ export const environment = {
   getOutWithPaymentDoneParkedParking: 'getOutWithPaymentDoneParkedParking',
   getOutWithoutPaymentDoneParkedParking:
     'getOutWithoutPaymentDoneParkedParking',
-  changeParkingAtCreateUser: 'changeParkingAtCreateUser'
+  changeParkingAtCreateUser: 'changeParkingAtCreateUser',
+  listCourtesyStationary: 'listCourtesyStationary',
+  createCourtesyStationary: 'createCourtesyStationary',
+  addStationsCourtesyStationary: 'addStationsCourtesyStationary'
 };

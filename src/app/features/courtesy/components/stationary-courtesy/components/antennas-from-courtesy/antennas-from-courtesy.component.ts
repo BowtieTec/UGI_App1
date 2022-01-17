@@ -104,6 +104,10 @@ export class AntennasFromCourtesyComponent implements AfterViewInit, OnDestroy {
   }
 
   async createStationWithCourtesy() {
+    if(this.antennasForm.invalid) {
+      this.message.errorTimeOut('', 'Datos incorrectos o faltantes.');
+      return;
+    }
     this.message.showLoading();
     const newAntenna = this.antennaFormValue;
     const result = await this.parkingService.createStationWithCourtesy(

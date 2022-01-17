@@ -116,7 +116,7 @@
             <th id = "{{antenna.name + i}}" >{{antenna.courtesy_detail!.name || 'Sin nombre'  | titlecase}} </th >
             <td >{{antenna.courtesy_detail!.quantity || 'No tiene una cantidad'}}</td >
             <td >{{this.getTypeDescription(antenna.courtesy_detail!.type).description   | titlecase}}</td >
-            <td >{{antenna.courtesy_detail!.value || 'Sin valor'| courtesyValue: antenna.courtesy_detail.type}}</td >
+            <td >{{antenna.courtesy_detail!.value || 'Sin valor'| courtesyValue: antenna.courtesy_detail!.type}}</td >
             <td >{{antenna.name | titlecase}}</td >
             <td >{{antenna.mac}}</td >
             <td >{{antenna.created_at  | date: 'medium'}}</td >
