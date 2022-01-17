@@ -10,11 +10,11 @@ import {
 import {
   CreateStation,
   StationsCourtesyModel,
-} from '../../../../models/StationaryCourtesy.model';
+} from '../../../../../parking/models/StationaryCourtesy.model';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MessageService } from '../../../../../../shared/services/message.service';
-import { ParkingService } from '../../../../services/parking.service';
-import { ParkingModel } from '../../../../models/Parking.model';
+import { ParkingService } from '../../../../../parking/services/parking.service';
+import { ParkingModel } from '../../../../../parking/models/Parking.model';
 import { AuthService } from '../../../../../../shared/services/auth.service';
 import { DataTableDirective } from 'angular-datatables';
 import { Subject } from 'rxjs';

@@ -7,18 +7,18 @@ import {
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MessageService } from '../../../../shared/services/message.service';
-import { ParkingService } from '../../services/parking.service';
+import { ParkingService } from '../../../parking/services/parking.service';
 import { UtilitiesService } from '../../../../shared/services/utilities.service';
 import { AuthService } from '../../../../shared/services/auth.service';
 import { PermissionsService } from '../../../../shared/services/permissions.service';
 import { environment } from '../../../../../environments/environment';
-import { ParkingModel } from '../../models/Parking.model';
-import { CourtesyService } from '../../../courtesy/services/courtesy.service';
+import { ParkingModel } from '../../../parking/models/Parking.model';
+import { CourtesyService } from '../../services/courtesy.service';
 import {
   CreateStationaryCourtesy,
   StationsCourtesyModel,
-} from '../../models/StationaryCourtesy.model';
-import { CourtesyTypeModel } from '../../../courtesy/models/Courtesy.model';
+} from '../../../parking/models/StationaryCourtesy.model';
+import { CourtesyTypeModel } from '../../models/Courtesy.model';
 import { DataTableDirective } from 'angular-datatables';
 import { Subject } from 'rxjs';
 import { DataTableOptions } from '../../../../shared/model/DataTableOptions';

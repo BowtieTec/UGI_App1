@@ -5,18 +5,18 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { CourtesyService } from '../services/courtesy.service';
-import { MessageService } from '../../../shared/services/message.service';
-import { CourtesyModel, CourtesyTypeModel } from '../models/Courtesy.model';
+import { CourtesyService } from '../../services/courtesy.service';
+import { MessageService } from '../../../../shared/services/message.service';
+import { CourtesyModel, CourtesyTypeModel } from '../../models/Courtesy.model';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { UtilitiesService } from '../../../shared/services/utilities.service';
-import { AuthService } from '../../../shared/services/auth.service';
+import { UtilitiesService } from '../../../../shared/services/utilities.service';
+import { AuthService } from '../../../../shared/services/auth.service';
 import { DataTableDirective } from 'angular-datatables';
 import { Subject } from 'rxjs';
-import { DataTableOptions } from '../../../shared/model/DataTableOptions';
+import { DataTableOptions } from '../../../../shared/model/DataTableOptions';
 import { saveAs } from 'file-saver';
-import { PermissionsService } from '../../../shared/services/permissions.service';
-import { environment } from '../../../../environments/environment';
+import { PermissionsService } from '../../../../shared/services/permissions.service';
+import { environment } from '../../../../../environments/environment';
 
 @Component({
   selector: 'app-courtesy',

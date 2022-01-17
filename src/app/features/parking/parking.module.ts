@@ -21,36 +21,33 @@ import {
 import { ParkingMenuComponent } from './parking-menu.component';
 import { MonthlyParkingComponent } from './components/monthly-parking/monthly-parking.component';
 import { DataTablesModule } from 'angular-datatables';
-import { StationaryCourtesyComponent } from './components/stationary-courtesy/stationary-courtesy.component';
-import { AntennasFromCourtesyComponent } from './components/stationary-courtesy/components/antennas-from-courtesy/antennas-from-courtesy.component';
 
 @NgModule({
-  declarations: [
-    ParkedComponent,
-    NewParkingComponent,
-    GeneralDataComponent,
-    ScheduleComponent,
-    TariffComponent,
-    BillingDataComponent,
-    AntennasComponent,
-    ResumeComponent,
-    ParkingMenuComponent,
-    MonthlyParkingComponent,
-    StationaryCourtesyComponent,
-    AntennasFromCourtesyComponent,
-  ],
-  imports: [
-    CommonModule,
-    ParkingRoutingModule,
-    ReactiveFormsModule,
-    GoogleMapsModule,
-    SharedModule,
-    NgbDatepickerModule,
-    NgbTimepickerModule,
-    NgbModule,
-    FormsModule,
-    DataTablesModule,
-  ],
-  providers: [DatePipe, CurrencyPipe],
+    declarations: [
+        ParkedComponent,
+        NewParkingComponent,
+        GeneralDataComponent,
+        ScheduleComponent,
+        TariffComponent,
+        BillingDataComponent,
+        AntennasComponent,
+        ResumeComponent,
+        ParkingMenuComponent,
+        MonthlyParkingComponent,
+    ],
+    imports: [
+        CommonModule,
+        ParkingRoutingModule,
+        ReactiveFormsModule,
+        GoogleMapsModule,
+        SharedModule,
+        NgbDatepickerModule,
+        NgbTimepickerModule,
+        NgbModule,
+        FormsModule,
+        DataTablesModule,
+    ],
+    providers: [DatePipe, CurrencyPipe],
+    exports: []
 })
 export class ParkingModule {}

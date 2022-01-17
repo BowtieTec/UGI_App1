@@ -4,8 +4,7 @@ import { ParkingMenuComponent } from './parking-menu.component';
 import { MonthlyParkingComponent } from './components/monthly-parking/monthly-parking.component';
 
 const routes: Routes = [
-  { path: '', component: ParkingMenuComponent, outlet: 'home' }, // Menu Parkin
-  { path: 'df', component: MonthlyParkingComponent, outlet: 'home' }, // Monthly Parking
+  { path: '', component: ParkingMenuComponent, outlet: 'home' }
 ];
 
 @NgModule({

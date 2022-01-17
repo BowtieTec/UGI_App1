@@ -40,23 +40,6 @@
       </div >
     </ng-template >
   </ng-container >
-  <ng-container *ngIf = "ifHaveAction(listAntennas)"
-                ngbNavItem >
-    <a ngbNavLink ><em class = "fas fa-broadcast-tower" ></em > Cortesías estacionarias</a >
-    <ng-template ngbNavContent >
-
-      <div class = "row justify-content-center" >
-        <div class = "col-lg-12 col-md-12 col-sm-12 col-xs-12" >
-          <div class = "panels" >
-            <div class = "titleCards" >
-              <span ><em class = "fas fa-broadcast-tower" ></em ></span > Cortesías estacionarias
-            </div >
-            <app-stationary-courtesy ></app-stationary-courtesy >
-          </div >
-        </div >
-      </div >
-    </ng-template >
-  </ng-container >
 </nav >
 <div [ngbNavOutlet] = "nav"
      class = "mt-2" ></div >

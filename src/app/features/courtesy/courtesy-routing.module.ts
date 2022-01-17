@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { CourtesyComponent } from './courtesy/courtesy.component';
+import { CourtesyMenuComponent } from './courtesy-menu/courtesy-menu.component';
 
 const routes: Routes = [
-  { path: '', component: CourtesyComponent, outlet: 'home' },
+  { path: '', component: CourtesyMenuComponent, outlet: 'home' },
 ];
 
 @NgModule({
