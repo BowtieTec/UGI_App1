@@ -122,20 +122,23 @@ export class CourtesyComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   saveCourtesy() {
-    this.messageService.showLoading();
-    if (this.newCourtesyForm.valid) {
-      let newCourtesy: CourtesyModel = this.getCourtesy();
-      this.courtesyService.saveCourtesy(newCourtesy).subscribe((data) => {
-        if (data.success) {
-          this.messageService.OkTimeOut();
-        } else {
-          this.messageService.error('', data.message);
-        }
-        this.getCourtesies().then(() => {
-          this.messageService.hideLoading();
+    if(this.newCourtesyForm.valid){
+      this.messageService.showLoading();
+        let newCourtesy: CourtesyModel = this.getCourtesy();
+        this.courtesyService.saveCourtesy(newCourtesy).subscribe((data) => {
+          if (data.success) {
+            this.messageService.OkTimeOut();
+          } else {
+            this.messageService.error('', data.message);
+          }
+          this.getCourtesies().then(() => {
+            this.messageService.hideLoading();
+          });
         });
-      });
+    }else{
+      this.messageService.errorTimeOut('Datos faltantes o incorrectos', 'Por favor, verificar que los datos son correctos y estan completos.')
     }
+
   }
 
   ngAfterViewInit(): void {

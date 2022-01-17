@@ -100,10 +100,10 @@ export class StationaryCourtesyComponent implements AfterViewInit, OnDestroy {
   createForm(): FormGroup {
     return this.formBuilder.group({
       parkingId: [this.parkingId],
-      value: ['', Validators.required],
-      type: ['0', Validators.required],
-      name: ['', Validators.required],
-      stationId: ['0', Validators.required],
+      value: ['',[ Validators.required, Validators.min(1)]],
+      type: ['0', [Validators.required]],
+      name: ['', [Validators.required]],
+      stationId: ['0', [Validators.required]],
     });
   }
 

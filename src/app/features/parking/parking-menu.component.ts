@@ -4,7 +4,7 @@ import { PermissionsService } from '../../shared/services/permissions.service';
 import { environment } from '../../../environments/environment';
 
 @Component({
-  selector: 'app-parked-menu',
+  selector: 'app-parking-menu',
   templateUrl: './parking-menu.component.html',
   styleUrls: ['./parking-menu.component.css'],
 })

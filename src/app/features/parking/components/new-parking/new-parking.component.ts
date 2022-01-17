@@ -6,7 +6,7 @@ import { SettingsOptionsModel } from '../../models/SettingsOption.model';
 import { UtilitiesService } from '../../../../shared/services/utilities.service';
 
 @Component({
-  selector: 'app-new-parked',
+  selector: 'app-new-parking',
   templateUrl: './new-parking.component.html',
   styleUrls: ['./new-parking.component.css'],
 })
