@@ -7,9 +7,9 @@ import {CurrencyPipe} from "@angular/common";
 })
 export class CourtesyValuePipe implements PipeTransform {
 constructor(private currencyPipe: CurrencyPipe) {}
-  transform(value: any, courtesy: CourtesyModel): unknown {
+  transform(value: string | number, type: string | number): unknown {
     console.log(value);
-    if (courtesy.type == 1) {
+    if (type == 1) {
       return `${value}%`;
     } else {
       return this.currencyPipe.transform(value, 'GTQ', 'Q');

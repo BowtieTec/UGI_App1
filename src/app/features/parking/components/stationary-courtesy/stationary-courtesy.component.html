@@ -67,7 +67,7 @@
               name = "Estaciones" style="position: relative;
               display: inline-block;
               width: 80%;"></app-select-container >
-            
+
             <button class = "btn-primary btn-input animate__animated animate__fadeInDown"
                     data-bs-target = "#exampleModal"
                     data-bs-toggle = "modal"
@@ -114,7 +114,7 @@
             <th id = "{{antenna.name + i}}" >{{antenna.courtesy_detail!.name || 'Sin nombre'  | titlecase}} </th >
             <td >{{antenna.courtesy_detail!.quantity || 'No tiene una cantidad'}}</td >
             <td >{{this.getTypeDescription(antenna.courtesy_detail!.type).description   | titlecase}}</td >
-            <td >{{antenna.courtesy_detail!.value || 'Sin valor'}}</td >
+            <td >{{antenna.courtesy_detail!.value || 'Sin valor'| courtesyValue: antenna.courtesy_detail.type}}</td >
             <td >{{antenna.name | titlecase}}</td >
             <td >{{antenna.mac}}</td >
             <td >{{antenna.created_at  | date: 'medium'}}</td >

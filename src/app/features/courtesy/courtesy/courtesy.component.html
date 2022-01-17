@@ -110,7 +110,7 @@
               <td >{{courtesy.name}}</td >
               <td >{{this.getTypeDescription(courtesy.type).description}}</td >
               <td >{{courtesy.quantity}}</td >
-              <td >{{courtesy.value | courtesyValue: courtesy}}</td >
+              <td >{{courtesy.value | courtesyValue: courtesy.type}}</td >
               <td >
                 <button
                   (click) = "downloadPDF(courtesy)"
