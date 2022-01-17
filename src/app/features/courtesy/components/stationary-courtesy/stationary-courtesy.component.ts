@@ -45,10 +45,8 @@ export class StationaryCourtesyComponent implements AfterViewInit, OnDestroy {
   formGroup: FormGroup;
 
   /* Permissions */
-  editAntennaAction = environment.editAntennas;
-  deleteAntennaAction = environment.deleteAntennas;
-  createAntennaAction = environment.createAntennas;
-  downloadQRAntennaAction = environment.downloadQRAntenna;
+  createCourtesyStationary: string = environment.createCourtesyStationary;
+  addStationsCourtesyStationary: string = environment.addStationsCourtesyStationary;
   private actions: string[] = this.permissionService.actionsOfPermissions;
 
   constructor(

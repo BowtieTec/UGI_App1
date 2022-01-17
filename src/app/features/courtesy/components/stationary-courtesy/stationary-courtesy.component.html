@@ -8,11 +8,11 @@
     class = " " >
     <div
       class = "row" >
-      <div *ngIf = "ifHaveAction(createAntennaAction) && !loading"
+      <div *ngIf = "!loading"
            class = "titleCards" >
         Crear cortesía
       </div >
-      <div >
+      <div *ngIf = "ifHaveAction(createCourtesyStationary)" >
         <div class = "row justify-content-center" >
           <div class = "col-md-5 col-sm-12" >
             <div class = "m-3 relative " >
@@ -35,7 +35,7 @@
             </div >
           </div >
         </div >
-      </div >
+
       <div class = "row justify-content-center" >
         <div class = "col-md-5 col-sm-12" >
           <div class = "m-3 relative " >
@@ -68,7 +68,9 @@
               display: inline-block;
               width: 80%;"></app-select-container >
 
-            <button class = "btn-primary btn-input animate__animated animate__fadeInDown"
+            <button
+              *ngIf="ifHaveAction(addStationsCourtesyStationary)"
+              class = "btn-primary btn-input animate__animated animate__fadeInDown"
                     data-bs-target = "#exampleModal"
                     data-bs-toggle = "modal"
                     type = "button" style="    position: absolute;
@@ -79,16 +81,16 @@
 
         </div >
       </div >
-      <div class = "row " >
+        <div class = "row " >
         <div class = "d-grid gap-2 d-md-flex justify-content-md-center m-3" >
           <button (click) = "addStationaryCourtesies()"
                   class = "btn btn-success animate__animated animate__fadeInDown"
                   type = "button" >Guardar
           </button >
         </div >
-
       </div >
-      <div class = "row" >
+      </div >
+      <div class = "row">
         <table
           [dtOptions] = "dtOptions"
           [dtTrigger] = "dtTrigger"

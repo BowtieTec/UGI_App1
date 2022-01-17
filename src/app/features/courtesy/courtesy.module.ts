@@ -10,9 +10,12 @@ import {ParkingModule} from "../parking/parking.module";
 import {NgbNavModule} from "@ng-bootstrap/ng-bootstrap";
 import { CourtesyComponent } from './components/courtesy/courtesy.component';
 import { StationaryCourtesyComponent } from './components/stationary-courtesy/stationary-courtesy.component';
+import {
+  AntennasFromCourtesyComponent
+} from "./components/stationary-courtesy/components/antennas-from-courtesy/antennas-from-courtesy.component";
 
 @NgModule({
-  declarations: [CourtesyMenuComponent, CourtesyComponent, StationaryCourtesyComponent],
+  declarations: [CourtesyMenuComponent, CourtesyComponent, StationaryCourtesyComponent, AntennasFromCourtesyComponent],
   imports: [
     CommonModule,
     CourtesyRoutingModule,
