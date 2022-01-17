@@ -120,10 +120,10 @@ export class AntennasFromCourtesyComponent implements AfterViewInit, OnDestroy {
 
   private createAntennasForm() {
     return this.formBuilder.group({
-      parkingId: [this.parkingId, Validators.required],
-      mac: [Validators.required],
-      name: [Validators.required],
-      antena: [Validators.required],
+      parkingId: [this.parkingId,[ Validators.required]],
+      mac: [null,[ Validators.required, Validators.maxLength(17)]],
+      name: [null,[ Validators.required, Validators.maxLength(30)]],
+      antena: [null,[ Validators.required, Validators.maxLength(20)]],
     });
   }
 
