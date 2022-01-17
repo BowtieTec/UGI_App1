@@ -45,7 +45,7 @@ export class CourtesyComponent implements OnInit, AfterViewInit, OnDestroy {
     private formBuilder: FormBuilder,
     private utilitiesService: UtilitiesService,
     private authService: AuthService,
-    private permisionService: PermissionsService
+    private permissionService: PermissionsService
   ) {
     this.messageService.showLoading();
     this.formGroup = formBuilder.group({ filter: [''] });
@@ -67,7 +67,7 @@ export class CourtesyComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ifHaveAction(action: string) {
-    return this.permisionService.ifHaveAction(action);
+    return this.permissionService.ifHaveAction(action);
   }
 
   getInitialData() {

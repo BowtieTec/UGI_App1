@@ -10,6 +10,7 @@ import { AuthInterceptorService } from './core/interceptos/auth-interceptor.serv
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { DataTablesModule } from 'angular-datatables';
 import { SharedModule } from './shared/shared.module';
+import {CurrencyPipe} from "@angular/common";
 
 @NgModule({
   declarations: [AppComponent],
@@ -31,6 +32,7 @@ import { SharedModule } from './shared/shared.module';
       useClass: AuthInterceptorService,
       multi: true,
     },
+    {provide: CurrencyPipe}
   ],
   bootstrap: [AppComponent],
 })

@@ -16,6 +16,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { SelectContainerComponent } from './forms/select-container/select-container.component';
 import { TextAreaContainerComponent } from './forms/text-area-container/text-area-container.component';
 import { CheckboxContainerComponent } from './forms/checkbox-container/checkbox-container.component';
+import { CourtesyValuePipe } from './pipes/courtesy-value.pipe';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { CheckboxContainerComponent } from './forms/checkbox-container/checkbox-
     SelectContainerComponent,
     TextAreaContainerComponent,
     CheckboxContainerComponent,
+    CourtesyValuePipe,
   ],
   imports: [
     CommonModule,
@@ -39,19 +41,20 @@ import { CheckboxContainerComponent } from './forms/checkbox-container/checkbox-
     NgbPaginationModule,
     ReactiveFormsModule,
   ],
-  exports: [
-    LeftPanelComponent,
-    HeaderComponent,
-    LocationPanelComponent,
-    CardKpiComponent,
-    BarChartComponent,
-    LoadingComponent,
-    TimePipe,
-    FilterPipe,
-    InputContainerComponent,
-    SelectContainerComponent,
-    TextAreaContainerComponent,
-    CheckboxContainerComponent,
-  ],
+    exports: [
+        LeftPanelComponent,
+        HeaderComponent,
+        LocationPanelComponent,
+        CardKpiComponent,
+        BarChartComponent,
+        LoadingComponent,
+        TimePipe,
+        FilterPipe,
+        InputContainerComponent,
+        SelectContainerComponent,
+        TextAreaContainerComponent,
+        CheckboxContainerComponent,
+        CourtesyValuePipe,
+    ],
 })
 export class SharedModule {}
