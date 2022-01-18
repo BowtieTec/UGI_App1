@@ -104,5 +104,9 @@ export const environment = {
   changeParkingAtCreateUser: 'changeParkingAtCreateUser',
   listCourtesyStationary: 'listCourtesyStationary',
   createCourtesyStationary: 'createCourtesyStationary',
-  addStationsCourtesyStationary: 'addStationsCourtesyStationary'
+  addStationsCourtesyStationary: 'addStationsCourtesyStationary',
+  
+  graficosIngresoVehiculos: 'graficosIngresoVehiculos',
+  graficosFlujoDinero: 'graficosFlujoDinero',
+  graficosCortesias: 'graficosCortesias',
 };

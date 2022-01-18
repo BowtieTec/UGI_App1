@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, OnChanges } from '@angular/core';
 import * as ApexCharts from 'apexcharts';
+import { DashboardService } from '../services/dashboard.service';
 
 @Component({
   selector: 'app-bar-chart',
@@ -7,65 +8,59 @@ import * as ApexCharts from 'apexcharts';
   styleUrls: ['./bar-chart.component.css'],
 })
 export class BarChartComponent implements OnInit {
-  diaOptions = {
+  @Input() tipo = '';
+  @Input() fecha = '';
+  @Input() parking = '';
+  @Input() tipoChart = 'bar';
+  datosDiarios: number[] = [];
+  datosMes: number[] = [];
+  datosAnio: number[] = [];
+
+  idDia: string = 'dia';
+
+  diaOptions  = {
     chart: {
-      type: 'bar',
+      type: this.tipoChart,
       height: 450,
       width: '100%',
       stacked: true,
       foreColor: '#999',
-      animations: {
-        enabled: true,
-        easing: 'easein',
-        speed: 180,
-      },
     },
     plotOptions: {
       bar: {
         dataLabels: {
           enabled: false,
-          position: 'bottom',
+          position: 'top',
         },
         columnWidth: '40%',
         endingShape: 'rounded',
         borderRadius: 2,
-        distributed: true,
       },
     },
-    colors: ['#867df9', '#5147d6', '#1400a4'],
+    dataLabels:{
+      enabled: true,
+      offsetY: -20,
+      style:{
+        fontSize: '12px',
+        colors: ["#304758"],
+      }
+    },
     series: [
       {
-        name: 'Bowtie',
-        data: [
-          11, 15, 19, 22, 15, 5, 14, 16, 22, 29, 23, 20, 16, 24, 28, 26, 11, 24,
-          19, 15, 10, 29, 23, 20,
-        ],
-      },
-      {
-        name: 'Ticket',
-        data: [
-          19, 15, 10, 11, 15, 28, 26, 22, 15, 5, 14, 16, 22, 29, 19, 20, 16, 24,
-          19, 15, 10, 11, 15, 1,
-        ],
-      },
-      {
-        name: 'Parqueo mes',
-        data: [
-          20, 16, 24, 28, 26, 22, 15, 5, 14, 16, 22, 29, 24, 19, 15, 10, 11, 15,
-          19, 23, 16, 22, 22, 29,
-        ],
+        name: 'EBI Go',
+        data: this.datosMes,
       },
     ],
     labels: [
-      0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
-      21, 22, 23,
+      0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21,
+      22, 23,
     ],
     xaxis: {
       axisBorder: {
-        show: false,
+        show: true,
       },
       axisTicks: {
-        show: false,
+        show: true,
       },
       crosshairs: {
         show: true,
@@ -104,7 +99,7 @@ export class BarChartComponent implements OnInit {
       horizontalAlign: 'center',
     },
     title: {
-      text: 'Parqueos por día',
+      text: ' ',
       align: 'left',
     },
     subtitle: {
@@ -117,7 +112,7 @@ export class BarChartComponent implements OnInit {
   };
   mesOptions = {
     chart: {
-      type: 'bar',
+      type: this.tipoChart,
       height: 450,
       width: '100%',
       stacked: true,
@@ -127,34 +122,25 @@ export class BarChartComponent implements OnInit {
       bar: {
         dataLabels: {
           enabled: false,
+          position: 'top',
         },
         columnWidth: '40%',
         endingShape: 'rounded',
         borderRadius: 2,
       },
     },
-    colors: ['#867df9', '#5147d6', '#1400a4'],
+    dataLabels:{
+      enabled: true,
+      offsetY: -20,
+      style:{
+        fontSize: '12px',
+        colors: ["#304758"],
+      }
+    },
     series: [
       {
-        name: 'Bowtie',
-        data: [
-          24, 19, 15, 10, 11, 15, 19, 22, 15, 5, 14, 16, 22, 29, 23, 20, 16, 24,
-          28, 26, 11, 15, 19, 22, 15, 5, 14, 16, 22, 29,
-        ],
-      },
-      {
-        name: 'Tickets',
-        data: [
-          19, 15, 10, 11, 15, 28, 26, 22, 15, 5, 14, 16, 22, 29, 19, 20, 16, 24,
-          19, 15, 10, 11, 15, 28, 26, 24, 23, 19, 20, 2,
-        ],
-      },
-      {
-        name: 'Parqueo mes',
-        data: [
-          20, 16, 24, 28, 26, 22, 15, 5, 14, 16, 22, 29, 24, 19, 15, 10, 11, 15,
-          19, 23, 16, 22, 29, 24, 19, 15, 24, 19, 15, 10,
-        ],
+        name: 'EBI Go',
+        data: this.datosMes,
       },
     ],
     labels: [
@@ -205,7 +191,7 @@ export class BarChartComponent implements OnInit {
       horizontalAlign: 'center',
     },
     title: {
-      text: 'Parqueos por mes',
+      text: ' ',
       align: 'left',
     },
     subtitle: {
@@ -218,7 +204,7 @@ export class BarChartComponent implements OnInit {
   };
   anioOptions = {
     chart: {
-      type: 'bar',
+      type: this.tipoChart,
       height: 450,
       width: '100%',
       stacked: true,
@@ -228,25 +214,25 @@ export class BarChartComponent implements OnInit {
       bar: {
         dataLabels: {
           enabled: false,
+          position: 'top',
         },
         columnWidth: '40%',
         endingShape: 'rounded',
         borderRadius: 4,
       },
     },
-    colors: ['#867df9', '#5147d6', '#1400a4'],
+    dataLabels:{
+      enabled: true,
+      offsetY: -20,
+      style:{
+        fontSize: '12px',
+        colors: ["#304758"],
+      }
+    },
     series: [
       {
-        name: 'Bowtie',
-        data: [16, 24, 28, 26, 22, 15, 5, 14, 16, 22, 29, 24],
-      },
-      {
-        name: 'Tickets',
-        data: [26, 22, 15, 5, 14, 16, 22, 29, 24, 19, 15, 10],
-      },
-      {
-        name: 'Parqueo mes',
-        data: [22, 29, 24, 19, 15, 10, 11, 15, 19, 23, 2, 11],
+        name: 'EBI Go',
+        data: this.datosAnio,
       },
     ],
     labels: [
@@ -307,7 +293,7 @@ export class BarChartComponent implements OnInit {
       horizontalAlign: 'center',
     },
     title: {
-      text: 'Parqueos por año',
+      text: ' ',
       align: 'left',
     },
     subtitle: {
@@ -319,19 +305,340 @@ export class BarChartComponent implements OnInit {
     },
   };
 
+  chart: any;
+  chart2: any;
+  chart3: any;
+
+  constructor(
+    private dashboardService: DashboardService,
+  ) {
+    
+  }
+
+  ngOnChanges(): void{
+    let fecha = this.fecha;
+    let partesFecha = fecha.split('-');
+    let mes = partesFecha[1];
+    let anio = partesFecha[0];
+    if(this.tipo === 'Ingresos'){
+      this.getDatosDiarios(this.parking, fecha)
+      .then(() => {
+        return this.getDatosMes(this.parking, mes, anio);
+      })
+      .then(()=>{
+        return this.getDatosAnio(this.parking,anio);
+      });
+    }
+    if(this.tipo === 'Flujo'){
+      this.getDatosFlujoDiarios(fecha)
+      .then(() => {
+        return this.getDatosFlujoMes(mes, anio);
+      })
+      .then(()=>{
+        return this.getDatosFlujoAnio(anio);
+      });
+    }
+    if(this.tipo === 'Cortesias'){
+      this.getDatosCortesiasDiarios(this.parking, fecha)
+      .then(() => {
+        return this.getDatosCortesiasMes(this.parking, mes, anio);
+      })
+      .then(()=>{
+        return this.getDatosCortesiasAnio(this.parking,anio);
+      });
+    }
+  }
+
   ngOnInit(): void {
-    let chart = new ApexCharts(document.querySelector('#dia'), this.diaOptions);
-    let chart2 = new ApexCharts(
-      document.querySelector('#mes'),
+    this.diaOptions.chart.type = this.tipoChart;
+    this.mesOptions.chart.type = this.tipoChart;
+    this.anioOptions.chart.type = this.tipoChart;
+    this.chart = new ApexCharts(document.querySelector('.'+this.tipo+' #dia'), this.diaOptions);
+    
+    this.chart2 = new ApexCharts(
+      document.querySelector('.'+this.tipo+' #mes'),
       this.mesOptions
     );
-    let chart3 = new ApexCharts(
-      document.querySelector('#anio'),
+    this.chart3 = new ApexCharts(
+      document.querySelector('.'+this.tipo+' #anio'),
       this.anioOptions
     );
-    chart
+    this.chart
       .render()
-      .then(() => chart2.render())
-      .then(() => chart3.render());
+      .then(() => this.chart2.render())
+      .then(() => this.chart3.render());
+  }
+//Entradas
+  getDatosDiarios(parkingId: string, fecha: string){
+    return this.dashboardService.getDailyEntries(parkingId, fecha)
+      .toPromise()
+      .then((data) => {
+        if (data) {
+          let seriesDatos: any[] = [];
+          Object.keys(data).forEach((key: any) => {
+            Object.keys(data[key]).forEach((key_item: any) => {
+              let nombreSerie = key_item;
+              let datosDeServicio = data[key][key_item];
+              let DatosDiariosServicio: number[] = [];
+              datosDeServicio.forEach((element:any) => {
+                DatosDiariosServicio.push(element.Cantidad);
+              });
+              seriesDatos.push({
+                name: nombreSerie,
+                data: DatosDiariosServicio
+              })
+            });
+          });
+          this.chart.updateSeries(seriesDatos);
+          this.chart.updateOptions({
+            title:{
+              text: this.tipo+' por dia ('+fecha+')'
+            }
+          });
+
+        } 
+      });  
+  }
+
+  getDatosMes(parkingId: string, mes: string, anio: string){
+    return this.dashboardService.getMonthlyEntries(parkingId, mes, anio)
+      .toPromise()
+      .then((data) => {
+        if (data) {
+          let seriesDatos: any[] = [];
+          Object.keys(data).forEach((key: any) => {
+            Object.keys(data[key]).forEach((key_item: any) => {
+              let nombreSerie = key_item;
+              let datosDeServicio = data[key][key_item];
+              let DatosMesServicio: number[] = [];
+              datosDeServicio.forEach((element:any) => {
+                DatosMesServicio.push(element.Cantidad);
+              });
+              seriesDatos.push({
+                name: nombreSerie,
+                data: DatosMesServicio
+              })
+            });
+          });
+          this.chart2.updateSeries(seriesDatos);
+          this.chart2.updateOptions({
+            title:{
+              text: this.tipo+' por mes ('+anio+'-'+mes+')'
+            }
+          });
+        } 
+      });  
+  }
+
+  getDatosAnio(parkingId: string, anio: string){
+    return this.dashboardService.getYearEntries(parkingId, anio)
+      .toPromise()
+      .then((data) => {
+        if (data) {
+          let seriesDatos: any[] = [];
+          Object.keys(data).forEach((key: any) => {
+            Object.keys(data[key]).forEach((key_item: any) => {
+              let nombreSerie = key_item;
+              let datosDeServicio = data[key][key_item];
+              let DatosAnioServicio: number[] = [];
+              datosDeServicio.forEach((element:any) => {
+                DatosAnioServicio.push(element.Cantidad);
+              });
+              seriesDatos.push({
+                name: nombreSerie,
+                data: DatosAnioServicio
+              })
+            });
+          });
+          this.chart3.updateSeries(seriesDatos);
+          this.chart3.updateOptions({
+            title:{
+              text: this.tipo+' por año ('+anio+')'
+            }
+          });
+        } 
+      });  
+  }
+  //Cortesias
+  getDatosCortesiasDiarios(parkingId: string, fecha: string){
+    return this.dashboardService.getDailyCourtesies(parkingId, fecha)
+      .toPromise()
+      .then((data) => {
+        if (data) {
+          let seriesDatos: any[] = [];
+          Object.keys(data).forEach((key: any) => {
+            Object.keys(data[key]).forEach((key_item: any) => {
+              let nombreSerie = key_item;
+              let datosDeServicio = data[key][key_item];
+              let DatosDiariosServicio: number[] = [];
+              datosDeServicio.forEach((element:any) => {
+                DatosDiariosServicio.push(element.Cantidad);
+              });
+              seriesDatos.push({
+                name: nombreSerie,
+                data: DatosDiariosServicio
+              })
+            });
+          });
+          this.chart.updateSeries(seriesDatos);
+          this.chart.updateOptions({
+            title:{
+              text: this.tipo+' por dia ('+fecha+')'
+            }
+          });
+
+        } 
+      });  
+  }
+
+  getDatosCortesiasMes(parkingId: string, mes: string, anio: string){
+    return this.dashboardService.getMonthlyCourtesies(parkingId, mes, anio)
+      .toPromise()
+      .then((data) => {
+        if (data) {
+          let seriesDatos: any[] = [];
+          Object.keys(data).forEach((key: any) => {
+            Object.keys(data[key]).forEach((key_item: any) => {
+              let nombreSerie = key_item;
+              let datosDeServicio = data[key][key_item];
+              let DatosMesServicio: number[] = [];
+              datosDeServicio.forEach((element:any) => {
+                DatosMesServicio.push(element.Cantidad);
+              });
+              seriesDatos.push({
+                name: nombreSerie,
+                data: DatosMesServicio
+              })
+            });
+          });
+          this.chart2.updateSeries(seriesDatos);
+          this.chart2.updateOptions({
+            title:{
+              text: this.tipo+' por mes ('+anio+'-'+mes+')'
+            }
+          });
+        } 
+      });  
+  }
+
+  getDatosCortesiasAnio(parkingId: string, anio: string){
+    return this.dashboardService.getYearCourtesies(parkingId, anio)
+      .toPromise()
+      .then((data) => {
+        if (data) {
+          let seriesDatos: any[] = [];
+          Object.keys(data).forEach((key: any) => {
+            Object.keys(data[key]).forEach((key_item: any) => {
+              let nombreSerie = key_item;
+              let datosDeServicio = data[key][key_item];
+              let DatosAnioServicio: number[] = [];
+              datosDeServicio.forEach((element:any) => {
+                DatosAnioServicio.push(element.Cantidad);
+              });
+              seriesDatos.push({
+                name: nombreSerie,
+                data: DatosAnioServicio
+              })
+            });
+          });
+          this.chart3.updateSeries(seriesDatos);
+          this.chart3.updateOptions({
+            title:{
+              text: this.tipo+' por año ('+anio+')'
+            }
+          });
+        } 
+      });  
+  }
+  //Flujo
+  getDatosFlujoDiarios(fecha: string){
+    return this.dashboardService.getDailyPayments(fecha)
+      .toPromise()
+      .then((data) => {
+        if (data) {
+          let seriesDatos: any[] = [];
+          Object.keys(data).forEach((key: any) => {
+            Object.keys(data[key]).forEach((key_item: any) => {
+              let nombreSerie = key_item;
+              let datosDeServicio = data[key][key_item];
+              let DatosDiariosServicio: number[] = [];
+              datosDeServicio.forEach((element:any) => {
+                DatosDiariosServicio.push(element.Cantidad);
+              });
+              seriesDatos.push({
+                name: nombreSerie,
+                data: DatosDiariosServicio
+              })
+            });
+          });
+          this.chart.updateSeries(seriesDatos);
+          this.chart.updateOptions({
+            title:{
+              text: this.tipo+' por dia ('+fecha+')'
+            }
+          });
+
+        } 
+      });  
+  }
+
+  getDatosFlujoMes(mes: string, anio: string){
+    return this.dashboardService.getMonthlyPayments(mes, anio)
+      .toPromise()
+      .then((data) => {
+        if (data) {
+          let seriesDatos: any[] = [];
+          Object.keys(data).forEach((key: any) => {
+            Object.keys(data[key]).forEach((key_item: any) => {
+              let nombreSerie = key_item;
+              let datosDeServicio = data[key][key_item];
+              let DatosMesServicio: number[] = [];
+              datosDeServicio.forEach((element:any) => {
+                DatosMesServicio.push(element.Cantidad);
+              });
+              seriesDatos.push({
+                name: nombreSerie,
+                data: DatosMesServicio
+              })
+            });
+          });
+          this.chart2.updateSeries(seriesDatos);
+          this.chart2.updateOptions({
+            title:{
+              text: this.tipo+' por mes ('+anio+'-'+mes+')'
+            }
+          });
+        } 
+      });  
+  }
+
+  getDatosFlujoAnio(anio: string){
+    return this.dashboardService.getYearPayments(anio)
+      .toPromise()
+      .then((data) => {
+        if (data) {
+          let seriesDatos: any[] = [];
+          Object.keys(data).forEach((key: any) => {
+            Object.keys(data[key]).forEach((key_item: any) => {
+              let nombreSerie = key_item;
+              let datosDeServicio = data[key][key_item];
+              let DatosAnioServicio: number[] = [];
+              datosDeServicio.forEach((element:any) => {
+                DatosAnioServicio.push(element.Cantidad);
+              });
+              seriesDatos.push({
+                name: nombreSerie,
+                data: DatosAnioServicio
+              })
+            });
+          });
+          this.chart3.updateSeries(seriesDatos);
+          this.chart3.updateOptions({
+            title:{
+              text: this.tipo+' por año ('+anio+')'
+            }
+          });
+        } 
+      });  
   }
 }
