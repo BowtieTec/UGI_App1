@@ -1,4 +1,4 @@
-<div class = "row content" >
+<!-- <div class = "row content" >
   <div class = "col-lg-4" >
     <app-card-kpi ></app-card-kpi >
   </div >
@@ -8,5 +8,187 @@
   <div class = "col-lg-4" >
     <app-card-kpi ></app-card-kpi >
   </div >
-</div >
-<app-bar-chart ></app-bar-chart >
+</div > -->
+<div class="container">
+  <div class="tab">
+      <ul>
+        <li id="ingresos" [class.color]="idTabActiva === 'ingresos'" (click)="tabChanges('ingresos')" *ngIf = "ifHaveAction(graficosIngresoVehiculos)" >Ingreso de vehículos</li>
+        <li id="flujo" [class.color]="idTabActiva === 'flujo'"  (click)="tabChanges('flujo')"  *ngIf = "ifHaveAction(graficosFlujoDinero)">Flujo de dinero</li>
+        <li id="cortesias" [class.color]="idTabActiva === 'cortesias'"  (click)="tabChanges('cortesias')"  *ngIf = "ifHaveAction(graficosCortesias)">Cortesías</li>
+      </ul>
+      <div class="content">
+        <div class="content-value Ingresos" *ngIf = "ifHaveAction(graficosIngresoVehiculos) && idTabActiva === 'ingresos'">
+          <div
+          class = "col-lg-12 col-md-12 col-sm-12 col-xs-12" >
+          <div class = "panels " >
+            <div class = "titleCards" >
+              <span ><em class = "fas fa-chart-bar" ></em ></span > Filtros
+            </div >
+            <div class = "row justify-content-center" >
+              <div class = "row" >
+                <div class = "col-xl-4 col-lg-6  col-sm-12" >
+                  <div class = "mb-4 relative" >
+                    <label class = "labelInput" >Parqueo</label >
+                    <select
+                      #inputParkingIngreso
+                      class = "inputClass"
+                      formControlName = "parking" >
+                      <option value="0">---- Todos los parqueos ----</option>
+                      <option *ngFor = "let parking of this.allParking"
+                              value = "{{parking.id}}" >{{parking.name}}</option >
+                    </select >
+                  </div >
+                </div >
+                <div class = "col-xl-4 col-lg-6 col-sm-12" >
+                  <div class="input-group">
+                    <input 
+                    #inputFechaIngreso
+                    type = "date"   #endDate
+                     class = "form-control inputClass datetimepicker"
+                     name = "Date"
+                     placeholder = "Fecha/Hora"
+                     value={{fechaIngresos}}
+                     >
+                      <!-- <input class = "form-control inputClass"
+                      #inputFechaIngreso
+                      placeholder="yyyy-mm-dd"
+                      formControlName = "Date"
+                      ngbDatepicker #d="ngbDatepicker"
+                      value={{fechaIngresos}}
+                      />
+                      <button class="fa fa-calendar btnCalendario" (click)="d.toggle()" type="button"></button> -->
+                  </div>
+                </div >
+                <div class = "col-xl-4 col-lg-6 col-sm-12" >
+                  <div class = "text-center" >
+                    <button (click) = "searchIngresos()"
+                            class = "btn btn-primary " ><span ><em class = "fas fa-search" ></em ></span > Buscar
+                    </button >
+
+                  </div >
+                </div >
+              </div>
+            </div >
+
+          </div >
+        </div >
+          <app-bar-chart [tipo]="ingresos" [parking]="parqueoIngresos" [fecha]="fechaIngresos" [tipoChart]="tipoIngresos" ></app-bar-chart >
+        </div>
+        <div class="content-value Flujo" *ngIf = "ifHaveAction(graficosFlujoDinero) && idTabActiva === 'flujo'">
+          <div
+          class = "col-lg-12 col-md-12 col-sm-12 col-xs-12" >
+          <div class = "panels " >
+            <div class = "titleCards" >
+              <span ><em class = "fas fa-chart-bar" ></em ></span > Filtros
+            </div >
+            <div class = "row justify-content-center" >
+              <div class = "row" >
+                <!-- <div class = "col-xl-4 col-lg-6  col-sm-12" >
+                  <div class = "mb-4 relative" >
+                    <label class = "labelInput" >Parqueo</label >
+                    <select
+                      #inputParkingFlujo
+                      class = "inputClass"
+                      formControlName = "parkingFlujo" >
+                      <option value="0">---- Todos los parqueos ----</option>
+                      <option *ngFor = "let parking of this.allParking"
+                              value = "{{parking.id}}" >{{parking.name}}</option >
+                    </select >
+                  </div >
+                </div > -->
+                <div class = "col-xl-4 col-lg-6 col-sm-12" >
+                  <div class="input-group">
+                    <input 
+                    #inputFechaFlujo
+                    type = "date"
+                     class = "form-control inputClass datetimepicker"
+                     name = "DateFlujo"
+                     placeholder = "Fecha/Hora"
+                     value={{fechaFlujo}}
+                     >
+                      <!-- <input class = "form-control inputClass"
+                      #inputFechaFlujo
+                      placeholder="yyyy-mm-dd"
+                      formControlName = "DateFlujo"
+                      ngbDatepicker #d="ngbDatepicker"
+                      value={{fechaFlujo}}
+                      /> 
+                      <button class="fa fa-calendar btnCalendario" (click)="d.toggle()" type="button"></button> -->
+                  </div>
+                </div >
+                <div class = "col-xl-4 col-lg-6 col-sm-12" >
+                  <div class = "text-center" >
+                    <button (click) = "searchFlujo()"
+                            class = "btn btn-primary " ><span ><em class = "fas fa-search" ></em ></span > Buscar
+                    </button >
+
+                  </div >
+                </div >
+              </div>
+            </div >
+
+          </div >
+        </div >
+          <app-bar-chart [tipo]="flujo" [parking]="parqueoFlujo" [fecha]="fechaFlujo" [tipoChart]="tipoFlujo" ></app-bar-chart >
+        </div>
+        <div class="content-value Cortesias" *ngIf = "ifHaveAction(graficosCortesias) && idTabActiva === 'cortesias'">
+                  <div
+          class = "col-lg-12 col-md-12 col-sm-12 col-xs-12" >
+          <div class = "panels " >
+            <div class = "titleCards" >
+              <span ><em class = "fas fa-chart-bar" ></em ></span > Filtros
+            </div >
+            <div class = "row justify-content-center" >
+              <div class = "row" >
+                <div class = "col-xl-4 col-lg-6  col-sm-12" >
+                  <div class = "mb-4 relative" >
+                    <label class = "labelInput" >Parqueo</label >
+                    <select
+                      #inputParkingCortesias
+                      class = "inputClass"
+                      formControlName = "parkingCortesias" >
+                      <option value="0">---- Todos los parqueos ----</option>
+                      <option *ngFor = "let parking of this.allParking"
+                              value = "{{parking.id}}" >{{parking.name}}</option >
+                    </select >
+                  </div >
+                </div >
+                <div class = "col-xl-4 col-lg-6 col-sm-12" >
+                  <div class="input-group">
+                    <input 
+                    #inputFechaCortesias
+                    type = "date"  
+                     class = "form-control inputClass datetimepicker"
+                     name = "DateFlujo"
+                     placeholder = "Fecha/Hora"
+                     value={{fechaCortesias}}
+                     >
+                      <!-- <input class = "form-control inputClass"
+                      #inputFechaCortesias
+                      placeholder="yyyy-mm-dd"
+                      formControlName = "DateCortesias"
+                      ngbDatepicker #d="ngbDatepicker"
+                      value={{fechaCortesias}}
+                      />
+                      <button class="fa fa-calendar btnCalendario" (click)="d.toggle()" type="button"></button> -->
+                  </div>
+                </div >
+                <div class = "col-xl-4 col-lg-6 col-sm-12" >
+                  <div class = "text-center" >
+                    <button (click) = "searchCortesias()"
+                            class = "btn btn-primary " ><span ><em class = "fas fa-search" ></em ></span > Buscar
+                    </button >
+
+                  </div >
+                </div >
+              </div>
+            </div >
+
+          </div >
+        </div >
+
+          <app-bar-chart [tipo]="cortesias" [parking]="parqueoCortesias" [fecha]="fechaCortesias" [tipoChart]="tipoCortesias" ></app-bar-chart >
+        </div>
+      </div>
+  </div>
+</div>
