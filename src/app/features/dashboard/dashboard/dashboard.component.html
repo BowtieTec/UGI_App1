@@ -12,12 +12,12 @@
 <div class="container">
   <div class="tab">
       <ul>
-        <li id="ingresos" [class.color]="idTabActiva === 'ingresos'" (click)="tabChanges('ingresos')" *ngIf = "ifHaveAction(graficosIngresoVehiculos)" >Ingreso de vehículos</li>
-        <li id="flujo" [class.color]="idTabActiva === 'flujo'"  (click)="tabChanges('flujo')"  *ngIf = "ifHaveAction(graficosFlujoDinero)">Flujo de dinero</li>
-        <li id="cortesias" [class.color]="idTabActiva === 'cortesias'"  (click)="tabChanges('cortesias')"  *ngIf = "ifHaveAction(graficosCortesias)">Cortesías</li>
+        <li id="ingresos" [class.color]="idTabActiva === 'ingresos'" (click)="tabChanges('ingresos')" >Ingreso de vehículos</li>
+        <li id="flujo" [class.color]="idTabActiva === 'flujo'"  (click)="tabChanges('flujo')">Flujo de dinero</li>
+        <li id="cortesias" [class.color]="idTabActiva === 'cortesias'"  (click)="tabChanges('cortesias')">Cortesías</li>
       </ul>
       <div class="content">
-        <div class="content-value Ingresos" *ngIf = "ifHaveAction(graficosIngresoVehiculos) && idTabActiva === 'ingresos'">
+        <div class="content-value Ingresos" *ngIf = "idTabActiva === 'ingresos'">
           <div
           class = "col-lg-12 col-md-12 col-sm-12 col-xs-12" >
           <div class = "panels " >
@@ -41,7 +41,7 @@
                 </div >
                 <div class = "col-xl-4 col-lg-6 col-sm-12" >
                   <div class="input-group">
-                    <input 
+                    <input
                     #inputFechaIngreso
                     type = "date"   #endDate
                      class = "form-control inputClass datetimepicker"
@@ -74,7 +74,7 @@
         </div >
           <app-bar-chart [tipo]="ingresos" [parking]="parqueoIngresos" [fecha]="fechaIngresos" [tipoChart]="tipoIngresos" ></app-bar-chart >
         </div>
-        <div class="content-value Flujo" *ngIf = "ifHaveAction(graficosFlujoDinero) && idTabActiva === 'flujo'">
+        <div class="content-value Flujo" *ngIf = "idTabActiva === 'flujo'">
           <div
           class = "col-lg-12 col-md-12 col-sm-12 col-xs-12" >
           <div class = "panels " >
@@ -98,7 +98,7 @@
                 </div > -->
                 <div class = "col-xl-4 col-lg-6 col-sm-12" >
                   <div class="input-group">
-                    <input 
+                    <input
                     #inputFechaFlujo
                     type = "date"
                      class = "form-control inputClass datetimepicker"
@@ -112,7 +112,7 @@
                       formControlName = "DateFlujo"
                       ngbDatepicker #d="ngbDatepicker"
                       value={{fechaFlujo}}
-                      /> 
+                      />
                       <button class="fa fa-calendar btnCalendario" (click)="d.toggle()" type="button"></button> -->
                   </div>
                 </div >
@@ -131,7 +131,7 @@
         </div >
           <app-bar-chart [tipo]="flujo" [parking]="parqueoFlujo" [fecha]="fechaFlujo" [tipoChart]="tipoFlujo" ></app-bar-chart >
         </div>
-        <div class="content-value Cortesias" *ngIf = "ifHaveAction(graficosCortesias) && idTabActiva === 'cortesias'">
+        <div class="content-value Cortesias" *ngIf = "idTabActiva === 'cortesias'">
                   <div
           class = "col-lg-12 col-md-12 col-sm-12 col-xs-12" >
           <div class = "panels " >
@@ -155,9 +155,9 @@
                 </div >
                 <div class = "col-xl-4 col-lg-6 col-sm-12" >
                   <div class="input-group">
-                    <input 
+                    <input
                     #inputFechaCortesias
-                    type = "date"  
+                    type = "date"
                      class = "form-control inputClass datetimepicker"
                      name = "DateFlujo"
                      placeholder = "Fecha/Hora"
