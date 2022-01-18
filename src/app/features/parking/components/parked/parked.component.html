@@ -71,21 +71,21 @@
               <td >{{parked.parked_exit_date | date: 'medium'}}</td >
               <td >
               <span *ngIf = "parked.parked_status==0"
-                    class = "badge rounded-pill bg-dark" >Intentando entrar</span >
+                    class = "" >Intentando entrar</span >
                 <span *ngIf = "parked.parked_status==2"
-                      class = "badge rounded-pill bg-info text-dark" >Fuera del parqueo</span >
+                      class = "" >Fuera del parqueo</span >
                 <span *ngIf = "parked.parked_status==1"
-                      class = "badge rounded-pill bg-success" >Dentro del parqueo</span >
+                      class = "" >Dentro del parqueo</span >
                 <span *ngIf = "parked.parked_status==3"
-                      class = "badge rounded-pill bg-warning text-dark" >Pagado</span >
+                      class = "" >Pagado</span >
                 <span *ngIf = "parked.parked_status==4"
-                      class = "badge rounded-pill bg-secondary" >Problemas con la estación</span >
+                      class = "" >Problemas con la estación</span >
               </td >
               <td >
               <span *ngIf = "parked.parked_type==0"
-                    class = "badge rounded-pill bg-dark" >por Ticket</span >
+                    class = "" >por Ticket</span >
                 <span *ngIf = "parked.parked_type==1"
-                      class = "badge rounded-pill bg-info text-dark" >Parqueo mensual</span >
+                      class = "" >Parqueo mensual</span >
               </td >
               <td >{{parked.parking_name}}</td >
               <td >

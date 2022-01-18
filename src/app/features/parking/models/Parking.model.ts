@@ -26,10 +26,6 @@ export const StatusParked = [
     name: 'Dentro del parqueo',
   },
   {
-    id: 2,
-    name: 'Fuera del parqueo',
-  },
-  {
     id: 3,
     name: 'Pagado',
   },
@@ -37,8 +33,12 @@ export const StatusParked = [
     id: 4,
     name: 'Problema con la estación',
   },
-  {
-    id: '',
-    name: 'Todos',
-  },
+
 ];
+/*
+* Add an object with
+*  id: 2 for 'Fuera del parqueo'
+* And
+*  id: '' with name 'Todos'
+* To have all entrances and exits.
+*/
