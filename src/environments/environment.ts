@@ -2,12 +2,11 @@
 // `ng build` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
-//const Ip = 'dev.bowtietech.pro';
-const Ip='127.0.0.1';
+const Ip = 'dev.bowtietech.pro';
 const Port = '3000';
 export const environment = {
   production: false,
-  serverAPI: `http://${Ip}:${Port}/v1/`,
+  serverAPI: `https://${Ip}:${Port}/v1/`,
   secretKey: '3%UC!C$WR7m$v^as@Sq8$4!^Mb25WS4i',
   leftMenu: [
     {
