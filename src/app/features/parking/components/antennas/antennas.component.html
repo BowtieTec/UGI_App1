@@ -44,7 +44,7 @@
                 <app-input-container
                   [formGroup] = "stepFiveForm"
                   controlName = "name_access"
-                  
+
                   name = "Nombre de acceso" >
                 </app-input-container >
               </div >
@@ -129,15 +129,16 @@
                     class = "buttonRowEdit"
                     title = "Editar" ><em class = "fas fa-edit" ></em >
             </button >
-            <button
-              (click) = "deleteAntenna(antenna)"
-              *ngIf = "ifHaveAction(deleteAntennaAction)"
-              class = "buttonRowDelete m-1" ><em class = "fas fa-trash" ></em >
+            <button title = "Eliminar"
+                    (click) = "deleteAntenna(antenna)"
+                    *ngIf = "ifHaveAction(deleteAntennaAction)"
+                    class = "buttonRowDelete m-1" ><em class = "fas fa-trash"
+                                                ></em >
             </button >
-            <button
-              (click) = "downloadQR(antenna)"
-              *ngIf = "ifHaveAction(downloadQRAntennaAction)"
-              class = "buttonRowQR m-1" ><em class = "fas fa-qrcode" ></em >
+            <button title = "Descargar QR"
+                    (click) = "downloadQR(antenna)"
+                    *ngIf = "ifHaveAction(downloadQRAntennaAction)"
+                    class = "buttonRowQR m-1" ><em class = "fas fa-qrcode" ></em >
             </button >
 
           </td >

@@ -67,8 +67,8 @@
               <td >****-{{parked.user_phone_number | slice: -4}}</td >
               <td >{{parked.user_name + ' ' + parked.user_last_name}}</td >
               <td >****-{{parked.user_phone_number | slice: -4}}</td >
-              <td >{{parked.parked_entry_date | date: 'medium'}}</td >
-              <td >{{parked.parked_exit_date | date: 'medium'}}</td >
+              <td >{{parked.parked_entry_date | date: 'short'}}</td >
+              <td >{{parked.parked_exit_date | date: 'short'}}</td >
               <td >
               <span *ngIf = "parked.parked_status==0"
                     class = "" >Intentando entrar</span >

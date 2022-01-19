@@ -279,17 +279,17 @@
           <td >{{subscription.isUnlimited ? 'Ilimitado' : 'Por fechas'}}</td >
           <td >
             <span *ngIf = "subscription.status==0"
-                  class = "badge rounded-pill bg-dark" >Cancelado</span >
+                  class = "" >Cancelado</span >
             <span *ngIf = "subscription.status==1"
-                  class = "badge rounded-pill bg-info text-dark" >Pendiente de confirmación</span >
+                  class = "" >Pendiente de confirmación</span >
             <span *ngIf = "subscription.status==2"
-                  class = "badge rounded-pill bg-success" >Activo</span >
+                  class = "" >Activo</span >
             <span *ngIf = "subscription.status==3"
-                  class = "badge rounded-pill bg-warning text-dark" >Desactivado</span >
+                  class = "" >Desactivado</span >
             <span *ngIf = "subscription.status==4"
-                  class = "badge rounded-pill bg-secondary" >Pendiente de pago</span >
+                  class = "" >Pendiente de pago</span >
             <span *ngIf = "subscription.status==5"
-                  class = "badge rounded-pill bg-danger" >Rechazado</span >
+                  class = "" >Rechazado</span >
           </td >
           <td >{{subscription.profile_subscription?.name | titlecase}}</td >
           <td >{{subscription.begin_date | date: 'longDate'}}</td >
