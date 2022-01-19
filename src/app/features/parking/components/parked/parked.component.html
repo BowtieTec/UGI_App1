@@ -64,7 +64,7 @@
             <tbody >
             <tr *ngFor = "let parked of parkedData"
                 class = "text-center" >
-              <td >***-{{ parked.parked_id | slice: -6}}</td >
+              <td >****-{{parked.user_phone_number | slice: -4}}</td >
               <td >{{parked.user_name + ' ' + parked.user_last_name}}</td >
               <td >****-{{parked.user_phone_number | slice: -4}}</td >
               <td >{{parked.parked_entry_date | date: 'medium'}}</td >

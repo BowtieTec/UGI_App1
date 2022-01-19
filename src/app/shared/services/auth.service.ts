@@ -59,7 +59,7 @@ export class AuthService {
         if (data.success) {
           this.saveUser(data.data);
           this.message.OkTimeOut('!Listo!');
-          this.route.navigate(['/home/dashboard']);
+          this.route.navigate(['/home']);
         } else {
           this.cleanUser();
           this.message.error('', data.message);
