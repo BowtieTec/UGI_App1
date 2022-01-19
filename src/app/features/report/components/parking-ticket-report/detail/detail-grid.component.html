@@ -1,0 +1,20 @@
+<dx-data-grid
+    [dataSource] ="tasksDataSource"
+>    
+    <dxi-column sortOrder="asc" dataField="fecha" dataType="datetime"
+    format="yyyy-MM-dd HH:mm"></dxi-column>
+    <dxi-column dataField="u_name" caption="Nombre" ></dxi-column>
+    <dxi-column dataField="u_last_name" caption="Apellido"></dxi-column>
+    <dxi-column dataField="total"
+    dataType="number"
+    format="currency"
+    format="Q ,###,###,##0.00"></dxi-column>
+    <dxi-column dataField="descuento"
+    dataType="number"
+    format="currency"
+    format="Q ,###,###,##0.00"></dxi-column>
+    <dxi-column dataField="pagado"
+    dataType="number"
+    format="currency"
+    format="Q ,###,###,##0.00"></dxi-column>
+</dx-data-grid>

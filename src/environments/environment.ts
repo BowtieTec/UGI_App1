@@ -44,8 +44,8 @@ export const environment = {
       isShow: true,
     },
     {
-      path: '#',
-      module: 'reports',
+      path: '/home/report',
+      module: 'report',
       description: 'Reportes',
       icon: 'fa-chart-pie',
       isShow: true,
@@ -113,4 +113,11 @@ export const environment = {
   graficosIngresoVehiculos: 'graficosIngresoVehiculos',
   graficosFlujoDinero: 'graficosFlujoDinero',
   graficosCortesias: 'graficosCortesias',
+
+  verMenuPayment:'verMenuPayment',
+  verDiscuontReport:'verDiscuontReport',
+  verDurationReport:'verDurationReport',  
+  verDailyParkingReport:'verDailyParkingReport',
+  verMonthlyParkingReport:'verMonthlyParkingReport',
+  verDailyParkingReportTicket:'verDailyParkingReportTicket',
 };
