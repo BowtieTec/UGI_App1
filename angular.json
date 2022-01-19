@@ -25,6 +25,10 @@
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
+            "allowedCommonJsDependencies": [
+              "lodash",
+              "crypto-js"
+            ],
             "assets": [
               "src/favicon.ico",
               "src/assets"
@@ -61,13 +65,16 @@
               "outputHashing": "all"
             },
             "development": {
-              "buildOptimizer": false,
               "optimization": false,
-              "aot": false,
-              "vendorChunk": true,
-              "extractLicenses": false,
+              "outputHashing": "none",
               "sourceMap": true,
-              "namedChunks": true
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": false,
+              "statsJson": false,
+              "progress": true,
+              "vendorChunk": true,
+              "buildOptimizer": false
             }
           },
           "defaultConfiguration": "production"
@@ -109,6 +116,7 @@
             ]
           }
         }
+
       }
     }
   },
