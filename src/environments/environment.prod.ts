@@ -116,4 +116,7 @@ export const environment = {
   verDailyParkingReport:'verDailyParkingReport',
   verMonthlyParkingReport:'verMonthlyParkingReport',
   verDailyParkingReportTicket:'verDailyParkingReportTicket',
+
+  verTodosLosParqueosDashboard:'verTodosLosParqueosDashboard',
+  verTodosLosParqueosReport:'verTodosLosParqueosReport',
 };

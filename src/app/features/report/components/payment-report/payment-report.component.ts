@@ -24,21 +24,23 @@ import { exportDataGrid as exportDataGridToPdf } from 'devextreme/pdf_exporter';
 import { exportDataGrid } from 'devextreme/excel_exporter';
 import { Workbook } from 'exceljs';
 
-export interface duration {
-  duration: number;
-  vehicles: string;
-  apply_disc_vehic: string;
-  disc: number;
-  total_no_disc: number;
+export interface pagos {
+  name: string;
+  last_name: string;
+  email: string;
+  phone_number: string;
+  amount: number;
+  created_at: Date;
 }
-
-
 @Component({
-  selector: 'app-duration-report',
-  templateUrl: './duration-report.component.html',
-  styleUrls: ['./duration-report.component.css']
+  selector: 'app-payment-report',
+  templateUrl: './payment-report.component.html',
+  styleUrls: ['./payment-report.component.css']
 })
-export class DurationReportComponent implements OnInit {
+
+export class PaymentReportComponent  implements OnInit, AfterViewInit {
+  
+  //report = new MatTableDataSource(report)
   //@ViewChild(DataTableDirective)
   @ViewChild(DxDataGridComponent, { static: false }) dataGrid!: DxDataGridComponent;
   dtElement!: DataTableDirective;
@@ -46,7 +48,7 @@ export class DurationReportComponent implements OnInit {
   dtTrigger: Subject<any> = new Subject();
   pdfTable!: ElementRef;
   
-  report: duration[] = [];
+  report: pagos[] = [];
   dataSource: any;
 
   constructor(
@@ -56,9 +58,7 @@ export class DurationReportComponent implements OnInit {
     private authService: AuthService,
     private permisionService: PermissionsService,
     private excelService: ReportService,
-  )
-
-  {
+  ) {
     this.messageService.showLoading();
 
     this.messageService.hideLoading();
@@ -72,14 +72,9 @@ export class DurationReportComponent implements OnInit {
     return this.permisionService.ifHaveAction(action);
   }
 
-  getInitialData() {
-    // Calling 
-  //this.getPaymentRpt();
-  }
-
-  getDurationsRpt(initDate:string,endDate:string) { 
+  getPaymentRpt(initDate:string,endDate:string) { 
     return this.reportService
-     .getDurationRpt(initDate,endDate)
+     .getPaymentsRpt(initDate,endDate)
       .toPromise()
       .then((data) => {
         if (data.success) {
@@ -121,7 +116,7 @@ export class DurationReportComponent implements OnInit {
   onExporting(e: any){
     const context = this;
     const workbook = new Workbook();
-    const worksheet = workbook.addWorksheet('General');
+    const worksheet = workbook.addWorksheet('Pagos');
 
     exportDataGrid({
       component: context.dataGrid.instance,
@@ -129,12 +124,12 @@ export class DurationReportComponent implements OnInit {
       autoFilterEnabled: true,
     }).then(() => {
       workbook.xlsx.writeBuffer().then((buffer: any) => {
-        saveAs(new Blob([buffer], {type: 'application/octet-stream'}), 'Duracion.xlsx');
+        saveAs(new Blob([buffer], {type: 'application/octet-stream'}), 'Pagos.xlsx');
       })
     });
     e.cancel = true;
   }
 
 
-
 }
+

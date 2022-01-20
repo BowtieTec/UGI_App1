@@ -6,7 +6,7 @@ import { ReportMenuComponent } from './report-menu.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { NgbNavModule, NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 import { DataTablesModule } from 'angular-datatables';
-//import { PaymentReportComponent } from './components/payment-report/payment-report.component';
+import { PaymentReportComponent } from './components/payment-report/payment-report.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 //import { DiscountReportComponent } from './components/discount-report/discount-report.component';
 import { GoogleMapsModule } from '@angular/google-maps';
@@ -29,7 +29,7 @@ import { DetailGridComponent } from './components/parking-ticket-report/detail/d
 @NgModule({
   declarations: [
     ReportMenuComponent,
-    //PaymentReportComponent,
+    PaymentReportComponent,
     //DiscountReportComponent,
     DurationReportComponent,
     ParkingTicketReportComponent,
