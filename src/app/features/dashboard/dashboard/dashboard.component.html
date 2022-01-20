@@ -30,6 +30,7 @@
                   <div class = "mb-4 relative" >
                     <label class = "labelInput" >Parqueo</label >
                     <select
+                    *ngIf = "ifHaveAction(verTodosLosParqueosDashboard)"
                       #inputParkingIngreso
                       class = "inputClass"
                       formControlName = "parking" >
@@ -49,14 +50,6 @@
                      placeholder = "Fecha/Hora"
                      value={{fechaIngresos}}
                      >
-                      <!-- <input class = "form-control inputClass"
-                      #inputFechaIngreso
-                      placeholder="yyyy-mm-dd"
-                      formControlName = "Date"
-                      ngbDatepicker #d="ngbDatepicker"
-                      value={{fechaIngresos}}
-                      />
-                      <button class="fa fa-calendar btnCalendario" (click)="d.toggle()" type="button"></button> -->
                   </div>
                 </div >
                 <div class = "col-xl-4 col-lg-6 col-sm-12" >
@@ -83,10 +76,11 @@
             </div >
             <div class = "row justify-content-center" >
               <div class = "row" >
-                <!-- <div class = "col-xl-4 col-lg-6  col-sm-12" >
+                <div class = "col-xl-4 col-lg-6  col-sm-12" >
                   <div class = "mb-4 relative" >
                     <label class = "labelInput" >Parqueo</label >
                     <select
+                    *ngIf = "ifHaveAction(verTodosLosParqueosDashboard)"
                       #inputParkingFlujo
                       class = "inputClass"
                       formControlName = "parkingFlujo" >
@@ -95,7 +89,7 @@
                               value = "{{parking.id}}" >{{parking.name}}</option >
                     </select >
                   </div >
-                </div > -->
+                </div >
                 <div class = "col-xl-4 col-lg-6 col-sm-12" >
                   <div class="input-group">
                     <input 
@@ -106,14 +100,6 @@
                      placeholder = "Fecha/Hora"
                      value={{fechaFlujo}}
                      >
-                      <!-- <input class = "form-control inputClass"
-                      #inputFechaFlujo
-                      placeholder="yyyy-mm-dd"
-                      formControlName = "DateFlujo"
-                      ngbDatepicker #d="ngbDatepicker"
-                      value={{fechaFlujo}}
-                      /> 
-                      <button class="fa fa-calendar btnCalendario" (click)="d.toggle()" type="button"></button> -->
                   </div>
                 </div >
                 <div class = "col-xl-4 col-lg-6 col-sm-12" >
@@ -144,6 +130,7 @@
                   <div class = "mb-4 relative" >
                     <label class = "labelInput" >Parqueo</label >
                     <select
+                    *ngIf = "ifHaveAction(verTodosLosParqueosDashboard)"
                       #inputParkingCortesias
                       class = "inputClass"
                       formControlName = "parkingCortesias" >
@@ -163,14 +150,6 @@
                      placeholder = "Fecha/Hora"
                      value={{fechaCortesias}}
                      >
-                      <!-- <input class = "form-control inputClass"
-                      #inputFechaCortesias
-                      placeholder="yyyy-mm-dd"
-                      formControlName = "DateCortesias"
-                      ngbDatepicker #d="ngbDatepicker"
-                      value={{fechaCortesias}}
-                      />
-                      <button class="fa fa-calendar btnCalendario" (click)="d.toggle()" type="button"></button> -->
                   </div>
                 </div >
                 <div class = "col-xl-4 col-lg-6 col-sm-12" >

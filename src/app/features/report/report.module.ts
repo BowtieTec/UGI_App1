@@ -16,7 +16,7 @@ import {
   NgbModule,
   NgbTimepickerModule,
 } from '@ng-bootstrap/ng-bootstrap';
-//import { DurationReportComponent } from './components/duration-report/duration-report.component';
+import { DurationReportComponent } from './components/duration-report/duration-report.component';
 import { ParkingTicketReportComponent } from './components/parking-ticket-report/parking-ticket-report.component';
 //import { ParkingMontlyReportComponent } from './components/parking-montly-report/parking-montly-report.component';
 //import { ParkingDayReportComponent } from './components/parking-day-report/parking-day-report.component';
@@ -31,7 +31,7 @@ import { DetailGridComponent } from './components/parking-ticket-report/detail/d
     ReportMenuComponent,
     //PaymentReportComponent,
     //DiscountReportComponent,
-    //DurationReportComponent,
+    DurationReportComponent,
     ParkingTicketReportComponent,
     //ParkingMontlyReportComponent,
     //ParkingDayReportComponent,

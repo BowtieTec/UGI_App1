@@ -5,6 +5,7 @@ import { ResponseModel } from '../../../shared/model/Request.model';
 import { ParkingService } from '../../parking/services/parking.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ParkingModel } from '../../parking/models/Parking.model';
+import { AuthService } from '../../../shared/services/auth.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -25,6 +26,7 @@ export class DashboardComponent implements OnInit {
   graficosIngresoVehiculos = environment.graficosIngresoVehiculos;
   graficosFlujoDinero = environment.graficosFlujoDinero;
   graficosCortesias = environment.graficosCortesias;
+  verTodosLosParqueosDashboard = environment.verTodosLosParqueosDashboard;
   allParking: ParkingModel[] = Array<ParkingModel>();
   @ViewChild('inputFechaIngreso') inputFechaIngreso!: ElementRef;
   @ViewChild('inputParkingIngreso') inputParkingIngreso!: ElementRef;
@@ -37,8 +39,11 @@ export class DashboardComponent implements OnInit {
   tipoFlujo = 'line';
   tipoCortesias = 'bar';
 
+  datosUsuarioLogeado = this.auth.getParking();
+
 
   constructor(
+    private auth: AuthService,
     private permissionService: PermissionsService,
     private parkingService: ParkingService,) {
       if(this.ifHaveAction('graficosIngresoVehiculos')){
@@ -63,19 +68,31 @@ export class DashboardComponent implements OnInit {
 
   searchIngresos(){
     this.fechaIngresos = this.inputFechaIngreso.nativeElement.value;
-    this.parqueoIngresos = this.inputParkingIngreso.nativeElement.value;
+    if(this.ifHaveAction('verTodosLosParqueosDashboard')){
+      this.parqueoIngresos = this.inputParkingIngreso.nativeElement.value;
+    }else{
+      this.parqueoIngresos = this.datosUsuarioLogeado.id;
+    }
     return true;
   }
 
   searchFlujo(){
     this.fechaFlujo = this.inputFechaFlujo.nativeElement.value;
-    //this.parqueoFlujo = this.inputParkingFlujo.nativeElement.value;
+    if(this.ifHaveAction('verTodosLosParqueosDashboard')){
+      this.parqueoFlujo = this.inputParkingFlujo.nativeElement.value;
+    }else{
+      this.parqueoFlujo = this.datosUsuarioLogeado.id;
+    }
     return true;
   }
 
   searchCortesias(){
     this.fechaCortesias = this.inputFechaCortesias.nativeElement.value;
-    this.parqueoCortesias = this.inputParkingCortesias.nativeElement.value;
+    if(this.ifHaveAction('verTodosLosParqueosDashboard')){
+      this.parqueoCortesias = this.inputParkingCortesias.nativeElement.value;
+    }else{
+      this.parqueoCortesias = this.datosUsuarioLogeado.id;
+    }
     return true;
   }
 

@@ -13,7 +13,6 @@ export class GlobalErrorHandler implements ErrorHandler {
   ) {}
 
   handleError(error: any) {
-    console.log(error);
     if (!(error instanceof HttpErrorResponse)) {
       error = error.rejection; // get the error object
     }
@@ -55,6 +54,5 @@ export class GlobalErrorHandler implements ErrorHandler {
       this.message.error('', `${error.error.message}`);
     }
     this.message.error('Error desconocido', error.error.message);
-    console.log(error);
   }
 }

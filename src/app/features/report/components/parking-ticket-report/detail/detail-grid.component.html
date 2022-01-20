@@ -1,5 +1,6 @@
 <dx-data-grid
     [dataSource] ="tasksDataSource"
+    (onExporting)="onExporting($event)"
 >    
     <dxi-column sortOrder="asc" dataField="fecha" dataType="datetime"
     format="yyyy-MM-dd HH:mm"></dxi-column>
@@ -17,4 +18,5 @@
     dataType="number"
     format="currency"
     format="Q ,###,###,##0.00"></dxi-column>
+    <dxo-export [enabled]="true"></dxo-export>
 </dx-data-grid>

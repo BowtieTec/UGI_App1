@@ -330,12 +330,12 @@ export class BarChartComponent implements OnInit {
       });
     }
     if(this.tipo === 'Flujo'){
-      this.getDatosFlujoDiarios(fecha)
+      this.getDatosFlujoDiarios(this.parking,fecha)
       .then(() => {
-        return this.getDatosFlujoMes(mes, anio);
+        return this.getDatosFlujoMes(this.parking,mes, anio);
       })
       .then(()=>{
-        return this.getDatosFlujoAnio(anio);
+        return this.getDatosFlujoAnio(this.parking,anio);
       });
     }
     if(this.tipo === 'Cortesias'){
@@ -378,6 +378,9 @@ export class BarChartComponent implements OnInit {
           Object.keys(data).forEach((key: any) => {
             Object.keys(data[key]).forEach((key_item: any) => {
               let nombreSerie = key_item;
+              if(nombreSerie === 'Ticket'){
+                nombreSerie = 'EBI Go'
+              }
               let datosDeServicio = data[key][key_item];
               let DatosDiariosServicio: number[] = [];
               datosDeServicio.forEach((element:any) => {
@@ -409,6 +412,9 @@ export class BarChartComponent implements OnInit {
           Object.keys(data).forEach((key: any) => {
             Object.keys(data[key]).forEach((key_item: any) => {
               let nombreSerie = key_item;
+              if(nombreSerie === 'Ticket'){
+                nombreSerie = 'EBI Go'
+              }
               let datosDeServicio = data[key][key_item];
               let DatosMesServicio: number[] = [];
               datosDeServicio.forEach((element:any) => {
@@ -439,6 +445,9 @@ export class BarChartComponent implements OnInit {
           Object.keys(data).forEach((key: any) => {
             Object.keys(data[key]).forEach((key_item: any) => {
               let nombreSerie = key_item;
+              if(nombreSerie === 'Ticket'){
+                nombreSerie = 'EBI Go'
+              }
               let datosDeServicio = data[key][key_item];
               let DatosAnioServicio: number[] = [];
               datosDeServicio.forEach((element:any) => {
@@ -469,6 +478,9 @@ export class BarChartComponent implements OnInit {
           Object.keys(data).forEach((key: any) => {
             Object.keys(data[key]).forEach((key_item: any) => {
               let nombreSerie = key_item;
+              if(nombreSerie === 'Ticket'){
+                nombreSerie = 'EBI Go'
+              }
               let datosDeServicio = data[key][key_item];
               let DatosDiariosServicio: number[] = [];
               datosDeServicio.forEach((element:any) => {
@@ -500,6 +512,9 @@ export class BarChartComponent implements OnInit {
           Object.keys(data).forEach((key: any) => {
             Object.keys(data[key]).forEach((key_item: any) => {
               let nombreSerie = key_item;
+              if(nombreSerie === 'Ticket'){
+                nombreSerie = 'EBI Go'
+              }
               let datosDeServicio = data[key][key_item];
               let DatosMesServicio: number[] = [];
               datosDeServicio.forEach((element:any) => {
@@ -530,6 +545,9 @@ export class BarChartComponent implements OnInit {
           Object.keys(data).forEach((key: any) => {
             Object.keys(data[key]).forEach((key_item: any) => {
               let nombreSerie = key_item;
+              if(nombreSerie === 'Ticket'){
+                nombreSerie = 'EBI Go'
+              }
               let datosDeServicio = data[key][key_item];
               let DatosAnioServicio: number[] = [];
               datosDeServicio.forEach((element:any) => {
@@ -551,8 +569,8 @@ export class BarChartComponent implements OnInit {
       });  
   }
   //Flujo
-  getDatosFlujoDiarios(fecha: string){
-    return this.dashboardService.getDailyPayments(fecha)
+  getDatosFlujoDiarios(parkingId: string, fecha: string){
+    return this.dashboardService.getDailyPayments(parkingId,fecha)
       .toPromise()
       .then((data) => {
         if (data) {
@@ -560,6 +578,9 @@ export class BarChartComponent implements OnInit {
           Object.keys(data).forEach((key: any) => {
             Object.keys(data[key]).forEach((key_item: any) => {
               let nombreSerie = key_item;
+              if(nombreSerie === 'Ticket'){
+                nombreSerie = 'EBI Go'
+              }
               let datosDeServicio = data[key][key_item];
               let DatosDiariosServicio: number[] = [];
               datosDeServicio.forEach((element:any) => {
@@ -582,8 +603,8 @@ export class BarChartComponent implements OnInit {
       });  
   }
 
-  getDatosFlujoMes(mes: string, anio: string){
-    return this.dashboardService.getMonthlyPayments(mes, anio)
+  getDatosFlujoMes(parkingId: string, mes: string, anio: string){
+    return this.dashboardService.getMonthlyPayments(parkingId,mes, anio)
       .toPromise()
       .then((data) => {
         if (data) {
@@ -591,6 +612,9 @@ export class BarChartComponent implements OnInit {
           Object.keys(data).forEach((key: any) => {
             Object.keys(data[key]).forEach((key_item: any) => {
               let nombreSerie = key_item;
+              if(nombreSerie === 'Ticket'){
+                nombreSerie = 'EBI Go'
+              }
               let datosDeServicio = data[key][key_item];
               let DatosMesServicio: number[] = [];
               datosDeServicio.forEach((element:any) => {
@@ -612,8 +636,8 @@ export class BarChartComponent implements OnInit {
       });  
   }
 
-  getDatosFlujoAnio(anio: string){
-    return this.dashboardService.getYearPayments(anio)
+  getDatosFlujoAnio(parkingId: string, anio: string){
+    return this.dashboardService.getYearPayments(parkingId,anio)
       .toPromise()
       .then((data) => {
         if (data) {
@@ -621,6 +645,9 @@ export class BarChartComponent implements OnInit {
           Object.keys(data).forEach((key: any) => {
             Object.keys(data[key]).forEach((key_item: any) => {
               let nombreSerie = key_item;
+              if(nombreSerie === 'Ticket'){
+                nombreSerie = 'EBI Go'
+              }
               let datosDeServicio = data[key][key_item];
               let DatosAnioServicio: number[] = [];
               datosDeServicio.forEach((element:any) => {

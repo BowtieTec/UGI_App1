@@ -30,18 +30,12 @@ export class ReportService {
     }
     
     getPaymentsRpt(initDate:string,endDate:string) {
-      
-      console.log('Llamando API -->'+initDate,endDate );
-      console.log(`${this.apiUrl}backoffice/report/getPagos/${initDate},${endDate}`);
-      //this.messageService.showLoading();
       return this.http.get<ResponseModel>(
         `${this.apiUrl}backoffice/report/getPagos/dates?initDate=${initDate}&endDate=${endDate}`       
       );
     }
 
     getTicketsRpt(initDate:string,endDate:string) {   
-      console.log('Llamando API -->'+initDate,endDate );
-      console.log(`${this.apiUrl}backoffice/report/parkingRpt/dates?initDate=${initDate}&endDate=${endDate}`);
       return this.http.get<ResponseModel>(
         `${this.apiUrl}backoffice/report/ticketRpt/dates?initDate=${initDate}&endDate=${endDate}`       
       );
@@ -54,7 +48,6 @@ export class ReportService {
     }
 
     getDurationRpt(initDate:string,endDate:string) {  
-      console.log(`${this.apiUrl}backoffice/report/durationRpt/dates?initDate=${initDate},${endDate}`); 
       return this.http.get<ResponseModel>(
         `${this.apiUrl}backoffice/report/durationRpt/dates?initDate=${initDate}&endDate=${endDate}`       
       );
