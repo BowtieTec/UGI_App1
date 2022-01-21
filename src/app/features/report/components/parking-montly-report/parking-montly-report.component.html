@@ -1,0 +1,123 @@
+<div class = "row justify-content-center" >
+  <div class = "col-lg-12 col-md-12 col-sm-12 col-xs-12 panelLeft animate__animated animate__fadeInLeft" >
+    <div class = "panels" >
+      <div class = "titleCards" >
+        <span ><i class = "fas fa-sitemap" ></i ></span > Reporte Por Mensual
+      </div >
+      <div class = "row" >       
+       
+        <div class = "col-xl-4 col-lg-6 col-sm-12" >
+          <div class = "mb-4 relative" >
+            <label class = "labelInput"
+                  
+                   style = "display:block" >Fecha de inicio</label >
+            <input type = "Date"  #initDate
+                   class = "form-control inputClass datetimepicker"
+                   name = "initDate"
+                   for = "initDate"
+                   placeholder = "Fecha/Hora de entrada"       
+                   
+                    >
+                  
+          </div >
+        </div >
+        <div class = "col-xl-4 col-lg-6 col-sm-12" >
+          <div class = "mb-4 relative" >
+            <label class = "labelInput"
+                   
+                   style = "display:block" >Fecha de fin</label >
+            <input 
+                  type = "date"   #endDate
+                   class = "form-control inputClass datetimepicker"
+                   name = "endDate"
+                   for = "endDate"
+                   placeholder = "Fecha/Hora de salida"
+                   
+                  
+                   >
+          </div >
+        </div >
+
+
+<div class = "col-xl-12 col-lg-12 col-sm-12" >
+          <div class = "text-center" >
+            <button class = "btn btn-primary m-2"
+                    (click) = "getMontlyParkingRpt(initDate.value,endDate.value)" >Buscar
+            </button >
+          </div >
+        </div >
+      </div >
+
+    </div >
+  </div >
+  <div class = "col-lg-12 col-md-12 col-sm-12 col-xs-12" >
+    <div class = "panels" >
+
+      <div class = "row" >
+        <dx-data-grid id="gridContainer" [dataSource]="dataSource" [showBorders]="true" [columnHidingEnabled]="true">
+          <dxi-column
+            dataField="u_phone_number"
+            caption="ID"
+          ></dxi-column>
+          <dxi-column
+            dataField="u_name"
+            caption="Nombre"
+          ></dxi-column>
+          <dxi-column
+            dataField="u_last_name"
+            caption="Apellido"
+          ></dxi-column>
+          <dxi-column
+            dataField="begin_date"
+            caption="Fecha inicio" dataType="datetime"
+            format="yyyy-MM-dd HH:mm"
+          ></dxi-column>
+          <dxi-column
+            dataField="finish_date"
+            caption="Fecha fin" dataType="datetime"
+            format="yyyy-MM-dd HH:mm"
+          ></dxi-column>
+          <dxi-column
+            caption="Pagado hasta"
+          ></dxi-column>
+          <dxi-column
+            dataField="ultimo_pago"
+            caption="Ultimo pago"
+            dataType="number"
+            format="currency"
+            format="Q ,###,###,##0.00"
+          ></dxi-column>
+          <dxi-column
+            dataField="estadoSuscripcion"
+            caption="Estado"
+          ></dxi-column>
+          <dxi-column
+            dataField="isUnlimited"
+            caption="Tipo parqueo"
+          ></dxi-column>
+          <dxo-header-filter [visible]="true"></dxo-header-filter>
+          <dxo-search-panel [visible]="true" placeholder="Buscar..."></dxo-search-panel>
+          <dxo-toolbar>
+            <dxi-item location="after">
+              <dx-button
+                icon="exportpdf"
+                text="Exportar a PDF"
+                (onClick)="exportGrid()"
+              ></dx-button>
+            </dxi-item>
+            <dxi-item location="after">
+              <dx-button
+                icon="xlsxfile"
+                text="Exportar a Excel"
+                (onClick)="onExporting($event)"
+              ></dx-button>
+            </dxi-item>
+            <dxi-item name="searchPanel"></dxi-item>
+          </dxo-toolbar>
+          <dxo-export [enabled]="true"></dxo-export>
+        </dx-data-grid>
+      </div >
+    </div >
+  </div >
+</div >
+

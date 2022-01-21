@@ -24,18 +24,7 @@ import { exportDataGrid as exportDataGridToPdf } from 'devextreme/pdf_exporter';
 import { exportDataGrid } from 'devextreme/excel_exporter';
 import { Workbook } from 'exceljs';
 
-import 'jspdf-autotable';
-
-/* export interface tickets {
-  name: string;
-  last_name: string;
-  email: string;
-  phone_number: string;
-  amount: number;
-  created_at: Date;
-} */
-
-export interface tickets {
+export interface desc {
   fecha: Date;
   total_v: number;
   total: number;
@@ -46,11 +35,11 @@ export interface tickets {
 
 
 @Component({
-  selector: 'app-parking-ticket-report',
-  templateUrl: './parking-ticket-report.component.html',
-  styleUrls: ['./parking-ticket-report.component.css']
+  selector: 'app-courtesy-report',
+  templateUrl: './courtesy-report.component.html',
+  styleUrls: ['./courtesy-report.component.css']
 })
-export class ParkingTicketReportComponent implements OnInit {
+export class CourtesyReportComponent implements OnInit {
   //@ViewChild(DataTableDirective)
   @ViewChild(DxDataGridComponent, { static: false }) dataGrid!: DxDataGridComponent;
   dtElement!: DataTableDirective;
@@ -58,7 +47,7 @@ export class ParkingTicketReportComponent implements OnInit {
   dtTrigger: Subject<any> = new Subject();
   pdfTable!: ElementRef;
   
-  report: tickets[] = [];
+  report: desc[] = [];
   dataSource: any;
 
   constructor(
@@ -68,7 +57,8 @@ export class ParkingTicketReportComponent implements OnInit {
     private authService: AuthService,
     private permisionService: PermissionsService,
     private excelService: ReportService,
-  ) 
+  )
+
   {
     this.messageService.showLoading();
 
@@ -88,9 +78,9 @@ export class ParkingTicketReportComponent implements OnInit {
   //this.getPaymentRpt();
   }
 
-  getTicketRpt(initDate:string,endDate:string) { 
+  getCourtesyRpt(initDate:string,endDate:string) { 
     return this.reportService
-     .getTicketsRpt(initDate,endDate)
+     .getCourtesyRpt(initDate,endDate)
       .toPromise()
       .then((data) => {
         if (data.success) {
@@ -125,7 +115,7 @@ export class ParkingTicketReportComponent implements OnInit {
       jsPDFDocument: doc,
       component: this.dataGrid.instance
     }).then(() => {
-      doc.save('TicketDia.pdf')
+      doc.save('Duracin.pdf')
     });
   }
 
@@ -140,10 +130,9 @@ export class ParkingTicketReportComponent implements OnInit {
       autoFilterEnabled: true,
     }).then(() => {
       workbook.xlsx.writeBuffer().then((buffer: any) => {
-        saveAs(new Blob([buffer], {type: 'application/octet-stream'}), 'General.xlsx');
+        saveAs(new Blob([buffer], {type: 'application/octet-stream'}), 'Cortesias.xlsx');
       })
     });
     e.cancel = true;
   }
-
 }

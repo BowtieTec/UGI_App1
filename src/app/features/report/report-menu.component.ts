@@ -10,7 +10,7 @@ import { environment } from '../../../environments/environment';
 })
 export class ReportMenuComponent {
   verMenuPayment = environment.verMenuPayment;
-  verDiscuontReport = environment.verDiscuontReport;
+  verCourtesiesReport = environment.verCourtesiesReport;
   verDurationReport = environment.verDurationReport;
   verDailyParkingReport = environment.verDailyParkingReport;
   verMonthlyParkingReport=environment.verMonthlyParkingReport;

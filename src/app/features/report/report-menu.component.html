@@ -8,13 +8,13 @@
     <app-payment-report></app-payment-report>
   </ng-template >
   </ng-container >
-  <!-- <ng-container *ngIf = "ifHaveAction(verDiscuontReport)"
+  <ng-container *ngIf = "ifHaveAction(verCourtesiesReport)"
                 ngbNavItem >
-    <a ngbNavLink ><em class = "fas fa-magic" ></em > Descuentos</a >
+    <a ngbNavLink ><em class = "fas fa-magic" ></em > Cortesias</a >
     <ng-template ngbNavContent >
-      <app-discount-report></app-discount-report>
+      <app-courtesy-report></app-courtesy-report>
     </ng-template >
-  </ng-container > -->
+  </ng-container >
   <ng-container *ngIf = "ifHaveAction(verDurationReport)"
                 ngbNavItem >
     <a ngbNavLink ><em class = "fas fa-magic" ></em > Duración</a >
@@ -22,9 +22,9 @@
       <app-duration-report></app-duration-report>
     </ng-template >
   </ng-container >
-  <!-- <ng-container *ngIf = "ifHaveAction(verDailyParkingReport)"
+  <ng-container *ngIf = "ifHaveAction(verDailyParkingReport)"
                 ngbNavItem >
-    <a ngbNavLink ><em class = "fas fa-parking" ></em > Parqueo Diario</a >
+    <a ngbNavLink ><em class = "fas fa-parking" ></em > Parqueo Diario (Mensual)</a >
     <ng-template ngbNavContent >
       <app-parking-day-report></app-parking-day-report>
     </ng-template >
@@ -35,10 +35,10 @@
     <ng-template ngbNavContent >
     <app-parking-montly-report></app-parking-montly-report>
     </ng-template >
-</ng-container > -->
+</ng-container >
 <ng-container *ngIf = "ifHaveAction(verDailyParkingReportTicket)"
   ngbNavItem >
-<a ngbNavLink ><em class = "fas fa-parking" ></em > Parqueo Diario Ticket</a >
+<a ngbNavLink ><em class = "fas fa-parking" ></em > Parqueo Diario (Ebi Go)</a >
     <ng-template ngbNavContent >
     <app-parking-ticket-report></app-parking-ticket-report>
     </ng-template >

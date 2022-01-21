@@ -8,7 +8,7 @@ import { NgbNavModule, NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 import { DataTablesModule } from 'angular-datatables';
 import { PaymentReportComponent } from './components/payment-report/payment-report.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-//import { DiscountReportComponent } from './components/discount-report/discount-report.component';
+import { CourtesyReportComponent } from './components/courtesy-report/courtesy-report.component';
 import { GoogleMapsModule } from '@angular/google-maps';
 import { GeneralDataComponent } from '../parking/components/new-parking/components/general-data/general-data.component';
 import {
@@ -18,24 +18,26 @@ import {
 } from '@ng-bootstrap/ng-bootstrap';
 import { DurationReportComponent } from './components/duration-report/duration-report.component';
 import { ParkingTicketReportComponent } from './components/parking-ticket-report/parking-ticket-report.component';
-//import { ParkingMontlyReportComponent } from './components/parking-montly-report/parking-montly-report.component';
-//import { ParkingDayReportComponent } from './components/parking-day-report/parking-day-report.component';
+import { ParkingMontlyReportComponent } from './components/parking-montly-report/parking-montly-report.component';
+import { ParkingDayReportComponent } from './components/parking-day-report/parking-day-report.component';
 import { ReportService } from './components/service/report.service';
 
 import { DxDataGridModule, DxButtonModule } from 'devextreme-angular';
 
 import { DetailGridComponent } from './components/parking-ticket-report/detail/detail-grid.component';
+import { DetailGridMonthComponent } from './components/parking-day-report/detail/detail-grid-month.component';
 
 @NgModule({
   declarations: [
     ReportMenuComponent,
     PaymentReportComponent,
-    //DiscountReportComponent,
+    CourtesyReportComponent,
     DurationReportComponent,
     ParkingTicketReportComponent,
-    //ParkingMontlyReportComponent,
-    //ParkingDayReportComponent,
-    DetailGridComponent],
+    ParkingMontlyReportComponent,
+    ParkingDayReportComponent,
+    DetailGridComponent,
+    DetailGridMonthComponent],
   imports: [
     CommonModule,
     ReportRoutingModule,

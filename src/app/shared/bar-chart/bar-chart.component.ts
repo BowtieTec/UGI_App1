@@ -378,7 +378,7 @@ export class BarChartComponent implements OnInit {
           Object.keys(data).forEach((key: any) => {
             Object.keys(data[key]).forEach((key_item: any) => {
               let nombreSerie = key_item;
-              if(nombreSerie === 'Ticket'){
+              if(nombreSerie === 'Ticket_ebi'){
                 nombreSerie = 'EBI Go'
               }
               let datosDeServicio = data[key][key_item];
@@ -412,7 +412,7 @@ export class BarChartComponent implements OnInit {
           Object.keys(data).forEach((key: any) => {
             Object.keys(data[key]).forEach((key_item: any) => {
               let nombreSerie = key_item;
-              if(nombreSerie === 'Ticket'){
+              if(nombreSerie === 'Ticket_ebi'){
                 nombreSerie = 'EBI Go'
               }
               let datosDeServicio = data[key][key_item];
@@ -445,7 +445,7 @@ export class BarChartComponent implements OnInit {
           Object.keys(data).forEach((key: any) => {
             Object.keys(data[key]).forEach((key_item: any) => {
               let nombreSerie = key_item;
-              if(nombreSerie === 'Ticket'){
+              if(nombreSerie === 'Ticket_ebi'){
                 nombreSerie = 'EBI Go'
               }
               let datosDeServicio = data[key][key_item];
@@ -478,7 +478,7 @@ export class BarChartComponent implements OnInit {
           Object.keys(data).forEach((key: any) => {
             Object.keys(data[key]).forEach((key_item: any) => {
               let nombreSerie = key_item;
-              if(nombreSerie === 'Ticket'){
+              if(nombreSerie === 'Ticket_ebi'){
                 nombreSerie = 'EBI Go'
               }
               let datosDeServicio = data[key][key_item];
@@ -512,7 +512,7 @@ export class BarChartComponent implements OnInit {
           Object.keys(data).forEach((key: any) => {
             Object.keys(data[key]).forEach((key_item: any) => {
               let nombreSerie = key_item;
-              if(nombreSerie === 'Ticket'){
+              if(nombreSerie === 'Ticket_ebi'){
                 nombreSerie = 'EBI Go'
               }
               let datosDeServicio = data[key][key_item];
@@ -545,7 +545,7 @@ export class BarChartComponent implements OnInit {
           Object.keys(data).forEach((key: any) => {
             Object.keys(data[key]).forEach((key_item: any) => {
               let nombreSerie = key_item;
-              if(nombreSerie === 'Ticket'){
+              if(nombreSerie === 'Ticket_ebi'){
                 nombreSerie = 'EBI Go'
               }
               let datosDeServicio = data[key][key_item];
@@ -578,7 +578,7 @@ export class BarChartComponent implements OnInit {
           Object.keys(data).forEach((key: any) => {
             Object.keys(data[key]).forEach((key_item: any) => {
               let nombreSerie = key_item;
-              if(nombreSerie === 'Ticket'){
+              if(nombreSerie === 'Ticket_ebi'){
                 nombreSerie = 'EBI Go'
               }
               let datosDeServicio = data[key][key_item];
@@ -612,7 +612,7 @@ export class BarChartComponent implements OnInit {
           Object.keys(data).forEach((key: any) => {
             Object.keys(data[key]).forEach((key_item: any) => {
               let nombreSerie = key_item;
-              if(nombreSerie === 'Ticket'){
+              if(nombreSerie === 'Ticket_ebi'){
                 nombreSerie = 'EBI Go'
               }
               let datosDeServicio = data[key][key_item];
@@ -645,7 +645,7 @@ export class BarChartComponent implements OnInit {
           Object.keys(data).forEach((key: any) => {
             Object.keys(data[key]).forEach((key_item: any) => {
               let nombreSerie = key_item;
-              if(nombreSerie === 'Ticket'){
+              if(nombreSerie === 'Ticket_ebi'){
                 nombreSerie = 'EBI Go'
               }
               let datosDeServicio = data[key][key_item];
