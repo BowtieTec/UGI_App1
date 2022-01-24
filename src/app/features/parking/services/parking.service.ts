@@ -1,8 +1,8 @@
-import { Injectable } from '@angular/core';
-import { environment } from '../../../../environments/environment';
-import { HttpClient } from '@angular/common/http';
-import { MessageService } from '../../../shared/services/message.service';
-import { ResponseModel } from '../../../shared/model/Request.model';
+import {Injectable} from '@angular/core';
+import {environment} from '../../../../environments/environment';
+import {HttpClient} from '@angular/common/http';
+import {MessageService} from '../../../shared/services/message.service';
+import {ResponseModel} from '../../../shared/model/Request.model';
 import {
   AccessModel,
   CreateParkingStepFiveModel,
@@ -10,24 +10,16 @@ import {
   CreateParkingStepOneModel,
   CreateParkingStepTwoModel,
 } from '../models/CreateParking.model';
-import { Router } from '@angular/router';
-import { map } from 'rxjs/operators';
-import {
-  CurrencyOptionModel,
-  Day,
-  PaymentMethodModel,
-  SettingsOptionsModel,
-} from '../models/SettingsOption.model';
-import { Observable, Subscribable } from 'rxjs';
-import { CountriesModel } from '../models/Countries.model';
-import { FormBuilder } from '@angular/forms';
-import { CreateTariffModel } from '../models/Tariff.model';
-import { CreateProfilesModel } from '../models/MontlyParking.model';
-import {
-  CreateStation,
-  CreateStationaryCourtesy,
-  StationsCourtesyModel,
-} from '../models/StationaryCourtesy.model';
+import {Router} from '@angular/router';
+import {map} from 'rxjs/operators';
+import {CurrencyOptionModel, Day, PaymentMethodModel, SettingsOptionsModel,} from '../models/SettingsOption.model';
+import {Observable, Subscribable} from 'rxjs';
+import {CountriesModel} from '../models/Countries.model';
+import {FormBuilder} from '@angular/forms';
+import {CreateTariffModel} from '../models/Tariff.model';
+import {CreateProfilesModel} from '../models/MontlyParking.model';
+import {CreateStation, CreateStationaryCourtesy, StationsCourtesyModel,} from '../models/StationaryCourtesy.model';
+import {ParkedModel} from "../models/Parking.model";
 
 @Injectable({
   providedIn: 'root',
@@ -295,13 +287,30 @@ export class ParkingService {
       .toPromise();
   }
 
-  getParked(parkedFormValues: { parkingId: string; status: string }) {
+  getParked(parkedFormValues: { parkingId: string; status: string }, page: number = 1, pageSize: number = 10) {
     return this.http
       .post<ResponseModel>(
-        `${this.apiUrl}backoffice/parking/parked`,
+        `${this.apiUrl}backoffice/parking/parked?page=${page}&per_page=${pageSize}`,
         parkedFormValues
-      )
-      .toPromise();
+      ).pipe(map((res) => {
+        return {
+          data: res.data.parked.map((x: any): ParkedModel => {
+            return {
+              id: x?.id,
+              status: x?.status,
+              type: x?.type,
+              entry_date: x?.entry_date,
+              exit_date: x?.exit_date,
+              user_name: x?.user?.name,
+              last_name: x?.user?.last_name,
+              phone_number: x?.user?.phone_number!,
+              parking: x?.parking?.name
+            }
+          }),
+          recordsTotal: res.data.recordsFiltered,
+          recordsFiltered: res.data.recordsFiltered
+        };
+      }))
   }
 
   getOutParked(parkedId: string, status: number) {
