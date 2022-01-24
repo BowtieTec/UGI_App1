@@ -56,6 +56,7 @@ async getInitialData(){
     return this.formBuilder.group({
       parkingId: ['0'],
       status: ['1'],
+      textToSearch: ['']
     });
   }
 
@@ -98,9 +99,11 @@ async getInitialData(){
     const parkingId = this.isSudo && this.parkedForm.get('parkingId')?.value != "0"
       ? this.parkedForm.get('parkingId')?.value
       : this.authService.getParking().id;
+    const textToSearch = this.parkedForm.get('textToSearch')?.value
     return {
       status,
       parkingId,
+      textToSearch
     };
   }
 

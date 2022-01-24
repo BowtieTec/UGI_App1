@@ -29,6 +29,18 @@
                 name = "Estado" ></app-select-container >
             </div >
           </div >
+          <div class = "col-xl-6 col-lg-6  col-sm-12" >
+            <div class = "mb-4 relative" >
+              <app-input-container
+                (keydown.enter) = "rerender()"
+                [formGroup] = "parkedForm"
+                controlName = "textToSearch"
+                name = "Buscar"
+                textInfo = "Puede presionar enter para buscar. Puede buscar por nombre, apellido o número de teléfono." >
+              </app-input-container >
+
+            </div >
+          </div >
         </div >
       </form >
 
@@ -37,7 +49,6 @@
   </div >
   <div class = "col-lg-12 col-md-12 col-sm-12 col-xs-12" >
     <div class = "panels" >
-
       <div class = "row" >
         <div *ngIf = "parkedData"
              class = "col-lg-12" >

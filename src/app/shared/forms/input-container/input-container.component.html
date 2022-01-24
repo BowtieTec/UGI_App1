@@ -10,6 +10,7 @@
       id = "name"
       placeholder = "{{name}}:"
       type = "{{type}}" >
-
   </div >
+  <span *ngIf = "textInfo.length > 0"
+        class = "text-muted" >*{{textInfo}}</span >
 </div >
