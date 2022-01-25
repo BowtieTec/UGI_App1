@@ -1,11 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ReportComponent } from './report/report.component';
-import { CashOutReportComponent } from './cash-out-report/cash-out-report.component';
-
+import { ReportMenuComponent } from './report-menu.component';
+//import { PaymentReportComponent } from './components/payment-report/payment-report.component';
 const routes: Routes = [
-  { path: '', component: ReportComponent, outlet: 'home' },
-  { path: 'report', component: CashOutReportComponent, outlet: 'home' },
+  { path: '', component: ReportMenuComponent, outlet: 'home' },
+  //{ path: 'df', component: PaymentReportComponent, outlet: 'home' },
 ];
 
 @NgModule({

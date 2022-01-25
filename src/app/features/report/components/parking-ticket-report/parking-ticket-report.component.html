@@ -1,0 +1,128 @@
+<div class = "row justify-content-center" >
+  <div class = "col-lg-12 col-md-12 col-sm-12 col-xs-12 panelLeft animate__animated animate__fadeInLeft" >
+    <div class = "panels" >
+      <div class = "titleCards" >
+        <span ><i class = "fas fa-sitemap" ></i ></span > Reporte de parqueo diario (ticket)
+      </div >
+      <div class = "row" >
+        <div class = "col-xl-4 col-lg-6 col-sm-12"
+        *ngIf = "ifHaveAction(verTodosLosParqueosReport)"  >
+          <div class = "mb-4 relative">
+            <label class = "labelInput" style = "display:block" >Parqueo</label >
+              <select
+                #inputParking
+                class = "inputClass">
+                <option value="0">---- Todos los parqueos ----</option>
+                <option *ngFor = "let parking of this.allParking"
+                        value = "{{parking.id}}" >{{parking.name}}</option >
+              </select >
+                  
+          </div >
+        </div >
+        <div class = "col-xl-4 col-lg-6 col-sm-12" >
+          <div class = "mb-4 relative" >
+            <label class = "labelInput"
+                  
+                   style = "display:block" >Fecha de inicio</label >
+            <input type = "Date"  #initDate
+                   class = "form-control inputClass datetimepicker"
+                   name = "initDate"
+                   for = "initDate"
+                   placeholder = "Fecha/Hora de entrada"      
+                   [value]="fechaActual"
+                    >
+                  
+          </div >
+        </div >
+        <div class = "col-xl-4 col-lg-6 col-sm-12" >
+          <div class = "mb-4 relative" >
+            <label class = "labelInput"
+                   
+                   style = "display:block" >Fecha de fin</label >
+            <input 
+                  type = "date"   #endDate
+                   class = "form-control inputClass datetimepicker"
+                   name = "endDate"
+                   for = "endDate"
+                   placeholder = "Fecha/Hora de salida"
+                   [value]="fechaActual"
+                   >
+          </div >
+        </div >
+
+        <div class = "col-xl-12 col-lg-12 col-sm-12" >
+          <div class = "text-center" >
+            <button class = "btn btn-primary m-2"
+                    (click) = "getTicketRpt(initDate.value,endDate.value)" >Buscar
+            </button >
+          </div >
+        </div >
+      </div >
+    </div >
+  </div >
+  <div class = "col-lg-12 col-md-12 col-sm-12 col-xs-12" >
+    <div class = "panels" >
+      <div class="row">
+        <dx-data-grid id="gridContainer" keyExpr="fecha" [dataSource]="dataSource" [showBorders]="true">
+          <dxi-column sortOrder="asc"
+            dataField="fecha"
+            caption="Fecha"
+            dataType="date"
+            format="yyyy-MM-dd"
+          ></dxi-column>
+          <dxi-column
+            dataField="total_v"
+            caption="Total de vehículos"
+            dataType="number"
+          ></dxi-column>
+          <dxi-column
+            dataField="total"
+            caption="Total"
+            dataType="number"
+            format="currency"
+            format="Q ,###,###,##0.00"
+          ></dxi-column>
+          <dxi-column
+            dataField="descuento"
+            caption="Descuento"
+            dataType="number"
+            format="currency"
+            format="Q ,###,###,##0.00"
+          ></dxi-column>
+          <dxi-column
+            dataField="pagado"
+            caption="Pagado"
+            dataType="number"
+            format="currency"
+            format="Q ,###,###,##0.00"
+          ></dxi-column>
+          <dxo-header-filter [visible]="true"></dxo-header-filter>
+          <dxo-search-panel [visible]="true" placeholder="Buscar..."></dxo-search-panel>
+          <dxo-toolbar>
+            <dxi-item location="after">
+              <dx-button
+                icon="exportpdf"
+                text="Exportar a PDF"
+                (onClick)="exportGrid()"
+              ></dx-button>
+            </dxi-item>
+            <dxi-item location="after">
+              <dx-button
+                icon="xlsxfile"
+                text="Exportar a Excel"
+                (onClick)="onExporting($event)"
+              ></dx-button>
+            </dxi-item>
+            <dxi-item name="searchPanel"></dxi-item>
+          </dxo-toolbar>
+          <dxo-master-detail [enabled]="true" template="detail"></dxo-master-detail>
+          <div *dxTemplate="let datos of 'detail'">
+            <detail-grid [key]="datos.key"></detail-grid>
+          </div>
+          <dxo-export [enabled]="true"></dxo-export>
+        </dx-data-grid>
+      </div>
+    </div >
+  </div >
+</div >
+

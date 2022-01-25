@@ -98,10 +98,10 @@ export class DashboardService {
   }
 
   //Flujo
-  getDailyPayments(fecha: string) {
+  getDailyPayments(parkingId: string, fecha: string) {
     return this.http
       .get<ResponseModel>(
-        `${this.apiUrl}backoffice/dashboard/daily-payment/${fecha}`
+        `${this.apiUrl}backoffice/dashboard/daily-payment/${parkingId}/${fecha}`
       )
       .pipe(
         map((data) => {
@@ -110,10 +110,10 @@ export class DashboardService {
       );
   }
 
-  getMonthlyPayments(mes: string, anio: string) {
+  getMonthlyPayments(parkingId: string, mes: string, anio: string) {
     return this.http
       .get<ResponseModel>(
-        `${this.apiUrl}backoffice/dashboard/monthly-payment/${anio}/${mes}`
+        `${this.apiUrl}backoffice/dashboard/monthly-payment/${parkingId}/${anio}/${mes}`
       )
       .pipe(
         map((data) => {
@@ -122,10 +122,10 @@ export class DashboardService {
       );
   }
 
-  getYearPayments(anio: string) {
+  getYearPayments(parkingId: string, anio: string) {
     return this.http
       .get<ResponseModel>(
-        `${this.apiUrl}backoffice/dashboard/year-payment/${anio}`
+        `${this.apiUrl}backoffice/dashboard/year-payment/${parkingId}/${anio}`
       )
       .pipe(
         map((data) => {

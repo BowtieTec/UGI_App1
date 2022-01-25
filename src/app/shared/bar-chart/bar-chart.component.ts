@@ -12,12 +12,11 @@ export class BarChartComponent implements OnInit {
   @Input() fecha = '';
   @Input() parking = '';
   @Input() tipoChart = 'bar';
+  @Input() periodo = 'dia';
   datosDiarios: number[] = [];
   datosMes: number[] = [];
   datosAnio: number[] = [];
-
-  idDia: string = 'dia';
-
+  
   diaOptions  = {
     chart: {
       type: this.tipoChart,
@@ -25,24 +24,42 @@ export class BarChartComponent implements OnInit {
       width: '100%',
       stacked: true,
       foreColor: '#999',
+      toolbar:{
+        show: true,
+        tools:{
+          zoom: false,
+          zoomin: false,
+          zoomout: false,
+          pan: false,
+          reset: false,
+        }
+      },
     },
+    colors:['#415ba2','#04ccae','#ccac04','#4804cc','#cc0424'],
     plotOptions: {
       bar: {
         dataLabels: {
           enabled: false,
           position: 'top',
         },
-        columnWidth: '40%',
+        columnWidth: '70%',
         endingShape: 'rounded',
         borderRadius: 2,
       },
     },
     dataLabels:{
       enabled: true,
-      offsetY: -20,
+      offsetY: 0,
       style:{
         fontSize: '12px',
-        colors: ["#304758"],
+        colors: ["#fff"],
+      },
+      formatter: function(val: any, opts: any){
+        if(val == 0 || val == '0'){
+          return " ";
+        }else{
+          return val;
+        }
       }
     },
     series: [
@@ -56,6 +73,7 @@ export class BarChartComponent implements OnInit {
       22, 23,
     ],
     xaxis: {
+      type: 'category',
       axisBorder: {
         show: true,
       },
@@ -110,31 +128,49 @@ export class BarChartComponent implements OnInit {
       intersect: false,
     },
   };
-  mesOptions = {
+mesOptions = {
     chart: {
       type: this.tipoChart,
       height: 450,
       width: '100%',
       stacked: true,
       foreColor: '#999',
+      toolbar:{
+        show: true,
+        tools:{
+          zoom: false,
+          zoomin: false,
+          zoomout: false,
+          pan: false,
+          reset: false,
+        }
+      },
     },
+    colors:['#415ba2','#04ccae','#ccac04','#4804cc','#cc0424'],
     plotOptions: {
       bar: {
         dataLabels: {
           enabled: false,
           position: 'top',
         },
-        columnWidth: '40%',
+        columnWidth: '70%',
         endingShape: 'rounded',
         borderRadius: 2,
       },
     },
     dataLabels:{
       enabled: true,
-      offsetY: -20,
+      offsetY: 0,
       style:{
         fontSize: '12px',
-        colors: ["#304758"],
+        colors: ["#fff"],
+      },
+      formatter: function(val: any, opts: any){
+        if(val == 0 || val == '0'){
+          return " ";
+        }else{
+          return val;
+        }
       }
     },
     series: [
@@ -145,7 +181,7 @@ export class BarChartComponent implements OnInit {
     ],
     labels: [
       1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21,
-      22, 23, 24, 25, 26, 27, 28, 29, 30,
+      22, 23, 24, 25, 26, 27, 28, 29, 30,31,
     ],
     xaxis: {
       axisBorder: {
@@ -174,7 +210,7 @@ export class BarChartComponent implements OnInit {
         lines: {
           show: true,
         },
-      },
+      }
     },
     yaxis: {
       axisBorder: {
@@ -200,33 +236,52 @@ export class BarChartComponent implements OnInit {
     tooltip: {
       shared: true,
       intersect: false,
-    },
+    }
   };
-  anioOptions = {
+anioOptions = {
     chart: {
       type: this.tipoChart,
       height: 450,
       width: '100%',
       stacked: true,
       foreColor: '#999',
+      toolbar:{
+        show: true,
+        tools:{
+          zoom: false,
+          zoomin: false,
+          zoomout: false,
+          pan: false,
+          reset: false,
+        }
+      },
     },
+    colors:['#415ba2','#04ccae','#ccac04','#4804cc','#cc0424'],
     plotOptions: {
       bar: {
         dataLabels: {
           enabled: false,
           position: 'top',
         },
-        columnWidth: '40%',
+        columnWidth: '70%',
         endingShape: 'rounded',
         borderRadius: 4,
       },
+      markers:{ sieze: 5,},
     },
     dataLabels:{
       enabled: true,
-      offsetY: -20,
+      offsetY: 0,
       style:{
         fontSize: '12px',
-        colors: ["#304758"],
+        colors: ["#fff"],
+      },
+      formatter: function(val: any, opts: any){
+        if(val == 0 || val == '0'){
+          return " ";
+        }else{
+          return val;
+        }
       }
     },
     series: [
@@ -321,53 +376,59 @@ export class BarChartComponent implements OnInit {
     let mes = partesFecha[1];
     let anio = partesFecha[0];
     if(this.tipo === 'Ingresos'){
-      this.getDatosDiarios(this.parking, fecha)
-      .then(() => {
-        return this.getDatosMes(this.parking, mes, anio);
-      })
-      .then(()=>{
-        return this.getDatosAnio(this.parking,anio);
-      });
+      if(this.periodo == 'dia'){
+        this.getDatosDiarios(this.parking, fecha);
+      }
+      if(this.periodo == 'mes'){
+        this.getDatosMes(this.parking, mes, anio);
+      }
+      if(this.periodo == 'anio'){
+        this.getDatosAnio(this.parking,anio);
+      }
     }
     if(this.tipo === 'Flujo'){
-      this.getDatosFlujoDiarios(fecha)
-      .then(() => {
-        return this.getDatosFlujoMes(mes, anio);
-      })
-      .then(()=>{
-        return this.getDatosFlujoAnio(anio);
-      });
+      if(this.periodo == 'dia'){
+        this.getDatosFlujoDiarios(this.parking,fecha);
+      }
+      if(this.periodo == 'mes'){
+        this.getDatosFlujoMes(this.parking,mes, anio);
+      }
+      if(this.periodo == 'anio'){
+        this.getDatosFlujoAnio(this.parking,anio);
+      }
     }
     if(this.tipo === 'Cortesias'){
-      this.getDatosCortesiasDiarios(this.parking, fecha)
-      .then(() => {
-        return this.getDatosCortesiasMes(this.parking, mes, anio);
-      })
-      .then(()=>{
-        return this.getDatosCortesiasAnio(this.parking,anio);
-      });
+      if(this.periodo == 'dia'){
+        this.getDatosCortesiasDiarios(this.parking, fecha);
+      }
+      if(this.periodo == 'mes'){
+        this.getDatosCortesiasMes(this.parking, mes, anio);
+      }
+      if(this.periodo == 'anio'){
+        this.getDatosCortesiasAnio(this.parking,anio);
+      }
     }
   }
 
   ngOnInit(): void {
-    this.diaOptions.chart.type = this.tipoChart;
-    this.mesOptions.chart.type = this.tipoChart;
-    this.anioOptions.chart.type = this.tipoChart;
-    this.chart = new ApexCharts(document.querySelector('.'+this.tipo+' #dia'), this.diaOptions);
-    
-    this.chart2 = new ApexCharts(
-      document.querySelector('.'+this.tipo+' #mes'),
-      this.mesOptions
-    );
-    this.chart3 = new ApexCharts(
-      document.querySelector('.'+this.tipo+' #anio'),
-      this.anioOptions
-    );
-    this.chart
-      .render()
-      .then(() => this.chart2.render())
-      .then(() => this.chart3.render());
+    if(this.periodo == 'dia'){
+      this.diaOptions.chart.type = this.tipoChart;
+      this.chart = new ApexCharts(document.querySelector('.'+this.tipo+' #'+this.periodo+' #grafica'), this.diaOptions);
+      this.chart.render();
+    }
+    if(this.periodo == 'mes'){
+      this.mesOptions.chart.type = this.tipoChart;
+      this.chart = new ApexCharts(document.querySelector('.'+this.tipo+' #'+this.periodo+' #grafica'), this.mesOptions);
+      this.chart.render();
+    }
+    if(this.periodo == 'anio'){
+      this.anioOptions.chart.type = this.tipoChart;
+      this.chart = new ApexCharts(document.querySelector('.'+this.tipo+' #'+this.periodo+' #grafica'), this.anioOptions);
+      this.chart.render();
+    }
   }
+
+  
 //Entradas
   getDatosDiarios(parkingId: string, fecha: string){
     return this.dashboardService.getDailyEntries(parkingId, fecha)
@@ -378,6 +439,11 @@ export class BarChartComponent implements OnInit {
           Object.keys(data).forEach((key: any) => {
             Object.keys(data[key]).forEach((key_item: any) => {
               let nombreSerie = key_item;
+              if(nombreSerie === 'Ticket_ebi'){
+                nombreSerie = 'EBI Go Ticket';
+              }else{
+                nombreSerie = 'EBI Go '+ nombreSerie;
+              }
               let datosDeServicio = data[key][key_item];
               let DatosDiariosServicio: number[] = [];
               datosDeServicio.forEach((element:any) => {
@@ -392,9 +458,23 @@ export class BarChartComponent implements OnInit {
           this.chart.updateSeries(seriesDatos);
           this.chart.updateOptions({
             title:{
-              text: this.tipo+' por dia ('+fecha+')'
+              text: this.tipo+' por día'
             }
           });
+          if(this.tipoChart == "line"){
+            this.chart.updateOptions({
+              chart:{
+                stacked: false
+              },
+              dataLabels:{
+                offsetY: -10,
+                style:{
+                  fontSize: '12px',
+                  colors: ["#304758"],
+                },
+              }
+            });
+          }
 
         } 
       });  
@@ -409,6 +489,11 @@ export class BarChartComponent implements OnInit {
           Object.keys(data).forEach((key: any) => {
             Object.keys(data[key]).forEach((key_item: any) => {
               let nombreSerie = key_item;
+              if(nombreSerie === 'Ticket_ebi'){
+                nombreSerie = 'EBI Go Ticket';
+              }else{
+                nombreSerie = 'EBI Go '+ nombreSerie;
+              }
               let datosDeServicio = data[key][key_item];
               let DatosMesServicio: number[] = [];
               datosDeServicio.forEach((element:any) => {
@@ -420,12 +505,32 @@ export class BarChartComponent implements OnInit {
               })
             });
           });
-          this.chart2.updateSeries(seriesDatos);
-          this.chart2.updateOptions({
+          let labelsDatos: any[] = [];
+          let diasDelMes = new Date(+anio,+mes,0).getDate();
+          for(var iDias= 1; iDias <= diasDelMes; iDias++){
+            labelsDatos.push(iDias);
+          }
+          this.chart.updateSeries(seriesDatos);
+          this.chart.updateOptions({
             title:{
-              text: this.tipo+' por mes ('+anio+'-'+mes+')'
-            }
+              text: this.tipo+' por mes'
+            },
+            labels:labelsDatos
           });
+          if(this.tipoChart == "line"){
+            this.chart.updateOptions({
+              chart:{
+                stacked: false
+              },
+              dataLabels:{
+                offsetY: -10,
+                style:{
+                  fontSize: '12px',
+                  colors: ["#304758"],
+                },
+              }
+            });
+          }
         } 
       });  
   }
@@ -439,6 +544,11 @@ export class BarChartComponent implements OnInit {
           Object.keys(data).forEach((key: any) => {
             Object.keys(data[key]).forEach((key_item: any) => {
               let nombreSerie = key_item;
+              if(nombreSerie === 'Ticket_ebi'){
+                nombreSerie = 'EBI Go Ticket';
+              }else{
+                nombreSerie = 'EBI Go '+ nombreSerie;
+              }
               let datosDeServicio = data[key][key_item];
               let DatosAnioServicio: number[] = [];
               datosDeServicio.forEach((element:any) => {
@@ -450,12 +560,26 @@ export class BarChartComponent implements OnInit {
               })
             });
           });
-          this.chart3.updateSeries(seriesDatos);
-          this.chart3.updateOptions({
+          this.chart.updateSeries(seriesDatos);
+          this.chart.updateOptions({
             title:{
-              text: this.tipo+' por año ('+anio+')'
+              text: this.tipo+' por año'
             }
           });
+          if(this.tipoChart == "line"){
+            this.chart.updateOptions({
+              chart:{
+                stacked: false
+              },
+              dataLabels:{
+                offsetY: -10,
+                style:{
+                  fontSize: '12px',
+                  colors: ["#304758"],
+                },
+              }
+            });
+          }
         } 
       });  
   }
@@ -468,7 +592,8 @@ export class BarChartComponent implements OnInit {
           let seriesDatos: any[] = [];
           Object.keys(data).forEach((key: any) => {
             Object.keys(data[key]).forEach((key_item: any) => {
-              let nombreSerie = key_item;
+              let nombreSerie = key_item.replace(/_/g," ");
+              
               let datosDeServicio = data[key][key_item];
               let DatosDiariosServicio: number[] = [];
               datosDeServicio.forEach((element:any) => {
@@ -483,9 +608,23 @@ export class BarChartComponent implements OnInit {
           this.chart.updateSeries(seriesDatos);
           this.chart.updateOptions({
             title:{
-              text: this.tipo+' por dia ('+fecha+')'
+              text: this.tipo+' por día'
             }
           });
+          if(this.tipoChart == "line"){
+            this.chart.updateOptions({
+              chart:{
+                stacked: false
+              },
+              dataLabels:{
+                offsetY: -10,
+                style:{
+                  fontSize: '12px',
+                  colors: ["#304758"],
+                },
+              }
+            });
+          }
 
         } 
       });  
@@ -499,7 +638,8 @@ export class BarChartComponent implements OnInit {
           let seriesDatos: any[] = [];
           Object.keys(data).forEach((key: any) => {
             Object.keys(data[key]).forEach((key_item: any) => {
-              let nombreSerie = key_item;
+              let nombreSerie = key_item.replace(/_/g," ");
+              
               let datosDeServicio = data[key][key_item];
               let DatosMesServicio: number[] = [];
               datosDeServicio.forEach((element:any) => {
@@ -511,12 +651,32 @@ export class BarChartComponent implements OnInit {
               })
             });
           });
-          this.chart2.updateSeries(seriesDatos);
-          this.chart2.updateOptions({
+          let labelsDatos: any[] = [];
+          let diasDelMes = new Date(+anio,+mes,0).getDate();
+          for(var iDias= 1; iDias <= diasDelMes; iDias++){
+            labelsDatos.push(iDias);
+          }
+          this.chart.updateSeries(seriesDatos);
+          this.chart.updateOptions({
             title:{
-              text: this.tipo+' por mes ('+anio+'-'+mes+')'
-            }
+              text: this.tipo+' por mes'
+            },
+            labels:labelsDatos
           });
+          if(this.tipoChart == "line"){
+            this.chart.updateOptions({
+              chart:{
+                stacked: false
+              },
+              dataLabels:{
+                offsetY: -10,
+                style:{
+                  fontSize: '12px',
+                  colors: ["#304758"],
+                },
+              }
+            });
+          }
         } 
       });  
   }
@@ -529,7 +689,8 @@ export class BarChartComponent implements OnInit {
           let seriesDatos: any[] = [];
           Object.keys(data).forEach((key: any) => {
             Object.keys(data[key]).forEach((key_item: any) => {
-              let nombreSerie = key_item;
+              let nombreSerie = key_item.replace(/_/g," ");
+              
               let datosDeServicio = data[key][key_item];
               let DatosAnioServicio: number[] = [];
               datosDeServicio.forEach((element:any) => {
@@ -541,18 +702,32 @@ export class BarChartComponent implements OnInit {
               })
             });
           });
-          this.chart3.updateSeries(seriesDatos);
-          this.chart3.updateOptions({
+          this.chart.updateSeries(seriesDatos);
+          this.chart.updateOptions({
             title:{
-              text: this.tipo+' por año ('+anio+')'
+              text: this.tipo+' por año'
             }
           });
+          if(this.tipoChart == "line"){
+            this.chart.updateOptions({
+              chart:{
+                stacked: false
+              },
+              dataLabels:{
+                offsetY: -10,
+                style:{
+                  fontSize: '12px',
+                  colors: ["#304758"],
+                },
+              }
+            });
+          }
         } 
       });  
   }
   //Flujo
-  getDatosFlujoDiarios(fecha: string){
-    return this.dashboardService.getDailyPayments(fecha)
+  getDatosFlujoDiarios(parkingId: string, fecha: string){
+    return this.dashboardService.getDailyPayments(parkingId,fecha)
       .toPromise()
       .then((data) => {
         if (data) {
@@ -560,6 +735,11 @@ export class BarChartComponent implements OnInit {
           Object.keys(data).forEach((key: any) => {
             Object.keys(data[key]).forEach((key_item: any) => {
               let nombreSerie = key_item;
+              if(nombreSerie === 'Ticket_ebi'){
+                nombreSerie = 'EBI Go Ticket';
+              }else{
+                nombreSerie = 'EBI Go '+ nombreSerie;
+              }
               let datosDeServicio = data[key][key_item];
               let DatosDiariosServicio: number[] = [];
               datosDeServicio.forEach((element:any) => {
@@ -574,16 +754,29 @@ export class BarChartComponent implements OnInit {
           this.chart.updateSeries(seriesDatos);
           this.chart.updateOptions({
             title:{
-              text: this.tipo+' por dia ('+fecha+')'
+              text: this.tipo+' por día'
             }
           });
-
+          if(this.tipoChart == "line"){
+            this.chart.updateOptions({
+              chart:{
+                stacked: false
+              },
+              dataLabels:{
+                offsetY: -10,
+                style:{
+                  fontSize: '12px',
+                  colors: ["#304758"],
+                },
+              }
+            });
+          }
         } 
       });  
   }
 
-  getDatosFlujoMes(mes: string, anio: string){
-    return this.dashboardService.getMonthlyPayments(mes, anio)
+  getDatosFlujoMes(parkingId: string, mes: string, anio: string){
+    return this.dashboardService.getMonthlyPayments(parkingId,mes, anio)
       .toPromise()
       .then((data) => {
         if (data) {
@@ -591,6 +784,11 @@ export class BarChartComponent implements OnInit {
           Object.keys(data).forEach((key: any) => {
             Object.keys(data[key]).forEach((key_item: any) => {
               let nombreSerie = key_item;
+              if(nombreSerie === 'Ticket_ebi'){
+                nombreSerie = 'EBI Go Ticket';
+              }else{
+                nombreSerie = 'EBI Go '+ nombreSerie;
+              }
               let datosDeServicio = data[key][key_item];
               let DatosMesServicio: number[] = [];
               datosDeServicio.forEach((element:any) => {
@@ -602,18 +800,38 @@ export class BarChartComponent implements OnInit {
               })
             });
           });
-          this.chart2.updateSeries(seriesDatos);
-          this.chart2.updateOptions({
+          let labelsDatos: any[] = [];
+          let diasDelMes = new Date(+anio,+mes,0).getDate();
+          for(var iDias= 1; iDias <= diasDelMes; iDias++){
+            labelsDatos.push(iDias);
+          }
+          this.chart.updateSeries(seriesDatos);
+          this.chart.updateOptions({
             title:{
-              text: this.tipo+' por mes ('+anio+'-'+mes+')'
-            }
+              text: this.tipo+' por mes'
+            },
+            labels:labelsDatos
           });
+          if(this.tipoChart == "line"){
+            this.chart.updateOptions({
+              chart:{
+                stacked: false
+              },
+              dataLabels:{
+                offsetY: -10,
+                style:{
+                  fontSize: '12px',
+                  colors: ["#304758"],
+                },
+              }
+            });
+          }
         } 
       });  
   }
 
-  getDatosFlujoAnio(anio: string){
-    return this.dashboardService.getYearPayments(anio)
+  getDatosFlujoAnio(parkingId: string, anio: string){
+    return this.dashboardService.getYearPayments(parkingId,anio)
       .toPromise()
       .then((data) => {
         if (data) {
@@ -621,6 +839,11 @@ export class BarChartComponent implements OnInit {
           Object.keys(data).forEach((key: any) => {
             Object.keys(data[key]).forEach((key_item: any) => {
               let nombreSerie = key_item;
+              if(nombreSerie === 'Ticket_ebi'){
+                nombreSerie = 'EBI Go Ticket';
+              }else{
+                nombreSerie = 'EBI Go '+ nombreSerie;
+              }
               let datosDeServicio = data[key][key_item];
               let DatosAnioServicio: number[] = [];
               datosDeServicio.forEach((element:any) => {
@@ -632,12 +855,26 @@ export class BarChartComponent implements OnInit {
               })
             });
           });
-          this.chart3.updateSeries(seriesDatos);
-          this.chart3.updateOptions({
+          this.chart.updateSeries(seriesDatos);
+          this.chart.updateOptions({
             title:{
-              text: this.tipo+' por año ('+anio+')'
+              text: this.tipo+' por año'
             }
           });
+          if(this.tipoChart == "line"){
+            this.chart.updateOptions({
+              chart:{
+                stacked: false
+              },
+              dataLabels:{
+                offsetY: -10,
+                style:{
+                  fontSize: '12px',
+                  colors: ["#304758"],
+                },
+              }
+            });
+          }
         } 
       });  
   }
