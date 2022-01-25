@@ -177,14 +177,14 @@ async getInitialData(){
     }
   }
 
-  private rerender() {
-    if (this.dtElement != undefined) {
-      this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
-        dtInstance.destroy();
-        this.dtTrigger.next();
-      });
-    }
-  }
+   rerender() {
+     if (this.dtElement != undefined) {
+       this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+         dtInstance.destroy();
+         this.dtTrigger.next();
+       });
+     }
+   }
 
   ngOnInit(): void {
     const that = this;
