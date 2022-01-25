@@ -29,51 +29,51 @@ export class ReportService {
       //this.getInitialData();
     }
     
-    getPaymentsRpt(initDate:string,endDate:string) {
+    getPaymentsRpt(initDate:string,endDate:string,parqueo:string) {
       return this.http.get<ResponseModel>(
-        `${this.apiUrl}backoffice/report/getPagos/dates?initDate=${initDate}&endDate=${endDate}`       
+        `${this.apiUrl}backoffice/report/getPagos/dates?initDate=${initDate}&endDate=${endDate}&parqueo=${parqueo}`       
       );
     }
 
-    getTicketsRpt(initDate:string,endDate:string) {   
+    getTicketsRpt(initDate:string,endDate:string,parqueo:string) {   
       return this.http.get<ResponseModel>(
-        `${this.apiUrl}backoffice/report/ticketRpt/dates?initDate=${initDate}&endDate=${endDate}`       
+        `${this.apiUrl}backoffice/report/ticketRpt/dates?initDate=${initDate}&endDate=${endDate}&parqueo=${parqueo}`       
       );
     }
 
-    getTicketsDateRpt(initDate:string) {   
+    getTicketsDateRpt(initDate:string,parqueo:string) {
       return this.http.get<ResponseModel>(
-        `${this.apiUrl}backoffice/report/ticketDetailRpt/dates?initDate=${initDate}`       
+        `${this.apiUrl}backoffice/report/ticketDetailRpt/dates?initDate=${initDate}&parqueo=${parqueo}`
       );
     }
 
-    getDurationRpt(initDate:string,endDate:string) {  
+    getDurationRpt(initDate:string,endDate:string,parqueo:string) {  
       return this.http.get<ResponseModel>(
-        `${this.apiUrl}backoffice/report/durationRpt/dates?initDate=${initDate}&endDate=${endDate}`       
+        `${this.apiUrl}backoffice/report/durationRpt/dates?initDate=${initDate}&endDate=${endDate}&parqueo=${parqueo}`       
       );
     }
 
-    getCourtesyRpt(initDate:string,endDate:string) {   
+    getCourtesyRpt(initDate:string,endDate:string,parqueo:string) {   
       return this.http.get<ResponseModel>(
-        `${this.apiUrl}backoffice/report/courtesiesDetail/dates?initDate=${initDate}&endDate=${endDate}`       
+        `${this.apiUrl}backoffice/report/courtesiesDetail/dates?initDate=${initDate}&endDate=${endDate}&parqueo=${parqueo}`       
       );
     }
 
-    getParkingMonthlyRpt(initDate:string,endDate:string) {   
+    getParkingMonthlyRpt(initDate:string,endDate:string,parqueo:string) {   
       return this.http.get<ResponseModel>(
-        `${this.apiUrl}backoffice/report/parkingMonthlyRpt/dates?initDate=${initDate}&endDate=${endDate}`       
+        `${this.apiUrl}backoffice/report/parkingMonthlyRpt/dates?initDate=${initDate}&endDate=${endDate}&parqueo=${parqueo}`       
       );
     }
 
-    getParkingRpt(initDate:string,endDate:string) {   
+    getParkingRpt(initDate:string,endDate:string,parqueo:string) {   
       return this.http.get<ResponseModel>(
-        `${this.apiUrl}backoffice/report/parkingDailyMoSubRpt/dates?initDate=${initDate}&endDate=${endDate}`       
+        `${this.apiUrl}backoffice/report/parkingDailyMoSubRpt/dates?initDate=${initDate}&endDate=${endDate}&parqueo=${parqueo}`       
       );
     }
 
-    getParkingDateRpt(initDate:string) {   
+    getParkingDateRpt(initDate:string,parqueo:string) {   
       return this.http.get<ResponseModel>(
-        `${this.apiUrl}backoffice/report/parkingDailyMoSubDetRpt/dates?initDate=${initDate}`       
+        `${this.apiUrl}backoffice/report/parkingDailyMoSubDetRpt/dates?initDate=${initDate}&parqueo=${parqueo}`       
       );
     }
     

@@ -5,7 +5,20 @@
         <span ><i class = "fas fa-sitemap" ></i ></span > Reporte de parqueo diario (Mensual)
       </div >
       <div class = "row" >       
-       
+        <div class = "col-xl-4 col-lg-6 col-sm-12"
+        *ngIf = "ifHaveAction(verTodosLosParqueosReport)"  >
+          <div class = "mb-4 relative">
+            <label class = "labelInput" style = "display:block" >Parqueo</label >
+            <select
+              #inputParking
+              class = "inputClass">
+              <option value="0">---- Todos los parqueos ----</option>
+              <option *ngFor = "let parking of this.allParking"
+                      value = "{{parking.id}}" >{{parking.name}}</option >
+            </select >
+                  
+          </div >
+        </div >
         <div class = "col-xl-4 col-lg-6 col-sm-12" >
           <div class = "mb-4 relative" >
             <label class = "labelInput"
@@ -15,8 +28,8 @@
                    class = "form-control inputClass datetimepicker"
                    name = "initDate"
                    for = "initDate"
-                   placeholder = "Fecha/Hora de entrada"       
-                   
+                   placeholder = "Fecha/Hora de entrada"     
+                   [value]="fechaActual"
                     >
                   
           </div >
@@ -32,8 +45,7 @@
                    name = "endDate"
                    for = "endDate"
                    placeholder = "Fecha/Hora de salida"
-                   
-                  
+                   [value]="fechaActual"
                    >
           </div >
         </div >
@@ -108,7 +120,7 @@
           </dxo-toolbar>
           <dxo-master-detail [enabled]="true" template="detail"></dxo-master-detail>
           <div *dxTemplate="let datos of 'detail'">
-            <detail-grid-month [key]="datos.key"></detail-grid-month>
+            <detail-grid-month [key]="datos.key" [parqueo]="parqueoDetalle"></detail-grid-month>
           </div>
           <dxo-export [enabled]="true"></dxo-export>
         </dx-data-grid>

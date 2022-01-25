@@ -18,155 +18,487 @@
       </ul>
       <div class="content">
         <div class="content-value Ingresos" *ngIf = "ifHaveAction(graficosIngresoVehiculos) && idTabActiva === 'ingresos'">
-          <div
-          class = "col-lg-12 col-md-12 col-sm-12 col-xs-12" >
-          <div class = "panels " >
-            <div class = "titleCards" >
-              <span ><em class = "fas fa-chart-bar" ></em ></span > Filtros
-            </div >
-            <div class = "row justify-content-center" >
-              <div class = "row" >
-                <div class = "col-xl-4 col-lg-6  col-sm-12" >
-                  <div class = "mb-4 relative" >
-                    <label class = "labelInput" >Parqueo</label >
-                    <select
-                    *ngIf = "ifHaveAction(verTodosLosParqueosDashboard)"
-                      #inputParkingIngreso
-                      class = "inputClass"
-                      formControlName = "parking" >
-                      <option value="0">---- Todos los parqueos ----</option>
-                      <option *ngFor = "let parking of this.allParking"
-                              value = "{{parking.id}}" >{{parking.name}}</option >
-                    </select >
+          <div id="dia">
+            <div
+            class = "col-lg-12 col-md-12 col-sm-12 col-xs-12" >
+            <div class = "panels " >
+              <div class = "titleCards" >
+                <span ><em class = "fas fa-chart-bar" ></em ></span > Filtros
+              </div >
+              <div class = "row justify-content-center" >
+                <div class = "row" >
+                  <div class = "col-xl-4 col-lg-6  col-sm-12"
+                  *ngIf = "ifHaveAction(verTodosLosParqueosDashboard)" >
+                    <div class = "mb-4 relative" >
+                      <label class = "labelInput" >Parqueo</label >
+                      <select
+                        #inputParkingIngresoDia
+                        name="inputParkingIngresoDia"
+                        class = "inputClass"
+                        formControlName = "inputParkingIngresoDia" >
+                        <option value="0">---- Todos los parqueos ----</option>
+                        <option *ngFor = "let parking of this.allParking"
+                                value = "{{parking.id}}" >{{parking.name}}</option >
+                      </select >
+                    </div >
                   </div >
-                </div >
-                <div class = "col-xl-4 col-lg-6 col-sm-12" >
-                  <div class="input-group">
-                    <input 
-                    #inputFechaIngreso
-                    type = "date"   #endDate
-                     class = "form-control inputClass datetimepicker"
-                     name = "Date"
-                     placeholder = "Fecha/Hora"
-                     value={{fechaIngresos}}
-                     >
-                  </div>
-                </div >
-                <div class = "col-xl-4 col-lg-6 col-sm-12" >
-                  <div class = "text-center" >
-                    <button (click) = "searchIngresos()"
-                            class = "btn btn-primary " ><span ><em class = "fas fa-search" ></em ></span > Buscar
-                    </button >
-
+                  <div class = "col-xl-4 col-lg-6 col-sm-12" >
+                    <div class="input-group">
+                      <input 
+                        #inputFechaIngresoDia
+                        name = "inputFechaIngresoDia"
+                        formControlName = "inputFechaIngresoDia"
+                        type = "date"
+                        class = "form-control inputClass datetimepicker"
+                        value={{fechaIngresosDia}}
+                        placeholder = "Fecha/Hora"
+                       >
+                    </div>
                   </div >
-                </div >
-              </div>
+                  <div class = "col-xl-4 col-lg-6 col-sm-12" >
+                    <div class = "text-center" >
+                      <button (click) = "searchDia(ingresos)"
+                              class = "btn btn-primary " ><span ><em class = "fas fa-search" ></em ></span > Buscar
+                      </button >
+  
+                    </div >
+                  </div >
+                </div>
+              </div >
+  
             </div >
-
-          </div >
-        </div >
-          <app-bar-chart [tipo]="ingresos" [parking]="parqueoIngresos" [fecha]="fechaIngresos" [tipoChart]="tipoIngresos" ></app-bar-chart >
+            </div >
+            <app-bar-chart [tipo]="ingresos" [parking]="parqueoIngresosDia" [fecha]="fechaIngresosDia" [tipoChart]="tipoIngresos" [periodo]="periodoDia" ></app-bar-chart >
+          </div>
+          <div id="mes">
+            <div
+            class = "col-lg-12 col-md-12 col-sm-12 col-xs-12" >
+            <div class = "panels " >
+              <div class = "titleCards" >
+                <span ><em class = "fas fa-chart-bar" ></em ></span > Filtros
+              </div >
+              <div class = "row justify-content-center" >
+                <div class = "row" >
+                  <div class = "col-xl-4 col-lg-6  col-sm-12"
+                  *ngIf = "ifHaveAction(verTodosLosParqueosDashboard)" >
+                    <div class = "mb-4 relative" >
+                      <label class = "labelInput" >Parqueo</label >
+                      <select
+                        #inputParkingIngresoMes
+                        class = "inputClass"
+                        formControlName = "parking" >
+                        <option value="0">---- Todos los parqueos ----</option>
+                        <option *ngFor = "let parking of this.allParking"
+                                value = "{{parking.id}}" >{{parking.name}}</option >
+                      </select >
+                    </div >
+                  </div >
+                  <div class = "col-xl-2 col-lg-3 col-sm-6" >
+                    <div class="input-group">
+                      <select
+                        #inputIngresoMesAnio
+                        ngModel="inputIngresoMesAnio"
+                        ngControl="inputIngresoMesAnio"
+                        class = "inputClass" >
+                        <option *ngFor="let opt of AniosSelect" [selected]="opt.key == AnioActual" [value]="opt.key" >{{opt.valor}}</option>
+                      </select >
+                    </div>
+                  </div >
+                  <div class = "col-xl-2 col-lg-3 col-sm-6" >
+                    <div class="input-group">
+                      <select
+                        #inputIngresoMes
+                        ngModel="inputIngresoMes"
+                        ngControl="inputIngresoMes"
+                        class = "inputClass">
+                        <option *ngFor="let opt of Meses" [selected]="opt.key == MesActual" [value]="opt.key">{{opt.valor}}</option>
+                      </select >
+                    </div>
+                  </div >
+                  <div class = "col-xl-4 col-lg-6 col-sm-12" >
+                    <div class = "text-center" >
+                      <button (click) = "searchMes(ingresos)"
+                              class = "btn btn-primary " ><span ><em class = "fas fa-search" ></em ></span > Buscar
+                      </button >
+  
+                    </div >
+                  </div >
+                </div>
+              </div >
+            </div >
+            </div >
+            <app-bar-chart [tipo]="ingresos" [parking]="parqueoIngresosMes" [fecha]="fechaIngresosMes" [tipoChart]="tipoIngresos" [periodo]="periodoMes" ></app-bar-chart >
+          </div>
+          <div id="anio">
+            <div
+            class = "col-lg-12 col-md-12 col-sm-12 col-xs-12" >
+            <div class = "panels " >
+              <div class = "titleCards" >
+                <span ><em class = "fas fa-chart-bar" ></em ></span > Filtros
+              </div >
+              <div class = "row justify-content-center" >
+                <div class = "row" >
+                  <div class = "col-xl-4 col-lg-6  col-sm-12"
+                  *ngIf = "ifHaveAction(verTodosLosParqueosDashboard)" >
+                    <div class = "mb-4 relative" >
+                      <label class = "labelInput" >Parqueo</label >
+                      <select
+                        #inputParkingIngresoAnio
+                        class = "inputClass"
+                        formControlName = "parking" >
+                        <option value="0">---- Todos los parqueos ----</option>
+                        <option *ngFor = "let parking of this.allParking"
+                                value = "{{parking.id}}" >{{parking.name}}</option >
+                      </select >
+                    </div >
+                  </div >
+                  <div class = "col-xl-4 col-lg-6 col-sm-12" >
+                    <div class="input-group">
+                      <select
+                        #inputIngresoAnio
+                        class = "inputClass"
+                        formControlName = "inputIngresoAnio" >
+                        <option *ngFor="let opt of AniosSelect" [selected]="opt.key == AnioActual" [value]="opt.key" >{{opt.valor}}</option>
+                      </select >
+                    </div>
+                  </div >
+                  <div class = "col-xl-4 col-lg-6 col-sm-12" >
+                    <div class = "text-center" >
+                      <button (click) = "searchAnio(ingresos)"
+                              class = "btn btn-primary " ><span ><em class = "fas fa-search" ></em ></span > Buscar
+                      </button >
+  
+                    </div >
+                  </div >
+                </div>
+              </div >
+  
+            </div >
+            </div >
+            <app-bar-chart [tipo]="ingresos" [parking]="parqueoIngresosAnio" [fecha]="fechaIngresosAnio" [tipoChart]="tipoIngresos" [periodo]="periodoAnio" ></app-bar-chart >
+          </div>
         </div>
         <div class="content-value Flujo" *ngIf = "ifHaveAction(graficosFlujoDinero) && idTabActiva === 'flujo'">
-          <div
-          class = "col-lg-12 col-md-12 col-sm-12 col-xs-12" >
-          <div class = "panels " >
-            <div class = "titleCards" >
-              <span ><em class = "fas fa-chart-bar" ></em ></span > Filtros
-            </div >
-            <div class = "row justify-content-center" >
-              <div class = "row" >
-                <div class = "col-xl-4 col-lg-6  col-sm-12" >
-                  <div class = "mb-4 relative" >
-                    <label class = "labelInput" >Parqueo</label >
-                    <select
-                    *ngIf = "ifHaveAction(verTodosLosParqueosDashboard)"
-                      #inputParkingFlujo
-                      class = "inputClass"
-                      formControlName = "parkingFlujo" >
-                      <option value="0">---- Todos los parqueos ----</option>
-                      <option *ngFor = "let parking of this.allParking"
-                              value = "{{parking.id}}" >{{parking.name}}</option >
-                    </select >
+          <div id="dia">
+            <div
+            class = "col-lg-12 col-md-12 col-sm-12 col-xs-12" >
+            <div class = "panels " >
+              <div class = "titleCards" >
+                <span ><em class = "fas fa-chart-bar" ></em ></span > Filtros
+              </div >
+              <div class = "row justify-content-center" >
+                <div class = "row" >
+                  <div class = "col-xl-4 col-lg-6  col-sm-12"
+                  *ngIf = "ifHaveAction(verTodosLosParqueosDashboard)" >
+                    <div class = "mb-4 relative" >
+                      <label class = "labelInput" >Parqueo</label >
+                      <select
+                        #inputParkingFlujoDia
+                        name="inputParkingFlujoDia"
+                        class = "inputClass"
+                        formControlName = "inputParkingFlujoDia" >
+                        <option value="0">---- Todos los parqueos ----</option>
+                        <option *ngFor = "let parking of this.allParking"
+                                value = "{{parking.id}}" >{{parking.name}}</option >
+                      </select >
+                    </div >
                   </div >
-                </div >
-                <div class = "col-xl-4 col-lg-6 col-sm-12" >
-                  <div class="input-group">
-                    <input 
-                    #inputFechaFlujo
-                    type = "date"
-                     class = "form-control inputClass datetimepicker"
-                     name = "DateFlujo"
-                     placeholder = "Fecha/Hora"
-                     value={{fechaFlujo}}
-                     >
-                  </div>
-                </div >
-                <div class = "col-xl-4 col-lg-6 col-sm-12" >
-                  <div class = "text-center" >
-                    <button (click) = "searchFlujo()"
-                            class = "btn btn-primary " ><span ><em class = "fas fa-search" ></em ></span > Buscar
-                    </button >
-
+                  <div class = "col-xl-4 col-lg-6 col-sm-12" >
+                    <div class="input-group">
+                      <input 
+                        #inputFechaFlujoDia
+                        name = "inputFechaFlujoDia"
+                        formControlName = "inputFechaFlujoDia"
+                        type = "date"
+                        class = "form-control inputClass datetimepicker"
+                        value={{fechaFlujoDia}}
+                        placeholder = "Fecha/Hora"
+                       >
+                    </div>
                   </div >
-                </div >
-              </div>
+                  <div class = "col-xl-4 col-lg-6 col-sm-12" >
+                    <div class = "text-center" >
+                      <button (click) = "searchDia(flujo)"
+                              class = "btn btn-primary " ><span ><em class = "fas fa-search" ></em ></span > Buscar
+                      </button >
+  
+                    </div >
+                  </div >
+                </div>
+              </div >
+  
             </div >
-
-          </div >
-        </div >
-          <app-bar-chart [tipo]="flujo" [parking]="parqueoFlujo" [fecha]="fechaFlujo" [tipoChart]="tipoFlujo" ></app-bar-chart >
+            </div >
+            <app-bar-chart [tipo]="flujo" [parking]="parqueoFlujoDia" [fecha]="fechaFlujoDia" [tipoChart]="tipoFlujo" [periodo]="periodoDia" ></app-bar-chart >
+          </div>
+          <div id="mes">
+            <div
+            class = "col-lg-12 col-md-12 col-sm-12 col-xs-12" >
+            <div class = "panels " >
+              <div class = "titleCards" >
+                <span ><em class = "fas fa-chart-bar" ></em ></span > Filtros
+              </div >
+              <div class = "row justify-content-center" >
+                <div class = "row" >
+                  <div class = "col-xl-4 col-lg-6  col-sm-12"
+                  *ngIf = "ifHaveAction(verTodosLosParqueosDashboard)" >
+                    <div class = "mb-4 relative" >
+                      <label class = "labelInput" >Parqueo</label >
+                      <select
+                        #inputParkingFlujoMes
+                        class = "inputClass"
+                        formControlName = "parking" >
+                        <option value="0">---- Todos los parqueos ----</option>
+                        <option *ngFor = "let parking of this.allParking"
+                                value = "{{parking.id}}" >{{parking.name}}</option >
+                      </select >
+                    </div >
+                  </div >
+                  <div class = "col-xl-2 col-lg-3 col-sm-6" >
+                    <div class="input-group">
+                      <select
+                        #inputFlujoMesAnio
+                        ngModel="inputFlujoMesAnio"
+                        ngControl="inputFlujoMesAnio"
+                        class = "inputClass" >
+                        <option *ngFor="let opt of AniosSelect" [selected]="opt.key == AnioActual" [value]="opt.key" >{{opt.valor}}</option>
+                      </select >
+                    </div>
+                  </div >
+                  <div class = "col-xl-2 col-lg-3 col-sm-6" >
+                    <div class="input-group">
+                      <select
+                        #inputFlujoMes
+                        ngModel="inputFlujoMes"
+                        ngControl="inputFlujoMes"
+                        class = "inputClass">
+                        <option *ngFor="let opt of Meses" [selected]="opt.key == MesActual" [value]="opt.key">{{opt.valor}}</option>
+                      </select >
+                    </div>
+                  </div >
+                  <div class = "col-xl-4 col-lg-6 col-sm-12" >
+                    <div class = "text-center" >
+                      <button (click) = "searchMes(flujo)"
+                              class = "btn btn-primary " ><span ><em class = "fas fa-search" ></em ></span > Buscar
+                      </button >
+  
+                    </div >
+                  </div >
+                </div>
+              </div >
+            </div >
+            </div >
+            <app-bar-chart [tipo]="flujo" [parking]="parqueoFlujoMes" [fecha]="fechaFlujoMes" [tipoChart]="tipoFlujo" [periodo]="periodoMes" ></app-bar-chart >
+          </div>
+          <div id="anio">
+            <div
+            class = "col-lg-12 col-md-12 col-sm-12 col-xs-12" >
+            <div class = "panels " >
+              <div class = "titleCards" >
+                <span ><em class = "fas fa-chart-bar" ></em ></span > Filtros
+              </div >
+              <div class = "row justify-content-center" >
+                <div class = "row" >
+                  <div class = "col-xl-4 col-lg-6  col-sm-12"
+                  *ngIf = "ifHaveAction(verTodosLosParqueosDashboard)" >
+                    <div class = "mb-4 relative" >
+                      <label class = "labelInput" >Parqueo</label >
+                      <select
+                        #inputParkingFlujoAnio
+                        class = "inputClass"
+                        formControlName = "parking" >
+                        <option value="0">---- Todos los parqueos ----</option>
+                        <option *ngFor = "let parking of this.allParking"
+                                value = "{{parking.id}}" >{{parking.name}}</option >
+                      </select >
+                    </div >
+                  </div >
+                  <div class = "col-xl-4 col-lg-6 col-sm-12" >
+                    <div class="input-group">
+                      <select
+                        #inputFlujoAnio
+                        class = "inputClass"
+                        formControlName = "inputFlujoAnio" >
+                        <option *ngFor="let opt of AniosSelect" [selected]="opt.key == AnioActual" [value]="opt.key" >{{opt.valor}}</option>
+                      </select >
+                    </div>
+                  </div >
+                  <div class = "col-xl-4 col-lg-6 col-sm-12" >
+                    <div class = "text-center" >
+                      <button (click) = "searchAnio(flujo)"
+                              class = "btn btn-primary " ><span ><em class = "fas fa-search" ></em ></span > Buscar
+                      </button >
+  
+                    </div >
+                  </div >
+                </div>
+              </div >
+  
+            </div >
+            </div >
+            <app-bar-chart [tipo]="flujo" [parking]="parqueoFlujoAnio" [fecha]="fechaFlujoAnio" [tipoChart]="tipoFlujo" [periodo]="periodoAnio" ></app-bar-chart >
+          </div>
         </div>
         <div class="content-value Cortesias" *ngIf = "ifHaveAction(graficosCortesias) && idTabActiva === 'cortesias'">
-                  <div
-          class = "col-lg-12 col-md-12 col-sm-12 col-xs-12" >
-          <div class = "panels " >
-            <div class = "titleCards" >
-              <span ><em class = "fas fa-chart-bar" ></em ></span > Filtros
-            </div >
-            <div class = "row justify-content-center" >
-              <div class = "row" >
-                <div class = "col-xl-4 col-lg-6  col-sm-12" >
-                  <div class = "mb-4 relative" >
-                    <label class = "labelInput" >Parqueo</label >
-                    <select
-                    *ngIf = "ifHaveAction(verTodosLosParqueosDashboard)"
-                      #inputParkingCortesias
-                      class = "inputClass"
-                      formControlName = "parkingCortesias" >
-                      <option value="0">---- Todos los parqueos ----</option>
-                      <option *ngFor = "let parking of this.allParking"
-                              value = "{{parking.id}}" >{{parking.name}}</option >
-                    </select >
+          <div id="dia">
+            <div
+            class = "col-lg-12 col-md-12 col-sm-12 col-xs-12" >
+            <div class = "panels " >
+              <div class = "titleCards" >
+                <span ><em class = "fas fa-chart-bar" ></em ></span > Filtros
+              </div >
+              <div class = "row justify-content-center" >
+                <div class = "row" >
+                  <div class = "col-xl-4 col-lg-6  col-sm-12"
+                  *ngIf = "ifHaveAction(verTodosLosParqueosDashboard)" >
+                    <div class = "mb-4 relative" >
+                      <label class = "labelInput" >Parqueo</label >
+                      <select
+                        #inputParkingCortesiasDia
+                        name="inputParkingCortesiasDia"
+                        class = "inputClass"
+                        formControlName = "inputParkingCortesiasDia" >
+                        <option value="0">---- Todos los parqueos ----</option>
+                        <option *ngFor = "let parking of this.allParking"
+                                value = "{{parking.id}}" >{{parking.name}}</option >
+                      </select >
+                    </div >
                   </div >
-                </div >
-                <div class = "col-xl-4 col-lg-6 col-sm-12" >
-                  <div class="input-group">
-                    <input 
-                    #inputFechaCortesias
-                    type = "date"  
-                     class = "form-control inputClass datetimepicker"
-                     name = "DateFlujo"
-                     placeholder = "Fecha/Hora"
-                     value={{fechaCortesias}}
-                     >
-                  </div>
-                </div >
-                <div class = "col-xl-4 col-lg-6 col-sm-12" >
-                  <div class = "text-center" >
-                    <button (click) = "searchCortesias()"
-                            class = "btn btn-primary " ><span ><em class = "fas fa-search" ></em ></span > Buscar
-                    </button >
-
+                  <div class = "col-xl-4 col-lg-6 col-sm-12" >
+                    <div class="input-group">
+                      <input 
+                        #inputFechaCortesiasDia
+                        name = "inputFechaCortesiasDia"
+                        formControlName = "inputFechaCortesiasDia"
+                        type = "date"
+                        class = "form-control inputClass datetimepicker"
+                        value={{fechaCortesiasDia}}
+                        placeholder = "Fecha/Hora"
+                       >
+                    </div>
                   </div >
-                </div >
-              </div>
+                  <div class = "col-xl-4 col-lg-6 col-sm-12" >
+                    <div class = "text-center" >
+                      <button (click) = "searchDia(cortesias)"
+                              class = "btn btn-primary " ><span ><em class = "fas fa-search" ></em ></span > Buscar
+                      </button >
+  
+                    </div >
+                  </div >
+                </div>
+              </div >
+  
             </div >
-
-          </div >
-        </div >
-
-          <app-bar-chart [tipo]="cortesias" [parking]="parqueoCortesias" [fecha]="fechaCortesias" [tipoChart]="tipoCortesias" ></app-bar-chart >
+            </div >
+            <app-bar-chart [tipo]="cortesias" [parking]="parqueoCortesiasDia" [fecha]="fechaCortesiasDia" [tipoChart]="tipoCortesias" [periodo]="periodoDia" ></app-bar-chart >
+          </div>
+          <div id="mes">
+            <div
+            class = "col-lg-12 col-md-12 col-sm-12 col-xs-12" >
+            <div class = "panels " >
+              <div class = "titleCards" >
+                <span ><em class = "fas fa-chart-bar" ></em ></span > Filtros
+              </div >
+              <div class = "row justify-content-center" >
+                <div class = "row" >
+                  <div class = "col-xl-4 col-lg-6  col-sm-12"
+                  *ngIf = "ifHaveAction(verTodosLosParqueosDashboard)" >
+                    <div class = "mb-4 relative" >
+                      <label class = "labelInput" >Parqueo</label >
+                      <select
+                        #inputParkingCortesiasMes
+                        class = "inputClass"
+                        formControlName = "parking" >
+                        <option value="0">---- Todos los parqueos ----</option>
+                        <option *ngFor = "let parking of this.allParking"
+                                value = "{{parking.id}}" >{{parking.name}}</option >
+                      </select >
+                    </div >
+                  </div >
+                  <div class = "col-xl-2 col-lg-3 col-sm-6" >
+                    <div class="input-group">
+                      <select
+                        #inputCortesiasMesAnio
+                        ngModel="inputCortesiasMesAnio"
+                        ngControl="inputCortesiasMesAnio"
+                        class = "inputClass" >
+                        <option *ngFor="let opt of AniosSelect" [selected]="opt.key == AnioActual" [value]="opt.key" >{{opt.valor}}</option>
+                      </select >
+                    </div>
+                  </div >
+                  <div class = "col-xl-2 col-lg-3 col-sm-6" >
+                    <div class="input-group">
+                      <select
+                        #inputCortesiasMes
+                        ngModel="inputCortesiasMes"
+                        ngControl="inputCortesiasMes"
+                        class = "inputClass">
+                        <option *ngFor="let opt of Meses" [selected]="opt.key == MesActual" [value]="opt.key">{{opt.valor}}</option>
+                      </select >
+                    </div>
+                  </div >
+                  <div class = "col-xl-4 col-lg-6 col-sm-12" >
+                    <div class = "text-center" >
+                      <button (click) = "searchMes(cortesias)"
+                              class = "btn btn-primary " ><span ><em class = "fas fa-search" ></em ></span > Buscar
+                      </button >
+  
+                    </div >
+                  </div >
+                </div>
+              </div >
+            </div >
+            </div >
+            <app-bar-chart [tipo]="cortesias" [parking]="parqueoCortesiasMes" [fecha]="fechaCortesiasMes" [tipoChart]="tipoCortesias" [periodo]="periodoMes" ></app-bar-chart >
+          </div>
+          <div id="anio">
+            <div
+            class = "col-lg-12 col-md-12 col-sm-12 col-xs-12" >
+            <div class = "panels " >
+              <div class = "titleCards" >
+                <span ><em class = "fas fa-chart-bar" ></em ></span > Filtros
+              </div >
+              <div class = "row justify-content-center" >
+                <div class = "row" >
+                  <div class = "col-xl-4 col-lg-6  col-sm-12"
+                  *ngIf = "ifHaveAction(verTodosLosParqueosDashboard)" >
+                    <div class = "mb-4 relative" >
+                      <label class = "labelInput" >Parqueo</label >
+                      <select
+                        #inputParkingCortesiasAnio
+                        class = "inputClass"
+                        formControlName = "parking" >
+                        <option value="0">---- Todos los parqueos ----</option>
+                        <option *ngFor = "let parking of this.allParking"
+                                value = "{{parking.id}}" >{{parking.name}}</option >
+                      </select >
+                    </div >
+                  </div >
+                  <div class = "col-xl-4 col-lg-6 col-sm-12" >
+                    <div class="input-group">
+                      <select
+                        #inputCortesiasAnio
+                        class = "inputClass"
+                        formControlName = "inputCortesiasAnio" >
+                        <option *ngFor="let opt of AniosSelect" [selected]="opt.key == AnioActual" [value]="opt.key" >{{opt.valor}}</option>
+                      </select >
+                    </div>
+                  </div >
+                  <div class = "col-xl-4 col-lg-6 col-sm-12" >
+                    <div class = "text-center" >
+                      <button (click) = "searchAnio(cortesias)"
+                              class = "btn btn-primary " ><span ><em class = "fas fa-search" ></em ></span > Buscar
+                      </button >
+  
+                    </div >
+                  </div >
+                </div>
+              </div >
+  
+            </div >
+            </div >
+            <app-bar-chart [tipo]="cortesias" [parking]="parqueoCortesiasAnio" [fecha]="fechaCortesiasAnio" [tipoChart]="tipoCortesias" [periodo]="periodoAnio" ></app-bar-chart >
+          </div>
         </div>
       </div>
   </div>

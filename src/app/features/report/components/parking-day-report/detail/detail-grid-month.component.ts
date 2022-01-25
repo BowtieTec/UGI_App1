@@ -11,6 +11,7 @@ import { Workbook } from 'exceljs';
 })
 export class DetailGridMonthComponent implements AfterViewInit{
     @Input() key!: string;
+    @Input() parqueo: string = "0";
 
     tasksDataSource!: DataSource;
 
@@ -23,7 +24,7 @@ export class DetailGridMonthComponent implements AfterViewInit{
 
     ngAfterViewInit(): void {
         this.reportService
-        .getParkingDateRpt(this.key)
+        .getParkingDateRpt(this.key,this.parqueo)
          .toPromise()
          .then((data) => {
            if (data.success) {

@@ -24,6 +24,9 @@ import { exportDataGrid as exportDataGridToPdf } from 'devextreme/pdf_exporter';
 import { exportDataGrid } from 'devextreme/excel_exporter';
 import { Workbook } from 'exceljs';
 
+import { ParkingService } from '../../../parking/services/parking.service';
+import { ParkingModel } from '../../../parking/models/Parking.model';
+
 export interface dayPark {
   fecha: Date;
   total_v: number;
@@ -46,13 +49,24 @@ export class ParkingDayReportComponent implements OnInit {
   
   report: dayPark[] = [];
   dataSource: any;
+
+  allParking: ParkingModel[] = Array<ParkingModel>();
+  verTodosLosParqueosReport = environment.verTodosLosParqueosReport;
+  @ViewChild('inputParking') inputParking!: ElementRef;
+  fechaActual = new Date().toISOString().split('T')[0];  
+
+  datosUsuarioLogeado = this.auth.getParking();
+  parqueoDetalle = '0';
+
   constructor(
+    private auth: AuthService,
     private reportService: ReportService,
     private messageService: MessageService,
     private utilitiesService: UtilitiesService,
     private authService: AuthService,
     private permisionService: PermissionsService,
     private excelService: ReportService,
+    private parkingService: ParkingService,
   )
 
   {
@@ -63,6 +77,11 @@ export class ParkingDayReportComponent implements OnInit {
 
   ngOnInit(): void {
     this.dtOptions = DataTableOptions.getSpanishOptions(10);
+    this.parkingService.getAllParking().then((data) => {
+      if (data.success) {
+        this.allParking = data.data.parkings;
+      }
+    });
   }
 
   ifHaveAction(action: string) {
@@ -75,9 +94,13 @@ export class ParkingDayReportComponent implements OnInit {
   }
 
   getParkingsRpt(initDate:string,endDate:string) { 
-    console.log(initDate,endDate);
+    let parqueo = this.datosUsuarioLogeado.id;
+    if(this.ifHaveAction('verTodosLosParqueosReport')){
+      parqueo = this.inputParking.nativeElement.value;
+    }
+    this.parqueoDetalle =parqueo;
     return this.reportService
-     .getParkingRpt(initDate,endDate)
+     .getParkingRpt(initDate,endDate, parqueo)
       .toPromise()
       .then((data) => {
         if (data.success) {
@@ -93,8 +116,28 @@ export class ParkingDayReportComponent implements OnInit {
       });
   }
 
-  ngAfterViewInit(): void {
+  ngAfterViewInit() {
     this.dtTrigger.next();
+    let parqueo = this.datosUsuarioLogeado.id;
+    if(this.ifHaveAction('verTodosLosParqueosReport')){
+      parqueo = '0';
+    }
+    this.parqueoDetalle =parqueo;
+    return this.reportService
+     .getParkingRpt(this.fechaActual,this.fechaActual,parqueo)
+      .toPromise()
+      .then((data) => {
+        if (data.success) {
+          this.report = data.data;
+          this.dataSource = data.data;
+          this.rerender();
+        } else {
+          this.messageService.error('', data.message);
+        }
+      })
+      .then(() => {
+        this.messageService.hideLoading();
+      });
   }
 
   private rerender() {
