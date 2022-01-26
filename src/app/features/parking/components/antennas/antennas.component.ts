@@ -1,28 +1,17 @@
-import {
-  AfterViewInit,
-  Component,
-  EventEmitter,
-  Input,
-  OnDestroy,
-  Output,
-  ViewChild,
-} from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import {
-  AccessModel,
-  CreateParkingStepFiveModel,
-} from '../../models/CreateParking.model';
-import { MessageService } from '../../../../shared/services/message.service';
-import { ParkingService } from '../../services/parking.service';
-import { UtilitiesService } from '../../../../shared/services/utilities.service';
-import { ResponseModel } from '../../../../shared/model/Request.model';
-import { AuthService } from '../../../../shared/services/auth.service';
-import { PermissionsService } from '../../../../shared/services/permissions.service';
-import { environment } from '../../../../../environments/environment';
-import { ParkingModel } from '../../models/Parking.model';
-import { DataTableDirective } from 'angular-datatables';
-import { DataTableOptions } from '../../../../shared/model/DataTableOptions';
-import { Subject } from 'rxjs';
+import {AfterViewInit, Component, EventEmitter, Input, OnDestroy, Output, ViewChild,} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {AccessModel, CreateParkingStepFiveModel,} from '../../models/CreateParking.model';
+import {MessageService} from '../../../../shared/services/message.service';
+import {ParkingService} from '../../services/parking.service';
+import {UtilitiesService} from '../../../../shared/services/utilities.service';
+import {ResponseModel} from '../../../../shared/model/Request.model';
+import {AuthService} from '../../../../shared/services/auth.service';
+import {PermissionsService} from '../../../../shared/services/permissions.service';
+import {environment} from '../../../../../environments/environment';
+import {ParkingModel} from '../../models/Parking.model';
+import {DataTableDirective} from 'angular-datatables';
+import {DataTableOptions} from '../../../../shared/model/DataTableOptions';
+import {Subject} from 'rxjs';
 
 @Component({
   selector: 'app-antennas',
@@ -182,7 +171,7 @@ export class AntennasComponent implements AfterViewInit, OnDestroy {
       (data) => {
         const a = document.createElement('a');
         a.href = URL.createObjectURL(data);
-        a.download = antenna.name;
+        a.download = `${antenna.antena} - ${antenna.name}`;
         document.body.appendChild(a);
         a.click();
         a.remove();
