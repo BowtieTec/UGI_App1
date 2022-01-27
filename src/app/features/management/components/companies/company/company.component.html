@@ -1,0 +1,52 @@
+<div class = "panels animate__animated animate__fadeInLeft" >
+  <div class = "titleCards" >
+    <span ><em class = "fas fa-user-plus" ></em ></span > Crear compañía
+  </div >
+  <div class = "row" >
+  </div >
+</div >
+<div class = "panels animate__animated animate__fadeInLeft" >
+  <div class = "titleCards" >
+    <span ><em class = "fas fa-hard-hat" ></em ></span > Ver compañías
+  </div >
+  <div class = "row" >
+    <table [dtOptions] = "dtOptions"
+           [dtTrigger] = "dtTrigger"
+           aria-label = "Tabla de usuarios"
+           class = "table table-striped"
+           datatable >
+      <thead >
+      <tr >
+        <th scope = "col" >Nombre
+        </th >
+        <th scope = "col" >Ubicación</th >
+        <th scope = "col" >Parqueo</th >
+        <th scope = "col" >Creado</th >
+        <th scope = "col text-right"
+            style = "width: 20%"
+        >Acciones
+        </th >
+      </tr >
+      </thead >
+      <tbody >
+      <tr *ngFor = "let company of companies"
+          class = "animate__animated animate__fadeIn" >
+        <td >{{company.name}}</td >
+        <td >{{company.place}}</td >
+        <td >{{company.parking.name}}</td >
+        <td >{{company.created_at}}</td >
+        <td class = "text-right" >
+          <button (click) = "editTheCompany(company)"
+                  class = "buttonRowEdit me-1"
+                  title = "Editar" ><em class = "fas fa-user-edit" ></em >
+          </button >
+          <button
+            (click) = "deleteTheCompany(company)"
+            class = "buttonRowDelete" ><em class = "fas fa-user-times" ></em >
+          </button >
+        </td >
+      </tr >
+      </tbody >
+    </table >
+  </div >
+</div >

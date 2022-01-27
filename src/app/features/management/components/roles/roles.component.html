@@ -43,8 +43,8 @@
                 <div >
                   <ul class = "opcionActivo" >
                     <li *ngFor = " let item of getPermissionsForModules(module)" >
-                        
-                      <input [(ngModel)] = "item.checked"
+
+                    <input [(ngModel)] = "item.checked"
                              autocomplete = "off"
                              class = "form-check-input"
                              id = "{{item.id}}"
