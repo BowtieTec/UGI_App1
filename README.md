@@ -124,6 +124,33 @@ To build and run this project you need:
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
+<!-- How Use -->
+
+## How use
+
+### Test into development environment
+
+To launch the project with the parameters pointed to the backend on the development server, you can use:
+
+   ```shell
+   ng serve
+   ```
+
+### localhost environment
+
+To launch the project with the parameters pointed to the backend on the localhost, you can use:
+
+   ```shell
+   ng server -c local
+   ```
+
+### Build
+
+To build this project you can use this command in the terminal:
+
+   ```shell
+   ng build
+   ```
 
 <!-- ROADMAP -->
 

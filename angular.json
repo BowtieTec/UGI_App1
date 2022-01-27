@@ -79,6 +79,20 @@
               "extractLicenses": false,
               "sourceMap": true,
               "namedChunks": true
+            },
+            "local": {
+              "optimization": true,
+              "buildOptimizer": true,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true,
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.local.ts"
+                }
+              ]
             }
           },
           "defaultConfiguration": "production"
@@ -91,6 +105,9 @@
             },
             "development": {
               "browserTarget": "ebiGo:build:development"
+            },
+            "local": {
+              "browserTarget": "ebiGo:build:local"
             }
           },
           "defaultConfiguration": "development"
