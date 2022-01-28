@@ -1,10 +1,8 @@
-import {ParkingModel} from "../../../../parking/models/Parking.model";
-
 export class CompaniesModel {
-  id: string = '';
+  id?: string = '';
   name: string = '';
   place: string = '';
-  parking: ParkingModel = new ParkingModel();
+  parking?: any;
   status: boolean = false;
-  created_at: Date = new Date();
+  created_at?: Date = new Date();
 }

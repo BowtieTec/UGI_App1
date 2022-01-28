@@ -18,6 +18,19 @@ export class CompaniesService {
   constructor(private messageService: MessageService, private http: HttpClient) {
   }
 
+  get states() {
+    return [
+      {
+        id: 0,
+        name: 'Habilitado'
+      },
+      {
+        id: 1,
+        name: 'Inhabilitado'
+      }
+    ]
+  }
+
   getCompanies(parkingId: string): Observable<Array<CompaniesModel>> {
     this.messageService.showLoading();
     return this.http.get<ResponseModel>
@@ -33,5 +46,49 @@ export class CompaniesService {
           }
         })
       );
+  }
+
+  createCompany(company: CompaniesModel, callback: () => void) {
+    this.messageService.showLoading();
+    return this.http.post<ResponseModel>(
+      `${this.apiUrl}backoffice/company`,
+      company
+    ).pipe(map((x) => {
+      if (x.success) {
+        callback();
+        this.messageService.OkTimeOut();
+      } else {
+        this.messageService.error(x.message);
+      }
+    }));
+  }
+
+  editCompany(company: CompaniesModel, callback: () => void) {
+    this.messageService.showLoading();
+    return this.http.put<ResponseModel>(
+      `${this.apiUrl}backoffice/company`,
+      company
+    ).pipe(map((x) => {
+      if (x.success) {
+        callback();
+        this.messageService.OkTimeOut();
+      } else {
+        this.messageService.error(x.message);
+      }
+    }));
+  }
+
+  deleteCompany(id: string, callback: () => void) {
+    this.messageService.showLoading();
+    return this.http.delete<ResponseModel>(
+      `${this.apiUrl}backoffice/company/${id}`
+    ).pipe(map((x) => {
+      if (x.success) {
+        callback();
+        this.messageService.OkTimeOut();
+      } else {
+        this.messageService.error(x.message);
+      }
+    }));
   }
 }

@@ -1,13 +1,66 @@
 <div class = "panels animate__animated animate__fadeInLeft" >
   <div class = "titleCards" >
-    <span ><em class = "fas fa-user-plus" ></em ></span > Crear compañía
+    <span ><em class = "fas fa-hard-hat" ></em ></span > Crear compañía
+  </div >
+  <div class = "row " >
+    <span *ngIf = "idCompanyToEdit"
+          class = "badge rounded-pill bg-warning text-dark" >Usted está en modo  edición </span >
+
+    <div class = "col-md-6 col-sm-12" >
+      <div class = "m-3 relative " >
+        <app-input-container
+          [formGroup] = "companiesForm"
+          controlName = "name"
+          name = "Nombre" >
+        </app-input-container >
+      </div >
+    </div >
+    <div class = "col-md-6 col-sm-12" >
+      <div class = "m-3 relative " >
+        <app-input-container
+          [formGroup] = "companiesForm"
+          controlName = "place"
+          name = "Ubicación" >
+        </app-input-container >
+      </div >
+    </div >
   </div >
   <div class = "row" >
+    <div class = "col-md-6 col-sm-12" >
+      <div class = "m-3 relative " >
+        <app-select-container
+          [data] = "this.states"
+          [formGroup] = "companiesForm"
+          controlName = "status"
+          name = "Estado" ></app-select-container >
+      </div >
+    </div >
+    <div class = "col-md-6 col-sm-12" >
+      <div class = "m-3 relative " >
+        <app-select-container
+          [data] = "this.allParkingLot"
+          [formGroup] = "companiesForm"
+          controlName = "parking"
+          name = "Estado" ></app-select-container >
+      </div >
+    </div >
   </div >
+  <div class = "text-center m-4" >
+    <button (click) = "saveCompany()"
+            class = "btn btn-success animate__animated animate__fadeInDown"
+            type = "button" >Guardar
+    </button >
+    <button (click) = "this.idCompanyToEdit = ''"
+            *ngIf = "this.idCompanyToEdit"
+            class = "btn btn-info m-3 animate__animated animate__fadeInDown"
+            type = "button" >Salir del modo edición
+    </button >
+  </div >
+
 </div >
 <div class = "panels animate__animated animate__fadeInLeft" >
   <div class = "titleCards" >
-    <span ><em class = "fas fa-hard-hat" ></em ></span > Ver compañías
+    <span ><em class = "fas fa-store" ></em ></span > Ver compañías
   </div >
   <div class = "row" >
     <table [dtOptions] = "dtOptions"
@@ -16,33 +69,32 @@
            class = "table table-striped"
            datatable >
       <thead >
-      <tr >
+      <tr class = "text-center" >
         <th scope = "col" >Nombre
         </th >
         <th scope = "col" >Ubicación</th >
+        <th scope = "col" >Estado</th >
         <th scope = "col" >Parqueo</th >
         <th scope = "col" >Creado</th >
-        <th scope = "col text-right"
-            style = "width: 20%"
-        >Acciones
-        </th >
+        <th scope = "col" >Acciones</th >
       </tr >
       </thead >
       <tbody >
       <tr *ngFor = "let company of companies"
           class = "animate__animated animate__fadeIn" >
-        <td >{{company.name}}</td >
-        <td >{{company.place}}</td >
-        <td >{{company.parking.name}}</td >
-        <td >{{company.created_at}}</td >
-        <td class = "text-right" >
+        <td >{{company.name | titlecase}}</td >
+        <td >{{company.place | titlecase}}</td >
+        <td >{{!company.status ? 'Habilitado' : 'Deshabilitado'}}</td >
+        <td >{{company.parking!.name  | titlecase}}</td >
+        <td >{{company.created_at | date: 'short'}}</td >
+        <td class = "text-center" >
           <button (click) = "editTheCompany(company)"
                   class = "buttonRowEdit me-1"
-                  title = "Editar" ><em class = "fas fa-user-edit" ></em >
+                  title = "Editar" ><em class = "fas fa-edit" ></em >
           </button >
           <button
             (click) = "deleteTheCompany(company)"
-            class = "buttonRowDelete" ><em class = "fas fa-user-times" ></em >
+            class = "buttonRowDelete" ><em class = "fas fa-minus-circle" ></em >
           </button >
         </td >
       </tr >
