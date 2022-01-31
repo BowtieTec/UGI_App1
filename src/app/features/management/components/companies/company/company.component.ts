@@ -1,3 +1,5 @@
+import {environment} from 'src/environments/environment';
+import {PermissionsService} from './../../../../../shared/services/permissions.service';
 import {AfterViewInit, Component, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {UtilitiesService} from "../../../../../shared/services/utilities.service";
 import {CompaniesService} from "../../users/services/companies.service";
@@ -28,7 +30,18 @@ export class CompanyComponent implements OnInit, AfterViewInit, OnDestroy {
   dtTrigger: Subject<any> = new Subject();
   formGroup: FormGroup;
 
-  constructor(private utilitiesService: UtilitiesService, private companyService: CompaniesService, private authService: AuthService, private formBuilder: FormBuilder, private parkingService: ParkingService, private messageService: MessageService) {
+  /* Permissions */
+  create: string = environment.createLocal;
+  disable: string = environment.disableLocal;
+  edit: string = environment.editLocal;
+
+  constructor(private utilitiesService: UtilitiesService,
+              private companyService: CompaniesService,
+              private authService: AuthService,
+              private formBuilder: FormBuilder,
+              private parkingService: ParkingService,
+              private messageService: MessageService,
+              private permissionService: PermissionsService) {
     this.formGroup = formBuilder.group({filter: ['']});
     this.companiesForm = this.createCompanyForm();
     this.getInitialData();
@@ -45,6 +58,10 @@ export class CompanyComponent implements OnInit, AfterViewInit, OnDestroy {
       place: this.companiesForm.get('place')?.value,
       status: this.companiesForm.get('status')?.value,
     }
+  }
+
+  ifHaveAction(action: string) {
+    return this.permissionService.ifHaveAction(action);
   }
 
   ngOnInit(): void {

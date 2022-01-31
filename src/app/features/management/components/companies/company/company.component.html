@@ -1,26 +1,25 @@
-<div class = "panels animate__animated animate__fadeInLeft" >
+<div *ngIf = "ifHaveAction(create)"
+     class = "panels animate__animated animate__fadeInLeft" >
   <div class = "titleCards" >
     <span ><em class = "fas fa-hard-hat" ></em ></span > Crear compañía
   </div >
   <div class = "row " >
     <span *ngIf = "idCompanyToEdit"
-          class = "badge rounded-pill bg-warning text-dark" >Usted está en modo  edición </span >
+          class = "badge rounded-pill bg-warning text-dark" >Usted está en modo edición </span >
 
     <div class = "col-md-6 col-sm-12" >
       <div class = "m-3 relative " >
-        <app-input-container
-          [formGroup] = "companiesForm"
-          controlName = "name"
-          name = "Nombre" >
+        <app-input-container [formGroup] = "companiesForm"
+                             controlName = "name"
+                             name = "Nombre" >
         </app-input-container >
       </div >
     </div >
     <div class = "col-md-6 col-sm-12" >
       <div class = "m-3 relative " >
-        <app-input-container
-          [formGroup] = "companiesForm"
-          controlName = "place"
-          name = "Ubicación" >
+        <app-input-container [formGroup] = "companiesForm"
+                             controlName = "place"
+                             name = "Ubicación" >
         </app-input-container >
       </div >
     </div >
@@ -28,20 +27,19 @@
   <div class = "row" >
     <div class = "col-md-6 col-sm-12" >
       <div class = "m-3 relative " >
-        <app-select-container
-          [data] = "this.states"
-          [formGroup] = "companiesForm"
-          controlName = "status"
-          name = "Estado" ></app-select-container >
+        <app-select-container [data] = "this.states"
+                              [formGroup] = "companiesForm"
+                              controlName = "status"
+                              name = "Estado" >
+        </app-select-container >
       </div >
     </div >
     <div class = "col-md-6 col-sm-12" >
       <div class = "m-3 relative " >
-        <app-select-container
-          [data] = "this.allParkingLot"
-          [formGroup] = "companiesForm"
-          controlName = "parking"
-          name = "Estado" ></app-select-container >
+        <app-select-container [data] = "this.allParkingLot"
+                              [formGroup] = "companiesForm"
+                              controlName = "parking"
+                              name = "Estado" ></app-select-container >
       </div >
     </div >
   </div >
@@ -85,16 +83,17 @@
         <td >{{company.name | titlecase}}</td >
         <td >{{company.place | titlecase}}</td >
         <td >{{!company.status ? 'Habilitado' : 'Deshabilitado'}}</td >
-        <td >{{company.parking!.name  | titlecase}}</td >
+        <td >{{company.parking!.name | titlecase}}</td >
         <td >{{company.created_at | date: 'short'}}</td >
         <td class = "text-center" >
           <button (click) = "editTheCompany(company)"
                   class = "buttonRowEdit me-1"
+                  *ngIf = "ifHaveAction(edit)"
                   title = "Editar" ><em class = "fas fa-edit" ></em >
           </button >
-          <button
-            (click) = "deleteTheCompany(company)"
-            class = "buttonRowDelete" ><em class = "fas fa-minus-circle" ></em >
+          <button (click) = "deleteTheCompany(company)"
+                  *ngIf = "ifHaveAction(disable)"
+                  class = "buttonRowDelete" ><em class = "fas fa-minus-circle" ></em >
           </button >
         </td >
       </tr >

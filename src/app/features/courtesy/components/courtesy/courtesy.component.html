@@ -73,13 +73,25 @@
             </div >
             <div class = "col-xl-4 col-lg-6 col-sm-12" >
               <div class = "mb-4 relative" >
-              <app-select-container
-                controlName="parkingId" *ngIf="isSudo"
-                name="Parqueos"
-                (change)="getCourtesies(this.parkingSelected)"
-                [formGroup]="newCourtesyForm"
-                [data]="allParking">
-              </app-select-container>
+                <app-select-container
+                  (change) = "getCourtesies(this.parkingSelected)"
+                  *ngIf = "isSudo"
+                  [data] = "allParking"
+                  [formGroup] = "newCourtesyForm"
+                  controlName = "parkingId"
+                  name = "Parqueos" >
+                </app-select-container >
+              </div >
+            </div >
+            <div class = "col-xl-4 col-lg-6 col-sm-12" >
+              <div class = "mb-4 relative" >
+                <app-select-container
+                  *ngIf = "isSudo"
+                  [data] = "allCompanies"
+                  [formGroup] = "newCourtesyForm"
+                  controlName = "companyId"
+                  name = "Locales" >
+                </app-select-container >
               </div >
             </div >
           </div >
@@ -111,6 +123,7 @@
               <th scope = "col" >Nombre</th >
               <th scope = "col" >Tipo cortesia</th >
               <th scope = "col" >Cantidad</th >
+              <th scope = "col" >Local</th >
               <th scope = "col" >Valor</th >
               <th scope = "col"
                   style = "width: 4%" ><em class = "fas fa-file-pdf" ></em ></th >
@@ -121,6 +134,7 @@
               <td >{{courtesy.name}}</td >
               <td >{{this.getTypeDescription(courtesy.type).description}}</td >
               <td >{{courtesy.quantity}}</td >
+              <td >{{courtesy.company?.name | titlecase}}</td >
               <td >{{courtesy.value | courtesyValue: courtesy.type}}</td >
               <td >
                 <button

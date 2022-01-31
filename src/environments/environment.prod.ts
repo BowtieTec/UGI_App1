@@ -117,4 +117,11 @@ export const environment = {
   verCourtesiesReport: 'verCourtesiesReport',
   verTodosLosParqueosDashboard: 'verTodosLosParqueosDashboard',
   verTodosLosParqueosReport: 'verTodosLosParqueosReport',
+
+
+  listLocal: "listLocal",
+  createLocal: "createLocal",
+  disableLocal: "disableLocal",
+  editLocal: "editLocal"
 };
+}

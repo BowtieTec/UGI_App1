@@ -112,7 +112,6 @@ export const environment = {
   graficosIngresoVehiculos: 'graficosIngresoVehiculos',
   graficosFlujoDinero: 'graficosFlujoDinero',
   graficosCortesias: 'graficosCortesias',
-
   verMenuPayment: 'verMenuPayment',
   verDiscuontReport: 'verDiscuontReport',
   verDurationReport: 'verDurationReport',
@@ -120,7 +119,11 @@ export const environment = {
   verMonthlyParkingReport: 'verMonthlyParkingReport',
   verDailyParkingReportTicket: 'verDailyParkingReportTicket',
   verCourtesiesReport: 'verCourtesiesReport',
-
   verTodosLosParqueosDashboard: 'verTodosLosParqueosDashboard',
   verTodosLosParqueosReport: 'verTodosLosParqueosReport',
+
+  listLocal: "listLocal",
+  createLocal: "createLocal",
+  disableLocal: "disableLocal",
+  editLocal: "editLocal"
 };
