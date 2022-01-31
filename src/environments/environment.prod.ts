@@ -123,5 +123,4 @@ export const environment = {
   createLocal: "createLocal",
   disableLocal: "disableLocal",
   editLocal: "editLocal"
-};
 }
