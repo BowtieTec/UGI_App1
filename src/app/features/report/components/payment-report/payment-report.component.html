@@ -64,13 +64,9 @@
       <div class = "row" >
         
         <dx-data-grid id="gridContainer" [dataSource]="dataSource" [showBorders]="true" [columnHidingEnabled]="true">
-          <dxi-column
-            dataField="u_name"
-            caption="Nombre"
-          ></dxi-column>
-          <dxi-column
-            dataField="u_last_name"
-            caption="Apellido"
+          <dxi-column [width]="100"
+            dataField="phone_key"
+            caption="ID"
           ></dxi-column>
           <dxi-column
             dataField="total"

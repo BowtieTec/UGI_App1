@@ -4,6 +4,7 @@ import ArrayStore from 'devextreme/data/array_store';
 import { ReportService } from '../../service/report.service';
 import { exportDataGrid } from 'devextreme/excel_exporter';
 import { Workbook } from 'exceljs';
+import { saveAs } from 'file-saver';
 
 @Component({
     selector: 'detail-grid',
@@ -52,8 +53,8 @@ export class DetailGridComponent implements AfterViewInit{
       }).then(() => {
         workbook.xlsx.writeBuffer().then((buffer: any) => {
           saveAs(new Blob([buffer], {type: 'application/octet-stream'}), 'Detalle.xlsx');
-        })
-      });
+        }).catch(error => {console.log(error)});
+      }).catch(error => {console.log(error)});
       e.cancel = true;
     }
 
