@@ -25,6 +25,15 @@
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
+            "allowedCommonJsDependencies": [
+              "lodash",
+              "crypto-js",
+              "canvg",
+              "jspdf-autotable",
+              "exceljs",
+              "raf",
+              "core-js"
+            ],
             "assets": [
               "src/favicon.ico",
               "src/assets"
@@ -46,7 +55,7 @@
                 {
                   "type": "initial",
                   "maximumWarning": "5mb",
-                  "maximumError": "1mb"
+                  "maximumError": "10mb"
                 },
                 {
                   "type": "anyComponentStyle",

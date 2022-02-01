@@ -105,19 +105,16 @@ export const environment = {
   listCourtesyStationary: 'listCourtesyStationary',
   createCourtesyStationary: 'createCourtesyStationary',
   addStationsCourtesyStationary: 'addStationsCourtesyStationary',
-  
   graficosIngresoVehiculos: 'graficosIngresoVehiculos',
   graficosFlujoDinero: 'graficosFlujoDinero',
   graficosCortesias: 'graficosCortesias',
-
-  verMenuPayment:'verMenuPayment',
-  verDiscuontReport:'verDiscuontReport',
-  verDurationReport:'verDurationReport',  
-  verDailyParkingReport:'verDailyParkingReport',
-  verMonthlyParkingReport:'verMonthlyParkingReport',
-  verDailyParkingReportTicket:'verDailyParkingReportTicket',
+  verMenuPayment: 'verMenuPayment',
+  verDiscuontReport: 'verDiscuontReport',
+  verDurationReport: 'verDurationReport',
+  verDailyParkingReport: 'verDailyParkingReport',
+  verMonthlyParkingReport: 'verMonthlyParkingReport',
+  verDailyParkingReportTicket: 'verDailyParkingReportTicket',
   verCourtesiesReport: 'verCourtesiesReport',
-
-  verTodosLosParqueosDashboard:'verTodosLosParqueosDashboard',
-  verTodosLosParqueosReport:'verTodosLosParqueosReport',
+  verTodosLosParqueosDashboard: 'verTodosLosParqueosDashboard',
+  verTodosLosParqueosReport: 'verTodosLosParqueosReport',
 };

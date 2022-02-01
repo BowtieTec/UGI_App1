@@ -17,6 +17,8 @@ import { DataTableOptions } from '../../../../shared/model/DataTableOptions';
 import { saveAs } from 'file-saver';
 import { PermissionsService } from '../../../../shared/services/permissions.service';
 import { environment } from '../../../../../environments/environment';
+import {ParkingService} from "../../../parking/services/parking.service";
+import {ParkingModel} from "../../../parking/models/Parking.model";
 
 @Component({
   selector: 'app-courtesy',
@@ -24,10 +26,8 @@ import { environment } from '../../../../../environments/environment';
   styleUrls: ['./courtesy.component.css'],
 })
 export class CourtesyComponent implements OnInit, AfterViewInit, OnDestroy {
-  listCourtesy = environment.listCourtesy;
-  downloadCourtesy = environment.downloadCourtesy;
-  createCourtesy = environment.createCourtesy;
 
+  allParking: ParkingModel[] = [];
   @ViewChild(DataTableDirective)
   dtElement!: DataTableDirective;
   dtOptions: DataTables.Settings = {};
@@ -38,14 +38,18 @@ export class CourtesyComponent implements OnInit, AfterViewInit, OnDestroy {
   newCourtesyForm: FormGroup;
   parkingId: string = this.authService.getParking().id;
   courtesies: CourtesyModel[] = [];
-
+/*Permissions*/
+  listCourtesy = environment.listCourtesy;
+  downloadCourtesy = environment.downloadCourtesy;
+  createCourtesy = environment.createCourtesy;
   constructor(
     private courtesyService: CourtesyService,
     private messageService: MessageService,
     private formBuilder: FormBuilder,
     private utilitiesService: UtilitiesService,
     private authService: AuthService,
-    private permissionService: PermissionsService
+    private permissionService: PermissionsService,
+    private parkingService: ParkingService
   ) {
     this.messageService.showLoading();
     this.formGroup = formBuilder.group({ filter: [''] });
@@ -65,7 +69,9 @@ export class CourtesyComponent implements OnInit, AfterViewInit, OnDestroy {
       ? new CourtesyTypeModel()
       : newDescription;
   }
-
+get isSudo(){
+    return this.authService.isSudo;
+}
   ifHaveAction(action: string) {
     return this.permissionService.ifHaveAction(action);
   }
@@ -88,6 +94,9 @@ export class CourtesyComponent implements OnInit, AfterViewInit, OnDestroy {
       .then(() => {
         return this.getCourtesies();
       })
+      .then(()=>{
+       this.parkingService.getAllParking().then((x)=> this.allParking = x.data.parkings)
+      })
       .then(() => {
         this.messageService.hideLoading();
       });
@@ -106,10 +115,12 @@ export class CourtesyComponent implements OnInit, AfterViewInit, OnDestroy {
       parkingId: this.parkingId,
     };
   }
-
-  getCourtesies() {
+get parkingSelected(){
+    return this.newCourtesyForm.get('parkingId')?.value;
+}
+  getCourtesies(parkingId = this.parkingId) {
     return this.courtesyService
-      .getCourtesys(this.parkingId)
+      .getCourtesys(parkingId)
       .toPromise()
       .then((data) => {
         if (data.success) {

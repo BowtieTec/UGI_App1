@@ -1,10 +1,6 @@
-import { Component, Input } from '@angular/core';
-import {
-  ControlContainer,
-  FormGroup,
-  FormGroupDirective,
-} from '@angular/forms';
-import { UtilitiesService } from '../../services/utilities.service';
+import {Component, Input} from '@angular/core';
+import {ControlContainer, FormGroup, FormGroupDirective,} from '@angular/forms';
+import {UtilitiesService} from '../../services/utilities.service';
 
 @Component({
   selector: 'app-input-container',
@@ -22,6 +18,7 @@ export class InputContainerComponent {
   @Input() controlName!: string;
   @Input() formGroup!: FormGroup;
   @Input() type: string = 'text';
+  @Input() textInfo: string = '';
 
   constructor(private utilitiesService: UtilitiesService) {}
 

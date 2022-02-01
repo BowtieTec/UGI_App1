@@ -4,16 +4,26 @@ export class ParkingModel {
 }
 
 export class ParkedModel {
-  parked_id: string = '';
-  parked_status: number = 0;
-  parked_type: number = 0;
-  parked_entry_date: Date = new Date();
-  parked_exit_date: Date = new Date();
-  parking_id: string = '';
-  parking_name: string = '';
+  id: string = '';
+  status: number = 0;
+  type: number = 0;
+  entry_date: Date = new Date();
+  exit_date: Date = new Date();
   user_name: string = '';
-  user_last_name: string = '';
-  user_phone_number: string = '';
+  last_name: string = '';
+  phone_number: string = '';
+  parking: string = '';
+}
+
+class UserParked {
+  name: string = '';
+  last_name: string = '';
+  phone_number: string = '';
+}
+
+class ParkingParked {
+  id: string = '';
+  name: string = '';
 }
 
 export const StatusParked = [
@@ -33,6 +43,10 @@ export const StatusParked = [
     id: 4,
     name: 'Problema con la estación',
   },
+  {
+    id: '',
+    name: 'Todos'
+  }
 
 ];
 /*
