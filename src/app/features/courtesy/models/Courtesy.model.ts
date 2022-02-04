@@ -10,4 +10,11 @@ export class CourtesyModel {
   value: number = 0;
   type: number = 0;
   name?: string = '';
+  company?: CompanyModel = new CompanyModel();
+  companyId?: string = '';
+}
+
+class CompanyModel {
+  id: string = '';
+  name: string = '';
 }

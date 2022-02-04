@@ -36,61 +36,73 @@
           </div >
         </div >
 
-      <div class = "row justify-content-center" >
-        <div class = "col-md-5 col-sm-12" >
-          <div class = "m-3 relative " >
-            <app-input-container
-              [formGroup] = "stationaryForm"
-              controlName = "name"
-              name = "Nombre de la cortesía" >
-            </app-input-container >
+        <div class = "row justify-content-center" >
+          <div class = "col-md-5 col-sm-12" >
+            <div class = "m-3 relative " >
+              <app-input-container
+                [formGroup] = "stationaryForm"
+                controlName = "name"
+                name = "Nombre de la cortesía" >
+              </app-input-container >
+            </div >
+          </div >
+          <div class = "col-md-5 col-sm-12" >
+            <div class = "m-3 relative " >
+              <app-input-container
+                [formGroup] = "stationaryForm"
+                controlName = "value"
+                name = "Valor de la cortesia"
+                type = "number" >
+              </app-input-container >
+            </div >
           </div >
         </div >
-        <div class = "col-md-5 col-sm-12" >
-          <div class = "m-3 relative " >
-            <app-input-container
-              [formGroup] = "stationaryForm"
-              controlName = "value"
-              name = "Valor de la cortesia"
-              type = "number" >
-            </app-input-container >
-          </div >
-        </div >
-      </div >
-      <div class = "row justify-content-center" >
-        <div class = "col-md-5 col-sm-12 " >
-          <div class = "m-3 relative  " >
-            <app-select-container
-              [data] = " this.stations"
-              [formGroup] = "this.stationaryForm"
-              controlName = "stationId"
-              name = "Estaciones" style="position: relative;
+        <div class = "row justify-content-center" >
+          <div class = "col-md-5 col-sm-12 " >
+            <div class = "m-3 relative  " >
+              <app-select-container
+                [data] = " this.stations"
+                [formGroup] = "this.stationaryForm"
+                controlName = "stationId"
+                name = "Estaciones"
+                style = "position: relative;
               display: inline-block;
-              width: 80%;"></app-select-container >
+              width: 80%;" ></app-select-container >
 
-            <button
-              *ngIf="ifHaveAction(addStationsCourtesyStationary)"
-              class = "btn-primary btn-input animate__animated animate__fadeInDown"
-                    data-bs-target = "#exampleModal"
-                    data-bs-toggle = "modal"
-                    type = "button" style="    position: absolute;
+              <button
+                *ngIf = "ifHaveAction(addStationsCourtesyStationary)"
+                class = "btn-primary btn-input animate__animated animate__fadeInDown"
+                data-bs-target = "#exampleModal"
+                data-bs-toggle = "modal"
+                style = "    position: absolute;
                     display: inline-block;
-                    padding: 9px!important;">+
+                    padding: 9px!important;"
+                type = "button" >+
+              </button >
+            </div >
+
+          </div >
+          <div class = "col-xl-4 col-lg-6 col-sm-12" >
+            <div class = "m-3 relative" >
+              <app-select-container
+                [data] = "allCompanies"
+                [formGroup] = "stationaryForm"
+                controlName = "companyId"
+                name = "Locales" >
+              </app-select-container >
+            </div >
+          </div >
+        </div >
+        <div class = "row " >
+          <div class = "d-grid gap-2 d-md-flex justify-content-md-center m-3" >
+            <button (click) = "addStationaryCourtesies()"
+                    class = "btn btn-success animate__animated animate__fadeInDown"
+                    type = "button" >Guardar
             </button >
           </div >
-
         </div >
       </div >
-        <div class = "row " >
-        <div class = "d-grid gap-2 d-md-flex justify-content-md-center m-3" >
-          <button (click) = "addStationaryCourtesies()"
-                  class = "btn btn-success animate__animated animate__fadeInDown"
-                  type = "button" >Guardar
-          </button >
-        </div >
-      </div >
-      </div >
-      <div class = "row">
+      <div class = "row" >
         <table
           [dtOptions] = "dtOptions"
           [dtTrigger] = "dtTrigger"
@@ -103,6 +115,7 @@
             <th scope = "col" >Cantidad</th >
             <th scope = "col" >Tipo</th >
             <th scope = "col" >Valor</th >
+            <th scope = "col" >Local</th >
             <th scope = "col" >Antena</th >
             <th scope = "col" >MAC</th >
             <th scope = "col"
@@ -117,6 +130,7 @@
             <td >{{antenna.courtesy_detail!.quantity || 'No tiene una cantidad'}}</td >
             <td >{{this.getTypeDescription(antenna.courtesy_detail!.type).description   | titlecase}}</td >
             <td >{{antenna.courtesy_detail!.value || 'Sin valor'| courtesyValue: antenna.courtesy_detail!.type}}</td >
+            <td >{{antenna.courtesy_detail!.company?.name}}</td >
             <td >{{antenna.name | titlecase}}</td >
             <td >{{antenna.mac}}</td >
             <td >{{antenna.created_at  | date: 'medium'}}</td >

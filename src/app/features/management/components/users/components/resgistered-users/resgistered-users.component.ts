@@ -1,20 +1,13 @@
-import {
-  AfterViewInit,
-  Component,
-  Input,
-  OnDestroy,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
-import { NewUserModel } from '../../models/newUserModel';
-import { UserService } from '../../services/user.service';
-import { Subject } from 'rxjs';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { DataTableOptions } from '../../../../../../shared/model/DataTableOptions';
-import { DataTableDirective } from 'angular-datatables';
-import { MessageService } from '../../../../../../shared/services/message.service';
-import { PermissionsService } from '../../../../../../shared/services/permissions.service';
-import { environment } from '../../../../../../../environments/environment';
+import {AfterViewInit, Component, Input, OnDestroy, OnInit, ViewChild,} from '@angular/core';
+import {NewUserModel} from '../../models/newUserModel';
+import {UserService} from '../../services/user.service';
+import {Subject} from 'rxjs';
+import {FormBuilder, FormGroup} from '@angular/forms';
+import {DataTableOptions} from '../../../../../../shared/model/DataTableOptions';
+import {DataTableDirective} from 'angular-datatables';
+import {MessageService} from '../../../../../../shared/services/message.service';
+import {PermissionsService} from '../../../../../../shared/services/permissions.service';
+import {environment} from '../../../../../../../environments/environment';
 
 @Component({
   selector: 'app-resgistered-users',
@@ -22,14 +15,12 @@ import { environment } from '../../../../../../../environments/environment';
   styleUrls: ['./resgistered-users.component.css'],
 })
 export class ResgisteredUsersComponent
-  implements OnInit, AfterViewInit, OnDestroy
-{
+  implements OnInit, AfterViewInit, OnDestroy {
   deleteUser = environment.deleteUser;
   editUser = environment.editUser;
   @Input() subject: Subject<NewUserModel> = new Subject<NewUserModel>();
   @ViewChild(DataTableDirective)
   dtElement!: DataTableDirective;
-  dtOptions: DataTables.Settings = {};
   dtTrigger: Subject<any> = new Subject();
   formGroup: FormGroup;
   users: NewUserModel[] = [];
@@ -40,11 +31,14 @@ export class ResgisteredUsersComponent
     private message: MessageService,
     private permissionsService: PermissionsService
   ) {
-    this.formGroup = formBuilder.group({ filter: [''] });
+    this.formGroup = formBuilder.group({filter: ['']});
+  }
+
+  get dtOptions() {
+    return DataTableOptions.getSpanishOptions(10);
   }
 
   ngOnInit(): void {
-    this.dtOptions = DataTableOptions.getSpanishOptions(10);
     this.getUsers();
     this.subject.subscribe((user: NewUserModel) => {
       this.getUsers();

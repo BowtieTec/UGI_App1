@@ -15,9 +15,15 @@ export class CourtesyDetail {
   quantity: number = 0;
   type: number = 0;
   value: number = 0;
+  company?: CompanyModel = new CompanyModel();
   haveStation: number = 0;
   created_at: Date = new Date();
   updated_at: Date = new Date();
+}
+
+class CompanyModel {
+  id: string = '';
+  name: string = '';
 }
 
 export class CreateStation {

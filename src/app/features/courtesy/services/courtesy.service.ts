@@ -1,8 +1,8 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { environment } from '../../../../environments/environment';
-import { ResponseModel } from '../../../shared/model/Request.model';
-import { CourtesyModel } from '../models/Courtesy.model';
+import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {environment} from '../../../../environments/environment';
+import {ResponseModel} from '../../../shared/model/Request.model';
+import {CourtesyModel} from '../models/Courtesy.model';
 
 @Injectable({
   providedIn: 'root',
@@ -10,7 +10,8 @@ import { CourtesyModel } from '../models/Courtesy.model';
 export class CourtesyService {
   private apiUrl = environment.serverAPI;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+  }
 
   getTypes() {
     return this.http.get<ResponseModel>(
@@ -19,6 +20,7 @@ export class CourtesyService {
   }
 
   saveCourtesy(newCourtesy: CourtesyModel) {
+
     return this.http.post<ResponseModel>(
       `${this.apiUrl}backoffice/cortesy/create`,
       newCourtesy
@@ -34,7 +36,7 @@ export class CourtesyService {
   getPDF(id: string) {
     return this.http.get(
       `${this.apiUrl}backoffice/cortesy/cortesiespdf/${id}`,
-      { responseType: 'blob' }
+      {responseType: 'blob'}
     );
   }
 }
