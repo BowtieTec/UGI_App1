@@ -97,6 +97,76 @@ export class DashboardService {
       );
   }
 
+  getTotalCourtesiesPerDate(parkingId: string, startDate: string, endDate: string) {
+    this.messageService.showLoading();
+      return this.http
+        .get<ResponseModel>(
+          `${this.apiUrl}backoffice/dashboard/total-courtesies/${parkingId}/${startDate}/${endDate}`
+    )
+    .pipe(
+      map((data) => {
+        this.messageService.hideLoading();
+        return data.data;
+      })
+    );
+  }
+
+  getCompanyCourtesiesPerDate(parkingId: string, startDate: string, endDate: string) {
+    this.messageService.showLoading();
+      return this.http
+        .get<ResponseModel>(
+          `${this.apiUrl}backoffice/dashboard/company-courtesies/${parkingId}/${startDate}/${endDate}`
+    )
+    .pipe(
+      map((data) => {
+        this.messageService.hideLoading();
+        return data.data;
+      })
+    );
+  }
+
+  getCompanyCourtesiesTypePerDate(parkingId: string, companyId: string, startDate: string, endDate: string) {
+    this.messageService.showLoading();
+      return this.http
+        .get<ResponseModel>(
+          `${this.apiUrl}backoffice/dashboard/company-courtesies-type/${parkingId}/${companyId}/${startDate}/${endDate}`
+    )
+    .pipe(
+      map((data) => {
+        this.messageService.hideLoading();
+        return data.data;
+      })
+    );
+  }
+
+  getCompanyCourtesiesStatusPerDate(parkingId: string, companyId: string, startDate: string, endDate: string) {
+    this.messageService.showLoading();
+      return this.http
+        .get<ResponseModel>(
+          `${this.apiUrl}backoffice/dashboard/company-courtesies-status/${parkingId}/${companyId}/${startDate}/${endDate}`
+    )
+    .pipe(
+      map((data) => {
+        this.messageService.hideLoading();
+        return data.data;
+      })
+    );
+  }
+
+  getCompanyCourtesiesTypeValuePerDate(parkingId: string, companyId: string, startDate: string, endDate: string) {
+    this.messageService.showLoading();
+      return this.http
+        .get<ResponseModel>(
+          `${this.apiUrl}backoffice/dashboard/company-courtesies-type-value/${parkingId}/${companyId}/${startDate}/${endDate}`
+    )
+    .pipe(
+      map((data) => {
+        this.messageService.hideLoading();
+        return data.data;
+      })
+    );
+  }
+
   //Flujo
   getDailyPayments(parkingId: string, fecha: string) {
     return this.http

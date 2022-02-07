@@ -34,7 +34,6 @@ export class DashboardComponent implements OnInit {
 
   @ViewChild('inputParkingIngresoDia') inputParkingIngresoDia!: ElementRef;
   @ViewChild('inputParkingFlujoDia') inputParkingFlujoDia!: ElementRef;
-  @ViewChild('inputParkingCortesiasDia') inputParkingCortesiasDia!: ElementRef;
 
   @ViewChild('inputFechaIngresoDia') inputFechaIngresoDia!: ElementRef;
   @ViewChild('inputFechaFlujoDia') inputFechaFlujoDia!: ElementRef;
@@ -51,7 +50,6 @@ export class DashboardComponent implements OnInit {
 
   @ViewChild('inputParkingIngresoMes') inputParkingIngresoMes!: ElementRef;
   @ViewChild('inputParkingFlujoMes') inputParkingFlujoMes!: ElementRef;
-  @ViewChild('inputParkingCortesiasMes') inputParkingCortesiasMes!: ElementRef;
 
   @ViewChild('inputIngresoMesAnio') inputIngresoMesAnio!: ElementRef;
   @ViewChild('inputIngresoMes') inputIngresoMes!: ElementRef;
@@ -71,7 +69,6 @@ export class DashboardComponent implements OnInit {
 
   @ViewChild('inputParkingIngresoAnio') inputParkingIngresoAnio!: ElementRef;
   @ViewChild('inputParkingFlujoAnio') inputParkingFlujoAnio!: ElementRef;
-  @ViewChild('inputParkingCortesiasAnio') inputParkingCortesiasAnio!: ElementRef;
 
   @ViewChild('inputIngresoAnio') inputIngresoAnio!: ElementRef;
   @ViewChild('inputFlujoAnio') inputFlujoAnio!: ElementRef;
@@ -151,11 +148,7 @@ export class DashboardComponent implements OnInit {
     }
     if(tipo == this.cortesias){
       this.fechaCortesiasDia = this.inputFechaCortesiasDia.nativeElement.value;;
-      if(this.ifHaveAction('verTodosLosParqueosDashboard')){
-        this.parqueoCortesiasDia = this.inputParkingCortesiasDia.nativeElement.value;;
-      }else{
-        this.parqueoCortesiasDia = this.datosUsuarioLogeado.id;
-      }
+      this.parqueoCortesiasDia = this.datosUsuarioLogeado.id;
     }
     return true;
   }
@@ -188,11 +181,7 @@ export class DashboardComponent implements OnInit {
       let mes = this.inputCortesiasMes.nativeElement.value;
       let fecha = new Date(anio,mes-1,1).toISOString().split('T')[0];
       this.fechaCortesiasMes = fecha;
-      if(this.ifHaveAction('verTodosLosParqueosDashboard')){
-        this.parqueoCortesiasMes = this.inputParkingCortesiasMes.nativeElement.value;;
-      }else{
-        this.parqueoCortesiasMes = this.datosUsuarioLogeado.id;
-      }
+      this.parqueoCortesiasMes = this.datosUsuarioLogeado.id;
     }
     return true;
   }
@@ -222,11 +211,7 @@ export class DashboardComponent implements OnInit {
       let anio = this.inputCortesiasAnio.nativeElement.value;
       let fecha = new Date(anio,0,1).toISOString().split('T')[0];
       this.fechaCortesiasAnio = fecha;
-      if(this.ifHaveAction('verTodosLosParqueosDashboard')){
-        this.parqueoCortesiasAnio = this.inputParkingCortesiasAnio.nativeElement.value;;
-      }else{
-        this.parqueoCortesiasAnio = this.datosUsuarioLogeado.id;
-      }
+      this.parqueoCortesiasAnio = this.datosUsuarioLogeado.id;
     }
     return true;
   }

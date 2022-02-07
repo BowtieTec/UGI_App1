@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, OnChanges } from '@angular/core';
 import * as ApexCharts from 'apexcharts';
 import { DashboardService } from '../services/dashboard.service';
+import { AuthService } from '../../shared/services/auth.service';
 
 @Component({
   selector: 'app-bar-chart',
@@ -365,10 +366,13 @@ anioOptions = {
   chart3: any;
 
   constructor(
+    private auth: AuthService,
     private dashboardService: DashboardService,
   ) {
     
   }
+
+  datosUsuarioLogeado = this.auth.getParking();
 
   ngOnChanges(): void{
     let fecha = this.fecha;
@@ -399,13 +403,13 @@ anioOptions = {
     }
     if(this.tipo === 'Cortesias'){
       if(this.periodo == 'dia'){
-        this.getDatosCortesiasDiarios(this.parking, fecha);
+        this.getDatosCortesiasDiarios(this.datosUsuarioLogeado.id, fecha);
       }
       if(this.periodo == 'mes'){
-        this.getDatosCortesiasMes(this.parking, mes, anio);
+        this.getDatosCortesiasMes(this.datosUsuarioLogeado.id, mes, anio);
       }
       if(this.periodo == 'anio'){
-        this.getDatosCortesiasAnio(this.parking,anio);
+        this.getDatosCortesiasAnio(this.datosUsuarioLogeado.id,anio);
       }
     }
   }

@@ -1,7 +1,7 @@
-<div class = "panels animate__animated animate__fadeInLeft" >
-  <h1 >14</h1 >
-  Personas hoy
-  <div class = "floatNumber positiveFloat" >
-    +2 día anterior
+<div class = "panels animate__animated animate__fadeInLeft panelKPI" ><br /><br />
+  <div [innerHTML]="textoGrande"></div >
+  {{titulo}}
+  <div *ngIf="tituloVerde" class = "floatNumber positiveFloat" >
+    {{tituloVerde}}
   </div >
 </div >

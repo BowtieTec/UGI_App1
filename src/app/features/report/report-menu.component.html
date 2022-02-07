@@ -15,6 +15,13 @@
       <app-courtesy-report></app-courtesy-report>
     </ng-template >
   </ng-container >
+  <ng-container *ngIf = "ifHaveAction(verCourtesiesStationReport)"
+                ngbNavItem >
+    <a ngbNavLink ><em class = "fas fa-magic" ></em > C. estacionarias</a >
+    <ng-template ngbNavContent >
+      <app-courtesy-station-report></app-courtesy-station-report>
+    </ng-template >
+  </ng-container >
   <ng-container *ngIf = "ifHaveAction(verDurationReport)"
                 ngbNavItem >
     <a ngbNavLink ><em class = "fas fa-magic" ></em > Duración</a >
@@ -24,21 +31,21 @@
   </ng-container >
   <ng-container *ngIf = "ifHaveAction(verDailyParkingReportTicket)"
     ngbNavItem >
-  <a ngbNavLink ><em class = "fas fa-parking" ></em > Parqueo Diario (Ebi Go)</a >
+  <a ngbNavLink ><em class = "fas fa-parking" ></em > Ebi Go Ticket</a >
       <ng-template ngbNavContent >
       <app-parking-ticket-report></app-parking-ticket-report>
       </ng-template >
   </ng-container >
   <ng-container *ngIf = "ifHaveAction(verDailyParkingReport)"
                 ngbNavItem >
-    <a ngbNavLink ><em class = "fas fa-parking" ></em > Parqueo Diario (Mensual)</a >
+    <a ngbNavLink ><em class = "fas fa-parking" ></em > Ebi Go Mensual</a >
     <ng-template ngbNavContent >
       <app-parking-day-report></app-parking-day-report>
     </ng-template >
   </ng-container >
 <ng-container *ngIf = "ifHaveAction(verMonthlyParkingReport)"
   ngbNavItem >
-<a ngbNavLink ><em class = "fas fa-parking" ></em > Parqueo Mensual</a >
+<a ngbNavLink ><em class = "fas fa-parking" ></em > Membresías</a >
     <ng-template ngbNavContent >
     <app-parking-montly-report></app-parking-montly-report>
     </ng-template >
