@@ -1,27 +1,26 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {MessageService} from '../../../../../../shared/services/message.service';
 import {ParkingService} from '../../../../services/parking.service';
 import {UtilitiesService} from '../../../../../../shared/services/utilities.service';
 import {CreateParkingStepTwoModel} from '../../../../models/CreateParking.model';
-import {AuthService} from "../../../../../../shared/services/auth.service";
 
 @Component({
   selector: 'app-schedule',
   templateUrl: './schedule.component.html',
   styleUrls: ['./schedule.component.css'],
 })
-export class ScheduleComponent {
+export class ScheduleComponent implements OnInit {
   stepTwoForm: FormGroup = this.createForm();
-  @Input() parkingId: string = this.authService.getParking().id;
+  @Input() parkingId!: string;
+  @Input() isCreatingParking: boolean = false;
   @Output() changeStep = new EventEmitter<number>();
 
   constructor(
     private message: MessageService,
     private parkingService: ParkingService,
     private formBuilder: FormBuilder,
-    private utilitiesService: UtilitiesService,
-    private authService: AuthService
+    private utilitiesService: UtilitiesService
   ) {
   }
 
@@ -237,5 +236,9 @@ export class ScheduleComponent {
       openning_time6: ['06:00:00'],
       closing_time6: ['00:00:00'],
     });
+  }
+
+  ngOnInit(): void {
+
   }
 }

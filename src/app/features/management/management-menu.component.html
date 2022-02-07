@@ -34,7 +34,7 @@
                 ngbNavItem>
     <a ngbNavLink><em class="fas fa-clock"></em> Horarios</a>
     <ng-template ngbNavContent>
-      <app-schedule></app-schedule>
+      <app-schedule [parkingId]="parkingId"></app-schedule>
     </ng-template>
   </ng-container>
 </nav>
