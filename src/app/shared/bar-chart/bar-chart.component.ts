@@ -763,11 +763,27 @@ anioOptions = {
                 stacked: false
               },
               dataLabels:{
-                offsetY: -10,
+                offsetY: -5,
                 style:{
                   fontSize: '12px',
                   colors: ["#304758"],
                 },
+                formatter: function(val: any, opts: any){
+                  if(val == 0 || val == '0'){
+                    return " ";
+                  }else{
+                    return "Q "+val;
+                  }
+                }
+              },
+              tooltip: {
+                shared: true,
+                intersect: false,
+                y:{
+                  formatter: function(val:any, opts:any){
+                    return "Q "+val;
+                  }
+                }
               }
             });
           }
@@ -818,11 +834,27 @@ anioOptions = {
                 stacked: false
               },
               dataLabels:{
-                offsetY: -10,
+                offsetY: -1,
                 style:{
                   fontSize: '12px',
                   colors: ["#304758"],
                 },
+                formatter: function(val: any, opts: any){
+                  if(val == 0 || val == '0'){
+                    return " ";
+                  }else{
+                    return "Q "+val;
+                  }
+                }
+              },
+              tooltip: {
+                shared: true,
+                intersect: false,
+                y:{
+                  formatter: function(val:any, opts:any){
+                    return "Q "+val;
+                  }
+                }
               }
             });
           }
@@ -867,11 +899,27 @@ anioOptions = {
                 stacked: false
               },
               dataLabels:{
-                offsetY: -10,
+                offsetY: -5,
                 style:{
                   fontSize: '12px',
                   colors: ["#304758"],
                 },
+                formatter: function(val: any, opts: any){
+                  if(val == 0 || val == '0'){
+                    return " ";
+                  }else{
+                    return "Q "+val;
+                  }
+                }
+              },
+              tooltip: {
+                shared: true,
+                intersect: false,
+                y:{
+                  formatter: function(val:any, opts:any){
+                    return "Q "+val;
+                  }
+                }
               }
             });
           }

@@ -23,6 +23,7 @@ import { DxDataGridComponent } from 'devextreme-angular';
 import { exportDataGrid as exportDataGridToPdf } from 'devextreme/pdf_exporter';
 import { exportDataGrid } from 'devextreme/excel_exporter';
 import { Workbook } from 'exceljs';
+import { saveAs } from 'file-saver';
 
 import { ParkingService } from '../../../parking/services/parking.service';
 import { ParkingModel } from '../../../parking/models/Parking.model';

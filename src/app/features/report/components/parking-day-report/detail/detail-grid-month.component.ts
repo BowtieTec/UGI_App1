@@ -4,6 +4,7 @@ import ArrayStore from 'devextreme/data/array_store';
 import { ReportService } from '../../service/report.service';
 import { exportDataGrid } from 'devextreme/excel_exporter';
 import { Workbook } from 'exceljs';
+import { saveAs } from 'file-saver';
 
 @Component({
     selector: 'detail-grid-month',
