@@ -12,6 +12,7 @@ import {NgbNavModule, NgbPaginationModule} from '@ng-bootstrap/ng-bootstrap';
 import {DataTablesModule} from 'angular-datatables';
 import {RolesComponent} from './components/roles/roles.component';
 import {CompanyComponent} from './components/companies/company/company.component';
+import {ParkingModule} from "../parking/parking.module";
 
 @NgModule({
   declarations: [
@@ -32,6 +33,8 @@ import {CompanyComponent} from './components/companies/company/company.component
     FormsModule,
     DataTablesModule,
     NgbNavModule,
+    ParkingModule,
   ],
 })
-export class ManagementModule {}
+export class ManagementModule {
+}

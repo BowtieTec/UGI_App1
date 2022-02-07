@@ -1,7 +1,7 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { UtilitiesService } from '../../../../../../shared/services/utilities.service';
-import { MessageService } from '../../../../../../shared/services/message.service';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {UtilitiesService} from '../../../../../../shared/services/utilities.service';
+import {MessageService} from '../../../../../../shared/services/message.service';
 import {
   HolidayFixedCostInputModel,
   HolidayHourFixedCostModel,
@@ -26,21 +26,23 @@ import {
   DefaultHourHalfInputModel,
   DefaultHourHalfRuleModel,
 } from './model/DefaultTariff.model';
-import { ParkingService } from '../../../../services/parking.service';
-import { CreateTariffModel } from '../../../../models/Tariff.model';
-import { CurrencyPipe, DatePipe } from '@angular/common';
+import {ParkingService} from '../../../../services/parking.service';
+import {CreateTariffModel} from '../../../../models/Tariff.model';
+import {CurrencyPipe, DatePipe} from '@angular/common';
 import {
   DateGreaterValidations,
   NumberGreaterValidations,
 } from '../../../../../../shared/validators/GreatherThan.validations';
+import {AuthService} from "../../../../../../shared/services/auth.service";
 
 @Component({
   selector: 'app-tariff',
   templateUrl: './tariff.component.html',
   styleUrls: ['./tariff.component.css'],
 })
-export class TariffComponent {
+export class TariffComponent implements OnInit {
   @Input() parkingId!: string;
+  @Input() isCreatingParking!: boolean;
   @Output() changeStep = new EventEmitter<number>();
   timeRange: number = 1;
   costType: number = 1;
@@ -62,18 +64,29 @@ export class TariffComponent {
     private messageService: MessageService,
     private parkingService: ParkingService,
     private date: DatePipe,
-    private currencyPipe: CurrencyPipe
+    private currencyPipe: CurrencyPipe,
+    private authService: AuthService
   ) {
-    this.generalDataForm = this.createGeneralDataForm();
 
+
+    this.generalDataForm = this.createGeneralDataForm();
     this.holidayForm = this.createHolidayOrRankForm();
     this.rankForm = this.createHolidayOrRankForm();
     this.blockForm = this.createBlockForm();
     this.defaultForm = this.createDefaultForm();
-
     this.hourAHalfForm = this.createHourHalfForm();
     this.fixedCostForm = this.createFixedCostForm();
+
+
   }
+
+  ngOnInit(): void {
+    if (!this.isCreatingParking) {
+      this.parkingId = this.authService.getParking().id
+      this.getTariffs();
+    }
+  }
+
 
   get generalDataFormValues() {
     return {
@@ -208,7 +221,6 @@ export class TariffComponent {
       parking: this.parkingId,
       static_description: ruleModelData.static_description,
     };
-    console.log(newRule);
     if (!newRule.rules) {
       this.messageService.error(
         '',
@@ -270,7 +282,7 @@ export class TariffComponent {
         to: ['', [Validators.required]],
         fromMinute: [null, [Validators.required, Validators.min(0)]],
       },
-      { validators: [DateGreaterValidations()] }
+      {validators: [DateGreaterValidations()]}
     );
   }
 
@@ -281,7 +293,7 @@ export class TariffComponent {
         upperLimit: [null, [Validators.required, Validators.min(0)]],
         fromMinute: [null, [Validators.required, Validators.min(0)]],
       },
-      { validators: [NumberGreaterValidations()] }
+      {validators: [NumberGreaterValidations()]}
     );
   }
 

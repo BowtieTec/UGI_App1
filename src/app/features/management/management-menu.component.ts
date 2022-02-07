@@ -18,7 +18,13 @@ export class ManagementMenuComponent {
     private authService: AuthService,
     private permissionService: PermissionsService
   ) {
+
   }
+
+  get parkingId() {
+    return this.authService.getParking().id;
+  }
+
 
   ifHaveAction(action: string) {
     return this.permissionService.ifHaveAction(action);

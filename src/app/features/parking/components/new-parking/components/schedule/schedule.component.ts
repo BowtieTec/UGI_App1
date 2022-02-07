@@ -1,9 +1,10 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { MessageService } from '../../../../../../shared/services/message.service';
-import { ParkingService } from '../../../../services/parking.service';
-import { UtilitiesService } from '../../../../../../shared/services/utilities.service';
-import { CreateParkingStepTwoModel } from '../../../../models/CreateParking.model';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {FormBuilder, FormGroup} from '@angular/forms';
+import {MessageService} from '../../../../../../shared/services/message.service';
+import {ParkingService} from '../../../../services/parking.service';
+import {UtilitiesService} from '../../../../../../shared/services/utilities.service';
+import {CreateParkingStepTwoModel} from '../../../../models/CreateParking.model';
+import {AuthService} from "../../../../../../shared/services/auth.service";
 
 @Component({
   selector: 'app-schedule',
@@ -12,15 +13,17 @@ import { CreateParkingStepTwoModel } from '../../../../models/CreateParking.mode
 })
 export class ScheduleComponent {
   stepTwoForm: FormGroup = this.createForm();
-  @Input() parkingId!: string;
+  @Input() parkingId: string = this.authService.getParking().id;
   @Output() changeStep = new EventEmitter<number>();
 
   constructor(
     private message: MessageService,
     private parkingService: ParkingService,
     private formBuilder: FormBuilder,
-    private utilitiesService: UtilitiesService
-  ) {}
+    private utilitiesService: UtilitiesService,
+    private authService: AuthService
+  ) {
+  }
 
   emmitStep(number: number) {
     this.message.showLoading();
@@ -206,31 +209,31 @@ export class ScheduleComponent {
   private createForm() {
     return this.formBuilder.group({
       //Monday
-      isOpen0: [{ value: true, disabled: true }],
+      isOpen0: [{value: true, disabled: true}],
       openning_time0: ['06:00:00'],
       closing_time0: ['00:00:00'],
       //Tuesday
-      isOpen1: [{ value: true, disabled: true }],
+      isOpen1: [{value: true, disabled: true}],
       openning_time1: ['06:00:00'],
       closing_time1: ['00:00:00'],
       //Wednesday
-      isOpen2: [{ value: true, disabled: true }],
+      isOpen2: [{value: true, disabled: true}],
       openning_time2: ['06:00:00'],
       closing_time2: ['00:00:00'],
       //Thursday
-      isOpen3: [{ value: true, disabled: true }],
+      isOpen3: [{value: true, disabled: true}],
       openning_time3: ['06:00:00'],
       closing_time3: ['00:00:00'],
       //Friday
-      isOpen4: [{ value: true, disabled: true }],
+      isOpen4: [{value: true, disabled: true}],
       openning_time4: ['06:00:00'],
       closing_time4: ['00:00:00'],
       //Saturday
-      isOpen5: [{ value: true, disabled: true }],
+      isOpen5: [{value: true, disabled: true}],
       openning_time5: ['06:00:00'],
       closing_time5: ['00:00:00'],
       //Sunday
-      isOpen6: [{ value: true, disabled: true }],
+      isOpen6: [{value: true, disabled: true}],
       openning_time6: ['06:00:00'],
       closing_time6: ['00:00:00'],
     });

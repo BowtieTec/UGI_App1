@@ -30,6 +30,7 @@ export class ParkedComponent implements OnDestroy, AfterViewInit, OnInit {
   getOutWithPayment = environment.getOutWithPaymentDoneParkedParking;
   getOutWithoutPayment = environment.getOutWithoutPaymentDoneParkedParking;
   private actions: string[] = this.permissionService.actionsOfPermissions;
+
   constructor(
     private formBuilder: FormBuilder,
     private parkingService: ParkingService,
@@ -37,16 +38,17 @@ export class ParkedComponent implements OnDestroy, AfterViewInit, OnInit {
     private messageService: MessageService,
     private permissionService: PermissionsService
   ) {
-  this.getInitialData();
+    this.getInitialData();
   }
-async getInitialData(){
-  this.messageService.showLoading();
-  await this.getAllParking();
-  if (this.isSudo){
-    await this.parkedForm.get('parkingId')?.setValue(this.authService.getParking().id)
+
+  async getInitialData() {
+    this.messageService.showLoading();
+    await this.getAllParking();
+    if (this.isSudo) {
+      await this.parkedForm.get('parkingId')?.setValue(this.authService.getParking().id)
+    }
+    // await this.getParked().then(() => this.messageService.hideLoading());
   }
-  // await this.getParked().then(() => this.messageService.hideLoading());
-}
 
   get isSudo() {
     return this.authService.isSudo;
@@ -177,19 +179,20 @@ async getInitialData(){
     }
   }
 
-   rerender() {
-     if (this.dtElement != undefined) {
-       this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
-         dtInstance.destroy();
-         this.dtTrigger.next();
-       });
-     }
-   }
+  rerender() {
+    if (this.dtElement != undefined) {
+      this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+        dtInstance.destroy();
+        this.dtTrigger.next();
+      });
+    }
+  }
 
   ngOnInit(): void {
     const that = this;
     this.dtOptions = {
       destroy: true,
+      responsive: true,
       language: DataTableOptions.language,
       pagingType: 'full_numbers',
       serverSide: true,
@@ -207,7 +210,7 @@ async getInitialData(){
           this.messageService.hideLoading();
         })
       },
-      columns: [{data: 'phone_number'}, {data: 'last_name'}, {data: 'phone_number'}, {data: 'entry_date'}, {data: 'exit_date'}, {data: 'status'}, {data: 'type'}, {data: 'parking'}, {data: 'none'}]
+      columns: [{data: 'phone_number'}, {data: 'entry_date'}, {data: 'exit_date'}, {data: 'status'}, {data: 'type'}, {data: 'parking'}, {data: 'none'}]
     }
     this.messageService.hideLoading();
   }
