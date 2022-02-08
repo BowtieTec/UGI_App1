@@ -34,6 +34,7 @@ export class ParkingAuthModel {
   minutes_to_exit: number = 0;
   is_show_map: number = 0;
   currency: any;
+  schedules: any;
   pay_method: any;
   is_our_bac_credential: any;
   is_our_visa_credential: any;

@@ -71,17 +71,17 @@ export class ParkingService {
       .pipe(
         map((data) => {
           if (!data.success) throw data.message;
-          return { ...data.data };
+          return {...data.data};
         })
       );
   }
 
   getAccesses(): Array<AccessModel> {
     return [
-      { id: 0, name: 'Entrada' },
-      { id: 1, name: 'Salida' },
-      { id: 2, name: 'Entrada restringida' },
-      { id: 3, name: 'Salida restringida' },
+      {id: 0, name: 'Entrada'},
+      {id: 1, name: 'Salida'},
+      {id: 2, name: 'Entrada restringida'},
+      {id: 3, name: 'Salida restringida'},
     ];
   }
 
@@ -176,7 +176,7 @@ export class ParkingService {
   getQR(stationID: string): Observable<Blob> {
     return this.http.get(
       `${this.apiUrl}backoffice/parking/station/${stationID}/downloadqr`,
-      { responseType: 'blob' }
+      {responseType: 'blob'}
     );
   }
 
@@ -371,5 +371,19 @@ export class ParkingService {
       )
       .toPromise()
       .then((data) => data);
+  }
+
+  getParkingInfo(parkingId: string) {
+    return this.http
+      .get<ResponseModel>(
+        `${this.apiUrl}backoffice/parking/info/${parkingId}`
+      ).pipe(map((res) => {
+          if (res.success) {
+            return res.data
+          } else {
+            this.message.error('', res.message)
+          }
+        }
+      ))
   }
 }

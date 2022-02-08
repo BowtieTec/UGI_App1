@@ -12,6 +12,7 @@ import {CreateParkingStepTwoModel} from '../../../../models/CreateParking.model'
 })
 export class ScheduleComponent implements OnInit {
   stepTwoForm: FormGroup = this.createForm();
+  schedules: Array<any> = [];
   @Input() parkingId!: string;
   @Input() isCreatingParking: boolean = false;
   @Output() changeStep = new EventEmitter<number>();
@@ -24,28 +25,32 @@ export class ScheduleComponent implements OnInit {
   ) {
   }
 
-  emmitStep(number: number) {
+  async saveSchedules() {
+    if (this.stepTwoForm.valid) {
+      this.parkingService.parkingStepTwo = this.getStepTwo();
+      this.parkingService.parkingStepTwo.parkingId = this.parkingId;
+      await this.parkingService.setStepTwo().subscribe((data) => {
+        if (data.success) {
+          this.message.OkTimeOut('Guardado');
+        } else {
+          this.utilitiesService.markAsTouched(this.stepTwoForm);
+          this.message.error('', data.message);
+        }
+      });
+    } else {
+      this.message.errorTimeOut(
+        '',
+        'Datos faltantes o incorrectos. Validar que los datos sean correctos.'
+      );
+      this.utilitiesService.markAsTouched(this.stepTwoForm);
+    }
+  }
+
+  async emmitStep(number: number) {
     this.message.showLoading();
     if (number == 1) {
-      if (this.stepTwoForm.valid) {
-        this.parkingService.parkingStepTwo = this.getStepTwo();
-        this.parkingService.parkingStepTwo.parkingId = this.parkingId;
-        this.parkingService.setStepTwo().subscribe((data) => {
-          if (data.success) {
-            this.changeStep.emit(number);
-            this.message.OkTimeOut('Guardado');
-          } else {
-            this.utilitiesService.markAsTouched(this.stepTwoForm);
-            this.message.error('', data.message);
-          }
-        });
-      } else {
-        this.message.errorTimeOut(
-          '',
-          'Datos faltantes o incorrectos. Validar que los datos sean correctos.'
-        );
-        this.utilitiesService.markAsTouched(this.stepTwoForm);
-      }
+      await this.saveSchedules();
+      this.changeStep.emit(number);
     } else {
       this.message.hideLoading();
       this.changeStep.emit(number);
@@ -239,6 +244,40 @@ export class ScheduleComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    if (!this.isCreatingParking) {
+      this.message.showLoading();
+      this.parkingService.getParkingInfo(this.parkingId).subscribe(x => {
+        this.schedules = x.schedules;
+        this.setSchedules(x.schedules);
+        this.message.hideLoading();
+      });
+    }
 
+
+  }
+
+  private setSchedules(schedules: any) {
+    console.log(this.schedules);
+    //Monday
+    this.stepTwoForm.get('openning_time0')?.setValue(`${schedules[0].openning_time.hour}:${schedules[0].openning_time.minute}:00`);
+    this.stepTwoForm.get('closing_time0')?.setValue(`${schedules[0].closing_time.hour}:${schedules[0].closing_time.minute}:00`)
+    //Tuesday
+    this.stepTwoForm.get('openning_time1')?.setValue(`${schedules[1].openning_time.hour}:${schedules[1].openning_time.minute}:00`);
+    this.stepTwoForm.get('closing_time1')?.setValue(`${schedules[1].closing_time.hour}:${schedules[1].closing_time.minute}:00`)
+    //Wednesday
+    this.stepTwoForm.get('openning_time2')?.setValue(`${schedules[2].openning_time.hour}:${schedules[2].openning_time.minute}:00`);
+    this.stepTwoForm.get('closing_time2')?.setValue(`${schedules[2].closing_time.hour}:${schedules[2].closing_time.minute}:00`)
+    //Thursday
+    this.stepTwoForm.get('openning_time3')?.setValue(`${schedules[3].openning_time.hour}:${schedules[3].openning_time.minute}:00`);
+    this.stepTwoForm.get('closing_time3')?.setValue(`${schedules[3].closing_time.hour}:${schedules[3].closing_time.minute}:00`)
+    //Friday
+    this.stepTwoForm.get('openning_time4')?.setValue(`${schedules[4].openning_time.hour}:${schedules[4].openning_time.minute}:00`);
+    this.stepTwoForm.get('closing_time4')?.setValue(`${schedules[4].closing_time.hour}:${schedules[4].closing_time.minute}:00`)
+    //Saturday
+    this.stepTwoForm.get('openning_time5')?.setValue(`${schedules[5].openning_time.hour}:${schedules[5].openning_time.minute}:00`);
+    this.stepTwoForm.get('closing_time5')?.setValue(`${schedules[5].closing_time.hour}:${schedules[5].closing_time.minute}:00`)
+    //Sunday
+    this.stepTwoForm.get('openning_time6')?.setValue(`${schedules[6].openning_time.hour}:${schedules[6].openning_time.minute}:00`);
+    this.stepTwoForm.get('closing_time6')?.setValue(`${schedules[6].closing_time.hour}:${schedules[6].closing_time.minute}:00`)
   }
 }

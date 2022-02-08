@@ -176,14 +176,22 @@
     <div class="text-center"
          id="q-box__buttons">
       <button (click)="emmitStep(-1)"
+              *ngIf="isCreatingParking"
               class="btn btn-primary m-2"
               id="prev-btn"
               type="button">Anterior
       </button>
       <button (click)="emmitStep(1)"
+              *ngIf="isCreatingParking"
               class="btn btn-primary m-2"
               id="next-btn"
               type="button">Siguiente
+      </button>
+      <button (click)="saveSchedules()"
+              *ngIf="!isCreatingParking"
+              class="btn btn-primary m-2"
+              id="save-btn"
+              type="button">Guardar
       </button>
     </div>
   </div>

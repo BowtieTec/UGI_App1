@@ -31,6 +31,7 @@
                  class="animate__animated animate__fadeInLeft"
                  id="stepTwo">
               <app-schedule (changeStep)="changeStep($event)"
+                            [isCreatingParking]="true"
                             [parkingId]="this.parkingId"></app-schedule>
             </div>
             <div *ngIf="step ==3"
