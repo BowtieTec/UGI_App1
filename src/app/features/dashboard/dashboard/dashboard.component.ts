@@ -16,9 +16,12 @@ export class DashboardComponent implements OnInit {
   ingresos = "Ingresos"
   flujo = 'Flujo';
   cortesias = 'Cortesias';
+  cortesiasEstacionarias = 'CortesiasEstacionarias';
+
   graficosIngresoVehiculos = environment.graficosIngresoVehiculos;
   graficosFlujoDinero = environment.graficosFlujoDinero;
   graficosCortesias = environment.graficosCortesias;
+  graficosCortesiasEstacionarias = environment.graficosCortesiasEstacionarias;
   verTodosLosParqueosDashboard = environment.verTodosLosParqueosDashboard;
   allParking: ParkingModel[] = Array<ParkingModel>();
 
@@ -28,9 +31,12 @@ export class DashboardComponent implements OnInit {
   fechaIngresosDia = new Date().toISOString().split('T')[0];
   fechaFlujoDia = new Date().toISOString().split('T')[0];
   fechaCortesiasDia = new Date().toISOString().split('T')[0];
+  fechaCortesiasEstacionariasDia = new Date().toISOString().split('T')[0];
+
   parqueoIngresosDia = '0';
   parqueoFlujoDia = '0';
   parqueoCortesiasDia = '0';
+  parqueoCortesiasEstacionariasDia = '0';
 
   @ViewChild('inputParkingIngresoDia') inputParkingIngresoDia!: ElementRef;
   @ViewChild('inputParkingFlujoDia') inputParkingFlujoDia!: ElementRef;
@@ -38,15 +44,19 @@ export class DashboardComponent implements OnInit {
   @ViewChild('inputFechaIngresoDia') inputFechaIngresoDia!: ElementRef;
   @ViewChild('inputFechaFlujoDia') inputFechaFlujoDia!: ElementRef;
   @ViewChild('inputFechaCortesiasDia') inputFechaCortesiasDia!: ElementRef;
+  @ViewChild('inputFechaCortesiasEstacionariasDia') inputFechaCortesiasEstacionariasDia!: ElementRef;
 
   //Por mes
   periodoMes = 'mes';
   fechaIngresosMes = new Date().toISOString().split('T')[0];
   fechaFlujoMes = new Date().toISOString().split('T')[0];
   fechaCortesiasMes = new Date().toISOString().split('T')[0];
+  fechaCortesiasEstacionariasMes = new Date().toISOString().split('T')[0];
+
   parqueoIngresosMes = '0';
   parqueoFlujoMes = '0';
   parqueoCortesiasMes = '0';
+  parqueoCortesiasEstacionariasMes = '0';
 
   @ViewChild('inputParkingIngresoMes') inputParkingIngresoMes!: ElementRef;
   @ViewChild('inputParkingFlujoMes') inputParkingFlujoMes!: ElementRef;
@@ -56,16 +66,21 @@ export class DashboardComponent implements OnInit {
   @ViewChild('inputFlujoMesAnio') inputFlujoMesAnio!: ElementRef;
   @ViewChild('inputFlujoMes') inputFlujoMes!: ElementRef;
   @ViewChild('inputCortesiasMesAnio') inputCortesiasMesAnio!: ElementRef;
+  @ViewChild('inputCortesiasEstacionariasMesAnio') inputCortesiasEstacionariasMesAnio!: ElementRef;
   @ViewChild('inputCortesiasMes') inputCortesiasMes!: ElementRef;
+  @ViewChild('inputCortesiasEstacionariasMes') inputCortesiasEstacionariasMes!: ElementRef;
 
   //Por año
   periodoAnio = 'anio';
   fechaIngresosAnio = new Date().toISOString().split('T')[0];
   fechaFlujoAnio = new Date().toISOString().split('T')[0];
   fechaCortesiasAnio = new Date().toISOString().split('T')[0];
+  fechaCortesiasEstacionariasAnio = new Date().toISOString().split('T')[0];
+
   parqueoIngresosAnio = '0';
   parqueoFlujoAnio = '0';
   parqueoCortesiasAnio = '0';
+  parqueoCortesiasEstacionariasAnio = '0';
 
   @ViewChild('inputParkingIngresoAnio') inputParkingIngresoAnio!: ElementRef;
   @ViewChild('inputParkingFlujoAnio') inputParkingFlujoAnio!: ElementRef;
@@ -73,6 +88,7 @@ export class DashboardComponent implements OnInit {
   @ViewChild('inputIngresoAnio') inputIngresoAnio!: ElementRef;
   @ViewChild('inputFlujoAnio') inputFlujoAnio!: ElementRef;
   @ViewChild('inputCortesiasAnio') inputCortesiasAnio!: ElementRef;
+  @ViewChild('inputCortesiasEstacionariasAnio') inputCortesiasEstacionariasAnio!: ElementRef;
 
   MesActual = new Date().toISOString().split('T')[0].split('-')[1];
   AnioActual: any = +new Date().toISOString().split('T')[0].split('-')[0];
@@ -97,6 +113,7 @@ export class DashboardComponent implements OnInit {
   tipoIngresos = 'bar';
   tipoFlujo = 'line';
   tipoCortesias = 'bar';
+  tipoCortesiasEstacionarias = 'bar';
 
   datosUsuarioLogeado = this.auth.getParking();
 
@@ -110,6 +127,8 @@ export class DashboardComponent implements OnInit {
         this.idTabActiva = 'flujo';
       }else if(this.ifHaveAction('graficosCortesias')){
         this.idTabActiva = 'cortesias';
+      }else if(this.ifHaveAction('graficosCortesiasEstacionarias')){
+        this.idTabActiva = 'cortesiasEstacionarias';
       }
       for(let iAnio = this.AnioActual-2; iAnio < this.AnioActual+6; iAnio++){
         this.AniosSelect.push({
@@ -150,6 +169,10 @@ export class DashboardComponent implements OnInit {
       this.fechaCortesiasDia = this.inputFechaCortesiasDia.nativeElement.value;;
       this.parqueoCortesiasDia = this.datosUsuarioLogeado.id;
     }
+    if(tipo == this.cortesiasEstacionarias){
+      this.fechaCortesiasEstacionariasDia = this.inputFechaCortesiasEstacionariasDia.nativeElement.value;;
+      this.parqueoCortesiasEstacionariasDia = this.datosUsuarioLogeado.id;
+    }
     return true;
   }
 
@@ -183,6 +206,13 @@ export class DashboardComponent implements OnInit {
       this.fechaCortesiasMes = fecha;
       this.parqueoCortesiasMes = this.datosUsuarioLogeado.id;
     }
+    if(tipo == this.cortesiasEstacionarias){
+      let anio = this.inputCortesiasEstacionariasMesAnio.nativeElement.value;
+      let mes = this.inputCortesiasEstacionariasMes.nativeElement.value;
+      let fecha = new Date(anio,mes-1,1).toISOString().split('T')[0];
+      this.fechaCortesiasEstacionariasMes = fecha;
+      this.parqueoCortesiasEstacionariasMes = this.datosUsuarioLogeado.id;
+    }
     return true;
   }
 
@@ -212,6 +242,12 @@ export class DashboardComponent implements OnInit {
       let fecha = new Date(anio,0,1).toISOString().split('T')[0];
       this.fechaCortesiasAnio = fecha;
       this.parqueoCortesiasAnio = this.datosUsuarioLogeado.id;
+    }
+    if(tipo == this.cortesiasEstacionarias){
+      let anio = this.inputCortesiasEstacionariasAnio.nativeElement.value;
+      let fecha = new Date(anio,0,1).toISOString().split('T')[0];
+      this.fechaCortesiasEstacionariasAnio = fecha;
+      this.parqueoCortesiasEstacionariasAnio = this.datosUsuarioLogeado.id;
     }
     return true;
   }

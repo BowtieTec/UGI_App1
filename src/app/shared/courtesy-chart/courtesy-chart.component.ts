@@ -3,6 +3,7 @@ import { DashboardService } from '../services/dashboard.service';
 import {CompaniesModel} from "../../features/management/components/users/models/companies.model";
 import {CompaniesService} from "../../features/management/components/users/services/companies.service";
 import { AuthService } from '../../shared/services/auth.service';
+import {MessageService} from '../../shared/services/message.service';
 
 @Component({
   selector: 'app-courtesy-chart',
@@ -19,6 +20,7 @@ export class CourtesyChartComponent implements OnInit  {
   @Input() parking = '';
   @Input() periodo = 'dia';
   @Input() company = '0';
+  @Input() tipo = '';
   allCompanies: CompaniesModel[] = [];
 
   datosUsuarioLogeado = this.auth.getParking();
@@ -26,7 +28,8 @@ export class CourtesyChartComponent implements OnInit  {
   constructor(
     private auth: AuthService,
     private dashboardService: DashboardService,
-    private companyService: CompaniesService){
+    private companyService: CompaniesService,
+    private messageService: MessageService,){
   }
 
   options = {
@@ -73,34 +76,47 @@ export class CourtesyChartComponent implements OnInit  {
   chartCortesiasTipoValor: any;
   
   ngOnChanges(): void{
-    //if(this.parking!='0'){
-    this.companyService.getCompanies(this.datosUsuarioLogeado.id).toPromise().then(x => this.allCompanies = x);
-    //}
-    let fecha = this.fecha;
-    let partesFecha = fecha.split('-');
-    let mes = partesFecha[1];
-    let anio = partesFecha[0];
-    let startDate = this.fecha;
-    let endDate = this.fecha;
-    if(this.periodo == 'mes'){
-      startDate = new Date(+anio,+mes-1,1).toISOString().split('T')[0];
-      endDate = new Date(+anio,+mes,0).toISOString().split('T')[0];
-    }
-    if(this.periodo == 'anio'){
-      startDate = new Date(+anio,0,1).toISOString().split('T')[0];
-      endDate = new Date(+anio,11,31).toISOString().split('T')[0];
-    }
-    this.getCompanyCourtesiesData(this.parking, startDate, endDate);
-    this.getCompanyCourtesiesTypePerDate(this.parking, this.company, startDate, endDate);
-    this.getCompanyCourtesiesStatusPerDate(this.parking, this.company, startDate, endDate);
-    this.getCompanyCourtesiesTypeValuePerDate(this.parking, this.company, startDate, endDate);
+    try{
+      //if(this.parking!='0'){
+      this.companyService.getCompanies(this.datosUsuarioLogeado.id).toPromise().then(x => this.allCompanies = x);
+      //}
+      let fecha = this.fecha;
+      let partesFecha = fecha.split('-');
+      let mes = partesFecha[1];
+      let anio = partesFecha[0];
+      let startDate = this.fecha;
+      let endDate = this.fecha;
+      if(this.periodo == 'mes'){
+        startDate = new Date(+anio,+mes-1,1).toISOString().split('T')[0];
+        endDate = new Date(+anio,+mes,0).toISOString().split('T')[0];
+      }
+      if(this.periodo == 'anio'){
+        startDate = new Date(+anio,0,1).toISOString().split('T')[0];
+        endDate = new Date(+anio,11,31).toISOString().split('T')[0];
+      }
+      if(this.tipo === 'Cortesias'){
+        this.getCompanyCourtesiesData(this.parking, startDate, endDate);
+        this.getCompanyCourtesiesTypePerDate(this.parking, this.company, startDate, endDate);
+        this.getCompanyCourtesiesStatusPerDate(this.parking, this.company, startDate, endDate);
+        this.getCompanyCourtesiesTypeValuePerDate(this.parking, this.company, startDate, endDate);
+      }
+      if(this.tipo === 'CortesiasEstacionarias'){
+        this.getCompanyCourtesiesStationData(this.parking, startDate, endDate);
+        this.getCompanyCourtesiesStationTypePerDate(this.parking, this.company, startDate, endDate);
+        this.getCompanyCourtesiesStationStatusPerDate(this.parking, this.company, startDate, endDate);
+        this.getCompanyCourtesiesStationTypeValuePerDate(this.parking, this.company, startDate, endDate);
+      }  
+    }catch(err: any){
+      this.messageService.error('', err.message);
+    } 
   }
   
   ngOnInit(): void {
+    try{
       if(this.parking!='0'){
         this.companyService.getCompanies(this.datosUsuarioLogeado.id).toPromise().then(x => this.allCompanies = x);
       }
-      this.chartCortesiasLocal = new ApexCharts(document.querySelector('.Cortesias #'+this.periodo+' #graficaCortesiasLocal'), this.options);
+      this.chartCortesiasLocal = new ApexCharts(document.querySelector('.'+this.tipo+' #'+this.periodo+' #graficaCortesiasLocal'), this.options);
       this.chartCortesiasLocal.render();
       this.chartCortesiasLocal.updateOptions({
         title:{
@@ -108,7 +124,7 @@ export class CourtesyChartComponent implements OnInit  {
         }
       });
 
-      this.chartCortesiasTipo = new ApexCharts(document.querySelector('.Cortesias #'+this.periodo+' #graficaCortesiasTipo'), this.options);
+      this.chartCortesiasTipo = new ApexCharts(document.querySelector('.'+this.tipo+' #'+this.periodo+' #graficaCortesiasTipo'), this.options);
       this.chartCortesiasTipo.render();
       this.chartCortesiasTipo.updateOptions({
         title:{
@@ -116,7 +132,7 @@ export class CourtesyChartComponent implements OnInit  {
         }
       });
 
-      this.chartCortesiasEstado = new ApexCharts(document.querySelector('.Cortesias #'+this.periodo+' #graficaCortesiasEstado'), this.options);
+      this.chartCortesiasEstado = new ApexCharts(document.querySelector('.'+this.tipo+' #'+this.periodo+' #graficaCortesiasEstado'), this.options);
       this.chartCortesiasEstado.render();
       this.chartCortesiasEstado.updateOptions({
         title:{
@@ -124,13 +140,16 @@ export class CourtesyChartComponent implements OnInit  {
         }
       });
 
-      this.chartCortesiasTipoValor = new ApexCharts(document.querySelector('.Cortesias #'+this.periodo+' #graficaCortesiasTipoValor'), this.options);
+      this.chartCortesiasTipoValor = new ApexCharts(document.querySelector('.'+this.tipo+' #'+this.periodo+' #graficaCortesiasTipoValor'), this.options);
       this.chartCortesiasTipoValor.render();
       this.chartCortesiasTipoValor.updateOptions({
         title:{
           text: 'Cortesias por tipo y valor'
         }
-      });      
+      });     
+    }catch(err: any){
+      this.messageService.error('', err.message);
+    } 
   }
 
   getCompanyCourtesiesData(parkingId: string, startDate: string, endDate: string){
@@ -216,6 +235,89 @@ export class CourtesyChartComponent implements OnInit  {
     });  
   }
 
+  getCompanyCourtesiesStationData(parkingId: string, startDate: string, endDate: string){
+    return this.dashboardService.getCompanyCourtesiesStationPerDate(parkingId, startDate, endDate)
+    .toPromise()
+    .then((data) => {
+      if (data) {
+        let seriesData: any[] = [];
+        let labelsData: any[] = [];
+        data.forEach((element:any) => {
+          let cantidadTmp = +element.totalCourtesies;
+          seriesData.push(cantidadTmp);
+          labelsData.push(element.com_name);
+        });
+        this.chartCortesiasLocal.updateOptions({
+          labels:labelsData,
+          series:seriesData
+        });
+      } 
+    });  
+  }
+
+  getCompanyCourtesiesStationTypePerDate(parkingId: string, companyId: string, startDate: string, endDate: string){
+    return this.dashboardService.getCompanyCourtesiesStationTypePerDate(parkingId, companyId, startDate, endDate)
+    .toPromise()
+    .then((data) => {
+      if (data) {
+        let seriesData: any[] = [];
+        let labelsData: any[] = [];
+        data.forEach((element:any) => {
+          let cantidadTmp = +element.totalCourtesies;
+          seriesData.push(cantidadTmp);
+          labelsData.push(element.cd_type);
+        });
+        this.chartCortesiasTipo.updateOptions({
+          labels:labelsData,
+          series:seriesData
+        });
+      } 
+    });  
+  }
+
+  getCompanyCourtesiesStationStatusPerDate(parkingId: string, companyId: string, startDate: string, endDate: string){
+    return this.dashboardService.  getCompanyCourtesiesStationStatusPerDate(parkingId, companyId, startDate, endDate)
+    .toPromise()
+    .then((data) => {
+      if (data) {
+        let seriesData: any[] = [];
+        let labelsData: any[] = [];
+        data.forEach((element:any) => {
+          let transaccionesTmp = +element.transacciones;
+          seriesData.push(transaccionesTmp);
+          labelsData.push('Transacciones');
+          let disponiblesTmp = +element.disponibles;
+          seriesData.push(disponiblesTmp);
+          labelsData.push('Disponibles');
+        });
+        this.chartCortesiasEstado.updateOptions({
+          labels:labelsData,
+          series:seriesData
+        });
+      } 
+    });  
+  }
+
+  getCompanyCourtesiesStationTypeValuePerDate(parkingId: string, companyId: string, startDate: string, endDate: string){
+    return this.dashboardService.getCompanyCourtesiesStationTypeValuePerDate(parkingId, companyId, startDate, endDate)
+    .toPromise()
+    .then((data) => {
+      if (data) {
+        let seriesData: any[] = [];
+        let labelsData: any[] = [];
+        data.forEach((element:any) => {
+          let cantidadTmp = +element.totalCourtesies;
+          seriesData.push(cantidadTmp);
+          labelsData.push(element.cd_type);
+        });
+        this.chartCortesiasTipoValor.updateOptions({
+          labels:labelsData,
+          series:seriesData
+        });
+      } 
+    });  
+  }
+
   onChangeType(selecteValue: any){
     let fecha = this.fecha;
     let partesFecha = fecha.split('-');
@@ -231,7 +333,12 @@ export class CourtesyChartComponent implements OnInit  {
       startDate = new Date(+anio,0,1).toISOString().split('T')[0];
       endDate = new Date(+anio,11,31).toISOString().split('T')[0];
     }
-    this.getCompanyCourtesiesTypePerDate(this.parking, selecteValue, startDate, endDate);
+    if(this.tipo === 'Cortesias'){
+      this.getCompanyCourtesiesTypePerDate(this.parking, selecteValue, startDate, endDate);
+    }
+    if(this.tipo === 'CortesiasEstacionarias'){
+      this.getCompanyCourtesiesStationTypePerDate(this.parking, selecteValue, startDate, endDate);
+    }
   }
 
   onChangeStatus(selecteValue: any){
@@ -249,7 +356,12 @@ export class CourtesyChartComponent implements OnInit  {
       startDate = new Date(+anio,0,1).toISOString().split('T')[0];
       endDate = new Date(+anio,11,31).toISOString().split('T')[0];
     }
-    this.getCompanyCourtesiesStatusPerDate(this.parking, selecteValue, startDate, endDate);
+    if(this.tipo === 'Cortesias'){
+      this.getCompanyCourtesiesStatusPerDate(this.parking, selecteValue, startDate, endDate);
+    }
+    if(this.tipo === 'CortesiasEstacionarias'){
+      this.getCompanyCourtesiesStationStatusPerDate(this.parking, selecteValue, startDate, endDate);
+    }
   }
 
   onChangeTypeValue(selecteValue: any){
@@ -267,6 +379,11 @@ export class CourtesyChartComponent implements OnInit  {
       startDate = new Date(+anio,0,1).toISOString().split('T')[0];
       endDate = new Date(+anio,11,31).toISOString().split('T')[0];
     }
-    this.getCompanyCourtesiesTypeValuePerDate(this.parking, selecteValue, startDate, endDate);
+    if(this.tipo === 'Cortesias'){
+      this.getCompanyCourtesiesTypeValuePerDate(this.parking, selecteValue, startDate, endDate);
+    }
+    if(this.tipo === 'CortesiasEstacionarias'){
+      this.getCompanyCourtesiesStationTypeValuePerDate(this.parking, selecteValue, startDate, endDate);
+    }
   }
 }

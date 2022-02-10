@@ -17,6 +17,7 @@ export class CardKpiComponent implements OnInit{
   @Input() valorMostrar = '';
   @Input() fecha = '';
   @Input() periodo = 'dia';
+  @Input() parking = '0';
   allCompanies: CompaniesModel[] = [];
 
   constructor(
@@ -50,6 +51,16 @@ export class CardKpiComponent implements OnInit{
       if(this.valorMostrar == "LocalMasCortesias"){
         this.getMaxCompanyDailyCourtesiesData(this.datosUsuarioLogeado.id, fecha, fecha);
       }
+      if(this.valorMostrar == "TotalCortesiasEstacionarias"){
+        this.getDatosCortesiasEstacionariasDiarios(this.datosUsuarioLogeado.id, fecha, fecha);
+      }
+      if(this.valorMostrar == "TotalEstacionariasLocales"){
+        this.tituloVerde = this.allCompanies.length.toString()+ " locales en parqueo";
+        this.getCompanyDailyCourtesiesStationData(this.datosUsuarioLogeado.id, fecha, fecha);
+      }
+      if(this.valorMostrar == "LocalMasCortesiasEstacionarias"){
+        this.getMaxCompanyDailyCourtesiesStationData(this.datosUsuarioLogeado.id, fecha, fecha);
+      }
     }
     if(this.periodo == 'mes'){
       let startDate = new Date(+anio,+mes-1,1).toISOString().split('T')[0];
@@ -64,6 +75,16 @@ export class CardKpiComponent implements OnInit{
       if(this.valorMostrar == "LocalMasCortesias"){
         this.getMaxCompanyDailyCourtesiesData(this.datosUsuarioLogeado.id, startDate, endDate);
       }
+      if(this.valorMostrar == "TotalCortesiasEstacionarias"){
+        this.getDatosCortesiasEstacionariasDiarios(this.datosUsuarioLogeado.id, startDate, endDate);
+      }
+      if(this.valorMostrar == "TotalEstacionariasLocales"){
+        this.tituloVerde = this.allCompanies.length.toString()+ " locales en parqueo";
+        this.getCompanyDailyCourtesiesStationData(this.datosUsuarioLogeado.id, startDate, endDate);
+      }
+      if(this.valorMostrar == "LocalMasCortesiasEstacionarias"){
+        this.getMaxCompanyDailyCourtesiesStationData(this.datosUsuarioLogeado.id, startDate, endDate);
+      }
     }
     if(this.periodo == 'anio'){
       let startDate = new Date(+anio,0,1).toISOString().split('T')[0];
@@ -77,6 +98,16 @@ export class CardKpiComponent implements OnInit{
       }
       if(this.valorMostrar == "LocalMasCortesias"){
         this.getMaxCompanyDailyCourtesiesData(this.datosUsuarioLogeado.id, startDate, endDate);
+      }
+      if(this.valorMostrar == "TotalCortesiasEstacionarias"){
+        this.getDatosCortesiasEstacionariasDiarios(this.datosUsuarioLogeado.id, startDate, endDate);
+      }
+      if(this.valorMostrar == "TotalEstacionariasLocales"){
+        this.tituloVerde = this.allCompanies.length.toString()+ " locales en parqueo";
+        this.getCompanyDailyCourtesiesStationData(this.datosUsuarioLogeado.id, startDate, endDate);
+      }
+      if(this.valorMostrar == "LocalMasCortesiasEstacionarias"){
+        this.getMaxCompanyDailyCourtesiesStationData(this.datosUsuarioLogeado.id, startDate, endDate);
       }
     }
   }
@@ -102,6 +133,56 @@ export class CardKpiComponent implements OnInit{
     }
     getMaxCompanyDailyCourtesiesData(parkingId: string, startDate: string, endDate: string){
       return this.dashboardService.getCompanyCourtesiesPerDate(parkingId, startDate, endDate)
+      .toPromise()
+      .then((data) => {
+        if (data) {
+          let valorMaximo = 0;
+          let localMaximo = "N/A";
+          data.forEach((element:any) => {
+            let cantidadTmp = +element.totalCourtesies;
+            if(cantidadTmp > valorMaximo){
+              valorMaximo = cantidadTmp;
+              localMaximo = element.com_name;
+            }
+          });
+          this.tituloVerde = "Cortesias: " + valorMaximo.toString();
+          if(localMaximo.length >= 20){
+            this.textoGrande= "<h4>"+localMaximo+"</h4>";
+          }
+          if(localMaximo.length >= 15 && localMaximo.length < 20){
+            this.textoGrande= "<h3>"+localMaximo+"</h3>";
+          }
+          if(localMaximo.length >= 10 && localMaximo.length < 15){
+            this.textoGrande= "<h2>"+localMaximo+"</h2>";
+          }
+          if(localMaximo.length < 10){
+            this.textoGrande= "<h1>"+localMaximo+"</h1>";
+          }
+        } 
+      });  
+    }
+
+    getDatosCortesiasEstacionariasDiarios(parkingId: string, startDate: string, endDate: string){
+      return this.dashboardService.getTotalCourtesiesStationPerDate(parkingId, startDate, endDate)
+        .toPromise()
+        .then((data) => {
+          if (data) {
+            this.textoGrande= "<h1>"+data[0].totalCourtesies+"</h1>";
+          } 
+        });  
+    }
+    getCompanyDailyCourtesiesStationData(parkingId: string, startDate: string, endDate: string){
+      return this.dashboardService.getCompanyCourtesiesStationPerDate(parkingId, startDate, endDate)
+      .toPromise()
+      .then((data) => {
+        this.tituloVerde = this.allCompanies.length.toString()+ " locales en parqueo";
+        if (data) {
+          this.textoGrande= "<h1>"+data.length+"</h1>";
+        } 
+      });  
+    }
+    getMaxCompanyDailyCourtesiesStationData(parkingId: string, startDate: string, endDate: string){
+      return this.dashboardService.getCompanyCourtesiesStationPerDate(parkingId, startDate, endDate)
       .toPromise()
       .then((data) => {
         if (data) {

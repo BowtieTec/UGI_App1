@@ -60,7 +60,7 @@ export class DashboardService {
       );
   }
 
-  //Cortesias
+  //Cortesías normales
   getDailyCourtesies(parkingId: string, fecha: string) {
     return this.http
       .get<ResponseModel>(
@@ -158,6 +158,113 @@ export class DashboardService {
       return this.http
         .get<ResponseModel>(
           `${this.apiUrl}backoffice/dashboard/company-courtesies-type-value/${parkingId}/${companyId}/${startDate}/${endDate}`
+    )
+    .pipe(
+      map((data) => {
+        this.messageService.hideLoading();
+        return data.data;
+      })
+    );
+  }
+  
+  //Cortesías estacionarias
+  getDailyCourtesiesStation(parkingId: string, fecha: string) {
+    return this.http
+      .get<ResponseModel>(
+        `${this.apiUrl}backoffice/dashboard/daily-courtesy-station/${parkingId}/${fecha}`
+      )
+      .pipe(
+        map((data) => {
+          return data.data;
+        })
+      );
+  }
+
+  getMonthlyCourtesiesStation(parkingId: string, mes: string, anio: string) {
+    return this.http
+      .get<ResponseModel>(
+        `${this.apiUrl}backoffice/dashboard/monthly-courtesy-station/${parkingId}/${anio}/${mes}`
+      )
+      .pipe(
+        map((data) => {
+          return data.data;
+        })
+      );
+  }
+
+  getYearCourtesiesStation(parkingId: string, anio: string) {
+    return this.http
+      .get<ResponseModel>(
+        `${this.apiUrl}backoffice/dashboard/year-courtesy-station/${parkingId}/${anio}`
+      )
+      .pipe(
+        map((data) => {
+          return data.data;
+        })
+      );
+  }
+
+  getTotalCourtesiesStationPerDate(parkingId: string, startDate: string, endDate: string) {
+    this.messageService.showLoading();
+      return this.http
+        .get<ResponseModel>(
+          `${this.apiUrl}backoffice/dashboard/total-courtesies-station/${parkingId}/${startDate}/${endDate}`
+    )
+    .pipe(
+      map((data) => {
+        this.messageService.hideLoading();
+        return data.data;
+      })
+    );
+  }
+
+  getCompanyCourtesiesStationPerDate(parkingId: string, startDate: string, endDate: string) {
+    this.messageService.showLoading();
+      return this.http
+        .get<ResponseModel>(
+          `${this.apiUrl}backoffice/dashboard/company-courtesies-station/${parkingId}/${startDate}/${endDate}`
+    )
+    .pipe(
+      map((data) => {
+        this.messageService.hideLoading();
+        return data.data;
+      })
+    );
+  }
+
+  getCompanyCourtesiesStationTypePerDate(parkingId: string, companyId: string, startDate: string, endDate: string) {
+    this.messageService.showLoading();
+      return this.http
+        .get<ResponseModel>(
+          `${this.apiUrl}backoffice/dashboard/company-courtesies-station-type/${parkingId}/${companyId}/${startDate}/${endDate}`
+    )
+    .pipe(
+      map((data) => {
+        this.messageService.hideLoading();
+        return data.data;
+      })
+    );
+  }
+
+  getCompanyCourtesiesStationStatusPerDate(parkingId: string, companyId: string, startDate: string, endDate: string) {
+    this.messageService.showLoading();
+      return this.http
+        .get<ResponseModel>(
+          `${this.apiUrl}backoffice/dashboard/company-courtesies-station-status/${parkingId}/${companyId}/${startDate}/${endDate}`
+    )
+    .pipe(
+      map((data) => {
+        this.messageService.hideLoading();
+        return data.data;
+      })
+    );
+  }
+
+  getCompanyCourtesiesStationTypeValuePerDate(parkingId: string, companyId: string, startDate: string, endDate: string) {
+    this.messageService.showLoading();
+      return this.http
+        .get<ResponseModel>(
+          `${this.apiUrl}backoffice/dashboard/company-courtesies-station-type-value/${parkingId}/${companyId}/${startDate}/${endDate}`
     )
     .pipe(
       map((data) => {
