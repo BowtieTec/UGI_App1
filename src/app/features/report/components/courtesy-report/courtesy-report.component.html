@@ -21,9 +21,7 @@
         </div >
         <div class = "col-xl-4 col-lg-6 col-sm-12" >
           <div class = "mb-4 relative" >
-            <label class = "labelInput"
-                  
-                   style = "display:block" >Fecha de inicio</label >
+            <label class = "labelInput" style = "display:block" >Fecha de inicio</label >
             <input type = "Date"  #initDate
                    class = "form-control inputClass datetimepicker"
                    name = "initDate"
@@ -49,9 +47,7 @@
                    >
           </div >
         </div >
-
-
-<div class = "col-xl-12 col-lg-12 col-sm-12" >
+        <div class = "col-xl-12 col-lg-12 col-sm-12" >
           <div class = "text-center" >
             <button class = "btn btn-primary m-2"
                     (click) = "getCourtesyRpt(initDate.value,endDate.value)" >Buscar
@@ -69,10 +65,15 @@
           <dxi-column 
             dataField="cd_name"
             caption="Cortesía"
+            [width]="300"
           ></dxi-column>
           <dxi-column
             dataField="parqueo"
             caption="Parqueo"
+          ></dxi-column>
+          <dxi-column
+            dataField="comercio"
+            caption="Local"
           ></dxi-column>
           <dxi-column
             dataField="cd_type"

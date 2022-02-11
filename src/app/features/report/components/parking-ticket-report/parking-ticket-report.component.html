@@ -117,7 +117,7 @@
           </dxo-toolbar>
           <dxo-master-detail [enabled]="true" template="detail"></dxo-master-detail>
           <div *dxTemplate="let datos of 'detail'">
-            <detail-grid [key]="datos.key"></detail-grid>
+            <detail-grid [key]="datos.key" [parqueo]="parqueoDetalle"></detail-grid>
           </div>
           <dxo-export [enabled]="true"></dxo-export>
         </dx-data-grid>

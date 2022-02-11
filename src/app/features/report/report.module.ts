@@ -9,6 +9,7 @@ import { DataTablesModule } from 'angular-datatables';
 import { PaymentReportComponent } from './components/payment-report/payment-report.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CourtesyReportComponent } from './components/courtesy-report/courtesy-report.component';
+import { CourtesyStationReportComponent } from './components/courtesy-station-report/courtesy-station-report.component';
 import { GoogleMapsModule } from '@angular/google-maps';
 import { GeneralDataComponent } from '../parking/components/new-parking/components/general-data/general-data.component';
 import {
@@ -32,6 +33,7 @@ import { DetailGridMonthComponent } from './components/parking-day-report/detail
     ReportMenuComponent,
     PaymentReportComponent,
     CourtesyReportComponent,
+    CourtesyStationReportComponent,
     DurationReportComponent,
     ParkingTicketReportComponent,
     ParkingMontlyReportComponent,

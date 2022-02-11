@@ -29,19 +29,22 @@ import { ParkingService } from '../../../parking/services/parking.service';
 import { ParkingModel } from '../../../parking/models/Parking.model';
 import * as logoFile from '../logoEbi';
 
-export interface dayPark {
+export interface desc {
   fecha: Date;
   total_v: number;
   total: number;
   descuento: number;
+  pagado: number;
 }
 
+
+
 @Component({
-  selector: 'app-parking-day-report',
-  templateUrl: './parking-day-report.component.html',
-  styleUrls: ['./parking-day-report.component.css']
+  selector: 'app-courtesy-station-report',
+  templateUrl: './courtesy-station-report.component.html',
+  styleUrls: ['./courtesy-station-report.component.css']
 })
-export class ParkingDayReportComponent implements OnInit {
+export class CourtesyStationReportComponent implements OnInit {
   //@ViewChild(DataTableDirective)
   @ViewChild(DxDataGridComponent, { static: false }) dataGrid!: DxDataGridComponent;
   dtElement!: DataTableDirective;
@@ -49,7 +52,7 @@ export class ParkingDayReportComponent implements OnInit {
   dtTrigger: Subject<any> = new Subject();
   pdfTable!: ElementRef;
   
-  report: dayPark[] = [];
+  report: desc[] = [];
   dataSource: any;
   parqueo: any;
 
@@ -60,7 +63,6 @@ export class ParkingDayReportComponent implements OnInit {
   fechaActual = new Date().toISOString().split('T')[0];  
 
   datosUsuarioLogeado = this.auth.getParking();
-  parqueoDetalle = '0';
   startDateReport: any;
   endDateReport: any;
 
@@ -99,19 +101,19 @@ export class ParkingDayReportComponent implements OnInit {
   //this.getPaymentRpt();
   }
 
-  getParkingsRpt(initDate:string,endDate:string) { 
+  getCourtesyStationRpt(initDate:string,endDate:string) { 
     this.startDateReport = initDate;
     this.endDateReport = endDate;
     this.parqueo = this.datosUsuarioLogeado.id;
     if(this.ifHaveAction('verTodosLosParqueosReport')){
       this.parqueo = this.inputParking.nativeElement.value;
     }
-    this.parqueoDetalle = this.parqueo;
     return this.reportService
-     .getParkingRpt(initDate,endDate, this.parqueo)
+     .getCourtesyStationRpt(initDate,endDate, this.parqueo)
       .toPromise()
       .then((data) => {
         if (data.success) {
+          console.log(data.data);
           this.report = data.data;
           this.dataSource = data.data;
           this.rerender();
@@ -130,9 +132,8 @@ export class ParkingDayReportComponent implements OnInit {
     if(this.ifHaveAction('verTodosLosParqueosReport')){
       this.parqueo = '0';
     }
-    this.parqueoDetalle = this.parqueo;
     return this.reportService
-     .getParkingRpt(this.fechaActual,this.fechaActual,this.parqueo)
+     .getCourtesyStationRpt(this.fechaActual,this.fechaActual,this.parqueo)
       .toPromise()
       .then((data) => {
         if (data.success) {
@@ -163,7 +164,7 @@ export class ParkingDayReportComponent implements OnInit {
       jsPDFDocument: doc,
       component: this.dataGrid.instance
     }).then(() => {
-      doc.save('TicketMensuak.pdf')
+      doc.save('Duracin.pdf')
     });
   }
 
@@ -178,33 +179,37 @@ export class ParkingDayReportComponent implements OnInit {
       autoFilterEnabled: true,
     }).then(() => {
       workbook.xlsx.writeBuffer().then((buffer: any) => {
-        saveAs(new Blob([buffer], {type: 'application/octet-stream'}), 'GeneralMensual.xlsx');
+        saveAs(new Blob([buffer], {type: 'application/octet-stream'}), 'Cortesias.xlsx');
       })
     });
     e.cancel = true; */
     const header = [
       "",
-      "Fecha", 
-      "Total de vehículos", 
-      "Total", 
-      "Descuento", 
-      "Pagado"
+      "Cortesía", 
+      "Parqueo", 
+      "Local", 
+      "Tipo", 
+      "Cupones", 
+      "Descuento",
+      "Transacciones",
+      "Disponibles",
+      "Total descuento"
     ]
     //Create workbook and worksheet
     let workbook = new Workbook();
-    let worksheet = workbook.addWorksheet('Ebi Go Mensual');
+    let worksheet = workbook.addWorksheet('C. Estacionarias');
     //Add Row and formatting
     worksheet.addRow([]);
     
     let busienssRow = worksheet.addRow(['','','','EBI Go']);
-    busienssRow.font = { name: 'Calibri', family: 4, size: 11, bold: true }
+    busienssRow.font = { name: 'Calibri', family: 4, size: 11,  bold: true }
     busienssRow.alignment = { horizontal: 'center', vertical: 'middle' }
     busienssRow.eachCell((cell, number) => {
       if(number > 1){
         cell.border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } }
       }
     });
-    worksheet.mergeCells('D2:F3');
+    worksheet.mergeCells('D2:J3');
     let ParqueoReporte = 'Todos los parqueos';
     if(this.parqueo != '0'){
       let parqueoEncontrado = this.allParking.find(parqueos => parqueos.id == this.parqueo);
@@ -213,23 +218,23 @@ export class ParkingDayReportComponent implements OnInit {
       }
     }
     let addressRow = worksheet.addRow(['','','',ParqueoReporte]);
-    addressRow.font = { name: 'Calibri', family: 4, size: 11, bold: true }
+    addressRow.font = { name: 'Calibri', family: 4, size: 11,  bold: true }
     addressRow.alignment = { horizontal: 'center', vertical: 'middle' }
     addressRow.eachCell((cell, number) => {
       if(number > 1){
         cell.border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } }
       }
     });
-    worksheet.mergeCells('D4:F5');
-    let titleRow = worksheet.addRow(['','','','Reporte - Ebi Go Mensual']);
-    titleRow.font = { name: 'Calibri', family: 4, size: 11, bold: true }
+    worksheet.mergeCells('D4:J5');
+    let titleRow = worksheet.addRow(['','','','Reporte - Cortesias estacionarias']);
+    titleRow.font = { name: 'Calibri', family: 4, size: 11,  bold: true }
     titleRow.alignment = { horizontal: 'center', vertical: 'middle' }
     titleRow.eachCell((cell, number) => {
       if(number > 1){
         cell.border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } }
       }
     });
-    worksheet.mergeCells('D6:F8');
+    worksheet.mergeCells('D6:J8');
     //Add Image
     worksheet.mergeCells('B2:C8');
     let logo = workbook.addImage({
@@ -239,31 +244,31 @@ export class ParkingDayReportComponent implements OnInit {
     worksheet.addImage(logo, 'B3:C6');
     worksheet.addRow([]);
     let infoRow = worksheet.addRow(['','Información General']);
-    infoRow.font = { name: 'Calibri', family: 4, size: 11, bold: true }
+    infoRow.font = { name: 'Calibri', family: 4, size: 11,  bold: true }
     infoRow.alignment = { horizontal: 'center', vertical: 'middle' }
     infoRow.eachCell((cell, number) => {
       if(number > 1){
         cell.border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } }
       }
     });
-    worksheet.mergeCells('B10:F11');
+    worksheet.mergeCells('B10:J11');
     worksheet.addRow([]);
-    let header1 = worksheet.addRow(['','Fecha Inicio: '+this.startDateReport,'','','Fecha Fin: '+this.endDateReport]);
+    let header1 = worksheet.addRow(['','Fecha Inicio: '+this.startDateReport,'','','','Fecha Fin: '+this.endDateReport]);
     header1.eachCell((cell, number) => {
       if(number > 1){
         cell.border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } }
       }
     });
-    worksheet.mergeCells('B13:D14');
-    worksheet.mergeCells('E13:F14');
-    let header2 = worksheet.addRow(['','Total de días con ingreso: '+this.dataSource.length,'','','Documento generado: '+ new Date().toISOString().slice(0,10) + ' ' + new Date().toLocaleTimeString()]);
+    worksheet.mergeCells('B13:E14');
+    worksheet.mergeCells('F13:J14');
+    let header2 = worksheet.addRow(['','Total de cortesias: '+this.dataSource.length,'','','','Documento generado: '+ new Date().toISOString().slice(0,10) + ' ' + new Date().toLocaleTimeString()]);
     header2.eachCell((cell, number) => {
       if(number > 1){
         cell.border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } }
       }
     });
-    worksheet.mergeCells('B15:D16');
-    worksheet.mergeCells('E15:F16');
+    worksheet.mergeCells('B15:E16');
+    worksheet.mergeCells('F15:J16');
     worksheet.addRow([]);
     let headerRow = worksheet.addRow(header);
     
@@ -283,11 +288,15 @@ export class ParkingDayReportComponent implements OnInit {
     this.dataSource.forEach((d:any) => {
       let row = worksheet.addRow([
         '',
-        d.fecha?new Date(d.fecha).toLocaleDateString():' ',
-        d.total_v,
-        d.total,
-        d.descuento,
-        d.pagado
+        d.cs_name,
+        d.parqueo,
+        d.comercio,
+        d.cd_type,
+        d.cd_quantity,
+        d.cd_value,
+        d.transacciones,
+        d.disponibles,
+        d.total_descuento
       ]);
       row.eachCell((cell, number) => {
         if(number > 1){
@@ -327,17 +336,26 @@ export class ParkingDayReportComponent implements OnInit {
       });
     }); */
 
-    worksheet.getColumn(2).width = 20;
+    worksheet.getColumn(2).width = 25;
     worksheet.getColumn(3).width = 20;
     worksheet.getColumn(4).width = 20;
     worksheet.getColumn(5).width = 20;
     worksheet.getColumn(6).width = 20;
+    worksheet.getColumn(7).width = 20;
+    worksheet.getColumn(8).width = 25;
+    worksheet.getColumn(9).width = 25;
+    worksheet.getColumn(10).width = 15;
+    worksheet.getColumn(11).width = 15;
+    worksheet.getColumn(12).width = 15;
+    worksheet.getColumn(13).width = 15;
+    worksheet.getColumn(14).width = 15;
+    worksheet.getColumn(15).width = 15;
 
     //Generate Excel File with given name
     workbook.xlsx.writeBuffer().then((data) => {
       let blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-      saveAs(blob, 'ReporteEbiGoMensual.xlsx');
+      saveAs(blob, 'ReporteCortesiasEstacionarias.xlsx');
     })
     e.cancel = true;
-  } 
+  }
 }

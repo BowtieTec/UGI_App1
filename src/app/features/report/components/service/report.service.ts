@@ -59,6 +59,12 @@ export class ReportService {
       );
     }
 
+    getCourtesyStationRpt(initDate:string,endDate:string,parqueo:string) {   
+      return this.http.get<ResponseModel>(
+        `${this.apiUrl}backoffice/report/courtesiesStationDetail/dates?initDate=${initDate}&endDate=${endDate}&parqueo=${parqueo}`       
+      );
+    }
+
     getParkingMonthlyRpt(initDate:string,endDate:string,parqueo:string) {   
       return this.http.get<ResponseModel>(
         `${this.apiUrl}backoffice/report/parkingMonthlyRpt/dates?initDate=${initDate}&endDate=${endDate}&parqueo=${parqueo}`       

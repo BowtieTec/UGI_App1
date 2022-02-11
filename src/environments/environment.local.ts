@@ -117,6 +117,8 @@ export const environment = {
   verCourtesiesReport: 'verCourtesiesReport',
   verTodosLosParqueosDashboard: 'verTodosLosParqueosDashboard',
   verTodosLosParqueosReport: 'verTodosLosParqueosReport',
+  verCourtesiesStationReport: 'verCourtesiesStationReport',
+  graficosCortesiasEstacionarias: 'graficosCortesiasEstacionarias',
 
   listLocal: "listLocal",
   createLocal: "createLocal",

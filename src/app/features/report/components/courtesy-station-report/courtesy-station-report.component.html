@@ -2,7 +2,7 @@
   <div class = "col-lg-12 col-md-12 col-sm-12 col-xs-12 panelLeft animate__animated animate__fadeInLeft" >
     <div class = "panels" >
       <div class = "titleCards" >
-        <span ><i class = "fas fa-sitemap" ></i ></span > Reporte Por Membresía Mensual
+        <span ><i class = "fas fa-sitemap" ></i ></span > Reporte de cortesias estacionarias
       </div >
       <div class = "row" >
         <div class = "col-xl-4 col-lg-6 col-sm-12"
@@ -54,7 +54,7 @@
 <div class = "col-xl-12 col-lg-12 col-sm-12" >
           <div class = "text-center" >
             <button class = "btn btn-primary m-2"
-                    (click) = "getMontlyParkingRpt(initDate.value,endDate.value)" >Buscar
+                    (click) = "getCourtesyStationRpt(initDate.value,endDate.value)" >Buscar
             </button >
           </div >
         </div >
@@ -64,48 +64,53 @@
   </div >
   <div class = "col-lg-12 col-md-12 col-sm-12 col-xs-12" >
     <div class = "panels" >
-
       <div class = "row" >
-        <dx-data-grid id="gridContainer" [dataSource]="dataSource" [showBorders]="true" [columnHidingEnabled]="true">
-          <dxi-column
-            dataField="phone_key"
-            caption="ID"
-            [width]="100"
+        <dx-data-grid id="gridContainer" [dataSource]="dataSource" [showBorders]="true">
+          <dxi-column 
+            dataField="cs_name"
+            caption="Cortesía"
+            [width]="300"
           ></dxi-column>
           <dxi-column
-            dataField="isUnlimited"
-            caption="Tipo parqueo"
+            dataField="parqueo"
+            caption="Parqueo"
           ></dxi-column>
           <dxi-column
-            dataField="begin_date"
-            caption="Fecha inicio" dataType="datetime"
-            format="yyyy-MM-dd"
-            [width]="120"
+            dataField="comercio"
+            caption="Local"
           ></dxi-column>
           <dxi-column
-            dataField="finish_date"
-            caption="Fecha fin" dataType="datetime"
-            format="yyyy-MM-dd"
-            [width]="120"
+            dataField="cd_type"
+            caption="Tipo"
           ></dxi-column>
           <dxi-column
-            dataField="ultimo_pago"
-            caption="Último pago"
-            dataType="datetime"
-            format="yyyy-MM-dd"
-            [width]="120"
+            dataField="cd_quantity"
+            caption="Cupones"
+            dataType="number"
           ></dxi-column>
           <dxi-column
-            dataField="proximo_pago"
-            caption="Próximo pago"
-            dataType="datetime"
-            format="yyyy-MM-dd"
-            [width]="120"
+            dataField="cd_value"
+            caption="Descuento por cupón"
+            dataType="number"
+            format="currency"
+            format="Q ,###,###,##0.00"
           ></dxi-column>
           <dxi-column
-            dataField="estadoSuscripcion"
-            caption="Estado"
-            [width]="200"
+            dataField="transacciones"
+            caption="Transacciones"
+            dataType="number"
+          ></dxi-column>
+          <dxi-column
+            dataField="disponibles"
+            caption="Disponibles"
+            dataType="number"
+          ></dxi-column>
+          <dxi-column
+            dataField="total_descuento"
+            caption="Total descuento"
+            dataType="number"
+            format="currency"
+            format="Q ,###,###,##0.00"
           ></dxi-column>
           <dxo-header-filter [visible]="true"></dxo-header-filter>
           <dxo-search-panel [visible]="true" placeholder="Buscar..."></dxo-search-panel>

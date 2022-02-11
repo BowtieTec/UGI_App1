@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, OnChanges } from '@angular/core';
 import * as ApexCharts from 'apexcharts';
 import { DashboardService } from '../services/dashboard.service';
+import { AuthService } from '../../shared/services/auth.service';
 
 @Component({
   selector: 'app-bar-chart',
@@ -365,10 +366,13 @@ anioOptions = {
   chart3: any;
 
   constructor(
+    private auth: AuthService,
     private dashboardService: DashboardService,
   ) {
     
   }
+
+  datosUsuarioLogeado = this.auth.getParking();
 
   ngOnChanges(): void{
     let fecha = this.fecha;
@@ -399,13 +403,24 @@ anioOptions = {
     }
     if(this.tipo === 'Cortesias'){
       if(this.periodo == 'dia'){
-        this.getDatosCortesiasDiarios(this.parking, fecha);
+        this.getDatosCortesiasDiarios(this.datosUsuarioLogeado.id, fecha);
       }
       if(this.periodo == 'mes'){
-        this.getDatosCortesiasMes(this.parking, mes, anio);
+        this.getDatosCortesiasMes(this.datosUsuarioLogeado.id, mes, anio);
       }
       if(this.periodo == 'anio'){
-        this.getDatosCortesiasAnio(this.parking,anio);
+        this.getDatosCortesiasAnio(this.datosUsuarioLogeado.id,anio);
+      }
+    }
+    if(this.tipo === 'CortesiasEstacionarias'){
+      if(this.periodo == 'dia'){
+        this.getDatosCortesiasEstacionariasDiarios(this.datosUsuarioLogeado.id, fecha);
+      }
+      if(this.periodo == 'mes'){
+        this.getDatosCortesiasEstacionariasMes(this.datosUsuarioLogeado.id, mes, anio);
+      }
+      if(this.periodo == 'anio'){
+        this.getDatosCortesiasEstacionariasAnio(this.datosUsuarioLogeado.id,anio);
       }
     }
   }
@@ -583,7 +598,7 @@ anioOptions = {
         } 
       });  
   }
-  //Cortesias
+  //Cortesias normales
   getDatosCortesiasDiarios(parkingId: string, fecha: string){
     return this.dashboardService.getDailyCourtesies(parkingId, fecha)
       .toPromise()
@@ -706,6 +721,148 @@ anioOptions = {
           this.chart.updateOptions({
             title:{
               text: this.tipo+' por año'
+            }
+          });
+          if(this.tipoChart == "line"){
+            this.chart.updateOptions({
+              chart:{
+                stacked: false
+              },
+              dataLabels:{
+                offsetY: -10,
+                style:{
+                  fontSize: '12px',
+                  colors: ["#304758"],
+                },
+              }
+            });
+          }
+        } 
+      });  
+  }
+  //Cortesias estacionarias
+  getDatosCortesiasEstacionariasDiarios(parkingId: string, fecha: string){
+    return this.dashboardService.getDailyCourtesiesStation(parkingId, fecha)
+      .toPromise()
+      .then((data) => {
+        if (data) {
+          let seriesDatos: any[] = [];
+          Object.keys(data).forEach((key: any) => {
+            Object.keys(data[key]).forEach((key_item: any) => {
+              let nombreSerie = key_item.replace(/_/g," ");
+              
+              let datosDeServicio = data[key][key_item];
+              let DatosDiariosServicio: number[] = [];
+              datosDeServicio.forEach((element:any) => {
+                DatosDiariosServicio.push(element.Cantidad);
+              });
+              seriesDatos.push({
+                name: nombreSerie,
+                data: DatosDiariosServicio
+              })
+            });
+          });
+          this.chart.updateSeries(seriesDatos);
+          this.chart.updateOptions({
+            title:{
+              text: 'Corteías estacionarias por día'
+            }
+          });
+          if(this.tipoChart == "line"){
+            this.chart.updateOptions({
+              chart:{
+                stacked: false
+              },
+              dataLabels:{
+                offsetY: -10,
+                style:{
+                  fontSize: '12px',
+                  colors: ["#304758"],
+                },
+              }
+            });
+          }
+
+        } 
+      });  
+  }
+
+  getDatosCortesiasEstacionariasMes(parkingId: string, mes: string, anio: string){
+    return this.dashboardService.getMonthlyCourtesiesStation(parkingId, mes, anio)
+      .toPromise()
+      .then((data) => {
+        if (data) {
+          let seriesDatos: any[] = [];
+          Object.keys(data).forEach((key: any) => {
+            Object.keys(data[key]).forEach((key_item: any) => {
+              let nombreSerie = key_item.replace(/_/g," ");
+              
+              let datosDeServicio = data[key][key_item];
+              let DatosMesServicio: number[] = [];
+              datosDeServicio.forEach((element:any) => {
+                DatosMesServicio.push(element.Cantidad);
+              });
+              seriesDatos.push({
+                name: nombreSerie,
+                data: DatosMesServicio
+              })
+            });
+          });
+          let labelsDatos: any[] = [];
+          let diasDelMes = new Date(+anio,+mes,0).getDate();
+          for(var iDias= 1; iDias <= diasDelMes; iDias++){
+            labelsDatos.push(iDias);
+          }
+          this.chart.updateSeries(seriesDatos);
+          this.chart.updateOptions({
+            title:{
+              text: 'Cortesías estacionarias por mes'
+            },
+            labels:labelsDatos
+          });
+          if(this.tipoChart == "line"){
+            this.chart.updateOptions({
+              chart:{
+                stacked: false
+              },
+              dataLabels:{
+                offsetY: -10,
+                style:{
+                  fontSize: '12px',
+                  colors: ["#304758"],
+                },
+              }
+            });
+          }
+        } 
+      });  
+  }
+
+  getDatosCortesiasEstacionariasAnio(parkingId: string, anio: string){
+    return this.dashboardService.getYearCourtesiesStation(parkingId, anio)
+      .toPromise()
+      .then((data) => {
+        if (data) {
+          let seriesDatos: any[] = [];
+          Object.keys(data).forEach((key: any) => {
+            Object.keys(data[key]).forEach((key_item: any) => {
+              let nombreSerie = key_item.replace(/_/g," ");
+              
+              let datosDeServicio = data[key][key_item];
+              let DatosAnioServicio: number[] = [];
+              datosDeServicio.forEach((element:any) => {
+                DatosAnioServicio.push(element.Cantidad);
+              });
+              seriesDatos.push({
+                name: nombreSerie,
+                data: DatosAnioServicio
+              })
+            });
+          });
+          this.chart.updateSeries(seriesDatos);
+          this.chart.updateOptions({
+            title:{
+              text: 'Cortesías estacionarias por año'
             }
           });
           if(this.tipoChart == "line"){
