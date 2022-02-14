@@ -23,14 +23,14 @@
       <app-company></app-company>
     </ng-template>
   </ng-container>
-  <ng-container *ngIf="ifHaveAction(listLocal)"
+  <ng-container *ngIf="ifHaveAction(listTariff)"
                 ngbNavItem>
     <a ngbNavLink><em class="fas fa-comment-dollar"></em> Tarifas</a>
     <ng-template ngbNavContent>
       <app-tariff [isCreatingParking]="false" [parkingId]="parkingId"></app-tariff>
     </ng-template>
   </ng-container>
-  <ng-container *ngIf="ifHaveAction(listLocal)"
+  <ng-container *ngIf="ifHaveAction(listSchedules)"
                 ngbNavItem>
     <a ngbNavLink><em class="fas fa-clock"></em> Horarios</a>
     <ng-template ngbNavContent>

@@ -12,6 +12,8 @@ export class ManagementMenuComponent {
   assignRole = environment.assignRole;
   createUser = environment.createUser;
   listLocal = environment.listLocal;
+  listTariff = environment.listTariff;
+  listSchedules = environment.listSchedules;
 
 
   constructor(
