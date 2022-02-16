@@ -1,24 +1,13 @@
-import {
-  AfterViewInit,
-  Component,
-  EventEmitter,
-  Input,
-  OnDestroy,
-  Output,
-  ViewChild,
-} from '@angular/core';
-import {
-  CreateStation,
-  StationsCourtesyModel,
-} from '../../../../../parking/models/StationaryCourtesy.model';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MessageService } from '../../../../../../shared/services/message.service';
-import { ParkingService } from '../../../../../parking/services/parking.service';
-import { ParkingModel } from '../../../../../parking/models/Parking.model';
-import { AuthService } from '../../../../../../shared/services/auth.service';
-import { DataTableDirective } from 'angular-datatables';
-import { Subject } from 'rxjs';
-import { DataTableOptions } from '../../../../../../shared/model/DataTableOptions';
+import {AfterViewInit, Component, EventEmitter, Input, OnDestroy, Output, ViewChild,} from '@angular/core';
+import {CreateStation, StationsCourtesyModel,} from '../../../../../parking/models/StationaryCourtesy.model';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {MessageService} from '../../../../../../shared/services/message.service';
+import {ParkingService} from '../../../../../parking/services/parking.service';
+import {ParkingModel} from '../../../../../parking/models/Parking.model';
+import {AuthService} from '../../../../../../shared/services/auth.service';
+import {DataTableDirective} from 'angular-datatables';
+import {Subject} from 'rxjs';
+import {DataTableOptions} from '../../../../../../shared/model/DataTableOptions';
 
 @Component({
   selector: 'app-antennas-from-courtesy',
@@ -45,8 +34,12 @@ export class AntennasFromCourtesyComponent implements AfterViewInit, OnDestroy {
     private authService: AuthService
   ) {
     this.antennasForm = this.createAntennasForm();
-    this.formGroup = formBuilder.group({ filter: [''] });
+    this.formGroup = formBuilder.group({filter: ['']});
     this.getInitialData();
+  }
+
+  get isSudo() {
+    return this.authService.isSudo;
   }
 
   get dtOptions() {
@@ -104,7 +97,7 @@ export class AntennasFromCourtesyComponent implements AfterViewInit, OnDestroy {
   }
 
   async createStationWithCourtesy() {
-    if(this.antennasForm.invalid) {
+    if (this.antennasForm.invalid) {
       this.message.errorTimeOut('', 'Datos incorrectos o faltantes.');
       return;
     }
@@ -124,10 +117,10 @@ export class AntennasFromCourtesyComponent implements AfterViewInit, OnDestroy {
 
   private createAntennasForm() {
     return this.formBuilder.group({
-      parkingId: [this.parkingId,[ Validators.required]],
-      mac: [null,[ Validators.required, Validators.maxLength(17)]],
-      name: [null,[ Validators.required, Validators.maxLength(30)]],
-      antena: [null,[ Validators.required, Validators.maxLength(20)]],
+      parkingId: [this.parkingId, [Validators.required]],
+      mac: [null, [Validators.required, Validators.maxLength(17)]],
+      name: [null, [Validators.required, Validators.maxLength(30)]],
+      antena: [null, [Validators.required, Validators.maxLength(20)]],
     });
   }
 

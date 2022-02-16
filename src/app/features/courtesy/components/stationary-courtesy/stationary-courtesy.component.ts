@@ -62,6 +62,10 @@ export class StationaryCourtesyComponent implements AfterViewInit, OnDestroy {
     return DataTableOptions.getSpanishOptions(10);
   }
 
+  get isSudo() {
+    return this.authService.isSudo;
+  }
+
   async getTypeCourtesies(): Promise<Array<{ id: number; name: string }>> {
     return this.courtesyService
       .getTypes()
