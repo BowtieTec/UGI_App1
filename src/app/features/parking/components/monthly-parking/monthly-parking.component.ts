@@ -69,6 +69,24 @@ export class MonthlyParkingComponent implements AfterViewInit, OnDestroy {
     return `${this.userSelected.name} ${this.userSelected.last_name}`;
   }
 
+
+  getProfiles() {
+    const parkingId = this.authService.getParking().id;
+    return this.parkingService
+      .getProfilesOfMonthlySubscription(parkingId)
+      .then((data) => {
+        if (data.success) {
+          this.profiles = data.data.profiles;
+        } else {
+          this.message.error(data.message);
+        }
+      });
+  }
+
+  getStationsToCreateProfile(): any {
+    return this.stationsByParking.filter((x) => x.addStation);
+  }
+
   createNewProfile() {
     if (this.nameProfile.length <= 0) {
       this.message.error('', 'No ha asignado un nombre el perfil de acceso');
@@ -86,23 +104,6 @@ export class MonthlyParkingComponent implements AfterViewInit, OnDestroy {
     this.parkingService.createAccessProfile(newProfile).then((data) => {
       this.resolveResponse(data);
     });
-  }
-
-  getProfiles() {
-    const parkingId = this.authService.getParking().id;
-    return this.parkingService
-      .getProfilesOfMonthlySubscription(parkingId)
-      .then((data) => {
-        if (data.success) {
-          this.profiles = data.data.profiles;
-        } else {
-          this.message.error(data.message);
-        }
-      });
-  }
-
-  getStationsToCreateProfile(): any {
-    return this.stationsByParking.filter((x) => x.addStation);
   }
 
   getMonthlySubscription() {

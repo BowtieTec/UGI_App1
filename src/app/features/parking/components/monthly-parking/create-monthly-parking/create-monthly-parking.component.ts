@@ -5,7 +5,13 @@ import {ParkingService} from "../../../services/parking.service";
 import {UtilitiesService} from "../../../../../shared/services/utilities.service";
 import {AuthService} from "../../../../../shared/services/auth.service";
 import {PermissionsService} from "../../../../../shared/services/permissions.service";
-import {GetStationModel, MonthlyUserModel, ProfilesModel, SubscriptionModel} from "../../../models/MontlyParking.model";
+import {
+  CreateProfilesModel,
+  GetStationModel,
+  MonthlyUserModel,
+  ProfilesModel,
+  SubscriptionModel
+} from "../../../models/MontlyParking.model";
 import {environment} from "../../../../../../environments/environment";
 import {ResponseModel} from "../../../../../shared/model/Request.model";
 
@@ -110,6 +116,29 @@ export class CreateMonthlyParkingComponent implements OnInit {
 
   controlInvalid(control: string): boolean {
     return this.utilitiesService.controlInvalid(this.monthlyForm, control);
+  }
+
+  getStationsToCreateProfile(): any {
+    return this.stationsByParking.filter((x) => x.addStation);
+  }
+
+  createNewProfile() {
+    if (this.nameProfile.length <= 0) {
+      this.message.error('', 'No ha asignado un nombre el perfil de acceso');
+      return;
+    }
+    if (this.getStationsToCreateProfile().length <= 0) {
+      this.message.error('', 'No ha elegido estaciones para el perfil');
+      return;
+    }
+    const newProfile: CreateProfilesModel = {
+      parkingId: this.authService.getParking().id,
+      name: this.nameProfile,
+      stations: this.getStationsToCreateProfile(),
+    };
+    this.parkingService.createAccessProfile(newProfile).then((data) => {
+      this.resolveResponse(data);
+    });
   }
 
   getFormValue() {
