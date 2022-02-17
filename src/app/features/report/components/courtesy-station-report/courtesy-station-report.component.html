@@ -1,72 +1,72 @@
-<div class = "row justify-content-center" >
-  <div class = "col-lg-12 col-md-12 col-sm-12 col-xs-12 panelLeft animate__animated animate__fadeInLeft" >
-    <div class = "panels" >
-      <div class = "titleCards" >
-        <span ><i class = "fas fa-sitemap" ></i ></span > Reporte de cortesias estacionarias
-      </div >
-      <div class = "row" >
-        <div class = "col-xl-4 col-lg-6 col-sm-12"
-        *ngIf = "ifHaveAction(verTodosLosParqueosReport)"  >
-          <div class = "mb-4 relative">
-            <label class = "labelInput" style = "display:block" >Parqueo</label >
-              <select
-                #inputParking
-                class = "inputClass">
-                <option value="0">---- Todos los parqueos ----</option>
-                <option *ngFor = "let parking of this.allParking"
-                        value = "{{parking.id}}" >{{parking.name}}</option >
-              </select >
-                  
-          </div >
-        </div >
-        <div class = "col-xl-4 col-lg-6 col-sm-12" >
-          <div class = "mb-4 relative" >
-            <label class = "labelInput"
-                  
-                   style = "display:block" >Fecha de inicio</label >
-            <input type = "Date"  #initDate
-                   class = "form-control inputClass datetimepicker"
-                   name = "initDate"
-                   for = "initDate"
-                   placeholder = "Fecha/Hora de entrada"       
+<div class="row justify-content-center">
+  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 panelLeft animate__animated animate__fadeInLeft">
+    <div class="panels">
+      <div class="titleCards">
+        <span><i class="fas fa-sitemap"></i></span> Reporte de cortesias estacionarias
+      </div>
+      <div class="row justify-content-center">
+        <div class="col-xl-4 col-lg-6 col-sm-12"
+             *ngIf="ifHaveAction(verTodosLosParqueosReport)">
+          <div class="mb-4 relative">
+            <label class="labelInput" style="display:block">Parqueo</label>
+            <select
+              #inputParking
+              class="inputClass">
+              <option value="0">---- Todos los parqueos ----</option>
+              <option *ngFor="let parking of this.allParking"
+                      value="{{parking.id}}">{{parking.name}}</option>
+            </select>
+
+          </div>
+        </div>
+        <div class="col-xl-2 col-lg-6 col-sm-12">
+          <div class="mb-4 relative">
+            <label class="labelInput"
+
+                   style="display:block">Fecha de inicio</label>
+            <input type="Date" #initDate
+                   class="form-control inputClass datetimepicker"
+                   name="initDate"
+                   for="initDate"
+                   placeholder="Fecha/Hora de entrada"
                    [value]="fechaActual"
-                    >
-                  
-          </div >
-        </div >
-        <div class = "col-xl-4 col-lg-6 col-sm-12" >
-          <div class = "mb-4 relative" >
-            <label class = "labelInput"
-                   
-                   style = "display:block" >Fecha de fin</label >
-            <input 
-                  type = "date"   #endDate
-                   class = "form-control inputClass datetimepicker"
-                   name = "endDate"
-                   for = "endDate"
-                   placeholder = "Fecha/Hora de salida"
-                   [value]="fechaActual"
-                   >
-          </div >
-        </div >
+            >
+
+          </div>
+        </div>
+        <div class="col-xl-2 col-lg-6 col-sm-12">
+          <div class="mb-4 relative">
+            <label class="labelInput"
+
+                   style="display:block">Fecha de fin</label>
+            <input
+              type="date" #endDate
+              class="form-control inputClass datetimepicker"
+              name="endDate"
+              for="endDate"
+              placeholder="Fecha/Hora de salida"
+              [value]="fechaActual"
+            >
+          </div>
+        </div>
 
 
-<div class = "col-xl-12 col-lg-12 col-sm-12" >
-          <div class = "text-center" >
-            <button class = "btn btn-primary m-2"
-                    (click) = "getCourtesyStationRpt(initDate.value,endDate.value)" >Buscar
-            </button >
-          </div >
-        </div >
-      </div >
+        <div class="col-xl-12 col-lg-12 col-sm-12">
+          <div class="text-center">
+            <button class="btn btn-primary m-2"
+                    (click)="getCourtesyStationRpt(initDate.value,endDate.value)">Buscar
+            </button>
+          </div>
+        </div>
+      </div>
 
-    </div >
-  </div >
-  <div class = "col-lg-12 col-md-12 col-sm-12 col-xs-12" >
-    <div class = "panels" >
-      <div class = "row" >
+    </div>
+  </div>
+  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+    <div class="panels">
+      <div class="row">
         <dx-data-grid id="gridContainer" [dataSource]="dataSource" [showBorders]="true">
-          <dxi-column 
+          <dxi-column
             dataField="cs_name"
             caption="Cortesía"
             [width]="300"
@@ -133,8 +133,8 @@
           </dxo-toolbar>
           <dxo-export [enabled]="true"></dxo-export>
         </dx-data-grid>
-      </div >
-    </div >
-  </div >
-</div >
+      </div>
+    </div>
+  </div>
+</div>
 

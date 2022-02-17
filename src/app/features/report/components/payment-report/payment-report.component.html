@@ -4,7 +4,7 @@
       <div class="titleCards">
         <span><i class="fas fa-sitemap"></i></span> Reporte de Pagos
       </div>
-      <div class="row">
+      <div class="row justify-content-center">
         <div *ngIf="ifHaveAction(verTodosLosParqueosReport)"
              class="col-xl-4 col-lg-6 col-sm-12">
           <div class="mb-4 relative">
@@ -19,7 +19,7 @@
 
           </div>
         </div>
-        <div class="col-xl-4 col-lg-6 col-sm-12">
+        <div class="col-xl-2 col-lg-6 col-sm-12">
           <div class="mb-4 relative">
             <label class="labelInput"
                    style="display:block">Fecha de inicio</label>
@@ -32,7 +32,7 @@
             >
           </div>
         </div>
-        <div class="col-xl-4 col-lg-6 col-sm-12">
+        <div class="col-xl-2 col-lg-6 col-sm-12">
           <div class="mb-4 relative">
             <label class="labelInput"
                    style="display:block">Fecha de fin</label>
@@ -46,6 +46,8 @@
             >
           </div>
         </div>
+
+
         <div class="col-xl-12 col-lg-12 col-sm-12">
           <div class="text-center">
             <button (click)="getPaymentRpt(initDate.value,endDate.value)"
@@ -54,6 +56,38 @@
           </div>
         </div>
       </div>
+
+    </div>
+  </div>
+  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+    <div class="panels">
+      <div class="row" id="exportable">
+
+        >
+      </div>
+    </div>
+    <div class="col-xl-4 col-lg-6 col-sm-12">
+      <div class="mb-4 relative">
+        <label class="labelInput"
+               style="display:block">Fecha de fin</label>
+        <input
+          #endDate [value]="fechaActual"
+          class="form-control inputClass datetimepicker"
+          for="endDate"
+          name="endDate"
+          placeholder="Fecha/Hora de salida"
+          type="date"
+        >
+      </div>
+    </div>
+    <div class="col-xl-12 col-lg-12 col-sm-12">
+      <div class="text-center">
+        <button (click)="getPaymentRpt(initDate.value,endDate.value)"
+                class="btn btn-primary m-2">Buscar
+        </button>
+      </div>
+    </div>
+  </div>
     </div>
   </div>
   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">

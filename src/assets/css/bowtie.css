@@ -86,19 +86,21 @@ body {
   color: #ffffff;
   border: 1px solid #f8370d;
 }
-.buttonRowAlert{
-    background: #415ba2;
-    color: White;
-    border: 1px solid #415ba2;
-    border-radius: 4px;
-    height: 32px;
-    font-size: 12px;
-    min-width: 40px;
+
+.buttonRowAlert {
+  background: #415ba2;
+  color: White;
+  border: 1px solid #415ba2;
+  border-radius: 4px;
+  height: 32px;
+  font-size: 12px;
+  min-width: 40px;
 }
-.buttonRowAlert:hover{
+
+.buttonRowAlert:hover {
   background: #324a8a;
-    color: White;
-    border: 1px solid #30488a;
+  color: White;
+  border: 1px solid #30488a;
 }
 
 .buttonRowCancel {
@@ -312,17 +314,19 @@ input[type=number]:focus,
   background-size: 15%;
   background-color: #021C70;
 }
-.btn-input{
+
+.btn-input {
   border-radius: 0px 6px 6px 0px !important;
-    min-width: 75px!important;
-    max-width: 100px!important;
-    padding: 11px 5px!important;
-    margin-bottom: 0px!important;
-    background: #04ccae;
-    border: 1px solid #04ccae;
+  min-width: 75px !important;
+  max-width: 100px !important;
+  padding: 11px 5px !important;
+  margin-bottom: 0px !important;
+  background: #04ccae;
+  border: 1px solid #04ccae;
 }
+
 .form-group input {
-  
+
   border-radius: 0px;
   margin-bottom: 15px;
   padding: 10px;
@@ -447,6 +451,9 @@ label.labelInput {
 }
 
 .inputClass {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
   border: none;
   border-bottom: 1px solid #c6c6c6;
   border-radius: 0;
@@ -699,7 +706,7 @@ table.dataTable th, table.dataTable td {
 }
 
 nav {
-  margin-bottom: -15px!important;
+  margin-bottom: -15px !important;
   border: none !important;
 }
 
@@ -764,6 +771,7 @@ nav > .nav-link.active {
   text-align: center;
   margin-bottom: 15px;
 }
+
 .form-control:focus {
   color: #212529;
   background-color: #fff;
@@ -776,6 +784,7 @@ nav > .nav-link.active {
   height: 100%;
   margin: auto;
 }
+
 .progress-bar {
   display: flex;
   flex-direction: column;

@@ -1,152 +1,117 @@
-<div class = "row justify-content-center animate__animated animate__fadeInLeft" >
-  <form *ngIf = "courtesyTypes.length > 0"
-        [formGroup] = "newCourtesyForm"
-        action = ""
-        class = "needs-validation"
-        id = "form-wrapper"
-        method = "post"
-        name = "form-wrapper"
-        novalidate = "" >
-    <div
-      class = "col-lg-12 col-md-12 col-sm-12 col-xs-12" >
-      <div class = "panels " >
-        <div class = "titleCards" >
-          <span ><em class = "fas fa-sitemap" ></em ></span > Cortesías
-        </div >
-        <div *ngIf = "ifHaveAction(createCourtesy)"
-             class = "row justify-content-center" >
+<form *ngIf="courtesyTypes.length > 0" [formGroup]="newCourtesyForm" action="" class="needs-validation"
+      id="form-wrapper" method="post" name="form-wrapper" novalidate="">
+  <div class="row justify-content-center animate__animated animate__fadeInLeft">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+      <div class="panels ">
+        <div class="titleCards">
+          <span><em class="fas fa-sitemap"></em></span> Cortesías
+        </div>
+        <div *ngIf="ifHaveAction(createCourtesy)">
+          <div class="row justify-content-center">
+            <div class="col-xl-4 col-lg-4 col-sm-12">
+              <div class="mb-4 relative">
+                <label class="labelInput">Nombre</label>
+                <input [class.is-invalid]="controlInvalid('name')" class="form-control inputClass"
+                       formControlName="name" placeholder="NOMBRE:" type="text">
+                <small *ngIf="controlInvalid('name')" class="text-danger animate__animated  animate__rotateIn">* Este
+                  campo es obligatorio</small>
+              </div>
+            </div>
+            <div class="col-xl-4 col-lg-4  col-sm-12">
+              <div class="mb-4 relative">
+                <label class="labelInput"> --- Tipo de cortesía ---</label>
+                <select [class.is-invalid]="controlInvalid('type')" class="inputClass" formControlName="type">
+                  <option *ngIf="newCourtesyForm.controls['type'].value <= 0" value="">Tipo de cortesía
+                  </option>
+                  <option *ngFor="let type of courtesyTypes" value="{{type.id}}">{{type.description}}</option>
+                </select>
+                <small *ngIf="controlInvalid('type')" class="text-danger animate__animated  animate__rotateIn">* Este
+                  campo es obligatorio</small>
+              </div>
+            </div>
+          </div>
+          <div class="row justify-content-center">
+            <div class=" col-xl-4 col-lg-4  col-sm-12">
+              <div class="mb-4 relative">
+                <label class="labelInput">Cantidad</label>
+                <input [class.is-invalid]="controlInvalid('quantity')" class="form-control inputClass"
+                       formControlName="quantity" placeholder="Cantidad:" type="number">
+                <small *ngIf="controlInvalid('quantity')" class="text-danger animate__animated  animate__rotateIn">*
+                  Este campo es obligatorio</small>
+              </div>
+            </div>
+            <div class="col-xl-4 col-lg-4 col-sm-12">
+              <div class="mb-4 relative">
+                <label class="labelInput">Valor</label>
+                <input [class.is-invalid]="controlInvalid('value')" class="form-control inputClass"
+                       formControlName="value" placeholder="Valor: " type="text">
+                <small *ngIf="controlInvalid('value')" class="text-danger animate__animated  animate__rotateIn">* Este
+                  campo es obligatorio</small>
+              </div>
+            </div>
+          </div>
+          <div class="row justify-content-center">
+            <div class="col-xl-4 col-lg-4 col-sm-12">
+              <div class="mb-4 relative">
+                <app-select-container [data]="allCompanies" [formGroup]="newCourtesyForm" controlName="companyId"
+                                      name="Locales">
+                </app-select-container>
+              </div>
+            </div>
+            <div class="col-xl-4 col-lg-4 col-sm-12">
+              <div class="mb-4 relative">
+                <app-select-container (change)="getCourtesies(this.parkingSelected)" *ngIf="isSudo" [data]="allParking"
+                                      [formGroup]="newCourtesyForm" controlName="parkingId" name="Parqueos">
+                </app-select-container>
+              </div>
+            </div>
+          </div>
+          <div class="row justify-content-center">
+            <div class="col-xl-12 col-lg-12 col-sm-12">
+              <div class="text-center">
+                <button (click)="saveCourtesy()" class="btn btn-primary">Guardar
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
 
-          <div class = "col-xl-4 col-lg-6  col-sm-12" >
-            <div class = "mb-4 relative" >
-              <label class = "labelInput" >Nombre</label >
-              <input [class.is-invalid] = "controlInvalid('name')"
-                     class = "form-control inputClass"
-                     formControlName = "name"
-                     placeholder = "NOMBRE:"
-                     type = "text" >
-              <small *ngIf = "controlInvalid('name')"
-                     class = "text-danger animate__animated  animate__rotateIn" >* Este campo es obligatorio</small >
-            </div >
-          </div >
-
-          <div class = "col-xl-4 col-lg-6  col-sm-12" >
-            <div class = "mb-4 relative" >
-              <label class = "labelInput" > --- Tipo de cortesía ---</label >
-              <select [class.is-invalid] = "controlInvalid('type')"
-                      class = "inputClass"
-                      formControlName = "type" >
-                <option *ngIf = "newCourtesyForm.controls['type'].value <= 0"
-                        value = "" >Tipo de cortesía
-                </option >
-                <option *ngFor = "let type of courtesyTypes"
-                        value = "{{type.id}}" >{{type.description}}</option >
-              </select >
-              <small *ngIf = "controlInvalid('type')"
-                     class = "text-danger animate__animated  animate__rotateIn" >* Este campo es obligatorio</small >
-            </div >
-          </div >
-
-          <div class = "row justify-content-center" >
-            <div class = " col-xl-4 col-lg-6  col-sm-12" >
-              <div class = "mb-4 relative" >
-                <label class = "labelInput" >Cantidad</label >
-                <input [class.is-invalid] = "controlInvalid('quantity')"
-                       class = "form-control inputClass"
-                       formControlName = "quantity"
-                       placeholder = "Cantidad:"
-                       type = "number" >
-                <small *ngIf = "controlInvalid('quantity')"
-                       class = "text-danger animate__animated  animate__rotateIn" >* Este campo es obligatorio</small >
-              </div >
-            </div >
-            <div class = "col-xl-4 col-lg-6 col-sm-12" >
-              <div class = "mb-4 relative" >
-                <label class = "labelInput" >Valor</label >
-                <input [class.is-invalid] = "controlInvalid('value')"
-                       class = "form-control inputClass"
-                       formControlName = "value"
-                       placeholder = "Valor: "
-                       type = "text" >
-                <small *ngIf = "controlInvalid('value')"
-                       class = "text-danger animate__animated  animate__rotateIn" >* Este campo es obligatorio</small >
-              </div >
-            </div >
-            <div class = "col-xl-4 col-lg-6 col-sm-12" >
-              <div class = "mb-4 relative" >
-                <app-select-container
-                  (change) = "getCourtesies(this.parkingSelected)"
-                  *ngIf = "isSudo"
-                  [data] = "allParking"
-                  [formGroup] = "newCourtesyForm"
-                  controlName = "parkingId"
-                  name = "Parqueos" >
-                </app-select-container >
-              </div >
-            </div >
-            <div class = "col-xl-4 col-lg-6 col-sm-12" >
-              <div class = "mb-4 relative" >
-                <app-select-container
-                  [data] = "allCompanies"
-                  [formGroup] = "newCourtesyForm"
-                  controlName = "companyId"
-                  name = "Locales" >
-                </app-select-container >
-              </div >
-            </div >
-          </div >
-          <div class = "col-xl-12 col-lg-12 col-sm-12" >
-            <div class = "text-center" >
-              <button (click) = "saveCourtesy()"
-                      class = "btn btn-success " >Guardar
-              </button >
-
-            </div >
-          </div >
-        </div >
-
-      </div >
-    </div >
-  </form >
-  <div *ngIf = "ifHaveAction(listCourtesy)"
-       class = "col-lg-12 col-md-12 col-sm-12 col-xs-12" >
-    <div class = "panels" >
-      <div class = "row" >
-        <div class = "col-lg-12" >
-          <table [dtOptions] = "dtOptions"
-                 [dtTrigger] = "dtTrigger"
-                 aria-label = "Tabla de cortesias"
-                 class = "table hover table-striped animate__animated animate__fadeInLeft "
-                 datatable >
-            <thead >
-            <tr >
-              <th scope = "col" >Nombre</th >
-              <th scope = "col" >Tipo cortesia</th >
-              <th scope = "col" >Cantidad</th >
-              <th scope = "col" >Local</th >
-              <th scope = "col" >Valor</th >
-              <th scope = "col"
-                  style = "width: 4%" ><em class = "fas fa-file-pdf" ></em ></th >
-            </tr >
-            </thead >
-            <tbody >
-            <tr *ngFor = "let courtesy of courtesies" >
-              <td >{{courtesy.name}}</td >
-              <td >{{this.getTypeDescription(courtesy.type).description}}</td >
-              <td >{{courtesy.quantity}}</td >
-              <td >{{courtesy.company?.name | titlecase}}</td >
-              <td >{{courtesy.value | courtesyValue: courtesy.type}}</td >
-              <td >
-                <button
-                  (click) = "downloadPDF(courtesy)"
-                  *ngIf = "ifHaveAction(downloadCourtesy)"
-                  class = "btn btn-outline-danger " ><em class = "fas fa-file-pdf" ></em >
-                </button >
-              </td >
-            </tr >
-            </tbody >
-          </table >
-        </div >
-      </div >
-    </div >
-  </div >
-</div >
+<div *ngIf="ifHaveAction(listCourtesy)" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+  <div class="panels">
+    <div class="row">
+      <div class="col-lg-12">
+        <table [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" aria-label="Tabla de cortesias"
+               class="table hover table-striped animate__animated animate__fadeInLeft " datatable>
+          <thead>
+          <tr>
+            <th scope="col">Nombre</th>
+            <th scope="col">Tipo cortesia</th>
+            <th scope="col">Cantidad</th>
+            <th scope="col">Local</th>
+            <th scope="col">Valor</th>
+            <th scope="col" style="width: 4%"><em class="fas fa-file-pdf"></em></th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let courtesy of courtesies">
+            <td>{{courtesy.name}}</td>
+            <td>{{this.getTypeDescription(courtesy.type).description}}</td>
+            <td>{{courtesy.quantity}}</td>
+            <td>{{courtesy.company?.name | titlecase}}</td>
+            <td>{{courtesy.value | courtesyValue: courtesy.type}}</td>
+            <td>
+              <button (click)="downloadPDF(courtesy)" *ngIf="ifHaveAction(downloadCourtesy)"
+                      class="btn btn-outline-danger "><em class="fas fa-file-pdf"></em>
+              </button>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
