@@ -95,9 +95,8 @@ export class ParkedComponent implements OnDestroy, AfterViewInit, OnInit {
   }
 
   getParkedFormValues() {
-    const status = this.parkedForm.get('status')?.value
-      ? this.parkedForm.get('status')?.value
-      : '';
+    const status = this.parkedForm.get('status')?.value;
+    console.log(status);
     const parkingId = this.isSudo && this.parkedForm.get('parkingId')?.value != "0"
       ? this.parkedForm.get('parkingId')?.value
       : this.authService.getParking().id;
