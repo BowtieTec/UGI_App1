@@ -13,14 +13,14 @@
             </div>
             <div *ngIf="ifHaveAction(createCourtesyStationary)">
               <div class="row justify-content-center">
-                <div *ngIf="isSudo" class="col-md-5 col-sm-12">
+                <div *ngIf="isSudo" class="col-md-4 col-sm-12">
                   <div class="m-3 relative ">
                     <app-select-container (change)="searchAntennasByParking()" [data]="this.allParking"
                       [formGroup]="this.stationaryForm" controlName="parkingId" name="Parqueos"></app-select-container>
 
                   </div>
                 </div>
-                <div class="col-md-5 col-sm-12">
+                <div class="col-md-4 col-sm-12">
                   <div class="m-3 relative ">
                     <app-select-container [data]=" this.typeCourtesies" [formGroup]="this.stationaryForm"
                       controlName="type" name="Tipos de cortesía"></app-select-container>
@@ -29,13 +29,13 @@
               </div>
 
               <div class="row justify-content-center">
-                <div class="col-md-5 col-sm-12">
+                <div class="col-md-4 col-sm-12">
                   <div class="m-3 relative ">
                     <app-input-container [formGroup]="stationaryForm" controlName="name" name="Nombre de la cortesía">
                     </app-input-container>
                   </div>
                 </div>
-                <div class="col-md-5 col-sm-12">
+                <div class="col-md-4 col-sm-12">
                   <div class="m-3 relative ">
                     <app-input-container [formGroup]="stationaryForm" controlName="value" name="Valor de la cortesia"
                       type="number">
@@ -49,11 +49,12 @@
                     <app-select-container [data]=" this.stations" [formGroup]="this.stationaryForm"
                       controlName="stationId" name="Estaciones" style="position: relative;
               display: inline-block;
-              width: 80%;"></app-select-container>
+              width: 100%;"></app-select-container>
 
                     <button *ngIf="ifHaveAction(addStationsCourtesyStationary)"
                       class="btn-primary btn-input animate__animated animate__fadeInDown" data-bs-target="#exampleModal"
                       data-bs-toggle="modal" style="    position: absolute;
+                      right: 0px;
                     display: inline-block;
                     padding: 9px!important;" type="button">+
                     </button>
@@ -71,7 +72,7 @@
               <div class="row ">
                 <div class="d-grid gap-2 d-md-flex justify-content-md-center m-3">
                   <button (click)="addStationaryCourtesies()"
-                    class="btn btn-success animate__animated animate__fadeInDown" type="button">Guardar
+                    class="btn btn-primary animate__animated animate__fadeInDown" type="button">Guardar
                   </button>
                 </div>
               </div>
