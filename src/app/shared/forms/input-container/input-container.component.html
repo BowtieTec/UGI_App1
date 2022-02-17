@@ -1,16 +1,16 @@
-<div [formGroup] = "formGroup"
-     class = "relative" >
-  <div >
-    <small *ngIf = "controlInvalid(controlName)"
-           class = "text-danger animate__animated animate__fadeIn" >* El valor no es válido</small >
+<div [formGroup]="formGroup"
+     class="relative">
+  <div>
+
     <input
-      [class.is-invalid] = "controlInvalid(controlName)"
-      class = "inputClass"
-      formControlName = "{{controlName}}"
-      id = "name"
-      placeholder = "{{name}}:"
-      type = "{{type}}" >
-  </div >
-  <span *ngIf = "textInfo.length > 0"
-        class = "text-muted" >*{{textInfo}}</span >
-</div >
+      class="inputClass"
+      formControlName="{{controlName}}"
+      id="name"
+      placeholder="{{name}}:"
+      type="{{type}}">
+  </div>
+  <small *ngIf="controlInvalid(controlName)"
+         class="text-danger animate__animated animate__fadeIn">* El valor no es válido</small>
+  <span *ngIf="textInfo.length > 0"
+        class="text-muted">*{{textInfo}}</span>
+</div>
