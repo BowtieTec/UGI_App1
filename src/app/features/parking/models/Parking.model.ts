@@ -28,24 +28,12 @@ class ParkingParked {
 
 export const StatusParked = [
   {
-    id: 0,
-    name: 'Intentando entrar',
-  },
-  {
     id: 1,
     name: 'Dentro del parqueo',
   },
   {
-    id: 3,
-    name: 'Pagado',
-  },
-  {
     id: 4,
     name: 'Problema con la estación',
-  },
-  {
-    id: '',
-    name: 'Todos'
   }
 
 ];
