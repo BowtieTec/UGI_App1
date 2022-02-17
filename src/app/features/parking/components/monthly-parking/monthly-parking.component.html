@@ -58,17 +58,12 @@
             <button (click)="disableSubscription(subscription.id)"
                     *ngIf="ifHaveAction(disableMonthlyParking)"
                     class="buttonRowAlert  ms-1 me-1"
-                    title="Deshabilitar suscripción"><em class="fas fa-exclamation "></em>
+                    title="Deshabilitar por falta de pago"><em class="fas fa-exclamation "></em>
             </button>
             <button (click)="cancelSubscription(subscription.id)"
                     *ngIf="ifHaveAction(cancelMonthlyParking)"
                     class="buttonRowCancel me-1"
                     title="Cancelar Suscripción"><em class="fas fa-ban"></em>
-            </button>
-            <button (click)="deleteSubscription(subscription.id)"
-                    *ngIf="ifHaveAction(deleteMonthlyParking)"
-                    class="buttonRowDelete"
-                    title="Eliminar Suscripción"><em class="fas fa-trash-alt"></em>
             </button>
           </td>
         </tr>
