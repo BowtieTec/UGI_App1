@@ -132,8 +132,8 @@ export class ParkedComponent implements OnDestroy, AfterViewInit, OnInit {
       ) {
         const statusWillUpdate = await this.messageService.areYouSureWithCancel(
           '¿Dejar salir a usuario con el cobro pendiente o cancelado?',
-          'Con el cobro cancelado',
-          'Con el cobro pendiente'
+          'Cobro Cancelado',
+          'Cobrar parqueo'
         );
         if (statusWillUpdate.isConfirmed) status = 3;
         if (statusWillUpdate.isDenied) status = 2;
