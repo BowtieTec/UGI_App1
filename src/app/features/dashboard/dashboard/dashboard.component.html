@@ -1,73 +1,28 @@
 <div class="container">
   <div class="tab">
-      <ul>
-        <li id="ingresos" [class.color]="idTabActiva === 'ingresos'" (click)="tabChanges('ingresos')" *ngIf = "ifHaveAction(graficosIngresoVehiculos)" >Ingreso de vehículos</li>
-        <li id="flujo" [class.color]="idTabActiva === 'flujo'"  (click)="tabChanges('flujo')"  *ngIf = "ifHaveAction(graficosFlujoDinero)">Flujo de dinero</li>
-        <li id="cortesias" [class.color]="idTabActiva === 'cortesias'"  (click)="tabChanges('cortesias')"  *ngIf = "ifHaveAction(graficosCortesias)">Cortesías</li>
-        <li id="cortesiasEstacionarias" [class.color]="idTabActiva === 'cortesiasEstacionarias'"  (click)="tabChanges('cortesiasEstacionarias')"  *ngIf = "ifHaveAction(graficosCortesiasEstacionarias)">Cortesías estacionarias</li>
-      </ul>
-      <div class="content">
-        <div class="content-value Ingresos" *ngIf = "ifHaveAction(graficosIngresoVehiculos) && idTabActiva === 'ingresos'">
-          <div id="dia">
-            <div
-            class = "col-lg-12 col-md-12 col-sm-12 col-xs-12" >
-              <div class = "panels " >
-                <div class = "titleCards" >
-                  <span ><em class = "fas fa-chart-bar" ></em ></span > Filtros
-                </div >
-                <div class = "row justify-content-center" >
-                  <div class = "row" >
-                    <div class = "col-xl-4 col-lg-6 col-sm-12"
-                    *ngIf = "ifHaveAction(verTodosLosParqueosDashboard)" >
-                      <div class = "mb-4 relative" >
-                        <label class = "labelInput"
-                               
-                               style = "display:block" >Parqueo</label >
-                        <select
-                          #inputParkingIngresoDia
-                          name="inputParkingIngresoDia"
-                          class = "inputClass"
-                          formControlName = "inputParkingIngresoDia" >
-                          <option value="0">---- Todos los parqueos ----</option>
-                          <option *ngFor = "let parking of this.allParking"
-                                  value = "{{parking.id}}" >{{parking.name}}</option >
-                        </select >
-                      </div >
-                    </div >
-                    <div class = "col-xl-4 col-lg-6 col-sm-12" >
-                      <div class="mb-4 relative">
-                        <label class = "labelInput"
-                               
-                               style = "display:block" >Fecha</label >
-                        <input 
-                          #inputFechaIngresoDia
-                          name = "inputFechaIngresoDia"
-                          formControlName = "inputFechaIngresoDia"
-                          type = "date"
-                          class = "form-control inputClass datetimepicker"
-                          value={{fechaIngresosDia}}
-                          placeholder = "Fecha/Hora"
-                        >
-                      </div>
-                    </div >
-                    <div class = "col-xl-12 col-lg-12 col-sm-12" >
-                      <div class = "text-center" >
-                        <button (click) = "searchDia(ingresos)"
-                                class = "btn btn-primary m-2" ><span ><em class = "fas fa-search" ></em ></span > Buscar
-                        </button >
-    
-                      </div >
-                    </div >
-                  </div>
-                </div >
-    
-              </div >
-            </div >
-            <app-bar-chart [tipo]="ingresos" [parking]="parqueoIngresosDia" [fecha]="fechaIngresosDia" [tipoChart]="tipoIngresos" [periodo]="periodoDia" ></app-bar-chart >
-          </div>
-          <div id="mes">
-            <div
-            class = "col-lg-12 col-md-12 col-sm-12 col-xs-12" >
+    <ul>
+      <li (click)="tabChanges('ingresos')" *ngIf="ifHaveAction(graficosIngresoVehiculos)"
+          [class.color]="idTabActiva === 'ingresos'"
+          id="ingresos">Ingreso de vehículos
+      </li>
+      <li (click)="tabChanges('flujo')" *ngIf="ifHaveAction(graficosFlujoDinero)"
+          [class.color]="idTabActiva === 'flujo'"
+          id="flujo">Flujo de dinero
+      </li>
+      <li (click)="tabChanges('cortesias')" *ngIf="ifHaveAction(graficosCortesias)"
+          [class.color]="idTabActiva === 'cortesias'"
+          id="cortesias">Cortesías
+      </li>
+      <li (click)="tabChanges('cortesiasEstacionarias')" *ngIf="ifHaveAction(graficosCortesiasEstacionarias)"
+          [class.color]="idTabActiva === 'cortesiasEstacionarias'" id="cortesiasEstacionarias">Cortesías
+        estacionarias
+      </li>
+    </ul>
+    <div class="content">
+      <div *ngIf="ifHaveAction(graficosIngresoVehiculos) && idTabActiva === 'ingresos'" class="content-value Ingresos">
+        <!--<div id="dia">
+          <div
+          class = "col-lg-12 col-md-12 col-sm-12 col-xs-12" >
             <div class = "panels " >
               <div class = "titleCards" >
                 <span ><em class = "fas fa-chart-bar" ></em ></span > Filtros
@@ -78,13 +33,14 @@
                   *ngIf = "ifHaveAction(verTodosLosParqueosDashboard)" >
                     <div class = "mb-4 relative" >
                       <label class = "labelInput"
-                             
+
                              style = "display:block" >Parqueo</label >
                       <select
-                        #inputParkingIngresoMes
+                        #inputParkingIngresoDia
+                        name="inputParkingIngresoDia"
                         class = "inputClass"
-                        formControlName = "parking" >
-                        <option value="0">---- Todos los parqueos ----</option>
+                        formControlName = "inputParkingIngresoDia" >
+                        <option value="0">&#45;&#45;&#45;&#45; Todos los parqueos &#45;&#45;&#45;&#45;</option>
                         <option *ngFor = "let parking of this.allParking"
                                 value = "{{parking.id}}" >{{parking.name}}</option >
                       </select >
@@ -93,241 +49,441 @@
                   <div class = "col-xl-4 col-lg-6 col-sm-12" >
                     <div class="mb-4 relative">
                       <label class = "labelInput"
-                             
-                             style = "display:block" >Año</label >
+
+                             style = "display:block" >Fecha</label >
+                      <input
+                        #inputFechaIngresoDia
+                        name = "inputFechaIngresoDia"
+                        formControlName = "inputFechaIngresoDia"
+                        type = "date"
+                        class = "form-control inputClass datetimepicker"
+                        value={{fechaIngresosDia}}
+                        placeholder = "Fecha/Hora"
+                      >
+                    </div>
+                  </div >
+                  <div class = "col-xl-12 col-lg-12 col-sm-12" >
+                    <div class = "text-center" >
+                      <button (click) = "searchDia(ingresos)"
+                              class = "btn btn-primary m-2" ><span ><em class = "fas fa-search" ></em ></span > Buscar
+                      </button >
+
+                    </div >
+                  </div >
+                </div>
+              </div >
+
+            </div >
+          </div >
+          <app-bar-chart [tipo]="ingresos" [parking]="parqueoIngresosDia" [fecha]="fechaIngresosDia" [tipoChart]="tipoIngresos" [periodo]="periodoDia" ></app-bar-chart >
+        </div>-->
+        <div id="mes">
+          <div
+            class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="panels ">
+              <div class="titleCards">
+                <span><em class="fas fa-chart-bar"></em></span> Filtros
+              </div>
+              <div class="row justify-content-center">
+                <div class="row">
+                  <div *ngIf="ifHaveAction(verTodosLosParqueosDashboard)"
+                       class="col-xl-4 col-lg-6 col-sm-12">
+                    <div class="mb-4 relative">
+                      <label class="labelInput"
+
+                             style="display:block">Parqueo</label>
+                      <select
+                        #inputParkingIngresoMes
+                        class="inputClass"
+                        formControlName="parking">
+                        <option value="0">---- Todos los parqueos ----</option>
+                        <option *ngFor="let parking of this.allParking"
+                                value="{{parking.id}}">{{parking.name}}</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-xl-4 col-lg-6 col-sm-12">
+                    <div class="mb-4 relative">
+                      <label class="labelInput"
+
+                             style="display:block">Año</label>
                       <select
                         #inputIngresoMesAnio
                         ngModel="inputIngresoMesAnio"
                         ngControl="inputIngresoMesAnio"
-                        class = "inputClass" >
-                        <option *ngFor="let opt of AniosSelect" [selected]="opt.key == AnioActual" [value]="opt.key" >{{opt.valor}}</option>
-                      </select >
+                        class="inputClass">
+                        <option *ngFor="let opt of AniosSelect" [selected]="opt.key == AnioActual"
+                                [value]="opt.key">{{opt.valor}}</option>
+                      </select>
                     </div>
-                  </div >
-                  <div class = "col-xl-4 col-lg-6 col-sm-12" >
+                  </div>
+                  <div class="col-xl-4 col-lg-6 col-sm-12">
                     <div class="mb-4 relative">
-                      <label class = "labelInput"
-                             
-                             style = "display:block" >Mes</label >
+                      <label class="labelInput"
+
+                             style="display:block">Mes</label>
                       <select
                         #inputIngresoMes
                         ngModel="inputIngresoMes"
                         ngControl="inputIngresoMes"
-                        class = "inputClass">
-                        <option *ngFor="let opt of Meses" [selected]="opt.key == MesActual" [value]="opt.key">{{opt.valor}}</option>
-                      </select >
+                        class="inputClass">
+                        <option *ngFor="let opt of Meses" [selected]="opt.key == MesActual"
+                                [value]="opt.key">{{opt.valor}}</option>
+                      </select>
                     </div>
-                  </div >
-                  <div class = "col-xl-12 col-lg-12 col-sm-12" >
-                    <div class = "text-center" >
-                      <button (click) = "searchMes(ingresos)"
-                              class = "btn btn-primary m-2" ><span ><em class = "fas fa-search" ></em ></span > Buscar
-                      </button >
-  
-                    </div >
-                  </div >
+                  </div>
+                  <div class="col-xl-12 col-lg-12 col-sm-12">
+                    <div class="text-center">
+                      <button (click)="searchMes(ingresos)"
+                              class="btn btn-primary m-2"><span><em class="fas fa-search"></em></span> Buscar
+                      </button>
+
+                    </div>
+                  </div>
                 </div>
-              </div >
-            </div >
-            </div >
-            <app-bar-chart [tipo]="ingresos" [parking]="parqueoIngresosMes" [fecha]="fechaIngresosMes" [tipoChart]="tipoIngresos" [periodo]="periodoMes" ></app-bar-chart >
+              </div>
+            </div>
           </div>
-          <div id="anio">
-            <div
-            class = "col-lg-12 col-md-12 col-sm-12 col-xs-12" >
-            <div class = "panels " >
-              <div class = "titleCards" >
-                <span ><em class = "fas fa-chart-bar" ></em ></span > Filtros
-              </div >
-              <div class = "row justify-content-center" >
-                <div class = "row" >
-                  <div class = "col-xl-4 col-lg-6 col-sm-12"
-                  *ngIf = "ifHaveAction(verTodosLosParqueosDashboard)" >
-                    <div class = "mb-4 relative" >
-                      <label class = "labelInput"
-                             
-                             style = "display:block" >Parqueo</label >
+          <app-bar-chart [fecha]="fechaIngresosMes" [parking]="parqueoIngresosMes" [periodo]="periodoMes"
+                         [tipoChart]="tipoIngresos" [tipo]="ingresos"></app-bar-chart>
+        </div>
+        <div id="anio">
+          <div
+            class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="panels ">
+              <div class="titleCards">
+                <span><em class="fas fa-chart-bar"></em></span> Filtros
+              </div>
+              <div class="row justify-content-center">
+                <div class="row">
+                  <div *ngIf="ifHaveAction(verTodosLosParqueosDashboard)"
+                       class="col-xl-4 col-lg-6 col-sm-12">
+                    <div class="mb-4 relative">
+                      <label class="labelInput"
+
+                             style="display:block">Parqueo</label>
                       <select
                         #inputParkingIngresoAnio
-                        class = "inputClass"
-                        formControlName = "parking" >
+                        class="inputClass"
+                        formControlName="parking">
                         <option value="0">---- Todos los parqueos ----</option>
-                        <option *ngFor = "let parking of this.allParking"
-                                value = "{{parking.id}}" >{{parking.name}}</option >
-                      </select >
-                    </div >
-                  </div >
-                  <div class = "col-xl-4 col-lg-6 col-sm-12" >
+                        <option *ngFor="let parking of this.allParking"
+                                value="{{parking.id}}">{{parking.name}}</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-xl-4 col-lg-6 col-sm-12">
                     <div class="mb-4 relative">
-                      <label class = "labelInput"
-                             
-                             style = "display:block" >Año</label >
+                      <label class="labelInput"
+
+                             style="display:block">Año</label>
                       <select
                         #inputIngresoAnio
-                        class = "inputClass"
-                        formControlName = "inputIngresoAnio" >
-                        <option *ngFor="let opt of AniosSelect" [selected]="opt.key == AnioActual" [value]="opt.key" >{{opt.valor}}</option>
-                      </select >
+                        class="inputClass"
+                        formControlName="inputIngresoAnio">
+                        <option *ngFor="let opt of AniosSelect" [selected]="opt.key == AnioActual"
+                                [value]="opt.key">{{opt.valor}}</option>
+                      </select>
                     </div>
-                  </div >
-                  <div class = "col-xl-12 col-lg-12 col-sm-12" >
-                    <div class = "text-center" >
-                      <button (click) = "searchAnio(ingresos)"
-                              class = "btn btn-primary m-2" ><span ><em class = "fas fa-search" ></em ></span > Buscar
-                      </button >
-  
-                    </div >
-                  </div >
+                  </div>
+                  <div class="col-xl-12 col-lg-12 col-sm-12">
+                    <div class="text-center">
+                      <button (click)="searchAnio(ingresos)"
+                              class="btn btn-primary m-2"><span><em class="fas fa-search"></em></span> Buscar
+                      </button>
+
+                    </div>
+                  </div>
                 </div>
-              </div >
-  
-            </div >
-            </div >
-            <app-bar-chart [tipo]="ingresos" [parking]="parqueoIngresosAnio" [fecha]="fechaIngresosAnio" [tipoChart]="tipoIngresos" [periodo]="periodoAnio" ></app-bar-chart >
+              </div>
+
+            </div>
           </div>
+          <app-bar-chart [fecha]="fechaIngresosAnio" [parking]="parqueoIngresosAnio" [periodo]="periodoAnio"
+                         [tipoChart]="tipoIngresos" [tipo]="ingresos"></app-bar-chart>
         </div>
-        <div class="content-value Flujo" *ngIf = "ifHaveAction(graficosFlujoDinero) && idTabActiva === 'flujo'">
-          <div id="dia">
-            <div
-            class = "col-lg-12 col-md-12 col-sm-12 col-xs-12" >
-            <div class = "panels " >
-              <div class = "titleCards" >
-                <span ><em class = "fas fa-chart-bar" ></em ></span > Filtros
-              </div >
-              <div class = "row justify-content-center" >
-                <div class = "row" >
-                  <div class = "col-xl-4 col-lg-6 col-sm-12"
-                  *ngIf = "ifHaveAction(verTodosLosParqueosDashboard)" >
-                    <div class = "mb-4 relative" >
-                      <label class = "labelInput"
-                             
-                             style = "display:block" >Parqueo</label >
-                      <select
-                        #inputParkingFlujoDia
-                        name="inputParkingFlujoDia"
-                        class = "inputClass"
-                        formControlName = "inputParkingFlujoDia" >
-                        <option value="0">---- Todos los parqueos ----</option>
-                        <option *ngFor = "let parking of this.allParking"
-                                value = "{{parking.id}}" >{{parking.name}}</option >
-                      </select >
-                    </div >
-                  </div >
-                  <div class = "col-xl-4 col-lg-6 col-sm-12" >
+      </div>
+      <div *ngIf="ifHaveAction(graficosFlujoDinero) && idTabActiva === 'flujo'" class="content-value Flujo">
+        <!--   <div id="dia">
+             <div
+               class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+               <div class="panels ">
+                 <div class="titleCards">
+                   <span><em class="fas fa-chart-bar"></em></span> Filtros
+                 </div>
+                 <div class="row justify-content-center">
+                   <div class="row">
+                     <div class="col-xl-4 col-lg-6 col-sm-12"
+                          *ngIf="ifHaveAction(verTodosLosParqueosDashboard)">
+                       <div class="mb-4 relative">
+                         <label class="labelInput"
+
+                                style="display:block">Parqueo</label>
+                         <select
+                           #inputParkingFlujoDia
+                           name="inputParkingFlujoDia"
+                           class="inputClass"
+                           formControlName="inputParkingFlujoDia">
+                           <option value="0">&#45;&#45;&#45;&#45; Todos los parqueos &#45;&#45;&#45;&#45;</option>
+                           <option *ngFor="let parking of this.allParking"
+                                   value="{{parking.id}}">{{parking.name}}</option>
+                         </select>
+                       </div>
+                     </div>
+                     <div class="col-xl-4 col-lg-6 col-sm-12">
+                       <div class="mb-4 relative">
+                         <label class="labelInput"
+
+                                style="display:block">Fecha</label>
+                         <input
+                           #inputFechaFlujoDia
+                           name="inputFechaFlujoDia"
+                           formControlName="inputFechaFlujoDia"
+                           type="date"
+                           class="form-control inputClass datetimepicker"
+                           value={{fechaFlujoDia}}
+                           placeholder="Fecha/Hora"
+                         >
+                       </div>
+                     </div>
+                     <div class="col-xl-12 col-lg-12 col-sm-12">
+                       <div class="text-center">
+                         <button (click)="searchDia(flujo)"
+                                 class="btn btn-primary m-2"><span><em class="fas fa-search"></em></span> Buscar
+                         </button>
+
+                       </div>
+                     </div>
+                   </div>
+                 </div>
+
+               </div>
+             </div>
+             <app-bar-chart [tipo]="flujo" [parking]="parqueoFlujoDia" [fecha]="fechaFlujoDia" [tipoChart]="tipoFlujo"
+                            [periodo]="periodoDia"></app-bar-chart>
+           </div>-->
+        <div id="mes">
+          <div
+            class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="panels ">
+              <div class="titleCards">
+                <span><em class="fas fa-chart-bar"></em></span> Filtros
+              </div>
+              <div class="row justify-content-center">
+                <div class="row">
+                  <div *ngIf="ifHaveAction(verTodosLosParqueosDashboard)"
+                       class="col-xl-4 col-lg-6 col-sm-12">
                     <div class="mb-4 relative">
-                      <label class = "labelInput"
-                             
-                             style = "display:block" >Fecha</label >
-                      <input 
-                        #inputFechaFlujoDia
-                        name = "inputFechaFlujoDia"
-                        formControlName = "inputFechaFlujoDia"
-                        type = "date"
-                        class = "form-control inputClass datetimepicker"
-                        value={{fechaFlujoDia}}
-                        placeholder = "Fecha/Hora"
-                       >
-                    </div>
-                  </div >
-                  <div class = "col-xl-12 col-lg-12 col-sm-12" >
-                    <div class = "text-center" >
-                      <button (click) = "searchDia(flujo)"
-                              class = "btn btn-primary m-2" ><span ><em class = "fas fa-search" ></em ></span > Buscar
-                      </button >
-  
-                    </div >
-                  </div >
-                </div>
-              </div >
-  
-            </div >
-            </div >
-            <app-bar-chart [tipo]="flujo" [parking]="parqueoFlujoDia" [fecha]="fechaFlujoDia" [tipoChart]="tipoFlujo" [periodo]="periodoDia" ></app-bar-chart >
-          </div>
-          <div id="mes">
-            <div
-            class = "col-lg-12 col-md-12 col-sm-12 col-xs-12" >
-            <div class = "panels " >
-              <div class = "titleCards" >
-                <span ><em class = "fas fa-chart-bar" ></em ></span > Filtros
-              </div >
-              <div class = "row justify-content-center" >
-                <div class = "row" >
-                  <div class = "col-xl-4 col-lg-6 col-sm-12"
-                  *ngIf = "ifHaveAction(verTodosLosParqueosDashboard)" >
-                    <div class = "mb-4 relative" >
-                      <label class = "labelInput"
-                             
-                             style = "display:block" >Parqueo</label >
+                      <label class="labelInput"
+
+                             style="display:block">Parqueo</label>
                       <select
                         #inputParkingFlujoMes
-                        class = "inputClass"
-                        formControlName = "parking" >
+                        class="inputClass"
+                        formControlName="parking">
                         <option value="0">---- Todos los parqueos ----</option>
-                        <option *ngFor = "let parking of this.allParking"
-                                value = "{{parking.id}}" >{{parking.name}}</option >
-                      </select >
-                    </div >
-                  </div >
-                  <div class = "col-xl-4 col-lg-6 col-sm-12" >
+                        <option *ngFor="let parking of this.allParking"
+                                value="{{parking.id}}">{{parking.name}}</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-xl-4 col-lg-6 col-sm-12">
                     <div class="mb-4 relative">
-                      <label class = "labelInput"
-                             
-                             style = "display:block" >Año</label >
+                      <label class="labelInput"
+
+                             style="display:block">Año</label>
                       <select
                         #inputFlujoMesAnio
                         ngModel="inputFlujoMesAnio"
                         ngControl="inputFlujoMesAnio"
-                        class = "inputClass" >
-                        <option *ngFor="let opt of AniosSelect" [selected]="opt.key == AnioActual" [value]="opt.key" >{{opt.valor}}</option>
-                      </select >
+                        class="inputClass">
+                        <option *ngFor="let opt of AniosSelect" [selected]="opt.key == AnioActual"
+                                [value]="opt.key">{{opt.valor}}</option>
+                      </select>
                     </div>
-                  </div >
-                  <div class = "col-xl-4 col-lg-6 col-sm-12" >
+                  </div>
+                  <div class="col-xl-4 col-lg-6 col-sm-12">
                     <div class="mb-4 relative">
-                      <label class = "labelInput"
-                             
-                             style = "display:block" >Mes</label >
+                      <label class="labelInput"
+
+                             style="display:block">Mes</label>
                       <select
                         #inputFlujoMes
                         ngModel="inputFlujoMes"
                         ngControl="inputFlujoMes"
-                        class = "inputClass">
-                        <option *ngFor="let opt of Meses" [selected]="opt.key == MesActual" [value]="opt.key">{{opt.valor}}</option>
-                      </select >
+                        class="inputClass">
+                        <option *ngFor="let opt of Meses" [selected]="opt.key == MesActual"
+                                [value]="opt.key">{{opt.valor}}</option>
+                      </select>
                     </div>
-                  </div >
-                  <div class = "col-xl-12 col-lg-12 col-sm-12" >
-                    <div class = "text-center" >
-                      <button (click) = "searchMes(flujo)"
-                              class = "btn btn-primary m-2" ><span ><em class = "fas fa-search" ></em ></span > Buscar
-                      </button >
-  
-                    </div >
-                  </div >
+                  </div>
+                  <div class="col-xl-12 col-lg-12 col-sm-12">
+                    <div class="text-center">
+                      <button (click)="searchMes(flujo)"
+                              class="btn btn-primary m-2"><span><em class="fas fa-search"></em></span> Buscar
+                      </button>
+
+                    </div>
+                  </div>
                 </div>
-              </div >
-            </div >
-            </div >
-            <app-bar-chart [tipo]="flujo" [parking]="parqueoFlujoMes" [fecha]="fechaFlujoMes" [tipoChart]="tipoFlujo" [periodo]="periodoMes" ></app-bar-chart >
+              </div>
+            </div>
           </div>
-          <div id="anio">
+          <app-bar-chart [fecha]="fechaFlujoMes" [parking]="parqueoFlujoMes" [periodo]="periodoMes"
+                         [tipoChart]="tipoFlujo"
+                         [tipo]="flujo"></app-bar-chart>
+        </div>
+        <div id="anio">
+          <div
+            class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="panels ">
+              <div class="titleCards">
+                <span><em class="fas fa-chart-bar"></em></span> Filtros
+              </div>
+              <div class="row justify-content-center">
+                <div class="row">
+                  <div *ngIf="ifHaveAction(verTodosLosParqueosDashboard)"
+                       class="col-xl-4 col-lg-6 col-sm-12">
+                    <div class="mb-4 relative">
+                      <label class="labelInput"
+
+                             style="display:block">Parqueo</label>
+                      <select
+                        #inputParkingFlujoAnio
+                        class="inputClass"
+                        formControlName="parking">
+                        <option value="0">---- Todos los parqueos ----</option>
+                        <option *ngFor="let parking of this.allParking"
+                                value="{{parking.id}}">{{parking.name}}</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-xl-4 col-lg-6 col-sm-12">
+                    <div class="mb-4 relative">
+                      <label class="labelInput"
+
+                             style="display:block">Año</label>
+                      <select
+                        #inputFlujoAnio
+                        class="inputClass"
+                        formControlName="inputFlujoAnio">
+                        <option *ngFor="let opt of AniosSelect" [selected]="opt.key == AnioActual"
+                                [value]="opt.key">{{opt.valor}}</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-xl-12 col-lg-12 col-sm-12">
+                    <div class="text-center">
+                      <button (click)="searchAnio(flujo)"
+                              class="btn btn-primary m-2"><span><em class="fas fa-search"></em></span> Buscar
+                      </button>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+          <app-bar-chart [fecha]="fechaFlujoAnio" [parking]="parqueoFlujoAnio" [periodo]="periodoAnio"
+                         [tipoChart]="tipoFlujo"
+                         [tipo]="flujo"></app-bar-chart>
+        </div>
+      </div>
+      <div *ngIf="ifHaveAction(graficosCortesias) && idTabActiva === 'cortesias'" class="content-value Cortesias">
+        <!--  <div id="dia">
             <div
-            class = "col-lg-12 col-md-12 col-sm-12 col-xs-12" >
-            <div class = "panels " >
-              <div class = "titleCards" >
-                <span ><em class = "fas fa-chart-bar" ></em ></span > Filtros
-              </div >
-              <div class = "row justify-content-center" >
-                <div class = "row" >
-                  <div class = "col-xl-4 col-lg-6 col-sm-12"
+              class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+              <div class="panels ">
+                <div class="titleCards">
+                  <span><em class="fas fa-chart-bar"></em></span> Filtros
+                </div>
+                <div class="row justify-content-center">
+                  <div class="row">
+                    &lt;!&ndash; <div class = "col-xl-4 col-lg-6 col-sm-12"
+                    *ngIf = "ifHaveAction(verTodosLosParqueosDashboard)" >
+                      <div class = "mb-4 relative" >
+                        <label class = "labelInput"
+
+                               style = "display:block" >Parqueo</label >
+                        <select
+                          #inputParkingCortesiasDia
+                          name="inputParkingCortesiasDia"
+                          class = "inputClass"
+                          formControlName = "inputParkingCortesiasDia" >
+                          <option value="0">&#45;&#45;&#45;&#45; Todos los parqueos &#45;&#45;&#45;&#45;</option>
+                          <option *ngFor = "let parking of this.allParking"
+                                  value = "{{parking.id}}" >{{parking.name}}</option >
+                        </select >
+                      </div >
+                    </div > &ndash;&gt;
+                    <div class="col-xl-4 col-lg-6 col-sm-12">
+                      <div class="mb-4 relative">
+                        <label class="labelInput"
+
+                               style="display:block">Fecha</label>
+                        <input
+                          #inputFechaCortesiasDia
+                          name="inputFechaCortesiasDia"
+                          formControlName="inputFechaCortesiasDia"
+                          type="date"
+                          class="form-control inputClass datetimepicker"
+                          value={{fechaCortesiasDia}}
+                          placeholder="Fecha/Hora"
+                        >
+                      </div>
+                    </div>
+                    <div class="col-xl-12 col-lg-12 col-sm-12">
+                      <div class="text-center">
+                        <button (click)="searchDia(cortesias)"
+                                class="btn btn-primary m-2"><span><em class="fas fa-search"></em></span> Buscar
+                        </button>
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row content">
+              <div class="col-lg-4">
+                <app-card-kpi [valorMostrar]="'TotalCortesias'" [titulo]="'Total de cortesias por día'"
+                              [parking]="parqueoCortesiasDia" [fecha]="fechaCortesiasDia"
+                              [periodo]="periodoDia"></app-card-kpi>
+              </div>
+              <div class="col-lg-4">
+                <app-card-kpi [valorMostrar]="'TotalLocales'" [titulo]="'Locales con cortesias por día'"
+                              [parking]="parqueoCortesiasDia" [fecha]="fechaCortesiasDia"
+                              [periodo]="periodoDia"></app-card-kpi>
+              </div>
+              <div class="col-lg-4">
+                <app-card-kpi [valorMostrar]="'LocalMasCortesias'" [titulo]="'Local con más cortesias por día'"
+                              [parking]="parqueoCortesiasDia" [fecha]="fechaCortesiasDia"
+                              [periodo]="periodoDia"></app-card-kpi>
+              </div>
+            </div>
+            <app-courtesy-chart [tipo]="cortesias" [parking]="parqueoCortesiasDia" [fecha]="fechaCortesiasDia"
+                                [periodo]="periodoDia" [company]="'0'"></app-courtesy-chart>
+            <app-bar-chart [tipo]="cortesias" [parking]="parqueoCortesiasDia" [fecha]="fechaCortesiasDia"
+                           [tipoChart]="tipoCortesias" [periodo]="periodoDia"></app-bar-chart>
+          </div>-->
+        <div id="mes">
+          <div
+            class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="panels ">
+              <div class="titleCards">
+                <span><em class="fas fa-chart-bar"></em></span> Filtros
+              </div>
+              <div class="row justify-content-center">
+                <div class="row">
+                  <!-- <div class = "col-xl-4 col-lg-6 col-sm-12"
                   *ngIf = "ifHaveAction(verTodosLosParqueosDashboard)" >
                     <div class = "mb-4 relative" >
                       <label class = "labelInput"
-                             
+
                              style = "display:block" >Parqueo</label >
                       <select
-                        #inputParkingFlujoAnio
+                        #inputParkingCortesiasMes
                         class = "inputClass"
                         formControlName = "parking" >
                         <option value="0">---- Todos los parqueos ----</option>
@@ -335,464 +491,402 @@
                                 value = "{{parking.id}}" >{{parking.name}}</option >
                       </select >
                     </div >
-                  </div >
-                  <div class = "col-xl-4 col-lg-6 col-sm-12" >
+                  </div > -->
+                  <div class="col-xl-4 col-lg-6 col-sm-12">
                     <div class="mb-4 relative">
-                      <label class = "labelInput"
-                             
-                             style = "display:block" >Año</label >
+                      <label class="labelInput"
+
+                             style="display:block">Año</label>
                       <select
-                        #inputFlujoAnio
-                        class = "inputClass"
-                        formControlName = "inputFlujoAnio" >
-                        <option *ngFor="let opt of AniosSelect" [selected]="opt.key == AnioActual" [value]="opt.key" >{{opt.valor}}</option>
-                      </select >
+                        #inputCortesiasMesAnio
+                        class="inputClass"
+                        ngControl="inputCortesiasMesAnio"
+                        ngModel="inputCortesiasMesAnio">
+                        <option *ngFor="let opt of AniosSelect" [selected]="opt.key == AnioActual"
+                                [value]="opt.key">{{opt.valor}}</option>
+                      </select>
                     </div>
-                  </div >
-                  <div class = "col-xl-12 col-lg-12 col-sm-12" >
-                    <div class = "text-center" >
-                      <button (click) = "searchAnio(flujo)"
-                              class = "btn btn-primary m-2" ><span ><em class = "fas fa-search" ></em ></span > Buscar
-                      </button >
-  
-                    </div >
-                  </div >
+                  </div>
+                  <div class="col-xl-4 col-lg-6 col-sm-12">
+                    <div class="mb-4 relative">
+                      <label class="labelInput"
+
+                             style="display:block">Mes</label>
+                      <select
+                        #inputCortesiasMes
+                        class="inputClass"
+                        ngControl="inputCortesiasMes"
+                        ngModel="inputCortesiasMes">
+                        <option *ngFor="let opt of Meses" [selected]="opt.key == MesActual"
+                                [value]="opt.key">{{opt.valor}}</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-xl-12 col-lg-12 col-sm-12">
+                    <div class="text-center">
+                      <button (click)="searchMes(cortesias)"
+                              class="btn btn-primary m-2"><span><em class="fas fa-search"></em></span> Buscar
+                      </button>
+
+                    </div>
+                  </div>
                 </div>
-              </div >
-  
-            </div >
-            </div >
-            <app-bar-chart [tipo]="flujo" [parking]="parqueoFlujoAnio" [fecha]="fechaFlujoAnio" [tipoChart]="tipoFlujo" [periodo]="periodoAnio" ></app-bar-chart >
+              </div>
+            </div>
           </div>
+          <div class="row content">
+            <div class="col-lg-4">
+              <app-card-kpi [fecha]="fechaCortesiasMes" [parking]="parqueoCortesiasMes"
+                            [periodo]="periodoMes" [titulo]="'Total de cortesias por mes'"
+                            [valorMostrar]="'TotalCortesias'"></app-card-kpi>
+            </div>
+            <div class="col-lg-4">
+              <app-card-kpi [fecha]="fechaCortesiasMes" [parking]="parqueoCortesiasMes"
+                            [periodo]="periodoMes" [titulo]="'Locales con cortesias por mes'"
+                            [valorMostrar]="'TotalLocales'"></app-card-kpi>
+            </div>
+            <div class="col-lg-4">
+              <app-card-kpi [fecha]="fechaCortesiasMes" [parking]="parqueoCortesiasMes"
+                            [periodo]="periodoMes" [titulo]="'Local con más cortesias por mes'"
+                            [valorMostrar]="'LocalMasCortesias'"></app-card-kpi>
+            </div>
+          </div>
+          <app-courtesy-chart [company]="'0'" [fecha]="fechaCortesiasMes" [parking]="parqueoCortesiasMes"
+                              [periodo]="periodoMes" [tipo]="cortesias"></app-courtesy-chart>
+          <app-bar-chart [fecha]="fechaCortesiasMes" [parking]="parqueoCortesiasMes" [periodo]="periodoMes"
+                         [tipoChart]="tipoCortesias" [tipo]="cortesias"></app-bar-chart>
         </div>
-        <div class="content-value Cortesias" *ngIf = "ifHaveAction(graficosCortesias) && idTabActiva === 'cortesias'">
-          <div id="dia">
-            <div
-            class = "col-lg-12 col-md-12 col-sm-12 col-xs-12" >
-              <div class = "panels " >
-                <div class = "titleCards" >
-                  <span ><em class = "fas fa-chart-bar" ></em ></span > Filtros
-                </div >
-                <div class = "row justify-content-center" >
-                  <div class = "row" >
-                    <!-- <div class = "col-xl-4 col-lg-6 col-sm-12"
-                    *ngIf = "ifHaveAction(verTodosLosParqueosDashboard)" >
-                      <div class = "mb-4 relative" >
-                        <label class = "labelInput"
-                               
-                               style = "display:block" >Parqueo</label >
-                        <select
-                          #inputParkingCortesiasDia
-                          name="inputParkingCortesiasDia"
-                          class = "inputClass"
-                          formControlName = "inputParkingCortesiasDia" >
-                          <option value="0">---- Todos los parqueos ----</option>
-                          <option *ngFor = "let parking of this.allParking"
-                                  value = "{{parking.id}}" >{{parking.name}}</option >
-                        </select >
-                      </div >
-                    </div > -->
-                    <div class = "col-xl-4 col-lg-6 col-sm-12" >
-                      <div class="mb-4 relative">
-                        <label class = "labelInput"
-                               
-                               style = "display:block" >Fecha</label >
-                        <input 
-                          #inputFechaCortesiasDia
-                          name = "inputFechaCortesiasDia"
-                          formControlName = "inputFechaCortesiasDia"
-                          type = "date"
-                          class = "form-control inputClass datetimepicker"
-                          value={{fechaCortesiasDia}}
-                          placeholder = "Fecha/Hora"
-                        >
-                      </div>
+        <div id="anio">
+          <div
+            class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="panels ">
+              <div class="titleCards">
+                <span><em class="fas fa-chart-bar"></em></span> Filtros
+              </div>
+              <div class="row justify-content-center">
+                <div class="row">
+                  <!-- <div class = "col-xl-4 col-lg-6 col-sm-12"
+                  *ngIf = "ifHaveAction(verTodosLosParqueosDashboard)" >
+                    <div class = "mb-4 relative" >
+                      <label class = "labelInput"
+
+                             style = "display:block" >Parqueo</label >
+                      <select
+                        #inputParkingCortesiasAnio
+                        class = "inputClass"
+                        formControlName = "parking" >
+                        <option value="0">---- Todos los parqueos ----</option>
+                        <option *ngFor = "let parking of this.allParking"
+                                value = "{{parking.id}}" >{{parking.name}}</option >
+                      </select >
                     </div >
-                    <div class = "col-xl-12 col-lg-12 col-sm-12" >
-                      <div class = "text-center" >
-                        <button (click) = "searchDia(cortesias)"
-                                class = "btn btn-primary m-2" ><span ><em class = "fas fa-search" ></em ></span > Buscar
-                        </button >
-    
-                      </div >
-                    </div >
+                  </div > -->
+                  <div class="col-xl-4 col-lg-6 col-sm-12">
+                    <div class="mb-4 relative">
+                      <label class="labelInput"
+
+                             style="display:block">Año</label>
+                      <select
+                        #inputCortesiasAnio
+                        class="inputClass"
+                        formControlName="inputCortesiasAnio">
+                        <option *ngFor="let opt of AniosSelect" [selected]="opt.key == AnioActual"
+                                [value]="opt.key">{{opt.valor}}</option>
+                      </select>
+                    </div>
                   </div>
-                </div >
-              </div >
-            </div >
-            <div class = "row content" >
-              <div class = "col-lg-4" >
-                <app-card-kpi [valorMostrar]="'TotalCortesias'" [titulo]="'Total de cortesias por día'" [parking]="parqueoCortesiasDia" [fecha]="fechaCortesiasDia" [periodo]="periodoDia" ></app-card-kpi >
-              </div >
-              <div class = "col-lg-4" >
-                <app-card-kpi [valorMostrar]="'TotalLocales'" [titulo]="'Locales con cortesias por día'" [parking]="parqueoCortesiasDia" [fecha]="fechaCortesiasDia" [periodo]="periodoDia" ></app-card-kpi >
-              </div >
-              <div class = "col-lg-4" >
-                <app-card-kpi [valorMostrar]="'LocalMasCortesias'" [titulo]="'Local con más cortesias por día'" [parking]="parqueoCortesiasDia" [fecha]="fechaCortesiasDia" [periodo]="periodoDia" ></app-card-kpi >
-              </div >
-            </div >
-            <app-courtesy-chart [tipo]="cortesias" [parking]="parqueoCortesiasDia" [fecha]="fechaCortesiasDia" [periodo]="periodoDia" [company]="'0'"></app-courtesy-chart> 
-            <app-bar-chart [tipo]="cortesias" [parking]="parqueoCortesiasDia" [fecha]="fechaCortesiasDia" [tipoChart]="tipoCortesias" [periodo]="periodoDia" ></app-bar-chart >
-          </div>
-          <div id="mes">
-            <div
-            class = "col-lg-12 col-md-12 col-sm-12 col-xs-12" >
-              <div class = "panels " >
-                <div class = "titleCards" >
-                  <span ><em class = "fas fa-chart-bar" ></em ></span > Filtros
-                </div >
-                <div class = "row justify-content-center" >
-                  <div class = "row" >
-                    <!-- <div class = "col-xl-4 col-lg-6 col-sm-12"
-                    *ngIf = "ifHaveAction(verTodosLosParqueosDashboard)" >
-                      <div class = "mb-4 relative" >
-                        <label class = "labelInput"
-                               
-                               style = "display:block" >Parqueo</label >
-                        <select
-                          #inputParkingCortesiasMes
-                          class = "inputClass"
-                          formControlName = "parking" >
-                          <option value="0">---- Todos los parqueos ----</option>
-                          <option *ngFor = "let parking of this.allParking"
-                                  value = "{{parking.id}}" >{{parking.name}}</option >
-                        </select >
-                      </div >
-                    </div > -->
-                    <div class = "col-xl-4 col-lg-6 col-sm-12" >
-                      <div class="mb-4 relative">
-                        <label class = "labelInput"
-                               
-                               style = "display:block" >Año</label >
-                        <select
-                          #inputCortesiasMesAnio
-                          ngModel="inputCortesiasMesAnio"
-                          ngControl="inputCortesiasMesAnio"
-                          class = "inputClass" >
-                          <option *ngFor="let opt of AniosSelect" [selected]="opt.key == AnioActual" [value]="opt.key" >{{opt.valor}}</option>
-                        </select >
-                      </div>
-                    </div >
-                    <div class = "col-xl-4 col-lg-6 col-sm-12" >
-                      <div class="mb-4 relative">
-                        <label class = "labelInput"
-                               
-                               style = "display:block" >Mes</label >
-                        <select
-                          #inputCortesiasMes
-                          ngModel="inputCortesiasMes"
-                          ngControl="inputCortesiasMes"
-                          class = "inputClass">
-                          <option *ngFor="let opt of Meses" [selected]="opt.key == MesActual" [value]="opt.key">{{opt.valor}}</option>
-                        </select >
-                      </div>
-                    </div >
-                    <div class = "col-xl-12 col-lg-12 col-sm-12" >
-                      <div class = "text-center" >
-                        <button (click) = "searchMes(cortesias)"
-                                class = "btn btn-primary m-2" ><span ><em class = "fas fa-search" ></em ></span > Buscar
-                        </button >
-    
-                      </div >
-                    </div >
+                  <div class="col-xl-12 col-lg-12 col-sm-12">
+                    <div class="text-center">
+                      <button (click)="searchAnio(cortesias)"
+                              class="btn btn-primary m-2"><span><em class="fas fa-search"></em></span> Buscar
+                      </button>
+
+                    </div>
                   </div>
-                </div >
-              </div >
-            </div >
-            <div class = "row content" >
-              <div class = "col-lg-4" >
-                <app-card-kpi [valorMostrar]="'TotalCortesias'" [titulo]="'Total de cortesias por mes'" [parking]="parqueoCortesiasMes" [fecha]="fechaCortesiasMes" [periodo]="periodoMes" ></app-card-kpi >
-              </div >
-              <div class = "col-lg-4" >
-                <app-card-kpi [valorMostrar]="'TotalLocales'" [titulo]="'Locales con cortesias por mes'" [parking]="parqueoCortesiasMes" [fecha]="fechaCortesiasMes" [periodo]="periodoMes" ></app-card-kpi >
-              </div >
-              <div class = "col-lg-4" >
-                <app-card-kpi [valorMostrar]="'LocalMasCortesias'" [titulo]="'Local con más cortesias por mes'" [parking]="parqueoCortesiasMes" [fecha]="fechaCortesiasMes" [periodo]="periodoMes" ></app-card-kpi >
-              </div >
-            </div >
-            <app-courtesy-chart [tipo]="cortesias" [parking]="parqueoCortesiasMes" [fecha]="fechaCortesiasMes" [periodo]="periodoMes" [company]="'0'"></app-courtesy-chart>
-            <app-bar-chart [tipo]="cortesias" [parking]="parqueoCortesiasMes" [fecha]="fechaCortesiasMes" [tipoChart]="tipoCortesias" [periodo]="periodoMes" ></app-bar-chart >
+                </div>
+              </div>
+
+            </div>
           </div>
-          <div id="anio">
-            <div
-            class = "col-lg-12 col-md-12 col-sm-12 col-xs-12" >
-              <div class = "panels " >
-                <div class = "titleCards" >
-                  <span ><em class = "fas fa-chart-bar" ></em ></span > Filtros
-                </div >
-                <div class = "row justify-content-center" >
-                  <div class = "row" >
-                    <!-- <div class = "col-xl-4 col-lg-6 col-sm-12"
-                    *ngIf = "ifHaveAction(verTodosLosParqueosDashboard)" >
-                      <div class = "mb-4 relative" >
-                        <label class = "labelInput"
-                               
-                               style = "display:block" >Parqueo</label >
-                        <select
-                          #inputParkingCortesiasAnio
-                          class = "inputClass"
-                          formControlName = "parking" >
-                          <option value="0">---- Todos los parqueos ----</option>
-                          <option *ngFor = "let parking of this.allParking"
-                                  value = "{{parking.id}}" >{{parking.name}}</option >
-                        </select >
-                      </div >
-                    </div > -->
-                    <div class = "col-xl-4 col-lg-6 col-sm-12" >
-                      <div class="mb-4 relative">
-                        <label class = "labelInput"
-                               
-                               style = "display:block" >Año</label >
-                        <select
-                          #inputCortesiasAnio
-                          class = "inputClass"
-                          formControlName = "inputCortesiasAnio" >
-                          <option *ngFor="let opt of AniosSelect" [selected]="opt.key == AnioActual" [value]="opt.key" >{{opt.valor}}</option>
-                        </select >
-                      </div>
-                    </div >
-                    <div class = "col-xl-12 col-lg-12 col-sm-12" >
-                      <div class = "text-center" >
-                        <button (click) = "searchAnio(cortesias)"
-                                class = "btn btn-primary m-2" ><span ><em class = "fas fa-search" ></em ></span > Buscar
-                        </button >
-    
-                      </div >
-                    </div >
-                  </div>
-                </div >
-    
-              </div >
-            </div >
-            <div class = "row content" >
-              <div class = "col-lg-4" >
-                <app-card-kpi [valorMostrar]="'TotalCortesias'" [titulo]="'Total de cortesias por año'" [parking]="parqueoCortesiasAnio" [fecha]="fechaCortesiasAnio" [periodo]="periodoAnio" ></app-card-kpi >
-              </div >
-              <div class = "col-lg-4" >
-                <app-card-kpi [valorMostrar]="'TotalLocales'" [titulo]="'Locales con cortesias por año'" [parking]="parqueoCortesiasAnio" [fecha]="fechaCortesiasAnio" [periodo]="periodoAnio" ></app-card-kpi >
-              </div >
-              <div class = "col-lg-4" >
-                <app-card-kpi [valorMostrar]="'LocalMasCortesias'" [titulo]="'Local con más cortesias por año'" [parking]="parqueoCortesiasAnio" [fecha]="fechaCortesiasAnio" [periodo]="periodoAnio" ></app-card-kpi >
-              </div >
-            </div >
-            <app-courtesy-chart [tipo]="cortesias" [parking]="parqueoCortesiasAnio" [fecha]="fechaCortesiasAnio" [periodo]="periodoAnio" [company]="'0'"></app-courtesy-chart>
-            <app-bar-chart [tipo]="cortesias" [parking]="parqueoCortesiasAnio" [fecha]="fechaCortesiasAnio" [tipoChart]="tipoCortesias" [periodo]="periodoAnio" ></app-bar-chart >
+          <div class="row content">
+            <div class="col-lg-4">
+              <app-card-kpi [fecha]="fechaCortesiasAnio" [parking]="parqueoCortesiasAnio"
+                            [periodo]="periodoAnio" [titulo]="'Total de cortesias por año'"
+                            [valorMostrar]="'TotalCortesias'"></app-card-kpi>
+            </div>
+            <div class="col-lg-4">
+              <app-card-kpi [fecha]="fechaCortesiasAnio" [parking]="parqueoCortesiasAnio"
+                            [periodo]="periodoAnio" [titulo]="'Locales con cortesias por año'"
+                            [valorMostrar]="'TotalLocales'"></app-card-kpi>
+            </div>
+            <div class="col-lg-4">
+              <app-card-kpi [fecha]="fechaCortesiasAnio" [parking]="parqueoCortesiasAnio"
+                            [periodo]="periodoAnio" [titulo]="'Local con más cortesias por año'"
+                            [valorMostrar]="'LocalMasCortesias'"></app-card-kpi>
+            </div>
           </div>
-        </div>
-        <div class="content-value CortesiasEstacionarias" *ngIf = "ifHaveAction(graficosCortesiasEstacionarias) && idTabActiva === 'cortesiasEstacionarias'">
-          <div id="dia">
-            <div
-            class = "col-lg-12 col-md-12 col-sm-12 col-xs-12" >
-              <div class = "panels " >
-                <div class = "titleCards" >
-                  <span ><em class = "fas fa-chart-bar" ></em ></span > Filtros
-                </div >
-                <div class = "row justify-content-center" >
-                  <div class = "row" >
-                    <!-- <div class = "col-xl-4 col-lg-6 col-sm-12"
-                    *ngIf = "ifHaveAction(verTodosLosParqueosDashboard)" >
-                      <div class = "mb-4 relative" >
-                        <label class = "labelInput"
-                               
-                               style = "display:block" >Parqueo</label >
-                        <select
-                          #inputParkingCortesiasDia
-                          name="inputParkingCortesiasDia"
-                          class = "inputClass"
-                          formControlName = "inputParkingCortesiasDia" >
-                          <option value="0">---- Todos los parqueos ----</option>
-                          <option *ngFor = "let parking of this.allParking"
-                                  value = "{{parking.id}}" >{{parking.name}}</option >
-                        </select >
-                      </div >
-                    </div > -->
-                    <div class = "col-xl-4 col-lg-6 col-sm-12" >
-                      <div class="mb-4 relative">
-                        <label class = "labelInput"
-                               
-                               style = "display:block" >Fecha</label >
-                        <input 
-                          #inputFechaCortesiasEstacionariasDia
-                          name = "inputFechaCortesiasEstacionariasDia"
-                          formControlName = "inputFechaCortesiasEstacionariasDia"
-                          type = "date"
-                          class = "form-control inputClass datetimepicker"
-                          value={{fechaCortesiasEstacionariasDia}}
-                          placeholder = "Fecha/Hora"
-                        >
-                      </div>
-                    </div >
-                    <div class = "col-xl-12 col-lg-12 col-sm-12" >
-                      <div class = "text-center" >
-                        <button (click) = "searchDia(cortesiasEstacionarias)"
-                                class = "btn btn-primary m-2" ><span ><em class = "fas fa-search" ></em ></span > Buscar
-                        </button >
-    
-                      </div >
-                    </div >
-                  </div>
-                </div >
-              </div >
-            </div >
-            <div class = "row content" >
-              <div class = "col-lg-4" >
-                <app-card-kpi [valorMostrar]="'TotalCortesiasEstacionarias'" [titulo]="'Total de c. estacionarias por día'" [parking]="parqueoCortesiasEstacionariasDia" [fecha]="fechaCortesiasEstacionariasDia" [periodo]="periodoDia" ></app-card-kpi >
-              </div >
-              <div class = "col-lg-4" >
-                <app-card-kpi [valorMostrar]="'TotalEstacionariasLocales'" [titulo]="'Locales con c. estacionarias por día'" [parking]="parqueoCortesiasEstacionariasDia" [fecha]="fechaCortesiasEstacionariasDia" [periodo]="periodoDia" ></app-card-kpi >
-              </div >
-              <div class = "col-lg-4" >
-                <app-card-kpi [valorMostrar]="'LocalMasCortesiasEstacionarias'" [titulo]="'Local con más c. estacionarias por día'" [parking]="parqueoCortesiasEstacionariasDia" [fecha]="fechaCortesiasEstacionariasDia" [periodo]="periodoDia" ></app-card-kpi >
-              </div >
-            </div >
-            <app-courtesy-chart [tipo]="cortesiasEstacionarias"  [parking]="parqueoCortesiasEstacionariasDia" [fecha]="fechaCortesiasEstacionariasDia" [periodo]="periodoDia" [company]="'0'"></app-courtesy-chart>
-            <app-bar-chart [tipo]="cortesiasEstacionarias" [parking]="parqueoCortesiasEstacionariasDia" [fecha]="fechaCortesiasEstacionariasDia" [tipoChart]="tipoCortesiasEstacionarias" [periodo]="periodoDia" ></app-bar-chart >
-          </div>
-          <div id="mes">
-            <div
-            class = "col-lg-12 col-md-12 col-sm-12 col-xs-12" >
-              <div class = "panels " >
-                <div class = "titleCards" >
-                  <span ><em class = "fas fa-chart-bar" ></em ></span > Filtros
-                </div >
-                <div class = "row justify-content-center" >
-                  <div class = "row" >
-                    <!-- <div class = "col-xl-4 col-lg-6 col-sm-12"
-                    *ngIf = "ifHaveAction(verTodosLosParqueosDashboard)" >
-                      <div class = "mb-4 relative" >
-                        <label class = "labelInput"
-                               
-                               style = "display:block" >Parqueo</label >
-                        <select
-                          #inputParkingCortesiasMes
-                          class = "inputClass"
-                          formControlName = "parking" >
-                          <option value="0">---- Todos los parqueos ----</option>
-                          <option *ngFor = "let parking of this.allParking"
-                                  value = "{{parking.id}}" >{{parking.name}}</option >
-                        </select >
-                      </div >
-                    </div > -->
-                    <div class = "col-xl-4 col-lg-6 col-sm-12" >
-                      <div class="mb-4 relative">
-                        <label class = "labelInput"
-                               
-                               style = "display:block" >Año</label >
-                        <select
-                          #inputCortesiasEstacionariasMesAnio
-                          ngModel="inputCortesiasEstacionariasMesAnio"
-                          ngControl="inputCortesiasEstacionariasMesAnio"
-                          class = "inputClass" >
-                          <option *ngFor="let opt of AniosSelect" [selected]="opt.key == AnioActual" [value]="opt.key" >{{opt.valor}}</option>
-                        </select >
-                      </div>
-                    </div >
-                    <div class = "col-xl-4 col-lg-6 col-sm-12" >
-                      <div class="mb-4 relative">
-                        <label class = "labelInput"
-                               
-                               style = "display:block" >Mes</label >
-                        <select
-                          #inputCortesiasEstacionariasMes
-                          ngModel="inputCortesiasEstacionariasMes"
-                          ngControl="inputCortesiasEstacionariasMes"
-                          class = "inputClass">
-                          <option *ngFor="let opt of Meses" [selected]="opt.key == MesActual" [value]="opt.key">{{opt.valor}}</option>
-                        </select >
-                      </div>
-                    </div >
-                    <div class = "col-xl-12 col-lg-12 col-sm-12" >
-                      <div class = "text-center" >
-                        <button (click) = "searchMes(cortesiasEstacionarias)"
-                                class = "btn btn-primary m-2" ><span ><em class = "fas fa-search" ></em ></span > Buscar
-                        </button >
-    
-                      </div >
-                    </div >
-                  </div>
-                </div >
-              </div >
-            </div >
-            <div class = "row content" >
-              <div class = "col-lg-4" >
-                <app-card-kpi [valorMostrar]="'TotalCortesiasEstacionarias'" [titulo]="'Total de c. estacionarias por mes'" [parking]="parqueoCortesiasEstacionariasMes" [fecha]="fechaCortesiasEstacionariasMes" [periodo]="periodoMes" ></app-card-kpi >
-              </div >
-              <div class = "col-lg-4" >
-                <app-card-kpi [valorMostrar]="'TotalEstacionariasLocales'" [titulo]="'Locales con c. estacionarias por mes'" [parking]="parqueoCortesiasEstacionariasMes" [fecha]="fechaCortesiasEstacionariasMes" [periodo]="periodoMes" ></app-card-kpi >
-              </div >
-              <div class = "col-lg-4" >
-                <app-card-kpi [valorMostrar]="'LocalMasCortesiasEstacionarias'" [titulo]="'Local con más c. estacionarias por mes'" [parking]="parqueoCortesiasEstacionariasMes" [fecha]="fechaCortesiasEstacionariasMes" [periodo]="periodoMes" ></app-card-kpi >
-              </div >
-            </div >
-            <app-courtesy-chart [tipo]="cortesiasEstacionarias" [parking]="parqueoCortesiasEstacionariasMes" [fecha]="fechaCortesiasEstacionariasMes" [periodo]="periodoMes" [company]="'0'"></app-courtesy-chart>
-            <app-bar-chart [tipo]="cortesiasEstacionarias" [parking]="parqueoCortesiasEstacionariasMes" [fecha]="fechaCortesiasEstacionariasMes" [tipoChart]="tipoCortesiasEstacionarias" [periodo]="periodoMes" ></app-bar-chart >
-          </div>
-          <div id="anio">
-            <div
-            class = "col-lg-12 col-md-12 col-sm-12 col-xs-12" >
-              <div class = "panels " >
-                <div class = "titleCards" >
-                  <span ><em class = "fas fa-chart-bar" ></em ></span > Filtros
-                </div >
-                <div class = "row justify-content-center" >
-                  <div class = "row" >
-                    <!-- <div class = "col-xl-4 col-lg-6 col-sm-12"
-                    *ngIf = "ifHaveAction(verTodosLosParqueosDashboard)" >
-                      <div class = "mb-4 relative" >
-                        <label class = "labelInput"
-                               
-                               style = "display:block" >Parqueo</label >
-                        <select
-                          #inputParkingCortesiasAnio
-                          class = "inputClass"
-                          formControlName = "parking" >
-                          <option value="0">---- Todos los parqueos ----</option>
-                          <option *ngFor = "let parking of this.allParking"
-                                  value = "{{parking.id}}" >{{parking.name}}</option >
-                        </select >
-                      </div >
-                    </div > -->
-                    <div class = "col-xl-4 col-lg-6 col-sm-12" >
-                      <div class="mb-4 relative">
-                        <label class = "labelInput"
-                               
-                               style = "display:block" >Año</label >
-                        <select
-                          #inputCortesiasEstacionariasAnio
-                          class = "inputClass"
-                          formControlName = "inputCortesiasEstacionariasAnio" >
-                          <option *ngFor="let opt of AniosSelect" [selected]="opt.key == AnioActual" [value]="opt.key" >{{opt.valor}}</option>
-                        </select >
-                      </div>
-                    </div >
-                    <div class = "col-xl-12 col-lg-12 col-sm-12" >
-                      <div class = "text-center" >
-                        <button (click) = "searchAnio(cortesiasEstacionarias)"
-                                class = "btn btn-primary m-2" ><span ><em class = "fas fa-search" ></em ></span > Buscar
-                        </button >
-    
-                      </div >
-                    </div >
-                  </div>
-                </div >
-    
-              </div >
-            </div >
-            <div class = "row content" >
-              <div class = "col-lg-4" >
-                <app-card-kpi [valorMostrar]="'TotalCortesiasEstacionarias'" [titulo]="'Total de c. estacionarias por año'" [parking]="parqueoCortesiasEstacionariasAnio" [fecha]="fechaCortesiasEstacionariasAnio" [periodo]="periodoAnio" ></app-card-kpi >
-              </div >
-              <div class = "col-lg-4" >
-                <app-card-kpi [valorMostrar]="'TotalEstacionariasLocales'" [titulo]="'Locales con c. estacionarias por año'" [parking]="parqueoCortesiasEstacionariasAnio" [fecha]="fechaCortesiasEstacionariasAnio" [periodo]="periodoAnio" ></app-card-kpi >
-              </div >
-              <div class = "col-lg-4" >
-                <app-card-kpi [valorMostrar]="'LocalMasCortesiasEstacionarias'" [titulo]="'Local con más c. estacionarias por año'" [parking]="parqueoCortesiasEstacionariasAnio" [fecha]="fechaCortesiasEstacionariasAnio" [periodo]="periodoAnio" ></app-card-kpi >
-              </div >
-            </div >
-            <app-courtesy-chart [tipo]="cortesiasEstacionarias" [parking]="parqueoCortesiasEstacionariasAnio" [fecha]="fechaCortesiasEstacionariasAnio" [periodo]="periodoAnio" [company]="'0'"></app-courtesy-chart>
-            <app-bar-chart [tipo]="cortesiasEstacionarias" [parking]="parqueoCortesiasEstacionariasAnio" [fecha]="fechaCortesiasEstacionariasAnio" [tipoChart]="tipoCortesiasEstacionarias" [periodo]="periodoAnio" ></app-bar-chart >
-          </div>
+          <app-courtesy-chart [company]="'0'" [fecha]="fechaCortesiasAnio" [parking]="parqueoCortesiasAnio"
+                              [periodo]="periodoAnio" [tipo]="cortesias"></app-courtesy-chart>
+          <app-bar-chart [fecha]="fechaCortesiasAnio" [parking]="parqueoCortesiasAnio" [periodo]="periodoAnio"
+                         [tipoChart]="tipoCortesias" [tipo]="cortesias"></app-bar-chart>
         </div>
       </div>
+      <div *ngIf="ifHaveAction(graficosCortesiasEstacionarias) && idTabActiva === 'cortesiasEstacionarias'"
+           class="content-value CortesiasEstacionarias">
+        <!--    <div id="dia">
+              <div
+                class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="panels ">
+                  <div class="titleCards">
+                    <span><em class="fas fa-chart-bar"></em></span> Filtros
+                  </div>
+                  <div class="row justify-content-center">
+                    <div class="row">
+                      &lt;!&ndash; <div class = "col-xl-4 col-lg-6 col-sm-12"
+                      *ngIf = "ifHaveAction(verTodosLosParqueosDashboard)" >
+                        <div class = "mb-4 relative" >
+                          <label class = "labelInput"
+
+                                 style = "display:block" >Parqueo</label >
+                          <select
+                            #inputParkingCortesiasDia
+                            name="inputParkingCortesiasDia"
+                            class = "inputClass"
+                            formControlName = "inputParkingCortesiasDia" >
+                            <option value="0">&#45;&#45;&#45;&#45; Todos los parqueos &#45;&#45;&#45;&#45;</option>
+                            <option *ngFor = "let parking of this.allParking"
+                                    value = "{{parking.id}}" >{{parking.name}}</option >
+                          </select >
+                        </div >
+                      </div > &ndash;&gt;
+                      <div class="col-xl-4 col-lg-6 col-sm-12">
+                        <div class="mb-4 relative">
+                          <label class="labelInput"
+
+                                 style="display:block">Fecha</label>
+                          <input
+                            #inputFechaCortesiasEstacionariasDia
+                            name="inputFechaCortesiasEstacionariasDia"
+                            formControlName="inputFechaCortesiasEstacionariasDia"
+                            type="date"
+                            class="form-control inputClass datetimepicker"
+                            value={{fechaCortesiasEstacionariasDia}}
+                            placeholder="Fecha/Hora"
+                          >
+                        </div>
+                      </div>
+                      <div class="col-xl-12 col-lg-12 col-sm-12">
+                        <div class="text-center">
+                          <button (click)="searchDia(cortesiasEstacionarias)"
+                                  class="btn btn-primary m-2"><span><em class="fas fa-search"></em></span> Buscar
+                          </button>
+
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row content">
+                <div class="col-lg-4">
+                  <app-card-kpi [valorMostrar]="'TotalCortesiasEstacionarias'"
+                                [titulo]="'Total de c. estacionarias por día'" [parking]="parqueoCortesiasEstacionariasDia"
+                                [fecha]="fechaCortesiasEstacionariasDia" [periodo]="periodoDia"></app-card-kpi>
+                </div>
+                <div class="col-lg-4">
+                  <app-card-kpi [valorMostrar]="'TotalEstacionariasLocales'"
+                                [titulo]="'Locales con c. estacionarias por día'"
+                                [parking]="parqueoCortesiasEstacionariasDia" [fecha]="fechaCortesiasEstacionariasDia"
+                                [periodo]="periodoDia"></app-card-kpi>
+                </div>
+                <div class="col-lg-4">
+                  <app-card-kpi [valorMostrar]="'LocalMasCortesiasEstacionarias'"
+                                [titulo]="'Local con más c. estacionarias por día'"
+                                [parking]="parqueoCortesiasEstacionariasDia" [fecha]="fechaCortesiasEstacionariasDia"
+                                [periodo]="periodoDia"></app-card-kpi>
+                </div>
+              </div>
+              <app-courtesy-chart [tipo]="cortesiasEstacionarias" [parking]="parqueoCortesiasEstacionariasDia"
+                                  [fecha]="fechaCortesiasEstacionariasDia" [periodo]="periodoDia"
+                                  [company]="'0'"></app-courtesy-chart>
+              <app-bar-chart [tipo]="cortesiasEstacionarias" [parking]="parqueoCortesiasEstacionariasDia"
+                             [fecha]="fechaCortesiasEstacionariasDia" [tipoChart]="tipoCortesiasEstacionarias"
+                             [periodo]="periodoDia"></app-bar-chart>
+            </div>-->
+        <div id="mes">
+          <div
+            class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="panels ">
+              <div class="titleCards">
+                <span><em class="fas fa-chart-bar"></em></span> Filtros
+              </div>
+              <div class="row justify-content-center">
+                <div class="row">
+                  <!-- <div class = "col-xl-4 col-lg-6 col-sm-12"
+                  *ngIf = "ifHaveAction(verTodosLosParqueosDashboard)" >
+                    <div class = "mb-4 relative" >
+                      <label class = "labelInput"
+
+                             style = "display:block" >Parqueo</label >
+                      <select
+                        #inputParkingCortesiasMes
+                        class = "inputClass"
+                        formControlName = "parking" >
+                        <option value="0">---- Todos los parqueos ----</option>
+                        <option *ngFor = "let parking of this.allParking"
+                                value = "{{parking.id}}" >{{parking.name}}</option >
+                      </select >
+                    </div >
+                  </div > -->
+                  <div class="col-xl-4 col-lg-6 col-sm-12">
+                    <div class="mb-4 relative">
+                      <label class="labelInput"
+
+                             style="display:block">Año</label>
+                      <select
+                        #inputCortesiasEstacionariasMesAnio
+                        class="inputClass"
+                        ngControl="inputCortesiasEstacionariasMesAnio"
+                        ngModel="inputCortesiasEstacionariasMesAnio">
+                        <option *ngFor="let opt of AniosSelect" [selected]="opt.key == AnioActual"
+                                [value]="opt.key">{{opt.valor}}</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-xl-4 col-lg-6 col-sm-12">
+                    <div class="mb-4 relative">
+                      <label class="labelInput"
+
+                             style="display:block">Mes</label>
+                      <select
+                        #inputCortesiasEstacionariasMes
+                        class="inputClass"
+                        ngControl="inputCortesiasEstacionariasMes"
+                        ngModel="inputCortesiasEstacionariasMes">
+                        <option *ngFor="let opt of Meses" [selected]="opt.key == MesActual"
+                                [value]="opt.key">{{opt.valor}}</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-xl-12 col-lg-12 col-sm-12">
+                    <div class="text-center">
+                      <button (click)="searchMes(cortesiasEstacionarias)"
+                              class="btn btn-primary m-2"><span><em class="fas fa-search"></em></span> Buscar
+                      </button>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row content">
+            <div class="col-lg-4">
+              <app-card-kpi [fecha]="fechaCortesiasEstacionariasMes"
+                            [parking]="parqueoCortesiasEstacionariasMes" [periodo]="periodoMes"
+                            [titulo]="'Total de c. estacionarias por mes'"
+                            [valorMostrar]="'TotalCortesiasEstacionarias'"></app-card-kpi>
+            </div>
+            <div class="col-lg-4">
+              <app-card-kpi [fecha]="fechaCortesiasEstacionariasMes"
+                            [parking]="parqueoCortesiasEstacionariasMes"
+                            [periodo]="periodoMes" [titulo]="'Locales con c. estacionarias por mes'"
+                            [valorMostrar]="'TotalEstacionariasLocales'"></app-card-kpi>
+            </div>
+            <div class="col-lg-4">
+              <app-card-kpi [fecha]="fechaCortesiasEstacionariasMes"
+                            [parking]="parqueoCortesiasEstacionariasMes"
+                            [periodo]="periodoMes" [titulo]="'Local con más c. estacionarias por mes'"
+                            [valorMostrar]="'LocalMasCortesiasEstacionarias'"></app-card-kpi>
+            </div>
+          </div>
+          <app-courtesy-chart [company]="'0'" [fecha]="fechaCortesiasEstacionariasMes"
+                              [parking]="parqueoCortesiasEstacionariasMes" [periodo]="periodoMes"
+                              [tipo]="cortesiasEstacionarias"></app-courtesy-chart>
+          <app-bar-chart [fecha]="fechaCortesiasEstacionariasMes" [parking]="parqueoCortesiasEstacionariasMes"
+                         [periodo]="periodoMes" [tipoChart]="tipoCortesiasEstacionarias"
+                         [tipo]="cortesiasEstacionarias"></app-bar-chart>
+        </div>
+        <div id="anio">
+          <div
+            class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="panels ">
+              <div class="titleCards">
+                <span><em class="fas fa-chart-bar"></em></span> Filtros
+              </div>
+              <div class="row justify-content-center">
+                <div class="row">
+                  <!-- <div class = "col-xl-4 col-lg-6 col-sm-12"
+                  *ngIf = "ifHaveAction(verTodosLosParqueosDashboard)" >
+                    <div class = "mb-4 relative" >
+                      <label class = "labelInput"
+
+                             style = "display:block" >Parqueo</label >
+                      <select
+                        #inputParkingCortesiasAnio
+                        class = "inputClass"
+                        formControlName = "parking" >
+                        <option value="0">---- Todos los parqueos ----</option>
+                        <option *ngFor = "let parking of this.allParking"
+                                value = "{{parking.id}}" >{{parking.name}}</option >
+                      </select >
+                    </div >
+                  </div > -->
+                  <div class="col-xl-4 col-lg-6 col-sm-12">
+                    <div class="mb-4 relative">
+                      <label class="labelInput"
+
+                             style="display:block">Año</label>
+                      <select
+                        #inputCortesiasEstacionariasAnio
+                        class="inputClass"
+                        formControlName="inputCortesiasEstacionariasAnio">
+                        <option *ngFor="let opt of AniosSelect" [selected]="opt.key == AnioActual"
+                                [value]="opt.key">{{opt.valor}}</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-xl-12 col-lg-12 col-sm-12">
+                    <div class="text-center">
+                      <button (click)="searchAnio(cortesiasEstacionarias)"
+                              class="btn btn-primary m-2"><span><em class="fas fa-search"></em></span> Buscar
+                      </button>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+          <div class="row content">
+            <div class="col-lg-4">
+              <app-card-kpi [fecha]="fechaCortesiasEstacionariasAnio"
+                            [parking]="parqueoCortesiasEstacionariasAnio" [periodo]="periodoAnio"
+                            [titulo]="'Total de c. estacionarias por año'"
+                            [valorMostrar]="'TotalCortesiasEstacionarias'"></app-card-kpi>
+            </div>
+            <div class="col-lg-4">
+              <app-card-kpi [fecha]="fechaCortesiasEstacionariasAnio"
+                            [parking]="parqueoCortesiasEstacionariasAnio"
+                            [periodo]="periodoAnio" [titulo]="'Locales con c. estacionarias por año'"
+                            [valorMostrar]="'TotalEstacionariasLocales'"></app-card-kpi>
+            </div>
+            <div class="col-lg-4">
+              <app-card-kpi [fecha]="fechaCortesiasEstacionariasAnio"
+                            [parking]="parqueoCortesiasEstacionariasAnio"
+                            [periodo]="periodoAnio" [titulo]="'Local con más c. estacionarias por año'"
+                            [valorMostrar]="'LocalMasCortesiasEstacionarias'"></app-card-kpi>
+            </div>
+          </div>
+          <app-courtesy-chart [company]="'0'" [fecha]="fechaCortesiasEstacionariasAnio"
+                              [parking]="parqueoCortesiasEstacionariasAnio" [periodo]="periodoAnio"
+                              [tipo]="cortesiasEstacionarias"></app-courtesy-chart>
+          <app-bar-chart [fecha]="fechaCortesiasEstacionariasAnio" [parking]="parqueoCortesiasEstacionariasAnio"
+                         [periodo]="periodoAnio" [tipoChart]="tipoCortesiasEstacionarias"
+                         [tipo]="cortesiasEstacionarias"></app-bar-chart>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

@@ -17,6 +17,9 @@ import {NgbDatepickerModule, NgbModule, NgbTimepickerModule,} from '@ng-bootstra
 import {ParkingMenuComponent} from './parking-menu.component';
 import {MonthlyParkingComponent} from './components/monthly-parking/monthly-parking.component';
 import {DataTablesModule} from 'angular-datatables';
+import {
+  CreateMonthlyParkingComponent
+} from './components/monthly-parking/create-monthly-parking/create-monthly-parking.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +33,7 @@ import {DataTablesModule} from 'angular-datatables';
     ResumeComponent,
     ParkingMenuComponent,
     MonthlyParkingComponent,
+    CreateMonthlyParkingComponent,
   ],
   imports: [
     CommonModule,

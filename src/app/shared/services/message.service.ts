@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import Swal from 'sweetalert2';
 
 @Injectable({
@@ -129,6 +129,8 @@ export class MessageService {
     denyButtonText: string = 'No'
   ) {
     return Swal.fire({
+      confirmButtonColor: '#05ccae',
+      denyButtonColor: '#415ba1',
       title,
       showDenyButton: true,
       showCancelButton: true,
