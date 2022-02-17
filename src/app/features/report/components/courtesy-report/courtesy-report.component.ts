@@ -185,7 +185,7 @@ export class CourtesyReportComponent implements OnInit {
     //Add Row and formatting
     worksheet.addRow([]);
 
-    let busienssRow = worksheet.addRow(['', '', '', 'EBI Go']);
+    let busienssRow = worksheet.addRow(['', '', '', 'ebiGO']);
     busienssRow.font = {name: 'Calibri', family: 4, size: 11, bold: true}
     busienssRow.alignment = {horizontal: 'center', vertical: 'middle'}
     busienssRow.eachCell((cell, number) => {

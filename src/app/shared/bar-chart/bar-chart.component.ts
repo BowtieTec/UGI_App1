@@ -1,7 +1,7 @@
-import { Component, OnInit, Input, OnChanges } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import * as ApexCharts from 'apexcharts';
-import { DashboardService } from '../services/dashboard.service';
-import { AuthService } from '../../shared/services/auth.service';
+import {DashboardService} from '../services/dashboard.service';
+import {AuthService} from '../../shared/services/auth.service';
 
 @Component({
   selector: 'app-bar-chart',
@@ -17,17 +17,17 @@ export class BarChartComponent implements OnInit {
   datosDiarios: number[] = [];
   datosMes: number[] = [];
   datosAnio: number[] = [];
-  
-  diaOptions  = {
+
+  diaOptions = {
     chart: {
       type: this.tipoChart,
       height: 450,
       width: '100%',
       stacked: true,
       foreColor: '#999',
-      toolbar:{
+      toolbar: {
         show: true,
-        tools:{
+        tools: {
           zoom: false,
           zoomin: false,
           zoomout: false,
@@ -36,7 +36,7 @@ export class BarChartComponent implements OnInit {
         }
       },
     },
-    colors:['#415ba2','#04ccae','#ccac04','#4804cc','#cc0424'],
+    colors: ['#415ba2', '#04ccae', '#ccac04', '#4804cc', '#cc0424'],
     plotOptions: {
       bar: {
         dataLabels: {
@@ -48,24 +48,24 @@ export class BarChartComponent implements OnInit {
         borderRadius: 2,
       },
     },
-    dataLabels:{
+    dataLabels: {
       enabled: true,
       offsetY: 0,
-      style:{
+      style: {
         fontSize: '12px',
         colors: ["#fff"],
       },
-      formatter: function(val: any, opts: any){
-        if(val == 0 || val == '0'){
+      formatter: function (val: any, opts: any) {
+        if (val == 0 || val == '0') {
           return " ";
-        }else{
+        } else {
           return val;
         }
       }
     },
     series: [
       {
-        name: 'EBI Go',
+        name: 'ebiGO',
         data: this.datosMes,
       },
     ],
@@ -129,16 +129,16 @@ export class BarChartComponent implements OnInit {
       intersect: false,
     },
   };
-mesOptions = {
+  mesOptions = {
     chart: {
       type: this.tipoChart,
       height: 450,
       width: '100%',
       stacked: true,
       foreColor: '#999',
-      toolbar:{
+      toolbar: {
         show: true,
-        tools:{
+        tools: {
           zoom: false,
           zoomin: false,
           zoomout: false,
@@ -147,7 +147,7 @@ mesOptions = {
         }
       },
     },
-    colors:['#415ba2','#04ccae','#ccac04','#4804cc','#cc0424'],
+    colors: ['#415ba2', '#04ccae', '#ccac04', '#4804cc', '#cc0424'],
     plotOptions: {
       bar: {
         dataLabels: {
@@ -159,30 +159,30 @@ mesOptions = {
         borderRadius: 2,
       },
     },
-    dataLabels:{
+    dataLabels: {
       enabled: true,
       offsetY: 0,
-      style:{
+      style: {
         fontSize: '12px',
         colors: ["#fff"],
       },
-      formatter: function(val: any, opts: any){
-        if(val == 0 || val == '0'){
+      formatter: function (val: any, opts: any) {
+        if (val == 0 || val == '0') {
           return " ";
-        }else{
+        } else {
           return val;
         }
       }
     },
     series: [
       {
-        name: 'EBI Go',
+        name: 'ebiGO',
         data: this.datosMes,
       },
     ],
     labels: [
       1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21,
-      22, 23, 24, 25, 26, 27, 28, 29, 30,31,
+      22, 23, 24, 25, 26, 27, 28, 29, 30, 31,
     ],
     xaxis: {
       axisBorder: {
@@ -239,16 +239,16 @@ mesOptions = {
       intersect: false,
     }
   };
-anioOptions = {
+  anioOptions = {
     chart: {
       type: this.tipoChart,
       height: 450,
       width: '100%',
       stacked: true,
       foreColor: '#999',
-      toolbar:{
+      toolbar: {
         show: true,
-        tools:{
+        tools: {
           zoom: false,
           zoomin: false,
           zoomout: false,
@@ -257,7 +257,7 @@ anioOptions = {
         }
       },
     },
-    colors:['#415ba2','#04ccae','#ccac04','#4804cc','#cc0424'],
+    colors: ['#415ba2', '#04ccae', '#ccac04', '#4804cc', '#cc0424'],
     plotOptions: {
       bar: {
         dataLabels: {
@@ -268,26 +268,26 @@ anioOptions = {
         endingShape: 'rounded',
         borderRadius: 4,
       },
-      markers:{ sieze: 5,},
+      markers: {sieze: 5,},
     },
-    dataLabels:{
+    dataLabels: {
       enabled: true,
       offsetY: 0,
-      style:{
+      style: {
         fontSize: '12px',
         colors: ["#fff"],
       },
-      formatter: function(val: any, opts: any){
-        if(val == 0 || val == '0'){
+      formatter: function (val: any, opts: any) {
+        if (val == 0 || val == '0') {
           return " ";
-        }else{
+        } else {
           return val;
         }
       }
     },
     series: [
       {
-        name: 'EBI Go',
+        name: 'ebiGO',
         data: this.datosAnio,
       },
     ],
@@ -369,83 +369,83 @@ anioOptions = {
     private auth: AuthService,
     private dashboardService: DashboardService,
   ) {
-    
+
   }
 
   datosUsuarioLogeado = this.auth.getParking();
 
-  ngOnChanges(): void{
+  ngOnChanges(): void {
     let fecha = this.fecha;
     let partesFecha = fecha.split('-');
     let mes = partesFecha[1];
     let anio = partesFecha[0];
-    if(this.tipo === 'Ingresos'){
-      if(this.periodo == 'dia'){
+    if (this.tipo === 'Ingresos') {
+      if (this.periodo == 'dia') {
         this.getDatosDiarios(this.parking, fecha);
       }
-      if(this.periodo == 'mes'){
+      if (this.periodo == 'mes') {
         this.getDatosMes(this.parking, mes, anio);
       }
-      if(this.periodo == 'anio'){
-        this.getDatosAnio(this.parking,anio);
+      if (this.periodo == 'anio') {
+        this.getDatosAnio(this.parking, anio);
       }
     }
-    if(this.tipo === 'Flujo'){
-      if(this.periodo == 'dia'){
-        this.getDatosFlujoDiarios(this.parking,fecha);
+    if (this.tipo === 'Flujo') {
+      if (this.periodo == 'dia') {
+        this.getDatosFlujoDiarios(this.parking, fecha);
       }
-      if(this.periodo == 'mes'){
-        this.getDatosFlujoMes(this.parking,mes, anio);
+      if (this.periodo == 'mes') {
+        this.getDatosFlujoMes(this.parking, mes, anio);
       }
-      if(this.periodo == 'anio'){
-        this.getDatosFlujoAnio(this.parking,anio);
+      if (this.periodo == 'anio') {
+        this.getDatosFlujoAnio(this.parking, anio);
       }
     }
-    if(this.tipo === 'Cortesias'){
-      if(this.periodo == 'dia'){
+    if (this.tipo === 'Cortesias') {
+      if (this.periodo == 'dia') {
         this.getDatosCortesiasDiarios(this.datosUsuarioLogeado.id, fecha);
       }
-      if(this.periodo == 'mes'){
+      if (this.periodo == 'mes') {
         this.getDatosCortesiasMes(this.datosUsuarioLogeado.id, mes, anio);
       }
-      if(this.periodo == 'anio'){
-        this.getDatosCortesiasAnio(this.datosUsuarioLogeado.id,anio);
+      if (this.periodo == 'anio') {
+        this.getDatosCortesiasAnio(this.datosUsuarioLogeado.id, anio);
       }
     }
-    if(this.tipo === 'CortesiasEstacionarias'){
-      if(this.periodo == 'dia'){
+    if (this.tipo === 'CortesiasEstacionarias') {
+      if (this.periodo == 'dia') {
         this.getDatosCortesiasEstacionariasDiarios(this.datosUsuarioLogeado.id, fecha);
       }
-      if(this.periodo == 'mes'){
+      if (this.periodo == 'mes') {
         this.getDatosCortesiasEstacionariasMes(this.datosUsuarioLogeado.id, mes, anio);
       }
-      if(this.periodo == 'anio'){
-        this.getDatosCortesiasEstacionariasAnio(this.datosUsuarioLogeado.id,anio);
+      if (this.periodo == 'anio') {
+        this.getDatosCortesiasEstacionariasAnio(this.datosUsuarioLogeado.id, anio);
       }
     }
   }
 
   ngOnInit(): void {
-    if(this.periodo == 'dia'){
+    if (this.periodo == 'dia') {
       this.diaOptions.chart.type = this.tipoChart;
-      this.chart = new ApexCharts(document.querySelector('.'+this.tipo+' #'+this.periodo+' #grafica'), this.diaOptions);
+      this.chart = new ApexCharts(document.querySelector('.' + this.tipo + ' #' + this.periodo + ' #grafica'), this.diaOptions);
       this.chart.render();
     }
-    if(this.periodo == 'mes'){
+    if (this.periodo == 'mes') {
       this.mesOptions.chart.type = this.tipoChart;
-      this.chart = new ApexCharts(document.querySelector('.'+this.tipo+' #'+this.periodo+' #grafica'), this.mesOptions);
+      this.chart = new ApexCharts(document.querySelector('.' + this.tipo + ' #' + this.periodo + ' #grafica'), this.mesOptions);
       this.chart.render();
     }
-    if(this.periodo == 'anio'){
+    if (this.periodo == 'anio') {
       this.anioOptions.chart.type = this.tipoChart;
-      this.chart = new ApexCharts(document.querySelector('.'+this.tipo+' #'+this.periodo+' #grafica'), this.anioOptions);
+      this.chart = new ApexCharts(document.querySelector('.' + this.tipo + ' #' + this.periodo + ' #grafica'), this.anioOptions);
       this.chart.render();
     }
   }
 
-  
+
 //Entradas
-  getDatosDiarios(parkingId: string, fecha: string){
+  getDatosDiarios(parkingId: string, fecha: string) {
     return this.dashboardService.getDailyEntries(parkingId, fecha)
       .toPromise()
       .then((data) => {
@@ -454,14 +454,14 @@ anioOptions = {
           Object.keys(data).forEach((key: any) => {
             Object.keys(data[key]).forEach((key_item: any) => {
               let nombreSerie = key_item;
-              if(nombreSerie === 'Ticket_ebi'){
-                nombreSerie = 'EBI Go Ticket';
-              }else{
-                nombreSerie = 'EBI Go '+ nombreSerie;
+              if (nombreSerie === 'Ticket_ebi') {
+                nombreSerie = 'ebiGO Ticket';
+              } else {
+                nombreSerie = 'ebiGO ' + nombreSerie;
               }
               let datosDeServicio = data[key][key_item];
               let DatosDiariosServicio: number[] = [];
-              datosDeServicio.forEach((element:any) => {
+              datosDeServicio.forEach((element: any) => {
                 DatosDiariosServicio.push(element.Cantidad);
               });
               seriesDatos.push({
@@ -472,18 +472,18 @@ anioOptions = {
           });
           this.chart.updateSeries(seriesDatos);
           this.chart.updateOptions({
-            title:{
-              text: this.tipo+' por día'
+            title: {
+              text: this.tipo + ' por día'
             }
           });
-          if(this.tipoChart == "line"){
+          if (this.tipoChart == "line") {
             this.chart.updateOptions({
-              chart:{
+              chart: {
                 stacked: false
               },
-              dataLabels:{
+              dataLabels: {
                 offsetY: -10,
-                style:{
+                style: {
                   fontSize: '12px',
                   colors: ["#304758"],
                 },
@@ -491,11 +491,11 @@ anioOptions = {
             });
           }
 
-        } 
-      });  
+        }
+      });
   }
 
-  getDatosMes(parkingId: string, mes: string, anio: string){
+  getDatosMes(parkingId: string, mes: string, anio: string) {
     return this.dashboardService.getMonthlyEntries(parkingId, mes, anio)
       .toPromise()
       .then((data) => {
@@ -504,14 +504,14 @@ anioOptions = {
           Object.keys(data).forEach((key: any) => {
             Object.keys(data[key]).forEach((key_item: any) => {
               let nombreSerie = key_item;
-              if(nombreSerie === 'Ticket_ebi'){
-                nombreSerie = 'EBI Go Ticket';
-              }else{
-                nombreSerie = 'EBI Go '+ nombreSerie;
+              if (nombreSerie === 'Ticket_ebi') {
+                nombreSerie = 'ebiGO Ticket';
+              } else {
+                nombreSerie = 'ebiGO ' + nombreSerie;
               }
               let datosDeServicio = data[key][key_item];
               let DatosMesServicio: number[] = [];
-              datosDeServicio.forEach((element:any) => {
+              datosDeServicio.forEach((element: any) => {
                 DatosMesServicio.push(element.Cantidad);
               });
               seriesDatos.push({
@@ -521,36 +521,36 @@ anioOptions = {
             });
           });
           let labelsDatos: any[] = [];
-          let diasDelMes = new Date(+anio,+mes,0).getDate();
-          for(var iDias= 1; iDias <= diasDelMes; iDias++){
+          let diasDelMes = new Date(+anio, +mes, 0).getDate();
+          for (var iDias = 1; iDias <= diasDelMes; iDias++) {
             labelsDatos.push(iDias);
           }
           this.chart.updateSeries(seriesDatos);
           this.chart.updateOptions({
-            title:{
-              text: this.tipo+' por mes'
+            title: {
+              text: this.tipo + ' por mes'
             },
-            labels:labelsDatos
+            labels: labelsDatos
           });
-          if(this.tipoChart == "line"){
+          if (this.tipoChart == "line") {
             this.chart.updateOptions({
-              chart:{
+              chart: {
                 stacked: false
               },
-              dataLabels:{
+              dataLabels: {
                 offsetY: -10,
-                style:{
+                style: {
                   fontSize: '12px',
                   colors: ["#304758"],
                 },
               }
             });
           }
-        } 
-      });  
+        }
+      });
   }
 
-  getDatosAnio(parkingId: string, anio: string){
+  getDatosAnio(parkingId: string, anio: string) {
     return this.dashboardService.getYearEntries(parkingId, anio)
       .toPromise()
       .then((data) => {
@@ -559,14 +559,14 @@ anioOptions = {
           Object.keys(data).forEach((key: any) => {
             Object.keys(data[key]).forEach((key_item: any) => {
               let nombreSerie = key_item;
-              if(nombreSerie === 'Ticket_ebi'){
-                nombreSerie = 'EBI Go Ticket';
-              }else{
-                nombreSerie = 'EBI Go '+ nombreSerie;
+              if (nombreSerie === 'Ticket_ebi') {
+                nombreSerie = 'ebiGO Ticket';
+              } else {
+                nombreSerie = 'ebiGO ' + nombreSerie;
               }
               let datosDeServicio = data[key][key_item];
               let DatosAnioServicio: number[] = [];
-              datosDeServicio.forEach((element:any) => {
+              datosDeServicio.forEach((element: any) => {
                 DatosAnioServicio.push(element.Cantidad);
               });
               seriesDatos.push({
@@ -577,29 +577,30 @@ anioOptions = {
           });
           this.chart.updateSeries(seriesDatos);
           this.chart.updateOptions({
-            title:{
-              text: this.tipo+' por año'
+            title: {
+              text: this.tipo + ' por año'
             }
           });
-          if(this.tipoChart == "line"){
+          if (this.tipoChart == "line") {
             this.chart.updateOptions({
-              chart:{
+              chart: {
                 stacked: false
               },
-              dataLabels:{
+              dataLabels: {
                 offsetY: -10,
-                style:{
+                style: {
                   fontSize: '12px',
                   colors: ["#304758"],
                 },
               }
             });
           }
-        } 
-      });  
+        }
+      });
   }
+
   //Cortesias normales
-  getDatosCortesiasDiarios(parkingId: string, fecha: string){
+  getDatosCortesiasDiarios(parkingId: string, fecha: string) {
     return this.dashboardService.getDailyCourtesies(parkingId, fecha)
       .toPromise()
       .then((data) => {
@@ -607,11 +608,11 @@ anioOptions = {
           let seriesDatos: any[] = [];
           Object.keys(data).forEach((key: any) => {
             Object.keys(data[key]).forEach((key_item: any) => {
-              let nombreSerie = key_item.replace(/_/g," ");
-              
+              let nombreSerie = key_item.replace(/_/g, " ");
+
               let datosDeServicio = data[key][key_item];
               let DatosDiariosServicio: number[] = [];
-              datosDeServicio.forEach((element:any) => {
+              datosDeServicio.forEach((element: any) => {
                 DatosDiariosServicio.push(element.Cantidad);
               });
               seriesDatos.push({
@@ -622,18 +623,18 @@ anioOptions = {
           });
           this.chart.updateSeries(seriesDatos);
           this.chart.updateOptions({
-            title:{
-              text: this.tipo+' por día'
+            title: {
+              text: this.tipo + ' por día'
             }
           });
-          if(this.tipoChart == "line"){
+          if (this.tipoChart == "line") {
             this.chart.updateOptions({
-              chart:{
+              chart: {
                 stacked: false
               },
-              dataLabels:{
+              dataLabels: {
                 offsetY: -10,
-                style:{
+                style: {
                   fontSize: '12px',
                   colors: ["#304758"],
                 },
@@ -641,11 +642,11 @@ anioOptions = {
             });
           }
 
-        } 
-      });  
+        }
+      });
   }
 
-  getDatosCortesiasMes(parkingId: string, mes: string, anio: string){
+  getDatosCortesiasMes(parkingId: string, mes: string, anio: string) {
     return this.dashboardService.getMonthlyCourtesies(parkingId, mes, anio)
       .toPromise()
       .then((data) => {
@@ -653,11 +654,11 @@ anioOptions = {
           let seriesDatos: any[] = [];
           Object.keys(data).forEach((key: any) => {
             Object.keys(data[key]).forEach((key_item: any) => {
-              let nombreSerie = key_item.replace(/_/g," ");
-              
+              let nombreSerie = key_item.replace(/_/g, " ");
+
               let datosDeServicio = data[key][key_item];
               let DatosMesServicio: number[] = [];
-              datosDeServicio.forEach((element:any) => {
+              datosDeServicio.forEach((element: any) => {
                 DatosMesServicio.push(element.Cantidad);
               });
               seriesDatos.push({
@@ -667,36 +668,36 @@ anioOptions = {
             });
           });
           let labelsDatos: any[] = [];
-          let diasDelMes = new Date(+anio,+mes,0).getDate();
-          for(var iDias= 1; iDias <= diasDelMes; iDias++){
+          let diasDelMes = new Date(+anio, +mes, 0).getDate();
+          for (var iDias = 1; iDias <= diasDelMes; iDias++) {
             labelsDatos.push(iDias);
           }
           this.chart.updateSeries(seriesDatos);
           this.chart.updateOptions({
-            title:{
-              text: this.tipo+' por mes'
+            title: {
+              text: this.tipo + ' por mes'
             },
-            labels:labelsDatos
+            labels: labelsDatos
           });
-          if(this.tipoChart == "line"){
+          if (this.tipoChart == "line") {
             this.chart.updateOptions({
-              chart:{
+              chart: {
                 stacked: false
               },
-              dataLabels:{
+              dataLabels: {
                 offsetY: -10,
-                style:{
+                style: {
                   fontSize: '12px',
                   colors: ["#304758"],
                 },
               }
             });
           }
-        } 
-      });  
+        }
+      });
   }
 
-  getDatosCortesiasAnio(parkingId: string, anio: string){
+  getDatosCortesiasAnio(parkingId: string, anio: string) {
     return this.dashboardService.getYearCourtesies(parkingId, anio)
       .toPromise()
       .then((data) => {
@@ -704,11 +705,11 @@ anioOptions = {
           let seriesDatos: any[] = [];
           Object.keys(data).forEach((key: any) => {
             Object.keys(data[key]).forEach((key_item: any) => {
-              let nombreSerie = key_item.replace(/_/g," ");
-              
+              let nombreSerie = key_item.replace(/_/g, " ");
+
               let datosDeServicio = data[key][key_item];
               let DatosAnioServicio: number[] = [];
-              datosDeServicio.forEach((element:any) => {
+              datosDeServicio.forEach((element: any) => {
                 DatosAnioServicio.push(element.Cantidad);
               });
               seriesDatos.push({
@@ -719,29 +720,30 @@ anioOptions = {
           });
           this.chart.updateSeries(seriesDatos);
           this.chart.updateOptions({
-            title:{
-              text: this.tipo+' por año'
+            title: {
+              text: this.tipo + ' por año'
             }
           });
-          if(this.tipoChart == "line"){
+          if (this.tipoChart == "line") {
             this.chart.updateOptions({
-              chart:{
+              chart: {
                 stacked: false
               },
-              dataLabels:{
+              dataLabels: {
                 offsetY: -10,
-                style:{
+                style: {
                   fontSize: '12px',
                   colors: ["#304758"],
                 },
               }
             });
           }
-        } 
-      });  
+        }
+      });
   }
+
   //Cortesias estacionarias
-  getDatosCortesiasEstacionariasDiarios(parkingId: string, fecha: string){
+  getDatosCortesiasEstacionariasDiarios(parkingId: string, fecha: string) {
     return this.dashboardService.getDailyCourtesiesStation(parkingId, fecha)
       .toPromise()
       .then((data) => {
@@ -749,11 +751,11 @@ anioOptions = {
           let seriesDatos: any[] = [];
           Object.keys(data).forEach((key: any) => {
             Object.keys(data[key]).forEach((key_item: any) => {
-              let nombreSerie = key_item.replace(/_/g," ");
-              
+              let nombreSerie = key_item.replace(/_/g, " ");
+
               let datosDeServicio = data[key][key_item];
               let DatosDiariosServicio: number[] = [];
-              datosDeServicio.forEach((element:any) => {
+              datosDeServicio.forEach((element: any) => {
                 DatosDiariosServicio.push(element.Cantidad);
               });
               seriesDatos.push({
@@ -764,18 +766,18 @@ anioOptions = {
           });
           this.chart.updateSeries(seriesDatos);
           this.chart.updateOptions({
-            title:{
+            title: {
               text: 'Corteías estacionarias por día'
             }
           });
-          if(this.tipoChart == "line"){
+          if (this.tipoChart == "line") {
             this.chart.updateOptions({
-              chart:{
+              chart: {
                 stacked: false
               },
-              dataLabels:{
+              dataLabels: {
                 offsetY: -10,
-                style:{
+                style: {
                   fontSize: '12px',
                   colors: ["#304758"],
                 },
@@ -783,11 +785,11 @@ anioOptions = {
             });
           }
 
-        } 
-      });  
+        }
+      });
   }
 
-  getDatosCortesiasEstacionariasMes(parkingId: string, mes: string, anio: string){
+  getDatosCortesiasEstacionariasMes(parkingId: string, mes: string, anio: string) {
     return this.dashboardService.getMonthlyCourtesiesStation(parkingId, mes, anio)
       .toPromise()
       .then((data) => {
@@ -795,11 +797,11 @@ anioOptions = {
           let seriesDatos: any[] = [];
           Object.keys(data).forEach((key: any) => {
             Object.keys(data[key]).forEach((key_item: any) => {
-              let nombreSerie = key_item.replace(/_/g," ");
-              
+              let nombreSerie = key_item.replace(/_/g, " ");
+
               let datosDeServicio = data[key][key_item];
               let DatosMesServicio: number[] = [];
-              datosDeServicio.forEach((element:any) => {
+              datosDeServicio.forEach((element: any) => {
                 DatosMesServicio.push(element.Cantidad);
               });
               seriesDatos.push({
@@ -809,36 +811,36 @@ anioOptions = {
             });
           });
           let labelsDatos: any[] = [];
-          let diasDelMes = new Date(+anio,+mes,0).getDate();
-          for(var iDias= 1; iDias <= diasDelMes; iDias++){
+          let diasDelMes = new Date(+anio, +mes, 0).getDate();
+          for (var iDias = 1; iDias <= diasDelMes; iDias++) {
             labelsDatos.push(iDias);
           }
           this.chart.updateSeries(seriesDatos);
           this.chart.updateOptions({
-            title:{
+            title: {
               text: 'Cortesías estacionarias por mes'
             },
-            labels:labelsDatos
+            labels: labelsDatos
           });
-          if(this.tipoChart == "line"){
+          if (this.tipoChart == "line") {
             this.chart.updateOptions({
-              chart:{
+              chart: {
                 stacked: false
               },
-              dataLabels:{
+              dataLabels: {
                 offsetY: -10,
-                style:{
+                style: {
                   fontSize: '12px',
                   colors: ["#304758"],
                 },
               }
             });
           }
-        } 
-      });  
+        }
+      });
   }
 
-  getDatosCortesiasEstacionariasAnio(parkingId: string, anio: string){
+  getDatosCortesiasEstacionariasAnio(parkingId: string, anio: string) {
     return this.dashboardService.getYearCourtesiesStation(parkingId, anio)
       .toPromise()
       .then((data) => {
@@ -846,11 +848,11 @@ anioOptions = {
           let seriesDatos: any[] = [];
           Object.keys(data).forEach((key: any) => {
             Object.keys(data[key]).forEach((key_item: any) => {
-              let nombreSerie = key_item.replace(/_/g," ");
-              
+              let nombreSerie = key_item.replace(/_/g, " ");
+
               let datosDeServicio = data[key][key_item];
               let DatosAnioServicio: number[] = [];
-              datosDeServicio.forEach((element:any) => {
+              datosDeServicio.forEach((element: any) => {
                 DatosAnioServicio.push(element.Cantidad);
               });
               seriesDatos.push({
@@ -861,30 +863,31 @@ anioOptions = {
           });
           this.chart.updateSeries(seriesDatos);
           this.chart.updateOptions({
-            title:{
+            title: {
               text: 'Cortesías estacionarias por año'
             }
           });
-          if(this.tipoChart == "line"){
+          if (this.tipoChart == "line") {
             this.chart.updateOptions({
-              chart:{
+              chart: {
                 stacked: false
               },
-              dataLabels:{
+              dataLabels: {
                 offsetY: -10,
-                style:{
+                style: {
                   fontSize: '12px',
                   colors: ["#304758"],
                 },
               }
             });
           }
-        } 
-      });  
+        }
+      });
   }
+
   //Flujo
-  getDatosFlujoDiarios(parkingId: string, fecha: string){
-    return this.dashboardService.getDailyPayments(parkingId,fecha)
+  getDatosFlujoDiarios(parkingId: string, fecha: string) {
+    return this.dashboardService.getDailyPayments(parkingId, fecha)
       .toPromise()
       .then((data) => {
         if (data) {
@@ -892,14 +895,14 @@ anioOptions = {
           Object.keys(data).forEach((key: any) => {
             Object.keys(data[key]).forEach((key_item: any) => {
               let nombreSerie = key_item;
-              if(nombreSerie === 'Ticket_ebi'){
-                nombreSerie = 'EBI Go Ticket';
-              }else{
-                nombreSerie = 'EBI Go '+ nombreSerie;
+              if (nombreSerie === 'Ticket_ebi') {
+                nombreSerie = 'ebiGO Ticket';
+              } else {
+                nombreSerie = 'ebiGO ' + nombreSerie;
               }
               let datosDeServicio = data[key][key_item];
               let DatosDiariosServicio: number[] = [];
-              datosDeServicio.forEach((element:any) => {
+              datosDeServicio.forEach((element: any) => {
                 DatosDiariosServicio.push(element.Cantidad);
               });
               seriesDatos.push({
@@ -910,46 +913,46 @@ anioOptions = {
           });
           this.chart.updateSeries(seriesDatos);
           this.chart.updateOptions({
-            title:{
-              text: this.tipo+' por día'
+            title: {
+              text: this.tipo + ' por día'
             }
           });
-          if(this.tipoChart == "line"){
+          if (this.tipoChart == "line") {
             this.chart.updateOptions({
-              chart:{
+              chart: {
                 stacked: false
               },
-              dataLabels:{
+              dataLabels: {
                 offsetY: -5,
-                style:{
+                style: {
                   fontSize: '12px',
                   colors: ["#304758"],
                 },
-                formatter: function(val: any, opts: any){
-                  if(val == 0 || val == '0'){
+                formatter: function (val: any, opts: any) {
+                  if (val == 0 || val == '0') {
                     return " ";
-                  }else{
-                    return "Q "+val;
+                  } else {
+                    return "Q " + val;
                   }
                 }
               },
               tooltip: {
                 shared: true,
                 intersect: false,
-                y:{
-                  formatter: function(val:any, opts:any){
-                    return "Q "+val;
+                y: {
+                  formatter: function (val: any, opts: any) {
+                    return "Q " + val;
                   }
                 }
               }
             });
           }
-        } 
-      });  
+        }
+      });
   }
 
-  getDatosFlujoMes(parkingId: string, mes: string, anio: string){
-    return this.dashboardService.getMonthlyPayments(parkingId,mes, anio)
+  getDatosFlujoMes(parkingId: string, mes: string, anio: string) {
+    return this.dashboardService.getMonthlyPayments(parkingId, mes, anio)
       .toPromise()
       .then((data) => {
         if (data) {
@@ -957,14 +960,14 @@ anioOptions = {
           Object.keys(data).forEach((key: any) => {
             Object.keys(data[key]).forEach((key_item: any) => {
               let nombreSerie = key_item;
-              if(nombreSerie === 'Ticket_ebi'){
-                nombreSerie = 'EBI Go Ticket';
-              }else{
-                nombreSerie = 'EBI Go '+ nombreSerie;
+              if (nombreSerie === 'Ticket_ebi') {
+                nombreSerie = 'ebiGO Ticket';
+              } else {
+                nombreSerie = 'ebiGO ' + nombreSerie;
               }
               let datosDeServicio = data[key][key_item];
               let DatosMesServicio: number[] = [];
-              datosDeServicio.forEach((element:any) => {
+              datosDeServicio.forEach((element: any) => {
                 DatosMesServicio.push(element.Cantidad);
               });
               seriesDatos.push({
@@ -974,53 +977,53 @@ anioOptions = {
             });
           });
           let labelsDatos: any[] = [];
-          let diasDelMes = new Date(+anio,+mes,0).getDate();
-          for(var iDias= 1; iDias <= diasDelMes; iDias++){
+          let diasDelMes = new Date(+anio, +mes, 0).getDate();
+          for (var iDias = 1; iDias <= diasDelMes; iDias++) {
             labelsDatos.push(iDias);
           }
           this.chart.updateSeries(seriesDatos);
           this.chart.updateOptions({
-            title:{
-              text: this.tipo+' por mes'
+            title: {
+              text: this.tipo + ' por mes'
             },
-            labels:labelsDatos
+            labels: labelsDatos
           });
-          if(this.tipoChart == "line"){
+          if (this.tipoChart == "line") {
             this.chart.updateOptions({
-              chart:{
+              chart: {
                 stacked: false
               },
-              dataLabels:{
+              dataLabels: {
                 offsetY: -1,
-                style:{
+                style: {
                   fontSize: '12px',
                   colors: ["#304758"],
                 },
-                formatter: function(val: any, opts: any){
-                  if(val == 0 || val == '0'){
+                formatter: function (val: any, opts: any) {
+                  if (val == 0 || val == '0') {
                     return " ";
-                  }else{
-                    return "Q "+val;
+                  } else {
+                    return "Q " + val;
                   }
                 }
               },
               tooltip: {
                 shared: true,
                 intersect: false,
-                y:{
-                  formatter: function(val:any, opts:any){
-                    return "Q "+val;
+                y: {
+                  formatter: function (val: any, opts: any) {
+                    return "Q " + val;
                   }
                 }
               }
             });
           }
-        } 
-      });  
+        }
+      });
   }
 
-  getDatosFlujoAnio(parkingId: string, anio: string){
-    return this.dashboardService.getYearPayments(parkingId,anio)
+  getDatosFlujoAnio(parkingId: string, anio: string) {
+    return this.dashboardService.getYearPayments(parkingId, anio)
       .toPromise()
       .then((data) => {
         if (data) {
@@ -1028,14 +1031,14 @@ anioOptions = {
           Object.keys(data).forEach((key: any) => {
             Object.keys(data[key]).forEach((key_item: any) => {
               let nombreSerie = key_item;
-              if(nombreSerie === 'Ticket_ebi'){
-                nombreSerie = 'EBI Go Ticket';
-              }else{
-                nombreSerie = 'EBI Go '+ nombreSerie;
+              if (nombreSerie === 'Ticket_ebi') {
+                nombreSerie = 'ebiGO Ticket';
+              } else {
+                nombreSerie = 'ebiGO ' + nombreSerie;
               }
               let datosDeServicio = data[key][key_item];
               let DatosAnioServicio: number[] = [];
-              datosDeServicio.forEach((element:any) => {
+              datosDeServicio.forEach((element: any) => {
                 DatosAnioServicio.push(element.Cantidad);
               });
               seriesDatos.push({
@@ -1046,41 +1049,41 @@ anioOptions = {
           });
           this.chart.updateSeries(seriesDatos);
           this.chart.updateOptions({
-            title:{
-              text: this.tipo+' por año'
+            title: {
+              text: this.tipo + ' por año'
             }
           });
-          if(this.tipoChart == "line"){
+          if (this.tipoChart == "line") {
             this.chart.updateOptions({
-              chart:{
+              chart: {
                 stacked: false
               },
-              dataLabels:{
+              dataLabels: {
                 offsetY: -5,
-                style:{
+                style: {
                   fontSize: '12px',
                   colors: ["#304758"],
                 },
-                formatter: function(val: any, opts: any){
-                  if(val == 0 || val == '0'){
+                formatter: function (val: any, opts: any) {
+                  if (val == 0 || val == '0') {
                     return " ";
-                  }else{
-                    return "Q "+val;
+                  } else {
+                    return "Q " + val;
                   }
                 }
               },
               tooltip: {
                 shared: true,
                 intersect: false,
-                y:{
-                  formatter: function(val:any, opts:any){
-                    return "Q "+val;
+                y: {
+                  formatter: function (val: any, opts: any) {
+                    return "Q " + val;
                   }
                 }
               }
             });
           }
-        } 
-      });  
+        }
+      });
   }
 }

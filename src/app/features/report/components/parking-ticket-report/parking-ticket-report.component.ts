@@ -193,11 +193,11 @@ export class ParkingTicketReportComponent implements OnInit {
     ]
     //Create workbook and worksheet
     let workbook = new Workbook();
-    let worksheet = workbook.addWorksheet('Ebi Go Ticket');
+    let worksheet = workbook.addWorksheet('ebiGO Ticket');
     //Add Row and formatting
     worksheet.addRow([]);
 
-    let busienssRow = worksheet.addRow(['', '', '', 'EBI Go']);
+    let busienssRow = worksheet.addRow(['', '', '', 'ebiGO']);
     busienssRow.font = {name: 'Calibri', family: 4, size: 11, bold: true}
     busienssRow.alignment = {horizontal: 'center', vertical: 'middle'}
     busienssRow.eachCell((cell, number) => {
@@ -222,7 +222,7 @@ export class ParkingTicketReportComponent implements OnInit {
       }
     });
     worksheet.mergeCells('D4:F5');
-    let titleRow = worksheet.addRow(['', '', '', 'Reporte - Ebi Go Ticket']);
+    let titleRow = worksheet.addRow(['', '', '', 'Reporte - ebiGO Ticket']);
     titleRow.font = {name: 'Calibri', family: 4, size: 11, bold: true}
     titleRow.alignment = {horizontal: 'center', vertical: 'middle'}
     titleRow.eachCell((cell, number) => {

@@ -8,10 +8,10 @@
         <div *ngIf="ifHaveAction(verTodosLosParqueosReport)"
              class="col-xl-4 col-lg-6 col-sm-12">
           <div class="mb-4 relative">
-            <label class="labelInput" style="display:block">Parqueo</label>
+            <label class="text-secundary" style="display:block">Parqueo</label>
             <select
               #inputParking
-              class="inputClass">
+              class="text-secondary">
               <option value="0">---- Todos los parqueos ----</option>
               <option *ngFor="let parking of this.allParking"
                       value="{{parking.id}}">{{parking.name}}</option>
@@ -21,7 +21,7 @@
         </div>
         <div class="col-xl-2 col-lg-6 col-sm-12">
           <div class="mb-4 relative">
-            <label class="labelInput"
+            <label class="text-secondary"
                    style="display:block">Fecha de inicio</label>
             <input #initDate class="form-control inputClass datetimepicker"
                    for="initDate"
@@ -34,7 +34,7 @@
         </div>
         <div class="col-xl-2 col-lg-6 col-sm-12">
           <div class="mb-4 relative">
-            <label class="labelInput"
+            <label class="text-secondary"
                    style="display:block">Fecha de fin</label>
             <input
               #endDate [value]="fechaActual"

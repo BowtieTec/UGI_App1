@@ -1,13 +1,16 @@
 <div class="panels">
   <div class="titleCards">
-    <i class=""></i> Tarifa
+    <span> <em class="fas fa-comment-dollar"></em> </span> Tarifa
   </div>
 
   <div>
     <div *ngIf="disableRanges" class="alert alert-info animate__animated animate__zoomInDown" role="alert">
       <p class="mb-0">Datos congelados, ahora elige el costo que se aplicará a este rango.</p>
     </div>
-    <p><b>Datos generales</b></p>
+    <div class="titleCards">
+      <span><em class="fas fa-digital-tachograph"></em></span> Datos generales
+
+    </div>
     <form [formGroup]="generalDataForm" action="" class="form-group">
       <div class="row justify-content-center">
         <div class="col-xl-4 col-lg-6 col-md-12">
@@ -59,7 +62,9 @@
       <div *ngIf="disableRanges" class="alert alert-info animate__animated animate__zoomInDown" role="alert">
         <p class="mb-0">Esto ya no es editable, ahora elige el costo que se aplicará a este rango.</p>
       </div>
-      <p><b>Rango de tiempo</b></p>
+      <div class="titleCards">
+        <span><em class="fas fa-sort-numeric-up"></em></span> Rango de tiempo
+      </div>
       <div aria-label="Basic radio toggle button group" role="group">
         <ul class="opcionActivo text-center">
           <li style="margin-right: 10px;">
@@ -267,7 +272,9 @@
     </div>
     <div class="col-xl-1 "></div>
     <div *ngIf="disableRanges" class="col-sm-12  col-md-12 col-xl-5 animate__animated animate__fadeInDown">
-      <h4 class="display-6">Tipo de costo</h4>
+      <div class="titleCards">
+        <span><em class="fas fa-dollar-sign"></em></span> Tipo de costo
+      </div>
       <div aria-label="Basic radio toggle button group" class="btn-group" role="group">
         <input (click)="costType=1" [readOnly]="disableRanges" autocomplete="off" checked class="btn-check"
                id="hourFraction" name="costType" type="radio">

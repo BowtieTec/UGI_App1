@@ -1,50 +1,55 @@
-.btnCalendario{
-    border: 1px solid #f0f8f7;
-    border-radius: 0 4px 4px 0;
-}
-ngb-datepicker{
-    position: absolute;
-    z-index: 1;
+.btnCalendario {
+  border: 1px solid #f0f8f7;
+  border-radius: 0 4px 4px 0;
 }
 
-.tab ul{
-    padding:10px 10px 0 10px;
-    display: inline-block;
-    border-radius: 20x;
-    margin: 0;
-}
-.tab ul li{
-    display: inline-block;
-    list-style-type: none;
-    padding: 0 24px;
-    cursor: pointer;
-    text-align: center;
-    position: relative;
-    margin-bottom: -1px;
-    background: 0 0;
-    border-top-left-radius: 0.25rem;
-    border-top-right-radius: 0.25rem;
-    min-width: 125px;
-    text-align: center;
-    box-shadow: 3px 5px 2px rgb(0 0 0 / 3%);
-    padding-bottom: 15px;
-    color: #9c9e9c;
+ngb-datepicker {
+  position: absolute;
+  z-index: 1;
 }
 
-.tab ul li:hover{
-    color: #0d6efd;
+.tab ul {
+  padding: 10px 10px 0 10px;
+  display: inline-block;
+  border-radius: 20x;
+  margin: 0;
 }
-.color{
-    color: #495057!important;
-    background-color: #fff!important;
-    border-color: #dee2e6 #dee2e6 #fff!important;
-    border-top: solid 5px #05ccae !important;
-    background: #fff;
+
+.tab ul li {
+  display: inline-block;
+  list-style-type: none;
+  padding: 0 24px;
+  cursor: pointer;
+  text-align: center;
+  position: relative;
+  margin-bottom: -1px;
+  background: 0 0;
+  border-top-left-radius: 0.25rem;
+  border-top-right-radius: 0.25rem;
+  min-width: 125px;
+  text-align: center;
+  box-shadow: 3px 5px 2px rgb(0 0 0 / 3%);
+  padding-bottom: 15px;
+  color: #9c9e9c;
 }
-.content{
-    padding: 10px;
+
+.tab ul li:hover {
+  color: #0d6efd;
 }
-.content-value h2{
-    font-size: 22px;
-    font-weight: 600;
+
+.color {
+  color: #495057 !important;
+  background-color: #fff !important;
+  border-color: #dee2e6 #dee2e6 #fff !important;
+  border-top: solid 5px #05ccae !important;
+  background: #fff;
+}
+
+.content {
+  padding: 10px;
+}
+
+.content-value h2 {
+  font-size: 22px;
+  font-weight: 600;
 }
