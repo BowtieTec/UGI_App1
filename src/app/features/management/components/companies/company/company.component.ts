@@ -60,6 +60,10 @@ export class CompanyComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
+  get isSudo() {
+    return this.authService.isSudo;
+  }
+
   ifHaveAction(action: string) {
     return this.permissionService.ifHaveAction(action);
   }
