@@ -353,6 +353,21 @@ export class PaymentReportComponent implements OnInit, AfterViewInit {
     e.cancel = true;
   }
 
+  getTimeInParking(rowData: any) {
+    const oldTime = new Date(rowData.ep_entry_date).getTime();
+    const timeNow = new Date(rowData.ep_exit_date).getTime();
+    const days = Math.round((timeNow - oldTime) / (1000 * 60 * 60 * 24));
+    const hours = Math.round(Math.abs(timeNow - oldTime) / (1000 * 60 * 60) % 24);
+    const minutes = Math.round(Math.abs(timeNow - oldTime) / (1000 * 60) % 60);
 
+    if (days > 0)
+      return `${days} dias con ${hours} horas`;
+    if (hours > 0)
+      return `${hours} horas con ${minutes} minutos`
+    if (minutes > 0)
+      return `${minutes} minutos`
+
+    return 'Menos de un minuto';
+  }
 }
 

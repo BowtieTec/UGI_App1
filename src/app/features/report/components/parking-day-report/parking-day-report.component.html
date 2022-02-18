@@ -28,7 +28,6 @@
                    type="Date"
                    [value]="fechaActual"
             >
-
           </div>
         </div>
         <div class="col-xl-2 col-lg-6 col-sm-12">
@@ -44,8 +43,6 @@
             >
           </div>
         </div>
-
-
         <div class="col-xl-12 col-lg-12 col-sm-12">
           <div class="text-center">
             <button (click)="getParkingsRpt(initDate.value,endDate.value)"
@@ -54,12 +51,10 @@
           </div>
         </div>
       </div>
-
     </div>
   </div>
   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
     <div class="panels">
-
       <div class="row">
         <dx-data-grid id="gridContainer" keyExpr="fecha" [dataSource]="dataSource" [showBorders]="true">
           <dxi-column sortOrder="asc"
@@ -80,14 +75,6 @@
             format="currency"
             format="Q ,###,###,##0.00"
           ></dxi-column>
-
-          <!--<dxi-column
-            dataField="pagado"
-            caption="Pagado"
-            dataType="number"
-            format="currency"
-            format="Q ,###,###,##0.00"
-          ></dxi-column>-->
           <dxo-header-filter [visible]="true"></dxo-header-filter>
           <dxo-search-panel [visible]="true" placeholder="Buscar..."></dxo-search-panel>
           <dxo-toolbar>

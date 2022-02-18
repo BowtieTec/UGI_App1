@@ -68,8 +68,7 @@
           ></dxi-column>
           <dxi-column
             dataField="total"
-            caption="Total sin descuento"
-
+            caption="Sub Monto"
             dataType="number"
             format="currency"
             format="Q ,###,###,##0.00"
@@ -84,7 +83,7 @@
           ></dxi-column>
           <dxi-column
             dataField="pagado"
-            caption="Monto "
+            caption="Total "
             dataType="number"
             format="currency"
             format="Q ,###,###,##0.00"
@@ -94,10 +93,9 @@
             caption="Estación de entrada"
           ></dxi-column>-->
           <dxi-column
-            caption="Fecha de Entrada"
-            dataField="ep_entry_date"
-            dataType="datetime"
-            format="dd/MM/yyyy hh:mm a "
+            [calculateCellValue]="getTimeInParking"
+            caption="Tiempo estacionado"
+            dataType="text"
           ></dxi-column>
 
           <!--<dxi-column

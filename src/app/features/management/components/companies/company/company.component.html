@@ -74,7 +74,7 @@
         </th>
         <th scope="col">Ubicación</th>
         <th scope="col">Estado</th>
-        <th scope="col">Parqueo</th>
+        <th *ngIf="isSudo" scope="col">Parqueo</th>
         <th scope="col">Creado</th>
         <th scope="col">Acciones</th>
       </tr>
@@ -85,7 +85,7 @@
         <td>{{company.name | titlecase}}</td>
         <td>{{company.place | titlecase}}</td>
         <td>{{!company.status ? 'Habilitado' : 'Deshabilitado'}}</td>
-        <td>{{company.parking!.name | titlecase}}</td>
+        <td *ngIf="isSudo">{{company.parking!.name | titlecase}}</td>
         <td>{{company.created_at | date: 'short'}}</td>
         <td class="text-center">
           <button (click)="editTheCompany(company)"
@@ -95,7 +95,7 @@
           </button>
           <button (click)="deleteTheCompany(company)"
                   *ngIf="ifHaveAction(disable)"
-                  class="buttonRowDelete"><em class="fas fa-minus-circle"></em>
+                  class="buttonRowDelete"><em class="fas fa-trash"></em>
           </button>
         </td>
       </tr>
