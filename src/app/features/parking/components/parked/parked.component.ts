@@ -217,4 +217,21 @@ export class ParkedComponent implements OnDestroy, AfterViewInit, OnInit {
     }
     this.messageService.hideLoading();
   }
+
+  getTimeInParking(entry_date: any) {
+    const oldTime = new Date(entry_date).getTime();
+    const timeNow = new Date().getTime();
+    const days = Math.round((timeNow - oldTime) / (1000 * 60 * 60 * 24));
+    const hours = Math.round(Math.abs(timeNow - oldTime) / (1000 * 60 * 60) % 24);
+    const minutes = Math.round(Math.abs(timeNow - oldTime) / (1000 * 60) % 60);
+
+    if (days > 0)
+      return `${days} dias con ${hours} horas`;
+    if (hours > 0)
+      return `${hours} horas con ${minutes} minutos`
+    if (minutes > 0)
+      return `${minutes} minutos`
+
+    return 'No calculable';
+  }
 }

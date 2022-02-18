@@ -62,6 +62,7 @@
             <tr class="text-center">
               <th scope="col">Teléfono</th>
               <th scope="col">Entrada</th>
+              <th scope="col">Tiempo dentro</th>
               <th scope="col">Estado</th>
               <th scope="col">Tipo</th>
               <th scope="col">Parqueo</th>
@@ -75,6 +76,7 @@
                 class="text-center">
               <td>****-{{parked?.phone_number | slice: -4}}</td>
               <td>{{parked?.entry_date | date: 'short'}}</td>
+              <td>{{getTimeInParking(parked?.entry_date)}}</td>
 
               <td>
               <span *ngIf="parked?.status==0"
