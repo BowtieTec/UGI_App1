@@ -61,14 +61,15 @@
       <div class="row" id="exportable">
 
         <dx-data-grid id="gridContainer" [dataSource]="dataSource" [showBorders]="true" [columnHidingEnabled]="true">
-          <dxi-column caption="ID"
-                      dataField="phone_key"
-                      width="8%"
+          <dxi-column
+            caption="ID"
+            dataField="phone_key"
+
           ></dxi-column>
           <dxi-column
             dataField="total"
-            caption="Total"
-            width="10%"
+            caption="Total sin descuento"
+
             dataType="number"
             format="currency"
             format="Q ,###,###,##0.00"
@@ -77,39 +78,33 @@
             dataField="descuento"
             caption="Descuento"
             dataType="number"
-            width="10%"
+
             format="currency"
             format="Q ,###,###,##0.00"
           ></dxi-column>
           <dxi-column
             dataField="pagado"
-            caption="Monto"
+            caption="Monto "
             dataType="number"
-            width="10%"
             format="currency"
             format="Q ,###,###,##0.00"
-          ></dxi-column>
-          <dxi-column
-            dataField="ep_entry_date"
-            caption="Fecha entrada"
-            dataType="datetime"
-            format="dd/MM/yyyy hh:mm a "
-            [allowGrouping]
           ></dxi-column>
           <!--<dxi-column
             dataField="estacionEntrada"
             caption="Estación de entrada"
           ></dxi-column>-->
           <dxi-column
-            dataField="ep_exit_date"
-            caption="Fecha salida"
+            caption="Fecha de Entrada"
+            dataField="ep_entry_date"
             dataType="datetime"
             format="dd/MM/yyyy hh:mm a "
           ></dxi-column>
+
           <!--<dxi-column
             dataField="estacionSalida"
             caption="Estación de salida"
           ></dxi-column>-->
+
           <dxo-header-filter [visible]="true"></dxo-header-filter>
           <dxo-search-panel [visible]="true" placeholder="Buscar..."></dxo-search-panel>
           <dxo-toolbar>
