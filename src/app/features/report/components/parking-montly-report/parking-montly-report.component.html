@@ -60,7 +60,7 @@
       <div class="row">
         <dx-data-grid id="gridContainer" [dataSource]="dataSource" [showBorders]="true" [columnHidingEnabled]="true">
           <dxi-column
-            dataField="phone_key"
+            dataField="u_phone_number"
             caption="ID"
             [width]="110"
           ></dxi-column>
@@ -68,7 +68,7 @@
             dataField="isUnlimited"
             caption="Tipo parqueo"
           ></dxi-column>
-          <dxi-column
+          <!--<dxi-column
             dataField="begin_date"
             caption="Fecha inicio" dataType="datetime"
             [width]="200"
@@ -80,7 +80,7 @@
             caption="Fecha fin" dataType="datetime"
             [width]="200"
             format="dd/MM/yyyy hh:mm a "
-          ></dxi-column>
+          ></dxi-column>-->
           <dxi-column
             dataField="ultimo_pago"
             caption="Último pago"
@@ -88,13 +88,13 @@
             format="dd/MM/yyyy hh:mm a "
             [width]="120"
           ></dxi-column>
-          <dxi-column
+          <!--<dxi-column
             dataField="proximo_pago"
             caption="Próximo pago"
             dataType="datetime"
             [width]="200"
             format="dd/MM/yyyy hh:mm a "
-          ></dxi-column>
+          ></dxi-column>-->
           <dxi-column
             dataField="estadoSuscripcion"
             caption="Estado"

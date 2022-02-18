@@ -1,13 +1,21 @@
 <nav #nav="ngbNav"
      class="nav-tabs "
      ngbNav>
-  <ng-container *ngIf="ifHaveAction(verMenuPayment)"
+  <ng-container *ngIf="ifHaveAction(verDailyParkingReportTicket)"
                 ngbNavItem>
-    <a ngbNavLink><em class="fas fa-parking"></em> Pagos </a>
+    <a ngbNavLink><em class="fas fa-parking"></em> EbiGO Ticket</a>
     <ng-template ngbNavContent>
-      <app-payment-report></app-payment-report>
+      <app-parking-ticket-report></app-parking-ticket-report>
     </ng-template>
   </ng-container>
+  <ng-container *ngIf="ifHaveAction(verDailyParkingReport)"
+                ngbNavItem>
+    <a ngbNavLink><em class="fas fa-parking"></em> EbiGO Mensual</a>
+    <ng-template ngbNavContent>
+      <app-parking-day-report></app-parking-day-report>
+    </ng-template>
+  </ng-container>
+
   <ng-container *ngIf="ifHaveAction(verCourtesiesReport)"
                 ngbNavItem>
     <a ngbNavLink><em class="fas fa-magic"></em> Cortesias</a>
@@ -29,23 +37,16 @@
       <app-duration-report></app-duration-report>
     </ng-template>
   </ng-container>
-  <ng-container *ngIf="ifHaveAction(verDailyParkingReportTicket)"
+  <ng-container *ngIf="ifHaveAction(verMenuPayment)"
                 ngbNavItem>
-    <a ngbNavLink><em class="fas fa-parking"></em> EbiGO Ticket</a>
+    <a ngbNavLink><em class="fas fa-parking"></em> Pagos Ticket</a>
     <ng-template ngbNavContent>
-      <app-parking-ticket-report></app-parking-ticket-report>
-    </ng-template>
-  </ng-container>
-  <ng-container *ngIf="ifHaveAction(verDailyParkingReport)"
-                ngbNavItem>
-    <a ngbNavLink><em class="fas fa-parking"></em> EbiGO Mensual</a>
-    <ng-template ngbNavContent>
-      <app-parking-day-report></app-parking-day-report>
+      <app-payment-report></app-payment-report>
     </ng-template>
   </ng-container>
   <ng-container *ngIf="ifHaveAction(verMonthlyParkingReport)"
                 ngbNavItem>
-    <a ngbNavLink><em class="fas fa-parking"></em> Membresías</a>
+    <a ngbNavLink><em class="fas fa-parking"></em> Pagos mensuales</a>
     <ng-template ngbNavContent>
       <app-parking-montly-report></app-parking-montly-report>
     </ng-template>
