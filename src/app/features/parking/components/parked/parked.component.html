@@ -53,6 +53,7 @@
         <div *ngIf="parkedData"
              class="col-lg-12">
           <table [dtOptions]="dtOptions"
+                 width="100%"
                  [dtTrigger]="dtTrigger"
                  aria-label="Tabla de usuarios parqueados"
                  class="table hover table-striped animate__animated animate__fadeInLeft "
@@ -61,7 +62,6 @@
             <tr class="text-center">
               <th scope="col">Teléfono</th>
               <th scope="col">Entrada</th>
-              <th scope="col">Salida</th>
               <th scope="col">Estado</th>
               <th scope="col">Tipo</th>
               <th scope="col">Parqueo</th>
@@ -75,7 +75,7 @@
                 class="text-center">
               <td>****-{{parked?.phone_number | slice: -4}}</td>
               <td>{{parked?.entry_date | date: 'short'}}</td>
-              <td>{{parked.exit_date | date: 'short'}}</td>
+
               <td>
               <span *ngIf="parked?.status==0"
                     class="">Intentando entrar</span>
@@ -94,11 +94,11 @@
                 <span *ngIf="parked?.type==1"
                       class="">ebiGO Mensual</span>
               </td>
-              <td>{{parked?.parking}}</td>
+              <td *ngIf="isSudo">{{parked?.parking}}</td>
               <td>
                 <button (click)="getOut(parked)"
                         *ngIf="(ifHaveAction(getOutWithPayment) || ifHaveAction(getOutWithoutPayment)) && parked.status!=2 "
-                        class="buttonRowDelete  ms-1 me-1"
+                        class="buttonRowDelete ms-1 me-1"
                         title="Sacar del parqueo"><em class="fas fa-door-open "></em>
                 </button>
               </td>

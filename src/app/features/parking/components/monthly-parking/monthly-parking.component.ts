@@ -58,7 +58,7 @@ export class MonthlyParkingComponent implements AfterViewInit, OnDestroy {
         return this.getMonthlySubscription();
       })
       .then(() => {
-        this.rerender();
+        return this.rerender();
       })
       .then((data) => {
         this.message.hideLoading();
@@ -166,5 +166,10 @@ export class MonthlyParkingComponent implements AfterViewInit, OnDestroy {
         this.dtTrigger.next();
       });
     }
+  }
+
+  editSubscription(subscription: SubscriptionModel) {
+    //TODO: Terminar esta opcion de editar parqueo diario
+    this.message.infoTimeOut('En construccion');
   }
 }

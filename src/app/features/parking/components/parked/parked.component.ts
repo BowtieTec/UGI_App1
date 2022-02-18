@@ -200,6 +200,7 @@ export class ParkedComponent implements OnDestroy, AfterViewInit, OnInit {
         this.messageService.showLoading();
         that.parkingService.getParked(this.getParkedFormValues(), dataTablesParameters.draw, dataTablesParameters.length).subscribe(resp => {
           that.parkedData = resp.data;
+          console.log(resp.data);
           callback({
             recordsTotal: resp.recordsTotal,
             recordsFiltered: resp.recordsFiltered,
@@ -208,7 +209,11 @@ export class ParkedComponent implements OnDestroy, AfterViewInit, OnInit {
           this.messageService.hideLoading();
         })
       },
-      columns: [{data: 'phone_number'}, {data: 'entry_date'}, {data: 'exit_date'}, {data: 'status'}, {data: 'type'}, {data: 'parking'}, {data: 'none'}]
+      columns: [{data: 'phone_number', orderable: true}, {data: 'entry_date'}, {data: 'status'}, {data: 'type'}, {
+        data: 'parking',
+        visible: this.isSudo,
+
+      }, {data: 'none'}]
     }
     this.messageService.hideLoading();
   }

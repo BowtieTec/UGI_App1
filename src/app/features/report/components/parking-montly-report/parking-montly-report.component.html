@@ -45,8 +45,6 @@
             >
           </div>
         </div>
-
-
         <div class="col-xl-12 col-lg-12 col-sm-12">
           <div class="text-center">
             <button class="btn btn-primary m-2"
@@ -55,18 +53,16 @@
           </div>
         </div>
       </div>
-
     </div>
   </div>
   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
     <div class="panels">
-
       <div class="row">
         <dx-data-grid id="gridContainer" [dataSource]="dataSource" [showBorders]="true" [columnHidingEnabled]="true">
           <dxi-column
             dataField="phone_key"
             caption="ID"
-            [width]="100"
+            [width]="110"
           ></dxi-column>
           <dxi-column
             dataField="isUnlimited"
@@ -75,28 +71,29 @@
           <dxi-column
             dataField="begin_date"
             caption="Fecha inicio" dataType="datetime"
-            format="yyyy-MM-dd"
-            [width]="120"
+            [width]="200"
+            format="dd/MM/yyyy hh:mm a "
           ></dxi-column>
           <dxi-column
             dataField="finish_date"
+            [width]="150"
             caption="Fecha fin" dataType="datetime"
-            format="yyyy-MM-dd"
-            [width]="120"
+            [width]="200"
+            format="dd/MM/yyyy hh:mm a "
           ></dxi-column>
           <dxi-column
             dataField="ultimo_pago"
             caption="Último pago"
             dataType="datetime"
-            format="yyyy-MM-dd"
+            format="dd/MM/yyyy hh:mm a "
             [width]="120"
           ></dxi-column>
           <dxi-column
             dataField="proximo_pago"
             caption="Próximo pago"
             dataType="datetime"
-            format="yyyy-MM-dd"
-            [width]="120"
+            [width]="200"
+            format="dd/MM/yyyy hh:mm a "
           ></dxi-column>
           <dxi-column
             dataField="estadoSuscripcion"
