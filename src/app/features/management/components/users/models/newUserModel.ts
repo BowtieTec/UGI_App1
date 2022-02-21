@@ -1,12 +1,12 @@
 export class NewUserModel {
-  id?: string = '';
-  name: string = '';
-  last_name: string = '';
-  user: string = '';
-  email: string = '';
-  password?: string = '';
-  role: string = '';
-  parking?: string = '';
-  status?: number;
-  Admin?: string;
+  id?: string = ''
+  name = ''
+  last_name = ''
+  user = ''
+  email = ''
+  password?: string = ''
+  role = ''
+  parking?: string = ''
+  status?: number
+  Admin?: string
 }

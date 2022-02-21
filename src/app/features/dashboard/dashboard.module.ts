@@ -1,13 +1,11 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core'
+import { CommonModule } from '@angular/common'
 
-
-import { DashboardRoutingModule } from './dashboard-routing.module';
-import { DashboardComponent } from './dashboard/dashboard.component';
-import { SharedModule } from '../../shared/shared.module';
-import { NgApexchartsModule } from 'ng-apexcharts';
-import { NgbNavModule, NgbDatepickerModule} from '@ng-bootstrap/ng-bootstrap';
-
+import { DashboardRoutingModule } from './dashboard-routing.module'
+import { DashboardComponent } from './dashboard/dashboard.component'
+import { SharedModule } from '../../shared/shared.module'
+import { NgApexchartsModule } from 'ng-apexcharts'
+import { NgbDatepickerModule, NgbNavModule } from '@ng-bootstrap/ng-bootstrap'
 
 @NgModule({
   declarations: [DashboardComponent],
@@ -18,6 +16,6 @@ import { NgbNavModule, NgbDatepickerModule} from '@ng-bootstrap/ng-bootstrap';
     NgApexchartsModule,
     NgbNavModule,
     NgbDatepickerModule
-  ],
+  ]
 })
 export class DashboardModule {}

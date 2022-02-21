@@ -1,132 +1,132 @@
-import {Injectable} from '@angular/core';
-import Swal from 'sweetalert2';
+import { Injectable } from '@angular/core'
+import Swal from 'sweetalert2'
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class MessageService {
-  loading: boolean = false;
-  footer: string =
-    '<div class="text-center"> <bold> Si el problema persiste, por favor comunicarse con el administrador.</bold> </div>';
+  loading = false
+  footer =
+    '<div class="text-center"> <bold> Si el problema persiste, por favor comunicarse con el administrador.</bold> </div>'
 
   showLoading() {
-    this.loading = true;
+    this.loading = true
   }
 
   hideLoading() {
-    this.loading = false;
+    this.loading = false
   }
 
-  uncontrolledError(text: string = 'Error no controlado') {
-    this.hideLoading();
+  uncontrolledError(text = 'Error no controlado') {
+    this.hideLoading()
     Swal.fire({
       icon: 'error',
       text,
       title: 'Error no controlado',
-      footer: this.footer,
-    });
+      footer: this.footer
+    })
   }
 
-  error(title: string = '', text: string = '', footer: string = '') {
-    this.hideLoading();
+  error(title = '', text = '', footer = '') {
+    this.hideLoading()
     Swal.fire({
       icon: 'error',
       title,
       text,
-      footer: this.footer,
-    });
+      footer: this.footer
+    })
   }
 
-  warning(text: string, title: string = '!Cuidado!') {
-    this.hideLoading();
+  warning(text: string, title = '!Cuidado!') {
+    this.hideLoading()
     Swal.fire({
       icon: 'warning',
       title,
       text,
-      footer: this.footer,
-    });
+      footer: this.footer
+    })
   }
 
-  warningTimeOut(text: string = '', title: string = '!Cuidado!') {
-    this.hideLoading();
+  warningTimeOut(text = '', title = '!Cuidado!') {
+    this.hideLoading()
     Swal.fire({
       icon: 'warning',
       title,
       text,
       timer: 2000,
       showConfirmButton: false,
-      footer: this.footer,
-    });
+      footer: this.footer
+    })
   }
 
-  errorTimeOut(title: string = '', text: string = '', footer: string = '') {
-    this.hideLoading();
+  errorTimeOut(title = '', text = '', footer = '') {
+    this.hideLoading()
     Swal.fire({
       icon: 'error',
       title,
       text,
       footer,
       timer: 2000,
-      showConfirmButton: false,
-    });
+      showConfirmButton: false
+    })
   }
 
-  Ok(title: string = 'Finalizado') {
-    this.hideLoading();
+  Ok(title = 'Finalizado') {
+    this.hideLoading()
     Swal.fire({
       icon: 'success',
-      title,
-    });
+      title
+    })
   }
 
-  OkTimeOut(title: string = 'Finalizado') {
-    this.hideLoading();
+  OkTimeOut(title = 'Finalizado') {
+    this.hideLoading()
     Swal.fire({
       icon: 'success',
       title,
       timer: 1000,
-      showConfirmButton: false,
-    });
+      showConfirmButton: false
+    })
   }
 
-  infoTimeOut(text: string, title: string = '') {
-    this.hideLoading();
+  infoTimeOut(text: string, title = '') {
+    this.hideLoading()
     Swal.fire({
       icon: 'info',
       title,
       text,
       timer: 3000,
-      showConfirmButton: false,
-    });
+      showConfirmButton: false
+    })
   }
 
-  info(text: string, title: string = '') {
-    this.hideLoading();
+  info(text: string, title = '') {
+    this.hideLoading()
     Swal.fire({
       icon: 'info',
       title,
       text,
-      showConfirmButton: false,
-    });
+      showConfirmButton: false
+    })
   }
 
   async areYouSure(
     title: string,
-    confirmButtonText: string = 'Si',
-    denyButtonText: string = 'No'
+    confirmButtonText = 'Si',
+    denyButtonText = 'No'
   ) {
     return Swal.fire({
       title,
       showDenyButton: true,
       confirmButtonText,
-      denyButtonText,
-    }).then((result) => result);
+      denyButtonText
+    }).then((result) => result)
   }
 
   async areYouSureWithCancel(
     title: string,
-    confirmButtonText: string = 'Si',
-    denyButtonText: string = 'No'
+    confirmButtonText = 'Si',
+    denyButtonText = 'No'
   ) {
     return Swal.fire({
       confirmButtonColor: '#05ccae',
@@ -135,7 +135,7 @@ export class MessageService {
       showDenyButton: true,
       showCancelButton: true,
       confirmButtonText,
-      denyButtonText,
-    }).then((result) => result);
+      denyButtonText
+    }).then((result) => result)
   }
 }

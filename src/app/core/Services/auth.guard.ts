@@ -1,19 +1,19 @@
-import { Injectable } from '@angular/core';
+import { Injectable } from '@angular/core'
 import {
   ActivatedRouteSnapshot,
   CanActivate,
   Router,
   RouterStateSnapshot,
-  UrlTree,
-} from '@angular/router';
-import { Observable } from 'rxjs';
-import { AuthService } from '../../shared/services/auth.service';
-import { PermissionsService } from '../../shared/services/permissions.service';
-import { MessageService } from '../../shared/services/message.service';
-import { EncryptionService } from '../../shared/services/encryption.service';
+  UrlTree
+} from '@angular/router'
+import { Observable } from 'rxjs'
+import { AuthService } from '../../shared/services/auth.service'
+import { PermissionsService } from '../../shared/services/permissions.service'
+import { MessageService } from '../../shared/services/message.service'
+import { EncryptionService } from '../../shared/services/encryption.service'
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class AuthGuard implements CanActivate {
   constructor(
@@ -32,26 +32,26 @@ export class AuthGuard implements CanActivate {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    this.messageService.showLoading();
+    this.messageService.showLoading()
     if (localStorage.getItem(this.crypto.encryptKey('User')) == undefined) {
       this.messageService.infoTimeOut(
         'Debe iniciar sesión para acceder a las funcionalidades.',
         'Iniciar sesión'
-      );
-      this.router.navigate(['/']);
-      return false;
+      )
+      this.router.navigate(['/'])
+      return false
     }
 
     return this.permissions
       .getMenuOptionsValidated()
       .then((options): boolean => {
-        this.messageService.hideLoading();
+        this.messageService.hideLoading()
         if (options.find((option) => option.module == route.url.toString())) {
-          return true;
+          return true
         } else {
-          this.router.navigate(['/404']);
-          return false;
+          this.router.navigate(['/404'])
+          return false
         }
-      });
+      })
   }
 }

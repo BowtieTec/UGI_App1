@@ -1,54 +1,64 @@
-import {environment} from 'src/environments/environment';
-import {PermissionsService} from './../../../../../shared/services/permissions.service';
-import {AfterViewInit, Component, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {UtilitiesService} from "../../../../../shared/services/utilities.service";
-import {CompaniesService} from "../../users/services/companies.service";
-import {AuthService} from "../../../../../shared/services/auth.service";
-import {Subject} from "rxjs";
-import {NewUserModel} from "../../users/models/newUserModel";
-import {DataTableDirective} from "angular-datatables";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {DataTableOptions} from "../../../../../shared/model/DataTableOptions";
-import {CompaniesModel} from "../../users/models/companies.model";
-import {ParkingService} from "../../../../parking/services/parking.service";
-import {ParkingModel} from "../../../../parking/models/Parking.model";
-import {MessageService} from "../../../../../shared/services/message.service";
+import { environment } from 'src/environments/environment'
+import { PermissionsService } from './../../../../../shared/services/permissions.service'
+import {
+  AfterViewInit,
+  Component,
+  Input,
+  OnDestroy,
+  OnInit,
+  ViewChild
+} from '@angular/core'
+import { UtilitiesService } from '../../../../../shared/services/utilities.service'
+import { CompaniesService } from '../../users/services/companies.service'
+import { AuthService } from '../../../../../shared/services/auth.service'
+import { Subject } from 'rxjs'
+import { NewUserModel } from '../../users/models/newUserModel'
+import { DataTableDirective } from 'angular-datatables'
+import { FormBuilder, FormGroup, Validators } from '@angular/forms'
+import { DataTableOptions } from '../../../../../shared/model/DataTableOptions'
+import { CompaniesModel } from '../../users/models/companies.model'
+import { ParkingService } from '../../../../parking/services/parking.service'
+import { ParkingModel } from '../../../../parking/models/Parking.model'
+import { MessageService } from '../../../../../shared/services/message.service'
 
 @Component({
-  selector: 'app-company', templateUrl: './company.component.html', styleUrls: ['./company.component.css']
+  selector: 'app-company',
+  templateUrl: './company.component.html',
+  styleUrls: ['./company.component.css']
 })
 export class CompanyComponent implements OnInit, AfterViewInit, OnDestroy {
-  idCompanyToEdit: string = '';
-  companiesForm: FormGroup;
-  companies: CompaniesModel[] = [];
-  states: Array<any> = this.companyService.states;
-  allParkingLot: ParkingModel[] = [];
-  @ViewChild(DataTableDirective) dtElement!: DataTableDirective;
+  idCompanyToEdit = ''
+  companiesForm: FormGroup
+  companies: CompaniesModel[] = []
+  states: Array<any> = this.companyService.states
+  allParkingLot: ParkingModel[] = []
+  @ViewChild(DataTableDirective) dtElement!: DataTableDirective
   /*Table*/
-  @Input() subject: Subject<NewUserModel> = new Subject<NewUserModel>();
-  private parkingId: string = this.authService.getParking().id;
-  dtTrigger: Subject<any> = new Subject();
-  formGroup: FormGroup;
-
+  @Input() subject: Subject<NewUserModel> = new Subject<NewUserModel>()
+  dtTrigger: Subject<any> = new Subject()
+  formGroup: FormGroup
   /* Permissions */
-  create: string = environment.createLocal;
-  disable: string = environment.disableLocal;
-  edit: string = environment.editLocal;
+  create: string = environment.createLocal
+  disable: string = environment.disableLocal
+  edit: string = environment.editLocal
+  private parkingId: string = this.authService.getParking().id
 
-  constructor(private utilitiesService: UtilitiesService,
-              private companyService: CompaniesService,
-              private authService: AuthService,
-              private formBuilder: FormBuilder,
-              private parkingService: ParkingService,
-              private messageService: MessageService,
-              private permissionService: PermissionsService) {
-    this.formGroup = formBuilder.group({filter: ['']});
-    this.companiesForm = this.createCompanyForm();
-    this.getInitialData();
+  constructor(
+    private utilitiesService: UtilitiesService,
+    private companyService: CompaniesService,
+    private authService: AuthService,
+    private formBuilder: FormBuilder,
+    private parkingService: ParkingService,
+    private messageService: MessageService,
+    private permissionService: PermissionsService
+  ) {
+    this.formGroup = formBuilder.group({ filter: [''] })
+    this.companiesForm = this.createCompanyForm()
+    this.getInitialData()
   }
 
   get dtOptions() {
-    return DataTableOptions.getSpanishOptions(10);
+    return DataTableOptions.getSpanishOptions(10)
   }
 
   get formCompanyValues(): CompaniesModel {
@@ -56,90 +66,106 @@ export class CompanyComponent implements OnInit, AfterViewInit, OnDestroy {
       name: this.companiesForm.get('name')?.value,
       parking: this.parkingId,
       place: this.companiesForm.get('place')?.value,
-      status: this.companiesForm.get('status')?.value,
+      status: this.companiesForm.get('status')?.value
     }
   }
 
   get isSudo() {
-    return this.authService.isSudo;
+    return this.authService.isSudo
   }
 
   ifHaveAction(action: string) {
-    return this.permissionService.ifHaveAction(action);
+    return this.permissionService.ifHaveAction(action)
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   editTheCompany(company: CompaniesModel) {
     if (!company.id) {
-      this.messageService.error('Esta compañía no existe o no se seleciono una correcta.');
-      return;
+      this.messageService.error(
+        'Esta compañía no existe o no se seleciono una correcta.'
+      )
+      return
     }
-    this.idCompanyToEdit = company.id;
-    this.companiesForm.get('name')?.setValue(company.name);
-    this.companiesForm.get('place')?.setValue(company.place);
-    this.companiesForm.get('status')?.setValue(company.status ? 1 : 0);
-    this.companiesForm.get('parking')?.setValue(company.parking.id);
+    this.idCompanyToEdit = company.id
+    this.companiesForm.get('name')?.setValue(company.name)
+    this.companiesForm.get('place')?.setValue(company.place)
+    this.companiesForm.get('status')?.setValue(company.status ? 1 : 0)
+    this.companiesForm.get('parking')?.setValue(company.parking.id)
   }
 
   getAndRerender = () => {
-    this.getCompanies();
-    this.rerender();
+    this.getCompanies()
+    this.rerender()
   }
 
   async saveCompany() {
     if (this.companiesForm.invalid) {
-      this.messageService.error('', 'Datos no válidos o faltantes');
-      return;
+      this.messageService.error('', 'Datos no válidos o faltantes')
+      return
     }
-    let newCompany = this.formCompanyValues;
+    const newCompany = this.formCompanyValues
     if (this.idCompanyToEdit) {
-      newCompany.id = this.idCompanyToEdit;
-      await this.companyService.editCompany(newCompany, this.getAndRerender).toPromise();
-      this.idCompanyToEdit = '';
-      return;
+      newCompany.id = this.idCompanyToEdit
+      await this.companyService
+        .editCompany(newCompany, this.getAndRerender)
+        .toPromise()
+      this.idCompanyToEdit = ''
+      return
     }
-    await this.companyService.createCompany(newCompany, this.getAndRerender).toPromise();
+    await this.companyService
+      .createCompany(newCompany, this.getAndRerender)
+      .toPromise()
   }
 
   async deleteTheCompany(company: CompaniesModel) {
     if (!company.id) {
-      this.messageService.errorTimeOut('Esta compañía no existe o no se seleciono una correcta.');
-      return;
+      this.messageService.errorTimeOut(
+        'Esta compañía no existe o no se seleciono una correcta.'
+      )
+      return
     }
-    const response = await this.messageService.areYouSure(`¿Esta seguro que desea deshabilitar ${company.name}?`, 'Si', 'No').then(x => x);
+    const response = await this.messageService
+      .areYouSure(
+        `¿Esta seguro que desea deshabilitar ${company.name}?`,
+        'Si',
+        'No'
+      )
+      .then((x) => x)
     if (response.isConfirmed) {
-      await this.companyService.deleteCompany(company.id, this.getAndRerender).toPromise();
+      await this.companyService
+        .deleteCompany(company.id, this.getAndRerender)
+        .toPromise()
     }
   }
 
   ngAfterViewInit(): void {
-    this.dtTrigger.next();
+    this.dtTrigger.next()
   }
 
   ngOnDestroy(): void {
-    this.dtTrigger.unsubscribe();
+    this.dtTrigger.unsubscribe()
   }
 
   private getAllParkingLot() {
-    return this.parkingService.getAllParking().then(x => {
+    return this.parkingService.getAllParking().then((x) => {
       if (x.success) {
-        this.allParkingLot = x.data.parkings;
+        this.allParkingLot = x.data.parkings
       }
     })
   }
 
   private async getInitialData() {
-    await this.getAllParkingLot();
-    this.getCompanies();
+    await this.getAllParkingLot()
+    this.getCompanies()
   }
 
   private getCompanies(parkingId: string = this.parkingId) {
-    return this.companyService.getCompanies(this.parkingId)
-      .subscribe(data => {
-        this.companies = data;
-      });
+    return this.companyService
+      .getCompanies(this.parkingId)
+      .subscribe((data) => {
+        this.companies = data
+      })
   }
 
   private createCompanyForm() {
@@ -156,11 +182,9 @@ export class CompanyComponent implements OnInit, AfterViewInit, OnDestroy {
   private rerender() {
     if (this.dtElement != undefined) {
       this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
-        dtInstance.destroy();
-        this.dtTrigger.next();
-      });
+        dtInstance.destroy()
+        this.dtTrigger.next()
+      })
     }
   }
-
-
 }

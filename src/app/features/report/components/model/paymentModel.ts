@@ -1,14 +1,13 @@
 export class paymentModel {
-  name: string='';
-    last_name: string='';
-    email: string='';
-    phone_number:string='';
-    amount: number=0;
-    created_at: string= '';
-  }
+  name = ''
+  last_name = ''
+  email = ''
+  phone_number = ''
+  amount = 0
+  created_at = ''
+}
 
-  export class payFilter 
-  {
-    initDate: string='';
-    endDate: string='';
-  }
+export class payFilter {
+  initDate = ''
+  endDate = ''
+}

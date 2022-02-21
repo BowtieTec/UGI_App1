@@ -1,16 +1,16 @@
-import { ErrorHandler, NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
-import { GoogleMapsModule } from '@angular/google-maps';
-import { GlobalErrorHandler } from './core/interceptos/error-interceptor.service';
-import { AuthInterceptorService } from './core/interceptos/auth-interceptor.service';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { DataTablesModule } from 'angular-datatables';
-import { SharedModule } from './shared/shared.module';
-import {CurrencyPipe} from "@angular/common";
+import { ErrorHandler, NgModule } from '@angular/core'
+import { BrowserModule } from '@angular/platform-browser'
+import { AppRoutingModule } from './app-routing.module'
+import { AppComponent } from './app.component'
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http'
+import { GoogleMapsModule } from '@angular/google-maps'
+import { GlobalErrorHandler } from './core/interceptos/error-interceptor.service'
+import { AuthInterceptorService } from './core/interceptos/auth-interceptor.service'
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap'
+import { DataTablesModule } from 'angular-datatables'
+import { SharedModule } from './shared/shared.module'
+import { CurrencyPipe } from '@angular/common'
 
 @NgModule({
   declarations: [AppComponent],
@@ -23,17 +23,17 @@ import {CurrencyPipe} from "@angular/common";
     GoogleMapsModule,
     NgbModule,
     DataTablesModule,
-    SharedModule,
+    SharedModule
   ],
   providers: [
     { provide: ErrorHandler, useClass: GlobalErrorHandler },
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptorService,
-      multi: true,
+      multi: true
     },
-    {provide: CurrencyPipe}
+    { provide: CurrencyPipe }
   ],
-  bootstrap: [AppComponent],
+  bootstrap: [AppComponent]
 })
 export class AppModule {}

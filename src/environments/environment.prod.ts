@@ -1,7 +1,7 @@
-import {leftMenu, permission} from "./sharedVariables";
+import { leftMenu, permission } from './sharedVariables'
 
-const Ip = 'dev.bowtietech.pro';
-const Port = '3000';
+const Ip = 'dev.bowtietech.pro'
+const Port = '3000'
 export const environment = {
   production: true,
   serverAPI: `https://${Ip}:${Port}/v1/`,

@@ -1,21 +1,24 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core'
+import { CommonModule } from '@angular/common'
 
-import { CourtesyRoutingModule } from './courtesy-routing.module';
-import { ReactiveFormsModule } from '@angular/forms';
-import { DataTablesModule } from 'angular-datatables';
-import {SharedModule} from "../../shared/shared.module";
-import { CourtesyMenuComponent } from './courtesy-menu/courtesy-menu.component';
-import {ParkingModule} from "../parking/parking.module";
-import {NgbNavModule} from "@ng-bootstrap/ng-bootstrap";
-import { CourtesyComponent } from './components/courtesy/courtesy.component';
-import { StationaryCourtesyComponent } from './components/stationary-courtesy/stationary-courtesy.component';
-import {
-  AntennasFromCourtesyComponent
-} from "./components/stationary-courtesy/components/antennas-from-courtesy/antennas-from-courtesy.component";
+import { CourtesyRoutingModule } from './courtesy-routing.module'
+import { ReactiveFormsModule } from '@angular/forms'
+import { DataTablesModule } from 'angular-datatables'
+import { SharedModule } from '../../shared/shared.module'
+import { CourtesyMenuComponent } from './courtesy-menu/courtesy-menu.component'
+import { ParkingModule } from '../parking/parking.module'
+import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap'
+import { CourtesyComponent } from './components/courtesy/courtesy.component'
+import { StationaryCourtesyComponent } from './components/stationary-courtesy/stationary-courtesy.component'
+import { AntennasFromCourtesyComponent } from './components/stationary-courtesy/components/antennas-from-courtesy/antennas-from-courtesy.component'
 
 @NgModule({
-  declarations: [CourtesyMenuComponent, CourtesyComponent, StationaryCourtesyComponent, AntennasFromCourtesyComponent],
+  declarations: [
+    CourtesyMenuComponent,
+    CourtesyComponent,
+    StationaryCourtesyComponent,
+    AntennasFromCourtesyComponent
+  ],
   imports: [
     CommonModule,
     CourtesyRoutingModule,
@@ -23,7 +26,7 @@ import {
     DataTablesModule,
     SharedModule,
     ParkingModule,
-    NgbNavModule,
-  ],
+    NgbNavModule
+  ]
 })
 export class CourtesyModule {}

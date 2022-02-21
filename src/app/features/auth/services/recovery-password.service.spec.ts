@@ -1,16 +1,16 @@
-import { TestBed } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing'
 
-import { RecoveryPasswordService } from './recovery-password.service';
+import { RecoveryPasswordService } from './recovery-password.service'
 
 describe('RecoveryPasswordService', () => {
-  let service: RecoveryPasswordService;
+  let service: RecoveryPasswordService
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
-    service = TestBed.inject(RecoveryPasswordService);
-  });
+    TestBed.configureTestingModule({})
+    service = TestBed.inject(RecoveryPasswordService)
+  })
 
   it('should be created', () => {
-    expect(service).toBeTruthy();
-  });
-});
+    expect(service).toBeTruthy()
+  })
+})

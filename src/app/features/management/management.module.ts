@@ -1,18 +1,18 @@
-import {NgModule} from '@angular/core';
-import {CommonModule} from '@angular/common';
+import { NgModule } from '@angular/core'
+import { CommonModule } from '@angular/common'
 
-import {ManagementRoutingModule} from './management-routing.module';
-import {ManagementMenuComponent} from './management-menu.component';
-import {ResgisteredUsersComponent} from './components/users/components/resgistered-users/resgistered-users.component';
-import {NewUserComponent} from './components/users/components/new-user/new-user.component';
-import {UsersComponent} from './components/users/users.component';
-import {SharedModule} from '../../shared/shared.module';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {NgbNavModule, NgbPaginationModule} from '@ng-bootstrap/ng-bootstrap';
-import {DataTablesModule} from 'angular-datatables';
-import {RolesComponent} from './components/roles/roles.component';
-import {CompanyComponent} from './components/companies/company/company.component';
-import {ParkingModule} from "../parking/parking.module";
+import { ManagementRoutingModule } from './management-routing.module'
+import { ManagementMenuComponent } from './management-menu.component'
+import { ResgisteredUsersComponent } from './components/users/components/resgistered-users/resgistered-users.component'
+import { NewUserComponent } from './components/users/components/new-user/new-user.component'
+import { UsersComponent } from './components/users/users.component'
+import { SharedModule } from '../../shared/shared.module'
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'
+import { NgbNavModule, NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap'
+import { DataTablesModule } from 'angular-datatables'
+import { RolesComponent } from './components/roles/roles.component'
+import { CompanyComponent } from './components/companies/company/company.component'
+import { ParkingModule } from '../parking/parking.module'
 
 @NgModule({
   declarations: [
@@ -21,7 +21,7 @@ import {ParkingModule} from "../parking/parking.module";
     NewUserComponent,
     UsersComponent,
     RolesComponent,
-    CompanyComponent,
+    CompanyComponent
   ],
   imports: [
     CommonModule,
@@ -33,8 +33,7 @@ import {ParkingModule} from "../parking/parking.module";
     FormsModule,
     DataTablesModule,
     NgbNavModule,
-    ParkingModule,
-  ],
+    ParkingModule
+  ]
 })
-export class ManagementModule {
-}
+export class ManagementModule {}

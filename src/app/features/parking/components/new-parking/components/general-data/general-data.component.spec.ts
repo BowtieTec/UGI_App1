@@ -1,24 +1,24 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing'
 
-import { GeneralDataComponent } from './general-data.component';
+import { GeneralDataComponent } from './general-data.component'
 
 describe('StepOneComponent', () => {
-  let component: GeneralDataComponent;
-  let fixture: ComponentFixture<GeneralDataComponent>;
+  let component: GeneralDataComponent
+  let fixture: ComponentFixture<GeneralDataComponent>
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [GeneralDataComponent],
-    }).compileComponents();
-  });
+      declarations: [GeneralDataComponent]
+    }).compileComponents()
+  })
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(GeneralDataComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    fixture = TestBed.createComponent(GeneralDataComponent)
+    component = fixture.componentInstance
+    fixture.detectChanges()
+  })
 
   it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-});
+    expect(component).toBeTruthy()
+  })
+})

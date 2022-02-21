@@ -1,5 +1,5 @@
 export class ResponseModel {
-  success: boolean = false;
-  message: string = '';
-  data: any;
+  success = false
+  message = ''
+  data: any
 }

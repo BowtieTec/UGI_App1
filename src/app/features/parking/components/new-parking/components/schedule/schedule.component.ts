@@ -1,59 +1,69 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {FormBuilder, FormGroup} from '@angular/forms';
-import {MessageService} from '../../../../../../shared/services/message.service';
-import {ParkingService} from '../../../../services/parking.service';
-import {UtilitiesService} from '../../../../../../shared/services/utilities.service';
-import {CreateParkingStepTwoModel} from '../../../../models/CreateParking.model';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
+import { FormBuilder, FormGroup } from '@angular/forms'
+import { MessageService } from '../../../../../../shared/services/message.service'
+import { ParkingService } from '../../../../services/parking.service'
+import { UtilitiesService } from '../../../../../../shared/services/utilities.service'
+import { CreateParkingStepTwoModel } from '../../../../models/CreateParking.model'
 
 @Component({
   selector: 'app-schedule',
   templateUrl: './schedule.component.html',
-  styleUrls: ['./schedule.component.css'],
+  styleUrls: ['./schedule.component.css']
 })
 export class ScheduleComponent implements OnInit {
-  stepTwoForm: FormGroup = this.createForm();
-  schedules: Array<any> = [];
-  @Input() parkingId!: string;
-  @Input() isCreatingParking: boolean = false;
-  @Output() changeStep = new EventEmitter<number>();
+  stepTwoForm: FormGroup = this.createForm()
+  schedules: Array<any> = []
+  @Input() parkingId!: string
+  @Input() isCreatingParking = false
+  @Output() changeStep = new EventEmitter<number>()
 
   constructor(
     private message: MessageService,
     private parkingService: ParkingService,
     private formBuilder: FormBuilder,
     private utilitiesService: UtilitiesService
-  ) {
-  }
+  ) {}
 
   async saveSchedules() {
     if (this.stepTwoForm.valid) {
-      this.parkingService.parkingStepTwo = this.getStepTwo();
-      this.parkingService.parkingStepTwo.parkingId = this.parkingId;
+      this.parkingService.parkingStepTwo = this.getStepTwo()
+      this.parkingService.parkingStepTwo.parkingId = this.parkingId
       await this.parkingService.setStepTwo().subscribe((data) => {
         if (data.success) {
-          this.message.OkTimeOut('Guardado');
+          this.message.OkTimeOut('Guardado')
         } else {
-          this.utilitiesService.markAsTouched(this.stepTwoForm);
-          this.message.error('', data.message);
+          this.utilitiesService.markAsTouched(this.stepTwoForm)
+          this.message.error('', data.message)
         }
-      });
+      })
     } else {
       this.message.errorTimeOut(
         '',
         'Datos faltantes o incorrectos. Validar que los datos sean correctos.'
-      );
-      this.utilitiesService.markAsTouched(this.stepTwoForm);
+      )
+      this.utilitiesService.markAsTouched(this.stepTwoForm)
     }
   }
 
   async emmitStep(number: number) {
-    this.message.showLoading();
+    this.message.showLoading()
     if (number == 1) {
-      await this.saveSchedules();
-      this.changeStep.emit(number);
+      await this.saveSchedules()
+      this.changeStep.emit(number)
     } else {
-      this.message.hideLoading();
-      this.changeStep.emit(number);
+      this.message.hideLoading()
+      this.changeStep.emit(number)
+    }
+  }
+
+  ngOnInit(): void {
+    if (!this.isCreatingParking) {
+      this.message.showLoading()
+      this.parkingService.getParkingInfo(this.parkingId).subscribe((x) => {
+        this.schedules = x.schedules
+        this.setSchedules(x.schedules)
+        this.message.hideLoading()
+      })
     }
   }
 
@@ -71,7 +81,7 @@ export class ScheduleComponent implements OnInit {
               )[0],
               minute:
                 this.stepTwoForm.controls['openning_time0'].value.split(':')[1],
-              second: '00',
+              second: '00'
             },
             closing_time: {
               hour: this.stepTwoForm.controls['closing_time0'].value.split(
@@ -79,8 +89,8 @@ export class ScheduleComponent implements OnInit {
               )[0],
               minute:
                 this.stepTwoForm.controls['closing_time0'].value.split(':')[1],
-              second: '00',
-            },
+              second: '00'
+            }
           },
           {
             isOpen: this.stepTwoForm.controls['isOpen1'].value,
@@ -91,7 +101,7 @@ export class ScheduleComponent implements OnInit {
               )[0],
               minute:
                 this.stepTwoForm.controls['openning_time1'].value.split(':')[1],
-              second: '00',
+              second: '00'
             },
             closing_time: {
               hour: this.stepTwoForm.controls['closing_time1'].value.split(
@@ -99,8 +109,8 @@ export class ScheduleComponent implements OnInit {
               )[0],
               minute:
                 this.stepTwoForm.controls['closing_time1'].value.split(':')[1],
-              second: '00',
-            },
+              second: '00'
+            }
           },
           {
             isOpen: this.stepTwoForm.controls['isOpen2'].value,
@@ -111,7 +121,7 @@ export class ScheduleComponent implements OnInit {
               )[0],
               minute:
                 this.stepTwoForm.controls['openning_time2'].value.split(':')[1],
-              second: '00',
+              second: '00'
             },
             closing_time: {
               hour: this.stepTwoForm.controls['closing_time2'].value.split(
@@ -119,8 +129,8 @@ export class ScheduleComponent implements OnInit {
               )[0],
               minute:
                 this.stepTwoForm.controls['closing_time2'].value.split(':')[1],
-              second: '00',
-            },
+              second: '00'
+            }
           },
           {
             isOpen: this.stepTwoForm.controls['isOpen3'].value,
@@ -131,7 +141,7 @@ export class ScheduleComponent implements OnInit {
               )[0],
               minute:
                 this.stepTwoForm.controls['openning_time3'].value.split(':')[1],
-              second: '00',
+              second: '00'
             },
             closing_time: {
               hour: this.stepTwoForm.controls['closing_time3'].value.split(
@@ -139,8 +149,8 @@ export class ScheduleComponent implements OnInit {
               )[0],
               minute:
                 this.stepTwoForm.controls['closing_time3'].value.split(':')[1],
-              second: '00',
-            },
+              second: '00'
+            }
           },
           {
             isOpen: this.stepTwoForm.controls['isOpen4'].value,
@@ -151,7 +161,7 @@ export class ScheduleComponent implements OnInit {
               )[0],
               minute:
                 this.stepTwoForm.controls['openning_time4'].value.split(':')[1],
-              second: '00',
+              second: '00'
             },
             closing_time: {
               hour: this.stepTwoForm.controls['closing_time4'].value.split(
@@ -159,8 +169,8 @@ export class ScheduleComponent implements OnInit {
               )[0],
               minute:
                 this.stepTwoForm.controls['closing_time4'].value.split(':')[1],
-              second: '00',
-            },
+              second: '00'
+            }
           },
           {
             isOpen: this.stepTwoForm.controls['isOpen5'].value,
@@ -171,7 +181,7 @@ export class ScheduleComponent implements OnInit {
               )[0],
               minute:
                 this.stepTwoForm.controls['openning_time5'].value.split(':')[1],
-              second: '00',
+              second: '00'
             },
             closing_time: {
               hour: this.stepTwoForm.controls['closing_time5'].value.split(
@@ -179,8 +189,8 @@ export class ScheduleComponent implements OnInit {
               )[0],
               minute:
                 this.stepTwoForm.controls['closing_time5'].value.split(':')[1],
-              second: '00',
-            },
+              second: '00'
+            }
           },
           {
             isOpen: this.stepTwoForm.controls['isOpen6'].value,
@@ -191,7 +201,7 @@ export class ScheduleComponent implements OnInit {
               )[0],
               minute:
                 this.stepTwoForm.controls['openning_time6'].value.split(':')[1],
-              second: '00',
+              second: '00'
             },
             closing_time: {
               hour: this.stepTwoForm.controls['closing_time6'].value.split(
@@ -199,85 +209,128 @@ export class ScheduleComponent implements OnInit {
               )[0],
               minute:
                 this.stepTwoForm.controls['closing_time6'].value.split(':')[1],
-              second: '00',
-            },
-          },
-        ],
-      };
+              second: '00'
+            }
+          }
+        ]
+      }
     } catch (e) {
-      console.log(e);
-      throw e;
+      console.log(e)
+      throw e
     }
   }
 
   private createForm() {
     return this.formBuilder.group({
       //Monday
-      isOpen0: [{value: true, disabled: true}],
+      isOpen0: [{ value: true, disabled: true }],
       openning_time0: ['06:00:00'],
       closing_time0: ['00:00:00'],
       //Tuesday
-      isOpen1: [{value: true, disabled: true}],
+      isOpen1: [{ value: true, disabled: true }],
       openning_time1: ['06:00:00'],
       closing_time1: ['00:00:00'],
       //Wednesday
-      isOpen2: [{value: true, disabled: true}],
+      isOpen2: [{ value: true, disabled: true }],
       openning_time2: ['06:00:00'],
       closing_time2: ['00:00:00'],
       //Thursday
-      isOpen3: [{value: true, disabled: true}],
+      isOpen3: [{ value: true, disabled: true }],
       openning_time3: ['06:00:00'],
       closing_time3: ['00:00:00'],
       //Friday
-      isOpen4: [{value: true, disabled: true}],
+      isOpen4: [{ value: true, disabled: true }],
       openning_time4: ['06:00:00'],
       closing_time4: ['00:00:00'],
       //Saturday
-      isOpen5: [{value: true, disabled: true}],
+      isOpen5: [{ value: true, disabled: true }],
       openning_time5: ['06:00:00'],
       closing_time5: ['00:00:00'],
       //Sunday
-      isOpen6: [{value: true, disabled: true}],
+      isOpen6: [{ value: true, disabled: true }],
       openning_time6: ['06:00:00'],
-      closing_time6: ['00:00:00'],
-    });
-  }
-
-  ngOnInit(): void {
-    if (!this.isCreatingParking) {
-      this.message.showLoading();
-      this.parkingService.getParkingInfo(this.parkingId).subscribe(x => {
-        this.schedules = x.schedules;
-        this.setSchedules(x.schedules);
-        this.message.hideLoading();
-      });
-    }
-
-
+      closing_time6: ['00:00:00']
+    })
   }
 
   private setSchedules(schedules: any) {
-    console.log(this.schedules);
+    console.log(this.schedules)
     //Monday
-    this.stepTwoForm.get('openning_time0')?.setValue(`${schedules[0].openning_time.hour}:${schedules[0].openning_time.minute}:00`);
-    this.stepTwoForm.get('closing_time0')?.setValue(`${schedules[0].closing_time.hour}:${schedules[0].closing_time.minute}:00`)
+    this.stepTwoForm
+      .get('openning_time0')
+      ?.setValue(
+        `${schedules[0].openning_time.hour}:${schedules[0].openning_time.minute}:00`
+      )
+    this.stepTwoForm
+      .get('closing_time0')
+      ?.setValue(
+        `${schedules[0].closing_time.hour}:${schedules[0].closing_time.minute}:00`
+      )
     //Tuesday
-    this.stepTwoForm.get('openning_time1')?.setValue(`${schedules[1].openning_time.hour}:${schedules[1].openning_time.minute}:00`);
-    this.stepTwoForm.get('closing_time1')?.setValue(`${schedules[1].closing_time.hour}:${schedules[1].closing_time.minute}:00`)
+    this.stepTwoForm
+      .get('openning_time1')
+      ?.setValue(
+        `${schedules[1].openning_time.hour}:${schedules[1].openning_time.minute}:00`
+      )
+    this.stepTwoForm
+      .get('closing_time1')
+      ?.setValue(
+        `${schedules[1].closing_time.hour}:${schedules[1].closing_time.minute}:00`
+      )
     //Wednesday
-    this.stepTwoForm.get('openning_time2')?.setValue(`${schedules[2].openning_time.hour}:${schedules[2].openning_time.minute}:00`);
-    this.stepTwoForm.get('closing_time2')?.setValue(`${schedules[2].closing_time.hour}:${schedules[2].closing_time.minute}:00`)
+    this.stepTwoForm
+      .get('openning_time2')
+      ?.setValue(
+        `${schedules[2].openning_time.hour}:${schedules[2].openning_time.minute}:00`
+      )
+    this.stepTwoForm
+      .get('closing_time2')
+      ?.setValue(
+        `${schedules[2].closing_time.hour}:${schedules[2].closing_time.minute}:00`
+      )
     //Thursday
-    this.stepTwoForm.get('openning_time3')?.setValue(`${schedules[3].openning_time.hour}:${schedules[3].openning_time.minute}:00`);
-    this.stepTwoForm.get('closing_time3')?.setValue(`${schedules[3].closing_time.hour}:${schedules[3].closing_time.minute}:00`)
+    this.stepTwoForm
+      .get('openning_time3')
+      ?.setValue(
+        `${schedules[3].openning_time.hour}:${schedules[3].openning_time.minute}:00`
+      )
+    this.stepTwoForm
+      .get('closing_time3')
+      ?.setValue(
+        `${schedules[3].closing_time.hour}:${schedules[3].closing_time.minute}:00`
+      )
     //Friday
-    this.stepTwoForm.get('openning_time4')?.setValue(`${schedules[4].openning_time.hour}:${schedules[4].openning_time.minute}:00`);
-    this.stepTwoForm.get('closing_time4')?.setValue(`${schedules[4].closing_time.hour}:${schedules[4].closing_time.minute}:00`)
+    this.stepTwoForm
+      .get('openning_time4')
+      ?.setValue(
+        `${schedules[4].openning_time.hour}:${schedules[4].openning_time.minute}:00`
+      )
+    this.stepTwoForm
+      .get('closing_time4')
+      ?.setValue(
+        `${schedules[4].closing_time.hour}:${schedules[4].closing_time.minute}:00`
+      )
     //Saturday
-    this.stepTwoForm.get('openning_time5')?.setValue(`${schedules[5].openning_time.hour}:${schedules[5].openning_time.minute}:00`);
-    this.stepTwoForm.get('closing_time5')?.setValue(`${schedules[5].closing_time.hour}:${schedules[5].closing_time.minute}:00`)
+    this.stepTwoForm
+      .get('openning_time5')
+      ?.setValue(
+        `${schedules[5].openning_time.hour}:${schedules[5].openning_time.minute}:00`
+      )
+    this.stepTwoForm
+      .get('closing_time5')
+      ?.setValue(
+        `${schedules[5].closing_time.hour}:${schedules[5].closing_time.minute}:00`
+      )
     //Sunday
-    this.stepTwoForm.get('openning_time6')?.setValue(`${schedules[6].openning_time.hour}:${schedules[6].openning_time.minute}:00`);
-    this.stepTwoForm.get('closing_time6')?.setValue(`${schedules[6].closing_time.hour}:${schedules[6].closing_time.minute}:00`)
+    this.stepTwoForm
+      .get('openning_time6')
+      ?.setValue(
+        `${schedules[6].openning_time.hour}:${schedules[6].openning_time.minute}:00`
+      )
+    this.stepTwoForm
+      .get('closing_time6')
+      ?.setValue(
+        `${schedules[6].closing_time.hour}:${schedules[6].closing_time.minute}:00`
+      )
   }
 }

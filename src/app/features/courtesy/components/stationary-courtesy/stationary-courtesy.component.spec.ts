@@ -1,24 +1,24 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing'
 
-import { StationaryCourtesyComponent } from './stationary-courtesy.component';
+import { StationaryCourtesyComponent } from './stationary-courtesy.component'
 
 describe('StationaryCourtesyComponent', () => {
-  let component: StationaryCourtesyComponent;
-  let fixture: ComponentFixture<StationaryCourtesyComponent>;
+  let component: StationaryCourtesyComponent
+  let fixture: ComponentFixture<StationaryCourtesyComponent>
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [StationaryCourtesyComponent],
-    }).compileComponents();
-  });
+      declarations: [StationaryCourtesyComponent]
+    }).compileComponents()
+  })
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(StationaryCourtesyComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    fixture = TestBed.createComponent(StationaryCourtesyComponent)
+    component = fixture.componentInstance
+    fixture.detectChanges()
+  })
 
   it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-});
+    expect(component).toBeTruthy()
+  })
+})

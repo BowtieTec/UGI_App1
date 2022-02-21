@@ -1,58 +1,59 @@
 export class MonthlyUserModel {
-  id: string = '';
-  name: string = '';
-  last_name: string = '';
-  email: string = '';
-  phone_number: string = '';
+  id = ''
+  name = ''
+  last_name = ''
+  email = ''
+  phone_number = ''
 }
 
 export class ProfilesModel {
-  id: number = 0;
-  name: string = '';
-  deleted: number = 0;
+  id = 0
+  name = ''
+  deleted = 0
 }
 
 export class SubscriptionModel {
-  id: string = '';
-  begin_date: string = '';
-  finish_date: string = '';
-  deleted: number = 0;
-  isUnlimited: number = 1;
-  status: number = 1;
-  amount: number = 400;
-  user: SubscriptionUserModel | null = null;
-  profile_subscription: null | SubscriptionUserModel = null;
+  id = ''
+  begin_date = ''
+  finish_date = ''
+  deleted = 0
+  isUnlimited = 1
+  status = 1
+  amount = 400
+  user: SubscriptionUserModel | null = null
+  profile_subscription: null | SubscriptionUserModel = null
 }
-export class SubscriptionProfileModel {
-  id: string = '';
-  name: string = '';
-  deleted: string = '';
-}
-export class SubscriptionUserModel {
-  id: string =  '';
-  name: string = '';
-  last_name: string = '';
-  email: string = '';
-  phone_number: string = '';
 
+export class SubscriptionProfileModel {
+  id = ''
+  name = ''
+  deleted = ''
+}
+
+export class SubscriptionUserModel {
+  id = ''
+  name = ''
+  last_name = ''
+  email = ''
+  phone_number = ''
 }
 
 export class GetStationModel {
-  id?: string = '';
-  type: number = 0;
-  name: string = '';
-  antena: string = '';
-  mac: string = '';
-  isPrivate: boolean = false;
-  addStation?: boolean = false;
+  id?: string = ''
+  type = 0
+  name = ''
+  antena = ''
+  mac = ''
+  isPrivate = false
+  addStation?: boolean = false
 }
 
 export class CreateProfilesModel {
-  parkingId: string = '';
-  name: string = '';
-  stations: IdModel[] = [];
+  parkingId = ''
+  name = ''
+  stations: IdModel[] = []
 }
 
 export class IdModel {
-  id: string = '';
+  id = ''
 }

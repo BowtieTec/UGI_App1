@@ -1,26 +1,26 @@
 export class PaymentMethodModel {
-  id: number = 0;
-  description: string = '';
+  id = 0
+  description = ''
 }
 
 export class CurrencyOptionModel {
-  id: number = 0;
-  description: string = '';
+  id = 0
+  description = ''
 }
 
 export class ParkingStatusModel {
-  id: number = 0;
-  description: string = '';
+  id = 0
+  description = ''
 }
 
 export class Day {
-  id: number = 0;
-  description: string = '';
+  id = 0
+  description = ''
 }
 
 export class SettingsOptionsModel {
-  paymentMethods: PaymentMethodModel[] = Array<PaymentMethodModel>();
-  currencyOptions: CurrencyOptionModel[] = Array<CurrencyOptionModel>();
-  parkingStatus: ParkingStatusModel[] = Array<ParkingStatusModel>();
-  days: Day[] = Array<Day>();
+  paymentMethods: PaymentMethodModel[] = Array<PaymentMethodModel>()
+  currencyOptions: CurrencyOptionModel[] = Array<CurrencyOptionModel>()
+  parkingStatus: ParkingStatusModel[] = Array<ParkingStatusModel>()
+  days: Day[] = Array<Day>()
 }

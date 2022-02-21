@@ -1,15 +1,15 @@
 export class PermissionsModel {
-  id: number = 0;
-  module: string = '';
-  submodule: string = '';
-  action: string = '';
-  description?: string = '';
-  created_at?: Date;
-  updated_at?: Date;
-  checked: boolean = false;
+  id = 0
+  module = ''
+  submodule = ''
+  action = ''
+  description?: string = ''
+  created_at?: Date
+  updated_at?: Date
+  checked = false
 }
 
 export class PermissionSaveModel {
-  roleId: string = '';
-  permissions: Array<any> = [];
+  roleId = ''
+  permissions: Array<any> = []
 }

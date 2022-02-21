@@ -1,24 +1,24 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing'
 
-import { TextAreaContainerComponent } from './text-area-container.component';
+import { TextAreaContainerComponent } from './text-area-container.component'
 
 describe('TextAreaContainerComponent', () => {
-  let component: TextAreaContainerComponent;
-  let fixture: ComponentFixture<TextAreaContainerComponent>;
+  let component: TextAreaContainerComponent
+  let fixture: ComponentFixture<TextAreaContainerComponent>
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [TextAreaContainerComponent],
-    }).compileComponents();
-  });
+      declarations: [TextAreaContainerComponent]
+    }).compileComponents()
+  })
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(TextAreaContainerComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    fixture = TestBed.createComponent(TextAreaContainerComponent)
+    component = fixture.componentInstance
+    fixture.detectChanges()
+  })
 
   it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-});
+    expect(component).toBeTruthy()
+  })
+})

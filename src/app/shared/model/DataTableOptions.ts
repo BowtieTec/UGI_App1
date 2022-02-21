@@ -12,8 +12,8 @@ export class DataTableOptions {
         first: 'Primera',
         last: 'Última',
         next: 'Siguiente',
-        previous: 'Anterior',
-      },
+        previous: 'Anterior'
+      }
     }
   }
 
@@ -34,9 +34,9 @@ export class DataTableOptions {
           first: 'Primera',
           last: 'Última',
           next: 'Siguiente',
-          previous: 'Anterior',
-        },
+          previous: 'Anterior'
+        }
       }
-    };
+    }
   }
 }

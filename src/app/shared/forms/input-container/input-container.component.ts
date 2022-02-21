@@ -1,6 +1,6 @@
-import {Component, Input} from '@angular/core';
-import {ControlContainer, FormGroup, FormGroupDirective,} from '@angular/forms';
-import {UtilitiesService} from '../../services/utilities.service';
+import { Component, Input } from '@angular/core'
+import { ControlContainer, FormGroup, FormGroupDirective } from '@angular/forms'
+import { UtilitiesService } from '../../services/utilities.service'
 
 @Component({
   selector: 'app-input-container',
@@ -9,20 +9,20 @@ import {UtilitiesService} from '../../services/utilities.service';
   viewProviders: [
     {
       provide: ControlContainer,
-      useExisting: FormGroupDirective,
-    },
-  ],
+      useExisting: FormGroupDirective
+    }
+  ]
 })
 export class InputContainerComponent {
-  @Input() name!: string;
-  @Input() controlName!: string;
-  @Input() formGroup!: FormGroup;
-  @Input() type: string = 'text';
-  @Input() textInfo: string = '';
+  @Input() name!: string
+  @Input() controlName!: string
+  @Input() formGroup!: FormGroup
+  @Input() type = 'text'
+  @Input() textInfo = ''
 
   constructor(private utilitiesService: UtilitiesService) {}
 
   controlInvalid(control: string): boolean {
-    return this.utilitiesService.controlInvalid(this.formGroup, control);
+    return this.utilitiesService.controlInvalid(this.formGroup, control)
   }
 }

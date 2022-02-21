@@ -1,44 +1,44 @@
-import {AfterViewInit, Component, EventEmitter, Input, OnDestroy, Output, ViewChild,} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {AccessModel, CreateParkingStepFiveModel,} from '../../models/CreateParking.model';
-import {MessageService} from '../../../../shared/services/message.service';
-import {ParkingService} from '../../services/parking.service';
-import {UtilitiesService} from '../../../../shared/services/utilities.service';
-import {ResponseModel} from '../../../../shared/model/Request.model';
-import {AuthService} from '../../../../shared/services/auth.service';
-import {PermissionsService} from '../../../../shared/services/permissions.service';
-import {environment} from '../../../../../environments/environment';
-import {ParkingModel} from '../../models/Parking.model';
-import {DataTableDirective} from 'angular-datatables';
-import {DataTableOptions} from '../../../../shared/model/DataTableOptions';
-import {Subject} from 'rxjs';
+import {AfterViewInit, Component, EventEmitter, Input, OnDestroy, Output, ViewChild} from '@angular/core'
+import {FormBuilder, FormGroup, Validators} from '@angular/forms'
+import {AccessModel, CreateParkingStepFiveModel} from '../../models/CreateParking.model'
+import {MessageService} from '../../../../shared/services/message.service'
+import {ParkingService} from '../../services/parking.service'
+import {UtilitiesService} from '../../../../shared/services/utilities.service'
+import {ResponseModel} from '../../../../shared/model/Request.model'
+import {AuthService} from '../../../../shared/services/auth.service'
+import {PermissionsService} from '../../../../shared/services/permissions.service'
+import {environment} from '../../../../../environments/environment'
+import {ParkingModel} from '../../models/Parking.model'
+import {DataTableDirective} from 'angular-datatables'
+import {DataTableOptions} from '../../../../shared/model/DataTableOptions'
+import {Subject} from 'rxjs'
 
 @Component({
   selector: 'app-antennas',
   templateUrl: './antennas.component.html',
-  styleUrls: ['./antennas.component.css'],
+  styleUrls: ['./antennas.component.css']
 })
 export class AntennasComponent implements AfterViewInit, OnDestroy {
-  @Input() isCreatingParking: boolean = false;
-  @Input() parkingId: string = this.authService.getParking().id;
-  stepFiveForm!: FormGroup;
-  @Output() changeStep = new EventEmitter<number>();
-  idEditAntenna: string = '';
-  accessList: AccessModel[] = this.parkingService.getAccesses();
+  @Input() isCreatingParking = false
+  @Input() parkingId: string = this.authService.getParking().id
+  stepFiveForm!: FormGroup
+  @Output() changeStep = new EventEmitter<number>()
+  idEditAntenna = ''
+  accessList: AccessModel[] = this.parkingService.getAccesses()
   antennas: CreateParkingStepFiveModel[] =
-    new Array<CreateParkingStepFiveModel>();
-  allParking: ParkingModel[] = Array<ParkingModel>();
+    new Array<CreateParkingStepFiveModel>()
+  allParking: ParkingModel[] = Array<ParkingModel>()
   /*Table*/
   @ViewChild(DataTableDirective)
-  dtElement!: DataTableDirective;
-  dtTrigger: Subject<any> = new Subject();
-  formGroup: FormGroup;
+  dtElement!: DataTableDirective
+  dtTrigger: Subject<any> = new Subject()
+  formGroup: FormGroup
   /*Permissions*/
-  editAntennaAction = environment.editAntennas;
-  deleteAntennaAction = environment.deleteAntennas;
-  createAntennaAction = environment.createAntennas;
-  downloadQRAntennaAction = environment.downloadQRAntenna;
-  private actions: string[] = this.permissionService.actionsOfPermissions;
+  editAntennaAction = environment.editAntennas
+  deleteAntennaAction = environment.deleteAntennas
+  createAntennaAction = environment.createAntennas
+  downloadQRAntennaAction = environment.downloadQRAntenna
+  private actions: string[] = this.permissionService.actionsOfPermissions
 
   constructor(
     private formBuilder: FormBuilder,
@@ -48,159 +48,201 @@ export class AntennasComponent implements AfterViewInit, OnDestroy {
     private authService: AuthService,
     private permissionService: PermissionsService
   ) {
-    this.message.showLoading();
+    this.message.showLoading()
     this.getInitialData()
       .then(() => {
-        this.message.hideLoading();
+        this.message.hideLoading()
       })
       .then(() => {
-        this.rerender();
-      });
-    this.stepFiveForm = this.createForm();
-    this.formGroup = formBuilder.group({ filter: [''] });
+        this.rerender()
+      })
+    this.stepFiveForm = this.createForm()
+    this.formGroup = formBuilder.group({ filter: [''] })
   }
 
   get dtOptions() {
-    return DataTableOptions.getSpanishOptions(10);
+    return DataTableOptions.getSpanishOptions(10)
   }
 
   getAccessName(type: number): AccessModel {
-    let result = this.accessList.find((x) => x.id == type);
+    const result = this.accessList.find((x) => x.id == type)
 
-    return result === undefined ? new AccessModel() : result;
+    return result === undefined ? new AccessModel() : result
   }
 
   controlInvalid(control: string) {
-    return this.utilitiesService.controlInvalid(this.stepFiveForm, control);
+    return this.utilitiesService.controlInvalid(this.stepFiveForm, control)
   }
 
   addAntenna() {
-    this.message.showLoading();
+    this.message.showLoading()
     if (this.stepFiveForm.invalid) {
       this.message.warningTimeOut(
         'No ha llenado todos los datos. Para continuar por favor llene los datos necesarios.'
-      );
-      return;
+      )
+      return
     }
     if (this.idEditAntenna == '') {
-      console.log(this.getStepFive());
+      console.log(this.getStepFive())
       this.parkingService
         .setStepFive(this.getStepFive())
         .then((data: ResponseModel) => {
           if (data.success) {
             this.getInitialData().then(() => {
-              this.message.OkTimeOut(data.message);
-              this.cleanForm();
-            });
+              this.message.OkTimeOut(data.message)
+              this.cleanForm()
+            })
           } else {
             this.message.error(
               '',
               'No pudo guardarse la antena, error: ' + data.message
-            );
+            )
           }
-        });
+        })
     } else {
-      let antennaToEdit: CreateParkingStepFiveModel = this.getStepFive();
-      console.log(antennaToEdit);
-      antennaToEdit.id = this.idEditAntenna;
+      const antennaToEdit: CreateParkingStepFiveModel = this.getStepFive()
+      console.log(antennaToEdit)
+      antennaToEdit.id = this.idEditAntenna
       this.parkingService
         .editStepFive(antennaToEdit)
         .subscribe((data: ResponseModel) => {
           if (data.success) {
-            this.cleanForm();
+            this.cleanForm()
             this.getInitialData().then(() => {
-              this.message.OkTimeOut('Guardado');
-            });
+              this.message.OkTimeOut('Guardado')
+            })
           } else {
             this.message.error(
               '',
               'No pudo guardarse la antena, error: ' + data.message
-            );
+            )
           }
-          this.idEditAntenna = '';
-        });
+          this.idEditAntenna = ''
+        })
     }
   }
 
   emmitStep(number: number) {
-    this.changeStep.emit(number);
+    this.changeStep.emit(number)
   }
 
   validateId(id: string | undefined) {
-    return id == undefined ? '' : id;
+    return id == undefined ? '' : id
   }
 
   editAntenna(antenna: CreateParkingStepFiveModel) {
-    antenna.id = this.validateId(antenna.id);
-    this.idEditAntenna = antenna.id;
-    this.stepFiveForm.controls['parking'].setValue(antenna.parking.id);
-    this.stepFiveForm.controls['type_access'].setValue(antenna.type);
-    this.stepFiveForm.controls['name_access'].setValue(antenna.name);
-    this.stepFiveForm.controls['mac_access'].setValue(antenna.mac);
-    this.stepFiveForm.controls['antenna_access'].setValue(antenna.antena);
-    this.stepFiveForm.controls['isPrivate'].setValue(antenna.isPrivate);
+    antenna.id = this.validateId(antenna.id)
+    this.idEditAntenna = antenna.id
+    this.stepFiveForm.controls['parking'].setValue(antenna.parking.id)
+    this.stepFiveForm.controls['type_access'].setValue(antenna.type)
+    this.stepFiveForm.controls['name_access'].setValue(antenna.name)
+    this.stepFiveForm.controls['mac_access'].setValue(antenna.mac)
+    this.stepFiveForm.controls['antenna_access'].setValue(antenna.antena)
+    this.stepFiveForm.controls['isPrivate'].setValue(antenna.isPrivate)
   }
 
   deleteAntenna(antenna: CreateParkingStepFiveModel) {
-    this.message.showLoading();
-    antenna.id = this.validateId(antenna.id);
+    this.message.showLoading()
+    antenna.id = this.validateId(antenna.id)
     this.parkingService.deleteAntenna(antenna.id).subscribe((data) => {
       if (data.success) {
         this.getInitialData().then(() => {
-          this.message.OkTimeOut('Borrado');
-        });
+          this.message.OkTimeOut('Borrado')
+        })
       }
-    });
+    })
   }
 
   cleanForm() {
-    this.idEditAntenna = '';
-    this.stepFiveForm.controls['parking'].setValue(this.parkingId);
-    this.stepFiveForm.controls['type_access'].setValue('');
-    this.stepFiveForm.controls['name_access'].setValue('');
-    this.stepFiveForm.controls['mac_access'].setValue('');
-    this.stepFiveForm.controls['antenna_access'].setValue('');
-    this.stepFiveForm.controls['isPrivate'].setValue(false);
-    this.utilitiesService.markAsUnTouched(this.stepFiveForm);
+    this.idEditAntenna = ''
+    this.stepFiveForm.controls['parking'].setValue(this.parkingId)
+    this.stepFiveForm.controls['type_access'].setValue('')
+    this.stepFiveForm.controls['name_access'].setValue('')
+    this.stepFiveForm.controls['mac_access'].setValue('')
+    this.stepFiveForm.controls['antenna_access'].setValue('')
+    this.stepFiveForm.controls['isPrivate'].setValue(false)
+    this.utilitiesService.markAsUnTouched(this.stepFiveForm)
   }
 
   downloadQR(antenna: CreateParkingStepFiveModel) {
-    this.message.showLoading();
-    antenna.id = this.validateId(antenna.id);
+    this.message.showLoading()
+    antenna.id = this.validateId(antenna.id)
     this.parkingService.getQR(antenna.id).subscribe(
-      (data) => {
-        const a = document.createElement('a');
-        a.href = URL.createObjectURL(data);
-        a.download = `${antenna.antena} - ${antenna.name}`;
-        document.body.appendChild(a);
-        a.click();
-        a.remove();
-        this.message.hideLoading();
+      ;(data) => {
+        const a = document.createElement('a')
+        a.href = URL.createObjectURL(data)
+        a.download = `${antenna.antena} - ${antenna.name}`
+        document.body.appendChild(a)
+        a.click()
+        a.remove()
+        this.message.hideLoading()
       },
-      (err) => {
-        this.message.error(
-          '',
-          'No pudo descargarse el QR. Por favor verifique si los datos existen.'
-        );
-      }
-    );
+        (err) => {
+          this.message.error(
+            '',
+            'No pudo descargarse el QR. Por favor verifique si los datos existen.'
+          )
+        }
+    )
   }
 
   ifHaveAction(action: string) {
-    return !!this.actions.find((x) => x == action);
+    return !!this.actions.find((x) => x == action)
   }
 
   async searchAntennasByParking() {
     if (this.authService.isSudo && !this.idEditAntenna) {
-      const parkingId = this.stepFiveForm.controls['parking'].value;
+      const parkingId = this.stepFiveForm.controls['parking'].value
       this.antennas = await this.parkingService.searchAntennasByParking(
         parkingId
-      );
+      )
       if (this.antennas) {
-        this.parkingId = parkingId;
-        this.rerender();
+        this.parkingId = parkingId
+        this.rerender()
       }
     }
+  }
+
+  getInitialData() {
+    this.message.showLoading()
+    return this.parkingService
+      .getAntennas(this.parkingId)
+      .toPromise()
+      .then((data: ResponseModel) => {
+        if (data.success) {
+          this.antennas = data.data.stations
+          this.rerender()
+        } else {
+          this.message.error('', data.message)
+        }
+        return data
+      })
+      .catch(() => {
+        return
+      })
+      .then((data) => {
+        if (this.authService.isSudo) {
+          this.parkingService.getAllParking().then((parkings) => {
+            if (parkings.success) {
+              this.allParking = parkings.data.parkings
+            }
+          })
+        }
+      })
+      .then(() => {
+        this.message.hideLoading()
+      })
+      .catch((e) => {
+        return
+      })
+  }
+
+  ngAfterViewInit(): void {
+    this.dtTrigger.next()
+  }
+
+  ngOnDestroy(): void {
+    this.dtTrigger.unsubscribe()
   }
 
   private getStepFive(): CreateParkingStepFiveModel {
@@ -210,42 +252,8 @@ export class AntennasComponent implements AfterViewInit, OnDestroy {
       type: this.stepFiveForm.controls['type_access'].value,
       antena: this.stepFiveForm.controls['antenna_access'].value,
       mac: this.stepFiveForm.controls['mac_access'].value,
-      isPrivate: this.stepFiveForm.controls['isPrivate'].value,
-    };
-  }
-
-  getInitialData() {
-    this.message.showLoading();
-    return this.parkingService
-      .getAntennas(this.parkingId)
-      .toPromise()
-      .then((data: ResponseModel) => {
-        if (data.success) {
-          this.antennas = data.data.stations;
-          this.rerender();
-        } else {
-          this.message.error('', data.message);
-        }
-        return data;
-      })
-      .catch(() => {
-        return;
-      })
-      .then((data) => {
-        if (this.authService.isSudo) {
-          this.parkingService.getAllParking().then((parkings) => {
-            if (parkings.success) {
-              this.allParking = parkings.data.parkings;
-            }
-          });
-        }
-      })
-      .then(() => {
-        this.message.hideLoading();
-      })
-      .catch((e) => {
-        return;
-      });
+      isPrivate: this.stepFiveForm.controls['isPrivate'].value
+    }
   }
 
   private createForm() {
@@ -255,24 +263,16 @@ export class AntennasComponent implements AfterViewInit, OnDestroy {
       name_access: [''],
       mac_access: ['', Validators.required],
       antenna_access: [''],
-      isPrivate: [false],
-    });
-  }
-
-  ngAfterViewInit(): void {
-    this.dtTrigger.next();
-  }
-
-  ngOnDestroy(): void {
-    this.dtTrigger.unsubscribe();
+      isPrivate: [false]
+    })
   }
 
   private rerender() {
     if (this.dtElement != undefined) {
       this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
-        dtInstance.destroy();
-        this.dtTrigger.next();
-      });
+        dtInstance.destroy()
+        this.dtTrigger.next()
+      })
     }
   }
 }

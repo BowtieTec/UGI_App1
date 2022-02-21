@@ -1,30 +1,30 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { MessageService } from '../../../../../../shared/services/message.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { CountriesModel } from '../../../../models/Countries.model';
-import { ParkingService } from '../../../../services/parking.service';
-import { ResponseModel } from '../../../../../../shared/model/Request.model';
-import { CreateParkingStepOneModel } from '../../../../models/CreateParking.model';
-import { UtilitiesService } from '../../../../../../shared/services/utilities.service';
-import { NumberParkingGreaterValidations } from '../../../../../../shared/validators/GreatherThan.validations';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core'
+import { MessageService } from '../../../../../../shared/services/message.service'
+import { FormBuilder, FormGroup, Validators } from '@angular/forms'
+import { CountriesModel } from '../../../../models/Countries.model'
+import { ParkingService } from '../../../../services/parking.service'
+import { ResponseModel } from '../../../../../../shared/model/Request.model'
+import { CreateParkingStepOneModel } from '../../../../models/CreateParking.model'
+import { UtilitiesService } from '../../../../../../shared/services/utilities.service'
+import { NumberParkingGreaterValidations } from '../../../../../../shared/validators/GreatherThan.validations'
 
 @Component({
   selector: 'app-general-data',
   templateUrl: './general-data.component.html',
-  styleUrls: ['./general-data.component.css'],
+  styleUrls: ['./general-data.component.css']
 })
 export class GeneralDataComponent implements OnInit {
-  stepOneForm: FormGroup = this.createForm();
-  @Output() changeStep = new EventEmitter<number>();
+  stepOneForm: FormGroup = this.createForm()
+  @Output() changeStep = new EventEmitter<number>()
   coords = {
     lat: this.parkingService.parkingStepOne.coordinates.latitude,
-    lng: this.parkingService.parkingStepOne.coordinates.longitude,
-  };
+    lng: this.parkingService.parkingStepOne.coordinates.longitude
+  }
   coordsMark = {
     lat: this.parkingService.parkingStepOne.coordinates.latitude,
-    lng: this.parkingService.parkingStepOne.coordinates.longitude,
-  };
-  countries: CountriesModel[] = [];
+    lng: this.parkingService.parkingStepOne.coordinates.longitude
+  }
+  countries: CountriesModel[] = []
 
   constructor(
     private message: MessageService,
@@ -34,36 +34,36 @@ export class GeneralDataComponent implements OnInit {
   ) {}
 
   get ParkingId() {
-    return this.parkingService.parkingStepOne.parkingId;
+    return this.parkingService.parkingStepOne.parkingId
   }
 
   ngOnInit(): void {
-    this.message.showLoading();
+    this.message.showLoading()
     this.getPosition()
       .then((r) => {
         if (this.coords.lng == 0 && this.coords.lat == 0) {
-          this.coords = { ...r };
+          this.coords = { ...r }
         }
       })
       .catch(() => {
         this.message.error(
           '',
           'Se necesita poder acceder a la ubicación para mostrar el mapa y seleccionar la ubicación del parqueo.'
-        );
+        )
       })
       .then(() => {
         return this.parkingService
           .getCountries()
           .toPromise()
-          .then((data: ResponseModel) => (this.countries = data.data));
+          .then((data: ResponseModel) => (this.countries = data.data))
       })
       .then((data) => {
-        this.message.hideLoading();
-      });
+        this.message.hideLoading()
+      })
   }
 
   addMapMark(event: google.maps.MapMouseEvent) {
-    this.coordsMark = { lat: event.latLng.lat(), lng: event.latLng.lng() };
+    this.coordsMark = { lat: event.latLng.lat(), lng: event.latLng.lng() }
   }
 
   getPosition(): Promise<any> {
@@ -72,49 +72,49 @@ export class GeneralDataComponent implements OnInit {
         (resp) => {
           resolve({
             lng: resp.coords.longitude,
-            lat: resp.coords.latitude,
-          });
+            lat: resp.coords.latitude
+          })
         },
         (err) => reject(err)
-      );
-    });
+      )
+    })
   }
 
   emmitStep(number: number) {
-    this.message.showLoading();
+    this.message.showLoading()
     if (number == 1 && this.parkingService.parkingStepOne.parkingId == '') {
       if (this.stepOneForm.valid) {
-        this.parkingService.parkingStepOne = this.getStepOne();
+        this.parkingService.parkingStepOne = this.getStepOne()
         this.parkingService.setStepOne().subscribe((data) => {
           if (data.success) {
-            console.log(data);
-            this.changeStep.emit(number);
-            this.message.OkTimeOut('Parqueo Guardado');
-            this.parkingService.parkingStepOne.parkingId = data.data.id;
-            this.utilitiesService.disableForm(this.stepOneForm);
+            console.log(data)
+            this.changeStep.emit(number)
+            this.message.OkTimeOut('Parqueo Guardado')
+            this.parkingService.parkingStepOne.parkingId = data.data.id
+            this.utilitiesService.disableForm(this.stepOneForm)
           } else {
-            this.utilitiesService.markAsTouched(this.stepOneForm);
-            this.message.error('', data.message);
+            this.utilitiesService.markAsTouched(this.stepOneForm)
+            this.message.error('', data.message)
           }
-        });
+        })
       } else {
         if (this.stepOneForm.errors?.parkingSpacesInvalid) {
           this.message.error(
             '',
             'La cantidad de parqueos especiales debe ser menor a la cantidad de parqueos.'
-          );
-          return;
+          )
+          return
         }
 
         this.message.errorTimeOut(
           '',
           'Datos faltantes o incorrectos. Validar que los datos sean correctos.'
-        );
-        this.utilitiesService.markAsTouched(this.stepOneForm);
+        )
+        this.utilitiesService.markAsTouched(this.stepOneForm)
       }
     } else {
-      this.message.hideLoading();
-      this.changeStep.emit(number);
+      this.message.hideLoading()
+      this.changeStep.emit(number)
     }
   }
 
@@ -124,25 +124,25 @@ export class GeneralDataComponent implements OnInit {
         name: [this.parkingService.parkingStepOne.name, [Validators.required]],
         address: [
           this.parkingService.parkingStepOne.address,
-          [Validators.required],
+          [Validators.required]
         ],
         parking_spaces: [
           this.parkingService.parkingStepOne.parking_spaces == 0
             ? ''
             : this.parkingService.parkingStepOne.parking_spaces,
-          [Validators.required, Validators.min(0)],
+          [Validators.required, Validators.min(0)]
         ],
         special_parking_spaces: [
           this.parkingService.parkingStepOne.special_parking_spaces == 0
             ? ''
             : this.parkingService.parkingStepOne.special_parking_spaces,
-          [Validators.required, Validators.min(0)],
+          [Validators.required, Validators.min(0)]
         ],
         minutes_to_exit: [
           this.parkingService.parkingStepOne.minutes_to_exit == 0
             ? ''
             : this.parkingService.parkingStepOne.special_parking_spaces,
-          [Validators.required, Validators.min(0)],
+          [Validators.required, Validators.min(0)]
         ],
         rules: [this.parkingService.parkingStepOne.rules, Validators.required],
         is_show_map: [this.parkingService.parkingStepOne.is_show_map],
@@ -150,11 +150,11 @@ export class GeneralDataComponent implements OnInit {
           this.parkingService.parkingStepOne.country
             ? null
             : this.parkingService.parkingStepOne.country,
-          [Validators.required, Validators.min(1)],
-        ],
+          [Validators.required, Validators.min(1)]
+        ]
       },
       { validators: [NumberParkingGreaterValidations()] }
-    );
+    )
   }
 
   private getStepOne(): CreateParkingStepOneModel {
@@ -163,7 +163,7 @@ export class GeneralDataComponent implements OnInit {
       address: this.stepOneForm.controls['address'].value,
       coordinates: {
         latitude: this.coordsMark.lat,
-        longitude: this.coordsMark.lng,
+        longitude: this.coordsMark.lng
       },
       country: this.stepOneForm.controls['country'].value,
       is_show_map: this.stepOneForm.controls['is_show_map'].value,
@@ -172,7 +172,7 @@ export class GeneralDataComponent implements OnInit {
       parking_spaces: this.stepOneForm.controls['parking_spaces'].value,
       rules: this.stepOneForm.controls['rules'].value,
       special_parking_spaces:
-        this.stepOneForm.controls['special_parking_spaces'].value,
-    };
+        this.stepOneForm.controls['special_parking_spaces'].value
+    }
   }
 }

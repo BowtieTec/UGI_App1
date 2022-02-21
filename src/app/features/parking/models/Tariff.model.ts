@@ -1,8 +1,8 @@
 export class CreateTariffModel {
-  static_description?: string = '';
-  parking: string = '';
-  name: string = '';
-  description: string = '';
-  isShowDescription: boolean = false;
-  rules: any;
+  static_description?: string = ''
+  parking = ''
+  name = ''
+  description = ''
+  isShowDescription = false
+  rules: any
 }

@@ -1,24 +1,24 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {DataTableDirective} from 'angular-datatables';
-import {Subject} from 'rxjs';
-import {MessageService} from '../../../../shared/services/message.service';
-import {DataTableOptions} from '../../../../shared/model/DataTableOptions';
-import {ReportService} from '../service/report.service';
-import {UtilitiesService} from '../../../../shared/services/utilities.service';
-import {AuthService} from '../../../../shared/services/auth.service';
-import {PermissionsService} from '../../../../shared/services/permissions.service';
-import {environment} from 'src/environments/environment';
-import {jsPDF} from 'jspdf';
-import {DxDataGridComponent} from 'devextreme-angular';
-import {exportDataGrid as exportDataGridToPdf} from 'devextreme/pdf_exporter';
-import {Workbook} from 'exceljs';
-import {saveAs} from 'file-saver';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core'
+import { DataTableDirective } from 'angular-datatables'
+import { Subject } from 'rxjs'
+import { MessageService } from '../../../../shared/services/message.service'
+import { DataTableOptions } from '../../../../shared/model/DataTableOptions'
+import { ReportService } from '../service/report.service'
+import { UtilitiesService } from '../../../../shared/services/utilities.service'
+import { AuthService } from '../../../../shared/services/auth.service'
+import { PermissionsService } from '../../../../shared/services/permissions.service'
+import { environment } from 'src/environments/environment'
+import { jsPDF } from 'jspdf'
+import { DxDataGridComponent } from 'devextreme-angular'
+import { exportDataGrid as exportDataGridToPdf } from 'devextreme/pdf_exporter'
+import { Workbook } from 'exceljs'
+import { saveAs } from 'file-saver'
 
-import {ParkingService} from '../../../parking/services/parking.service';
-import {ParkingModel} from '../../../parking/models/Parking.model';
-import * as logoFile from '../logoEbi';
+import { ParkingService } from '../../../parking/services/parking.service'
+import { ParkingModel } from '../../../parking/models/Parking.model'
+import * as logoFile from '../logoEbi'
 
-import 'jspdf-autotable';
+import 'jspdf-autotable'
 
 /* export interface tickets {
   name: string;
@@ -30,13 +30,12 @@ import 'jspdf-autotable';
 } */
 
 export interface tickets {
-  fecha: Date;
-  total_v: number;
-  total: number;
-  descuento: number;
-  pagado: number;
+  fecha: Date
+  total_v: number
+  total: number
+  descuento: number
+  pagado: number
 }
-
 
 @Component({
   selector: 'app-parking-ticket-report',
@@ -45,26 +44,26 @@ export interface tickets {
 })
 export class ParkingTicketReportComponent implements OnInit {
   //@ViewChild(DataTableDirective)
-  @ViewChild(DxDataGridComponent, {static: false}) dataGrid!: DxDataGridComponent;
-  dtElement!: DataTableDirective;
-  dtOptions: DataTables.Settings = {};
-  dtTrigger: Subject<any> = new Subject();
-  pdfTable!: ElementRef;
+  @ViewChild(DxDataGridComponent, { static: false })
+  dataGrid!: DxDataGridComponent
+  dtElement!: DataTableDirective
+  dtOptions: DataTables.Settings = {}
+  dtTrigger: Subject<any> = new Subject()
+  pdfTable!: ElementRef
 
-  report: tickets[] = [];
-  dataSource: any;
-  parqueo: any;
+  report: tickets[] = []
+  dataSource: any
+  parqueo: any
 
+  allParking: ParkingModel[] = Array<ParkingModel>()
+  verTodosLosParqueosReport = environment.verTodosLosParqueosReport
+  @ViewChild('inputParking') inputParking!: ElementRef
+  fechaActual = new Date().toISOString().split('T')[0]
 
-  allParking: ParkingModel[] = Array<ParkingModel>();
-  verTodosLosParqueosReport = environment.verTodosLosParqueosReport;
-  @ViewChild('inputParking') inputParking!: ElementRef;
-  fechaActual = new Date().toISOString().split('T')[0];
-
-  datosUsuarioLogeado = this.auth.getParking();
-  parqueoDetalle = '0';
-  startDateReport: any;
-  endDateReport: any;
+  datosUsuarioLogeado = this.auth.getParking()
+  parqueoDetalle = '0'
+  startDateReport: any
+  endDateReport: any
 
   constructor(
     private auth: AuthService,
@@ -74,24 +73,24 @@ export class ParkingTicketReportComponent implements OnInit {
     private authService: AuthService,
     private permisionService: PermissionsService,
     private excelService: ReportService,
-    private parkingService: ParkingService,
+    private parkingService: ParkingService
   ) {
-    this.messageService.showLoading();
+    this.messageService.showLoading()
 
-    this.messageService.hideLoading();
+    this.messageService.hideLoading()
   }
 
   ngOnInit(): void {
-    this.dtOptions = DataTableOptions.getSpanishOptions(10);
+    this.dtOptions = DataTableOptions.getSpanishOptions(10)
     this.parkingService.getAllParking().then((data) => {
       if (data.success) {
-        this.allParking = data.data.parkings;
+        this.allParking = data.data.parkings
       }
-    });
+    })
   }
 
   ifHaveAction(action: string) {
-    return this.permisionService.ifHaveAction(action);
+    return this.permisionService.ifHaveAction(action)
   }
 
   getInitialData() {
@@ -100,72 +99,63 @@ export class ParkingTicketReportComponent implements OnInit {
   }
 
   getTicketRpt(initDate: string, endDate: string) {
-    this.startDateReport = initDate;
-    this.endDateReport = endDate;
-    this.parqueo = this.datosUsuarioLogeado.id;
+    this.startDateReport = initDate
+    this.endDateReport = endDate
+    this.parqueo = this.datosUsuarioLogeado.id
     if (this.ifHaveAction('verTodosLosParqueosReport')) {
-      this.parqueo = this.inputParking.nativeElement.value;
+      this.parqueo = this.inputParking.nativeElement.value
     }
-    this.parqueoDetalle = this.parqueo;
+    this.parqueoDetalle = this.parqueo
     return this.reportService
       .getTicketsRpt(initDate, endDate, this.parqueo)
       .toPromise()
       .then((data) => {
         if (data.success) {
-          this.report = data.data;
-          this.dataSource = data.data;
-          console.log(this.dataSource);
-          this.rerender();
+          this.report = data.data
+          this.dataSource = data.data
+          console.log(this.dataSource)
+          this.rerender()
         } else {
-          this.messageService.error('', data.message);
+          this.messageService.error('', data.message)
         }
       })
       .then(() => {
-        this.messageService.hideLoading();
-      });
+        this.messageService.hideLoading()
+      })
   }
 
   ngAfterViewInit() {
-    this.dtTrigger.next();
-    this.parqueo = this.datosUsuarioLogeado.id;
+    this.dtTrigger.next()
+    this.parqueo = this.datosUsuarioLogeado.id
     if (this.ifHaveAction('verTodosLosParqueosReport')) {
-      this.parqueo = '0';
+      this.parqueo = '0'
     }
-    this.parqueoDetalle = this.parqueo;
+    this.parqueoDetalle = this.parqueo
     return this.reportService
       .getTicketsRpt(this.fechaActual, this.fechaActual, this.parqueo)
       .toPromise()
       .then((data) => {
         if (data.success) {
-          this.report = data.data;
-          this.dataSource = data.data;
-          this.rerender();
+          this.report = data.data
+          this.dataSource = data.data
+          this.rerender()
         } else {
-          this.messageService.error('', data.message);
+          this.messageService.error('', data.message)
         }
       })
       .then(() => {
-        this.messageService.hideLoading();
-      });
-  }
-
-  private rerender() {
-    if (this.dtElement != undefined) {
-      this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
-        dtInstance.destroy();
-        this.dtTrigger.next();
-      });
-    }
+        this.messageService.hideLoading()
+      })
   }
 
   exportGrid() {
-    const doc = new jsPDF();
+    const doc = new jsPDF()
     exportDataGridToPdf({
       jsPDFDocument: doc,
       component: this.dataGrid.instance
     }).then(() => {
       doc.save('TicketDia.pdf')
-    });
+    })
   }
 
   onExporting(e: any) {
@@ -184,89 +174,136 @@ export class ParkingTicketReportComponent implements OnInit {
     });
     e.cancel = true; */
     const header = [
-      "",
-      "Fecha",
-      "Total de vehículos",
-      "Total",
-      "Descuento",
-      "Pagado"
+      '',
+      'Fecha',
+      'Total de vehículos',
+      'Total',
+      'Descuento',
+      'Pagado'
     ]
     //Create workbook and worksheet
-    let workbook = new Workbook();
-    let worksheet = workbook.addWorksheet('ebiGO Ticket');
+    const workbook = new Workbook()
+    const worksheet = workbook.addWorksheet('ebiGO Ticket')
     //Add Row and formatting
-    worksheet.addRow([]);
+    worksheet.addRow([])
 
-    let busienssRow = worksheet.addRow(['', '', '', 'ebiGO']);
-    busienssRow.font = {name: 'Calibri', family: 4, size: 11, bold: true}
-    busienssRow.alignment = {horizontal: 'center', vertical: 'middle'}
+    const busienssRow = worksheet.addRow(['', '', '', 'ebiGO'])
+    busienssRow.font = { name: 'Calibri', family: 4, size: 11, bold: true }
+    busienssRow.alignment = { horizontal: 'center', vertical: 'middle' }
     busienssRow.eachCell((cell, number) => {
       if (number > 1) {
-        cell.border = {top: {style: 'thin'}, left: {style: 'thin'}, bottom: {style: 'thin'}, right: {style: 'thin'}}
+        cell.border = {
+          top: { style: 'thin' },
+          left: { style: 'thin' },
+          bottom: { style: 'thin' },
+          right: { style: 'thin' }
+        }
       }
-    });
-    worksheet.mergeCells('D2:F3');
-    let ParqueoReporte = 'Todos los parqueos';
+    })
+    worksheet.mergeCells('D2:F3')
+    let ParqueoReporte = 'Todos los parqueos'
     if (this.parqueo != '0') {
-      let parqueoEncontrado = this.allParking.find(parqueos => parqueos.id == this.parqueo);
+      const parqueoEncontrado = this.allParking.find(
+        (parqueos) => parqueos.id == this.parqueo
+      )
       if (parqueoEncontrado) {
-        ParqueoReporte = parqueoEncontrado.name;
+        ParqueoReporte = parqueoEncontrado.name
       }
     }
-    let addressRow = worksheet.addRow(['', '', '', ParqueoReporte]);
-    addressRow.font = {name: 'Calibri', family: 4, size: 11, bold: true}
-    addressRow.alignment = {horizontal: 'center', vertical: 'middle'}
+    const addressRow = worksheet.addRow(['', '', '', ParqueoReporte])
+    addressRow.font = { name: 'Calibri', family: 4, size: 11, bold: true }
+    addressRow.alignment = { horizontal: 'center', vertical: 'middle' }
     addressRow.eachCell((cell, number) => {
       if (number > 1) {
-        cell.border = {top: {style: 'thin'}, left: {style: 'thin'}, bottom: {style: 'thin'}, right: {style: 'thin'}}
+        cell.border = {
+          top: { style: 'thin' },
+          left: { style: 'thin' },
+          bottom: { style: 'thin' },
+          right: { style: 'thin' }
+        }
       }
-    });
-    worksheet.mergeCells('D4:F5');
-    let titleRow = worksheet.addRow(['', '', '', 'Reporte - ebiGO Ticket']);
-    titleRow.font = {name: 'Calibri', family: 4, size: 11, bold: true}
-    titleRow.alignment = {horizontal: 'center', vertical: 'middle'}
+    })
+    worksheet.mergeCells('D4:F5')
+    const titleRow = worksheet.addRow(['', '', '', 'Reporte - ebiGO Ticket'])
+    titleRow.font = { name: 'Calibri', family: 4, size: 11, bold: true }
+    titleRow.alignment = { horizontal: 'center', vertical: 'middle' }
     titleRow.eachCell((cell, number) => {
       if (number > 1) {
-        cell.border = {top: {style: 'thin'}, left: {style: 'thin'}, bottom: {style: 'thin'}, right: {style: 'thin'}}
+        cell.border = {
+          top: { style: 'thin' },
+          left: { style: 'thin' },
+          bottom: { style: 'thin' },
+          right: { style: 'thin' }
+        }
       }
-    });
-    worksheet.mergeCells('D6:F8');
+    })
+    worksheet.mergeCells('D6:F8')
     //Add Image
-    worksheet.mergeCells('B2:C8');
-    let logo = workbook.addImage({
+    worksheet.mergeCells('B2:C8')
+    const logo = workbook.addImage({
       base64: logoFile.logoBase64,
-      extension: 'png',
-    });
-    worksheet.addImage(logo, 'B3:C6');
-    worksheet.addRow([]);
-    let infoRow = worksheet.addRow(['', 'Información General']);
-    infoRow.font = {name: 'Calibri', family: 4, size: 11, bold: true}
-    infoRow.alignment = {horizontal: 'center', vertical: 'middle'}
+      extension: 'png'
+    })
+    worksheet.addImage(logo, 'B3:C6')
+    worksheet.addRow([])
+    const infoRow = worksheet.addRow(['', 'Información General'])
+    infoRow.font = { name: 'Calibri', family: 4, size: 11, bold: true }
+    infoRow.alignment = { horizontal: 'center', vertical: 'middle' }
     infoRow.eachCell((cell, number) => {
       if (number > 1) {
-        cell.border = {top: {style: 'thin'}, left: {style: 'thin'}, bottom: {style: 'thin'}, right: {style: 'thin'}}
+        cell.border = {
+          top: { style: 'thin' },
+          left: { style: 'thin' },
+          bottom: { style: 'thin' },
+          right: { style: 'thin' }
+        }
       }
-    });
-    worksheet.mergeCells('B10:F11');
-    worksheet.addRow([]);
-    let header1 = worksheet.addRow(['', 'Fecha Inicio: ' + this.startDateReport, '', '', 'Fecha Fin: ' + this.endDateReport]);
+    })
+    worksheet.mergeCells('B10:F11')
+    worksheet.addRow([])
+    const header1 = worksheet.addRow([
+      '',
+      'Fecha Inicio: ' + this.startDateReport,
+      '',
+      '',
+      'Fecha Fin: ' + this.endDateReport
+    ])
     header1.eachCell((cell, number) => {
       if (number > 1) {
-        cell.border = {top: {style: 'thin'}, left: {style: 'thin'}, bottom: {style: 'thin'}, right: {style: 'thin'}}
+        cell.border = {
+          top: { style: 'thin' },
+          left: { style: 'thin' },
+          bottom: { style: 'thin' },
+          right: { style: 'thin' }
+        }
       }
-    });
-    worksheet.mergeCells('B13:D14');
-    worksheet.mergeCells('E13:F14');
-    let header2 = worksheet.addRow(['', 'Total de días con ingreso: ' + this.dataSource.length, '', '', 'Documento generado: ' + new Date().toISOString().slice(0, 10) + ' ' + new Date().toLocaleTimeString()]);
+    })
+    worksheet.mergeCells('B13:D14')
+    worksheet.mergeCells('E13:F14')
+    const header2 = worksheet.addRow([
+      '',
+      'Total de días con ingreso: ' + this.dataSource.length,
+      '',
+      '',
+      'Documento generado: ' +
+        new Date().toISOString().slice(0, 10) +
+        ' ' +
+        new Date().toLocaleTimeString()
+    ])
     header2.eachCell((cell, number) => {
       if (number > 1) {
-        cell.border = {top: {style: 'thin'}, left: {style: 'thin'}, bottom: {style: 'thin'}, right: {style: 'thin'}}
+        cell.border = {
+          top: { style: 'thin' },
+          left: { style: 'thin' },
+          bottom: { style: 'thin' },
+          right: { style: 'thin' }
+        }
       }
-    });
-    worksheet.mergeCells('B15:D16');
-    worksheet.mergeCells('E15:F16');
-    worksheet.addRow([]);
-    let headerRow = worksheet.addRow(header);
+    })
+    worksheet.mergeCells('B15:D16')
+    worksheet.mergeCells('E15:F16')
+    worksheet.addRow([])
+    const headerRow = worksheet.addRow(header)
 
     // Cell Style : Fill and Border
     headerRow.eachCell((cell, number) => {
@@ -274,32 +311,41 @@ export class ParkingTicketReportComponent implements OnInit {
         cell.fill = {
           type: 'pattern',
           pattern: 'solid',
-          fgColor: {argb: 'FFFFFF00'},
-          bgColor: {argb: 'FF0000FF'}
+          fgColor: { argb: 'FFFFFF00' },
+          bgColor: { argb: 'FF0000FF' }
         }
-        cell.border = {top: {style: 'thin'}, left: {style: 'thin'}, bottom: {style: 'thin'}, right: {style: 'thin'}}
+        cell.border = {
+          top: { style: 'thin' },
+          left: { style: 'thin' },
+          bottom: { style: 'thin' },
+          right: { style: 'thin' }
+        }
       }
     })
     // Add Data and Conditional Formatting
     this.dataSource.forEach((d: any) => {
-        let row = worksheet.addRow([
-          '',
-          d.fecha ? new Date(d.fecha).toLocaleDateString() : ' ',
-          d.total_v,
-          d.total,
-          d.descuento,
-          d.pagado
-        ]);
-        row.eachCell((cell, number) => {
-          if (number > 1) {
-            cell.border = {top: {style: 'thin'}, left: {style: 'thin'}, bottom: {style: 'thin'}, right: {style: 'thin'}}
+      const row = worksheet.addRow([
+        '',
+        d.fecha ? new Date(d.fecha).toLocaleDateString() : ' ',
+        d.total_v,
+        d.total,
+        d.descuento,
+        d.pagado
+      ])
+      row.eachCell((cell, number) => {
+        if (number > 1) {
+          cell.border = {
+            top: { style: 'thin' },
+            left: { style: 'thin' },
+            bottom: { style: 'thin' },
+            right: { style: 'thin' }
           }
-        });
-      }
-    );
-    worksheet.addRow([]);
-    worksheet.addRow([]);
-    worksheet.addRow([]);
+        }
+      })
+    })
+    worksheet.addRow([])
+    worksheet.addRow([])
+    worksheet.addRow([])
     /* let headerResumen = worksheet.addRow(['','Fecha','Total de vehiculos','Total de ingresos','Total de descuento','Total pagado']);
     headerResumen.eachCell((cell, number) => {
       if(number > 1){
@@ -328,18 +374,28 @@ export class ParkingTicketReportComponent implements OnInit {
       });
     }); */
 
-    worksheet.getColumn(2).width = 20;
-    worksheet.getColumn(3).width = 20;
-    worksheet.getColumn(4).width = 20;
-    worksheet.getColumn(5).width = 20;
-    worksheet.getColumn(6).width = 20;
+    worksheet.getColumn(2).width = 20
+    worksheet.getColumn(3).width = 20
+    worksheet.getColumn(4).width = 20
+    worksheet.getColumn(5).width = 20
+    worksheet.getColumn(6).width = 20
 
     //Generate Excel File with given name
     workbook.xlsx.writeBuffer().then((data) => {
-      let blob = new Blob([data], {type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
-      saveAs(blob, 'ReporteEbiGoTicket.xlsx');
+      const blob = new Blob([data], {
+        type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+      })
+      saveAs(blob, 'ReporteEbiGoTicket.xlsx')
     })
-    e.cancel = true;
+    e.cancel = true
   }
 
+  private rerender() {
+    if (this.dtElement != undefined) {
+      this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+        dtInstance.destroy()
+        this.dtTrigger.next()
+      })
+    }
+  }
 }

@@ -1,16 +1,16 @@
-import { Pipe, PipeTransform } from '@angular/core';
+import { Pipe, PipeTransform } from '@angular/core'
 
 @Pipe({
-  name: 'filter',
+  name: 'filter'
 })
 export class FilterPipe implements PipeTransform {
   transform(value: any, arg: any): any {
-    const resultUsers = [];
+    const resultUsers = []
     for (const user of value) {
       if (user.name.toLowerCase().indexOf(arg) > -1) {
-        resultUsers.push(user);
+        resultUsers.push(user)
       }
     }
-    return resultUsers;
+    return resultUsers
   }
 }

@@ -1,46 +1,45 @@
 export class ParkingModel {
-  id: string = '';
-  name: string = '';
+  id = ''
+  name = ''
 }
 
 export class ParkedModel {
-  id: string = '';
-  status: number = 0;
-  type: number = 0;
-  entry_date: Date = new Date();
-  exit_date: Date = new Date();
-  user_name: string = '';
-  last_name: string = '';
-  phone_number: string = '';
-  parking: string = '';
+  id = ''
+  status = 0
+  type = 0
+  entry_date: Date = new Date()
+  exit_date: Date = new Date()
+  user_name = ''
+  last_name = ''
+  phone_number = ''
+  parking = ''
 }
 
 class UserParked {
-  name: string = '';
-  last_name: string = '';
-  phone_number: string = '';
+  name = ''
+  last_name = ''
+  phone_number = ''
 }
 
 class ParkingParked {
-  id: string = '';
-  name: string = '';
+  id = ''
+  name = ''
 }
 
 export const StatusParked = [
   {
     id: 1,
-    name: 'Dentro del parqueo',
+    name: 'Dentro del parqueo'
   },
   {
     id: 4,
-    name: 'Problema con la estación',
+    name: 'Problema con la estación'
   }
-
-];
+]
 /*
-* Add an object with
-*  id: 2 for 'Fuera del parqueo'
-* And
-*  id: '' with name 'Todos'
-* To have all entrances and exits.
-*/
+ * Add an object with
+ *  id: 2 for 'Fuera del parqueo'
+ * And
+ *  id: '' with name 'Todos'
+ * To have all entrances and exits.
+ */

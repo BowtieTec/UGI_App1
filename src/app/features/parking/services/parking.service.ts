@@ -1,39 +1,47 @@
-import {Injectable} from '@angular/core';
-import {environment} from '../../../../environments/environment';
-import {HttpClient} from '@angular/common/http';
-import {MessageService} from '../../../shared/services/message.service';
-import {ResponseModel} from '../../../shared/model/Request.model';
+import { Injectable } from '@angular/core'
+import { environment } from '../../../../environments/environment'
+import { HttpClient } from '@angular/common/http'
+import { MessageService } from '../../../shared/services/message.service'
+import { ResponseModel } from '../../../shared/model/Request.model'
 import {
   AccessModel,
   CreateParkingStepFiveModel,
   CreateParkingStepFourModel,
   CreateParkingStepOneModel,
-  CreateParkingStepTwoModel,
-} from '../models/CreateParking.model';
-import {Router} from '@angular/router';
-import {map} from 'rxjs/operators';
-import {CurrencyOptionModel, Day, PaymentMethodModel, SettingsOptionsModel,} from '../models/SettingsOption.model';
-import {Observable, Subscribable} from 'rxjs';
-import {CountriesModel} from '../models/Countries.model';
-import {FormBuilder} from '@angular/forms';
-import {CreateTariffModel} from '../models/Tariff.model';
-import {CreateProfilesModel} from '../models/MontlyParking.model';
-import {CreateStation, CreateStationaryCourtesy, StationsCourtesyModel,} from '../models/StationaryCourtesy.model';
-import {ParkedModel} from "../models/Parking.model";
+  CreateParkingStepTwoModel
+} from '../models/CreateParking.model'
+import { Router } from '@angular/router'
+import { map } from 'rxjs/operators'
+import {
+  CurrencyOptionModel,
+  Day,
+  PaymentMethodModel,
+  SettingsOptionsModel
+} from '../models/SettingsOption.model'
+import { Observable, Subscribable } from 'rxjs'
+import { CountriesModel } from '../models/Countries.model'
+import { FormBuilder } from '@angular/forms'
+import { CreateTariffModel } from '../models/Tariff.model'
+import { CreateProfilesModel } from '../models/MontlyParking.model'
+import {
+  CreateStation,
+  CreateStationaryCourtesy,
+  StationsCourtesyModel
+} from '../models/StationaryCourtesy.model'
+import { ParkedModel } from '../models/Parking.model'
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class ParkingService {
-  parkingStepOne: CreateParkingStepOneModel = new CreateParkingStepOneModel();
-  parkingStepTwo: CreateParkingStepTwoModel = new CreateParkingStepTwoModel();
-  parkingStepFour: CreateParkingStepFourModel =
-    new CreateParkingStepFourModel();
+  parkingStepOne: CreateParkingStepOneModel = new CreateParkingStepOneModel()
+  parkingStepTwo: CreateParkingStepTwoModel = new CreateParkingStepTwoModel()
+  parkingStepFour: CreateParkingStepFourModel = new CreateParkingStepFourModel()
   parkingStepFive: CreateParkingStepFiveModel[] =
-    new Array<CreateParkingStepFiveModel>();
-  settingsOptions!: SettingsOptionsModel;
-  countries: CountriesModel[] = new Array<CountriesModel>();
-  private apiUrl = environment.serverAPI;
+    new Array<CreateParkingStepFiveModel>()
+  settingsOptions!: SettingsOptionsModel
+  countries: CountriesModel[] = new Array<CountriesModel>()
+  private apiUrl = environment.serverAPI
 
   constructor(
     private http: HttpClient,
@@ -44,25 +52,22 @@ export class ParkingService {
     this.getCountries()
       .toPromise()
       .then((data) => {
-        this.countries = data.data;
+        this.countries = data.data
       })
       .then(() => {
         this.getSettingsOptions()
           .toPromise()
           .then((data) => {
-            this.settingsOptions = data;
+            this.settingsOptions = data
           })
           .catch((err) => {
-            this.message.error(
-              '',
-              'No se pudo obtener la información inicial.'
-            );
-          });
-      });
+            this.message.error('', 'No se pudo obtener la información inicial.')
+          })
+      })
   }
 
   getCountries() {
-    return this.http.get<ResponseModel>(`${this.apiUrl}utilities/countries`);
+    return this.http.get<ResponseModel>(`${this.apiUrl}utilities/countries`)
   }
 
   getSettingsOptions(): Observable<SettingsOptionsModel> {
@@ -70,19 +75,19 @@ export class ParkingService {
       .get<ResponseModel>(`${this.apiUrl}backoffice/parking/settings-options`)
       .pipe(
         map((data) => {
-          if (!data.success) throw data.message;
-          return {...data.data};
+          if (!data.success) throw data.message
+          return { ...data.data }
         })
-      );
+      )
   }
 
   getAccesses(): Array<AccessModel> {
     return [
-      {id: 0, name: 'Entrada'},
-      {id: 1, name: 'Salida'},
-      {id: 2, name: 'Entrada restringida'},
-      {id: 3, name: 'Salida restringida'},
-    ];
+      { id: 0, name: 'Entrada' },
+      { id: 1, name: 'Salida' },
+      { id: 2, name: 'Entrada restringida' },
+      { id: 3, name: 'Salida restringida' }
+    ]
   }
 
   setStepOne(): Subscribable<ResponseModel> {
@@ -93,9 +98,9 @@ export class ParkingService {
       )
       .pipe(
         map((data) => {
-          return data;
+          return data
         })
-      );
+      )
   }
 
   setStepTwo(): Observable<ResponseModel> {
@@ -106,10 +111,10 @@ export class ParkingService {
       )
       .pipe(
         map((data) => {
-          if (!data.success) throw data.message;
-          return data;
+          if (!data.success) throw data.message
+          return data
         })
-      );
+      )
   }
 
   setStepFour(): Observable<ResponseModel> {
@@ -120,83 +125,83 @@ export class ParkingService {
       )
       .pipe(
         map((data) => {
-          if (!data.success) throw data.message;
-          return data;
+          if (!data.success) throw data.message
+          return data
         })
-      );
+      )
   }
 
   setStepFive(antenna: CreateParkingStepFiveModel): Promise<ResponseModel> {
     return this.http
       .post<ResponseModel>(`${this.apiUrl}backoffice/parking/station`, antenna)
-      .toPromise();
+      .toPromise()
   }
 
   getCountryById(id: number): CountriesModel {
-    let country = this.countries.find((x) => x.id == id);
+    let country = this.countries.find((x) => x.id == id)
     if (country === undefined) {
       this.message.errorTimeOut(
         '',
         'No se encontró el país seleccionado. Verifique la información.'
-      );
-      country = new CountriesModel();
+      )
+      country = new CountriesModel()
     }
-    return country;
+    return country
   }
 
   getPayMethodById(id: number) {
-    let result = this.settingsOptions.paymentMethods.find((x) => x.id == id);
-    return result === undefined ? new PaymentMethodModel() : result;
+    const result = this.settingsOptions.paymentMethods.find((x) => x.id == id)
+    return result === undefined ? new PaymentMethodModel() : result
   }
 
   getCurrencyById(id: number) {
-    let result = this.settingsOptions.currencyOptions.find((x) => x.id == id);
-    return result === undefined ? new CurrencyOptionModel() : result;
+    const result = this.settingsOptions.currencyOptions.find((x) => x.id == id)
+    return result === undefined ? new CurrencyOptionModel() : result
   }
 
   getDayById(id: number) {
-    let result = this.settingsOptions.days.find((x) => x.id == id);
+    let result = this.settingsOptions.days.find((x) => x.id == id)
     if (result === undefined) {
-      result = new Day();
+      result = new Day()
     }
-    return result;
+    return result
   }
 
   getTypeAntennaById(id: number): AccessModel {
-    let result = this.getAccesses().find((x: AccessModel) => x.id == id);
-    return result === undefined ? new AccessModel() : result;
+    const result = this.getAccesses().find((x: AccessModel) => x.id == id)
+    return result === undefined ? new AccessModel() : result
   }
 
   getAntennas(idParking: string) {
     return this.http.get<ResponseModel>(
       `${this.apiUrl}backoffice/parking/${idParking}/station`
-    );
+    )
   }
 
   getQR(stationID: string): Observable<Blob> {
     return this.http.get(
       `${this.apiUrl}backoffice/parking/station/${stationID}/downloadqr`,
-      {responseType: 'blob'}
-    );
+      { responseType: 'blob' }
+    )
   }
 
   editStepFive(antennaToEdit: CreateParkingStepFiveModel) {
     return this.http.put<ResponseModel>(
       `${this.apiUrl}backoffice/parking/station/${antennaToEdit.id}`,
       antennaToEdit
-    );
+    )
   }
 
   deleteAntenna(id: string) {
     return this.http.delete<ResponseModel>(
       `${this.apiUrl}backoffice/parking/station/${id}`
-    );
+    )
   }
 
   setRule(rule: CreateTariffModel) {
     return this.http
       .post<ResponseModel>(`${this.apiUrl}backoffice/tariff`, rule)
-      .toPromise();
+      .toPromise()
   }
 
   getTariffsSaved(parkingId: string) {
@@ -204,13 +209,13 @@ export class ParkingService {
       .get<ResponseModel>(
         `${this.apiUrl}backoffice/tariff/parking/${parkingId}`
       )
-      .toPromise();
+      .toPromise()
   }
 
   deleteTariff(id: string) {
     return this.http
       .delete<ResponseModel>(`${this.apiUrl}backoffice/tariff/rule/${id}`)
-      .toPromise();
+      .toPromise()
   }
 
   getUsersByTelephone(telephone: string) {
@@ -218,7 +223,7 @@ export class ParkingService {
       .get<ResponseModel>(
         `${this.apiUrl}backoffice/user/search?number=${telephone}`
       )
-      .toPromise();
+      .toPromise()
   }
 
   createMonthlySubscription(subscription: any) {
@@ -227,7 +232,7 @@ export class ParkingService {
         `${this.apiUrl}backoffice/monthly-subscription/create`,
         subscription
       )
-      .toPromise();
+      .toPromise()
   }
 
   getProfilesOfMonthlySubscription(parkingId: string) {
@@ -235,7 +240,7 @@ export class ParkingService {
       .get<ResponseModel>(
         `${this.apiUrl}backoffice/monthly-subscription/profiles/${parkingId}`
       )
-      .toPromise();
+      .toPromise()
   }
 
   getMonthlySubscription(parkingId: string) {
@@ -243,7 +248,7 @@ export class ParkingService {
       .get<ResponseModel>(
         `${this.apiUrl}backoffice/monthly-subscription/all/${parkingId}`
       )
-      .toPromise();
+      .toPromise()
   }
 
   disableSubscription(idSubscription: string) {
@@ -252,7 +257,7 @@ export class ParkingService {
         `${this.apiUrl}backoffice/monthly-subscription/disable/${idSubscription}`,
         idSubscription
       )
-      .toPromise();
+      .toPromise()
   }
 
   cancelSubscription(idSubscription: string) {
@@ -261,7 +266,7 @@ export class ParkingService {
         `${this.apiUrl}backoffice/monthly-subscription/cancel/${idSubscription}`,
         idSubscription
       )
-      .toPromise();
+      .toPromise()
   }
 
   deleteSubscription(idSubscription: string) {
@@ -269,7 +274,7 @@ export class ParkingService {
       .delete<ResponseModel>(
         `${this.apiUrl}backoffice/monthly-subscription/${idSubscription}`
       )
-      .toPromise();
+      .toPromise()
   }
 
   createAccessProfile(profile: CreateProfilesModel) {
@@ -278,48 +283,55 @@ export class ParkingService {
         `${this.apiUrl}backoffice/monthly-subscription/profiles/`,
         profile
       )
-      .toPromise();
+      .toPromise()
   }
 
   getAllParking() {
     return this.http
       .get<ResponseModel>(`${this.apiUrl}backoffice/parking/enables`)
-      .toPromise();
+      .toPromise()
   }
 
-  getParked(parkedFormValues: { parkingId: string; status: string }, page: number = 1, pageSize: number = 10) {
+  getParked(
+    parkedFormValues: { parkingId: string; status: string },
+    page = 1,
+    pageSize = 10
+  ) {
     return this.http
       .post<ResponseModel>(
         `${this.apiUrl}backoffice/parking/parked?page=${page}&per_page=${pageSize}`,
         parkedFormValues
-      ).pipe(map((res) => {
-        return {
-          data: res.data.parked.map((x: any): ParkedModel => {
-            return {
-              id: x?.id,
-              status: x?.status,
-              type: x?.type,
-              entry_date: x?.entry_date,
-              exit_date: x?.exit_date,
-              user_name: x?.user?.name,
-              last_name: x?.user?.last_name,
-              phone_number: x?.user?.phone_number!,
-              parking: x?.parking?.name
-            }
-          }),
-          recordsTotal: res.data.recordsFiltered,
-          recordsFiltered: res.data.recordsFiltered
-        };
-      }))
+      )
+      .pipe(
+        map((res) => {
+          return {
+            data: res.data.parked.map((x: any): ParkedModel => {
+              return {
+                id: x?.id,
+                status: x?.status,
+                type: x?.type,
+                entry_date: x?.entry_date,
+                exit_date: x?.exit_date,
+                user_name: x?.user?.name,
+                last_name: x?.user?.last_name,
+                phone_number: x?.user?.phone_number!,
+                parking: x?.parking?.name
+              }
+            }),
+            recordsTotal: res.data.recordsFiltered,
+            recordsFiltered: res.data.recordsFiltered
+          }
+        })
+      )
   }
 
   getOutParked(parkedId: string, status: number) {
     return this.http
       .post<ResponseModel>(`${this.apiUrl}backoffice/parking/getOut`, {
         parkedId,
-        status,
+        status
       })
-      .toPromise();
+      .toPromise()
   }
 
   async searchAntennasByParking(parking: string) {
@@ -327,11 +339,11 @@ export class ParkingService {
       .toPromise()
       .then((data: ResponseModel) => {
         if (data.success) {
-          return data.data.stations;
+          return data.data.stations
         } else {
-          this.message.error(data.message);
+          this.message.error(data.message)
         }
-      });
+      })
   }
 
   getAntennasWithStationaryCourtesy(
@@ -344,13 +356,13 @@ export class ParkingService {
       .toPromise()
       .then((data) => {
         if (data.success) {
-          return data.data.stations;
+          return data.data.stations
         }
-        return new Array<StationsCourtesyModel>();
+        return new Array<StationsCourtesyModel>()
       })
       .catch((err) => {
-        return new Array<StationsCourtesyModel>();
-      });
+        return new Array<StationsCourtesyModel>()
+      })
   }
 
   createStationWithCourtesy(newStation: CreateStation) {
@@ -360,7 +372,7 @@ export class ParkingService {
         newStation
       )
       .toPromise()
-      .then((data) => data);
+      .then((data) => data)
   }
 
   createStationaryCourtesy(newCourtesy: CreateStationaryCourtesy) {
@@ -370,20 +382,20 @@ export class ParkingService {
         newCourtesy
       )
       .toPromise()
-      .then((data) => data);
+      .then((data) => data)
   }
 
   getParkingInfo(parkingId: string) {
     return this.http
-      .get<ResponseModel>(
-        `${this.apiUrl}backoffice/parking/info/${parkingId}`
-      ).pipe(map((res) => {
+      .get<ResponseModel>(`${this.apiUrl}backoffice/parking/info/${parkingId}`)
+      .pipe(
+        map((res) => {
           if (res.success) {
             return res.data
           } else {
             this.message.error('', res.message)
           }
-        }
-      ))
+        })
+      )
   }
 }

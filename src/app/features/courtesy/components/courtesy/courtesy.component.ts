@@ -1,46 +1,51 @@
-import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild,} from '@angular/core';
-import {CourtesyService} from '../../services/courtesy.service';
-import {MessageService} from '../../../../shared/services/message.service';
-import {CourtesyModel, CourtesyTypeModel} from '../../models/Courtesy.model';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {UtilitiesService} from '../../../../shared/services/utilities.service';
-import {AuthService} from '../../../../shared/services/auth.service';
-import {DataTableDirective} from 'angular-datatables';
-import {Subject} from 'rxjs';
-import {DataTableOptions} from '../../../../shared/model/DataTableOptions';
-import {saveAs} from 'file-saver';
-import {PermissionsService} from '../../../../shared/services/permissions.service';
-import {environment} from '../../../../../environments/environment';
-import {ParkingService} from "../../../parking/services/parking.service";
-import {ParkingModel} from "../../../parking/models/Parking.model";
-import {CompaniesModel} from "../../../management/components/users/models/companies.model";
-import {CompaniesService} from "../../../management/components/users/services/companies.service";
+import {
+  AfterViewInit,
+  Component,
+  OnDestroy,
+  OnInit,
+  ViewChild
+} from '@angular/core'
+import { CourtesyService } from '../../services/courtesy.service'
+import { MessageService } from '../../../../shared/services/message.service'
+import { CourtesyModel, CourtesyTypeModel } from '../../models/Courtesy.model'
+import { FormBuilder, FormGroup, Validators } from '@angular/forms'
+import { UtilitiesService } from '../../../../shared/services/utilities.service'
+import { AuthService } from '../../../../shared/services/auth.service'
+import { DataTableDirective } from 'angular-datatables'
+import { Subject } from 'rxjs'
+import { DataTableOptions } from '../../../../shared/model/DataTableOptions'
+import { saveAs } from 'file-saver'
+import { PermissionsService } from '../../../../shared/services/permissions.service'
+import { environment } from '../../../../../environments/environment'
+import { ParkingService } from '../../../parking/services/parking.service'
+import { ParkingModel } from '../../../parking/models/Parking.model'
+import { CompaniesModel } from '../../../management/components/users/models/companies.model'
+import { CompaniesService } from '../../../management/components/users/services/companies.service'
 
 @Component({
   selector: 'app-courtesy',
   templateUrl: './courtesy.component.html',
-  styleUrls: ['./courtesy.component.css'],
+  styleUrls: ['./courtesy.component.css']
 })
 export class CourtesyComponent implements OnInit, AfterViewInit, OnDestroy {
-
-  allParking: ParkingModel[] = [];
-  courtesyTypes: CourtesyTypeModel[] = [];
-  newCourtesyForm: FormGroup;
-  parkingId: string = this.authService.getParking().id;
-  courtesies: CourtesyModel[] = [];
-  allCompanies: CompaniesModel[] = [];
+  allParking: ParkingModel[] = []
+  courtesyTypes: CourtesyTypeModel[] = []
+  newCourtesyForm: FormGroup
+  parkingId: string = this.authService.getParking().id
+  courtesies: CourtesyModel[] = []
+  allCompanies: CompaniesModel[] = []
 
   /*Table*/
   @ViewChild(DataTableDirective)
-  dtElement!: DataTableDirective;
-  dtOptions: DataTables.Settings = {};
-  dtTrigger: Subject<any> = new Subject();
-  formGroup: FormGroup;
+  dtElement!: DataTableDirective
+  dtOptions: DataTables.Settings = {}
+  dtTrigger: Subject<any> = new Subject()
+  formGroup: FormGroup
 
   /*Permissions*/
-  listCourtesy = environment.listCourtesy;
-  downloadCourtesy = environment.downloadCourtesy;
-  createCourtesy = environment.createCourtesy;
+  listCourtesy = environment.listCourtesy
+  downloadCourtesy = environment.downloadCourtesy
+  createCourtesy = environment.createCourtesy
 
   constructor(
     private courtesyService: CourtesyService,
@@ -52,39 +57,39 @@ export class CourtesyComponent implements OnInit, AfterViewInit, OnDestroy {
     private parkingService: ParkingService,
     private companyService: CompaniesService
   ) {
-    this.messageService.showLoading();
-    this.formGroup = formBuilder.group({filter: ['']});
-    this.newCourtesyForm = this.createForm();
+    this.messageService.showLoading()
+    this.formGroup = formBuilder.group({ filter: [''] })
+    this.newCourtesyForm = this.createForm()
     this.getInitialData().then(() => {
-      this.messageService.hideLoading();
-    });
-  }
-
-  ngOnInit(): void {
-    this.dtOptions = DataTableOptions.getSpanishOptions(10);
-  }
-
-  getTypeDescription(id: number) {
-    let newDescription = this.courtesyTypes.find((x) => x.id == id);
-    return newDescription == undefined
-      ? new CourtesyTypeModel()
-      : newDescription;
+      this.messageService.hideLoading()
+    })
   }
 
   get isSudo() {
-    return this.authService.isSudo;
-  }
-
-  ifHaveAction(action: string) {
-    return this.permissionService.ifHaveAction(action);
+    return this.authService.isSudo
   }
 
   get parkingSelected() {
-    return this.newCourtesyForm.get('parkingId')?.value;
+    return this.newCourtesyForm.get('parkingId')?.value
+  }
+
+  ngOnInit(): void {
+    this.dtOptions = DataTableOptions.getSpanishOptions(10)
+  }
+
+  getTypeDescription(id: number) {
+    const newDescription = this.courtesyTypes.find((x) => x.id == id)
+    return newDescription == undefined
+      ? new CourtesyTypeModel()
+      : newDescription
+  }
+
+  ifHaveAction(action: string) {
+    return this.permissionService.ifHaveAction(action)
   }
 
   controlInvalid(control: string) {
-    return this.utilitiesService.controlInvalid(this.newCourtesyForm, control);
+    return this.utilitiesService.controlInvalid(this.newCourtesyForm, control)
   }
 
   getInitialData() {
@@ -93,27 +98,32 @@ export class CourtesyComponent implements OnInit, AfterViewInit, OnDestroy {
       .toPromise()
       .then((data) => {
         if (data.success) {
-          this.courtesyTypes = data.data.type;
-          this.messageService.hideLoading();
+          this.courtesyTypes = data.data.type
+          this.messageService.hideLoading()
         } else {
           this.messageService.errorTimeOut(
             '',
             'No se pudo cargar la información inicial. Intente mas tarde.'
-          );
+          )
         }
       })
       .then(() => {
-        return this.getCourtesies();
+        return this.getCourtesies()
       })
       .then(() => {
-        this.parkingService.getAllParking().then((x) => this.allParking = x.data.parkings)
+        this.parkingService
+          .getAllParking()
+          .then((x) => (this.allParking = x.data.parkings))
       })
       .then(() => {
-        return this.companyService.getCompanies(this.parkingId).toPromise().then(x => this.allCompanies = x);
+        return this.companyService
+          .getCompanies(this.parkingId)
+          .toPromise()
+          .then((x) => (this.allCompanies = x))
       })
       .then(() => {
-        this.messageService.hideLoading();
-      });
+        this.messageService.hideLoading()
+      })
   }
 
   getCourtesy(): any {
@@ -123,8 +133,8 @@ export class CourtesyComponent implements OnInit, AfterViewInit, OnDestroy {
       type: this.newCourtesyForm.controls['type'].value,
       value: this.newCourtesyForm.controls['value'].value,
       quantity: this.newCourtesyForm.controls['quantity'].value,
-      companyId: this.newCourtesyForm.controls['companyId'].value,
-    };
+      companyId: this.newCourtesyForm.controls['companyId'].value
+    }
   }
 
   getCourtesies(parkingId = this.parkingId) {
@@ -133,53 +143,55 @@ export class CourtesyComponent implements OnInit, AfterViewInit, OnDestroy {
       .toPromise()
       .then((data) => {
         if (data.success) {
-          this.courtesies = data.data;
-          this.rerender();
+          this.courtesies = data.data
+          this.rerender()
         } else {
-          this.messageService.error('', data.message);
+          this.messageService.error('', data.message)
         }
-      });
+      })
   }
 
   getCompanyName(id: string) {
-    return this.allCompanies.find(x => x.id == id)?.name;
+    return this.allCompanies.find((x) => x.id == id)?.name
   }
 
   saveCourtesy() {
     if (this.newCourtesyForm.valid) {
-      this.messageService.showLoading();
-      let newCourtesy: CourtesyModel = this.getCourtesy();
+      this.messageService.showLoading()
+      const newCourtesy: CourtesyModel = this.getCourtesy()
       this.courtesyService.saveCourtesy(newCourtesy).subscribe((data) => {
         if (data.success) {
-          this.messageService.OkTimeOut();
+          this.messageService.OkTimeOut()
         } else {
-          this.messageService.error('', data.message);
+          this.messageService.error('', data.message)
         }
         this.getCourtesies().then(() => {
-          this.messageService.hideLoading();
-        });
-      });
+          this.messageService.hideLoading()
+        })
+      })
     } else {
-      this.messageService.errorTimeOut('Datos faltantes o incorrectos', 'Por favor, verificar que los datos son correctos y estan completos.')
+      this.messageService.errorTimeOut(
+        'Datos faltantes o incorrectos',
+        'Por favor, verificar que los datos son correctos y estan completos.'
+      )
     }
-
   }
 
   ngAfterViewInit(): void {
-    this.dtTrigger.next();
+    this.dtTrigger.next()
   }
 
   ngOnDestroy(): void {
-    this.dtTrigger.unsubscribe();
+    this.dtTrigger.unsubscribe()
   }
 
   downloadPDF(courtesies: CourtesyModel) {
-    this.messageService.showLoading();
-    courtesies.id = !courtesies.id ? '' : courtesies.id;
+    this.messageService.showLoading()
+    courtesies.id = !courtesies.id ? '' : courtesies.id
     this.courtesyService.getPDF(courtesies.id).subscribe((data) => {
-      saveAs(data, courtesies.name + '.pdf');
-      this.messageService.OkTimeOut();
-    });
+      saveAs(data, courtesies.name + '.pdf')
+      this.messageService.OkTimeOut()
+    })
   }
 
   private createForm() {
@@ -190,15 +202,15 @@ export class CourtesyComponent implements OnInit, AfterViewInit, OnDestroy {
       quantity: ['', [Validators.required, Validators.min(1)]],
       parkingId: [this.authService.getParking().id],
       companyId: ['0', [Validators.required]]
-    });
+    })
   }
 
   private rerender() {
     if (this.dtElement != undefined) {
       this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
-        dtInstance.destroy();
-        this.dtTrigger.next();
-      });
+        dtInstance.destroy()
+        this.dtTrigger.next()
+      })
     }
   }
 }

@@ -1,20 +1,20 @@
-import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MessageService } from '../../../shared/services/message.service';
-import { RecoveryPasswordService } from '../services/recovery-password.service';
-import { ConfirmCodeModel } from '../models/RecoveryPassword.model';
-import { Router } from '@angular/router';
+import { Component } from '@angular/core'
+import { FormBuilder, FormGroup, Validators } from '@angular/forms'
+import { MessageService } from '../../../shared/services/message.service'
+import { RecoveryPasswordService } from '../services/recovery-password.service'
+import { ConfirmCodeModel } from '../models/RecoveryPassword.model'
+import { Router } from '@angular/router'
 
 @Component({
   selector: 'app-recover-password',
   templateUrl: './recover-password.component.html',
-  styleUrls: ['./recover-password.component.css'],
+  styleUrls: ['./recover-password.component.css']
 })
 export class RecoverPasswordComponent {
-  recoveryPasswordForm: FormGroup;
-  step: number = 1;
-  userId: string = '';
-  email: string = '';
+  recoveryPasswordForm: FormGroup
+  step = 1
+  userId = ''
+  email = ''
 
   constructor(
     private formBuilder: FormBuilder,
@@ -22,72 +22,72 @@ export class RecoverPasswordComponent {
     private recoveryService: RecoveryPasswordService,
     private route: Router
   ) {
-    this.recoveryPasswordForm = this.createForm();
+    this.recoveryPasswordForm = this.createForm()
   }
 
   get emailControl() {
-    return this.recoveryPasswordForm.get('email');
+    return this.recoveryPasswordForm.get('email')
   }
 
   get newPasswordControl() {
-    return this.recoveryPasswordForm.get('newPassword');
+    return this.recoveryPasswordForm.get('newPassword')
   }
 
   get newPasswordConfControl() {
-    return this.recoveryPasswordForm.get('newPasswordConfirmation');
+    return this.recoveryPasswordForm.get('newPasswordConfirmation')
   }
 
   get confirmCodeControl() {
-    return this.recoveryPasswordForm.get('validate_code');
+    return this.recoveryPasswordForm.get('validate_code')
   }
 
   get passwordsValues() {
     return {
       newPassword: this.newPasswordControl?.value,
       newPasswordConfirmation: this.newPasswordConfControl?.value,
-      userId: this.userId,
-    };
+      userId: this.userId
+    }
   }
 
   sendConfirmation(email: string) {
-    this.email = email;
+    this.email = email
     return this.recoveryService
       .sendConfirmCode(email)
       .toPromise()
       .then((data) => {
         if (data.success) {
-          this.messageService.Ok('Código Enviado');
+          this.messageService.Ok('Código Enviado')
         } else {
-          this.messageService.error('', data.message);
+          this.messageService.error('', data.message)
         }
-        return data.success;
-      });
+        return data.success
+      })
   }
 
   confirmCode() {
     const confirmCodeModel: ConfirmCodeModel = {
       validate_code: this.confirmCodeControl?.value.trim(),
       email_phone: this.emailControl?.value.trim(),
-      type: 1,
-    };
+      type: 1
+    }
     return this.recoveryService
       .confirmCode(confirmCodeModel)
       .toPromise()
       .then((data) => {
         if (data.success) {
-          this.messageService.OkTimeOut('Código correcto');
-          this.userId = data.data;
+          this.messageService.OkTimeOut('Código correcto')
+          this.userId = data.data
         } else {
-          this.messageService.error('', data.message);
+          this.messageService.error('', data.message)
         }
-        return data.success;
-      });
+        return data.success
+      })
   }
 
   validations() {
     if (!this.emailControl?.valid && this.step == 1) {
-      this.messageService.errorTimeOut('', 'Correo no valido');
-      return false;
+      this.messageService.errorTimeOut('', 'Correo no valido')
+      return false
     }
     if (
       !this.recoveryPasswordForm.get('validate_code')?.valid &&
@@ -96,46 +96,44 @@ export class RecoverPasswordComponent {
       this.messageService.errorTimeOut(
         '',
         'El código de confirmación es necesario'
-      );
-      return false;
+      )
+      return false
     }
-    return true;
+    return true
   }
 
   async changeStep(currentStep: number) {
-    this.messageService.showLoading();
-    let isEmailSend = false;
-    let isCodeRight = false;
+    this.messageService.showLoading()
+    let isEmailSend = false
+    let isCodeRight = false
     if (!this.validations()) {
-      return;
+      return
     }
 
     if (currentStep == 1) {
-      isEmailSend = await this.sendConfirmation(
-        this.emailControl?.value.trim()
-      );
+      isEmailSend = await this.sendConfirmation(this.emailControl?.value.trim())
       if (isEmailSend) {
-        this.step++;
+        this.step++
       } else {
-        return;
+        return
       }
     }
     if (currentStep == 2) {
-      isCodeRight = await this.confirmCode();
+      isCodeRight = await this.confirmCode()
       if (isCodeRight) {
-        this.step++;
+        this.step++
       } else {
-        return;
+        return
       }
     }
-    this.messageService.hideLoading();
+    this.messageService.hideLoading()
   }
 
   recoveryPassword() {
-    this.messageService.showLoading();
+    this.messageService.showLoading()
     if (this.newPasswordControl?.value != this.newPasswordConfControl?.value) {
-      this.messageService.error('', 'Las contraseñas no coinciden');
-      return;
+      this.messageService.error('', 'Las contraseñas no coinciden')
+      return
     }
     if (
       !this.newPasswordControl?.valid &&
@@ -144,27 +142,27 @@ export class RecoverPasswordComponent {
       this.messageService.error(
         '',
         'La nueva contraseña debe contener al menos un número, una letra mayúscula y un símbolo: @$!%*#?&'
-      );
-      return;
+      )
+      return
     }
     this.recoveryService
       .recoveryPassword(this.passwordsValues)
       .toPromise()
       .then((data) => {
         if (data.success) {
-          this.messageService.OkTimeOut('Contraseña cambiada correctamente');
-          this.route.navigate(['/']);
+          this.messageService.OkTimeOut('Contraseña cambiada correctamente')
+          this.route.navigate(['/'])
         } else {
-          this.messageService.error('', data.message);
+          this.messageService.error('', data.message)
         }
-      });
+      })
   }
 
   controlInvalid(control: string) {
     return (
       this.recoveryPasswordForm.get(control)?.invalid &&
       this.recoveryPasswordForm.get(control)?.touched
-    );
+    )
   }
 
   createForm() {
@@ -175,22 +173,22 @@ export class RecoverPasswordComponent {
         '',
         [
           Validators.required,
-          Validators.minLength(8),
+          Validators.minLength(8)
           /*Validators.pattern(
             '^(?=.*?[A-Z])(?=(.*[a-z]){1,})(?=(.*[\\d]){1,})(?=(.*[\\W]){1,})(?!.*\\s).{8,}$'
           ),*/
-        ],
+        ]
       ],
       newPasswordConfirmation: [
         '',
         [
           Validators.required,
-          Validators.minLength(8),
+          Validators.minLength(8)
           /* Validators.pattern(
              '^(?=.*?[A-Z])(?=(.*[a-z]){1,})(?=(.*[\\d]){1,})(?=(.*[\\W]){1,})(?!.*\\s).{8,}$'
            ),*/
-        ],
-      ],
-    });
+        ]
+      ]
+    })
   }
 }

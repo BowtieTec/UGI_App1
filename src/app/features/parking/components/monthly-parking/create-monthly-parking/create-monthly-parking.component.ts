@@ -1,19 +1,19 @@
-import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {MessageService} from "../../../../../shared/services/message.service";
-import {ParkingService} from "../../../services/parking.service";
-import {UtilitiesService} from "../../../../../shared/services/utilities.service";
-import {AuthService} from "../../../../../shared/services/auth.service";
-import {PermissionsService} from "../../../../../shared/services/permissions.service";
+import { Component, OnInit } from '@angular/core'
+import { FormBuilder, FormGroup, Validators } from '@angular/forms'
+import { MessageService } from '../../../../../shared/services/message.service'
+import { ParkingService } from '../../../services/parking.service'
+import { UtilitiesService } from '../../../../../shared/services/utilities.service'
+import { AuthService } from '../../../../../shared/services/auth.service'
+import { PermissionsService } from '../../../../../shared/services/permissions.service'
 import {
   CreateProfilesModel,
   GetStationModel,
   MonthlyUserModel,
   ProfilesModel,
   SubscriptionModel
-} from "../../../models/MontlyParking.model";
-import {environment} from "../../../../../../environments/environment";
-import {ResponseModel} from "../../../../../shared/model/Request.model";
+} from '../../../models/MontlyParking.model'
+import { environment } from '../../../../../../environments/environment'
+import { ResponseModel } from '../../../../../shared/model/Request.model'
 
 @Component({
   selector: 'app-create-monthly-parking',
@@ -21,134 +21,135 @@ import {ResponseModel} from "../../../../../shared/model/Request.model";
   styleUrls: ['./create-monthly-parking.component.css']
 })
 export class CreateMonthlyParkingComponent implements OnInit {
-  monthlyForm: FormGroup = this.createForm();
-  userSelected: MonthlyUserModel = new MonthlyUserModel();
-  userSearched: Array<MonthlyUserModel> = [];
-  profiles: ProfilesModel[] = [];
-  subscriptions: SubscriptionModel[] = [];
-  stationsByParking: GetStationModel[] = [];
-  nameProfile: string = '';
-  loadingUser: boolean = false;
+  monthlyForm: FormGroup = this.createForm()
+  userSelected: MonthlyUserModel = new MonthlyUserModel()
+  userSearched: Array<MonthlyUserModel> = []
+  profiles: ProfilesModel[] = []
+  subscriptions: SubscriptionModel[] = []
+  stationsByParking: GetStationModel[] = []
+  nameProfile = ''
+  loadingUser = false
   //Permissions
-  createMonthlyParking = environment.createMonthlyParking;
-  deleteMonthlyParking = environment.deleteMonthlyParking;
-  cancelMonthlyParking = environment.cancelMonthlyParking;
+  createMonthlyParking = environment.createMonthlyParking
+  deleteMonthlyParking = environment.deleteMonthlyParking
+  cancelMonthlyParking = environment.cancelMonthlyParking
   createAccessProfileMonthlyParking =
-    environment.createAccessProfileMonthlyParking;
-  private actions: string[] = this.permissionService.actionsOfPermissions;
+    environment.createAccessProfileMonthlyParking
+  private actions: string[] = this.permissionService.actionsOfPermissions
 
-  constructor(private formBuilder: FormBuilder,
-              private message: MessageService,
-              private parkingService: ParkingService,
-              private utilitiesService: UtilitiesService,
-              private authService: AuthService,
-              private permissionService: PermissionsService) {
-    this.message.showLoading();
+  constructor(
+    private formBuilder: FormBuilder,
+    private message: MessageService,
+    private parkingService: ParkingService,
+    private utilitiesService: UtilitiesService,
+    private authService: AuthService,
+    private permissionService: PermissionsService
+  ) {
+    this.message.showLoading()
     this.getProfiles()
       .then(() => {
-        return this.getMonthlySubscription();
+        return this.getMonthlySubscription()
       })
       .then(() => this.getAntennasByParking())
       .then((data) => {
-        this.message.hideLoading();
-      });
+        this.message.hideLoading()
+      })
   }
 
   get nameTelephone() {
     if (!this.userSelected.name) {
-      return '';
+      return ''
     }
-    return `${this.completeNameSelected}, Teléfono: ${this.userSelected.phone_number} `;
+    return `${this.completeNameSelected}, Teléfono: ${this.userSelected.phone_number} `
   }
 
   get completeNameSelected() {
-    return `${this.userSelected.name} ${this.userSelected.last_name}`;
+    return `${this.userSelected.name} ${this.userSelected.last_name}`
   }
 
   get isUnlimitedForm() {
-    return this.monthlyForm.controls['isUnlimited'];
+    return this.monthlyForm.controls['isUnlimited']
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   getAntennasByParking() {
-    this.message.showLoading();
+    this.message.showLoading()
     this.parkingService
       .getAntennas(this.authService.getParking().id)
       .subscribe((data) => {
         if (data.success) {
-          this.stationsByParking = data.data.stations;
+          this.stationsByParking = data.data.stations
           /*
           Para ver ejemplo de como se ver[ia con estaciones privadas,
           solo se debe comentar las siguientes dos lineas que pertenecen al filter:
           */
           this.stationsByParking = this.stationsByParking.filter(
             (x) => x.type == 2 || x.type == 3
-          );
+          )
         } else {
-          this.message.error('', data.message);
+          this.message.error('', data.message)
         }
-        this.message.hideLoading();
-      });
+        this.message.hideLoading()
+      })
   }
 
   searchUser() {
-    this.loadingUser = true;
-    this.message.showLoading();
+    this.loadingUser = true
+    this.message.showLoading()
     this.parkingService
       .getUsersByTelephone(this.monthlyForm.controls['telephone'].value)
       .then((data) => {
         if (data.success) {
-          this.userSearched = data.data.users;
+          this.userSearched = data.data.users
         }
       })
       .then(() => {
-        this.message.hideLoading();
-        this.loadingUser = false;
-      });
+        this.message.hideLoading()
+        this.loadingUser = false
+      })
   }
 
   changeValueIsUnlimited() {
-    const isUnlimited: boolean = this.isUnlimitedForm.value;
-    this.isUnlimitedForm.setValue(!isUnlimited);
+    const isUnlimited: boolean = this.isUnlimitedForm.value
+    this.isUnlimitedForm.setValue(!isUnlimited)
   }
 
   controlInvalid(control: string): boolean {
-    return this.utilitiesService.controlInvalid(this.monthlyForm, control);
+    return this.utilitiesService.controlInvalid(this.monthlyForm, control)
   }
 
   getStationsToCreateProfile(): any {
-    return this.stationsByParking.filter((x) => x.addStation);
+    return this.stationsByParking.filter((x) => x.addStation)
   }
 
   createNewProfile() {
     if (this.nameProfile.length <= 0) {
-      this.message.error('', 'No ha asignado un nombre el perfil de acceso');
-      return;
+      this.message.error('', 'No ha asignado un nombre el perfil de acceso')
+      return
     }
     if (this.getStationsToCreateProfile().length <= 0) {
-      this.message.error('', 'No ha elegido estaciones para el perfil');
-      return;
+      this.message.error('', 'No ha elegido estaciones para el perfil')
+      return
     }
     const newProfile: CreateProfilesModel = {
       parkingId: this.authService.getParking().id,
       name: this.nameProfile,
-      stations: this.getStationsToCreateProfile(),
-    };
+      stations: this.getStationsToCreateProfile()
+    }
     this.parkingService.createAccessProfile(newProfile).then((data) => {
-      this.resolveResponse(data);
-    });
+      this.resolveResponse(data)
+    })
   }
 
   getFormValue() {
-    const enables_days = this.getDays();
+    const enables_days = this.getDays()
     if (enables_days.length <= 0) {
       this.message.error(
         '',
         'No ha seleccionado dias permitidos para entrar al parqueo mensual.'
-      );
-      return;
+      )
+      return
     }
 
     return {
@@ -160,71 +161,71 @@ export class CreateMonthlyParkingComponent implements OnInit {
       begin_date: this.monthlyForm.controls['begin_date'].value,
       finish_date: this.monthlyForm.controls['finish_date'].value,
       profile_subscription:
-      this.monthlyForm.controls['profile_subscription'].value,
-    };
+        this.monthlyForm.controls['profile_subscription'].value
+    }
   }
 
   getProfiles() {
-    const parkingId = this.authService.getParking().id;
+    const parkingId = this.authService.getParking().id
     return this.parkingService
       .getProfilesOfMonthlySubscription(parkingId)
       .then((data) => {
         if (data.success) {
-          this.profiles = data.data.profiles;
+          this.profiles = data.data.profiles
         } else {
-          this.message.error(data.message);
+          this.message.error(data.message)
         }
-      });
+      })
   }
 
   resolveResponse(data: ResponseModel) {
     if (data.success) {
       this.getMonthlySubscription()
         .then(() => this.getProfiles())
-        .then(() => this.message.Ok());
+        .then(() => this.message.Ok())
     } else {
-      this.message.error('', data.message);
+      this.message.error('', data.message)
     }
   }
 
   getMonthlySubscription() {
-    const parkingId = this.authService.getParking().id;
+    const parkingId = this.authService.getParking().id
     return this.parkingService
       .getMonthlySubscription(parkingId)
       .then((data) => {
         if (data.success) {
-          this.subscriptions = data.data.subscriptions;
+          this.subscriptions = data.data.subscriptions
         } else {
-          this.message.error('', data.message);
+          this.message.error('', data.message)
         }
-      });
+      })
   }
 
   createMonthly() {
     if (!this.monthlyForm.valid || !this.userSelected.id) {
-      this.message.error(' Hacen falta datos o son inválidos.');
-      return;
+      this.message.error(' Hacen falta datos o son inválidos.')
+      return
     }
 
-    this.message.showLoading();
-    let newSubscription: any = this.getFormValue();
-    if (!newSubscription) return;
+    this.message.showLoading()
+    const newSubscription: any = this.getFormValue()
+    if (!newSubscription) return
     if (this.monthlyForm.controls['profile_subscription'].value == '') {
-      delete newSubscription.profile_subscription;
+      delete newSubscription.profile_subscription
     }
 
     this.parkingService
       .createMonthlySubscription(newSubscription)
       .then((data) => {
         if (!data.success) {
-          this.message.error(data.message);
+          this.message.error(data.message)
         }
-        return this.getMonthlySubscription();
+        return this.getMonthlySubscription()
       })
       .then(() => {
-        this.message.Ok('Guardado');
+        this.message.Ok('Guardado')
       })
-      .catch(x => console.log(x));
+      .catch((x) => console.log(x))
   }
 
   createForm() {
@@ -241,17 +242,17 @@ export class CreateMonthlyParkingComponent implements OnInit {
       isUnlimited: [true],
       begin_date: [null],
       finish_date: [null],
-      profile_subscription: [''],
-    });
+      profile_subscription: ['']
+    })
   }
 
   ifHaveAction(action: string) {
-    return !!this.actions.find((x) => x == action);
+    return !!this.actions.find((x) => x == action)
   }
 
   userSelect(user: any) {
-    this.userSelected = user;
-    this.message.OkTimeOut(user.name + ' ' + user.last_name + ' Seleccionado');
+    this.userSelected = user
+    this.message.OkTimeOut(user.name + ' ' + user.last_name + ' Seleccionado')
   }
 
   private getDays() {
@@ -259,38 +260,38 @@ export class CreateMonthlyParkingComponent implements OnInit {
       {
         id: 0,
         name: 'Domingo',
-        isEnable: this.monthlyForm.controls['sunday'].value,
+        isEnable: this.monthlyForm.controls['sunday'].value
       },
       {
         id: 1,
         name: 'Lunes',
-        isEnable: this.monthlyForm.controls['monday'].value,
+        isEnable: this.monthlyForm.controls['monday'].value
       },
       {
         id: 2,
         name: 'Martes',
-        isEnable: this.monthlyForm.controls['tuesday'].value,
+        isEnable: this.monthlyForm.controls['tuesday'].value
       },
       {
         id: 3,
         name: 'Miércoles',
-        isEnable: this.monthlyForm.controls['wednesday'].value,
+        isEnable: this.monthlyForm.controls['wednesday'].value
       },
       {
         id: 4,
         name: 'Jueves',
-        isEnable: this.monthlyForm.controls['thursday'].value,
+        isEnable: this.monthlyForm.controls['thursday'].value
       },
       {
         id: 5,
         name: 'Viernes',
-        isEnable: this.monthlyForm.controls['friday'].value,
+        isEnable: this.monthlyForm.controls['friday'].value
       },
       {
         id: 6,
         name: 'Sábado',
-        isEnable: this.monthlyForm.controls['saturday'].value,
-      },
-    ].filter((day) => day.isEnable === true);
+        isEnable: this.monthlyForm.controls['saturday'].value
+      }
+    ].filter((day) => day.isEnable === true)
   }
 }

@@ -1,53 +1,53 @@
-import { Injectable } from '@angular/core';
-import { environment } from '../../../environments/environment';
-import * as CryptoJS from 'crypto-js';
+import { Injectable } from '@angular/core'
+import { environment } from '../../../environments/environment'
+import * as CryptoJS from 'crypto-js'
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class EncryptionService {
-  secretKey = environment.secretKey;
+  secretKey = environment.secretKey
   key = {
     keySize: 256 / 8,
     mode: CryptoJS.mode.CBC,
-    padding: CryptoJS.pad.Pkcs7,
-  };
+    padding: CryptoJS.pad.Pkcs7
+  }
 
   encrypt(sentence: string): string {
     if (sentence == undefined) {
-      return '{}';
+      return '{}'
     }
     return CryptoJS.AES.encrypt(
       CryptoJS.enc.Utf8.parse(sentence),
       this.secretKey
-    ).toString();
+    ).toString()
   }
 
   decrypt(sentence: string): string {
     if (sentence == undefined) {
-      return '{}';
+      return '{}'
     }
     return CryptoJS.AES.decrypt(sentence, this.secretKey).toString(
       CryptoJS.enc.Utf8
-    );
+    )
   }
 
   encryptKey(sentence: string): string {
     if (sentence == undefined) {
-      return '{}';
+      return '{}'
     }
     return CryptoJS.HmacSHA256(
       CryptoJS.enc.Utf8.parse(sentence),
       this.secretKey
-    ).toString();
+    ).toString()
   }
 
   decryptKey(sentence: string): string {
     if (sentence == undefined) {
-      return '{}';
+      return '{}'
     }
     return CryptoJS.HmacSHA256(sentence, this.secretKey).toString(
       CryptoJS.enc.Utf8
-    );
+    )
   }
 }

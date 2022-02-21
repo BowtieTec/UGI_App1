@@ -1,24 +1,24 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing'
 
-import { BillingDataComponent } from './billing-data.component';
+import { BillingDataComponent } from './billing-data.component'
 
 describe('StepFourComponent', () => {
-  let component: BillingDataComponent;
-  let fixture: ComponentFixture<BillingDataComponent>;
+  let component: BillingDataComponent
+  let fixture: ComponentFixture<BillingDataComponent>
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [BillingDataComponent],
-    }).compileComponents();
-  });
+      declarations: [BillingDataComponent]
+    }).compileComponents()
+  })
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(BillingDataComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    fixture = TestBed.createComponent(BillingDataComponent)
+    component = fixture.componentInstance
+    fixture.detectChanges()
+  })
 
   it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-});
+    expect(component).toBeTruthy()
+  })
+})

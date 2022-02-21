@@ -1,24 +1,24 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing'
 
-import { SelectContainerComponent } from './select-container.component';
+import { SelectContainerComponent } from './select-container.component'
 
 describe('SelectContainerComponent', () => {
-  let component: SelectContainerComponent;
-  let fixture: ComponentFixture<SelectContainerComponent>;
+  let component: SelectContainerComponent
+  let fixture: ComponentFixture<SelectContainerComponent>
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [SelectContainerComponent],
-    }).compileComponents();
-  });
+      declarations: [SelectContainerComponent]
+    }).compileComponents()
+  })
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SelectContainerComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    fixture = TestBed.createComponent(SelectContainerComponent)
+    component = fixture.componentInstance
+    fixture.detectChanges()
+  })
 
   it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-});
+    expect(component).toBeTruthy()
+  })
+})

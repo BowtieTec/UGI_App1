@@ -1,20 +1,20 @@
 export class CourtesyTypeModel {
-  id: number = 0;
-  description: string = '';
+  id = 0
+  description = ''
 }
 
 export class CourtesyModel {
-  id?: string = '';
-  parkingId: string = '';
-  quantity: number = 0;
-  value: number = 0;
-  type: number = 0;
-  name?: string = '';
-  company?: CompanyModel = new CompanyModel();
-  companyId?: string = '';
+  id?: string = ''
+  parkingId = ''
+  quantity = 0
+  value = 0
+  type = 0
+  name?: string = ''
+  company?: CompanyModel = new CompanyModel()
+  companyId?: string = ''
 }
 
 class CompanyModel {
-  id: string = '';
-  name: string = '';
+  id = ''
+  name = ''
 }

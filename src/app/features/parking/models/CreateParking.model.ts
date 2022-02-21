@@ -1,79 +1,79 @@
 export class CreateParkingStepOneModel {
-  parkingId: string = '';
-  name: string = '';
-  address: string = '';
-  is_show_map: boolean = false;
-  coordinates: Coordinates = new Coordinates();
-  country: number = 0;
-  parking_spaces: number = 0;
-  special_parking_spaces: number = 0;
-  rules: string = '';
-  minutes_to_exit: number = 0;
+  parkingId = ''
+  name = ''
+  address = ''
+  is_show_map = false
+  coordinates: Coordinates = new Coordinates()
+  country = 0
+  parking_spaces = 0
+  special_parking_spaces = 0
+  rules = ''
+  minutes_to_exit = 0
 }
 
 export class CreateParkingStepTwoModel {
-  parkingId: string = '';
-  schedules?: Schedule[] = new Array<Schedule>();
+  parkingId = ''
+  schedules?: Schedule[] = new Array<Schedule>()
 }
 
 export class CreateParkingStepFourModel {
-  parkingId: string = '';
-  nit: string = '';
-  business_address: string = '';
-  business_name: string = '';
-  pay_method: number = 0;
-  currency: number = 0;
-  is_our_visa_credential: boolean = false;
-  is_our_bac_credential: boolean = false;
-  visa_credential!: VisaCredentialModel;
-  bac_credential!: BacCredentialModel;
+  parkingId = ''
+  nit = ''
+  business_address = ''
+  business_name = ''
+  pay_method = 0
+  currency = 0
+  is_our_visa_credential = false
+  is_our_bac_credential = false
+  visa_credential!: VisaCredentialModel
+  bac_credential!: BacCredentialModel
 }
 
 export class CreateParkingStepFiveModel {
-  id?: string = '';
-  parking: any;
-  type: number = 0;
-  name: string = '';
-  antena: string = '';
-  mac: string = '';
-  isPrivate: boolean = false;
-  created_at?: string = '';
-  updated_at?: string = '';
+  id?: string = ''
+  parking: any
+  type = 0
+  name = ''
+  antena = ''
+  mac = ''
+  isPrivate = false
+  created_at?: string = ''
+  updated_at?: string = ''
 }
 
 export class Coordinates {
-  latitude: number = 0.0;
-  longitude: number = 0.0;
+  latitude = 0.0
+  longitude = 0.0
 }
 
 export class Schedule {
-  isOpen: boolean = true;
-  day: number = 0;
-  openning_time: TimeData = new TimeData();
-  closing_time: TimeData = new TimeData();
+  isOpen = true
+  day = 0
+  openning_time: TimeData = new TimeData()
+  closing_time: TimeData = new TimeData()
 }
 
 export class TimeData {
-  hour: string = '00';
-  minute: string = '00';
-  second: string = '00';
+  hour = '00'
+  minute = '00'
+  second = '00'
 }
 
 export class VisaCredentialModel {
-  merchant_id: string = '';
-  transaction_key: string = '';
-  url: string = '';
+  merchant_id = ''
+  transaction_key = ''
+  url = ''
 }
 
 export class BacCredentialModel {
-  merchant_id: string = '';
-  acquirer_id: string = '';
-  purchase_currency: string = '';
-  pmtnpssw: string = '';
-  url: string = '';
+  merchant_id = ''
+  acquirer_id = ''
+  purchase_currency = ''
+  pmtnpssw = ''
+  url = ''
 }
 
 export class AccessModel {
-  id: number = 0;
-  name: string = '';
+  id = 0
+  name = ''
 }

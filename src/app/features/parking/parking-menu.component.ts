@@ -1,20 +1,20 @@
-import { Component } from '@angular/core';
-import { AuthService } from '../../shared/services/auth.service';
-import { PermissionsService } from '../../shared/services/permissions.service';
-import { environment } from '../../../environments/environment';
+import { Component } from '@angular/core'
+import { AuthService } from '../../shared/services/auth.service'
+import { PermissionsService } from '../../shared/services/permissions.service'
+import { environment } from '../../../environments/environment'
 
 @Component({
   selector: 'app-parking-menu',
   templateUrl: './parking-menu.component.html',
-  styleUrls: ['./parking-menu.component.css'],
+  styleUrls: ['./parking-menu.component.css']
 })
 export class ParkingMenuComponent {
-  listParking = environment.listParking;
-  createParking = environment.createParking;
-  listAntennas = environment.listAntennas;
-  listMonthlyParking = environment.listMonthlyParking;
-  listParkedParking = environment.listParkedParking;
-  private actions: string[] = this.permissionService.actionsOfPermissions;
+  listParking = environment.listParking
+  createParking = environment.createParking
+  listAntennas = environment.listAntennas
+  listMonthlyParking = environment.listMonthlyParking
+  listParkedParking = environment.listParkedParking
+  private actions: string[] = this.permissionService.actionsOfPermissions
 
   constructor(
     private authService: AuthService,
@@ -22,10 +22,10 @@ export class ParkingMenuComponent {
   ) {}
 
   get parkingId() {
-    return this.authService.getParking().id;
+    return this.authService.getParking().id
   }
 
   ifHaveAction(action: string) {
-    return !!this.actions.find((x) => x == action);
+    return !!this.actions.find((x) => x == action)
   }
 }

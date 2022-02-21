@@ -1,12 +1,12 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { ManagementMenuComponent } from './management-menu.component';
+import { NgModule } from '@angular/core'
+import { RouterModule, Routes } from '@angular/router'
+import { ManagementMenuComponent } from './management-menu.component'
 
 const routes: Routes = [
   {
     path: '',
     component: ManagementMenuComponent,
-    outlet: 'home',
+    outlet: 'home'
     /*children: [
       {
         path: '',
@@ -37,11 +37,11 @@ const routes: Routes = [
         redirectTo: 'option/users',
       },
     ],*/
-  },
-];
+  }
+]
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule],
+  exports: [RouterModule]
 })
 export class ManagementRoutingModule {}

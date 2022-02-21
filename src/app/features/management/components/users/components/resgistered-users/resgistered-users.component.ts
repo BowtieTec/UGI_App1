@@ -1,29 +1,37 @@
-import {AfterViewInit, Component, Input, OnDestroy, OnInit, ViewChild,} from '@angular/core';
-import {NewUserModel} from '../../models/newUserModel';
-import {UserService} from '../../services/user.service';
-import {Subject} from 'rxjs';
-import {FormBuilder, FormGroup} from '@angular/forms';
-import {DataTableOptions} from '../../../../../../shared/model/DataTableOptions';
-import {DataTableDirective} from 'angular-datatables';
-import {MessageService} from '../../../../../../shared/services/message.service';
-import {PermissionsService} from '../../../../../../shared/services/permissions.service';
-import {environment} from '../../../../../../../environments/environment';
+import {
+  AfterViewInit,
+  Component,
+  Input,
+  OnDestroy,
+  OnInit,
+  ViewChild
+} from '@angular/core'
+import { NewUserModel } from '../../models/newUserModel'
+import { UserService } from '../../services/user.service'
+import { Subject } from 'rxjs'
+import { FormBuilder, FormGroup } from '@angular/forms'
+import { DataTableOptions } from '../../../../../../shared/model/DataTableOptions'
+import { DataTableDirective } from 'angular-datatables'
+import { MessageService } from '../../../../../../shared/services/message.service'
+import { PermissionsService } from '../../../../../../shared/services/permissions.service'
+import { environment } from '../../../../../../../environments/environment'
 
 @Component({
   selector: 'app-resgistered-users',
   templateUrl: './resgistered-users.component.html',
-  styleUrls: ['./resgistered-users.component.css'],
+  styleUrls: ['./resgistered-users.component.css']
 })
 export class ResgisteredUsersComponent
-  implements OnInit, AfterViewInit, OnDestroy {
-  deleteUser = environment.deleteUser;
-  editUser = environment.editUser;
-  @Input() subject: Subject<NewUserModel> = new Subject<NewUserModel>();
+  implements OnInit, AfterViewInit, OnDestroy
+{
+  deleteUser = environment.deleteUser
+  editUser = environment.editUser
+  @Input() subject: Subject<NewUserModel> = new Subject<NewUserModel>()
   @ViewChild(DataTableDirective)
-  dtElement!: DataTableDirective;
-  dtTrigger: Subject<any> = new Subject();
-  formGroup: FormGroup;
-  users: NewUserModel[] = [];
+  dtElement!: DataTableDirective
+  dtTrigger: Subject<any> = new Subject()
+  formGroup: FormGroup
+  users: NewUserModel[] = []
 
   constructor(
     private userService: UserService,
@@ -31,48 +39,48 @@ export class ResgisteredUsersComponent
     private message: MessageService,
     private permissionsService: PermissionsService
   ) {
-    this.formGroup = formBuilder.group({filter: ['']});
+    this.formGroup = formBuilder.group({ filter: [''] })
   }
 
   get dtOptions() {
-    return DataTableOptions.getSpanishOptions(10);
+    return DataTableOptions.getSpanishOptions(10)
   }
 
   ngOnInit(): void {
-    this.getUsers();
+    this.getUsers()
     this.subject.subscribe((user: NewUserModel) => {
-      this.getUsers();
-    });
+      this.getUsers()
+    })
   }
 
   ifHaveAction(action: string) {
-    return this.permissionsService.ifHaveAction(action);
+    return this.permissionsService.ifHaveAction(action)
   }
 
   deleteTheUser(user: NewUserModel) {
-    this.message.showLoading();
+    this.message.showLoading()
     this.userService
       .deleteUser(user.id == undefined ? '' : user.id)
       .subscribe((data) => {
         if (data.success) {
-          this.message.Ok('Eliminado');
-          this.getUsers();
+          this.message.Ok('Eliminado')
+          this.getUsers()
         } else {
-          this.message.errorTimeOut('', data.message);
+          this.message.errorTimeOut('', data.message)
         }
-      });
+      })
   }
 
   editTheUser(user: NewUserModel) {
-    this.subject.next(user);
+    this.subject.next(user)
   }
 
   ngAfterViewInit(): void {
-    this.dtTrigger.next();
+    this.dtTrigger.next()
   }
 
   ngOnDestroy(): void {
-    this.dtTrigger.unsubscribe();
+    this.dtTrigger.unsubscribe()
   }
 
   private getUsers() {
@@ -80,23 +88,23 @@ export class ResgisteredUsersComponent
       .getUsers()
       .toPromise()
       .then((data) => {
-        let results = data.data.administradores.data;
+        const results = data.data.administradores.data
         results.forEach((result: any) => {
-          result.role = result.role == null ? '' : result.role.id;
-        });
-        return results;
+          result.role = result.role == null ? '' : result.role.id
+        })
+        return results
       })
       .then((results) => {
-        this.users = results;
-        this.rerender();
-        this.message.hideLoading();
-      });
+        this.users = results
+        this.rerender()
+        this.message.hideLoading()
+      })
   }
 
   private rerender() {
     this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
-      dtInstance.destroy();
-      this.dtTrigger.next();
-    });
+      dtInstance.destroy()
+      this.dtTrigger.next()
+    })
   }
 }
