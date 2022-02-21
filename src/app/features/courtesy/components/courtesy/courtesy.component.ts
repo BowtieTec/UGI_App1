@@ -1,10 +1,4 @@
-import {
-  AfterViewInit,
-  Component,
-  OnDestroy,
-  OnInit,
-  ViewChild
-} from '@angular/core'
+import { AfterViewInit, Component, OnDestroy, ViewChild } from '@angular/core'
 import { CourtesyService } from '../../services/courtesy.service'
 import { MessageService } from '../../../../shared/services/message.service'
 import { CourtesyModel, CourtesyTypeModel } from '../../models/Courtesy.model'
@@ -27,7 +21,7 @@ import { CompaniesService } from '../../../management/components/users/services/
   templateUrl: './courtesy.component.html',
   styleUrls: ['./courtesy.component.css']
 })
-export class CourtesyComponent implements OnInit, AfterViewInit, OnDestroy {
+export class CourtesyComponent implements AfterViewInit, OnDestroy {
   allParking: ParkingModel[] = []
   courtesyTypes: CourtesyTypeModel[] = []
   newCourtesyForm: FormGroup
@@ -38,7 +32,6 @@ export class CourtesyComponent implements OnInit, AfterViewInit, OnDestroy {
   /*Table*/
   @ViewChild(DataTableDirective)
   dtElement!: DataTableDirective
-  dtOptions: DataTables.Settings = {}
   dtTrigger: Subject<any> = new Subject()
   formGroup: FormGroup
 
@@ -73,8 +66,8 @@ export class CourtesyComponent implements OnInit, AfterViewInit, OnDestroy {
     return this.newCourtesyForm.get('parkingId')?.value
   }
 
-  ngOnInit(): void {
-    this.dtOptions = DataTableOptions.getSpanishOptions(10)
+  get dtOptions() {
+    return DataTableOptions.getSpanishOptions(10)
   }
 
   getTypeDescription(id: number) {

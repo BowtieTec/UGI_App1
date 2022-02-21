@@ -113,7 +113,6 @@ export class ParkingTicketReportComponent implements OnInit {
         if (data.success) {
           this.report = data.data
           this.dataSource = data.data
-          console.log(this.dataSource)
           this.rerender()
         } else {
           this.messageService.error('', data.message)

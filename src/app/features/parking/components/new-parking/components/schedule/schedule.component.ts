@@ -215,7 +215,6 @@ export class ScheduleComponent implements OnInit {
         ]
       }
     } catch (e) {
-      console.log(e)
       throw e
     }
   }
@@ -254,7 +253,6 @@ export class ScheduleComponent implements OnInit {
   }
 
   private setSchedules(schedules: any) {
-    console.log(this.schedules)
     //Monday
     this.stepTwoForm
       .get('openning_time0')

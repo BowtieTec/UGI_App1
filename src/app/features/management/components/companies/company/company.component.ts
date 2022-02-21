@@ -5,7 +5,6 @@ import {
   Component,
   Input,
   OnDestroy,
-  OnInit,
   ViewChild
 } from '@angular/core'
 import { UtilitiesService } from '../../../../../shared/services/utilities.service'
@@ -26,7 +25,7 @@ import { MessageService } from '../../../../../shared/services/message.service'
   templateUrl: './company.component.html',
   styleUrls: ['./company.component.css']
 })
-export class CompanyComponent implements OnInit, AfterViewInit, OnDestroy {
+export class CompanyComponent implements AfterViewInit, OnDestroy {
   idCompanyToEdit = ''
   companiesForm: FormGroup
   companies: CompaniesModel[] = []
@@ -54,7 +53,7 @@ export class CompanyComponent implements OnInit, AfterViewInit, OnDestroy {
   ) {
     this.formGroup = formBuilder.group({ filter: [''] })
     this.companiesForm = this.createCompanyForm()
-    this.getInitialData()
+    this.getInitialData().catch()
   }
 
   get dtOptions() {
@@ -77,8 +76,6 @@ export class CompanyComponent implements OnInit, AfterViewInit, OnDestroy {
   ifHaveAction(action: string) {
     return this.permissionService.ifHaveAction(action)
   }
-
-  ngOnInit(): void {}
 
   editTheCompany(company: CompaniesModel) {
     if (!company.id) {

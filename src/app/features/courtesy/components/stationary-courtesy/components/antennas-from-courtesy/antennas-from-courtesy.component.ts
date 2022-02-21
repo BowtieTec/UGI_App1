@@ -1,13 +1,24 @@
-import {AfterViewInit, Component, EventEmitter, Input, OnDestroy, Output, ViewChild} from '@angular/core'
-import {CreateStation, StationsCourtesyModel} from '../../../../../parking/models/StationaryCourtesy.model'
-import {FormBuilder, FormGroup, Validators} from '@angular/forms'
-import {MessageService} from '../../../../../../shared/services/message.service'
-import {ParkingService} from '../../../../../parking/services/parking.service'
-import {ParkingModel} from '../../../../../parking/models/Parking.model'
-import {AuthService} from '../../../../../../shared/services/auth.service'
-import {DataTableDirective} from 'angular-datatables'
-import {Subject} from 'rxjs'
-import {DataTableOptions} from '../../../../../../shared/model/DataTableOptions'
+import {
+  AfterViewInit,
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  Output,
+  ViewChild
+} from '@angular/core'
+import {
+  CreateStation,
+  StationsCourtesyModel
+} from '../../../../../parking/models/StationaryCourtesy.model'
+import { FormBuilder, FormGroup, Validators } from '@angular/forms'
+import { MessageService } from '../../../../../../shared/services/message.service'
+import { ParkingService } from '../../../../../parking/services/parking.service'
+import { ParkingModel } from '../../../../../parking/models/Parking.model'
+import { AuthService } from '../../../../../../shared/services/auth.service'
+import { DataTableDirective } from 'angular-datatables'
+import { Subject } from 'rxjs'
+import { DataTableOptions } from '../../../../../../shared/model/DataTableOptions'
 
 @Component({
   selector: 'app-antennas-from-courtesy',
@@ -62,7 +73,7 @@ export class AntennasFromCourtesyComponent implements AfterViewInit, OnDestroy {
         this.parkingService.getAllParking().then((data) => data.data.parkings),
         this.parkingService.getAntennasWithStationaryCourtesy(this.parkingId)
       ])
-        .then(;(resp) => {
+        .then((resp) => {
           this.allParking = resp[0]
           this.stations = resp[1]
         })

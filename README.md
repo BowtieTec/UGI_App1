@@ -107,7 +107,7 @@ To build and run this project you need:
 
 ### Installation
 
-1. Get a API Key from your coworkers.
+1. Get an API Key from your coworkers.
 2. Clone the repo
    ```sh
    git clone https://github.com/BowtieTec/UGI_App1.git
@@ -164,7 +164,7 @@ To build this project you can use this command in the terminal:
 - [x] Parking
   - [x] Create Parking (Six steps to create a parking lot)
   - [x] List users into parking lot, get out users from parking lot, search and others.
-  - [x] Monthly parking (List, create, assign, delete, , monthly parks to users)
+  - [x] Monthly parking (List, create, assign, delete, monthly parks to users)
     - [x] Create access profile
   - [x] Antennas (Create, edit, delete, assign and Download QR)
 
@@ -204,7 +204,7 @@ This project is owned by Bowtie Tech. © 2022 Bowtie tech. All Rights Reserved.
 
 - Ing. Alejandro Cordova
   - [LinkedIn](https://www.linkedin.com/in/acordovam/)
-  - [Github Profile](https://github.com/Acordovam)
+  - [GitHub Profile](https://github.com/Acordovam)
   - [Gmail](mailto:alejandrocordova198@gmail.com) - alejandrocordova198@gmail.com
 
 Project Link: [https://github.com/BowtieTec/UGI_App1](https://github.com/BowtieTec/UGI_App1)

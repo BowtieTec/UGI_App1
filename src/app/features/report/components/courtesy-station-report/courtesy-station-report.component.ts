@@ -98,7 +98,6 @@ export class CourtesyStationReportComponent implements OnInit {
       .toPromise()
       .then((data) => {
         if (data.success) {
-          console.log(data.data)
           this.report = data.data
           this.dataSource = data.data
           this.rerender()

@@ -59,18 +59,17 @@ export class AuthService {
         if (data.success) {
           this.saveUser(data.data)
           this.message.OkTimeOut('!Listo!')
-          this.route.navigate(['/home'])
+          this.route.navigate(['/home']).catch()
         } else {
           this.cleanUser()
           this.message.error('', data.message)
-          this.route.navigate(['/'])
+          this.route.navigate(['/']).catch()
         }
       })
       .catch((data) => {
-        console.log(data)
         this.cleanUser()
         this.message.error('', data.error.message)
-        this.route.navigate(['/'])
+        this.route.navigate(['/']).catch()
       })
   }
 }

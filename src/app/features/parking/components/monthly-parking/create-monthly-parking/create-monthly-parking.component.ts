@@ -51,7 +51,7 @@ export class CreateMonthlyParkingComponent implements OnInit {
         return this.getMonthlySubscription()
       })
       .then(() => this.getAntennasByParking())
-      .then((data) => {
+      .then(() => {
         this.message.hideLoading()
       })
   }

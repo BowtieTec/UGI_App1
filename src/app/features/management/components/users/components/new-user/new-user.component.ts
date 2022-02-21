@@ -72,7 +72,6 @@ export class NewUserComponent implements OnInit {
       .then((x) => x.data.parkings)
 
     this.messageServices.hideLoading()
-    console.log(this.allParking)
   }
 
   getNewUserDataForm(): NewUserModel {
@@ -125,7 +124,6 @@ export class NewUserComponent implements OnInit {
         .saveNewUser(newUserForm)
         .toPromise()
         .then((data) => {
-          console.log(data)
           if (data.success) {
             this.messageServices.OkTimeOut('Guardado')
           } else {

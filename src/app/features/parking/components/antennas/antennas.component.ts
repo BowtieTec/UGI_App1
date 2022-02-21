@@ -1,17 +1,28 @@
-import {AfterViewInit, Component, EventEmitter, Input, OnDestroy, Output, ViewChild} from '@angular/core'
-import {FormBuilder, FormGroup, Validators} from '@angular/forms'
-import {AccessModel, CreateParkingStepFiveModel} from '../../models/CreateParking.model'
-import {MessageService} from '../../../../shared/services/message.service'
-import {ParkingService} from '../../services/parking.service'
-import {UtilitiesService} from '../../../../shared/services/utilities.service'
-import {ResponseModel} from '../../../../shared/model/Request.model'
-import {AuthService} from '../../../../shared/services/auth.service'
-import {PermissionsService} from '../../../../shared/services/permissions.service'
-import {environment} from '../../../../../environments/environment'
-import {ParkingModel} from '../../models/Parking.model'
-import {DataTableDirective} from 'angular-datatables'
-import {DataTableOptions} from '../../../../shared/model/DataTableOptions'
-import {Subject} from 'rxjs'
+import {
+  AfterViewInit,
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  Output,
+  ViewChild
+} from '@angular/core'
+import { FormBuilder, FormGroup, Validators } from '@angular/forms'
+import {
+  AccessModel,
+  CreateParkingStepFiveModel
+} from '../../models/CreateParking.model'
+import { MessageService } from '../../../../shared/services/message.service'
+import { ParkingService } from '../../services/parking.service'
+import { UtilitiesService } from '../../../../shared/services/utilities.service'
+import { ResponseModel } from '../../../../shared/model/Request.model'
+import { AuthService } from '../../../../shared/services/auth.service'
+import { PermissionsService } from '../../../../shared/services/permissions.service'
+import { environment } from '../../../../../environments/environment'
+import { ParkingModel } from '../../models/Parking.model'
+import { DataTableDirective } from 'angular-datatables'
+import { DataTableOptions } from '../../../../shared/model/DataTableOptions'
+import { Subject } from 'rxjs'
 
 @Component({
   selector: 'app-antennas',
@@ -83,7 +94,6 @@ export class AntennasComponent implements AfterViewInit, OnDestroy {
       return
     }
     if (this.idEditAntenna == '') {
-      console.log(this.getStepFive())
       this.parkingService
         .setStepFive(this.getStepFive())
         .then((data: ResponseModel) => {
@@ -168,7 +178,7 @@ export class AntennasComponent implements AfterViewInit, OnDestroy {
     this.message.showLoading()
     antenna.id = this.validateId(antenna.id)
     this.parkingService.getQR(antenna.id).subscribe(
-      ;(data) => {
+      (data) => {
         const a = document.createElement('a')
         a.href = URL.createObjectURL(data)
         a.download = `${antenna.antena} - ${antenna.name}`
@@ -177,12 +187,12 @@ export class AntennasComponent implements AfterViewInit, OnDestroy {
         a.remove()
         this.message.hideLoading()
       },
-        (err) => {
-          this.message.error(
-            '',
-            'No pudo descargarse el QR. Por favor verifique si los datos existen.'
-          )
-        }
+      (err) => {
+        this.message.error(
+          '',
+          'No pudo descargarse el QR. Por favor verifique si los datos existen.'
+        )
+      }
     )
   }
 

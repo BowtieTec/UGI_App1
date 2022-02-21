@@ -314,7 +314,7 @@ export class ParkingService {
                 exit_date: x?.exit_date,
                 user_name: x?.user?.name,
                 last_name: x?.user?.last_name,
-                phone_number: x?.user?.phone_number!,
+                phone_number: x?.user?.phone_number,
                 parking: x?.parking?.name
               }
             }),

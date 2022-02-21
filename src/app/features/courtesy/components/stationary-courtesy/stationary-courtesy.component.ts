@@ -129,7 +129,6 @@ export class StationaryCourtesyComponent implements AfterViewInit, OnDestroy {
           this.parkingId
         )
       this.stations = newStations.filter((x) => x.courtesy_detail)
-      console.log(this.stations)
       this.rerender()
 
       this.message.hideLoading()
@@ -151,10 +150,8 @@ export class StationaryCourtesyComponent implements AfterViewInit, OnDestroy {
           this.allParking = resp[0]
           this.typeCourtesies = resp[1]
           this.stations = resp[2].filter((x) => x.courtesy_detail)
-          console.log(this.stations)
           this.courtesyTypes = resp[3].data.type
           this.allCompanies = resp[4]
-          console.log(this.parkingId)
         })
         .catch((x) => {
           this.message.errorTimeOut(

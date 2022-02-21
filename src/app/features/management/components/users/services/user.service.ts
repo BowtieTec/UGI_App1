@@ -79,7 +79,6 @@ export class UserService {
 
   saveNewUser(newUser: NewUserModel) {
     if (this.authService.isSudo) {
-      console.log('Entrando isSudo')
       return this.http.post<ResponseModel>(
         `${this.apiUrl}backoffice/admin/signup-superadmin`,
         newUser
@@ -110,7 +109,6 @@ export class UserService {
       adminId: id,
       roleId: role
     }
-    console.log(assignRole)
     return this.http.put<ResponseModel>(
       `${this.apiUrl}backoffice/admin/role`,
       assignRole

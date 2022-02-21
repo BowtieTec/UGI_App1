@@ -89,7 +89,6 @@ export class ParkingMontlyReportComponent implements OnInit {
 
   getMontlyParkingRpt(initDate: string, endDate: string) {
     this.startDateReport = initDate
-    console.log(initDate)
     this.endDateReport = endDate
     this.parqueo = this.datosUsuarioLogeado.id
     if (this.ifHaveAction('verTodosLosParqueosReport')) {

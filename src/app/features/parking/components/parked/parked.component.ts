@@ -186,7 +186,7 @@ export class ParkedComponent implements OnDestroy, AfterViewInit, OnInit {
     }
     if (result.isConfirmed) {
       this.messageService.showLoading()
-      this.parkingService.getOutParked(parked.id, status!).then((data) => {
+      this.parkingService.getOutParked(parked.id, status).then((data) => {
         if (data.success) {
           this.rerender()
           this.messageService.Ok(data.message)
@@ -226,7 +226,6 @@ export class ParkedComponent implements OnDestroy, AfterViewInit, OnInit {
           )
           .subscribe((resp) => {
             that.parkedData = resp.data
-            console.log(resp.data)
             callback({
               recordsTotal: resp.recordsTotal,
               recordsFiltered: resp.recordsFiltered,
