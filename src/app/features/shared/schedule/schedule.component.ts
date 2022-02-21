@@ -1,9 +1,9 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
 import { FormBuilder, FormGroup } from '@angular/forms'
-import { MessageService } from '../../../../../../shared/services/message.service'
-import { ParkingService } from '../../../../services/parking.service'
-import { UtilitiesService } from '../../../../../../shared/services/utilities.service'
-import { CreateParkingStepTwoModel } from '../../../../models/CreateParking.model'
+import { MessageService } from '../../../shared/services/message.service'
+import { ParkingService } from '../../parking/services/parking.service'
+import { UtilitiesService } from '../../../shared/services/utilities.service'
+import { CreateParkingStepTwoModel } from '../../parking/models/CreateParking.model'
 
 @Component({
   selector: 'app-schedule',

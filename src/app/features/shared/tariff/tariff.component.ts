@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
-import { UtilitiesService } from '../../../../../../shared/services/utilities.service'
-import { MessageService } from '../../../../../../shared/services/message.service'
+import { UtilitiesService } from '../../../shared/services/utilities.service'
+import { MessageService } from '../../../shared/services/message.service'
 import {
   HolidayFixedCostInputModel,
   HolidayHourFixedCostModel,
@@ -26,14 +26,14 @@ import {
   DefaultHourHalfInputModel,
   DefaultHourHalfRuleModel
 } from './model/DefaultTariff.model'
-import { ParkingService } from '../../../../services/parking.service'
-import { CreateTariffModel } from '../../../../models/Tariff.model'
+import { ParkingService } from '../../parking/services/parking.service'
+import { CreateTariffModel } from '../../parking/models/Tariff.model'
 import { CurrencyPipe, DatePipe } from '@angular/common'
 import {
   DateGreaterValidations,
   NumberGreaterValidations
-} from '../../../../../../shared/validators/GreatherThan.validations'
-import { AuthService } from '../../../../../../shared/services/auth.service'
+} from '../../../shared/validators/GreatherThan.validations'
+import { AuthService } from '../../../shared/services/auth.service'
 
 @Component({
   selector: 'app-tariff',
