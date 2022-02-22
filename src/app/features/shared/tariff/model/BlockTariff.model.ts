@@ -1,3 +1,5 @@
+import { RuleModel } from './Tariff.model'
+
 export class BlockInputModel {
   static_descriptionTime = ''
   lowerLimit = 0
@@ -21,7 +23,7 @@ export class BlockHourHalfRuleModel {
     this.blockInput.static_descriptionTime +
     ' ' +
     this.blockInput.static_descriptionCost
-  rule = [
+  rule: Array<RuleModel> = [
     {
       conditions: {
         all: [
@@ -93,7 +95,7 @@ export class BlockFixedCostRuleModel {
     this.blockInput.static_descriptionTime +
     ' ' +
     this.blockInput.static_descriptionCost
-  rule = [
+  rule: Array<RuleModel> = [
     {
       conditions: {
         all: [

@@ -1,3 +1,5 @@
+import { RuleModel } from './Tariff.model'
+
 export class HolidayInputModel {
   static_descriptionTime = ''
   fromDate: Date = new Date()
@@ -21,7 +23,7 @@ export class HolidayHourHalfRuleModel {
     this.holidayInput.static_descriptionTime +
     ' ' +
     this.holidayInput.static_descriptionCost
-  rule = [
+  rule: Array<RuleModel> = [
     {
       conditions: {
         all: [
@@ -88,7 +90,7 @@ export class HolidayHourFixedCostModel {
     this.holidayInput.static_descriptionTime +
     ' ' +
     this.holidayInput.static_descriptionCost
-  rule = [
+  rule: Array<RuleModel> = [
     {
       conditions: {
         all: [

@@ -1,4 +1,5 @@
 import { Time } from '@angular/common'
+import { RuleModel } from './Tariff.model'
 
 export class RankInputModel {
   static_descriptionTime = ''
@@ -120,7 +121,7 @@ export class RankFixedCostRuleModel {
     this.rankInput.static_descriptionTime +
     ' ' +
     this.rankInput.static_descriptionCost
-  rule = [
+  rule: Array<RuleModel> = [
     {
       conditions: {
         all: [

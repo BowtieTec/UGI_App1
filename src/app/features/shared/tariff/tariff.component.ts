@@ -6,25 +6,29 @@ import {
   HolidayFixedCostInputModel,
   HolidayHourFixedCostModel,
   HolidayHourHalfInputModel,
-  HolidayHourHalfRuleModel
+  HolidayHourHalfRuleModel,
+  HolidayInputModel
 } from './model/HolidayTariff.model'
 import {
   RankFixedCostInputModel,
   RankFixedCostRuleModel,
   RankHourHalfInputModel,
-  RankHourHalfRuleModel
+  RankHourHalfRuleModel,
+  RankInputModel
 } from './model/RankTariff.model'
 import {
   BlockFixedCostInputModel,
   BlockFixedCostRuleModel,
   BlockHourHalfInputModel,
-  BlockHourHalfRuleModel
+  BlockHourHalfRuleModel,
+  BlockInputModel
 } from './model/BlockTariff.model'
 import {
   DefaultFixedCostInputModel,
   DefaultFixedCostRuleModel,
   DefaultHourHalfInputModel,
-  DefaultHourHalfRuleModel
+  DefaultHourHalfRuleModel,
+  DefaultInputModel
 } from './model/DefaultTariff.model'
 import { ParkingService } from '../../parking/services/parking.service'
 import { CreateTariffModel } from '../../parking/models/Tariff.model'
@@ -35,6 +39,7 @@ import {
 } from '../../../shared/validators/GreatherThan.validations'
 import { AuthService } from '../../../shared/services/auth.service'
 import { ValidationsService } from './service/validations.service'
+import { RuleModel } from './model/Tariff.model'
 
 @Component({
   selector: 'app-tariff',
@@ -48,7 +53,7 @@ export class TariffComponent implements OnInit {
   timeRange = 1
   costType = 1
   disableRanges = false
-  tariffs: Array<any> = []
+  tariffs: Array<RuleModel> = []
 
   generalDataForm: FormGroup = this.createGeneralDataForm()
   holidayForm: FormGroup = this.createHolidayOrRankForm()
@@ -83,7 +88,7 @@ export class TariffComponent implements OnInit {
     }
   }
 
-  get holidayFormValues(): any {
+  get holidayFormValues(): HolidayInputModel {
     const fromDate = this.date.transform(
       this.holidayForm.get('from')!.value,
       'medium'
@@ -95,13 +100,13 @@ export class TariffComponent implements OnInit {
     const fromMinute = this.holidayForm.get('fromMinute')!.value
     return {
       static_descriptionTime: `Día festivo: Desde ${fromDate} Hasta el ${toDate} con un tiempo de gracia de ${fromMinute} minutos.`,
-      fromDate,
-      toDate,
+      fromDate: new Date(this.holidayForm.get('from')?.value),
+      toDate: new Date(this.holidayForm.get('to')?.value),
       fromMinute
     }
   }
 
-  get rankFormValues() {
+  get rankFormValues(): RankInputModel {
     const fromTime = this.rankForm.get('from')!.value
     const toTime = this.rankForm.get('to')!.value
     const fromMinute = this.rankForm.get('fromMinute')!.value
@@ -113,7 +118,7 @@ export class TariffComponent implements OnInit {
     }
   }
 
-  get blockFormValues() {
+  get blockFormValues(): BlockInputModel {
     const lowerLimit = this.blockForm.get('lowerLimit')!.value
     const upperLimit = this.blockForm.get('upperLimit')!.value
     const fromMinute = this.blockForm.get('fromMinute')!.value
@@ -176,7 +181,11 @@ export class TariffComponent implements OnInit {
     }
   }
 
-  get formValueTimeRangeSelected() {
+  get formValueTimeRangeSelected():
+    | HolidayInputModel
+    | RankInputModel
+    | BlockInputModel
+    | DefaultInputModel {
     switch (this.timeRange) {
       case 1:
         return this.holidayFormValues
@@ -187,7 +196,9 @@ export class TariffComponent implements OnInit {
       case 4:
         return this.defaultFormValues
       default:
-        return null
+        throw new Error(
+          'No se pudo obtener los datos de los rangos de tiempo. Por favor intentar nuevamente.'
+        )
     }
   }
 
@@ -223,7 +234,6 @@ export class TariffComponent implements OnInit {
       )
       return
     }
-
     const newRule: CreateTariffModel = {
       ...this.generalDataFormValues,
       rules: ruleModelData.rule,
@@ -316,19 +326,20 @@ export class TariffComponent implements OnInit {
     return this.timeRange === time && this.costType === cost
   }
 
-  getTariffModel(): any {
-    const isValid = this.validationService.validateRanges(
+  getTariffModel():
+    | HolidayHourHalfRuleModel
+    | HolidayHourFixedCostModel
+    | RankHourHalfRuleModel
+    | RankFixedCostRuleModel
+    | BlockHourHalfRuleModel
+    | BlockFixedCostRuleModel
+    | DefaultHourHalfRuleModel
+    | DefaultFixedCostRuleModel {
+    this.validationService.validateRanges(
       this.timeRange,
-      this.formValueTimeRangeSelected(),
+      this.formValueTimeRangeSelected,
       this.tariffs
     )
-    if (!isValid) {
-      this.messageService.error(
-        '',
-        'El rango elegido se traslapa con otros del mismo rango. Por favor verificar los datos.'
-      )
-      return false
-    }
 
     //Holiday and Hour and Half
     if (this.validateSelected(1, 1)) {
@@ -394,8 +405,9 @@ export class TariffComponent implements OnInit {
       }
       return new DefaultFixedCostRuleModel(input)
     }
-
-    return false
+    throw new Error(
+      'No se pudo obtener la inroamcion de las tarifas. Por favor intente nuevamente'
+    )
   }
 
   setDisableRanges() {

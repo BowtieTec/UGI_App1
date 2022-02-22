@@ -1,3 +1,5 @@
+import { RuleModel } from './Tariff.model'
+
 export class DefaultInputModel {
   static_descriptionTime = ''
   fromMinute = 0
@@ -19,7 +21,7 @@ export class DefaultHourHalfRuleModel {
     this.defaultInput.static_descriptionTime +
     ' ' +
     this.defaultInput.static_descriptionCost
-  rule = [
+  rule: Array<RuleModel> = [
     {
       conditions: {
         all: [
@@ -71,7 +73,7 @@ export class DefaultFixedCostRuleModel {
     this.defaultInput.static_descriptionTime +
     ' ' +
     this.defaultInput.static_descriptionCost
-  rule = [
+  rule: Array<RuleModel> = [
     {
       conditions: {
         any: [
