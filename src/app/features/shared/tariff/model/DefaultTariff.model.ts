@@ -1,15 +1,16 @@
-export class DefaultHourHalfInputModel {
+export class DefaultInputModel {
   static_descriptionTime = ''
-  static_descriptionCost = ''
   fromMinute = 0
+}
+
+export class DefaultHourHalfInputModel extends DefaultInputModel {
+  static_descriptionCost = ''
   costHour = 0
   costAHalf = 0
 }
 
-export class DefaultFixedCostInputModel {
-  static_descriptionTime = ''
+export class DefaultFixedCostInputModel extends DefaultInputModel {
   static_descriptionCost = ''
-  fromMinute = 0
   fixedCost = 0
 }
 

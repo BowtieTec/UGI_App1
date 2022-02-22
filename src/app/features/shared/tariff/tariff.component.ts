@@ -34,6 +34,7 @@ import {
   NumberGreaterValidations
 } from '../../../shared/validators/GreatherThan.validations'
 import { AuthService } from '../../../shared/services/auth.service'
+import { ValidationsService } from './service/validations.service'
 
 @Component({
   selector: 'app-tariff',
@@ -49,14 +50,14 @@ export class TariffComponent implements OnInit {
   disableRanges = false
   tariffs: Array<any> = []
 
-  generalDataForm: FormGroup
-  holidayForm: FormGroup
-  rankForm: FormGroup
-  blockForm: FormGroup
-  defaultForm: FormGroup
+  generalDataForm: FormGroup = this.createGeneralDataForm()
+  holidayForm: FormGroup = this.createHolidayOrRankForm()
+  rankForm: FormGroup = this.createHolidayOrRankForm()
+  blockForm: FormGroup = this.createBlockForm()
+  defaultForm: FormGroup = this.createDefaultForm()
 
-  hourAHalfForm: FormGroup
-  fixedCostForm: FormGroup
+  hourAHalfForm: FormGroup = this.createHourHalfForm()
+  fixedCostForm: FormGroup = this.createFixedCostForm()
 
   constructor(
     private formBuilder: FormBuilder,
@@ -65,15 +66,13 @@ export class TariffComponent implements OnInit {
     private parkingService: ParkingService,
     private date: DatePipe,
     private currencyPipe: CurrencyPipe,
-    private authService: AuthService
+    private authService: AuthService,
+    private validationService: ValidationsService
   ) {
-    this.generalDataForm = this.createGeneralDataForm()
-    this.holidayForm = this.createHolidayOrRankForm()
-    this.rankForm = this.createHolidayOrRankForm()
-    this.blockForm = this.createBlockForm()
-    this.defaultForm = this.createDefaultForm()
-    this.hourAHalfForm = this.createHourHalfForm()
-    this.fixedCostForm = this.createFixedCostForm()
+    if (!this.parkingId && !this.isCreatingParking) {
+      this.parkingId = this.authService.getParking().id
+    }
+    console.log(this.parkingId)
   }
 
   get generalDataFormValues() {
@@ -172,6 +171,21 @@ export class TariffComponent implements OnInit {
         return this.blockForm
       case 4:
         return this.defaultForm
+      default:
+        return null
+    }
+  }
+
+  get formValueTimeRangeSelected() {
+    switch (this.timeRange) {
+      case 1:
+        return this.holidayFormValues
+      case 2:
+        return this.rankFormValues
+      case 3:
+        return this.blockFormValues
+      case 4:
+        return this.defaultFormValues
       default:
         return null
     }
@@ -303,6 +317,19 @@ export class TariffComponent implements OnInit {
   }
 
   getTariffModel(): any {
+    const isValid = this.validationService.validateRanges(
+      this.timeRange,
+      this.formValueTimeRangeSelected(),
+      this.tariffs
+    )
+    if (!isValid) {
+      this.messageService.error(
+        '',
+        'El rango elegido se traslapa con otros del mismo rango. Por favor verificar los datos.'
+      )
+      return false
+    }
+
     //Holiday and Hour and Half
     if (this.validateSelected(1, 1)) {
       const input: HolidayHourHalfInputModel = {

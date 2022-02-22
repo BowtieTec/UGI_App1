@@ -1,21 +1,20 @@
 import { Time } from '@angular/common'
 
-export class RankHourHalfInputModel {
+export class RankInputModel {
   static_descriptionTime = ''
-  static_descriptionCost = ''
   fromTime!: Time
   toTime!: Time
   fromMinute = 0
+}
+
+export class RankHourHalfInputModel extends RankInputModel {
+  static_descriptionCost = ''
   costHour = 0
   costAHalf = 0
 }
 
-export class RankFixedCostInputModel {
-  static_descriptionTime = ''
+export class RankFixedCostInputModel extends RankInputModel {
   static_descriptionCost = ''
-  fromTime!: Time
-  toTime!: Time
-  fromMinute = 0
   fixedCost = 0
 }
 

@@ -1,19 +1,18 @@
-export class BlockHourHalfInputModel {
+export class BlockInputModel {
   static_descriptionTime = ''
-  static_descriptionCost = ''
   lowerLimit = 0
   upperLimit = 0
   fromMinute = 0
+}
+
+export class BlockHourHalfInputModel extends BlockInputModel {
+  static_descriptionCost = ''
   costHour = 0
   costAHalf = 0
 }
 
-export class BlockFixedCostInputModel {
-  static_descriptionTime = ''
+export class BlockFixedCostInputModel extends BlockInputModel {
   static_descriptionCost = ''
-  lowerLimit = 0
-  upperLimit = 0
-  fromMinute = 0
   fixedCost = 0
 }
 

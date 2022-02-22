@@ -1,19 +1,18 @@
-export class HolidayHourHalfInputModel {
+export class HolidayInputModel {
   static_descriptionTime = ''
-  static_descriptionCost = ''
   fromDate: Date = new Date()
   toDate: Date = new Date()
   fromMinute = 0
+}
+
+export class HolidayHourHalfInputModel extends HolidayInputModel {
+  static_descriptionCost = ''
   costHour = 0
   costAHalf = 0
 }
 
-export class HolidayFixedCostInputModel {
-  static_descriptionTime = ''
+export class HolidayFixedCostInputModel extends HolidayInputModel {
   static_descriptionCost = ''
-  fromDate: Date = new Date()
-  toDate: Date = new Date()
-  fromMinute = 0
   fixedCost = 0
 }
 
