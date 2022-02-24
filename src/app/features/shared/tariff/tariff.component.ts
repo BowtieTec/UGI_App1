@@ -37,8 +37,8 @@ import {
   DateGreaterValidations,
   NumberGreaterValidations
 } from '../../../shared/validators/GreatherThan.validations'
-import { AuthService } from '../../../shared/services/auth.service'
 import { ValidationsService } from './service/validations.service'
+import { AuthService } from '../../../shared/services/auth.service'
 
 @Component({
   selector: 'app-tariff',
