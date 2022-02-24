@@ -1,4 +1,18 @@
+import { ParkingModel } from '../../../parking/models/Parking.model'
+
 export class RuleModel {
+  conditions?: Conditions
+  event?: Event
+}
+
+export class RuleModelSaved {
+  rules?: Array<Rules> = []
+  parking?: ParkingModel = new ParkingModel()
+  description?: string
+  id?: string
+}
+
+export class Rules {
   conditions?: Conditions
   event?: Event
 }

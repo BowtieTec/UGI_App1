@@ -39,7 +39,6 @@ import {
 } from '../../../shared/validators/GreatherThan.validations'
 import { AuthService } from '../../../shared/services/auth.service'
 import { ValidationsService } from './service/validations.service'
-import { RuleModel } from './model/Tariff.model'
 
 @Component({
   selector: 'app-tariff',
@@ -53,7 +52,7 @@ export class TariffComponent implements OnInit {
   timeRange = 1
   costType = 1
   disableRanges = false
-  tariffs: Array<RuleModel> = []
+  tariffs: Array<any> = []
 
   generalDataForm: FormGroup = this.createGeneralDataForm()
   holidayForm: FormGroup = this.createHolidayOrRankForm()
@@ -206,8 +205,9 @@ export class TariffComponent implements OnInit {
     switch (this.costType) {
       case 1:
         return this.hourAHalfForm
-      case 2:
-        return this.fixedCostForm
+      //TODO: Esta validacion no es funcional
+      /* case 2:
+         return this.fixedCostForm*/
       default:
         return null
     }
@@ -326,6 +326,23 @@ export class TariffComponent implements OnInit {
     return this.timeRange === time && this.costType === cost
   }
 
+  validateRangesAgainstTheOthers() {
+    switch (this.timeRange) {
+      case 1:
+        this.validationService.validateHolidayRange(
+          this.holidayFormValues,
+          this.tariffs
+        )
+        break
+      case 2:
+        this.validationService.validateRankAgainstTheOthers(
+          this.rankFormValues,
+          this.tariffs
+        )
+        break
+    }
+  }
+
   getTariffModel():
     | HolidayHourHalfRuleModel
     | HolidayHourFixedCostModel
@@ -335,79 +352,80 @@ export class TariffComponent implements OnInit {
     | BlockFixedCostRuleModel
     | DefaultHourHalfRuleModel
     | DefaultFixedCostRuleModel {
-    this.validationService.validateRanges(
-      this.timeRange,
-      this.formValueTimeRangeSelected,
-      this.tariffs
-    )
-
     //Holiday and Hour and Half
-    if (this.validateSelected(1, 1)) {
-      const input: HolidayHourHalfInputModel = {
-        ...this.holidayFormValues,
-        ...this.hourHalfFormValues
+    try {
+      this.getTariffs().catch()
+      this.validateRangesAgainstTheOthers()
+      if (this.validateSelected(1, 1)) {
+        const input: HolidayHourHalfInputModel = {
+          ...this.holidayFormValues,
+          ...this.hourHalfFormValues
+        }
+        return new HolidayHourHalfRuleModel(input)
       }
-      return new HolidayHourHalfRuleModel(input)
-    }
-    //Holiday and Fixed Cost
-    if (this.validateSelected(1, 2)) {
-      const input: HolidayFixedCostInputModel = {
-        ...this.holidayFormValues,
-        ...this.fixedCostFormValue
+      //Holiday and Fixed Cost
+      if (this.validateSelected(1, 2)) {
+        const input: HolidayFixedCostInputModel = {
+          ...this.holidayFormValues,
+          ...this.fixedCostFormValue
+        }
+        return new HolidayHourFixedCostModel(input)
       }
-      return new HolidayHourFixedCostModel(input)
-    }
-    //Rank and Hour and Half Cost
-    if (this.validateSelected(2, 1)) {
-      const input: RankHourHalfInputModel = {
-        ...this.rankFormValues,
-        ...this.hourHalfFormValues
+      //Rank and Hour and Half Cost
+      if (this.validateSelected(2, 1)) {
+        const input: RankHourHalfInputModel = {
+          ...this.rankFormValues,
+          ...this.hourHalfFormValues
+        }
+        return new RankHourHalfRuleModel(input)
       }
-      return new RankHourHalfRuleModel(input)
-    }
-    //Rank and Fixed Cost
-    if (this.validateSelected(2, 2)) {
-      const input: RankFixedCostInputModel = {
-        ...this.rankFormValues,
-        ...this.fixedCostFormValue
+      //Rank and Fixed Cost
+      if (this.validateSelected(2, 2)) {
+        const input: RankFixedCostInputModel = {
+          ...this.rankFormValues,
+          ...this.fixedCostFormValue
+        }
+        return new RankFixedCostRuleModel(input)
       }
-      return new RankFixedCostRuleModel(input)
-    }
-    //Blocks and Hour and Half
-    if (this.validateSelected(3, 1)) {
-      const input: BlockHourHalfInputModel = {
-        ...this.blockFormValues,
-        ...this.hourHalfFormValues
+      //Blocks and Hour and Half
+      if (this.validateSelected(3, 1)) {
+        const input: BlockHourHalfInputModel = {
+          ...this.blockFormValues,
+          ...this.hourHalfFormValues
+        }
+        return new BlockHourHalfRuleModel(input)
       }
-      return new BlockHourHalfRuleModel(input)
-    }
-    //Blocks and Fixed Cost
-    if (this.validateSelected(3, 2)) {
-      const input: BlockFixedCostInputModel = {
-        ...this.blockFormValues,
-        ...this.fixedCostFormValue
+      //Blocks and Fixed Cost
+      if (this.validateSelected(3, 2)) {
+        const input: BlockFixedCostInputModel = {
+          ...this.blockFormValues,
+          ...this.fixedCostFormValue
+        }
+        return new BlockFixedCostRuleModel(input)
       }
-      return new BlockFixedCostRuleModel(input)
-    }
-    //Default and Hour and Half Cost
-    if (this.validateSelected(4, 1)) {
-      const input: DefaultHourHalfInputModel = {
-        ...this.defaultFormValues,
-        ...this.hourHalfFormValues
+      //Default and Hour and Half Cost
+      if (this.validateSelected(4, 1)) {
+        const input: DefaultHourHalfInputModel = {
+          ...this.defaultFormValues,
+          ...this.hourHalfFormValues
+        }
+        return new DefaultHourHalfRuleModel(input)
       }
-      return new DefaultHourHalfRuleModel(input)
-    }
-    //Default and Fixed Cost
-    if (this.validateSelected(4, 2)) {
-      const input: DefaultFixedCostInputModel = {
-        ...this.defaultFormValues,
-        ...this.fixedCostFormValue
+      //Default and Fixed Cost
+      if (this.validateSelected(4, 2)) {
+        const input: DefaultFixedCostInputModel = {
+          ...this.defaultFormValues,
+          ...this.fixedCostFormValue
+        }
+        return new DefaultFixedCostRuleModel(input)
       }
-      return new DefaultFixedCostRuleModel(input)
+      throw new Error(
+        'No se pudo obtener la inroamcion de las tarifas. Por favor intente nuevamente'
+      )
+    } catch (ex) {
+      this.messageService.error(ex.message)
+      throw new Error(ex)
     }
-    throw new Error(
-      'No se pudo obtener la inroamcion de las tarifas. Por favor intente nuevamente'
-    )
   }
 
   setDisableRanges() {
@@ -490,8 +508,8 @@ export class TariffComponent implements OnInit {
     })
   }
 
-  private getTariffs() {
-    this.parkingService.getTariffsSaved(this.parkingId).then((data) => {
+  private async getTariffs() {
+    return this.parkingService.getTariffsSaved(this.parkingId).then((data) => {
       if (data.success) {
         this.tariffs = data.data.rules
       }
