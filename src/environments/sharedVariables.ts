@@ -120,5 +120,11 @@ export const leftMenu = [
     description: 'Incidentes',
     icon: 'fa-exclamation-circle',
     isShow: true
-  }
+  },
+  {
+    path: '/registro',
+    module: 'parking',
+    description: 'Registro publico',
+    isShow: true
+  },
 ]
