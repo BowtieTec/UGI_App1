@@ -1,6 +1,6 @@
 import { leftMenu, permission } from './sharedVariables'
 
-const Ip = 'dev.bowtietech.pro'
+const Ip = 'app.bowtietech.pro'
 const Port = '3000'
 export const environment = {
   production: true,
