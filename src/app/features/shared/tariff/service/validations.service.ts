@@ -29,6 +29,7 @@ export class ValidationsService {
     to: Date,
     tariffs: Array<RuleModelSaved>
   ) {
+    console.log(tariffs)
     tariffs.forEach((tariff) => {
       tariff.rules?.forEach((tariff) => {
         if (!tariff.conditions?.all) {

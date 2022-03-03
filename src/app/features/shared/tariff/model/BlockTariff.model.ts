@@ -2,9 +2,10 @@ import { RuleModel } from './Tariff.model'
 
 export class BlockInputModel {
   static_descriptionTime = ''
-  lowerLimit = 0
-  upperLimit = 0
-  fromMinute = 0
+  hourLowerLimit = 0
+  minuteLowerLimit = 0
+  hourUpperLimit = 0
+  minuteUpperLimit = 0
 }
 
 export class BlockHourHalfInputModel extends BlockInputModel {
@@ -30,12 +31,12 @@ export class BlockHourHalfRuleModel {
           {
             fact: 'hour',
             operator: 'greaterThanInclusive',
-            value: this.blockInput.lowerLimit
+            value: this.blockInput.hourLowerLimit
           },
           {
             fact: 'hour',
             operator: 'LessThanInclusive',
-            value: this.blockInput.upperLimit
+            value: this.blockInput.hourUpperLimit
           },
           {
             fact: 'hour',
@@ -58,17 +59,12 @@ export class BlockHourHalfRuleModel {
           {
             fact: 'hour',
             operator: 'greaterThanInclusive',
-            value: this.blockInput.lowerLimit
+            value: this.blockInput.hourLowerLimit
           },
           {
             fact: 'hour',
             operator: 'LessThanInclusive',
-            value: this.blockInput.upperLimit
-          },
-          {
-            fact: 'minute',
-            operator: 'greaterThanInclusive',
-            value: this.blockInput.fromMinute
+            value: this.blockInput.hourUpperLimit
           },
           {
             fact: 'minute',
@@ -102,22 +98,17 @@ export class BlockFixedCostRuleModel {
           {
             fact: 'hour',
             operator: 'greaterThanInclusive',
-            value: this.blockInput.lowerLimit
+            value: this.blockInput.hourLowerLimit
           },
           {
             fact: 'hour',
             operator: 'LessThanInclusive',
-            value: this.blockInput.upperLimit
+            value: this.blockInput.hourUpperLimit
           },
           {
             fact: 'hour',
             operator: 'greaterThanInclusive',
             value: 1
-          },
-          {
-            fact: 'minute',
-            operator: 'greaterThanInclusive',
-            value: this.blockInput.fromMinute
           }
         ]
       },

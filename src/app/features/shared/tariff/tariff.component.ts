@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
-import { FormBuilder, FormGroup, Validators } from '@angular/forms'
+import { FormBuilder, FormGroup } from '@angular/forms'
 import { UtilitiesService } from '../../../shared/services/utilities.service'
 import { MessageService } from '../../../shared/services/message.service'
 import {
@@ -31,14 +31,10 @@ import {
   DefaultInputModel
 } from './model/DefaultTariff.model'
 import { ParkingService } from '../../parking/services/parking.service'
-import { CreateTariffModel } from '../../parking/models/Tariff.model'
 import { CurrencyPipe, DatePipe } from '@angular/common'
-import {
-  DateGreaterValidations,
-  NumberGreaterValidations
-} from '../../../shared/validators/GreatherThan.validations'
 import { ValidationsService } from './service/validations.service'
 import { AuthService } from '../../../shared/services/auth.service'
+import { TariffFormsService } from './service/tariff-forms.service'
 
 @Component({
   selector: 'app-tariff',
@@ -54,14 +50,18 @@ export class TariffComponent implements OnInit {
   disableRanges = false
   tariffs: Array<any> = []
 
-  generalDataForm: FormGroup = this.createGeneralDataForm()
-  holidayForm: FormGroup = this.createHolidayOrRankForm()
-  rankForm: FormGroup = this.createHolidayOrRankForm()
-  blockForm: FormGroup = this.createBlockForm()
-  defaultForm: FormGroup = this.createDefaultForm()
+  generalDataForm: FormGroup = this.tariffForms.createGeneralDataForm()
+  holidayForm: FormGroup = this.tariffForms.createHolidayOrRankForm()
+  rankForm: FormGroup = this.tariffForms.createHolidayOrRankForm()
+  blockForm: FormGroup = this.tariffForms.createBlockForm()
+  defaultForm: FormGroup = this.tariffForms.createDefaultForm()
+  prioriceForm: FormGroup = this.tariffForms.createPrioriceForm()
+  daysSelectedForm: FormGroup = this.tariffForms.createDaysSelectedForm()
+  principalScheduleForm: FormGroup =
+    this.tariffForms.createPrincipalScheduleForm()
 
-  hourAHalfForm: FormGroup = this.createHourHalfForm()
-  fixedCostForm: FormGroup = this.createFixedCostForm()
+  hourAHalfForm: FormGroup = this.tariffForms.createHourHalfForm()
+  fixedCostForm: FormGroup = this.tariffForms.createFixedCostForm()
 
   constructor(
     private formBuilder: FormBuilder,
@@ -71,7 +71,8 @@ export class TariffComponent implements OnInit {
     private date: DatePipe,
     private currencyPipe: CurrencyPipe,
     private authService: AuthService,
-    private validationService: ValidationsService
+    private validationService: ValidationsService,
+    private tariffForms: TariffFormsService
   ) {
     if (!this.parkingId && !this.isCreatingParking) {
       this.parkingId = this.authService.getParking().id
@@ -81,65 +82,62 @@ export class TariffComponent implements OnInit {
 
   get generalDataFormValues() {
     return {
-      name: this.generalDataForm.get('name')!.value,
-      description: this.generalDataForm.get('description')!.value,
-      isShowDescription: this.generalDataForm.get('isShowDescription')!.value
+      name: this.generalDataForm.get('name')?.value,
+      description: this.generalDataForm.get('description')?.value,
+      isShowDescription: this.generalDataForm.get('isShowDescription')?.value
     }
   }
 
   get holidayFormValues(): HolidayInputModel {
     const fromDate = this.date.transform(
-      this.holidayForm.get('from')!.value,
+      this.holidayForm.get('from')?.value,
       'medium'
     )
     const toDate = this.date.transform(
-      this.holidayForm.get('to')!.value,
+      this.holidayForm.get('to')?.value,
       'medium'
     )
-    const fromMinute = this.holidayForm.get('fromMinute')!.value
     return {
-      static_descriptionTime: `Día festivo: Desde ${fromDate} Hasta el ${toDate} con un tiempo de gracia de ${fromMinute} minutos.`,
+      static_descriptionTime: `Día festivo: Desde ${fromDate} Hasta el ${toDate}.`,
       fromDate: new Date(this.holidayForm.get('from')?.value),
-      toDate: new Date(this.holidayForm.get('to')?.value),
-      fromMinute
+      toDate: new Date(this.holidayForm.get('to')?.value)
     }
   }
 
   get rankFormValues(): RankInputModel {
     const fromTime = this.rankForm.get('from')!.value
     const toTime = this.rankForm.get('to')!.value
-    const fromMinute = this.rankForm.get('fromMinute')!.value
     return {
-      static_descriptionTime: `Por Horarios o rangos: Desde las ${fromTime} Hasta las ${toTime}, con un tiempo de gracia de ${fromMinute} minutos.`,
+      static_descriptionTime: `Por Horarios o rangos: Desde las ${fromTime} Hasta las ${toTime}.`,
       fromTime,
-      toTime,
-      fromMinute
+      toTime
     }
   }
 
   get blockFormValues(): BlockInputModel {
-    const lowerLimit = this.blockForm.get('lowerLimit')!.value
-    const upperLimit = this.blockForm.get('upperLimit')!.value
-    const fromMinute = this.blockForm.get('fromMinute')!.value
+    const hourLowerLimit = this.blockForm.get('hourLowerLimit')?.value
+    const hourUpperLimit = this.blockForm.get('hourUpperLimit')?.value
+    const minuteLowerLimit = this.blockForm.get('minuteLowerLimit')?.value
+    const minuteUpperLimit = this.blockForm.get('minuteUpperLimit')?.value
+
     return {
-      static_descriptionTime: `Por bloques: De ${lowerLimit} a ${upperLimit} horas, con un tiempo de gracia de ${fromMinute} minutos.`,
-      lowerLimit,
-      upperLimit,
-      fromMinute
+      static_descriptionTime: `Por bloques: De ${hourLowerLimit} a ${hourUpperLimit} horas.`,
+      hourLowerLimit,
+      minuteLowerLimit,
+      minuteUpperLimit,
+      hourUpperLimit
     }
   }
 
   get defaultFormValues() {
-    const fromMinute = this.defaultForm.get('fromMinute')!.value
     return {
-      static_descriptionTime: `Tarifa por defecto con un tiempo de gracia de ${fromMinute} minutos.`,
-      fromMinute
+      static_descriptionTime: `Tarifa por defecto.`
     }
   }
 
   get hourHalfFormValues() {
-    const costHour = this.hourAHalfForm.get('hourCost')!.value
-    const costAHalf = this.hourAHalfForm.get('halfCost')!.value
+    const costHour = this.hourAHalfForm.get('hourCost')?.value
+    const costAHalf = this.hourAHalfForm.get('halfCost')?.value
     return {
       static_descriptionCost: `Hora/Fracción: Costo por hora: ${this.currencyPipe.transform(
         costHour,
@@ -147,6 +145,15 @@ export class TariffComponent implements OnInit {
       )} Costo por fracción: ${this.currencyPipe.transform(costAHalf, 'GTQ')}`,
       costHour,
       costAHalf
+    }
+  }
+
+  get globalScheduleFormValues() {
+    const fromTime = this.principalScheduleForm.get('from')?.value
+    const toTime = this.principalScheduleForm.get('to')?.value
+    return {
+      fromTime,
+      toTime
     }
   }
 
@@ -226,100 +233,46 @@ export class TariffComponent implements OnInit {
 
   saveRule() {
     const ruleModelData = this.getTariffModel()
-    this.messageService.showLoading()
-    if (!this.formCostTypeSelected?.valid) {
-      this.messageService.error(
-        '',
-        'Formulario de costos invalido. Por favor verifique que los datos sean correctos. '
-      )
-      return
-    }
-    const newRule: CreateTariffModel = {
-      ...this.generalDataFormValues,
-      rules: ruleModelData.rule,
-      parking: this.parkingId,
-      static_description: ruleModelData.static_description
-    }
-    if (!newRule.rules) {
-      this.messageService.error(
-        '',
-        'No pudo obtenerse la tarifa para ser guardada.'
-      )
-    } else {
-      this.parkingService
-        .setRule(newRule)
-        .then((data) => {
-          if (data.success) {
-            this.messageService.OkTimeOut()
-          } else {
-            this.messageService.error('', data.message)
-          }
-          return data
-        })
-        .then(() => {
-          this.getTariffs()
-        })
-        .catch((e) => {
-          this.messageService.uncontrolledError(e.message)
-        })
-      this.messageService.OkTimeOut()
-    }
-  }
-
-  validateGeneralDataForm(control: string) {
-    return this.utilitiesService.controlInvalid(this.generalDataForm, control)
-  }
-
-  validateHolidayForm(control: string) {
-    return this.utilitiesService.controlInvalid(this.holidayForm, control)
-  }
-
-  validateRankForm(control: string) {
-    return this.utilitiesService.controlInvalid(this.rankForm, control)
-  }
-
-  validateBlockForm(control: string) {
-    return this.utilitiesService.controlInvalid(this.blockForm, control)
-  }
-
-  validateDefaultForm(control: string) {
-    return this.utilitiesService.controlInvalid(this.defaultForm, control)
-  }
-
-  validateHourHalfCost(control: string) {
-    return this.utilitiesService.controlInvalid(this.hourAHalfForm, control)
-  }
-
-  validateFixedCost(control: string) {
-    return this.utilitiesService.controlInvalid(this.fixedCostForm, control)
-  }
-
-  createHolidayOrRankForm() {
-    return this.formBuilder.group(
-      {
-        from: ['', Validators.required],
-        to: ['', [Validators.required]],
-        fromMinute: [null, [Validators.required, Validators.min(0)]]
-      },
-      { validators: [DateGreaterValidations()] }
-    )
-  }
-
-  createBlockForm() {
-    return this.formBuilder.group(
-      {
-        lowerLimit: [null, [Validators.required, Validators.min(0)]],
-        upperLimit: [null, [Validators.required, Validators.min(0)]],
-        fromMinute: [null, [Validators.required, Validators.min(0)]]
-      },
-      { validators: [NumberGreaterValidations()] }
-    )
-  }
-
-  createDefaultForm() {
-    return this.formBuilder.group({
-      fromMinute: [null, [Validators.required, Validators.min(0)]]
-    })
+    console.log(ruleModelData)
+    /* this.messageService.showLoading()
+     if (!this.formCostTypeSelected?.valid) {
+       this.messageService.error(
+         '',
+         'Formulario de costos invalido. Por favor verifique que los datos sean correctos. '
+       )
+       return
+     }
+     const newRule: CreateTariffModel = {
+       ...this.generalDataFormValues,
+       rules: ruleModelData.rule,
+       parking: this.parkingId,
+       static_description: ruleModelData.static_description
+     }
+     if (!newRule.rules) {
+       this.messageService.error(
+         '',
+         'No pudo obtenerse la tarifa para ser guardada.'
+       )
+     } else {
+       console.log(newRule)
+       this.parkingService
+         .setRule(newRule)
+         .then((data) => {
+           if (data.success) {
+             this.messageService.OkTimeOut()
+           } else {
+             this.messageService.error('', data.message)
+           }
+           return data
+         })
+         .then(() => {
+           this.getTariffs()
+         })
+         .catch((e) => {
+           this.messageService.uncontrolledError(e.message)
+         })
+       this.messageService.OkTimeOut()
+     }*/
   }
 
   validateSelected(time: number, cost: number) {
@@ -355,7 +308,7 @@ export class TariffComponent implements OnInit {
     //Holiday and Hour and Half
     try {
       this.getTariffs().catch()
-      this.validateRangesAgainstTheOthers()
+      //this.validateRangesAgainstTheOthers()
       if (this.validateSelected(1, 1)) {
         const input: HolidayHourHalfInputModel = {
           ...this.holidayFormValues,
@@ -420,7 +373,7 @@ export class TariffComponent implements OnInit {
         return new DefaultFixedCostRuleModel(input)
       }
       throw new Error(
-        'No se pudo obtener la inroamcion de las tarifas. Por favor intente nuevamente'
+        'No se pudo obtener la información de las tarifas. Por favor intente nuevamente'
       )
     } catch (ex) {
       this.messageService.error(ex.message)
@@ -430,6 +383,7 @@ export class TariffComponent implements OnInit {
 
   setDisableRanges() {
     const result = this.formTimeRangeSelected?.valid
+
     if (!result) {
       if (this.formTimeRangeSelected?.errors?.datesInvalid) {
         this.messageService.error(
@@ -487,32 +441,15 @@ export class TariffComponent implements OnInit {
       })
   }
 
-  private createGeneralDataForm() {
-    return this.formBuilder.group({
-      name: ['', Validators.required],
-      description: ['', Validators.required],
-      isShowDescription: [true]
-    })
-  }
-
-  private createHourHalfForm() {
-    return this.formBuilder.group({
-      hourCost: [null, Validators.required],
-      halfCost: [null, Validators.required]
-    })
-  }
-
-  private createFixedCostForm() {
-    return this.formBuilder.group({
-      fixedCost: [null, Validators.required]
-    })
-  }
-
   private async getTariffs() {
     return this.parkingService.getTariffsSaved(this.parkingId).then((data) => {
       if (data.success) {
         this.tariffs = data.data.rules
       }
     })
+  }
+
+  changeTimeRange(timeRange: number) {
+    this.timeRange = timeRange
   }
 }

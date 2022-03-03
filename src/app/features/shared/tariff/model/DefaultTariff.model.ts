@@ -2,7 +2,6 @@ import { RuleModel } from './Tariff.model'
 
 export class DefaultInputModel {
   static_descriptionTime = ''
-  fromMinute = 0
 }
 
 export class DefaultHourHalfInputModel extends DefaultInputModel {
@@ -47,11 +46,6 @@ export class DefaultHourHalfRuleModel {
             fact: 'minute',
             operator: 'greaterThanInclusive',
             value: 1
-          },
-          {
-            fact: 'minute',
-            operator: 'greaterThanInclusive',
-            value: this.defaultInput.fromMinute
           }
         ]
       },
@@ -88,11 +82,6 @@ export class DefaultFixedCostRuleModel {
                 fact: 'minute',
                 operator: 'greaterThanInclusive',
                 value: 1
-              },
-              {
-                fact: 'minute',
-                operator: 'greaterThanInclusive',
-                value: this.defaultInput.fromMinute
               }
             ]
           }

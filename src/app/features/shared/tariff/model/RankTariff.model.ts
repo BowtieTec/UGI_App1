@@ -5,7 +5,6 @@ export class RankInputModel {
   static_descriptionTime = ''
   fromTime!: Time
   toTime!: Time
-  fromMinute = 0
 }
 
 export class RankHourHalfInputModel extends RankInputModel {
@@ -94,12 +93,6 @@ export class RankHourHalfRuleModel {
             path: '$.minute',
             operator: 'lessThanInclusive',
             value: this.rankInput.toTime.minutes
-          },
-          {
-            fact: 'date_out_object',
-            path: '$.minute',
-            operator: 'greaterThanInclusive',
-            value: this.rankInput.fromMinute
           }
         ]
       },
@@ -156,12 +149,6 @@ export class RankFixedCostRuleModel {
                 path: '$.hour',
                 operator: 'greaterThanInclusive',
                 value: 1
-              },
-              {
-                fact: 'date_out_object',
-                path: '$.minute',
-                operator: 'greaterThanInclusive',
-                value: this.rankInput.fromMinute
               }
             ]
           }

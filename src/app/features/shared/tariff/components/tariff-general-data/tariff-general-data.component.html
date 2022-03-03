@@ -1,0 +1,56 @@
+<div>
+  <div class="titleCards">
+    <span><em class="fas fa-digital-tachograph"></em></span> Datos generales
+
+  </div>
+  <form [formGroup]="generalDataForm" action="" class="form-group">
+    <div class="row justify-content-center">
+      <div class="col-xl-4 col-lg-6 col-md-12">
+        <div class="mb-3">
+          <div class="input-group ">
+
+            <input [class.is-invalid]="validateGeneralDataForm('name')" [readOnly]="disableRanges"
+                   aria-describedby="basic-addon1" class="form-control inputClass" formControlName="name"
+                   placeholder="Nombre de la tarifa"
+                   type="text">
+          </div>
+          <small *ngIf="validateGeneralDataForm('name')" class="text-danger animate__animated  animate__rotateIn">*
+            Este campo es obligatorio</small>
+        </div>
+      </div>
+    </div>
+    <div class="row justify-content-center">
+
+      <div class="col-xl-4 col-lg-6 col-md-12">
+        <div class="form-floating">
+            <textarea [class.is-invalid]="validateGeneralDataForm('description')" [readOnly]="disableRanges"
+                      class="form-control" formControlName="description" id="descriptionTextArea"
+                      placeholder="Descripción de la tarifa" style="height: 100px"></textarea>
+          <label for="descriptionTextArea">Descripción de tarifa</label>
+        </div>
+        <small *ngIf="validateGeneralDataForm('description')"
+               class="text-danger animate__animated  animate__rotateIn">* Este campo es obligatorio</small>
+
+      </div>
+      <div class="text-center">
+        <br>
+        <ul class="opcionActivo" style="padding: 0;">
+          <li>
+            <input class="form-check-input" formControlName="isShowDescription" id="isShowDescription"
+                   type="checkbox">
+            <label class="form-check-label ms-2" for="isShowDescription">
+              Mostrar descripción
+            </label>
+          </li>
+          <li>
+            <input class="form-check-input" formControlName="hasGlobalSchedule" id="hasGlobalSchedule"
+                   type="checkbox">
+            <label class="form-check-label ms-2" for="hasGlobalSchedule">
+              Horario principal
+            </label>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </form>
+</div>

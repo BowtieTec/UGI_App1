@@ -1,0 +1,29 @@
+<div *ngIf="costType==1" class="animate__animated animate__fadeInUp ">
+  <h4>Hora / Fracción</h4>
+  <form [formGroup]="hourAHalfForm" action="">
+    <div class="row ">
+      <div class="mb-3">
+        <div class="input-group ">
+          <span class="input-group-text" id="basic-addon1">Precio por hora</span>
+          <input [class.is-invalid]="validateHourHalfCost('hourCost')" aria-describedby="basic-addon1"
+                 aria-label="cost" class="form-control" formControlName="hourCost" placeholder="123.12"
+                 type="number">
+        </div>
+        <small *ngIf="validateHourHalfCost('hourCost')"
+               class="text-danger animate__animated  animate__rotateIn">* Este campo es obligatorio</small>
+      </div>
+    </div>
+    <div class="row ">
+      <div class="mb-3">
+        <div class="input-group ">
+          <span class="input-group-text">Precio por fracción</span>
+          <input [class.is-invalid]="validateHourHalfCost('halfCost')" aria-describedby="basic-addon1"
+                 aria-label="cost" class="form-control" formControlName="halfCost" placeholder="123.12"
+                 type="number">
+        </div>
+        <small *ngIf="validateHourHalfCost('halfCost')"
+               class="text-danger animate__animated animate__rotateIn">* Este campo es obligatorio</small>
+      </div>
+    </div>
+  </form>
+</div>

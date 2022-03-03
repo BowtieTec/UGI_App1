@@ -2,60 +2,30 @@
   <div class="titleCards">
     <span> <em class="fas fa-comment-dollar"></em> </span> Tarifa
   </div>
-
-  <div>
-    <div *ngIf="disableRanges" class="alert alert-info animate__animated animate__zoomInDown" role="alert">
-      <p class="mb-0">Datos congelados, ahora elige el costo que se aplicará a este rango.</p>
-    </div>
-    <div class="titleCards">
-      <span><em class="fas fa-digital-tachograph"></em></span> Datos generales
-
-    </div>
-    <form [formGroup]="generalDataForm" action="" class="form-group">
-      <div class="row justify-content-center">
-        <div class="col-xl-4 col-lg-6 col-md-12">
-          <div class="mb-3">
-            <div class="input-group ">
-
-              <input [class.is-invalid]="validateGeneralDataForm('name')" [readOnly]="disableRanges"
-                     aria-describedby="basic-addon1" class="form-control inputClass" formControlName="name"
-                     placeholder="Nombre de la tarifa"
-                     type="text">
-            </div>
-            <small *ngIf="validateGeneralDataForm('name')" class="text-danger animate__animated  animate__rotateIn">*
-              Este campo es obligatorio</small>
-          </div>
-
-        </div>
+  <div class="row justify-content-center">
+    <ng-container [formGroup]="prioriceForm" class="radio-inline">
+      <div class="col-xl-4 col-lg-4 col-sm-6">
+        <app-radio-container [formGroup]="prioriceForm" [value]="1" controlName="prioriceCost"
+                             desc="Sumar las tarifas"></app-radio-container>
       </div>
-      <div class="row justify-content-center">
-
-        <div class="col-xl-4 col-lg-6 col-md-12">
-          <div class="form-floating">
-            <textarea [class.is-invalid]="validateGeneralDataForm('description')" [readOnly]="disableRanges"
-                      class="form-control" formControlName="description" id="descriptionTextArea"
-                      placeholder="Descripción de la tarifa" style="height: 100px"></textarea>
-            <label for="descriptionTextArea">Descripción de tarifa</label>
-          </div>
-          <small *ngIf="validateGeneralDataForm('description')"
-                 class="text-danger animate__animated  animate__rotateIn">* Este campo es obligatorio</small>
-
-        </div>
-        <div class="text-center">
-          <br>
-          <ul class="opcionActivo" style="padding: 0;">
-            <li>
-              <input class="form-check-input" formControlName="isShowDescription" id="isShowDescription"
-                     type="checkbox">
-              <label class="form-check-label ms-2" for="isShowDescription">
-                Mostrar descripción
-              </label>
-            </li>
-          </ul>
-        </div>
+      <div class="col-xl-4 col-lg-4 col-sm-6">
+        <app-radio-container [formGroup]="prioriceForm" [value]="2" controlName="prioriceCost"
+                             desc="Solo tarifa de entrada"></app-radio-container>
       </div>
-    </form>
+      <div class="col-xl-4 col-lg-4 col-sm-6">
+        <app-radio-container [formGroup]="prioriceForm" [value]="3" controlName="prioriceCost"
+                             desc="Solo tarifa de salida"></app-radio-container>
+      </div>
+    </ng-container>
+
   </div>
+
+  <div *ngIf="disableRanges" class="alert alert-info animate__animated animate__zoomInDown" role="alert">
+    <p class="mb-0">Datos congelados, ahora elige el costo que se aplicará a este rango.</p>
+  </div>
+  <app-tariff-general-data
+    [disableRanges]="disableRanges"
+    [generalDataForm]="generalDataForm"></app-tariff-general-data>
   <hr *ngIf="isValidGeneralData">
   <div class="row justify-content-center">
     <div *ngIf="isValidGeneralData" class=" col-md-6 col-xl-6 animate__animated animate__fadeInUp">
@@ -63,283 +33,67 @@
         <p class="mb-0">Esto ya no es editable, ahora elige el costo que se aplicará a este rango.</p>
       </div>
       <div class="titleCards">
-        <span><em class="fas fa-sort-numeric-up"></em></span> Rango de tiempo
+        <span><em class="fas fa-cogs"></em></span> Tiempo y precios
       </div>
-      <div aria-label="Basic radio toggle button group" role="group">
-        <ul class="opcionActivo text-center">
-          <li>
-            <input (click)="timeRange=1"
-                   [disabled]="disableRanges"
-                   autocomplete="off" checked
-                   class="btn-check" id="holidayTxt" name="rangeTime" type="radio">
-            <label
-              class="form-check-label"
-              for="holidayTxt">Fechas especiales</label>
-          </li>
-          <li>
-            <input (click)="timeRange=2" [disabled]="disableRanges" autocomplete="off"
-                   class="btn-check " id="timeRange"
-                   name="rangeTime" type="radio">
-            <label class="form-check-label" for="timeRange">Por horarios</label>
-          </li>
-          <li>
-            <input (click)="timeRange=3;" [disabled]="disableRanges" autocomplete="off" class="btn-check" id="timeslot"
-                   name="rangeTime" type="radio">
-            <label class="form-check-label" for="timeslot">Por bloques</label>
-          </li>
-          <li>
-            <input (click)="timeRange=4" [disabled]="disableRanges" autocomplete="off" class="btn-check" id="default"
-                   name="rangeTime" type="radio">
-            <label class="form-check-label" for="default">Por defecto</label>
-          </li>
-        </ul>
-      </div>
-      <div class="row mt-md-2 mt-xl-3 mt-4">
-        <div *ngIf="timeRange == 1" class="animate__animated animate__fadeInUp ">
-          <p><b>Fechas especiales o dias festivos</b></p>
-
-          <form [formGroup]="holidayForm" action="">
-            <div class="row justify-content-center">
-              <div class="col-md-4">
-                <div class="mb-3">
-
-                  <label class="text-secondary" style="display: block;">Desde</label>
-                  <input [class.is-invalid]="validateHolidayForm('from')" [readOnly]="disableRanges"
-                         aria-describedby="basic-addon1" class="inputClass" formControlName="from"
-                         type="datetime-local">
-
-
-                  <small *ngIf="validateHolidayForm('from')" class="text-danger animate__animated  animate__rotateIn">*
-                    Este
-                    campo es obligatorio</small>
-                </div>
-              </div>
-              <div class="col-md-4">
-                <div class="mb-3">
-
-                  <label class="text-secondary" style="display: block;">Hasta</label>
-                  <input [class.is-invalid]="validateHolidayForm('to')" [readOnly]="disableRanges"
-                         aria-describedby="basic-addon1" class="inputClass" formControlName="to" type="datetime-local">
-
-
-                  <small *ngIf="validateHolidayForm('to')" class="text-danger animate__animated  animate__rotateIn">*
-                    Este
-                    campo es obligatorio</small>
-                </div>
-              </div>
-
-
-              <div class="col-md-4">
-                <div class="mb-3">
-
-                  <label class="text-secondary" style="display: block;">Tiempo de gracia</label>
-                  <input [class.is-invalid]="validateHolidayForm('fromMinute')" [readOnly]="disableRanges"
-                         aria-describedby="basic-addon1" class="inputClass" formControlName="fromMinute"
-                         placeholder="En minutos" type="number">
-
-
-                  <small *ngIf="validateHolidayForm('fromMinute')"
-                         class="text-danger animate__animated  animate__rotateIn">* Este campo es obligatorio</small>
-                </div>
-              </div>
-            </div>
-          </form>
-
+      <app-principal-schedule
+        [disableRanges]="disableRanges"
+        [holidayForm]="principalScheduleForm"
+        [timeRange]="timeRange">
+      </app-principal-schedule>
+      <app-days-of-week [daysSelectedForm]="daysSelectedForm"></app-days-of-week>
+      <app-tariff-ranks (setNewTimeRange)="changeTimeRange($event)" [disableRanges]="disableRanges"
+                        [timeRange]="timeRange"></app-tariff-ranks>
+      <div class="animate__animated animate__fadeInRight" id="settings">
+        <div class="titleCards">
+          <hr>
+          <span><em class="fas fa-code-branch"></em></span> Configuración
         </div>
-        <div *ngIf="timeRange == 2" class="animate__animated animate__fadeInUp ">
-          <p><b> horarios o rango de horas</b></p>
-          <form [formGroup]="rankForm" action="">
-            <div class="row justify-content-center">
-              <div class="col-md-4">
-                <div class="mb-3">
-
-                  <label class="labelInput" style="display: block;">Desde</label>
-                  <input [class.is-invalid]="validateRankForm('from')" [readOnly]="disableRanges"
-                         aria-describedby="basic-addon1" class="inputClass" formControlName="from" type="time">
-
-                  <small *ngIf="validateRankForm('from')" class="text-danger animate__animated  animate__rotateIn">*
-                    Este
-                    campo es obligatorio</small>
-                </div>
-              </div>
-              <div class="col-md-4">
-                <div class="mb-3">
-
-                  <label class="labelInput" style="display: block;">Hasta</label>
-                  <input [class.is-invalid]="validateRankForm('to')" [readOnly]="disableRanges"
-                         aria-describedby="basic-addon1" class="inputClass" formControlName="to" type="time">
-                  <small *ngIf="validateRankForm('to')" class="text-danger animate__animated  animate__rotateIn">* Este
-                    campo es obligatorio</small>
-                </div>
-              </div>
-              <div class="col-md-4">
-                <div class="mb-3">
-
-                  <label class="labelInput" style="display: block;">Tiempo de gracia</label>
-                  <input [class.is-invalid]="validateRankForm('fromMinute')" [readOnly]="disableRanges"
-                         aria-describedby="basic-addon1" class="inputClass" formControlName="fromMinute"
-                         placeholder="En minutos" type="number">
-
-
-                  <small *ngIf="validateRankForm('fromMinute')"
-                         class="text-danger animate__animated  animate__rotateIn">*
-                    Este campo es obligatorio</small>
-                </div>
-              </div>
-            </div>
-
-
-          </form>
+        <div class="row mt-md-2 mt-xl-3 mt-4">
+          <app-holiday-tariff-form [disableRanges]="disableRanges"
+                                   [holidayForm]="holidayForm" [timeRange]="timeRange"></app-holiday-tariff-form>
+          <app-schedule-ranks-tariff-form [disableRanges]="disableRanges" [rankForm]="rankForm"
+                                          [timeRange]="timeRange"></app-schedule-ranks-tariff-form>
+          <app-blocks-tariff-form [blockForm]="blockForm" [disableRanges]="disableRanges"
+                                  [timeRange]="timeRange"></app-blocks-tariff-form>
+          <div *ngIf="timeRange == 4" class="animate__animated animate__fadeInUp ">
+            <p><b>Por defecto</b></p>
+            <p>
+              Este se ejecutará siempre que no los datos no entren en ningún rango anterior o que no existan rangos
+              anteriores.
+            </p>
+          </div>
         </div>
-        <div *ngIf="timeRange == 3" class="animate__animated animate__fadeInUp ">
-          <p><b>Por bloques de horas</b></p>
-          <form [formGroup]="blockForm" action="">
-            <div class="row justify-content-center">
-              <div class="col-md-4">
-                <div class="mb-3">
-
-                  <label class="labelInput" style="display: block;">Límite inferior</label>
-                  <input [class.is-invalid]="validateBlockForm('lowerLimit')" [readOnly]="disableRanges"
-                         aria-describedby="basic-addon1" class="inputClass" formControlName="lowerLimit"
-                         placeholder="Desde 0 horas" type="number">
-
-
-                  <small *ngIf="validateBlockForm('lowerLimit')"
-                         class="text-danger animate__animated  animate__rotateIn">*
-                    Este campo es obligatorio</small>
-                </div>
-              </div>
-              <div class="col-md-4">
-                <div class="mb-3">
-
-                  <label class="labelInput" style="display: block;">Límite superior</label>
-                  <input [class.is-invalid]="validateBlockForm('upperLimit')" [readOnly]="disableRanges"
-                         aria-describedby="basic-addon1" class="inputClass" formControlName="upperLimit"
-                         placeholder="Hasta 4 horas" type="number">
-
-
-                  <small *ngIf="validateBlockForm('upperLimit')"
-                         class="text-danger animate__animated  animate__rotateIn">*
-                    Este campo es obligatorio</small>
-                </div>
-              </div>
-              <div class="col-md-4">
-                <div class="mb-3">
-
-                  <label class="labelInput" style="display: block;">Tiempo de gracia</label>
-                  <input [class.is-invalid]="validateBlockForm('fromMinute')" [readOnly]="disableRanges"
-                         aria-describedby="basic-addon1" class="inputClass" formControlName="fromMinute"
-                         placeholder="En minutos" type="number">
-
-                  <small *ngIf="validateBlockForm('fromMinute')"
-                         class="text-danger animate__animated  animate__rotateIn">*
-                    Este campo es obligatorio</small>
-                </div>
-              </div>
-            </div>
-
-
-          </form>
-        </div>
-        <div *ngIf="timeRange == 4" class="animate__animated animate__fadeInUp ">
-
-          <p><b>Por defecto</b></p>
-
-          <form [formGroup]="defaultForm" action="">
-            <div class="row justify-content-center">
-              <div class="col-md-6">
-                <div class="mb-3">
-
-                  <label class="labelInput" style="display: block;">Tiempo de gracia</label>
-                  <input [class.is-invalid]="validateDefaultForm('fromMinute')" [readOnly]="disableRanges"
-                         aria-describedby="basic-addon1" class="inputClass" formControlName="fromMinute"
-                         placeholder="En minutos" type="number">
-
-                  <small *ngIf="validateDefaultForm('fromMinute')"
-                         class="text-danger animate__animated  animate__rotateIn">* Este campo es obligatorio</small>
-                </div>
-              </div>
-            </div>
-
-          </form>
-          <p>
-            Este se ejecutará siempre que no los datos no entren en ningún rango anterior o que no existan rangos
-            anteriores.
-          </p>
+        <div class=" text-center mt-4">
+          <button (click)="setDisableRanges()" class="btn btn-primary btn-lg " type="button">{{disableRanges ?
+            'Descongelar datos' : 'Congelar datos'}}
+          </button>
         </div>
       </div>
-      <div class=" text-center mt-4">
-        <button (click)="setDisableRanges()" class="btn btn-primary btn-lg " type="button">{{disableRanges ?
-          'Descongelar datos' : 'Congelar datos'}}
-        </button>
-      </div>
-    </div>
-    <div class="col-xl-1 "></div>
-    <div *ngIf="disableRanges" class="col-sm-12  col-md-12 col-xl-5 animate__animated animate__fadeInDown">
-      <div class="titleCards">
-        <span><em class="fas fa-dollar-sign"></em></span> Tipo de costo
-      </div>
-      <div aria-label="Basic radio toggle button group" class="btn-group" role="group">
-        <input (click)="costType=1" [readOnly]="disableRanges" autocomplete="off" checked class="btn-check"
-               id="hourFraction" name="costType" type="radio">
-        <label class="btn btn-outline-success m-1 " for="hourFraction">Hora / Fracción</label>
-        <input (click)="costType=2" [readOnly]="disableRanges" autocomplete="off" class="btn-check " id="fixedTariff"
-               name="costType" type="radio">
-        <label class="btn btn-outline-success m-1" for="fixedTariff">Tarifa fija</label>
-      </div>
-      <div class="row mt-4">
-        <div *ngIf="costType==1" class="animate__animated animate__fadeInUp ">
-          <h4>Hora / Fracción</h4>
-          <form [formGroup]="hourAHalfForm" action="">
-            <div class="row ">
-              <div class="mb-3">
-                <div class="input-group ">
-                  <span class="input-group-text" id="basic-addon1">Precio por hora</span>
-                  <input [class.is-invalid]="validateHourHalfCost('hourCost')" aria-describedby="basic-addon1"
-                         aria-label="cost" class="form-control" formControlName="hourCost" placeholder="123.12"
-                         type="number">
-                </div>
-                <small *ngIf="validateHourHalfCost('hourCost')"
-                       class="text-danger animate__animated  animate__rotateIn">* Este campo es obligatorio</small>
-              </div>
-            </div>
-            <div class="row ">
-              <div class="mb-3">
-                <div class="input-group ">
-                  <span class="input-group-text">Precio por fracción</span>
-                  <input [class.is-invalid]="validateHourHalfCost('halfCost')" aria-describedby="basic-addon1"
-                         aria-label="cost" class="form-control" formControlName="halfCost" placeholder="123.12"
-                         type="number">
-                </div>
-                <small *ngIf="validateHourHalfCost('halfCost')"
-                       class="text-danger animate__animated animate__rotateIn">* Este campo es obligatorio</small>
-              </div>
-            </div>
-          </form>
+      <div
+        class="animate__animated animate__fadeInDown">
+        <div class="titleCards">
+          <span><em class="fas fa-dollar-sign"></em></span> Tipo de costo
         </div>
-        <div *ngIf="costType==2" class="animate__animated animate__fadeInUp ">
-          <h4>Tarifa fija</h4>
-
-          <form [formGroup]="fixedCostForm" action="">
-            <div class="mb-3">
-              <div class="input-group">
-                <span class="input-group-text">Precio fijo</span>
-                <input [class.is-invalid]="validateFixedCost('fixedCost')" aria-describedby="basic-addon1"
-                       aria-label="cost" class="form-control" formControlName="fixedCost" placeholder="123.12"
-                       type="number">
-              </div>
-              <small *ngIf="validateFixedCost('fixedCost')" class="text-danger animate__animated  animate__rotateIn">*
-                Este campo es obligatorio</small>
-            </div>
-          </form>
+        <div aria-label="Basic radio toggle button group" class="btn-group" role="group">
+          <input (click)="costType=1" [readOnly]="disableRanges" autocomplete="off" checked class="btn-check"
+                 id="hourFraction" name="costType" type="radio">
+          <label class="btn btn-outline-success m-1 " for="hourFraction">Hora / Fracción</label>
+          <input (click)="costType=2" [readOnly]="disableRanges" autocomplete="off" class="btn-check " id="fixedTariff"
+                 name="costType" type="radio">
+          <label class="btn btn-outline-success m-1" for="fixedTariff">Tarifa fija</label>
         </div>
-      </div>
-      <div class=" text-center mt-4">
-        <button (click)="saveRule()" class="btn btn-success btn-lg " type="button">Guardar
-        </button>
+        <div class="row mt-4">
+          <app-hour-half-cost [costType]="costType" [hourAHalfForm]="hourAHalfForm"></app-hour-half-cost>
+          <app-fixed-cost [costType]="costType" [fixedCostForm]="fixedCostForm"></app-fixed-cost>
+        </div>
+        <div class=" text-center mt-4">
+          <button (click)="saveRule()" class="btn btn-success btn-lg " type="button">Guardar
+          </button>
+        </div>
       </div>
     </div>
   </div>
+
   <div class="m-4 animate__animated animate__fadeInDown">
     <hr *ngIf="ifHaveTariffData">
   </div>

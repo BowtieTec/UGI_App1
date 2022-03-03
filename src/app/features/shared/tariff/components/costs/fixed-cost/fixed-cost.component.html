@@ -1,0 +1,16 @@
+<div *ngIf="costType==2" class="animate__animated animate__fadeInUp ">
+  <h4>Tarifa fija</h4>
+
+  <form [formGroup]="fixedCostForm" action="">
+    <div class="mb-3">
+      <div class="input-group">
+        <span class="input-group-text">Precio fijo</span>
+        <input [class.is-invalid]="validateFixedCost('fixedCost')" aria-describedby="basic-addon1"
+               aria-label="cost" class="form-control" formControlName="fixedCost" placeholder="123.12"
+               type="number">
+      </div>
+      <small *ngIf="validateFixedCost('fixedCost')" class="text-danger animate__animated  animate__rotateIn">*
+        Este campo es obligatorio</small>
+    </div>
+  </form>
+</div>

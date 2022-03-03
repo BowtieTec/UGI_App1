@@ -1,0 +1,37 @@
+<div class="animate__animated animate__fadeInLeft" id="ranks">
+  <div class="titleCards">
+    <hr>
+    <span><em class="fas fa-expand-alt"></em></span> Rangos
+  </div>
+  <div aria-label="Basic radio toggle button group" role="group">
+    <ul class="opcionActivo text-center">
+      <li>
+        <input (click)="emitNewTimeRange(1)"
+               [disabled]="disableRanges"
+               autocomplete="off" checked
+               class="btn-check" id="holidayTxt" name="rangeTime" type="radio">
+        <label
+          class="form-check-label"
+          for="holidayTxt">Fechas especiales</label>
+      </li>
+      <li>
+        <input (click)="emitNewTimeRange(2)" [disabled]="disableRanges" autocomplete="off"
+               class="btn-check " id="timeRange"
+               name="rangeTime" type="radio">
+        <label class="form-check-label" for="timeRange">Por horarios</label>
+      </li>
+      <li>
+        <input (click)="emitNewTimeRange(3);" [disabled]="disableRanges" autocomplete="off" class="btn-check"
+               id="timeslot"
+               name="rangeTime" type="radio">
+        <label class="form-check-label" for="timeslot">Por bloques</label>
+      </li>
+      <li>
+        <input (click)="emitNewTimeRange(4)" [disabled]="disableRanges" autocomplete="off" class="btn-check"
+               id="default"
+               name="rangeTime" type="radio">
+        <label class="form-check-label" for="default">Por defecto</label>
+      </li>
+    </ul>
+  </div>
+</div>

@@ -4,7 +4,6 @@ export class HolidayInputModel {
   static_descriptionTime = ''
   fromDate: Date = new Date()
   toDate: Date = new Date()
-  fromMinute = 0
 }
 
 export class HolidayHourHalfInputModel extends HolidayInputModel {
@@ -64,11 +63,6 @@ export class HolidayHourHalfRuleModel {
             fact: 'date_out',
             operator: 'dateIsLessThan',
             value: this.holidayInput.toDate
-          },
-          {
-            fact: 'minute',
-            operator: 'greaterThanInclusive',
-            value: this.holidayInput.fromMinute
           }
         ]
       },
@@ -110,11 +104,6 @@ export class HolidayHourFixedCostModel {
                 fact: 'hour',
                 operator: 'greaterThanInclusive',
                 value: 1
-              },
-              {
-                fact: 'minute',
-                operator: 'greaterThanInclusive',
-                value: this.holidayInput.fromMinute
               }
             ]
           }
