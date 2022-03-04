@@ -2,39 +2,16 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
 import { FormBuilder, FormGroup } from '@angular/forms'
 import { UtilitiesService } from '../../../shared/services/utilities.service'
 import { MessageService } from '../../../shared/services/message.service'
-import {
-  HolidayFixedCostInputModel,
-  HolidayHourFixedCostModel,
-  HolidayHourHalfInputModel,
-  HolidayHourHalfRuleModel,
-  HolidayInputModel
-} from './model/HolidayTariff.model'
-import {
-  RankFixedCostInputModel,
-  RankFixedCostRuleModel,
-  RankHourHalfInputModel,
-  RankHourHalfRuleModel,
-  RankInputModel
-} from './model/RankTariff.model'
-import {
-  BlockFixedCostInputModel,
-  BlockFixedCostRuleModel,
-  BlockHourHalfInputModel,
-  BlockHourHalfRuleModel,
-  BlockInputModel
-} from './model/BlockTariff.model'
-import {
-  DefaultFixedCostInputModel,
-  DefaultFixedCostRuleModel,
-  DefaultHourHalfInputModel,
-  DefaultHourHalfRuleModel,
-  DefaultInputModel
-} from './model/DefaultTariff.model'
+import { HolidayInputModel } from './model/HolidayTariff.model'
+import { RankInputModel } from './model/RankTariff.model'
+import { BlockInputModel } from './model/BlockTariff.model'
+import { DefaultInputModel } from './model/DefaultTariff.model'
 import { ParkingService } from '../../parking/services/parking.service'
 import { CurrencyPipe, DatePipe } from '@angular/common'
 import { ValidationsService } from './service/validations.service'
 import { AuthService } from '../../../shared/services/auth.service'
 import { TariffFormsService } from './service/tariff-forms.service'
+import { FixedCostInputModel, HourHalfInputModel } from './model/Tariff.model'
 
 @Component({
   selector: 'app-tariff',
@@ -135,7 +112,7 @@ export class TariffComponent implements OnInit {
     }
   }
 
-  get hourHalfFormValues() {
+  get hourHalfFormValues(): HourHalfInputModel {
     const costHour = this.hourAHalfForm.get('hourCost')?.value
     const costAHalf = this.hourAHalfForm.get('halfCost')?.value
     return {
@@ -152,13 +129,14 @@ export class TariffComponent implements OnInit {
     const fromTime = this.principalScheduleForm.get('from')?.value
     const toTime = this.principalScheduleForm.get('to')?.value
     return {
+      static_descriptionGlobalTime: `Solo si esta dentro de ${fromTime} Hasta las ${toTime}.`,
       fromTime,
       toTime
     }
   }
 
-  get fixedCostFormValue() {
-    const fixedCost = this.fixedCostForm.get('fixedCost')!.value
+  get fixedCostFormValue(): FixedCostInputModel {
+    const fixedCost = this.fixedCostForm.get('fixedCost')?.value
     return {
       static_descriptionCost: `Único pago o Tarifa única: ${this.currencyPipe.transform(
         fixedCost,
@@ -212,9 +190,8 @@ export class TariffComponent implements OnInit {
     switch (this.costType) {
       case 1:
         return this.hourAHalfForm
-      //TODO: Esta validacion no es funcional
-      /* case 2:
-         return this.fixedCostForm*/
+      case 2:
+        return this.fixedCostForm
       default:
         return null
     }
@@ -232,7 +209,7 @@ export class TariffComponent implements OnInit {
   }
 
   saveRule() {
-    const ruleModelData = this.getTariffModel()
+    const ruleModelData = this.buildTariffJsonRules()
     console.log(ruleModelData)
     /* this.messageService.showLoading()
      if (!this.formCostTypeSelected?.valid) {
@@ -277,108 +254,6 @@ export class TariffComponent implements OnInit {
 
   validateSelected(time: number, cost: number) {
     return this.timeRange === time && this.costType === cost
-  }
-
-  validateRangesAgainstTheOthers() {
-    switch (this.timeRange) {
-      case 1:
-        this.validationService.validateHolidayRange(
-          this.holidayFormValues,
-          this.tariffs
-        )
-        break
-      case 2:
-        this.validationService.validateRankAgainstTheOthers(
-          this.rankFormValues,
-          this.tariffs
-        )
-        break
-    }
-  }
-
-  getTariffModel():
-    | HolidayHourHalfRuleModel
-    | HolidayHourFixedCostModel
-    | RankHourHalfRuleModel
-    | RankFixedCostRuleModel
-    | BlockHourHalfRuleModel
-    | BlockFixedCostRuleModel
-    | DefaultHourHalfRuleModel
-    | DefaultFixedCostRuleModel {
-    //Holiday and Hour and Half
-    try {
-      this.getTariffs().catch()
-      //this.validateRangesAgainstTheOthers()
-      if (this.validateSelected(1, 1)) {
-        const input: HolidayHourHalfInputModel = {
-          ...this.holidayFormValues,
-          ...this.hourHalfFormValues
-        }
-        return new HolidayHourHalfRuleModel(input)
-      }
-      //Holiday and Fixed Cost
-      if (this.validateSelected(1, 2)) {
-        const input: HolidayFixedCostInputModel = {
-          ...this.holidayFormValues,
-          ...this.fixedCostFormValue
-        }
-        return new HolidayHourFixedCostModel(input)
-      }
-      //Rank and Hour and Half Cost
-      if (this.validateSelected(2, 1)) {
-        const input: RankHourHalfInputModel = {
-          ...this.rankFormValues,
-          ...this.hourHalfFormValues
-        }
-        return new RankHourHalfRuleModel(input)
-      }
-      //Rank and Fixed Cost
-      if (this.validateSelected(2, 2)) {
-        const input: RankFixedCostInputModel = {
-          ...this.rankFormValues,
-          ...this.fixedCostFormValue
-        }
-        return new RankFixedCostRuleModel(input)
-      }
-      //Blocks and Hour and Half
-      if (this.validateSelected(3, 1)) {
-        const input: BlockHourHalfInputModel = {
-          ...this.blockFormValues,
-          ...this.hourHalfFormValues
-        }
-        return new BlockHourHalfRuleModel(input)
-      }
-      //Blocks and Fixed Cost
-      if (this.validateSelected(3, 2)) {
-        const input: BlockFixedCostInputModel = {
-          ...this.blockFormValues,
-          ...this.fixedCostFormValue
-        }
-        return new BlockFixedCostRuleModel(input)
-      }
-      //Default and Hour and Half Cost
-      if (this.validateSelected(4, 1)) {
-        const input: DefaultHourHalfInputModel = {
-          ...this.defaultFormValues,
-          ...this.hourHalfFormValues
-        }
-        return new DefaultHourHalfRuleModel(input)
-      }
-      //Default and Fixed Cost
-      if (this.validateSelected(4, 2)) {
-        const input: DefaultFixedCostInputModel = {
-          ...this.defaultFormValues,
-          ...this.fixedCostFormValue
-        }
-        return new DefaultFixedCostRuleModel(input)
-      }
-      throw new Error(
-        'No se pudo obtener la información de las tarifas. Por favor intente nuevamente'
-      )
-    } catch (ex) {
-      this.messageService.error(ex.message)
-      throw new Error(ex)
-    }
   }
 
   setDisableRanges() {
@@ -452,4 +327,6 @@ export class TariffComponent implements OnInit {
   changeTimeRange(timeRange: number) {
     this.timeRange = timeRange
   }
+
+  private buildTariffJsonRules() {}
 }

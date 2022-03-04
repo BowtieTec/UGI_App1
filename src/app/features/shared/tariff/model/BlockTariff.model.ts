@@ -1,5 +1,3 @@
-import { RuleModel } from './Tariff.model'
-
 export class BlockInputModel {
   static_descriptionTime = ''
   hourLowerLimit = 0
@@ -8,16 +6,7 @@ export class BlockInputModel {
   minuteUpperLimit = 0
 }
 
-export class BlockHourHalfInputModel extends BlockInputModel {
-  static_descriptionCost = ''
-  costHour = 0
-  costAHalf = 0
-}
-
-export class BlockFixedCostInputModel extends BlockInputModel {
-  static_descriptionCost = ''
-  fixedCost = 0
-}
+/*
 
 export class BlockHourHalfRuleModel {
   static_description: string =
@@ -124,3 +113,4 @@ export class BlockFixedCostRuleModel {
 
   constructor(private blockInput: BlockFixedCostInputModel) {}
 }
+*/
