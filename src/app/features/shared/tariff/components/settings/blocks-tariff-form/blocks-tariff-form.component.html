@@ -2,33 +2,39 @@
   <p><b>Por bloques de horas</b></p>
   <form [formGroup]="blockForm" action="">
     <div class="row justify-content-center">
-      <div class="col-md-4">
-        <div class="mb-3">
-
-          <label class="labelInput" style="display: block;">Límite inferior</label>
-          <input [class.is-invalid]="validateBlockForm('lowerLimit')" [readOnly]="disableRanges"
-                 aria-describedby="basic-addon1" class="inputClass" formControlName="lowerLimit"
-                 placeholder="Desde 0 horas" type="number">
-
-
-          <small *ngIf="validateBlockForm('lowerLimit')"
-                 class="text-danger animate__animated  animate__rotateIn">*
-            Este campo es obligatorio</small>
-        </div>
+      <div class="col-md-6">
+        <app-input-container
+          [formGroup]="blockForm"
+          controlName="hourLowerLimit"
+          name="Limite inferior en horas"
+          type="number">
+        </app-input-container>
       </div>
-      <div class="col-md-4">
-        <div class="mb-3">
-
-          <label class="labelInput" style="display: block;">Límite superior</label>
-          <input [class.is-invalid]="validateBlockForm('upperLimit')" [readOnly]="disableRanges"
-                 aria-describedby="basic-addon1" class="inputClass" formControlName="upperLimit"
-                 placeholder="Hasta 4 horas" type="number">
-
-
-          <small *ngIf="validateBlockForm('upperLimit')"
-                 class="text-danger animate__animated  animate__rotateIn">*
-            Este campo es obligatorio</small>
-        </div>
+      <div class="col-md-6">
+        <app-input-container
+          [formGroup]="blockForm"
+          controlName="minuteLowerLimit"
+          name="Limite inferior en minutos"
+          type="number">
+        </app-input-container>
+      </div>
+    </div>
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <app-input-container
+          [formGroup]="blockForm"
+          controlName="hourUpperLimit"
+          name="Limite superior en horas"
+          type="number">
+        </app-input-container>
+      </div>
+      <div class="col-md-6">
+        <app-input-container
+          [formGroup]="blockForm"
+          controlName="minuteUpperLimit"
+          name="Limite superior en minutos"
+          type="number">
+        </app-input-container>
       </div>
     </div>
   </form>

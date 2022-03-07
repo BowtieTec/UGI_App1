@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core'
 import { HolidayInputModel } from '../model/HolidayTariff.model'
 import {
+  All,
   FixedCostInputModel,
   HourHalfInputModel,
-  ICondition,
   IEvent
 } from '../model/Tariff.model'
 import { BlockInputModel } from '../model/BlockTariff.model'
@@ -13,7 +13,7 @@ import { RankInputModel } from '../model/RankTariff.model'
   providedIn: 'root'
 })
 export class BuildRulesService {
-  static getHolidayIn(input: HolidayInputModel): ICondition[] {
+  static getHolidayIn(input: HolidayInputModel): All[] {
     return [
       {
         fact: 'date_in',
@@ -28,7 +28,7 @@ export class BuildRulesService {
     ]
   }
 
-  static getHolidayOut(input: HolidayInputModel): ICondition[] {
+  public static getHolidayOut(input: HolidayInputModel): All[] {
     return [
       {
         fact: 'date_out',
@@ -43,7 +43,7 @@ export class BuildRulesService {
     ]
   }
 
-  static getBlock(input: BlockInputModel): ICondition[] {
+  public static getBlock(input: BlockInputModel): All[] {
     return [
       {
         fact: 'hour',
@@ -68,7 +68,7 @@ export class BuildRulesService {
     ]
   }
 
-  static getRanksOut(input: RankInputModel): ICondition[] {
+  public static getRanksOut(input: RankInputModel): All[] {
     return [
       {
         fact: 'date_out_object',
@@ -97,7 +97,7 @@ export class BuildRulesService {
     ]
   }
 
-  static getRanksOrScheduleIn(input: RankInputModel): ICondition[] {
+  public static getRanksOrScheduleIn(input: RankInputModel): All[] {
     return [
       {
         fact: 'date_in_object',
@@ -126,7 +126,7 @@ export class BuildRulesService {
     ]
   }
 
-  static getRanksOrScheduleOut(input: RankInputModel): ICondition[] {
+  public static getRanksOrScheduleOut(input: RankInputModel): All[] {
     return [
       {
         fact: 'date_out_object',
@@ -155,7 +155,7 @@ export class BuildRulesService {
     ]
   }
 
-  static getDaysIn(days: []): ICondition[] {
+  public static getDaysIn(days: number[]): All[] {
     return [
       {
         fact: 'date_in_object',
@@ -165,7 +165,7 @@ export class BuildRulesService {
     ]
   }
 
-  static getDaysOut(days: []): ICondition[] {
+  public static getDaysOut(days: number[]): All[] {
     return [
       {
         fact: 'date_out_object',
@@ -175,7 +175,8 @@ export class BuildRulesService {
     ]
   }
 
-  static getGlobalSchedule(input: RankInputModel): ICondition[] {
+  public static getGlobalSchedule(input: RankInputModel): All[] {
+    console.log(input.fromTime.hours)
     return [
       {
         fact: 'date_in_object',
@@ -200,11 +201,35 @@ export class BuildRulesService {
         path: '$.minute',
         operator: 'lessThanInclusive',
         value: input.toTime.minutes
+      },
+      {
+        fact: 'date_out_object',
+        path: '$.hour',
+        operator: 'greaterThanInclusive',
+        value: input.fromTime.hours
+      },
+      {
+        fact: 'date_out_object',
+        path: '$.hour',
+        operator: 'lessThanInclusive',
+        value: input.toTime.hours
+      },
+      {
+        fact: 'date_out_object',
+        path: '$.minute',
+        operator: 'greaterThanInclusive',
+        value: input.fromTime.minutes
+      },
+      {
+        fact: 'date_out_object',
+        path: '$.minute',
+        operator: 'lessThanInclusive',
+        value: input.toTime.minutes
       }
     ]
   }
 
-  static getHourOrHalfEvent(input: HourHalfInputModel): IEvent {
+  public static getHourOrHalfEvent(input: HourHalfInputModel): IEvent {
     return {
       type: 'Tarifa por hora y fraccion',
       params: [
@@ -226,7 +251,7 @@ export class BuildRulesService {
     }
   }
 
-  static getFixedPriceEvent(input: FixedCostInputModel): IEvent {
+  public static getFixedPriceEvent(input: FixedCostInputModel): IEvent {
     return {
       type: 'costo fijo',
       params: {

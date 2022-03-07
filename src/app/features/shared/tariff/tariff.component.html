@@ -6,14 +6,10 @@
     <ng-container [formGroup]="prioriceForm" class="radio-inline">
       <div class="col-xl-4 col-lg-4 col-sm-6">
         <app-radio-container [formGroup]="prioriceForm" [value]="1" controlName="prioriceCost"
-                             desc="Sumar las tarifas"></app-radio-container>
-      </div>
-      <div class="col-xl-4 col-lg-4 col-sm-6">
-        <app-radio-container [formGroup]="prioriceForm" [value]="2" controlName="prioriceCost"
                              desc="Solo tarifa de entrada"></app-radio-container>
       </div>
       <div class="col-xl-4 col-lg-4 col-sm-6">
-        <app-radio-container [formGroup]="prioriceForm" [value]="3" controlName="prioriceCost"
+        <app-radio-container [formGroup]="prioriceForm" [value]="2" controlName="prioriceCost"
                              desc="Solo tarifa de salida"></app-radio-container>
       </div>
     </ng-container>

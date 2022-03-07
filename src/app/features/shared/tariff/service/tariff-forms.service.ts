@@ -40,10 +40,13 @@ export class TariffFormsService {
   }
 
   createPrincipalScheduleForm() {
-    return this.formBuilder.group({
-      from: ['', []],
-      to: ['', []]
-    })
+    return this.formBuilder.group(
+      {
+        from: ['', [Validators.required]],
+        to: ['', [Validators.required]]
+      },
+      { validators: [DateGreaterValidations()] }
+    )
   }
 
   createHolidayOrRankForm() {
@@ -59,8 +62,8 @@ export class TariffFormsService {
   createBlockForm() {
     return this.formBuilder.group(
       {
-        lowerLimit: [null, [Validators.required, Validators.min(0)]],
-        upperLimit: [null, [Validators.required, Validators.min(0)]],
+        hourLowerLimit: [null, [Validators.required, Validators.min(0)]],
+        hourUpperLimit: [null, [Validators.required, Validators.min(0)]],
         minuteLowerLimit: [null, [Validators.required, Validators.min(0)]],
         minuteUpperLimit: [null, [Validators.required, Validators.min(0)]]
       },
@@ -74,11 +77,11 @@ export class TariffFormsService {
 
   createDaysSelectedForm() {
     return this.formBuilder.group({
-      mon: [false],
-      tue: [false],
-      wed: [false],
-      thu: [false],
-      fri: [false],
+      mon: [true],
+      tue: [true],
+      wed: [true],
+      thu: [true],
+      fri: [true],
       sat: [false],
       sun: [false]
     })

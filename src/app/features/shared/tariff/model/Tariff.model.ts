@@ -24,12 +24,12 @@ export class RuleModelSaved {
 }
 
 export class Rules {
-  conditions?: Conditions
-  event?: Event
+  conditions: Conditions = new Conditions()
+  event: Event = new Event()
 }
 
 export class Conditions {
-  all?: All[] = []
+  all: All[] = []
   any?: Any[]
 }
 
@@ -37,7 +37,7 @@ export class All implements ICondition {
   fact = ''
   operator = ''
   path?: string
-  value: string | number | Date = ''
+  value?: string | number | Date | number[]
   any?: Any[]
 }
 
@@ -63,7 +63,7 @@ export interface ICondition {
   fact: string
   operator: string
   path?: string
-  value: string | number | Date | []
+  value?: string | number | Date | number[]
 }
 
 export interface IEvent {
