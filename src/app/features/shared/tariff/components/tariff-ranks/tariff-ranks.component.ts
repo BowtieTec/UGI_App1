@@ -7,7 +7,6 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
 })
 export class TariffRanksComponent implements OnInit {
   @Input() timeRange!: number
-  @Input() disableRanges!: boolean
   @Output() setNewTimeRange = new EventEmitter<number>()
 
   constructor() {}

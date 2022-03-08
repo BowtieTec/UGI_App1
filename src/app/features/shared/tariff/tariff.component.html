@@ -13,31 +13,23 @@
                              desc="Solo tarifa de salida"></app-radio-container>
       </div>
     </ng-container>
-
-  </div>
-
-  <div *ngIf="disableRanges" class="alert alert-info animate__animated animate__zoomInDown" role="alert">
-    <p class="mb-0">Datos congelados, ahora elige el costo que se aplicará a este rango.</p>
   </div>
   <app-tariff-general-data
-    [disableRanges]="disableRanges"
     [generalDataForm]="generalDataForm"></app-tariff-general-data>
-  <hr *ngIf="isValidGeneralData">
   <div class="row justify-content-center">
-    <div *ngIf="isValidGeneralData" class=" col-md-6 col-xl-6 animate__animated animate__fadeInUp">
-      <div *ngIf="disableRanges" class="alert alert-info animate__animated animate__zoomInDown" role="alert">
-        <p class="mb-0">Esto ya no es editable, ahora elige el costo que se aplicará a este rango.</p>
+    <div *ngIf="isValidGeneralData" class="titleCards animate__animated animate__fadeInUp">
+      <span><em class="fas fa-cogs"></em></span> Rangos y Costos
+      <hr>
+    </div>
+    <div *ngIf="isValidGeneralData" class=" col-md-10 animate__animated animate__fadeInUp">
+      <div class="animate__animated animate__fadeIn">
+        <app-principal-schedule *ngIf="this.hasGlobalSchedule"
+                                [holidayForm]="principalScheduleForm"
+                                [timeRange]="timeRange">
+        </app-principal-schedule>
       </div>
-      <div class="titleCards">
-        <span><em class="fas fa-cogs"></em></span> Tiempo y precios
-      </div>
-      <app-principal-schedule
-        [disableRanges]="disableRanges"
-        [holidayForm]="principalScheduleForm"
-        [timeRange]="timeRange">
-      </app-principal-schedule>
       <app-days-of-week [daysSelectedForm]="daysSelectedForm"></app-days-of-week>
-      <app-tariff-ranks (setNewTimeRange)="changeTimeRange($event)" [disableRanges]="disableRanges"
+      <app-tariff-ranks (setNewTimeRange)="changeTimeRange($event)"
                         [timeRange]="timeRange"></app-tariff-ranks>
       <div class="animate__animated animate__fadeInRight" id="settings">
         <div class="titleCards">
@@ -45,11 +37,11 @@
           <span><em class="fas fa-code-branch"></em></span> Configuración
         </div>
         <div class="row mt-md-2 mt-xl-3 mt-4">
-          <app-holiday-tariff-form [disableRanges]="disableRanges"
-                                   [holidayForm]="holidayForm" [timeRange]="timeRange"></app-holiday-tariff-form>
-          <app-schedule-ranks-tariff-form [disableRanges]="disableRanges" [rankForm]="rankForm"
+          <app-holiday-tariff-form
+            [holidayForm]="holidayForm" [timeRange]="timeRange"></app-holiday-tariff-form>
+          <app-schedule-ranks-tariff-form [rankForm]="rankForm"
                                           [timeRange]="timeRange"></app-schedule-ranks-tariff-form>
-          <app-blocks-tariff-form [blockForm]="blockForm" [disableRanges]="disableRanges"
+          <app-blocks-tariff-form [blockForm]="blockForm"
                                   [timeRange]="timeRange"></app-blocks-tariff-form>
           <div *ngIf="timeRange == 4" class="animate__animated animate__fadeInUp ">
             <p><b>Por defecto</b></p>
@@ -59,22 +51,18 @@
             </p>
           </div>
         </div>
-        <div class=" text-center mt-4">
-          <button (click)="setDisableRanges()" class="btn btn-primary btn-lg " type="button">{{disableRanges ?
-            'Descongelar datos' : 'Congelar datos'}}
-          </button>
-        </div>
       </div>
       <div
         class="animate__animated animate__fadeInDown">
         <div class="titleCards">
+          <hr>
           <span><em class="fas fa-dollar-sign"></em></span> Tipo de costo
         </div>
         <div aria-label="Basic radio toggle button group" class="btn-group" role="group">
-          <input (click)="costType=1" [readOnly]="disableRanges" autocomplete="off" checked class="btn-check"
+          <input (click)="costType=1" autocomplete="off" checked class="btn-check"
                  id="hourFraction" name="costType" type="radio">
           <label class="btn btn-outline-success m-1 " for="hourFraction">Hora / Fracción</label>
-          <input (click)="costType=2" [readOnly]="disableRanges" autocomplete="off" class="btn-check " id="fixedTariff"
+          <input (click)="costType=2" autocomplete="off" class="btn-check " id="fixedTariff"
                  name="costType" type="radio">
           <label class="btn btn-outline-success m-1" for="fixedTariff">Tarifa fija</label>
         </div>

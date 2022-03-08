@@ -9,14 +9,9 @@ import { FormGroup } from '@angular/forms'
 })
 export class HolidayTariffFormComponent implements OnInit {
   @Input() holidayForm!: FormGroup
-  @Input() disableRanges!: boolean
   @Input() timeRange!: number
 
   constructor(private utilitiesService: UtilitiesService) {}
 
   ngOnInit(): void {}
-
-  validateHolidayForm(control: string) {
-    return this.utilitiesService.controlInvalid(this.holidayForm, control)
-  }
 }

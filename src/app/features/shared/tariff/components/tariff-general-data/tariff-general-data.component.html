@@ -5,11 +5,11 @@
   </div>
   <form [formGroup]="generalDataForm" action="" class="form-group">
     <div class="row justify-content-center">
-      <div class="col-xl-4 col-lg-6 col-md-12">
+      <div class="col-xl-10 col-lg-6 col-md-12">
         <div class="mb-3">
           <div class="input-group ">
 
-            <input [class.is-invalid]="validateGeneralDataForm('name')" [readOnly]="disableRanges"
+            <input [class.is-invalid]="validateGeneralDataForm('name')"
                    aria-describedby="basic-addon1" class="form-control inputClass" formControlName="name"
                    placeholder="Nombre de la tarifa"
                    type="text">
@@ -21,9 +21,9 @@
     </div>
     <div class="row justify-content-center">
 
-      <div class="col-xl-4 col-lg-6 col-md-12">
+      <div class="col-xl-10 col-lg-6 col-md-12">
         <div class="form-floating">
-            <textarea [class.is-invalid]="validateGeneralDataForm('description')" [readOnly]="disableRanges"
+            <textarea [class.is-invalid]="validateGeneralDataForm('description')"
                       class="form-control" formControlName="description" id="descriptionTextArea"
                       placeholder="Descripción de la tarifa" style="height: 100px"></textarea>
           <label for="descriptionTextArea">Descripción de tarifa</label>

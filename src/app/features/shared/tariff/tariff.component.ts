@@ -32,7 +32,6 @@ export class TariffComponent implements OnInit {
   @Output() changeStep = new EventEmitter<number>()
   timeRange = 1
   costType = 1
-  disableRanges = false
   tariffs: Array<any> = []
 
   generalDataForm: FormGroup = this.tariffForms.createGeneralDataForm()
@@ -318,6 +317,8 @@ export class TariffComponent implements OnInit {
   }
 
   saveRule() {
+    const isValid = this.validateForms()
+    if (!isValid) return
     const newRule = this.buildTariffJsonRules()
     if (!newRule.rules) {
       this.messageService.error(
@@ -350,41 +351,61 @@ export class TariffComponent implements OnInit {
     return this.timeRange === time && this.costType === cost
   }
 
-  setDisableRanges() {
+  validateForms() {
     const result = this.formTimeRangeSelected?.valid
 
     if (!result) {
       if (this.formTimeRangeSelected?.errors?.datesInvalid) {
         this.messageService.error(
-          '',
+          'Error en Rangos',
           'La segunda fecha "Hasta" debe ser mayor a la fecha "Desde".'
         )
-        return
+        this.utilitiesService.markAsInvalid(this.formTimeRangeSelected, 'to', {
+          datesInvalid: true
+        })
+        return false
       }
       if (this.formTimeRangeSelected?.errors?.quantitiesInvalid) {
         this.messageService.error(
-          '',
+          'Error en Rangos',
           'El limite inferior es mayor al limite superior.'
         )
-        return
+        this.utilitiesService.markAsInvalid(this.formTimeRangeSelected, 'to', {
+          quantitiesInvalid: true
+        })
+        return false
       }
       this.messageService.error(
         '',
-        'Formulario de rangos de tiempo inválido. Por favor validar que los datos sean correctos.'
+        'Formulario de Rangos inválido. Por favor validar que los datos sean correctos.'
       )
-      return
+      return false
     }
     if (!this.isValidGeneralData) {
       this.messageService.error(
         '',
         'Formulario de datos generales inválido. Por favor validar que los datos sean correctos.'
       )
-      return
+      return false
     }
+    if (
+      this.principalScheduleForm?.errors?.datesInvalid &&
+      this.hasGlobalSchedule
+    ) {
+      this.messageService.error(
+        'Error en Horario global',
+        'La segunda fecha "Hasta" debe ser mayor a la fecha "Desde".'
+      )
+      this.utilitiesService.markAsInvalid(this.principalScheduleForm, 'to', {
+        datesInvalid: true
+      })
+      return false
+    }
+
     if (result) {
       this.costType = 1
-      this.disableRanges = !this.disableRanges
     }
+    return true
   }
 
   emmitStep(number: number) {

@@ -9,7 +9,6 @@ import { UtilitiesService } from '../../../../../shared/services/utilities.servi
 })
 export class PrincipalScheduleComponent implements OnInit {
   @Input() holidayForm!: FormGroup
-  @Input() disableRanges!: boolean
   @Input() timeRange!: number
 
   constructor(private utilitiesService: UtilitiesService) {}

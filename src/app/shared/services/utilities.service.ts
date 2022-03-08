@@ -20,6 +20,10 @@ export class UtilitiesService {
     )
   }
 
+  markAsInvalid(form: FormGroup, control: string, error: any) {
+    form.get(control)?.setErrors(error)
+  }
+
   randomString() {
     const allCapsAlpha = [
       'A',

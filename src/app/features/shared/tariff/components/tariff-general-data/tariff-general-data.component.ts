@@ -9,7 +9,6 @@ import { UtilitiesService } from '../../../../../shared/services/utilities.servi
 })
 export class TariffGeneralDataComponent implements OnInit {
   @Input() generalDataForm!: FormGroup
-  @Input() disableRanges!: boolean
 
   constructor(private utilitiesService: UtilitiesService) {}
 

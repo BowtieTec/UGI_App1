@@ -10,7 +10,6 @@ import { FormGroup } from '@angular/forms'
 export class ScheduleRanksTariffFormComponent implements OnInit {
   @Input() rankForm!: FormGroup
   @Input() timeRange!: number
-  @Input() disableRanges!: boolean
 
   constructor(private utilitiesService: UtilitiesService) {}
 

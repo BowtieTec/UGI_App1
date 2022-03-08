@@ -9,7 +9,6 @@ import { UtilitiesService } from '../../../../../../shared/services/utilities.se
 })
 export class BlocksTariffFormComponent implements OnInit {
   @Input() blockForm!: FormGroup
-  @Input() disableRanges!: boolean
   @Input() timeRange!: number
 
   constructor(private utilitiesService: UtilitiesService) {}

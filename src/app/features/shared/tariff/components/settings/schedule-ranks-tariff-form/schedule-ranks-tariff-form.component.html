@@ -6,7 +6,7 @@
         <div class="mb-3">
 
           <label class="labelInput" style="display: block;">Desde</label>
-          <input [class.is-invalid]="validateRankForm('from')" [readOnly]="disableRanges"
+          <input [class.is-invalid]="validateRankForm('from')"
                  aria-describedby="basic-addon1" class="inputClass" formControlName="from" type="time">
 
           <small *ngIf="validateRankForm('from')" class="text-danger animate__animated  animate__rotateIn">*
@@ -18,7 +18,7 @@
         <div class="mb-3">
 
           <label class="labelInput" style="display: block;">Hasta</label>
-          <input [class.is-invalid]="validateRankForm('to')" [readOnly]="disableRanges"
+          <input [class.is-invalid]="validateRankForm('to')"
                  aria-describedby="basic-addon1" class="inputClass" formControlName="to" type="time">
           <small *ngIf="validateRankForm('to')" class="text-danger animate__animated  animate__rotateIn">*
             Este
