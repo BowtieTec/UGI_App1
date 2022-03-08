@@ -226,24 +226,6 @@ export class TariffComponent implements OnInit {
     }
   }
 
-  getHour(time: string): number {
-    return Number(time.split(':')[0])
-  }
-
-  getMinutes(time: string): number {
-    return Number(time.split(':')[1])
-  }
-
-  toConvert24(time24: string) {
-    let ts = time24
-    const H = +ts.substr(0, 2)
-    let h: string | number = H % 12 || 12
-    h = h < 10 ? '0' + h : h // leading 0 at the left for 1 digit hours
-    const ampm = H < 12 ? ' AM' : ' PM'
-    ts = h + ts.substr(2, 3) + ampm
-    return ts
-  }
-
   get fixedCostFormValue(): FixedCostInputModel {
     const fixedCost = this.fixedCostForm.get('fixedCost')?.value
     return {
@@ -308,6 +290,24 @@ export class TariffComponent implements OnInit {
 
   get ifHaveTariffData() {
     return this.tariffs && this.tariffs?.length > 0
+  }
+
+  getHour(time: string): number {
+    return Number(time.split(':')[0])
+  }
+
+  getMinutes(time: string): number {
+    return Number(time.split(':')[1])
+  }
+
+  toConvert24(time24: string) {
+    let ts = time24
+    const H = +ts.substr(0, 2)
+    let h: string | number = H % 12 || 12
+    h = h < 10 ? '0' + h : h // leading 0 at the left for 1 digit hours
+    const ampm = H < 12 ? ' AM' : ' PM'
+    ts = h + ts.substr(2, 3) + ampm
+    return ts
   }
 
   ngOnInit(): void {
