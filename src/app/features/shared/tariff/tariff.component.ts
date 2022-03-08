@@ -1,44 +1,25 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
-import { FormBuilder, FormGroup, Validators } from '@angular/forms'
+import { FormBuilder, FormGroup } from '@angular/forms'
 import { UtilitiesService } from '../../../shared/services/utilities.service'
 import { MessageService } from '../../../shared/services/message.service'
-import {
-  HolidayFixedCostInputModel,
-  HolidayHourFixedCostModel,
-  HolidayHourHalfInputModel,
-  HolidayHourHalfRuleModel,
-  HolidayInputModel
-} from './model/HolidayTariff.model'
-import {
-  RankFixedCostInputModel,
-  RankFixedCostRuleModel,
-  RankHourHalfInputModel,
-  RankHourHalfRuleModel,
-  RankInputModel
-} from './model/RankTariff.model'
-import {
-  BlockFixedCostInputModel,
-  BlockFixedCostRuleModel,
-  BlockHourHalfInputModel,
-  BlockHourHalfRuleModel,
-  BlockInputModel
-} from './model/BlockTariff.model'
-import {
-  DefaultFixedCostInputModel,
-  DefaultFixedCostRuleModel,
-  DefaultHourHalfInputModel,
-  DefaultHourHalfRuleModel,
-  DefaultInputModel
-} from './model/DefaultTariff.model'
+import { HolidayInputModel } from './model/HolidayTariff.model'
+import { RankInputModel } from './model/RankTariff.model'
+import { BlockInputModel } from './model/BlockTariff.model'
+import { DefaultInputModel } from './model/DefaultTariff.model'
 import { ParkingService } from '../../parking/services/parking.service'
-import { CreateTariffModel } from '../../parking/models/Tariff.model'
-import { CurrencyPipe, DatePipe } from '@angular/common'
-import {
-  DateGreaterValidations,
-  NumberGreaterValidations
-} from '../../../shared/validators/GreatherThan.validations'
+import { CurrencyPipe, DatePipe, Time } from '@angular/common'
 import { ValidationsService } from './service/validations.service'
 import { AuthService } from '../../../shared/services/auth.service'
+import { TariffFormsService } from './service/tariff-forms.service'
+import {
+  All,
+  FixedCostInputModel,
+  HourHalfInputModel,
+  IEvent,
+  Rules
+} from './model/Tariff.model'
+import { CreateTariffModel } from '../../parking/models/Tariff.model'
+import { BuildRulesService } from './service/build-rules.service'
 
 @Component({
   selector: 'app-tariff',
@@ -51,17 +32,20 @@ export class TariffComponent implements OnInit {
   @Output() changeStep = new EventEmitter<number>()
   timeRange = 1
   costType = 1
-  disableRanges = false
   tariffs: Array<any> = []
 
-  generalDataForm: FormGroup = this.createGeneralDataForm()
-  holidayForm: FormGroup = this.createHolidayOrRankForm()
-  rankForm: FormGroup = this.createHolidayOrRankForm()
-  blockForm: FormGroup = this.createBlockForm()
-  defaultForm: FormGroup = this.createDefaultForm()
+  generalDataForm: FormGroup = this.tariffForms.createGeneralDataForm()
+  holidayForm: FormGroup = this.tariffForms.createHolidayOrRankForm()
+  rankForm: FormGroup = this.tariffForms.createHolidayOrRankForm()
+  blockForm: FormGroup = this.tariffForms.createBlockForm()
+  defaultForm: FormGroup = this.tariffForms.createDefaultForm()
+  prioriceForm: FormGroup = this.tariffForms.createPrioriceForm()
+  daysSelectedForm: FormGroup = this.tariffForms.createDaysSelectedForm()
+  principalScheduleForm: FormGroup =
+    this.tariffForms.createPrincipalScheduleForm()
 
-  hourAHalfForm: FormGroup = this.createHourHalfForm()
-  fixedCostForm: FormGroup = this.createFixedCostForm()
+  hourAHalfForm: FormGroup = this.tariffForms.createHourHalfForm()
+  fixedCostForm: FormGroup = this.tariffForms.createFixedCostForm()
 
   constructor(
     private formBuilder: FormBuilder,
@@ -71,77 +55,140 @@ export class TariffComponent implements OnInit {
     private date: DatePipe,
     private currencyPipe: CurrencyPipe,
     private authService: AuthService,
-    private validationService: ValidationsService
+    private validationService: ValidationsService,
+    private tariffForms: TariffFormsService,
+    private buildRuleService: BuildRulesService
   ) {
     if (!this.parkingId && !this.isCreatingParking) {
       this.parkingId = this.authService.getParking().id
     }
-    console.log(this.parkingId)
+  }
+
+  get daysFormValues() {
+    const days: number[] = []
+    const { mon, tue, wen, thu, fri, sat, sun } = this.justDaysValue
+
+    mon == true ? days.push(1) : false
+    tue == true ? days.push(2) : false
+    wen == true ? days.push(3) : false
+    thu == true ? days.push(4) : false
+    fri == true ? days.push(5) : false
+    sat == true ? days.push(6) : false
+    sun == true ? days.push(7) : false
+    return days
+  }
+
+  get justDaysValue() {
+    const mon = this.daysSelectedForm.get('mon')?.value
+    const tue = this.daysSelectedForm.get('tue')?.value
+    const wen = this.daysSelectedForm.get('wed')?.value
+    const thu = this.daysSelectedForm.get('thu')?.value
+    const fri = this.daysSelectedForm.get('fri')?.value
+    const sat = this.daysSelectedForm.get('sat')?.value
+    const sun = this.daysSelectedForm.get('sun')?.value
+    return {
+      mon,
+      tue,
+      wen,
+      thu,
+      fri,
+      sat,
+      sun
+    }
+  }
+
+  get daysValuesDescription() {
+    const days: string[] = []
+    const { mon, tue, wen, thu, fri, sat, sun } = this.justDaysValue
+
+    mon == true ? days.push('Lunes') : false
+    tue == true ? days.push('Martes') : false
+    wen == true ? days.push('Miércoles') : false
+    thu == true ? days.push('Jueves') : false
+    fri == true ? days.push('Viernes') : false
+    sat == true ? days.push('Sábado') : false
+    sun == true ? days.push('Domingo') : false
+
+    return days
   }
 
   get generalDataFormValues() {
     return {
-      name: this.generalDataForm.get('name')!.value,
-      description: this.generalDataForm.get('description')!.value,
-      isShowDescription: this.generalDataForm.get('isShowDescription')!.value
+      name: this.generalDataForm.get('name')?.value,
+      description: this.generalDataForm.get('description')?.value,
+      isShowDescription: this.generalDataForm.get('isShowDescription')?.value,
+      hasGlobalSchedule: this.generalDataForm.get('hasGlobalSchedule')?.value
     }
+  }
+
+  get hasGlobalSchedule() {
+    return this.generalDataForm.get('hasGlobalSchedule')?.value
+  }
+
+  get prioriceTime(): number {
+    return this.prioriceForm.get('prioriceCost')?.value
+  }
+
+  get prioriceDescription(): string {
+    return this.prioriceTime == 1
+      ? 'Tomar en cuenta solo tarifa de entrada.'
+      : 'Tomar en cuenta solo tarifa de salida.'
   }
 
   get holidayFormValues(): HolidayInputModel {
     const fromDate = this.date.transform(
-      this.holidayForm.get('from')!.value,
+      this.holidayForm.get('from')?.value,
       'medium'
     )
     const toDate = this.date.transform(
-      this.holidayForm.get('to')!.value,
+      this.holidayForm.get('to')?.value,
       'medium'
     )
-    const fromMinute = this.holidayForm.get('fromMinute')!.value
     return {
-      static_descriptionTime: `Día festivo: Desde ${fromDate} Hasta el ${toDate} con un tiempo de gracia de ${fromMinute} minutos.`,
+      static_descriptionTime: `Día festivo: Desde ${fromDate} Hasta el ${toDate}.`,
       fromDate: new Date(this.holidayForm.get('from')?.value),
-      toDate: new Date(this.holidayForm.get('to')?.value),
-      fromMinute
+      toDate: new Date(this.holidayForm.get('to')?.value)
     }
   }
 
   get rankFormValues(): RankInputModel {
-    const fromTime = this.rankForm.get('from')!.value
-    const toTime = this.rankForm.get('to')!.value
-    const fromMinute = this.rankForm.get('fromMinute')!.value
+    const fromTime: Time = {
+      hours: this.getHour(this.rankForm.get('from')?.value),
+      minutes: this.getMinutes(this.rankForm.get('from')?.value)
+    }
+    const toTime: Time = {
+      hours: this.getHour(this.rankForm.get('to')?.value),
+      minutes: this.getMinutes(this.rankForm.get('to')?.value)
+    }
     return {
-      static_descriptionTime: `Por Horarios o rangos: Desde las ${fromTime} Hasta las ${toTime}, con un tiempo de gracia de ${fromMinute} minutos.`,
+      static_descriptionTime: `Por Horarios o rangos:Desde: ${this.toConvert24(
+        this.rankForm.get('from')?.value
+      )} Hasta: ${this.toConvert24(this.rankForm.get('to')?.value)}.`,
       fromTime,
-      toTime,
-      fromMinute
+      toTime
     }
   }
 
   get blockFormValues(): BlockInputModel {
-    const lowerLimit = this.blockForm.get('lowerLimit')!.value
-    const upperLimit = this.blockForm.get('upperLimit')!.value
-    const fromMinute = this.blockForm.get('fromMinute')!.value
+    const hourLowerLimit = this.blockForm.get('hourLowerLimit')?.value
+    const hourUpperLimit = this.blockForm.get('hourUpperLimit')?.value
+    const minuteLowerLimit = this.blockForm.get('minuteLowerLimit')?.value
+    const minuteUpperLimit = this.blockForm.get('minuteUpperLimit')?.value
+
     return {
-      static_descriptionTime: `Por bloques: De ${lowerLimit} a ${upperLimit} horas, con un tiempo de gracia de ${fromMinute} minutos.`,
-      lowerLimit,
-      upperLimit,
-      fromMinute
+      static_descriptionTime: `Por bloques: De ${hourLowerLimit} con ${minuteLowerLimit} minutos, a ${hourUpperLimit} horas con ${minuteUpperLimit} minutos.`,
+      hourLowerLimit,
+      minuteLowerLimit,
+      minuteUpperLimit,
+      hourUpperLimit
     }
   }
 
-  get defaultFormValues() {
-    const fromMinute = this.defaultForm.get('fromMinute')!.value
+  get hourHalfFormValues(): HourHalfInputModel {
+    const costHour = this.hourAHalfForm.get('hourCost')?.value
+    const costAHalf = this.hourAHalfForm.get('halfCost')?.value
     return {
-      static_descriptionTime: `Tarifa por defecto con un tiempo de gracia de ${fromMinute} minutos.`,
-      fromMinute
-    }
-  }
-
-  get hourHalfFormValues() {
-    const costHour = this.hourAHalfForm.get('hourCost')!.value
-    const costAHalf = this.hourAHalfForm.get('halfCost')!.value
-    return {
-      static_descriptionCost: `Hora/Fracción: Costo por hora: ${this.currencyPipe.transform(
+      static_descriptionCost: `Costo por hora: ${this.currencyPipe.transform(
         costHour,
         'GTQ'
       )} Costo por fracción: ${this.currencyPipe.transform(costAHalf, 'GTQ')}`,
@@ -150,8 +197,36 @@ export class TariffComponent implements OnInit {
     }
   }
 
-  get fixedCostFormValue() {
-    const fixedCost = this.fixedCostForm.get('fixedCost')!.value
+  get globalScheduleFormValues(): RankInputModel {
+    const fromTime: Time = {
+      hours: this.getHour(this.principalScheduleForm.get('from')?.value),
+      minutes: this.getMinutes(this.principalScheduleForm.get('from')?.value)
+    }
+    const toTime: Time = {
+      hours: this.getHour(this.principalScheduleForm.get('to')?.value),
+      minutes: this.getMinutes(this.principalScheduleForm.get('to')?.value)
+    }
+    const fromTimeDesc = this.toConvert24(
+      this.principalScheduleForm.get('from')?.value
+    )
+    const toTimeDesc = this.toConvert24(
+      this.principalScheduleForm.get('to')?.value
+    )
+    return {
+      static_descriptionTime: `Horario Global: Desde: ${fromTimeDesc} Hasta: ${toTimeDesc}.`,
+      fromTime,
+      toTime
+    }
+  }
+
+  get defaultFormValues() {
+    return {
+      static_descriptionTime: `Tarifa por defecto.`
+    }
+  }
+
+  get fixedCostFormValue(): FixedCostInputModel {
+    const fixedCost = this.fixedCostForm.get('fixedCost')?.value
     return {
       static_descriptionCost: `Único pago o Tarifa única: ${this.currencyPipe.transform(
         fixedCost,
@@ -205,9 +280,8 @@ export class TariffComponent implements OnInit {
     switch (this.costType) {
       case 1:
         return this.hourAHalfForm
-      //TODO: Esta validacion no es funcional
-      /* case 2:
-         return this.fixedCostForm*/
+      case 2:
+        return this.fixedCostForm
       default:
         return null
     }
@@ -215,6 +289,24 @@ export class TariffComponent implements OnInit {
 
   get ifHaveTariffData() {
     return this.tariffs && this.tariffs?.length > 0
+  }
+
+  getHour(time: string): number {
+    return Number(time.split(':')[0])
+  }
+
+  getMinutes(time: string): number {
+    return Number(time.split(':')[1])
+  }
+
+  toConvert24(time24: string) {
+    let ts = time24
+    const H = +ts.substr(0, 2)
+    let h: string | number = H % 12 || 12
+    h = h < 10 ? '0' + h : h // leading 0 at the left for 1 digit hours
+    const ampm = H < 12 ? ' AM' : ' PM'
+    ts = h + ts.substr(2, 3) + ampm
+    return ts
   }
 
   ngOnInit(): void {
@@ -225,27 +317,16 @@ export class TariffComponent implements OnInit {
   }
 
   saveRule() {
-    const ruleModelData = this.getTariffModel()
-    this.messageService.showLoading()
-    if (!this.formCostTypeSelected?.valid) {
-      this.messageService.error(
-        '',
-        'Formulario de costos invalido. Por favor verifique que los datos sean correctos. '
-      )
-      return
-    }
-    const newRule: CreateTariffModel = {
-      ...this.generalDataFormValues,
-      rules: ruleModelData.rule,
-      parking: this.parkingId,
-      static_description: ruleModelData.static_description
-    }
+    const isValid = this.validateForms()
+    if (!isValid) return
+    const newRule = this.buildTariffJsonRules()
     if (!newRule.rules) {
       this.messageService.error(
         '',
         'No pudo obtenerse la tarifa para ser guardada.'
       )
     } else {
+      console.log(newRule)
       this.parkingService
         .setRule(newRule)
         .then((data) => {
@@ -266,202 +347,65 @@ export class TariffComponent implements OnInit {
     }
   }
 
-  validateGeneralDataForm(control: string) {
-    return this.utilitiesService.controlInvalid(this.generalDataForm, control)
-  }
-
-  validateHolidayForm(control: string) {
-    return this.utilitiesService.controlInvalid(this.holidayForm, control)
-  }
-
-  validateRankForm(control: string) {
-    return this.utilitiesService.controlInvalid(this.rankForm, control)
-  }
-
-  validateBlockForm(control: string) {
-    return this.utilitiesService.controlInvalid(this.blockForm, control)
-  }
-
-  validateDefaultForm(control: string) {
-    return this.utilitiesService.controlInvalid(this.defaultForm, control)
-  }
-
-  validateHourHalfCost(control: string) {
-    return this.utilitiesService.controlInvalid(this.hourAHalfForm, control)
-  }
-
-  validateFixedCost(control: string) {
-    return this.utilitiesService.controlInvalid(this.fixedCostForm, control)
-  }
-
-  createHolidayOrRankForm() {
-    return this.formBuilder.group(
-      {
-        from: ['', Validators.required],
-        to: ['', [Validators.required]],
-        fromMinute: [null, [Validators.required, Validators.min(0)]]
-      },
-      { validators: [DateGreaterValidations()] }
-    )
-  }
-
-  createBlockForm() {
-    return this.formBuilder.group(
-      {
-        lowerLimit: [null, [Validators.required, Validators.min(0)]],
-        upperLimit: [null, [Validators.required, Validators.min(0)]],
-        fromMinute: [null, [Validators.required, Validators.min(0)]]
-      },
-      { validators: [NumberGreaterValidations()] }
-    )
-  }
-
-  createDefaultForm() {
-    return this.formBuilder.group({
-      fromMinute: [null, [Validators.required, Validators.min(0)]]
-    })
-  }
-
   validateSelected(time: number, cost: number) {
     return this.timeRange === time && this.costType === cost
   }
 
-  validateRangesAgainstTheOthers() {
-    switch (this.timeRange) {
-      case 1:
-        this.validationService.validateHolidayRange(
-          this.holidayFormValues,
-          this.tariffs
-        )
-        break
-      case 2:
-        this.validationService.validateRankAgainstTheOthers(
-          this.rankFormValues,
-          this.tariffs
-        )
-        break
-    }
-  }
-
-  getTariffModel():
-    | HolidayHourHalfRuleModel
-    | HolidayHourFixedCostModel
-    | RankHourHalfRuleModel
-    | RankFixedCostRuleModel
-    | BlockHourHalfRuleModel
-    | BlockFixedCostRuleModel
-    | DefaultHourHalfRuleModel
-    | DefaultFixedCostRuleModel {
-    //Holiday and Hour and Half
-    try {
-      this.getTariffs().catch()
-      this.validateRangesAgainstTheOthers()
-      if (this.validateSelected(1, 1)) {
-        const input: HolidayHourHalfInputModel = {
-          ...this.holidayFormValues,
-          ...this.hourHalfFormValues
-        }
-        return new HolidayHourHalfRuleModel(input)
-      }
-      //Holiday and Fixed Cost
-      if (this.validateSelected(1, 2)) {
-        const input: HolidayFixedCostInputModel = {
-          ...this.holidayFormValues,
-          ...this.fixedCostFormValue
-        }
-        return new HolidayHourFixedCostModel(input)
-      }
-      //Rank and Hour and Half Cost
-      if (this.validateSelected(2, 1)) {
-        const input: RankHourHalfInputModel = {
-          ...this.rankFormValues,
-          ...this.hourHalfFormValues
-        }
-        return new RankHourHalfRuleModel(input)
-      }
-      //Rank and Fixed Cost
-      if (this.validateSelected(2, 2)) {
-        const input: RankFixedCostInputModel = {
-          ...this.rankFormValues,
-          ...this.fixedCostFormValue
-        }
-        return new RankFixedCostRuleModel(input)
-      }
-      //Blocks and Hour and Half
-      if (this.validateSelected(3, 1)) {
-        const input: BlockHourHalfInputModel = {
-          ...this.blockFormValues,
-          ...this.hourHalfFormValues
-        }
-        return new BlockHourHalfRuleModel(input)
-      }
-      //Blocks and Fixed Cost
-      if (this.validateSelected(3, 2)) {
-        const input: BlockFixedCostInputModel = {
-          ...this.blockFormValues,
-          ...this.fixedCostFormValue
-        }
-        return new BlockFixedCostRuleModel(input)
-      }
-      //Default and Hour and Half Cost
-      if (this.validateSelected(4, 1)) {
-        const input: DefaultHourHalfInputModel = {
-          ...this.defaultFormValues,
-          ...this.hourHalfFormValues
-        }
-        return new DefaultHourHalfRuleModel(input)
-      }
-      //Default and Fixed Cost
-      if (this.validateSelected(4, 2)) {
-        const input: DefaultFixedCostInputModel = {
-          ...this.defaultFormValues,
-          ...this.fixedCostFormValue
-        }
-        return new DefaultFixedCostRuleModel(input)
-      }
-      throw new Error(
-        'No se pudo obtener la inroamcion de las tarifas. Por favor intente nuevamente'
-      )
-    } catch (ex) {
-      this.messageService.error(ex.message)
-      throw new Error(ex)
-    }
-  }
-
-  setDisableRanges() {
+  validateForms() {
     const result = this.formTimeRangeSelected?.valid
+
     if (!result) {
       if (this.formTimeRangeSelected?.errors?.datesInvalid) {
         this.messageService.error(
-          '',
+          'Error en Rangos',
           'La segunda fecha "Hasta" debe ser mayor a la fecha "Desde".'
         )
-        return
+        this.utilitiesService.markAsInvalid(this.formTimeRangeSelected, 'to', {
+          datesInvalid: true
+        })
+        return false
       }
       if (this.formTimeRangeSelected?.errors?.quantitiesInvalid) {
         this.messageService.error(
-          '',
+          'Error en Rangos',
           'El limite inferior es mayor al limite superior.'
         )
-        return
+        this.utilitiesService.markAsInvalid(this.formTimeRangeSelected, 'to', {
+          quantitiesInvalid: true
+        })
+        return false
       }
       this.messageService.error(
         '',
-        'Formulario de rangos de tiempo inválido. Por favor validar que los datos sean correctos.'
+        'Formulario de Rangos inválido. Por favor validar que los datos sean correctos.'
       )
-      return
+      return false
     }
     if (!this.isValidGeneralData) {
       this.messageService.error(
         '',
         'Formulario de datos generales inválido. Por favor validar que los datos sean correctos.'
       )
-      return
+      return false
     }
+    if (
+      this.principalScheduleForm?.errors?.datesInvalid &&
+      this.hasGlobalSchedule
+    ) {
+      this.messageService.error(
+        'Error en Horario global',
+        'La segunda fecha "Hasta" debe ser mayor a la fecha "Desde".'
+      )
+      this.utilitiesService.markAsInvalid(this.principalScheduleForm, 'to', {
+        datesInvalid: true
+      })
+      return false
+    }
+
     if (result) {
       this.costType = 1
-      this.disableRanges = !this.disableRanges
     }
+    return true
   }
 
   emmitStep(number: number) {
@@ -487,25 +431,8 @@ export class TariffComponent implements OnInit {
       })
   }
 
-  private createGeneralDataForm() {
-    return this.formBuilder.group({
-      name: ['', Validators.required],
-      description: ['', Validators.required],
-      isShowDescription: [true]
-    })
-  }
-
-  private createHourHalfForm() {
-    return this.formBuilder.group({
-      hourCost: [null, Validators.required],
-      halfCost: [null, Validators.required]
-    })
-  }
-
-  private createFixedCostForm() {
-    return this.formBuilder.group({
-      fixedCost: [null, Validators.required]
-    })
+  changeTimeRange(timeRange: number) {
+    this.timeRange = timeRange
   }
 
   private async getTariffs() {
@@ -514,5 +441,94 @@ export class TariffComponent implements OnInit {
         this.tariffs = data.data.rules
       }
     })
+  }
+
+  private buildTariffJsonRules() {
+    let newRule: CreateTariffModel = new CreateTariffModel()
+
+    const rules: Rules[] = [
+      {
+        conditions: {
+          all: this.getConditions()
+        },
+        event: {
+          ...this.getEvent()
+        }
+      }
+    ]
+    newRule = { ...this.generalDataFormValues, parking: this.parkingId, rules }
+    newRule.static_description = this.getStaticDescription()
+    console.log(newRule.static_description)
+    return newRule
+  }
+
+  private getConditions(): All[] {
+    return [
+      ...this.getRangesOfTime(),
+      ...this.getGlobalSchedule(),
+      ...this.getDays()
+    ]
+  }
+
+  private getRangesOfTime(): All[] {
+    if (this.prioriceTime == 1) {
+      //Prioritizing input
+      switch (this.timeRange) {
+        case 1:
+          return BuildRulesService.getHolidayIn(this.holidayFormValues)
+        case 2:
+          return BuildRulesService.getRanksOrScheduleIn(this.rankFormValues)
+      }
+    }
+    if (this.prioriceTime == 2) {
+      //Prioritizing output
+      switch (this.timeRange) {
+        case 1:
+          return BuildRulesService.getHolidayOut(this.holidayFormValues)
+        case 2:
+          return BuildRulesService.getRanksOrScheduleOut(this.rankFormValues)
+      }
+    }
+    if (this.timeRange == 3) {
+      return BuildRulesService.getBlock(this.blockFormValues)
+    }
+    if (this.timeRange == 4) {
+      return []
+    }
+    throw new Error('Error al obtener los datos de rango de tiempo.')
+  }
+
+  private getGlobalSchedule() {
+    if (this.generalDataFormValues.hasGlobalSchedule) {
+      return BuildRulesService.getGlobalSchedule(this.globalScheduleFormValues)
+    }
+    return []
+  }
+
+  private getDays() {
+    return this.prioriceTime == 1
+      ? BuildRulesService.getDaysIn(this.daysFormValues)
+      : BuildRulesService.getDaysOut(this.daysFormValues)
+  }
+
+  private getEvent(): IEvent {
+    return this.costType == 1
+      ? BuildRulesService.getHourOrHalfEvent(this.hourHalfFormValues)
+      : BuildRulesService.getFixedPriceEvent(this.fixedCostFormValue)
+  }
+
+  private getStaticDescription() {
+    let static_description = `${this.prioriceDescription} `
+    static_description +=
+      this.hasGlobalSchedule == true
+        ? `${this.globalScheduleFormValues.static_descriptionTime} `
+        : ''
+    static_description += `Los dias: ${this.daysValuesDescription.toString()} `
+    static_description += `${this.formValueTimeRangeSelected.static_descriptionTime} `
+    static_description +=
+      this.costType == 1
+        ? this.hourHalfFormValues.static_descriptionCost
+        : this.fixedCostFormValue.static_descriptionCost
+    return static_description
   }
 }

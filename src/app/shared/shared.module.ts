@@ -18,6 +18,7 @@ import { TextAreaContainerComponent } from './forms/text-area-container/text-are
 import { CheckboxContainerComponent } from './forms/checkbox-container/checkbox-container.component'
 import { CourtesyValuePipe } from './pipes/courtesy-value.pipe'
 import { CourtesyChartComponent } from './courtesy-chart/courtesy-chart.component'
+import { RadioContainerComponent } from './forms/radio-container/radio-container.component'
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { CourtesyChartComponent } from './courtesy-chart/courtesy-chart.componen
     TextAreaContainerComponent,
     CheckboxContainerComponent,
     CourtesyValuePipe,
-    CourtesyChartComponent
+    CourtesyChartComponent,
+    RadioContainerComponent
   ],
   imports: [
     CommonModule,
@@ -57,7 +59,8 @@ import { CourtesyChartComponent } from './courtesy-chart/courtesy-chart.componen
     TextAreaContainerComponent,
     CheckboxContainerComponent,
     CourtesyValuePipe,
-    CourtesyChartComponent
+    CourtesyChartComponent,
+    RadioContainerComponent
   ]
 })
 export class SharedModule {}

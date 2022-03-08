@@ -1,0 +1,17 @@
+<div *ngIf="timeRange == 1" class="animate__animated animate__fadeInUp " id="holidays">
+  <p><b>Fechas especiales o dias festivos</b></p>
+  <form [formGroup]="holidayForm" action="">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <app-input-container
+          [formGroup]="holidayForm" controlName="from" name="Desde" type="datetime-local">
+        </app-input-container>
+      </div>
+      <div class="col-md-6">
+        <app-input-container
+          [formGroup]="holidayForm" controlName="to" name="Hasta" type="datetime-local">
+        </app-input-container>
+      </div>
+    </div>
+  </form>
+</div>

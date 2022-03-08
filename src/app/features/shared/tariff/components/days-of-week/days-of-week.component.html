@@ -1,0 +1,38 @@
+<div class="animate__animated animate__fadeInRight" id="daysOfWeek">
+  <div class="titleCards">
+    <hr>
+    <span><em class="fas fa-calendar"></em></span> Dias de la semana
+  </div>
+  <div [formGroup]="daysSelectedForm">
+    <div class="row justify-content-center">
+      <div class="col-sm-3">
+        <app-checkbox-container [formGroup]="daysSelectedForm" controlName="mon"
+                                name="Lunes"></app-checkbox-container>
+      </div>
+      <div class="col-sm-3">
+        <app-checkbox-container [formGroup]="daysSelectedForm" controlName="tue"
+                                name="Martes"></app-checkbox-container>
+      </div>
+      <div class="col-sm-3">
+        <app-checkbox-container [formGroup]="daysSelectedForm" controlName="wed"
+                                name="Miercoes"></app-checkbox-container>
+      </div>
+      <div class="col-sm-3">
+        <app-checkbox-container [formGroup]="daysSelectedForm" controlName="thu"
+                                name="Jueves"></app-checkbox-container>
+      </div>
+      <div class="col-sm-3">
+        <app-checkbox-container [formGroup]="daysSelectedForm" controlName="fri"
+                                name="Viernes"></app-checkbox-container>
+      </div>
+      <div class="col-sm-3">
+        <app-checkbox-container [formGroup]="daysSelectedForm" controlName="sat"
+                                name="Sabado"></app-checkbox-container>
+      </div>
+      <div class="col-sm-3">
+        <app-checkbox-container [formGroup]="daysSelectedForm" controlName="sun"
+                                name="Domingo"></app-checkbox-container>
+      </div>
+    </div>
+  </div>
+</div>

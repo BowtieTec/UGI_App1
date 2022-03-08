@@ -1,0 +1,30 @@
+<div *ngIf="timeRange == 2" class="animate__animated animate__fadeInUp " id="SchedulesAndRanks">
+  <p><b> horarios o rango de horas</b></p>
+  <form [formGroup]="rankForm" action="">
+    <div class="row justify-content-center">
+      <div class="col-md-4">
+        <div class="mb-3">
+
+          <label class="labelInput" style="display: block;">Desde</label>
+          <input [class.is-invalid]="validateRankForm('from')"
+                 aria-describedby="basic-addon1" class="inputClass" formControlName="from" type="time">
+
+          <small *ngIf="validateRankForm('from')" class="text-danger animate__animated  animate__rotateIn">*
+            Este
+            campo es obligatorio</small>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="mb-3">
+
+          <label class="labelInput" style="display: block;">Hasta</label>
+          <input [class.is-invalid]="validateRankForm('to')"
+                 aria-describedby="basic-addon1" class="inputClass" formControlName="to" type="time">
+          <small *ngIf="validateRankForm('to')" class="text-danger animate__animated  animate__rotateIn">*
+            Este
+            campo es obligatorio</small>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
