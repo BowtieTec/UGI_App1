@@ -15,10 +15,11 @@ import { RegisterPublicFormComponent } from './register-public-form/register-pub
 import { GeneralDataComponent } from './features/parking/components/new-parking/components/general-data/general-data.component'
 import { BillingDataComponent } from './features/parking/components/new-parking/components/billing-data/billing-data.component'
 import { ResumeComponent } from './features/parking/components/new-parking/components/resume/resume.component'
-import { ScheduleComponent } from './features/shared/schedule/schedule.component'
+import { ScheduleComponent } from './features/shared/schedule/schedule.component';
+import { FileUploadComponent } from './register-public-form/components/file-upload/file-upload.component'
 
 @NgModule({
-  declarations: [AppComponent, RegisterPublicFormComponent,GeneralDataComponent,BillingDataComponent,ResumeComponent,ScheduleComponent],
+  declarations: [AppComponent, RegisterPublicFormComponent,GeneralDataComponent,BillingDataComponent,ResumeComponent,ScheduleComponent, FileUploadComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -40,6 +41,6 @@ import { ScheduleComponent } from './features/shared/schedule/schedule.component
     { provide: CurrencyPipe }
   ],
   bootstrap: [AppComponent],
-  exports: [GeneralDataComponent,BillingDataComponent,ResumeComponent,ScheduleComponent]
+  exports: [GeneralDataComponent,BillingDataComponent,ResumeComponent,ScheduleComponent,FileUploadComponent]
 })
 export class AppModule {}

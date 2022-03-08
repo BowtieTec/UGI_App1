@@ -13,7 +13,7 @@ import { UtilitiesService } from '../shared/services/utilities.service';
 export class RegisterPublicFormComponent  {
 
   newParkingForm!: FormGroup
-  totalSteps = 3
+  totalSteps = 4
   step = 1
 
   settingsOptions!: SettingsOptionsModel

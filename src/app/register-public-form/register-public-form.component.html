@@ -36,6 +36,15 @@
               </div>
               <div *ngIf="step == 3 && this.settingsOptions != undefined"
                    class="animate__animated animate__fadeInLeft"
+                   id="stepThree">
+                <app-file-upload
+                  (changeStep)="changeStep($event)"
+                  [parkingId]="parkingId">
+                </app-file-upload>
+  
+              </div>
+              <div *ngIf="step == 4 && this.settingsOptions != undefined"
+                   class="animate__animated animate__fadeInLeft"
                    id="stepFour">
                 <app-billing-data
                   (changeStep)="changeStep($event)"
