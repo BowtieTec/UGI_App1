@@ -5,6 +5,7 @@ import { MessageService } from '../../../shared/services/message.service'
 import { ResponseModel } from '../../../shared/model/Request.model'
 import {
   AccessModel,
+  CreateParkingFileModel,
   CreateParkingStepFiveModel,
   CreateParkingStepFourModel,
   CreateParkingStepOneModel,
@@ -37,6 +38,7 @@ export class ParkingService {
   parkingStepOne: CreateParkingStepOneModel = new CreateParkingStepOneModel()
   parkingStepTwo: CreateParkingStepTwoModel = new CreateParkingStepTwoModel()
   parkingStepFour: CreateParkingStepFourModel = new CreateParkingStepFourModel()
+  parkingFile: CreateParkingFileModel = new CreateParkingFileModel()
   parkingStepFive: CreateParkingStepFiveModel[] =
     new Array<CreateParkingStepFiveModel>()
   settingsOptions!: SettingsOptionsModel
@@ -122,6 +124,20 @@ export class ParkingService {
       .post<ResponseModel>(
         `${this.apiUrl}backoffice/parking/payment-invoice`,
         this.parkingStepFour
+      )
+      .pipe(
+        map((data) => {
+          if (!data.success) throw data.message
+          return data
+        })
+      )
+  }
+
+  setFile(): Observable<ResponseModel> {
+    return this.http
+      .post<ResponseModel>(
+        `${this.apiUrl}backoffice/parking/payment-invoice`,
+        this.parkingFile
       )
       .pipe(
         map((data) => {

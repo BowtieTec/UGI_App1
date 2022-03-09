@@ -29,6 +29,13 @@ export class CreateParkingStepFourModel {
   bac_credential!: BacCredentialModel
 }
 
+export class CreateParkingFileModel {
+  parkingId = ''
+  logo = ''
+  rate = ''
+  plans = ''
+}
+
 export class CreateParkingStepFiveModel {
   id?: string = ''
   parking: any

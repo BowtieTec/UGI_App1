@@ -10,10 +10,16 @@ import { AuthInterceptorService } from './core/interceptos/auth-interceptor.serv
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap'
 import { DataTablesModule } from 'angular-datatables'
 import { SharedModule } from './shared/shared.module'
-import { CurrencyPipe } from '@angular/common'
+import { CurrencyPipe } from '@angular/common';
+import { RegisterPublicFormComponent } from './register-public-form/register-public-form.component'
+import { GeneralDataComponent } from './features/parking/components/new-parking/components/general-data/general-data.component'
+import { BillingDataComponent } from './features/parking/components/new-parking/components/billing-data/billing-data.component'
+import { ResumeComponent } from './features/parking/components/new-parking/components/resume/resume.component'
+import { ScheduleComponent } from './features/shared/schedule/schedule.component';
+import { FileUploadComponent } from './register-public-form/components/file-upload/file-upload.component'
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, RegisterPublicFormComponent,GeneralDataComponent,BillingDataComponent,ResumeComponent,ScheduleComponent, FileUploadComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -34,6 +40,7 @@ import { CurrencyPipe } from '@angular/common'
     },
     { provide: CurrencyPipe }
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  exports: [GeneralDataComponent,BillingDataComponent,ResumeComponent,ScheduleComponent,FileUploadComponent]
 })
 export class AppModule {}

@@ -450,6 +450,16 @@ label.labelInput {
   display: none;
 }
 
+label.labelInputFile {    
+  font-size: 11px;
+  margin: -10px 0 0 0px;
+  padding: 0;
+  color: #021C70;
+  border-radius: 4px;
+  padding-bottom: 10px;
+}
+
+
 .inputClass {
   -webkit-appearance: none;
   -moz-appearance: none;
