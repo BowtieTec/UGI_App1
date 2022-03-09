@@ -83,7 +83,8 @@ export class FileUploadComponent {
         console.log("err",err);
       })
 
-
+      this.changeStep.emit(number)
+      this.message.OkTimeOut('Informacion Guardada')
 
     } else {
       this.message.hideLoading()

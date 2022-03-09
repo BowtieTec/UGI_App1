@@ -16,10 +16,9 @@ import { GeneralDataComponent } from './features/parking/components/new-parking/
 import { BillingDataComponent } from './features/parking/components/new-parking/components/billing-data/billing-data.component'
 import { ResumeComponent } from './features/parking/components/new-parking/components/resume/resume.component'
 import { ScheduleComponent } from './features/shared/schedule/schedule.component';
-import { FileUploadComponent } from './register-public-form/components/file-upload/file-upload.component'
 
 @NgModule({
-  declarations: [AppComponent, RegisterPublicFormComponent,GeneralDataComponent,BillingDataComponent,ResumeComponent,ScheduleComponent, FileUploadComponent],
+  declarations: [AppComponent, RegisterPublicFormComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -41,6 +40,6 @@ import { FileUploadComponent } from './register-public-form/components/file-uplo
     { provide: CurrencyPipe }
   ],
   bootstrap: [AppComponent],
-  exports: [GeneralDataComponent,BillingDataComponent,ResumeComponent,ScheduleComponent,FileUploadComponent]
+  exports: []
 })
 export class AppModule {}

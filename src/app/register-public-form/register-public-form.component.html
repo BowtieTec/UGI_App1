@@ -43,7 +43,14 @@
                 </app-file-upload>
   
               </div>
-              <div *ngIf="step == 4 && this.settingsOptions != undefined"
+              <div *ngIf="step == 4"
+                 class="animate__animated animate__fadeInLeft"
+                 id="stepTwo">
+              <app-schedule (changeStep)="changeStep($event)"
+                            [isCreatingParking]="true"
+                            [parkingId]="this.parkingId"></app-schedule>
+            </div>
+              <div *ngIf="step == 5 && this.settingsOptions != undefined"
                    class="animate__animated animate__fadeInLeft"
                    id="stepFour">
                 <app-billing-data

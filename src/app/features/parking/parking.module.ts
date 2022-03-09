@@ -52,6 +52,6 @@ import { FeaturesModule } from '../features.module'
     FeaturesModule
   ],
   providers: [DatePipe, CurrencyPipe],
-  exports: [TariffComponent, ScheduleComponent]
+  exports: [TariffComponent, ScheduleComponent,BillingDataComponent,GeneralDataComponent]
 })
 export class ParkingModule {}
