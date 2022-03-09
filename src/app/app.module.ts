@@ -16,6 +16,8 @@ import { GeneralDataComponent } from './features/parking/components/new-parking/
 import { BillingDataComponent } from './features/parking/components/new-parking/components/billing-data/billing-data.component'
 import { ResumeComponent } from './features/parking/components/new-parking/components/resume/resume.component'
 import { ScheduleComponent } from './features/shared/schedule/schedule.component';
+import { ParkingModule } from './features/parking/parking.module'
+import { FileUploadModule } from './register-public-form/components/file-upload.module'
 
 @NgModule({
   declarations: [AppComponent, RegisterPublicFormComponent],
@@ -28,7 +30,9 @@ import { ScheduleComponent } from './features/shared/schedule/schedule.component
     GoogleMapsModule,
     NgbModule,
     DataTablesModule,
-    SharedModule
+    SharedModule,
+    ParkingModule,
+    FileUploadModule
   ],
   providers: [
     { provide: ErrorHandler, useClass: GlobalErrorHandler },

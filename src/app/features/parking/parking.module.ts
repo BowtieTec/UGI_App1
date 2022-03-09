@@ -33,7 +33,11 @@ import { AppModule } from '../../app.module'
     AntennasComponent,
     ParkingMenuComponent,
     MonthlyParkingComponent,
-    CreateMonthlyParkingComponent
+    CreateMonthlyParkingComponent,
+    GeneralDataComponent,
+    BillingDataComponent,
+    ResumeComponent,
+    ScheduleComponent
   ],
   imports: [
     CommonModule,
@@ -47,9 +51,8 @@ import { AppModule } from '../../app.module'
     FormsModule,
     DataTablesModule,
     FeaturesModule,
-    AppModule
   ],
   providers: [DatePipe, CurrencyPipe],
-  exports: [TariffComponent]
+  exports: [TariffComponent,GeneralDataComponent,BillingDataComponent,ResumeComponent,ScheduleComponent]
 })
 export class ParkingModule {}
