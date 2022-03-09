@@ -2,7 +2,6 @@ import { FormGroup, ValidationErrors } from '@angular/forms'
 
 export function DateGreaterValidations(): any {
   return (form: FormGroup) => {
-    console.log(form.valid)
     const from: Date = form.controls['from']?.value
     const to: Date = form.controls['to']?.value
     const result = from < to
