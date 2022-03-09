@@ -326,7 +326,6 @@ export class TariffComponent implements OnInit {
         'No pudo obtenerse la tarifa para ser guardada.'
       )
     } else {
-      console.log(newRule)
       this.parkingService
         .setRule(newRule)
         .then((data) => {
@@ -353,7 +352,26 @@ export class TariffComponent implements OnInit {
 
   validateForms() {
     const result = this.formTimeRangeSelected?.valid
-
+    if (
+      this.principalScheduleForm?.errors?.datesInvalid &&
+      this.hasGlobalSchedule
+    ) {
+      this.messageService.error(
+        'Error en Horario global',
+        'La segunda fecha "Hasta" debe ser mayor a la fecha "Desde".'
+      )
+      this.utilitiesService.markAsInvalid(this.principalScheduleForm, 'to', {
+        datesInvalid: true
+      })
+      return false
+    }
+    if (this.daysFormValues.length < 1) {
+      this.messageService.error(
+        'No se seleccionaron dias',
+        'Debe seleccionar al menos un dia.'
+      )
+      return false
+    }
     if (!result) {
       if (this.formTimeRangeSelected?.errors?.datesInvalid) {
         this.messageService.error(
@@ -388,17 +406,12 @@ export class TariffComponent implements OnInit {
       )
       return false
     }
-    if (
-      this.principalScheduleForm?.errors?.datesInvalid &&
-      this.hasGlobalSchedule
-    ) {
+
+    if (this.formCostTypeSelected?.invalid) {
       this.messageService.error(
-        'Error en Horario global',
-        'La segunda fecha "Hasta" debe ser mayor a la fecha "Desde".'
+        'Tipo de costo incorrecto',
+        'Hace falta datos o no son correctos'
       )
-      this.utilitiesService.markAsInvalid(this.principalScheduleForm, 'to', {
-        datesInvalid: true
-      })
       return false
     }
 
@@ -458,7 +471,6 @@ export class TariffComponent implements OnInit {
     ]
     newRule = { ...this.generalDataFormValues, parking: this.parkingId, rules }
     newRule.static_description = this.getStaticDescription()
-    console.log(newRule.static_description)
     return newRule
   }
 
