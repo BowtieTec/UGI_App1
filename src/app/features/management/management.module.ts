@@ -26,7 +26,6 @@ import { ParkingModule } from '../parking/parking.module'
   imports: [
     CommonModule,
     ManagementRoutingModule,
-    SharedModule,
     ReactiveFormsModule,
     SharedModule,
     NgbPaginationModule,
