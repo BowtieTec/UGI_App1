@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core'
 import { CommonModule } from '@angular/common'
-
 import { ManagementRoutingModule } from './management-routing.module'
 import { ManagementMenuComponent } from './management-menu.component'
 import { ResgisteredUsersComponent } from './components/users/components/resgistered-users/resgistered-users.component'
@@ -13,7 +12,6 @@ import { DataTablesModule } from 'angular-datatables'
 import { RolesComponent } from './components/roles/roles.component'
 import { CompanyComponent } from './components/companies/company/company.component'
 import { ParkingModule } from '../parking/parking.module'
-import { AppModule } from '../../app.module'
 
 @NgModule({
   declarations: [
@@ -34,8 +32,7 @@ import { AppModule } from '../../app.module'
     FormsModule,
     DataTablesModule,
     NgbNavModule,
-    ParkingModule,
-    AppModule
+    ParkingModule
   ]
 })
 export class ManagementModule {}

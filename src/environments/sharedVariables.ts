@@ -125,6 +125,6 @@ export const leftMenu = [
     path: '/registro',
     module: 'parking',
     description: 'Registro publico',
-    isShow: true
-  },
+    isShow: false
+  }
 ]

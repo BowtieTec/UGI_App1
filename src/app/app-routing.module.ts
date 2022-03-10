@@ -11,7 +11,7 @@ const routes: Routes = [
   {
     path: 'registro',
     component: RegisterPublicFormComponent
-  },
+  }
 ]
 
 @NgModule({
