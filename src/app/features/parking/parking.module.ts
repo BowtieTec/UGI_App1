@@ -28,15 +28,15 @@ import { FeaturesModule } from '../features.module'
   declarations: [
     ParkedComponent,
     NewParkingComponent,
-    GeneralDataComponent,
-    ScheduleComponent,
     TariffComponent,
-    BillingDataComponent,
     AntennasComponent,
-    ResumeComponent,
     ParkingMenuComponent,
     MonthlyParkingComponent,
-    CreateMonthlyParkingComponent
+    CreateMonthlyParkingComponent,
+    GeneralDataComponent,
+    BillingDataComponent,
+    ResumeComponent,
+    ScheduleComponent
   ],
   imports: [
     CommonModule,
@@ -52,6 +52,12 @@ import { FeaturesModule } from '../features.module'
     FeaturesModule
   ],
   providers: [DatePipe, CurrencyPipe],
-  exports: [TariffComponent, ScheduleComponent]
+  exports: [
+    TariffComponent,
+    GeneralDataComponent,
+    BillingDataComponent,
+    ResumeComponent,
+    ScheduleComponent
+  ]
 })
 export class ParkingModule {}

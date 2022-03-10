@@ -1,0 +1,64 @@
+<form [formGroup] = "stepFourForm"
+      class = "needs-validation form-group"
+      id = "form-wrapper"
+      method = "post"
+      name = "form-wrapper"
+      novalidate = "" >
+  <div *ngIf = "settingsOptions"
+       id = "steps-container" class="container form-group">
+    <h6 >Información adicional</h6 >
+    <div class = "row" >
+      <div class = " col-md-6 col-sm-12" >
+        <div class = "m-3 relative" >
+          <label class = "labelInputFile" >Logo del parqueo:</label >
+            <input [class.is-invalid] = "controlInvalid('logo')"
+                 formControlName="logo"
+                 id="logo" 
+                 type="file" 
+                 class="form-control inputClass"
+                 (change)="onFileChangeLogo($event)">
+          <small *ngIf = "controlInvalid('logo')"
+                 class = "text-danger animate__animated  animate__rotateIn" >* Este campo es obligatorio</small >
+        </div >
+        <div class = "m-3 relative" >
+            <label class = "labelInputFile" >Planos: </label >
+              <input [class.is-invalid] = "controlInvalid('plans')"
+                   formControlName="plans"
+                   id="plans" 
+                   type="file" 
+                   multiple
+                   class="form-control inputClass"
+                   (change)="onFileChangePlans($event)">
+            <small *ngIf = "controlInvalid('plans')"
+                   class = "text-danger animate__animated  animate__rotateIn" >* Este campo es obligatorio</small >
+          </div >
+      </div >
+      <div class = " col-md-6 col-sm-12" >
+        <div class = "m-3 relative" >
+            <label class = "labelInputFile" >Tarifas:</label >
+              <input [class.is-invalid] = "controlInvalid('rate')"
+                   formControlName="rate"
+                   id="rate" 
+                   type="file" 
+                   class="form-control inputClass"
+                   (change)="onFileChangeTarif($event)">
+            <small *ngIf = "controlInvalid('rate')"
+                   class = "text-danger animate__animated  animate__rotateIn" >* Este campo es obligatorio</small >
+          </div >
+      </div >
+    </div >
+    <div class = "text-center"
+         id = "q-box__buttons" >
+      <button (click) = "emmitStep(-1)"
+              class = "btn btn-primary m-2"
+              id = "prev-btn"
+              type = "button" >Anterior
+      </button >
+      <button (click) = "emmitStep(1)"
+              class = "btn btn-primary m-2"
+              id = "next-btn"
+              type = "button" >Siguiente
+      </button >
+    </div >
+  </div >
+</form >

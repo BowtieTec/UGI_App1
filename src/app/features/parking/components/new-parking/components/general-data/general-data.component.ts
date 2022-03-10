@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core'
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
 import { MessageService } from '../../../../../../shared/services/message.service'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { CountriesModel } from '../../../../models/Countries.model'
@@ -16,6 +16,7 @@ import { NumberParkingGreaterValidations } from '../../../../../../shared/valida
 export class GeneralDataComponent implements OnInit {
   stepOneForm: FormGroup = this.createForm()
   @Output() changeStep = new EventEmitter<number>()
+  @Input() isPublic:Boolean = false;
   coords = {
     lat: this.parkingService.parkingStepOne.coordinates.latitude,
     lng: this.parkingService.parkingStepOne.coordinates.longitude
@@ -172,7 +173,9 @@ export class GeneralDataComponent implements OnInit {
       parking_spaces: this.stepOneForm.controls['parking_spaces'].value,
       rules: this.stepOneForm.controls['rules'].value,
       special_parking_spaces:
-        this.stepOneForm.controls['special_parking_spaces'].value
+        this.stepOneForm.controls['special_parking_spaces'].value,
+      public: this.isPublic,
+      
     }
   }
 }

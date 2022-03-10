@@ -11,9 +11,12 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap'
 import { DataTablesModule } from 'angular-datatables'
 import { SharedModule } from './shared/shared.module'
 import { CurrencyPipe } from '@angular/common'
+import { RegisterPublicFormComponent } from './register-public-form/register-public-form.component'
+import { ParkingModule } from './features/parking/parking.module'
+import { FileUploadModule } from './register-public-form/components/file-upload.module'
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, RegisterPublicFormComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -23,7 +26,9 @@ import { CurrencyPipe } from '@angular/common'
     GoogleMapsModule,
     NgbModule,
     DataTablesModule,
-    SharedModule
+    SharedModule,
+    ParkingModule,
+    FileUploadModule
   ],
   providers: [
     { provide: ErrorHandler, useClass: GlobalErrorHandler },
@@ -34,6 +39,7 @@ import { CurrencyPipe } from '@angular/common'
     },
     { provide: CurrencyPipe }
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  exports: []
 })
 export class AppModule {}
