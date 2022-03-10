@@ -9,6 +9,7 @@ export class CreateParkingStepOneModel {
   special_parking_spaces = 0
   rules = ''
   minutes_to_exit = 0
+  public?: Boolean = false
 }
 
 export class CreateParkingStepTwoModel {
@@ -27,6 +28,13 @@ export class CreateParkingStepFourModel {
   is_our_bac_credential = false
   visa_credential!: VisaCredentialModel
   bac_credential!: BacCredentialModel
+}
+
+export class CreateParkingFileModel {
+  parkingId = ''
+  logo = ''
+  rate = ''
+  plans = ''
 }
 
 export class CreateParkingStepFiveModel {

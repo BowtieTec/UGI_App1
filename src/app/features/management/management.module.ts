@@ -13,6 +13,7 @@ import { DataTablesModule } from 'angular-datatables'
 import { RolesComponent } from './components/roles/roles.component'
 import { CompanyComponent } from './components/companies/company/company.component'
 import { ParkingModule } from '../parking/parking.module'
+import { AppModule } from '../../app.module'
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { ParkingModule } from '../parking/parking.module'
     FormsModule,
     DataTablesModule,
     NgbNavModule,
-    ParkingModule
+    ParkingModule,
+    AppModule
   ]
 })
 export class ManagementModule {}

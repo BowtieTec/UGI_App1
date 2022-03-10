@@ -23,20 +23,21 @@ import { MonthlyParkingComponent } from './components/monthly-parking/monthly-pa
 import { DataTablesModule } from 'angular-datatables'
 import { CreateMonthlyParkingComponent } from './components/monthly-parking/create-monthly-parking/create-monthly-parking.component'
 import { FeaturesModule } from '../features.module'
+import { AppModule } from '../../app.module'
 
 @NgModule({
   declarations: [
     ParkedComponent,
     NewParkingComponent,
-    GeneralDataComponent,
-    ScheduleComponent,
     TariffComponent,
-    BillingDataComponent,
     AntennasComponent,
-    ResumeComponent,
     ParkingMenuComponent,
     MonthlyParkingComponent,
-    CreateMonthlyParkingComponent
+    CreateMonthlyParkingComponent,
+    GeneralDataComponent,
+    BillingDataComponent,
+    ResumeComponent,
+    ScheduleComponent
   ],
   imports: [
     CommonModule,
@@ -49,9 +50,9 @@ import { FeaturesModule } from '../features.module'
     NgbModule,
     FormsModule,
     DataTablesModule,
-    FeaturesModule
+    FeaturesModule,
   ],
   providers: [DatePipe, CurrencyPipe],
-  exports: [TariffComponent, ScheduleComponent]
+  exports: [TariffComponent,GeneralDataComponent,BillingDataComponent,ResumeComponent,ScheduleComponent]
 })
 export class ParkingModule {}
