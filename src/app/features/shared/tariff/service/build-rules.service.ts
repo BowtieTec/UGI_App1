@@ -52,7 +52,7 @@ export class BuildRulesService {
       },
       {
         fact: 'hour',
-        operator: 'LessThanInclusive',
+        operator: 'lessThanInclusive',
         value: input.hourUpperLimit
       },
       {
@@ -62,7 +62,7 @@ export class BuildRulesService {
       },
       {
         fact: 'minutes',
-        operator: 'LessThanInclusive',
+        operator: 'lessThanInclusive',
         value: input.minuteUpperLimit
       }
     ]
