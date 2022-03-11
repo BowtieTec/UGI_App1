@@ -79,7 +79,7 @@ export class AntennasFromCourtesyComponent implements AfterViewInit, OnDestroy {
         })
         .then(() => this.rerender())
     } catch (ex) {
-      throw new Error(ex.message)
+      throw new Error("")
     } finally {
       setTimeout(() => {
         this.message.hideLoading()

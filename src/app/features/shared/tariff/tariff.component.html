@@ -2,20 +2,34 @@
   <div class="titleCards">
     <span> <em class="fas fa-comment-dollar"></em> </span> Tarifa
   </div>
+  <ng-container [formGroup]="prioriceForm" class="radio-inline">
   <div class="row justify-content-center">
-    <ng-container [formGroup]="prioriceForm" class="radio-inline">
-      <div class="col-xl-4 col-lg-4 col-sm-6">
-        <app-radio-container [formGroup]="prioriceForm" [value]="1" controlName="prioriceCost"
-                             desc="Solo tarifa de entrada"></app-radio-container>
+    <div class="col-md-8 ">
+      <div class="row justify-content-center">
+        <div class="col-xl-4 col-lg-4 col-sm-6 text-center">
+          <app-radio-container [formGroup]="prioriceForm" [value]="1" controlName="prioriceCost"
+            desc="Solo tarifa de entrada"></app-radio-container>
+        </div>
+        <div class="col-xl-4 col-lg-4 col-sm-6 text-center">
+          <app-radio-container [formGroup]="prioriceForm" [value]="2" controlName="prioriceCost"
+            desc="Solo tarifa de salida"></app-radio-container>
+        </div>
       </div>
-      <div class="col-xl-4 col-lg-4 col-sm-6">
-        <app-radio-container [formGroup]="prioriceForm" [value]="2" controlName="prioriceCost"
-                             desc="Solo tarifa de salida"></app-radio-container>
-      </div>
-    </ng-container>
+    </div>
   </div>
-  <app-tariff-general-data
-    [generalDataForm]="generalDataForm"></app-tariff-general-data>
+  </ng-container>
+    <!-- <ng-container [formGroup]="prioriceForm" class="radio-inline">
+      <div class="col-xl-4 col-lg-4 col-sm-6 text-center">
+        <app-radio-container [formGroup]="prioriceForm" [value]="1" controlName="prioriceCost"
+          desc="Solo tarifa de entrada"></app-radio-container>
+      </div>
+      <div class="col-xl-4 col-lg-4 col-sm-6 text-center">
+        <app-radio-container [formGroup]="prioriceForm" [value]="2" controlName="prioriceCost"
+          desc="Solo tarifa de salida"></app-radio-container>
+      </div>
+    </ng-container> -->
+  
+  <app-tariff-general-data [generalDataForm]="generalDataForm"></app-tariff-general-data>
   <div class="row justify-content-center">
     <div *ngIf="isValidGeneralData" class="titleCards animate__animated animate__fadeInUp">
       <span><em class="fas fa-cogs"></em></span> Rangos y Costos
@@ -23,26 +37,22 @@
     </div>
     <div *ngIf="isValidGeneralData" class=" col-md-10 animate__animated animate__fadeInUp">
       <div class="animate__animated animate__fadeIn">
-        <app-principal-schedule *ngIf="this.hasGlobalSchedule"
-                                [holidayForm]="principalScheduleForm"
-                                [timeRange]="timeRange">
+        <app-principal-schedule *ngIf="this.hasGlobalSchedule" [holidayForm]="principalScheduleForm"
+          [timeRange]="timeRange">
         </app-principal-schedule>
       </div>
       <app-days-of-week [daysSelectedForm]="daysSelectedForm"></app-days-of-week>
-      <app-tariff-ranks (setNewTimeRange)="changeTimeRange($event)"
-                        [timeRange]="timeRange"></app-tariff-ranks>
+      <app-tariff-ranks (setNewTimeRange)="changeTimeRange($event)" [timeRange]="timeRange"></app-tariff-ranks>
       <div class="animate__animated animate__fadeInRight" id="settings">
         <div class="titleCards">
           <hr>
           <span><em class="fas fa-code-branch"></em></span> Configuración
         </div>
         <div class="row mt-md-2 mt-xl-3 mt-4">
-          <app-holiday-tariff-form
-            [holidayForm]="holidayForm" [timeRange]="timeRange"></app-holiday-tariff-form>
-          <app-schedule-ranks-tariff-form [rankForm]="rankForm"
-                                          [timeRange]="timeRange"></app-schedule-ranks-tariff-form>
-          <app-blocks-tariff-form [blockForm]="blockForm"
-                                  [timeRange]="timeRange"></app-blocks-tariff-form>
+          <app-holiday-tariff-form [holidayForm]="holidayForm" [timeRange]="timeRange"></app-holiday-tariff-form>
+          <app-schedule-ranks-tariff-form [rankForm]="rankForm" [timeRange]="timeRange">
+          </app-schedule-ranks-tariff-form>
+          <app-blocks-tariff-form [blockForm]="blockForm" [timeRange]="timeRange"></app-blocks-tariff-form>
           <div *ngIf="timeRange == 4" class="animate__animated animate__fadeInUp ">
             <p><b>Por defecto</b></p>
             <p>
@@ -52,18 +62,17 @@
           </div>
         </div>
       </div>
-      <div
-        class="animate__animated animate__fadeInDown">
+      <div class="animate__animated animate__fadeInDown">
         <div class="titleCards">
           <hr>
           <span><em class="fas fa-dollar-sign"></em></span> Tipo de costo
         </div>
         <div aria-label="Basic radio toggle button group" class="btn-group" role="group">
-          <input (click)="costType=1" autocomplete="off" checked class="btn-check"
-                 id="hourFraction" name="costType" type="radio">
+          <input (click)="costType=1" autocomplete="off" checked class="btn-check" id="hourFraction" name="costType"
+            type="radio">
           <label class="btn btn-outline-success m-1 " for="hourFraction">Hora / Fracción</label>
-          <input (click)="costType=2" autocomplete="off" class="btn-check " id="fixedTariff"
-                 name="costType" type="radio">
+          <input (click)="costType=2" autocomplete="off" class="btn-check " id="fixedTariff" name="costType"
+            type="radio">
           <label class="btn btn-outline-success m-1" for="fixedTariff">Tarifa fija</label>
         </div>
         <div class="row mt-4">
@@ -82,10 +91,28 @@
     <hr *ngIf="ifHaveTariffData">
   </div>
   <div *ngIf=" ifHaveTariffData">
-    <h1 class="display-6 text-center">Reglas de la tarifa para este parqueo</h1>
+    <div class="titleCards "><span> <i class="fas fa-clipboard-list"></i></span> Reglas de la tarifa para este parqueo
+    </div>
     <!--  Reglas de tarifa  -->
-    <div *ngFor="let tariff of tariffs; index as i" class="me-5 ms-5 mb-2 animate__animated  animate__rotateInUpRight">
-      <div class="card border-success mb-3">
+    <div *ngFor="let tariff of tariffs; index as i" class="">
+      <div class="row justify-content-center">
+        <div class="col-md-6">
+          <div class="panels">
+            <div class="row">
+              <div class="col">
+                <div class="titleCards pt-2">Regla #{{i + 1}}</div>
+              </div>
+              <div class="col-auto text-end">
+                <button (click)="deleteTariff(tariff.id)" class="btn btn-danger btn-icon" type="button">
+                  <i class="fas fa-trash"></i>
+                </button>
+              </div>
+            </div>
+            {{tariff.static_description}}
+          </div>
+        </div>
+      </div>
+      <!-- <div class="card border-success mb-3">
         <div class="card-header">Regla #{{i + 1}}</div>
         <div class="card-body text-success">
           <h5 class="card-title">{{tariff.description}}</h5>
@@ -93,20 +120,20 @@
             {{tariff.static_description}}
             <br>
             <br>
-            <button (click)="deleteTariff(tariff.id)" class="btn btn-danger" type="button"><em
-              class="fas fa-trash"></em>
+            <button (click)="deleteTariff(tariff.id)" class="btn btn-danger btn-icon" type="button"><em
+                class="fas fa-trash"></em>
             </button>
           </p>
         </div>
-      </div>
+      </div> -->
     </div>
   </div>
   <div class="text-center" id="q-box__buttons">
     <button (click)="emmitStep(-1)" *ngIf="isCreatingParking" class="btn btn-primary m-2" id="prev-btn"
-            type="button">Anterior
+      type="button">Anterior
     </button>
     <button (click)="emmitStep(1)" *ngIf="isCreatingParking" class="btn btn-primary m-2" id="next-btn"
-            type="button">Siguiente
+      type="button">Siguiente
     </button>
   </div>
 </div>

@@ -164,8 +164,8 @@ export class StationaryCourtesyComponent implements AfterViewInit, OnDestroy {
           this.message.hideLoading()
         })
       this.loading = false
-    } catch (ex) {
-      throw new Error(ex.message)
+    } catch (err: unknown) {
+      throw new Error("")
     }
   }
 
