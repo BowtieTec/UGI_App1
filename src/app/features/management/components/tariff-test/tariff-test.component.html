@@ -49,16 +49,17 @@
         <div class="col-md-6">
                     <div class="panels">
                     <b>Tiempo Total:</b> 
-                    <br>D: {{this.ticket.days}}
-                    H: {{this.ticket.hour}}
-                    M: {{this.ticket.minute}}
+                    <br>
+                    <p *ngIf="this.ticket.days != 0"> D: {{this.ticket.days}} </p>
+                    <p *ngIf="this.ticket.hour != 0"> H: {{this.ticket.hour}} </p>
+                    <p *ngIf="this.ticket.minute != 0"> M: {{this.ticket.minute}} </p>
                     </div>
                     
                 </div>
                 
                 <div class="col-md-6 ">
                     <div class="panels">
-                    <b>Total a pagar:</b><br>Q {{this.ticket.amount}}
+                    <b>Total a pagar:</b><br> {{this.ticket.amount | currency:'GTQ'}} 
                     </div>
                     
                 </div>
