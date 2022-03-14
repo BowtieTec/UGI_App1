@@ -1,0 +1,81 @@
+<div class="row justify-content-md-center">
+    <div class="col-xl-8 col-lg-10 col-md-12 col-sm-12">
+​
+        <div class="panels">
+            <div class="titleCards">
+                <span>
+                    <i class="fas fa-info-circle" aria-hidden="true"></i>
+                </span> Pantalla de pruebas
+            </div>
+​
+            <div class="row">
+
+                <div class="col-md-6 mb-4">
+                    <div class="m-3 relative ">
+                        <app-select-container *ngIf="isSudo"
+                        [data]="this.allParkingLot"
+                        [formGroup]="tariffTestForm"
+                        controlName="parking"
+                        name="Estado"></app-select-container>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-4">
+                
+                </div>
+
+                <div class="col-md-6 mb-4">
+                    
+                    <app-input-container  [formGroup]="tariffTestForm"
+                                                controlName="date_in"
+                                                name="Fecha y hora de entrada"
+                                                type="datetime-local">
+                                                
+                    </app-input-container>
+                </div>
+                <div class="col-md-6 mb-4">
+                    
+                            <app-input-container [formGroup]="tariffTestForm"
+                                                controlName="date_out"
+                                                name="Fecha y hora de salida"
+                                                type="datetime-local">
+                                                
+                            </app-input-container>
+                </div>
+                
+                
+            </div>
+        </div>
+        <div class="row">
+        <div class="col-md-6">
+                    <div class="panels">
+                    <b>Tiempo Total:</b> 
+                    <br>D: {{this.ticket.days}}
+                    H: {{this.ticket.hour}}
+                    M: {{this.ticket.minute}}
+                    </div>
+                    
+                </div>
+                
+                <div class="col-md-6 ">
+                    <div class="panels">
+                    <b>Total a pagar:</b><br>Q {{this.ticket.amount}}
+                    </div>
+                    
+                </div>
+​
+        </div>
+        <div class="panels">
+            <div class="row">
+            <div class="col-12 text-center">
+                <button 
+                    (click)="getTariffTest()"
+                    type="button" class="btn btn-primary">
+                    Probar
+                </button>
+                </div>
+            </div>
+        </div>
+​
+​
+    </div>
+</div>

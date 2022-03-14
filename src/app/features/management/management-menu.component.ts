@@ -14,6 +14,7 @@ export class ManagementMenuComponent {
   listLocal = environment.listLocal
   listTariff = environment.listTariff
   listSchedules = environment.listSchedules
+  tariffTest = environment.tariffTest
 
   constructor(
     private authService: AuthService,

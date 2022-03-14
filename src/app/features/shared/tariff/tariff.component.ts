@@ -422,7 +422,7 @@ export class TariffComponent implements OnInit {
       throw new Error(
         'No se pudo obtener la inroamcion de las tarifas. Por favor intente nuevamente'
       )
-    } catch (ex) {
+    } catch (ex: any) {
       this.messageService.error(ex.message)
       throw new Error(ex)
     }
