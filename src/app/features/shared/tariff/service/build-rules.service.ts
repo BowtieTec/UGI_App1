@@ -101,25 +101,25 @@ export class BuildRulesService {
     return [
       {
         fact: 'date_in_object',
-        path: '$.hour',
+        path: 'hour',
         operator: 'greaterThanInclusive',
         value: input.fromTime.hours
       },
       {
         fact: 'date_in_object',
-        path: '$.hour',
+        path: 'hour',
         operator: 'lessThanInclusive',
         value: input.toTime.hours
       },
       {
         fact: 'date_in_object',
-        path: '$.minute',
+        path: 'minute',
         operator: 'greaterThanInclusive',
         value: input.fromTime.minutes
       },
       {
         fact: 'date_in_object',
-        path: '$.minute',
+        path: 'minute',
         operator: 'lessThanInclusive',
         value: input.toTime.minutes
       }
@@ -130,25 +130,25 @@ export class BuildRulesService {
     return [
       {
         fact: 'date_out_object',
-        path: '$.hour',
+        path: 'hour',
         operator: 'greaterThanInclusive',
         value: input.fromTime.hours
       },
       {
         fact: 'date_out_object',
-        path: '$.hour',
+        path: 'hour',
         operator: 'lessThanInclusive',
         value: input.toTime.hours
       },
       {
         fact: 'date_out_object',
-        path: '$.minute',
+        path: 'minute',
         operator: 'greaterThanInclusive',
         value: input.fromTime.minutes
       },
       {
         fact: 'date_out_object',
-        path: '$.minute',
+        path: 'minute',
         operator: 'lessThanInclusive',
         value: input.toTime.minutes
       }
@@ -158,7 +158,7 @@ export class BuildRulesService {
   public static getDaysIn(days: number[]): All[] {
     return [
       {
-        fact: 'date_in_object',
+        fact: 'date_in',
         operator: 'dayIn',
         value: days
       }
@@ -168,7 +168,7 @@ export class BuildRulesService {
   public static getDaysOut(days: number[]): All[] {
     return [
       {
-        fact: 'date_out_object',
+        fact: 'date_out',
         operator: 'dayIn',
         value: days
       }
@@ -180,49 +180,49 @@ export class BuildRulesService {
     return [
       {
         fact: 'date_in_object',
-        path: '$.hour',
+        path: 'hour',
         operator: 'greaterThanInclusive',
         value: input.fromTime.hours
       },
       {
         fact: 'date_in_object',
-        path: '$.hour',
+        path: 'hour',
         operator: 'lessThanInclusive',
         value: input.toTime.hours
       },
       {
         fact: 'date_in_object',
-        path: '$.minute',
+        path: 'minute',
         operator: 'greaterThanInclusive',
         value: input.fromTime.minutes
       },
       {
         fact: 'date_in_object',
-        path: '$.minute',
+        path: 'minute',
         operator: 'lessThanInclusive',
         value: input.toTime.minutes
       },
       {
         fact: 'date_out_object',
-        path: '$.hour',
+        path: 'hour',
         operator: 'greaterThanInclusive',
         value: input.fromTime.hours
       },
       {
         fact: 'date_out_object',
-        path: '$.hour',
+        path: 'hour',
         operator: 'lessThanInclusive',
         value: input.toTime.hours
       },
       {
         fact: 'date_out_object',
-        path: '$.minute',
+        path: 'minute',
         operator: 'greaterThanInclusive',
         value: input.fromTime.minutes
       },
       {
         fact: 'date_out_object',
-        path: '$.minute',
+        path: 'minute',
         operator: 'lessThanInclusive',
         value: input.toTime.minutes
       }
