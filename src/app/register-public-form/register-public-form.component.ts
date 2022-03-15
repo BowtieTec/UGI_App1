@@ -1,32 +1,35 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { SettingsOptionsModel } from '../features/parking/models/SettingsOption.model';
-import { ParkingService } from '../features/parking/services/parking.service';
-import { MessageService } from '../shared/services/message.service';
-import { UtilitiesService } from '../shared/services/utilities.service';
+import { Component, OnInit } from '@angular/core'
+import { FormBuilder, FormGroup } from '@angular/forms'
+import { SettingsOptionsModel } from '../features/parking/models/SettingsOption.model'
+import { ParkingService } from '../features/parking/services/parking.service'
+import { MessageService } from '../shared/services/message.service'
+import { UtilitiesService } from '../shared/services/utilities.service'
+import { ActivatedRoute } from '@angular/router'
 
 @Component({
   selector: 'app-register-public-form',
   templateUrl: './register-public-form.component.html',
   styleUrls: ['./register-public-form.component.css']
 })
-export class RegisterPublicFormComponent  {
-
+export class RegisterPublicFormComponent implements OnInit {
   newParkingForm!: FormGroup
   totalSteps = 5
   step = 1
-
   settingsOptions!: SettingsOptionsModel
 
   constructor(
     private formBuilder: FormBuilder,
     private message: MessageService,
     private parkingService: ParkingService,
-    private utilitiesService: UtilitiesService
+    private utilitiesService: UtilitiesService,
+    private route: ActivatedRoute
   ) {
     this.newParkingForm = this.createForm()
     this.getInitialData()
+    console.log(this.route.params.subscribe((p) => p['t']))
   }
+
+  ngOnInit(): void {}
 
   get parkingId() {
     return this.parkingService.parkingStepOne.parkingId
@@ -175,5 +178,4 @@ export class RegisterPublicFormComponent  {
       }),*/
     })
   }
-
 }
