@@ -13,7 +13,6 @@ import { RolesComponent } from './components/roles/roles.component'
 import { CompanyComponent } from './components/companies/company/company.component'
 import { ParkingModule } from '../parking/parking.module'
 import { TariffTestComponent } from './components/tariff-test/tariff-test.component'
-import { TariffComponent } from '../shared/tariff/tariff.component'
 
 @NgModule({
   declarations: [
@@ -22,7 +21,6 @@ import { TariffComponent } from '../shared/tariff/tariff.component'
     NewUserComponent,
     UsersComponent,
     RolesComponent,
-    TariffComponent,
     CompanyComponent,
     TariffTestComponent
   ],
