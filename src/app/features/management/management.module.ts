@@ -12,6 +12,8 @@ import { DataTablesModule } from 'angular-datatables'
 import { RolesComponent } from './components/roles/roles.component'
 import { CompanyComponent } from './components/companies/company/company.component'
 import { ParkingModule } from '../parking/parking.module'
+import { TariffTestComponent } from './components/tariff-test/tariff-test.component'
+import { TariffComponent } from '../shared/tariff/tariff.component'
 
 @NgModule({
   declarations: [
@@ -20,7 +22,9 @@ import { ParkingModule } from '../parking/parking.module'
     NewUserComponent,
     UsersComponent,
     RolesComponent,
-    CompanyComponent
+    TariffComponent,
+    CompanyComponent,
+    TariffTestComponent
   ],
   imports: [
     CommonModule,
