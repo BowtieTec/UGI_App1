@@ -41,6 +41,12 @@ const routes: Routes = [
           import('../report/report.module').then((m) => m.ReportModule)
       },
       {
+        path: 'support',
+        canActivate: [AuthGuard],
+        loadChildren: () =>
+          import('../support/support.module').then((m) => m.SupportModule)
+      },
+      {
         path: '',
         canActivate: [AuthGuard],
         redirectTo: 'dashboard',

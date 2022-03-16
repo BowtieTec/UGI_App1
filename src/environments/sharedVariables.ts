@@ -50,7 +50,8 @@ export const permission = {
 
   listSchedules: 'listSchedules',
   listTariff: 'listTariff',
-  tariffTest: 'tariffTest'
+  tariffTest: 'tariffTest',
+  newTicket: 'newTicket'
 }
 export const leftMenu = [
   {
