@@ -99,7 +99,7 @@ export const leftMenu = [
     module: 'support',
     description: 'Soporte',
     icon: 'fa-info-circle',
-    isShow: true
+    isShow: false
   },
   {
     path: '#',
