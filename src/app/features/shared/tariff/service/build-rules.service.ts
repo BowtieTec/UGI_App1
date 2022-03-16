@@ -176,7 +176,6 @@ export class BuildRulesService {
   }
 
   public static getGlobalSchedule(input: RankInputModel): All[] {
-    console.log(input.fromTime.hours)
     return [
       {
         fact: 'date_in_object',

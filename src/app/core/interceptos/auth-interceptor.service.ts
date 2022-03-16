@@ -32,8 +32,20 @@ export class AuthInterceptorService implements HttpInterceptor {
         }
       })
     } else if (tempToken) {
-      console.log(tempToken)
+      let url = req.url
+      const split1P = req.url.split('parking')[0]
+      const split2P = req.url.split('parking')[1]
+      const split1T = req.url.split('tariff')[0]
+      const split2T = req.url.split('tariff')[1]
+      const toAddParking = 'parking/guest'
+      const toAddTariff = 'tariff/guest'
+      if (split2P) {
+        url = `${split1P}${toAddParking}${split2P}`
+      } else if (req.url.includes('tariff')) {
+        url = `${split1T}${toAddTariff}${split2T}`
+      }
       request = req.clone({
+        url,
         setHeaders: {
           Authorization: `Bearer ${tempToken}`
         }

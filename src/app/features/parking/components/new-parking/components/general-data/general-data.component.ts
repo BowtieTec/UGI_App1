@@ -100,18 +100,13 @@ export class GeneralDataComponent implements OnInit {
         })
       } else {
         if (this.stepOneForm.errors?.parkingSpacesInvalid) {
-          this.message.error(
+          this.message.errorTimeOut(
             '',
-            'La cantidad de parqueos especiales debe ser menor a la cantidad de parqueos.'
+            'Datos faltantes o incorrectos. Validar que los datos sean correctos.'
           )
+          this.utilitiesService.markAsTouched(this.stepOneForm)
           return
         }
-
-        this.message.errorTimeOut(
-          '',
-          'Datos faltantes o incorrectos. Validar que los datos sean correctos.'
-        )
-        this.utilitiesService.markAsTouched(this.stepOneForm)
       }
     } else {
       this.message.hideLoading()

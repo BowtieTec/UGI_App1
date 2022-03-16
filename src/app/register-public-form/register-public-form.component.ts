@@ -26,7 +26,6 @@ export class RegisterPublicFormComponent implements OnInit {
   ) {
     this.newParkingForm = this.createForm()
     this.getInitialData()
-    console.log(this.route.params.subscribe((p) => p['t']))
   }
 
   ngOnInit(): void {}

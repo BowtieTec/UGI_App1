@@ -58,11 +58,7 @@ export class TariffComponent implements OnInit {
     private validationService: ValidationsService,
     private tariffForms: TariffFormsService,
     private buildRuleService: BuildRulesService
-  ) {
-    if (!this.parkingId && !this.isCreatingParking) {
-      this.parkingId = this.authService.getParking().id
-    }
-  }
+  ) {}
 
   get daysFormValues() {
     const days: number[] = []

@@ -23,12 +23,10 @@ export class TariffTestService {
       .post<ResponseModel>(`${this.apiUrl}backoffice/tariff/test`, testModel)
       .pipe(
         map((x: ResponseModel) => {
-          console.log(x)
           if (x.success) {
             this.messageService.hideLoading()
             return x.data
           } else {
-            console.log('error', x.message)
             this.messageService.error('', x.message)
             return []
           }

@@ -111,7 +111,6 @@ export class AntennasComponent implements AfterViewInit, OnDestroy {
         })
     } else {
       const antennaToEdit: CreateParkingStepFiveModel = this.getStepFive()
-      console.log(antennaToEdit)
       antennaToEdit.id = this.idEditAntenna
       this.parkingService
         .editStepFive(antennaToEdit)

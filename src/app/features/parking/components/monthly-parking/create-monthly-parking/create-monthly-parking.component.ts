@@ -225,7 +225,7 @@ export class CreateMonthlyParkingComponent implements OnInit {
       .then(() => {
         this.message.Ok('Guardado')
       })
-      .catch((x) => console.log(x))
+      .catch()
   }
 
   createForm() {

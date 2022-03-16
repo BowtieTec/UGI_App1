@@ -20,7 +20,6 @@ export class RegisterPublicFormService {
   ) {}
 
   UploadLogo(data: any, parkingId: string): Observable<any> {
-    console.log(data)
     return this.http.post(
       `${this.apiUrl}backoffice/parking/upload-image/logo/${parkingId}`,
       data

@@ -5,6 +5,7 @@ import { ParkingService } from '../../../../services/parking.service'
 import { UtilitiesService } from '../../../../../../shared/services/utilities.service'
 import { SettingsOptionsModel } from '../../../../models/SettingsOption.model'
 import { CreateParkingStepFourModel } from '../../../../models/CreateParking.model'
+import { Router } from '@angular/router'
 
 @Component({
   selector: 'app-billing-data',
@@ -16,12 +17,14 @@ export class BillingDataComponent {
   @Output() changeStep = new EventEmitter<number>()
   settingsOptions!: SettingsOptionsModel
   @Input() parkingId!: string
+  @Input() showNavigationButtons = true
 
   constructor(
     private message: MessageService,
     private parkingService: ParkingService,
     private formBuilder: FormBuilder,
-    private utilitiesService: UtilitiesService
+    private utilitiesService: UtilitiesService,
+    private route: Router
   ) {
     this.settingsOptions = this.parkingService.settingsOptions
   }
@@ -48,8 +51,13 @@ export class BillingDataComponent {
         this.parkingService.parkingStepFour.parkingId = this.parkingId
         this.parkingService.setStepFour().subscribe((data) => {
           if (data.success) {
-            this.changeStep.emit(number)
-            this.message.OkTimeOut('Parqueo Guardado')
+            if (this.showNavigationButtons) {
+              this.message.OkTimeOut('Parqueo Guardado')
+              this.changeStep.emit(number)
+            } else {
+              this.message.Ok('Parqueo guardado.')
+              this.route.navigate(['/']).catch()
+            }
           } else {
             this.utilitiesService.markAsTouched(this.stepFourForm)
             this.message.error('', data.message)

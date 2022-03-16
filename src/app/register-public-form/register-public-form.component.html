@@ -59,18 +59,11 @@
                  id="stepFive">
               <app-billing-data
                 (changeStep)="changeStep($event)"
-                [parkingId]="parkingId">
+                [parkingId]="parkingId"
+                [showNavigationButtons]="false">
               </app-billing-data>
 
             </div>
-          </div>
-          <div class="text-center"
-               id="q-box__buttons">
-            <button
-              (click)="saveParking()"
-              *ngIf="step == totalSteps"
-              class="btn btn-secondary m-2">Registrar
-            </button>
           </div>
         </form>
       </div>
