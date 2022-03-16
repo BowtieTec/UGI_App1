@@ -81,7 +81,7 @@ export class BillingDataComponent {
       nit: [null, [Validators.required, this.utilitiesService.validateNIT]],
       business_address: [null, Validators.required],
       business_name: [null, Validators.required],
-      pay_method: [null, Validators.required],
+      pay_method: ['0'],
       currency: [null, Validators.required],
       is_our_visa_credential: false,
       is_our_bac_credential: false,

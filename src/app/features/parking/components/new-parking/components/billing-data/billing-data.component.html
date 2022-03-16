@@ -42,7 +42,7 @@
           <small *ngIf="controlInvalid('business_address')"
                  class="text-danger animate__animated  animate__rotateIn">* Este campo es obligatorio</small>
         </div>
-        <div class="m-3 relative">
+        <div *ngIf="false" class="m-3 relative">
           <label class="labelInput">Método de pago</label>
           <select
             [class.is-invalid]="controlInvalid('pay_method')"
