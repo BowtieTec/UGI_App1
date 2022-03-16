@@ -3,14 +3,6 @@
      ngbNav>
 
   <!-- <ng-container *ngIf="ifHaveAction(tariffTest)"-->
-  <ng-container
-    ngbNavItem>
-    <a
-      ngbNavLink><em class="fas fa-users"></em> Prueba de Tarifa</a>
-    <ng-template ngbNavContent>
-      <app-tariff-test></app-tariff-test>
-    </ng-template>
-  </ng-container>
   <ng-container *ngIf="ifHaveAction(createUser)"
                 ngbNavItem>
     <a
@@ -38,6 +30,14 @@
     <a ngbNavLink><em class="fas fa-comment-dollar"></em> Tarifas</a>
     <ng-template ngbNavContent>
       <app-tariff [isCreatingParking]="false" [parkingId]="parkingId"></app-tariff>
+    </ng-template>
+  </ng-container>
+  <ng-container
+    ngbNavItem>
+    <a
+      ngbNavLink><em class="fas fa-users"></em> Prueba de Tarifa</a>
+    <ng-template ngbNavContent>
+      <app-tariff-test></app-tariff-test>
     </ng-template>
   </ng-container>
   <ng-container *ngIf="ifHaveAction(listSchedules)"
