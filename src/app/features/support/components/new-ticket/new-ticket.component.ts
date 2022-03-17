@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { ResponseModel } from 'src/app/shared/model/Request.model';
 import { AuthModel } from 'src/app/shared/model/UserResponse.model';
 import { AuthService } from 'src/app/shared/services/auth.service';
@@ -20,7 +21,7 @@ export class NewTicketComponent {
   supportTicketForm: FormGroup
   date: Date = new Date()
   authData: AuthModel = this.authService.getUser()
-
+  
   
   constructor(
     private permissionService: PermissionsService,
@@ -28,7 +29,8 @@ export class NewTicketComponent {
     private authService: AuthService,
     private messageService: MessageService,
     private utilitiesService: UtilitiesService,
-    private supportTicketService: SupportTicketService
+    private supportTicketService: SupportTicketService,
+    private router: Router
     ) {
       this.supportTicketForm = this.createsupportTicketForm()
     }
@@ -58,11 +60,20 @@ export class NewTicketComponent {
       const response = await this.supportTicketService
       .sendSupportTicket(newTicket).toPromise()
       
-      
-      
-      
+      if(response){
+        this.messageService.info("Se ha enviado su petición, pronto recibirá una notificación en su correo")
+        this.reloadComponent()
+      }else{
+        this.messageService.error('', 'No se pudo enviar la solicitud')
+      }
     }
 
+    reloadComponent() {
+      let currentUrl = this.router.url;
+          this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+          this.router.onSameUrlNavigation = 'reload';
+          this.router.navigate([currentUrl]);
+      }
     
 
   }

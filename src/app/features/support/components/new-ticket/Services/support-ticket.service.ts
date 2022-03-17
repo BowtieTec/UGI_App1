@@ -26,7 +26,7 @@ export class SupportTicketService {
           console.log(x)
           if (x.success) {
             this.messageService.hideLoading()
-            return x.data
+            return x.success
           } else {
             console.log('error', x.message)
             this.messageService.error('', x.message)
