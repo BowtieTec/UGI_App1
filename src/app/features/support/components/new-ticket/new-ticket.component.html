@@ -1,66 +1,69 @@
 <div class="contenedor">
     <div class="row justify-content-md-center">
         <div class="col-xl-8 col-lg-12 col-md-12 col-sm-12">
-            <div class="titleCards titleSupport  mb-3">
-                Nueva solicitud
-            </div>
+            
             <div class="row">
-                <div class="col-lg-6">
+                <div class="col-lg-12">
                     <div class="panels">
-                        <div class="titleTicket">
-                            Ticket 0001
-                        </div>
-                        <div class="row">
-                            <div class="col-4 mt-4 mb-2"><b>Lugar:</b></div>
-                            <div class="col-8 mt-4 mb-2">Centro comercial 01</div>
-                        </div>
+                        
                         <div class="row">
                             <div class="col-4 mt-2 mb-2"><b>Reportado por:</b></div>
-                            <div class="col-8 mt-2 mb-2">Juanito Perez</div>
+                            <div class="col-8 mt-2 mb-2">{{this.authData.user.name + ' ' + this.authData.user.last_name}}</div>
                         </div>
                         <div class="row">
                             <div class="col-4 mt-2 mb-2"><b>Fecha:</b></div>
-                            <div class="col-8 mt-2 mb-2">23/02/2022</div>
+                            <div class="col-8 mt-2 mb-2">{{date | date: 'longDate'}}</div>
                         </div>
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <div class="panels">
-                        <div class="titleTicket">
-                            Actividad
-                        </div>
-                        
-                        <select class="inputClass mt-4">
-                            <option value="1">-- Tipo de problemas -- </option>
-                            <option value="">Problema 1</option>
-                            <option value="">Problema 2</option>
-                            <option value="">Probelma 3</option>
-                        </select>
-                        <select class="inputClass mt-3">
-                            <option value="1">-- Número de talanquera -- </option>
-                            <option value="">Talanquera 1</option>
-                            <option value="">Talanquera 2</option>
-                            <option value="">Talanquera 3</option>
-                        </select>
                     </div>
                 </div>
                 <div class="col-12">
                     <div class="panels">
-                        <div class="titleTicket">
-                            Descripción del problema
-                        </div>
-                        <textarea class="inputClass mt-4" name=""  rows="3" placeholder="Ingrese la descripción del problema"></textarea>
+                        <div class="row">
+                            <div class="col-md-12 mb-4">
+                                <app-input-container [formGroup]="supportTicketForm"
+                                controlName="email"
+                                name="Ingrese su correo"
+                                type="email">
+                                
+                                </app-input-container>
+                            </div>
+                            
+                            <div class="col-md-12 mb-4">
+                                <app-input-container [formGroup]="supportTicketForm"
+                                controlName="subject"
+                                name="Asunto"
+                                >
+                            
+                                </app-input-container>
+                            </div>
+                            <div class="col-md-12 mb-4">
+
+                                <app-text-area-container [formGroup]="supportTicketForm"
+                                controlName="description"
+                                name="descripción"
+                                >
                         
-                        <div class="mt-4  text-center">
-                            <button class="btn btn-primary" type="button">
-                                Enviar
-                            </button>
+                                </app-text-area-container>
+                            </div>
                         </div>
+            
+            
+            
                     </div>
+                    <div class="panels">
+                        <div class="row">
+                          <div class="col-12 text-center">
+                            <button
+                              (click)="sendSupportTicket()"
+                              class="btn btn-primary" type="button">
+                              Enviar
+                            </button>
+                          </div>
+                        </div>
+                      </div>
                 </div>
-                <div class="col-12 text-center">
-                    <a >Cancelar ticket de soporte</a>
-                </div>
+    
+    
             </div>
         </div>
     </div>

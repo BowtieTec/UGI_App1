@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ListTicketComponent } from './components/list-ticket/list-ticket.component';
 import { NewTicketComponent } from './components/new-ticket/new-ticket.component';
 import { SupportMenuComponent } from './components/support-menu/support-menu.component';
 import { FormsModule } from '@angular/forms';
@@ -12,7 +11,7 @@ import { SupportRoutingModule } from './support-routing.module';
 
 @NgModule({
   declarations: [
-    ListTicketComponent,
+    
     NewTicketComponent,
     SupportMenuComponent
   ],
