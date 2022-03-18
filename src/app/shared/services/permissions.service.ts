@@ -18,9 +18,7 @@ export class PermissionsService {
     private http: HttpClient,
     private auth: AuthService,
     private messageService: MessageService
-  ) {
-    this.getPermissions()
-  }
+  ) {}
 
   get actionsOfPermissions() {
     return this.actions
