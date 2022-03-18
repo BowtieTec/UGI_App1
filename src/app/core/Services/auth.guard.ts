@@ -49,7 +49,6 @@ export class AuthGuard implements CanActivate {
         if (options.find((option) => option.module == route.url.toString())) {
           return true
         } else {
-          this.router.navigate(['/404'])
           return false
         }
       })

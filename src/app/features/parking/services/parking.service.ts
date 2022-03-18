@@ -80,6 +80,13 @@ export class ParkingService {
       )
   }
 
+  endTempToken() {
+    return this.http.put<ResponseModel>(
+      `${this.apiUrl}backoffice/parking/token/close`,
+      {}
+    )
+  }
+
   getAccesses(): Array<AccessModel> {
     return [
       { id: 0, name: 'Entrada' },

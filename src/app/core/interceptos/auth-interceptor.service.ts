@@ -33,15 +33,15 @@ export class AuthInterceptorService implements HttpInterceptor {
       })
     } else if (tempToken) {
       let url = req.url
-      const split1P = req.url.split('parking')[0]
-      const split2P = req.url.split('parking')[1]
-      const split1T = req.url.split('tariff')[0]
-      const split2T = req.url.split('tariff')[1]
-      const toAddParking = 'parking/guest'
-      const toAddTariff = 'tariff/guest'
+      const split1P = req.url.split('backoffice/parking')[0]
+      const split2P = req.url.split('backoffice/parking')[1]
+      const split1T = req.url.split('backoffice/tariff')[0]
+      const split2T = req.url.split('backoffice/tariff')[1]
+      const toAddParking = 'backoffice/parking/guest'
+      const toAddTariff = 'backoffice/tariff/guest'
       if (split2P) {
         url = `${split1P}${toAddParking}${split2P}`
-      } else if (req.url.includes('tariff')) {
+      } else if (req.url.includes('backoffice/tariff')) {
         url = `${split1T}${toAddTariff}${split2T}`
       }
       request = req.clone({

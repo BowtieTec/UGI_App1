@@ -34,26 +34,6 @@ export class RegisterPublicFormComponent implements OnInit {
     return this.parkingService.parkingStepOne.parkingId
   }
 
-  get stepOneForm() {
-    return this.newParkingForm.get('stepOne') as FormGroup
-  }
-
-  get stepTwoForm() {
-    return this.newParkingForm.get('stepTwo') as FormGroup
-  }
-
-  get stepThreeForm() {
-    return this.newParkingForm.get('stepThree') as FormGroup
-  }
-
-  get stepFourForm() {
-    return this.newParkingForm.get('stepFour') as FormGroup
-  }
-
-  get stepFiveForm() {
-    return this.newParkingForm.get('stepFive') as FormGroup
-  }
-
   changeStep(number: number) {
     this.step = this.step + number
   }

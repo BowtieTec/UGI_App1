@@ -9,7 +9,8 @@ export class CreateParkingStepOneModel {
   special_parking_spaces = 0
   rules = ''
   minutes_to_exit = 0
-  public?: Boolean = false
+  public?: boolean = false
+  is_draft?: boolean = false
 }
 
 export class CreateParkingStepTwoModel {

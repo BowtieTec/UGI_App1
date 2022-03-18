@@ -15,6 +15,7 @@
                  formControlName="logo"
                  id="logo"
                  type="file"
+                 name="logo"
                  class="form-control inputClass"
                  (change)="onFileChangeLogo($event)">
           <small *ngIf="controlInvalid('logo')"
@@ -26,8 +27,8 @@
                  [class.is-invalid]="controlInvalid('plans')"
                  class="form-control inputClass"
                  formControlName="plans"
-                 id="plans"
                  multiple
+                 id="plans"
                  name="plans"
                  type="file">
           <small *ngIf="controlInvalid('plans')"
@@ -41,6 +42,7 @@
                  [class.is-invalid]="controlInvalid('rate')"
                  class="form-control inputClass"
                  formControlName="rate"
+                 name="rate"
                  id="rate"
                  type="file">
           <small *ngIf="controlInvalid('rate')"
@@ -52,12 +54,10 @@
          id="q-box__buttons">
       <button (click)="emmitStep(-1)"
               class="btn btn-primary m-2"
-              id="prev-btn"
               type="button">Anterior
       </button>
       <button (click)="emmitStep(1)"
               class="btn btn-primary m-2"
-              id="next-btn"
               type="button">Siguiente
       </button>
     </div>

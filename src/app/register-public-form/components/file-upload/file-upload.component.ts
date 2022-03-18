@@ -39,7 +39,6 @@ export class FileUploadComponent implements OnInit {
   }
 
   async emmitStep(number: number) {
-    const promises: Promise<any>[] = []
     this.message.showLoading()
     if (number == 1) {
       if (this.filesPlans) {
@@ -48,45 +47,38 @@ export class FileUploadComponent implements OnInit {
         for (let i = 0; i < this.filesPlans.length; i++) {
           formData.append('plans', this.filesPlans[i])
         }
-        promises.push(
-          this.fileServices.UploadPlans(formData, this.parkingId).toPromise()
-        )
+        await this.fileServices
+          .UploadPlans(formData, this.parkingId)
+          .toPromise()
+          .then((res) => {})
+          .catch((err: any) => console.log(err))
       }
       if (this.fileTariff) {
         //Tariff-----------------------------------------
         const formDataTariff = new FormData()
         formDataTariff.append('rate', this.fileTariff)
-
-        promises.push(
-          this.fileServices
-            .UploadTariff(formDataTariff, this.parkingId)
-            .toPromise()
-        )
+        await this.fileServices
+          .UploadTariff(formDataTariff, this.parkingId)
+          .toPromise()
+          .then((res: any) => {})
+          .catch((err: any) => this.message.OkTimeOut(err.message))
       }
 
       if (this.fileLogo) {
         //LOGO----------------------------------------
         const formDataLogo = new FormData()
         formDataLogo.append('logo', this.fileLogo)
-        promises.push(
-          this.fileServices.UploadLogo(formDataLogo, this.parkingId).toPromise()
-        )
+        console.log(this.fileLogo)
+        await this.fileServices
+          .UploadLogo(formDataLogo, this.parkingId)
+          .toPromise()
+          .then((res) => {})
+          .catch((err: any) => this.message.OkTimeOut(err.message))
+      } else {
       }
-      Promise.all(promises)
-        .then((values: any[]) => {
-          this.message.OkTimeOut('Finalizado correctamente')
-          this.changeStep.emit(number)
-        })
-        .catch((reason: any) => {
-          this.message.errorTimeOut(
-            'Los archivos no pudieron guardarse correctamente: ' +
-              reason.message
-          )
-        })
-    } else {
-      this.message.hideLoading()
-      this.changeStep.emit(number)
     }
+    this.message.hideLoading()
+    this.changeStep.emit(number)
   }
 
   createForm() {

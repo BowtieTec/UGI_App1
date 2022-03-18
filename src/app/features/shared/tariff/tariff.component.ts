@@ -410,10 +410,6 @@ export class TariffComponent implements OnInit {
       )
       return false
     }
-
-    if (result) {
-      this.costType = 1
-    }
     return true
   }
 
@@ -454,7 +450,6 @@ export class TariffComponent implements OnInit {
 
   private buildTariffJsonRules() {
     let newRule: CreateTariffModel = new CreateTariffModel()
-
     const rules: Rules[] = [
       {
         conditions: {

@@ -6,7 +6,6 @@ import { ParkingService } from '../../../../services/parking.service'
 import { ResponseModel } from '../../../../../../shared/model/Request.model'
 import { CreateParkingStepOneModel } from '../../../../models/CreateParking.model'
 import { UtilitiesService } from '../../../../../../shared/services/utilities.service'
-import { NumberParkingGreaterValidations } from '../../../../../../shared/validators/GreatherThan.validations'
 
 @Component({
   selector: 'app-general-data',
@@ -88,7 +87,6 @@ export class GeneralDataComponent implements OnInit {
         this.parkingService.parkingStepOne = this.getStepOne()
         this.parkingService.setStepOne().subscribe((data) => {
           if (data.success) {
-            console.log(data)
             this.changeStep.emit(number)
             this.message.OkTimeOut('Parqueo Guardado')
             this.parkingService.parkingStepOne.parkingId = data.data.id
@@ -99,14 +97,12 @@ export class GeneralDataComponent implements OnInit {
           }
         })
       } else {
-        if (this.stepOneForm.errors?.parkingSpacesInvalid) {
-          this.message.errorTimeOut(
-            '',
-            'Datos faltantes o incorrectos. Validar que los datos sean correctos.'
-          )
-          this.utilitiesService.markAsTouched(this.stepOneForm)
-          return
-        }
+        console.log('Error')
+        this.message.errorTimeOut(
+          '',
+          'Datos faltantes o incorrectos. Validar que los datos sean correctos.'
+        )
+        this.utilitiesService.markAsTouched(this.stepOneForm)
       }
     } else {
       this.message.hideLoading()
@@ -115,42 +111,39 @@ export class GeneralDataComponent implements OnInit {
   }
 
   createForm() {
-    return this.formBuilder.group(
-      {
-        name: [this.parkingService.parkingStepOne.name, [Validators.required]],
-        address: [
-          this.parkingService.parkingStepOne.address,
-          [Validators.required]
-        ],
-        parking_spaces: [
-          this.parkingService.parkingStepOne.parking_spaces == 0
-            ? ''
-            : this.parkingService.parkingStepOne.parking_spaces,
-          [Validators.required, Validators.min(0)]
-        ],
-        special_parking_spaces: [
-          this.parkingService.parkingStepOne.special_parking_spaces == 0
-            ? ''
-            : this.parkingService.parkingStepOne.special_parking_spaces,
-          [Validators.required, Validators.min(0)]
-        ],
-        minutes_to_exit: [
-          this.parkingService.parkingStepOne.minutes_to_exit == 0
-            ? ''
-            : this.parkingService.parkingStepOne.special_parking_spaces,
-          [Validators.required, Validators.min(0)]
-        ],
-        rules: [this.parkingService.parkingStepOne.rules, Validators.required],
-        is_show_map: [this.parkingService.parkingStepOne.is_show_map],
-        country: [
-          this.parkingService.parkingStepOne.country
-            ? null
-            : this.parkingService.parkingStepOne.country,
-          [Validators.required, Validators.min(1)]
-        ]
-      },
-      { validators: [NumberParkingGreaterValidations()] }
-    )
+    return this.formBuilder.group({
+      name: [this.parkingService.parkingStepOne.name, [Validators.required]],
+      address: [
+        this.parkingService.parkingStepOne.address,
+        [Validators.required]
+      ],
+      parking_spaces: [
+        this.parkingService.parkingStepOne.parking_spaces == 0
+          ? ''
+          : this.parkingService.parkingStepOne.parking_spaces,
+        [Validators.required, Validators.min(0)]
+      ],
+      special_parking_spaces: [
+        this.parkingService.parkingStepOne.special_parking_spaces == 0
+          ? ''
+          : this.parkingService.parkingStepOne.special_parking_spaces,
+        [Validators.required, Validators.min(0)]
+      ],
+      minutes_to_exit: [
+        this.parkingService.parkingStepOne.minutes_to_exit == 0
+          ? ''
+          : this.parkingService.parkingStepOne.special_parking_spaces,
+        [Validators.required, Validators.min(0)]
+      ],
+      rules: [this.parkingService.parkingStepOne.rules, Validators.required],
+      is_show_map: [this.parkingService.parkingStepOne.is_show_map],
+      country: [
+        this.parkingService.parkingStepOne.country
+          ? null
+          : this.parkingService.parkingStepOne.country,
+        [Validators.required, Validators.min(1)]
+      ]
+    })
   }
 
   private getStepOne(): CreateParkingStepOneModel {
@@ -169,7 +162,8 @@ export class GeneralDataComponent implements OnInit {
       rules: this.stepOneForm.controls['rules'].value,
       special_parking_spaces:
         this.stepOneForm.controls['special_parking_spaces'].value,
-      public: this.isPublic
+      public: this.isPublic,
+      is_draft: this.isPublic
     }
   }
 }

@@ -18,6 +18,7 @@ export class BillingDataComponent {
   settingsOptions!: SettingsOptionsModel
   @Input() parkingId!: string
   @Input() showNavigationButtons = true
+  @Input() isPublic = false
 
   constructor(
     private message: MessageService,
@@ -43,7 +44,7 @@ export class BillingDataComponent {
     return this.utilitiesService.controlInvalid(this.stepFourForm, control)
   }
 
-  emmitStep(number: number) {
+  async emmitStep(number: number) {
     this.message.showLoading()
     if (number == 1) {
       if (this.stepFourForm.valid) {
@@ -51,11 +52,11 @@ export class BillingDataComponent {
         this.parkingService.parkingStepFour.parkingId = this.parkingId
         this.parkingService.setStepFour().subscribe((data) => {
           if (data.success) {
-            if (this.showNavigationButtons) {
-              this.message.OkTimeOut('Parqueo Guardado')
+            this.message.Ok('Parqueo guardado.')
+            if (this.showNavigationButtons && !this.isPublic) {
               this.changeStep.emit(number)
             } else {
-              this.message.Ok('Parqueo guardado.')
+              this.endToken()
               this.route.navigate(['/']).catch()
             }
           } else {
@@ -74,6 +75,10 @@ export class BillingDataComponent {
       this.message.hideLoading()
       this.changeStep.emit(number)
     }
+  }
+
+  private async endToken() {
+    return this.parkingService.endTempToken().toPromise().then()
   }
 
   createForm() {

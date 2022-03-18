@@ -4,13 +4,17 @@ import { RegisterPublicFormComponent } from './register-public-form/register-pub
 
 const routes: Routes = [
   {
+    path: 'registro',
+    component: RegisterPublicFormComponent
+  },
+  {
     path: '',
     loadChildren: () =>
       import('./features/features.module').then((m) => m.FeaturesModule)
   },
   {
-    path: 'registro',
-    component: RegisterPublicFormComponent
+    path: '**',
+    redirectTo: '/404'
   }
 ]
 

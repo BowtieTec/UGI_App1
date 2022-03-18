@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http'
-import { Injectable } from '@angular/core'
+import { Injectable, OnInit } from '@angular/core'
 import { FormBuilder } from '@angular/forms'
 import { Router } from '@angular/router'
 import { Observable } from 'rxjs'
@@ -9,7 +9,7 @@ import { environment } from 'src/environments/environment'
 @Injectable({
   providedIn: 'root'
 })
-export class RegisterPublicFormService {
+export class RegisterPublicFormService implements OnInit {
   private apiUrl = environment.serverAPI
 
   constructor(
@@ -20,23 +20,25 @@ export class RegisterPublicFormService {
   ) {}
 
   UploadLogo(data: any, parkingId: string): Observable<any> {
-    return this.http.post(
-      `${this.apiUrl}backoffice/parking/upload-image/logo/${parkingId}`,
+    return this.http.put(
+      `${this.apiUrl}backoffice/parking/upload-image/emblem/${parkingId}`,
       data
     )
   }
 
   UploadTariff(data: any, parkingId: string): Observable<any> {
-    return this.http.post(
-      `${this.apiUrl}backoffice/parking/upload-image/tariff/${parkingId}`,
+    return this.http.put(
+      `${this.apiUrl}backoffice/parking/upload-image/rate/${parkingId}`,
       data
     )
   }
 
   UploadPlans(data: any, parkingId: string): Observable<any> {
-    return this.http.post(
-      `${this.apiUrl}backoffice/parking/upload-image/plans/${parkingId}`,
+    return this.http.put(
+      `${this.apiUrl}backoffice/parking/upload-image/map/${parkingId}`,
       data
     )
   }
+
+  ngOnInit(): void {}
 }
