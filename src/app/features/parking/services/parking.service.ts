@@ -62,9 +62,6 @@ export class ParkingService {
           .then((data) => {
             this.settingsOptions = data
           })
-          .catch((err) => {
-            this.message.error('', 'No se pudo obtener la información inicial.')
-          })
       })
   }
 

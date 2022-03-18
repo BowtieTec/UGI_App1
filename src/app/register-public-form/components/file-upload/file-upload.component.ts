@@ -1,27 +1,26 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { CreateParkingFileModel, CreateParkingStepFourModel } from 'src/app/features/parking/models/CreateParking.model';
-import { SettingsOptionsModel } from 'src/app/features/parking/models/SettingsOption.model';
-import { ParkingService } from 'src/app/features/parking/services/parking.service';
-import { MessageService } from 'src/app/shared/services/message.service';
-import { UtilitiesService } from 'src/app/shared/services/utilities.service';
-import { RegisterPublicFormService } from '../../services/register-public-form.service';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
+import { FormBuilder, FormGroup, Validators } from '@angular/forms'
+import { CreateParkingFileModel } from 'src/app/features/parking/models/CreateParking.model'
+import { SettingsOptionsModel } from 'src/app/features/parking/models/SettingsOption.model'
+import { ParkingService } from 'src/app/features/parking/services/parking.service'
+import { MessageService } from 'src/app/shared/services/message.service'
+import { UtilitiesService } from 'src/app/shared/services/utilities.service'
+import { RegisterPublicFormService } from '../../services/register-public-form.service'
 
 @Component({
   selector: 'app-file-upload',
   templateUrl: './file-upload.component.html',
   styleUrls: ['./file-upload.component.css']
 })
-export class FileUploadComponent {
-
-  filesPlans:string  []  =  [];
-  fileTariff!: File;
-  fileLogo!:File;
+export class FileUploadComponent implements OnInit {
+  filesPlans: string[] = []
+  fileTariff!: File
+  fileLogo!: File
 
   stepFourForm: FormGroup = this.createForm()
   @Output() changeStep = new EventEmitter<number>()
   settingsOptions!: SettingsOptionsModel
-  @Input() parkingId!: string
+  @Input() parkingId: string = this.parkingService.parkingStepOne.parkingId
 
   constructor(
     private message: MessageService,
@@ -33,59 +32,57 @@ export class FileUploadComponent {
     this.settingsOptions = this.parkingService.settingsOptions
   }
 
+  ngOnInit(): void {}
 
   controlInvalid(control: string): boolean {
     return this.utilitiesService.controlInvalid(this.stepFourForm, control)
   }
 
-  emmitStep(number: number) {
+  async emmitStep(number: number) {
+    const promises: Promise<any>[] = []
     this.message.showLoading()
     if (number == 1) {
+      if (this.filesPlans) {
+        //Plans------------------------------------------
+        const formData = new FormData()
+        for (let i = 0; i < this.filesPlans.length; i++) {
+          formData.append('plans', this.filesPlans[i])
+        }
+        promises.push(
+          this.fileServices.UploadPlans(formData, this.parkingId).toPromise()
+        )
+      }
+      if (this.fileTariff) {
+        //Tariff-----------------------------------------
+        const formDataTariff = new FormData()
+        formDataTariff.append('rate', this.fileTariff)
 
-      //Plans------------------------------------------
-      const formData = new FormData();
-      for (var i = 0; i < this.filesPlans.length; i++) { 
-        formData.append("plans[]", this.filesPlans[i]);
+        promises.push(
+          this.fileServices
+            .UploadTariff(formDataTariff, this.parkingId)
+            .toPromise()
+        )
       }
 
-      this.fileServices.UploadPlans(formData)
-      .toPromise()
-      .then((res) => {
-        console.log("res",res);
-      })
-      .catch((err) => {
-        console.log("err",err);
-      })
-
-      //Tariff-----------------------------------------
-      const formDataTariff = new FormData();
-      formDataTariff.append("rate", this.fileTariff);
-
-      this.fileServices.UploadTariff(formDataTariff)
-      .toPromise()
-      .then((res) => {
-        console.log("res",res);
-      })
-      .catch((err) => {
-        console.log("err",err);
-      })
-
-      //LOGO----------------------------------------
-      const formDataLogo = new FormData();
-      formDataLogo.append("logo", this.fileLogo);
-
-      this.fileServices.UploadLogo(formDataLogo)
-      .toPromise()
-      .then((res) => {
-        console.log("res",res);
-      })
-      .catch((err) => {
-        console.log("err",err);
-      })
-
-      this.changeStep.emit(number)
-      this.message.OkTimeOut('Informacion Guardada')
-
+      if (this.fileLogo) {
+        //LOGO----------------------------------------
+        const formDataLogo = new FormData()
+        formDataLogo.append('logo', this.fileLogo)
+        promises.push(
+          this.fileServices.UploadLogo(formDataLogo, this.parkingId).toPromise()
+        )
+      }
+      Promise.all(promises)
+        .then((values: any[]) => {
+          this.message.OkTimeOut('Finalizado correctamente')
+          this.changeStep.emit(number)
+        })
+        .catch((reason: any) => {
+          this.message.errorTimeOut(
+            'Los archivos no pudieron guardarse correctamente: ' +
+              reason.message
+          )
+        })
     } else {
       this.message.hideLoading()
       this.changeStep.emit(number)
@@ -96,7 +93,7 @@ export class FileUploadComponent {
     return this.formBuilder.group({
       logo: [null, Validators.required],
       rate: [null, Validators.required],
-      plans: [null, Validators.required],
+      plans: [null, Validators.required]
     })
   }
 
@@ -109,19 +106,17 @@ export class FileUploadComponent {
     }
   }
 
-  onFileChangePlans(event :any)  {
-    for  (var i =  0; i <  event.target.files.length; i++)  {  
-        this.filesPlans.push(event.target.files[i]);
-        console.log("informacion",this.filesPlans);
+  onFileChangePlans(event: any) {
+    for (let i = 0; i < event.target.files.length; i++) {
+      this.filesPlans.push(event.target.files[i])
     }
   }
 
-  onFileChangeLogo(event:any) {
-    this.fileLogo= event.target.files[0];
+  onFileChangeLogo(event: any) {
+    this.fileLogo = event.target.files[0]
   }
 
-  onFileChangeTarif(event:any) {
-    this.fileTariff= event.target.files[0];
+  onFileChangeTarif(event: any) {
+    this.fileTariff = event.target.files[0]
   }
-
 }

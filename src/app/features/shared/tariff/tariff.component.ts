@@ -74,7 +74,7 @@ export class TariffComponent implements OnInit {
     thu == true ? days.push(4) : false
     fri == true ? days.push(5) : false
     sat == true ? days.push(6) : false
-    sun == true ? days.push(7) : false
+    sun == true ? days.push(0) : false
     return days
   }
 

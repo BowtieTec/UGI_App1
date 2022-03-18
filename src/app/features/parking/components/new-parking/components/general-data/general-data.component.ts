@@ -16,7 +16,7 @@ import { NumberParkingGreaterValidations } from '../../../../../../shared/valida
 export class GeneralDataComponent implements OnInit {
   stepOneForm: FormGroup = this.createForm()
   @Output() changeStep = new EventEmitter<number>()
-  @Input() isPublic:Boolean = false;
+  @Input() isPublic = false
   coords = {
     lat: this.parkingService.parkingStepOne.coordinates.latitude,
     lng: this.parkingService.parkingStepOne.coordinates.longitude
@@ -174,8 +174,7 @@ export class GeneralDataComponent implements OnInit {
       rules: this.stepOneForm.controls['rules'].value,
       special_parking_spaces:
         this.stepOneForm.controls['special_parking_spaces'].value,
-      public: this.isPublic,
-      
+      public: this.isPublic
     }
   }
 }

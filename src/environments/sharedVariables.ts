@@ -49,7 +49,9 @@ export const permission = {
   editLocal: 'editLocal',
 
   listSchedules: 'listSchedules',
-  listTariff: 'listTariff'
+  listTariff: 'listTariff',
+  tariffTest: 'tariffTest',
+  newTicket: 'newTicket'
 }
 export const leftMenu = [
   {
@@ -91,6 +93,13 @@ export const leftMenu = [
     module: 'report',
     description: 'Reportes',
     icon: 'fa-chart-pie',
+    isShow: true
+  },
+  {
+    path: '/home/support',
+    module: 'support',
+    description: 'Soporte',
+    icon: 'fa-info-circle',
     isShow: true
   },
   {
