@@ -1,0 +1,17 @@
+<nav #nav="ngbNav"
+     class="nav-tabs "
+     ngbNav>
+
+  <!-- <ng-container *ngIf="ifHaveAction(tariffTest)"-->
+  <ng-container
+    ngbNavItem>
+    <a
+      ngbNavLink><em class="fas fa-users"></em> Crear Solicitud</a>
+    <ng-template ngbNavContent>
+      <app-new-ticket></app-new-ticket>
+    </ng-template>
+  </ng-container>
+  
+</nav>
+<div [ngbNavOutlet]="nav"
+     class="mt-2"></div>
