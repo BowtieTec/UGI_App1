@@ -97,7 +97,6 @@ export class GeneralDataComponent implements OnInit {
           }
         })
       } else {
-        console.log('Error')
         this.message.errorTimeOut(
           '',
           'Datos faltantes o incorrectos. Validar que los datos sean correctos.'

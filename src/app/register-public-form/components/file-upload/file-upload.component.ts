@@ -68,7 +68,6 @@ export class FileUploadComponent implements OnInit {
         //LOGO----------------------------------------
         const formDataLogo = new FormData()
         formDataLogo.append('logo', this.fileLogo)
-        console.log(this.fileLogo)
         await this.fileServices
           .UploadLogo(formDataLogo, this.parkingId)
           .toPromise()
