@@ -74,19 +74,19 @@ export class ParkingTicketReportComponent implements OnInit {
     private permisionService: PermissionsService,
     private excelService: ReportService,
     private parkingService: ParkingService
-  ) {
-    this.messageService.showLoading()
-
-    this.messageService.hideLoading()
-  }
+  ) {}
 
   ngOnInit(): void {
+    this.messageService.showLoading()
     this.dtOptions = DataTableOptions.getSpanishOptions(10)
-    this.parkingService.getAllParking().then((data) => {
-      if (data.success) {
-        this.allParking = data.data.parkings
-      }
-    })
+    this.parkingService
+      .getAllParking()
+      .then((data) => {
+        if (data.success) {
+          this.allParking = data.data.parkings
+        }
+      })
+      .finally(() => this.messageService.showLoading())
   }
 
   ifHaveAction(action: string) {

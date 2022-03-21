@@ -101,39 +101,5 @@ export const leftMenu = [
     description: 'Soporte',
     icon: 'fa-info-circle',
     isShow: true
-  },
-  {
-    path: '#',
-    module: 'billing',
-    description: 'Cuentas por pagar',
-    icon: 'fa-money-bill',
-    isShow: true
-  },
-  {
-    path: '#',
-    module: 'marketing',
-    description: 'Publicidad',
-    icon: 'fa-puzzle-piece',
-    isShow: true
-  },
-  {
-    path: '#',
-    module: 'tests',
-    description: 'Prueba de tarifa',
-    icon: 'fa-hourglass-half',
-    isShow: true
-  },
-  {
-    path: '#',
-    module: 'incidents',
-    description: 'Incidentes',
-    icon: 'fa-exclamation-circle',
-    isShow: true
-  },
-  {
-    path: '/registro',
-    module: 'parking',
-    description: 'Registro publico',
-    isShow: false
   }
 ]
