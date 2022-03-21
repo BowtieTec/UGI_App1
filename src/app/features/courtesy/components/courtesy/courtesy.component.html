@@ -9,25 +9,30 @@
         <div *ngIf="ifHaveAction(createCourtesy)">
           <div class="row justify-content-center">
             <div class="col-xl-4 col-lg-4 col-sm-12">
-              <div class="mb-4 relative">
+              <app-input-container [formGroup]="newCourtesyForm" controlName="name"
+                                   name="Nombre"></app-input-container>
+              <!--<div class="mb-4 relative">
                 <label class="labelInput">Nombre</label>
                 <input [class.is-invalid]="controlInvalid('name')" class="form-control inputClass"
                        formControlName="name" placeholder="NOMBRE:" type="text">
                 <small *ngIf="controlInvalid('name')" class="text-danger animate__animated  animate__rotateIn">* Este
                   campo es obligatorio</small>
-              </div>
+              </div>-->
             </div>
             <div class="col-xl-4 col-lg-4  col-sm-12">
-              <div class="mb-4 relative">
-                <label class="labelInput"> --- Tipo de cortesía ---</label>
-                <select [class.is-invalid]="controlInvalid('type')" class="inputClass" formControlName="type">
-                  <option *ngIf="newCourtesyForm.controls['type'].value <= 0" value="">Tipo de cortesía
-                  </option>
-                  <option *ngFor="let type of courtesyTypes" value="{{type.id}}">{{type.description}}</option>
-                </select>
-                <small *ngIf="controlInvalid('type')" class="text-danger animate__animated  animate__rotateIn">* Este
-                  campo es obligatorio</small>
-              </div>
+              <app-select-container
+                [data]="courtesyTypes" [formGroup]="newCourtesyForm" controlName="type" name="Tipo de cortesia">
+              </app-select-container>
+              <!-- <div class="mb-4 relative">
+                 <label class="labelInput"> -&#45;&#45; Tipo de cortesía -&#45;&#45;</label>
+                 <select [class.is-invalid]="controlInvalid('type')" class="inputClass" formControlName="type">
+                   <option *ngIf="newCourtesyForm.controls['type'].value <= 0" value="">Tipo de cortesía
+                   </option>
+                   <option *ngFor="let type of courtesyTypes" value="{{type.id}}">{{type.description}}</option>
+                 </select>
+                 <small *ngIf="controlInvalid('type')" class="text-danger animate__animated  animate__rotateIn">* Este
+                   campo es obligatorio</small>
+               </div>-->
             </div>
           </div>
           <div class="row justify-content-center">

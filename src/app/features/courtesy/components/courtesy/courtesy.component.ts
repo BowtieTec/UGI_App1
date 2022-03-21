@@ -91,6 +91,7 @@ export class CourtesyComponent implements AfterViewInit, OnDestroy {
       .toPromise()
       .then((data) => {
         if (data.success) {
+          console.log(data.data.type)
           this.courtesyTypes = data.data.type
           this.messageService.hideLoading()
         } else {
