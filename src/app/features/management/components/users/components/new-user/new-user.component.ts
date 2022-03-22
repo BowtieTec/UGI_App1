@@ -90,6 +90,10 @@ export class NewUserComponent implements OnInit {
   saveNewUser() {
     const newUserForm: NewUserModel = this.getNewUserDataForm()
     this.messageServices.showLoading()
+    if (this.newUserForm.invalid) {
+      this.messageServices.errorTimeOut('Datos incorrectos o faltantes.')
+      return
+    }
     if (this.isEdit) {
       delete newUserForm.password
       this.userService
