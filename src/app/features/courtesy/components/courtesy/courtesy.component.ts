@@ -15,6 +15,7 @@ import { ParkingService } from '../../../parking/services/parking.service'
 import { ParkingModel } from '../../../parking/models/Parking.model'
 import { CompaniesModel } from '../../../management/components/users/models/companies.model'
 import { CompaniesService } from '../../../management/components/users/services/companies.service'
+import { SelectModel } from '../../../../shared/model/CommonModels'
 
 @Component({
   selector: 'app-courtesy',
@@ -28,7 +29,8 @@ export class CourtesyComponent implements AfterViewInit, OnDestroy {
   parkingId: string = this.authService.getParking().id
   courtesies: CourtesyModel[] = []
   allCompanies: CompaniesModel[] = []
-
+  discountOnWhatList: SelectModel[] = this.courtesyService.DiscountOnWhatOptions
+  typeOfCondition: SelectModel[] = this.courtesyService.TypeOfConditions
   /*Table*/
   @ViewChild(DataTableDirective)
   dtElement!: DataTableDirective
@@ -91,7 +93,6 @@ export class CourtesyComponent implements AfterViewInit, OnDestroy {
       .toPromise()
       .then((data) => {
         if (data.success) {
-          console.log(data.data.type)
           this.courtesyTypes = data.data.type
           this.messageService.hideLoading()
         } else {
@@ -120,14 +121,16 @@ export class CourtesyComponent implements AfterViewInit, OnDestroy {
       })
   }
 
-  getCourtesy(): any {
+  getCourtesy(): CourtesyModel {
     return {
       parkingId: this.parkingId,
       name: this.newCourtesyForm.controls['name'].value,
       type: this.newCourtesyForm.controls['type'].value,
       value: this.newCourtesyForm.controls['value'].value,
       quantity: this.newCourtesyForm.controls['quantity'].value,
-      companyId: this.newCourtesyForm.controls['companyId'].value
+      companyId: this.newCourtesyForm.controls['companyId'].value,
+      discountOnWhat: this.newCourtesyForm.controls['companyId'].value,
+      condition: this.newCourtesyForm.controls['companyId'].value
     }
   }
 
@@ -195,7 +198,9 @@ export class CourtesyComponent implements AfterViewInit, OnDestroy {
       value: ['', [Validators.required, Validators.min(1)]],
       quantity: ['', [Validators.required, Validators.min(1)]],
       parkingId: [this.authService.getParking().id],
-      companyId: ['0', [Validators.required]]
+      companyId: ['0', [Validators.required]],
+      discountOnWhat: ['0', [Validators.required]],
+      condition: ['0', [Validators.required]]
     })
   }
 
