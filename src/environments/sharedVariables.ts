@@ -103,3 +103,11 @@ export const leftMenu = [
     isShow: true
   }
 ]
+export const DiscountOnWhat = [
+  { id: 1, name: 'Total' },
+  { id: 2, name: 'Cantidad de horas' }
+]
+export const TypeOfCondition = [
+  { id: 1, name: 'Aplicar siempre' },
+  { id: 2, name: 'Solo si Cant. Horas menor a descuento' }
+]
