@@ -65,7 +65,7 @@ export class StationaryCourtesyComponent implements AfterViewInit, OnDestroy {
   ) {
     this.stationaryForm = this.createForm()
     this.formGroup = formBuilder.group({ filter: [''] })
-    this.getInitialData()
+    this.getInitialData().catch()
   }
 
   get dtOptions() {
@@ -149,7 +149,7 @@ export class StationaryCourtesyComponent implements AfterViewInit, OnDestroy {
         .then((resp) => {
           this.allParking = resp[0]
           this.typeCourtesies = resp[1]
-          this.stations = resp[2].filter((x) => x.courtesy_detail)
+          this.stations = resp[2].filter((x) => x.name)
           this.courtesyTypes = resp[3].data.type
           this.allCompanies = resp[4]
         })

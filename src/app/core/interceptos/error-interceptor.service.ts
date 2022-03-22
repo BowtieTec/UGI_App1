@@ -14,12 +14,17 @@ export class GlobalErrorHandler implements ErrorHandler {
   ) {}
 
   handleError(error: Response | any) {
-    console.log(error)
+    if (!environment.production) console.error('Error: ', error)
     switch (error.status) {
       case 401:
-        this.message.error('Token vencido. Por favor iniciar sesion nuevamente')
+        this.message.error('Token vencido. Por favor iniciar sesión nuevamente')
         this.auth.cleanUser()
         this.router.navigate(['/'])
+        return
+      case 408:
+        this.message.error(
+          'Error interno del sistema. Cierre sesión y vuelva a intentar.'
+        )
         return
     }
     let errMsg: string
@@ -29,11 +34,15 @@ export class GlobalErrorHandler implements ErrorHandler {
       errMsg = `${error.status} - ${error.statusText || ''} ${err}`
       return throwError(errMsg)
     } else {
-      errMsg = error.message ? error.message : error.toString()
+      switch (error.status) {
+        case 409:
+          this.message.error(
+            'Error interno del sistema. Cierre sesión y vuelva a intentar.'
+          )
+          return
+      }
     }
-    if (!environment.production) console.error('Error: ', errMsg)
-
-    return throwError(errMsg)
+    return throwError(error.message)
   }
 
   protected extractData(res: Response) {
