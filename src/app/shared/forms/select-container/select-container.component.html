@@ -1,5 +1,7 @@
 <div [formGroup] = "formGroup"
      class = "m-2 relative">
+  <label class = "labelInput"
+         style = "display: block;">{{this.name}}</label>
   <select [class.is-invalid] = "controlInvalid(controlName)"
           class = "inputClass"
           formControlName = "{{controlName}}">
