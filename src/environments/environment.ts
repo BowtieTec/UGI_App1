@@ -10,7 +10,7 @@ import {
 } from './sharedVariables'
 
 const Ip = 'dev.bowtietech.pro'
-const Port = '3000'
+const Port = '3001'
 export const environment = {
   production: false,
   serverAPI: `https://${Ip}:${Port}/v1/`,
