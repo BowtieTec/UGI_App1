@@ -4,6 +4,8 @@ import { MessageService } from '../../../shared/services/message.service'
 import { RecoveryPasswordService } from '../services/recovery-password.service'
 import { ConfirmCodeModel } from '../models/RecoveryPassword.model'
 import { Router } from '@angular/router'
+import { HttpErrorResponse, HttpEventType } from '@angular/common/http'
+import { throwError } from 'rxjs'
 
 @Component({
   selector: 'app-recover-password',
@@ -50,18 +52,22 @@ export class RecoverPasswordComponent {
   }
 
   sendConfirmation(email: string) {
-    this.email = email
-    return this.recoveryService
-      .sendConfirmCode(email)
-      .toPromise()
-      .then((data) => {
-        if (data.success) {
-          this.messageService.Ok('Código Enviado')
-        } else {
-          this.messageService.error('', data.message)
-        }
-        return data.success
-      })
+      this.email = email
+      return this.recoveryService
+        .sendConfirmCode(email)
+        .toPromise()
+        .then((data) => {
+          if (data.success) {
+            this.messageService.Ok('Código Enviado')
+          } else {
+            this.messageService.error('', data.message)
+          }
+          return data.success
+        }).catch(err => {
+          this.messageService.error('', err.error.message)
+        return false
+        })
+
   }
 
   confirmCode() {

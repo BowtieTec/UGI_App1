@@ -4,6 +4,8 @@ import { Router } from '@angular/router'
 import { AuthService } from '../../shared/services/auth.service'
 import { throwError } from 'rxjs'
 import { environment } from '../../../environments/environment'
+import { HttpErrorResponse, HttpRequest, HttpResponse } from '@angular/common/http'
+import { ResponseModel } from '../../shared/model/Request.model'
 
 @Injectable()
 export class GlobalErrorHandler implements ErrorHandler {
@@ -13,8 +15,8 @@ export class GlobalErrorHandler implements ErrorHandler {
     private auth: AuthService
   ) {}
 
-  handleError(error: Response | any) {
-    if (!environment.production) console.error('Error: ', error)
+  handleError(error: Response | HttpErrorResponse | any) {
+    if (!environment.production) console.error('Error: ')
     switch (error.status) {
       case 401:
         this.message.error('Token vencido. Por favor iniciar sesión nuevamente')
@@ -32,17 +34,22 @@ export class GlobalErrorHandler implements ErrorHandler {
       const body: any = error.json() || ''
       const err = body.error || JSON.stringify(body)
       errMsg = `${error.status} - ${error.statusText || ''} ${err}`
+
       return throwError(errMsg)
-    } else {
-      switch (error.status) {
-        case 409:
-          this.message.error(
-            'Error interno del sistema. Cierre sesión y vuelva a intentar.'
-          )
-          return
-      }
+    } else if(error instanceof  HttpErrorResponse) {
+        switch (error.status) {
+          case 409:
+            this.message.error(
+              'Error interno del sistema. Cierre sesión y vuelva a intentar.'
+            )
+            return
+          case 500:
+            this.message.error('Error');
+            return
+        }
     }
-    return throwError(error.message)
+
+    return throwError(error)
   }
 
   protected extractData(res: Response) {
