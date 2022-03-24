@@ -59,7 +59,7 @@ export class TariffTestComponent {
 
   get parkingSelected() {
     this.parkingId = this.tariffTestForm.get('parking')?.value
-    this.courtesyId = this.tariffTestForm.get('courtesyId')?.value
+    this.tariffTestForm.controls['courtesyId'].setValue('')
     return this.tariffTestForm.get('parking')?.value
   }
 
@@ -91,7 +91,7 @@ export class TariffTestComponent {
       parking: [this.parkingId, [Validators.required]],
       date_in: ['', [Validators.required]],
       date_out: ['', [Validators.required]],
-      courtesyId: [this.courtesyId]
+      courtesyId: ['']
     })
   }
 
@@ -104,13 +104,12 @@ export class TariffTestComponent {
     return this.parkingService.getAllParking().then((x) => {
       if (x.success) {
         this.allParkingLot = x.data.parkings
-        console.log(this.allParkingLot)
       }
     })
+    
   }
 
   getCourtesies(parkingId = this.parkingId) {
-    console.log(this.parkingId)
     return this.courtesyService
       .getCourtesys(parkingId)
       .toPromise()
