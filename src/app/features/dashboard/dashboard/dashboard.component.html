@@ -80,7 +80,7 @@
                     <div class="mb-4 relative">
                       <label class="text-secondary" style="display:block">Año</label>
                       <select #inputIngresoMesAnio ngModel="inputIngresoMesAnio" ngControl="inputIngresoMesAnio"
-                        class="inputClass">
+                        class="inputClass" (change)='filterMonth()'>
                         <option *ngFor="let opt of AniosSelect" [selected]="opt.key == AnioActual" [value]="opt.key">
                           {{opt.valor}}</option>
                       </select>
@@ -90,7 +90,7 @@
                     <div class="mb-4 relative">
                       <label class="text-secondary" style="display:block">Mes</label>
                       <select #inputIngresoMes ngModel="inputIngresoMes" ngControl="inputIngresoMes" class="inputClass">
-                        <option *ngFor="let opt of Meses" [selected]="opt.key == MesActual" [value]="opt.key">
+                        <option *ngFor="let opt of monthFiltered" [selected]="opt.key == MesActual" [value]="opt.key">
                           {{opt.valor}}</option>
                       </select>
                     </div>

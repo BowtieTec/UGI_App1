@@ -97,8 +97,8 @@ export class DashboardComponent implements OnInit {
 
   MesActual = new Date().toISOString().split('T')[0].split('-')[1]
   AnioActual: any = +new Date().toISOString().split('T')[0].split('-')[0]
-
-  Meses = [
+  monthFiltered: any[] = [];
+  allMonths = [
     { key: '01', valor: 'Enero' },
     { key: '02', valor: 'Febrero' },
     { key: '03', valor: 'Marzo' },
@@ -137,8 +137,8 @@ export class DashboardComponent implements OnInit {
       this.idTabActiva = 'cortesiasEstacionarias'
     }
     for (
-      let iAnio = this.AnioActual - 2;
-      iAnio < this.AnioActual + 6;
+      let iAnio = this.AnioActual - 5;
+      iAnio <= this.AnioActual;
       iAnio++
     ) {
       this.AniosSelect.push({
@@ -146,14 +146,15 @@ export class DashboardComponent implements OnInit {
         valor: iAnio
       })
     }
+   this.monthFiltered = this.allMonths.filter(x => Number(x.key) <= new Date().getMonth())
   }
-
   ngOnInit(): void {
     this.parkingService.getAllParking().then((data) => {
       if (data.success) {
         this.allParking = data.data.parkings
       }
     })
+
   }
 
   ifHaveAction(action: string) {
@@ -270,5 +271,14 @@ export class DashboardComponent implements OnInit {
 
   tabChanges(ids: string) {
     this.idTabActiva = ids
+  }
+
+  filterMonth() {
+    const yearSelected = this.inputIngresoMesAnio.nativeElement.value;
+    if(yearSelected == new Date().getFullYear()){
+      this.monthFiltered = this.allMonths.filter(x =>Number(x.key)<= new Date().getMonth())
+    }else{
+      this.monthFiltered = this.allMonths
+    }
   }
 }
