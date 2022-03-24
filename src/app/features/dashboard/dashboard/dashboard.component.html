@@ -40,7 +40,7 @@
                       <label class="text-secondary " style="display:block">Fecha</label>
                       <input #inputFechaIngresoDia class="form-control inputClass datetimepicker"
                         formControlName="inputFechaIngresoDia" name="inputFechaIngresoDia" placeholder="Fecha/Hora"
-                        type="date" value={{fechaIngresosDia}}>
+                        type="date" value={{fechaIngresosDia}} max="{{nowDateTime | date: 'dd-MM-YYYY'}}">
                     </div>
                   </div>
                   <div class="col-xl-12 col-lg-12 col-sm-12">

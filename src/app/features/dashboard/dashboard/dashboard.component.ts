@@ -12,6 +12,7 @@ import { AuthService } from '../../../shared/services/auth.service'
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
+  nowDateTime = new Date()
   searchIngresosForm!: FormGroup
   ingresos = 'Ingresos'
   flujo = 'Flujo'
