@@ -1,4 +1,4 @@
-import { ErrorHandler, NgModule } from '@angular/core'
+import { ErrorHandler, LOCALE_ID, NgModule } from '@angular/core'
 import { BrowserModule } from '@angular/platform-browser'
 import { AppRoutingModule } from './app-routing.module'
 import { AppComponent } from './app.component'
@@ -14,6 +14,10 @@ import { CurrencyPipe } from '@angular/common'
 import { RegisterPublicFormComponent } from './register-public-form/register-public-form.component'
 import { ParkingModule } from './features/parking/parking.module'
 import { FileUploadModule } from './register-public-form/components/file-upload.module'
+
+import localGT from '@angular/common/locales/es-GT'
+import { registerLocaleData } from '@angular/common'
+registerLocaleData(localGT, 'es-GT')
 
 @NgModule({
   declarations: [AppComponent, RegisterPublicFormComponent],
@@ -32,6 +36,7 @@ import { FileUploadModule } from './register-public-form/components/file-upload.
   ],
   providers: [
     { provide: ErrorHandler, useClass: GlobalErrorHandler },
+    { provide: LOCALE_ID, useValue: 'es-GT' },
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptorService,
