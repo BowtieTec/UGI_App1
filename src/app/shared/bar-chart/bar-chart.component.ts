@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core'
 import * as ApexCharts from 'apexcharts'
 import { DashboardService } from '../services/dashboard.service'
 import { AuthService } from '../../shared/services/auth.service'
+import { MessageService } from '../services/message.service'
 
 @Component({
   selector: 'app-bar-chart',
@@ -33,7 +34,8 @@ export class BarChartComponent implements OnInit {
           zoomout: false,
           pan: false,
           reset: false
-        }
+        },
+        filename: `${this.tipo}-${this.tipoChart}-${this.fecha}`
       }
     },
     colors: ['#415ba2', '#04ccae', '#ccac04', '#4804cc', '#cc0424'],
@@ -71,7 +73,7 @@ export class BarChartComponent implements OnInit {
     ],
     labels: [
       1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21,
-      22, 23
+      22, 23, 24
     ],
     xaxis: {
       type: 'category',
@@ -368,8 +370,11 @@ export class BarChartComponent implements OnInit {
 
   constructor(
     private auth: AuthService,
-    private dashboardService: DashboardService
-  ) {}
+    private dashboardService: DashboardService,
+    private messageService: MessageService
+  ) {
+
+  }
 
   ngOnChanges(): void {
     const fecha = this.fecha
