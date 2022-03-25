@@ -227,7 +227,7 @@
                     <div class="mb-4 relative">
                       <label class="text-secondary" style="display:block">Mes</label>
                       <select #inputFlujoMes ngModel="inputFlujoMes" ngControl="inputFlujoMes" class="inputClass">
-                        <option *ngFor="let opt of Meses" [selected]="opt.key == MesActual" [value]="opt.key">
+                        <option *ngFor="let opt of monthFiltered" [selected]="opt.key == MesActual" [value]="opt.key">
                           {{opt.valor}}</option>
                       </select>
                     </div>
@@ -380,7 +380,7 @@
                       <label class="labelInput" style="display:block">Mes</label>
                       <select #inputCortesiasMes class="inputClass" ngControl="inputCortesiasMes"
                         ngModel="inputCortesiasMes">
-                        <option *ngFor="let opt of Meses" [selected]="opt.key == MesActual" [value]="opt.key">
+                        <option *ngFor="let opt of monthFiltered" [selected]="opt.key == MesActual" [value]="opt.key">
                           {{opt.valor}}</option>
                       </select>
                     </div>
@@ -578,7 +578,7 @@
                       <label class="labelInput" style="display:block">Mes</label>
                       <select #inputCortesiasEstacionariasMes class="inputClass"
                         ngControl="inputCortesiasEstacionariasMes" ngModel="inputCortesiasEstacionariasMes">
-                        <option *ngFor="let opt of Meses" [selected]="opt.key == MesActual" [value]="opt.key">
+                        <option *ngFor="let opt of monthFiltered" [selected]="opt.key == MesActual" [value]="opt.key">
                           {{opt.valor}}</option>
                       </select>
                     </div>

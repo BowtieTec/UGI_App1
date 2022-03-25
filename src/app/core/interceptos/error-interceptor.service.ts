@@ -16,6 +16,7 @@ export class GlobalErrorHandler implements ErrorHandler {
   ) {}
 
   handleError(error: Response | HttpErrorResponse | any) {
+    console.log(error)
     if (!environment.production) console.error('Error: ')
     switch (error.status) {
       case 401:
