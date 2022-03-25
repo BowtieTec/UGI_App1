@@ -79,8 +79,8 @@
     <tbody>
     <tr *ngFor="let company of companies"
         class="animate__animated animate__fadeIn">
-      <td>{{company.name | titlecase}}</td>
-      <td>{{company.place | titlecase}}</td>
+      <td style='max-width: 200px; overflow: auto'>{{company.name | titlecase}}</td>
+      <td style='max-width: 200px; overflow: auto'>{{company.place | titlecase}}</td>
       <td>{{!company.status ? 'Habilitado' : 'Deshabilitado'}}</td>
       <td *ngIf="isSudo">{{company.parking!.name | titlecase}}</td>
       <td>{{company.created_at | date: 'short'}}</td>
@@ -92,7 +92,7 @@
         </button>
         <button (click)="deleteTheCompany(company)"
                 *ngIf="ifHaveAction(disable)"
-                class="buttonRowDelete"><em class="fas fa-ban"></em>
+                class="buttonRowDisable" title='Inhabilitar'><em class="fas fa-ban"></em>
         </button>
       </td>
     </tr>
