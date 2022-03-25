@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core'
 import * as ApexCharts from 'apexcharts'
 import { DashboardService } from '../services/dashboard.service'
-import { AuthService } from '../../shared/services/auth.service'
+import { AuthService } from '../services/auth.service'
 import { MessageService } from '../services/message.service'
 
 @Component({
@@ -14,7 +14,7 @@ export class BarChartComponent implements OnInit {
   @Input() fecha = ''
   @Input() parking = ''
   @Input() tipoChart = 'bar'
-  @Input() periodo = 'dia'
+  @Input() periodo: string = 'dia'
   datosDiarios: number[] = []
   datosMes: number[] = []
   datosAnio: number[] = []
@@ -35,7 +35,11 @@ export class BarChartComponent implements OnInit {
           pan: false,
           reset: false
         },
-        filename: `${this.tipo}-${this.tipoChart}-${this.fecha}`
+        export: {
+          csv: {
+            filename: `${this.tipo} - ${this.periodo} ${new Date().toLocaleDateString()}`
+          }
+        }
       }
     },
     colors: ['#415ba2', '#04ccae', '#ccac04', '#4804cc', '#cc0424'],
@@ -146,6 +150,11 @@ export class BarChartComponent implements OnInit {
           zoomout: false,
           pan: false,
           reset: false
+        },
+        export: {
+          csv: {
+            filename: `${this.tipo} - ${this.periodo} ${new Date().toLocaleDateString()}`
+          }
         }
       }
     },
@@ -256,6 +265,11 @@ export class BarChartComponent implements OnInit {
           zoomout: false,
           pan: false,
           reset: false
+        },
+        export: {
+          csv: {
+            filename: `${this.tipo} - ${this.periodo} ${new Date().toLocaleDateString()}`
+          }
         }
       }
     },
@@ -440,6 +454,7 @@ export class BarChartComponent implements OnInit {
   ngOnInit(): void {
     if (this.periodo == 'dia') {
       this.diaOptions.chart.type = this.tipoChart
+      this.diaOptions.chart.toolbar.export.csv.filename = `${this.tipo.toLocaleUpperCase()} POR ${this.periodo.toUpperCase()} ${new Date().getUTCDate()}`;
       this.chart = new ApexCharts(
         document.querySelector(
           '.' + this.tipo + ' #' + this.periodo + ' #grafica'
@@ -450,6 +465,8 @@ export class BarChartComponent implements OnInit {
     }
     if (this.periodo == 'mes') {
       this.mesOptions.chart.type = this.tipoChart
+      this.mesOptions.chart.toolbar.export.csv.filename = this.tipo.toLocaleUpperCase() + ' POR ' + this.periodo.toUpperCase() + ' ' +new Date().getMonth();
+
       this.chart = new ApexCharts(
         document.querySelector(
           '.' + this.tipo + ' #' + this.periodo + ' #grafica'
@@ -460,6 +477,8 @@ export class BarChartComponent implements OnInit {
     }
     if (this.periodo == 'anio') {
       this.anioOptions.chart.type = this.tipoChart
+      this.anioOptions.chart.toolbar.export.csv.filename = this.tipo.toLocaleUpperCase() + ' POR ' + this.periodo.toUpperCase() + ' ' +new Date().getDate();
+
       this.chart = new ApexCharts(
         document.querySelector(
           '.' + this.tipo + ' #' + this.periodo + ' #grafica'
@@ -472,6 +491,7 @@ export class BarChartComponent implements OnInit {
 
   //Entradas
   getDatosDiarios(parkingId: string, fecha: string) {
+    this.messageService.showLoading()
     return this.dashboardService
       .getDailyEntries(parkingId, fecha)
       .toPromise()
@@ -518,6 +538,7 @@ export class BarChartComponent implements OnInit {
             })
           }
         }
+        this.messageService.hideLoading()
       })
   }
 

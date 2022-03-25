@@ -5,6 +5,7 @@ import { ParkingService } from '../../parking/services/parking.service'
 import { FormGroup } from '@angular/forms'
 import { ParkingModel } from '../../parking/models/Parking.model'
 import { AuthService } from '../../../shared/services/auth.service'
+import { MessageService } from '../../../shared/services/message.service'
 
 @Component({
   selector: 'app-dashboard',
@@ -13,7 +14,6 @@ import { AuthService } from '../../../shared/services/auth.service'
 })
 export class DashboardComponent implements OnInit {
   nowDateTime = new Date()
-  searchIngresosForm!: FormGroup
   ingresos = 'Ingresos'
   flujo = 'Flujo'
   cortesias = 'Cortesias'
@@ -125,7 +125,8 @@ export class DashboardComponent implements OnInit {
   constructor(
     private auth: AuthService,
     private permissionService: PermissionsService,
-    private parkingService: ParkingService
+    private parkingService: ParkingService,
+    private messageService: MessageService
   ) {
     if (this.ifHaveAction('graficosIngresoVehiculos')) {
       this.idTabActiva = 'ingresos'
