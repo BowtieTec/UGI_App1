@@ -28,7 +28,8 @@
   <div class="row">
     <div class="col-md-6 col-sm-12">
       <div class="m-3 relative ">
-        <app-select-container [data]="this.states"
+        <app-select-container *ngIf="idCompanyToEdit"
+                              [data]="this.states"
                               [formGroup]="companiesForm"
                               controlName="status"
                               name="Estado">
