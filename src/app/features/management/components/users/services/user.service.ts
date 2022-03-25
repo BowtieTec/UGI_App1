@@ -30,7 +30,6 @@ export class UserService {
     this.getRoles()
       .toPromise()
       .then((data: ResponseModel) => {
-        console.log(data.data.roles)
         this.roles = data.data.roles
         return data
       })
