@@ -19,6 +19,7 @@ export class InputContainerComponent {
   @Input() formGroup!: FormGroup
   @Input() type = 'text'
   @Input() textInfo = ''
+  @Input() readonly: boolean = false
 
   constructor(private utilitiesService: UtilitiesService) {}
 

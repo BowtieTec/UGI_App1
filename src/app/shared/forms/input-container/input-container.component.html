@@ -6,7 +6,8 @@
     <input
       class = "inputClass"
       formControlName = "{{controlName}}"
-      id = "name"
+      [id] = "name"
+      [readOnly]='readonly'
       placeholder = "{{name}}:"
       type = "{{type}}">
   </div>
