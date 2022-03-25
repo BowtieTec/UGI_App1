@@ -74,12 +74,9 @@ export class TariffTestComponent {
     }
     const newTest = this.formTariffTestValues
     console.log(newTest)
-    /*const newTicket = await this.testService.getTariffTest(newTest)
-    this.ticket.amount = newTicket.ticket.amount
-    this.ticket.days = newTicket.ticket.days
-    this.ticket.hour = newTicket.ticket.hour
-    this.ticket.minute = newTicket.ticket.minute
-    this.ticket.tariff = newTicket.ticket.tariff*/
+    this.ticket = await this.testService
+      .getTariffTest(newTest)
+      .then((x) => x.ticket)
   }
 
   validateDateForm(control: string) {
@@ -106,7 +103,6 @@ export class TariffTestComponent {
         this.allParkingLot = x.data.parkings
       }
     })
-    
   }
 
   getCourtesies(parkingId = this.parkingId) {

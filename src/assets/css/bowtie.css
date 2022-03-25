@@ -22,7 +22,7 @@ body {
 .buttonIcon {
   background: #021C70;
   color: #fff;
-  border: 0px;
+  border: 0;
   border-radius: 4px;
   height: 32px;
   width: 32px;
@@ -141,7 +141,7 @@ body {
 
 .btn-delete {
   background: #c36554;
-  border: 0px;
+  border: 0;
   color: #fff;
 }
 
@@ -153,7 +153,7 @@ body {
 
 .btn-success {
   background: #10ceb2;
-  border: 0px
+  border: 0
 }
 
 .btn-secundary {
@@ -161,7 +161,7 @@ body {
 }
 
 .btn-s {
-  border: 0px;
+  border: 0;
   border-radius: 4px;
   height: 30px;
   width: 30px;
@@ -910,4 +910,12 @@ nav > .nav-link.active {
   .locationPanel {
     zoom: 0.7;
   }
+}
+
+/*this was placed to hide download option in the dashboard graphs*/
+.apexcharts-menu-item.exportSVG {
+  display: none;
+}
+.apexcharts-menu-item.exportPNG {
+  display: none;
 }
