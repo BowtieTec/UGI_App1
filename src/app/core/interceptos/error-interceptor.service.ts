@@ -5,7 +5,6 @@ import { AuthService } from '../../shared/services/auth.service'
 import { throwError } from 'rxjs'
 import { environment } from '../../../environments/environment'
 import { HttpErrorResponse, HttpRequest, HttpResponse } from '@angular/common/http'
-import { ResponseModel } from '../../shared/model/Request.model'
 
 @Injectable()
 export class GlobalErrorHandler implements ErrorHandler {
@@ -16,7 +15,7 @@ export class GlobalErrorHandler implements ErrorHandler {
   ) {}
 
   handleError(error: Response | HttpErrorResponse | any) {
-    console.log(error)
+    console.log( error)
     if (!environment.production) console.error('Error: ')
     switch (error.status) {
       case 401:
@@ -34,8 +33,7 @@ export class GlobalErrorHandler implements ErrorHandler {
     if (error instanceof Response) {
       const body: any = error.json() || ''
       const err = body.error || JSON.stringify(body)
-      errMsg = `${error.status} - ${error.statusText || ''} ${err}`
-
+      errMsg = `${error.status} - ${error.statusText || ''} ${err.message}`
       return throwError(errMsg)
     } else if(error instanceof  HttpErrorResponse) {
         switch (error.status) {
@@ -49,7 +47,13 @@ export class GlobalErrorHandler implements ErrorHandler {
             return
         }
     }
-
+    if(error.toString().includes('Duplicate entry')){
+      const duplicateField = error.toString().slice(error.toString().indexOf('Duplicate entry \'')+17, error.toString().indexOf('\' for key '))
+      this.message.error(` "${duplicateField}" ya existe`)
+    }else if(error.toString().includes('Error: Error:')){
+      const duplicateField = error.toString().slice(error.toString().indexOf('Error: Error:')+14, error.toString().lastIndexOf('Error: Error:'))
+      this.message.error(duplicateField)
+    }
     return throwError(error)
   }
 

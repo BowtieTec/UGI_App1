@@ -16,7 +16,7 @@ import { AuthService } from '../../../../../../shared/services/auth.service'
   templateUrl: './new-user.component.html',
   styleUrls: ['./new-user.component.css']
 })
-export class NewUserComponent implements OnInit, AfterViewInit {
+export class NewUserComponent implements OnInit {
   @Input() subject = new Subject<NewUserModel>()
   newUserForm: FormGroup
   isEdit = false
@@ -34,9 +34,6 @@ export class NewUserComponent implements OnInit, AfterViewInit {
   ) {
     this.newUserForm = this.createForm()
     this.getInitialData().catch()
-    this.newUserForm.controls['password'].setValue(
-      ''
-    )
   }
 
   get Roles() {
@@ -53,7 +50,6 @@ export class NewUserComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.subject.subscribe((user: NewUserModel) => {
-      console.log(user)
       if (user.name.length > 0) {
         this.newUserForm.controls['name'].setValue(user.name)
         this.newUserForm.controls['last_name'].setValue(user.last_name)
@@ -88,22 +84,26 @@ export class NewUserComponent implements OnInit, AfterViewInit {
       role: this.newUserForm.controls['role'].value,
       user: this.newUserForm.controls['user'].value,
       id: this.newUserForm.controls['id'].value,
-      parking: this.newUserForm.controls['parking'].value? this.newUserForm.controls['parking'].value: this.parkingId
+      parking: this.newUserForm.controls['parking'].value?
+        this.newUserForm.controls['parking'].value:
+        this.parkingId
     }
   }
 
   saveNewUser() {
-    const newUserForm: NewUserModel = this.getNewUserDataForm()
-    this.messageServices.showLoading()
-    if (this.newUserForm.invalid) {
-      console.log(this.newUserForm)
+    let newUserValue: NewUserModel = this.getNewUserDataForm()
+    if (!newUserValue) {
+      this.utilitiesService.markAsTouched(this.newUserForm)
       this.messageServices.errorTimeOut('Datos incorrectos o faltantes.')
       return
     }
+
+    console.log(newUserValue)
+    this.messageServices.showLoading()
     if (this.isEdit) {
-      delete newUserForm.password
+      delete newUserValue.password
       this.userService
-        .editUser(this.getNewUserDataForm())
+        .editUser(newUserValue)
         .toPromise()
         .then((data) => {
           if (data.success) {
@@ -129,9 +129,9 @@ export class NewUserComponent implements OnInit, AfterViewInit {
             })
         })
     } else {
-      delete newUserForm.id
+      delete newUserValue.id
       this.userService
-        .saveNewUser(newUserForm)
+        .saveNewUser(newUserValue)
         .toPromise()
         .then((data) => {
           if (data.success) {
@@ -143,7 +143,7 @@ export class NewUserComponent implements OnInit, AfterViewInit {
           this.isEdit = false
         }).catch(x => {
         console.log(x)
-        this.messageServices.error(x.error.message)
+        throw new Error(x.error.message)
       })
         .then(() => {
           this.cleanForm()
@@ -153,7 +153,6 @@ export class NewUserComponent implements OnInit, AfterViewInit {
   }
 
   cleanForm() {
-    //this.utilitiesService.markAsUnTouched(this.newUserForm)
     this.newUserForm.reset()
     this.isEdit = false
   }
@@ -161,9 +160,7 @@ export class NewUserComponent implements OnInit, AfterViewInit {
   controlInvalid(control: string): boolean {
     return this.utilitiesService.controlInvalid(this.newUserForm, control)
   }
-get newAlias(){
-    return this.newUserForm.get('name')?.value.slice(0, 1).toUpperCase() + this.newUserForm.get('lastname')?.value
-}
+
   private createForm() {
     return this.formBuilder.group({
       id: [''],
@@ -172,16 +169,11 @@ get newAlias(){
       email: ['', [
           Validators.required,
           Validators.pattern(this.utilitiesService.getPatterEmail)
-        ]
-      ],
+        ]],
       user: ['', [Validators.required]],
       password: ['', [Validators.required]],
       role: ['0', [Validators.required]],
-      parking: [this.userService.newUser.parking?this.userService.newUser.parking:this.parkingId, [Validators.required]]
+      parking: [this.parkingId, [Validators.required]]
     })
-  }
-
-  ngAfterViewInit(): void {
-    this.newUserForm.reset()
   }
 }
