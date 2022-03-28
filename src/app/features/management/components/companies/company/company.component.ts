@@ -5,7 +5,8 @@ import {
   Component,
   Input,
   OnDestroy,
-  ViewChild
+  ViewChild,
+  OnInit
 } from '@angular/core'
 import { UtilitiesService } from '../../../../../shared/services/utilities.service'
 import { CompaniesService } from '../../users/services/companies.service'
@@ -108,17 +109,20 @@ export class CompanyComponent implements AfterViewInit, OnDestroy {
         .editCompany(newCompany, this.getAndRerender)
         .toPromise()
       this.idCompanyToEdit = ''
+      this.companiesForm.reset()
       return
     }
     await this.companyService
       .createCompany(newCompany, this.getAndRerender)
       .toPromise()
+
+    this.companiesForm.reset()
   }
 
   async deleteTheCompany(company: CompaniesModel) {
     if (!company.id) {
       this.messageService.errorTimeOut(
-        'Esta compañía no existe o no se seleciono una correcta.'
+        'Esta compañía no existe o no se seleccionó una correcta.'
       )
       return
     }
@@ -154,13 +158,14 @@ export class CompanyComponent implements AfterViewInit, OnDestroy {
 
   private async getInitialData() {
     await this.getAllParkingLot()
-    this.getCompanies()
+    await this.getCompanies().then(() => this.rerender())
   }
 
-  private getCompanies(parkingId: string = this.parkingId) {
+  private async getCompanies(parkingId: string = this.parkingId) {
     return this.companyService
       .getCompanies(this.parkingId)
-      .subscribe((data) => {
+      .toPromise()
+      .then((data) => {
         this.companies = data
       })
   }

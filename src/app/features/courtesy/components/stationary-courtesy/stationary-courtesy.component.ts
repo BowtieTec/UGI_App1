@@ -24,6 +24,7 @@ import { Subject } from 'rxjs'
 import { DataTableOptions } from '../../../../shared/model/DataTableOptions'
 import { CompaniesModel } from '../../../management/components/users/models/companies.model'
 import { CompaniesService } from '../../../management/components/users/services/companies.service'
+import { SelectModel } from '../../../../shared/model/CommonModels'
 
 @Component({
   selector: 'app-stationary-courtesy',
@@ -38,7 +39,7 @@ export class StationaryCourtesyComponent implements AfterViewInit, OnDestroy {
   courtesyTypes: CourtesyTypeModel[] = []
   idEditAntenna = ''
   allParking: ParkingModel[] = Array<ParkingModel>()
-  typeCourtesies: Array<{ id: number; name: string }> = []
+  typeCourtesies: SelectModel[] = []
   stations: StationsCourtesyModel[] = []
 
   /*Table*/
@@ -87,17 +88,13 @@ export class StationaryCourtesyComponent implements AfterViewInit, OnDestroy {
     }
   }
 
-  async getTypeCourtesies(): Promise<Array<{ id: number; name: string }>> {
+  async getTypeCourtesies(): Promise<SelectModel[]> {
     return this.courtesyService
       .getTypes()
       .toPromise()
       .then((x) => {
-        return x.data.type.map((item: any) => {
-          return {
-            id: item.id,
-            name: item.description
-          }
-        })
+        console.log(x.data.type)
+        return x.data.type
       })
   }
 
@@ -149,6 +146,7 @@ export class StationaryCourtesyComponent implements AfterViewInit, OnDestroy {
         .then((resp) => {
           this.allParking = resp[0]
           this.typeCourtesies = resp[1]
+          console.log(this.typeCourtesies)
           this.stations = resp[2].filter((x) => x.name)
           this.courtesyTypes = resp[3].data.type
           this.allCompanies = resp[4]

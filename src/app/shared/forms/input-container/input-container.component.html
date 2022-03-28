@@ -4,13 +4,14 @@
     <label class = "labelInput"
            style = "display: block;">{{this.name}}</label>
     <input
-      class = "inputClass"
-      formControlName = "{{controlName}}"
+      class="inputClass"
+      maxlength='30'
+      formControlName="{{controlName}}"
       [id] = "'new-'+name"
       [readOnly]='readonly'
-      placeholder = "{{name}}:"
-      type = "{{type}}"
-    autocomplete="off">
+      placeholder="{{name}}:"
+      autocomplete="off"
+      type="{{type}}">
   </div>
   <small *ngIf = "controlInvalid(controlName)"
          class = "text-danger animate__animated animate__fadeIn">* El valor no es válido</small>
