@@ -147,7 +147,7 @@ export class DashboardComponent implements OnInit {
         valor: iAnio
       })
     }
-   this.monthFiltered = this.allMonths.filter(x => Number(x.key) <= new Date().getMonth())
+   this.monthFiltered = this.allMonths.filter(x => Number(x.key) <= new Date().getMonth()+1)
   }
   ngOnInit(): void {
     this.parkingService.getAllParking().then((data) => {
@@ -277,7 +277,8 @@ export class DashboardComponent implements OnInit {
   filterMonth() {
     const yearSelected = this.inputIngresoMesAnio.nativeElement.value;
     if(yearSelected == new Date().getFullYear()){
-      this.monthFiltered = this.allMonths.filter(x =>Number(x.key)<= new Date().getMonth())
+      this.monthFiltered = this.allMonths.filter(x =>Number(x.key)<= Number(new Date().getMonth())+1)
+      console.log(Number(new Date().getMonth()))
     }else{
       this.monthFiltered = this.allMonths
     }
