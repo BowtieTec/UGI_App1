@@ -1,4 +1,4 @@
-<form [formGroup]='newUserForm'>
+<form [formGroup]='newUserForm' autocomplete="off">
   <div class='panels animate__animated animate__fadeInLeft'>
     <div class='titleCards'>
       <span><em class='fas fa-user-plus'></em></span> Nuevo usuario
@@ -23,7 +23,7 @@
           [formGroup]='newUserForm'
           [readonly]='isEdit'
           controlName='email'
-          name='Email'>
+          name='Correo'>
         </app-input-container>
       </div>
       <div class='col-xl-12 col-lg-12 col-xs-12'>
@@ -31,17 +31,17 @@
           [data]='Roles'
           [formGroup]='newUserForm'
           controlName='role'
-          name='Rol del usuario'>
+          name='Roles de usuario'>
         </app-select-container>
       </div>
-      <div class='col-xl-12 col-lg-12  col-sm-12'>
+      <div class='col-xl-12 col-lg-12 col-sm-12'>
         <app-input-container
           [formGroup]='newUserForm'
           controlName='user'
           name='Alias'>
         </app-input-container>
       </div>
-      <div class='col-xl-12 col-lg-12  col-sm-12'>
+      <div class='col-xl-12 col-lg-12 col-sm-12'>
         <app-input-container
           [formGroup]='newUserForm'
           [readonly]='isEdit'

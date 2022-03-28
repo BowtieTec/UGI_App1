@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core'
+import { AfterContentInit, AfterViewInit, Component, Input, OnInit } from '@angular/core'
 import { UserService } from '../../services/user.service'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { UtilitiesService } from '../../../../../../shared/services/utilities.service'
@@ -16,7 +16,7 @@ import { AuthService } from '../../../../../../shared/services/auth.service'
   templateUrl: './new-user.component.html',
   styleUrls: ['./new-user.component.css']
 })
-export class NewUserComponent implements OnInit {
+export class NewUserComponent implements OnInit, AfterViewInit {
   @Input() subject = new Subject<NewUserModel>()
   newUserForm: FormGroup
   isEdit = false
@@ -33,7 +33,10 @@ export class NewUserComponent implements OnInit {
     private authService: AuthService
   ) {
     this.newUserForm = this.createForm()
-    this.getInitialData()
+    this.getInitialData().catch()
+    this.newUserForm.controls['password'].setValue(
+      ''
+    )
   }
 
   get Roles() {
@@ -73,7 +76,6 @@ export class NewUserComponent implements OnInit {
     this.allParking = await this.parkingService
       .getAllParking()
       .then((x) => x.data.parkings)
-
     this.messageServices.hideLoading()
   }
 
@@ -151,30 +153,35 @@ export class NewUserComponent implements OnInit {
   }
 
   cleanForm() {
-    this.utilitiesService.markAsUnTouched(this.newUserForm)
+    //this.utilitiesService.markAsUnTouched(this.newUserForm)
+    this.newUserForm.reset()
     this.isEdit = false
   }
 
   controlInvalid(control: string): boolean {
     return this.utilitiesService.controlInvalid(this.newUserForm, control)
   }
-
+get newAlias(){
+    return this.newUserForm.get('name')?.value.slice(0, 1).toUpperCase() + this.newUserForm.get('lastname')?.value
+}
   private createForm() {
     return this.formBuilder.group({
       id: [''],
-      name: [this.userService.newUser.name, [Validators.required]],
-      last_name: [this.userService.newUser.last_name, [Validators.required]],
-      email: [
-        this.userService.newUser.email,
-        [
+      name: ['', [Validators.required]],
+      last_name: ['', [Validators.required]],
+      email: ['', [
           Validators.required,
           Validators.pattern(this.utilitiesService.getPatterEmail)
         ]
       ],
-      user: [this.userService.newUser.user, [Validators.required]],
-      password: [this.userService.newUser.password, [Validators.required]],
-      role: [this.userService.newUser.role, [Validators.required]],
+      user: ['', [Validators.required]],
+      password: ['', [Validators.required]],
+      role: ['0', [Validators.required]],
       parking: [this.userService.newUser.parking?this.userService.newUser.parking:this.parkingId, [Validators.required]]
     })
+  }
+
+  ngAfterViewInit(): void {
+    this.newUserForm.reset()
   }
 }

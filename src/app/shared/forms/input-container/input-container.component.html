@@ -6,10 +6,11 @@
     <input
       class = "inputClass"
       formControlName = "{{controlName}}"
-      [id] = "name"
+      [id] = "'new-'+name"
       [readOnly]='readonly'
       placeholder = "{{name}}:"
-      type = "{{type}}">
+      type = "{{type}}"
+    autocomplete="off">
   </div>
   <small *ngIf = "controlInvalid(controlName)"
          class = "text-danger animate__animated animate__fadeIn">* El valor no es válido</small>
