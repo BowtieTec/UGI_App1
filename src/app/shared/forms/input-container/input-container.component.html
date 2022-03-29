@@ -1,17 +1,19 @@
 <div [formGroup]="formGroup"
      class="relative mb-2">
-  <div>
-    <label class="labelInput" style="display: block;">{{this.name}}</label>
-    <input
-      class="inputClass"
-      maxlength='30'
-      formControlName="{{controlName}}"
-      id="name"
-      placeholder="{{name}}:"
-      type="{{type}}">
-  </div>
-  <small *ngIf="controlInvalid(controlName)"
-         class="text-danger animate__animated animate__fadeIn">* El valor no es válido</small>
-  <span *ngIf="textInfo.length > 0"
+    <div>
+      <label class="labelInput" style="display: block;">{{this.name}}</label>
+      <input
+        class="inputClass"
+        min="{{this.minL}}"
+        max="{{this.maxL}}"
+        formControlName="{{controlName}}"
+        id="name"
+        placeholder="{{name}}:"
+        type="{{type}}">
+
+    </div>
+    <small *ngIf="controlInvalid(controlName)"
+           class="text-danger animate__animated animate__fadeIn">* El valor no es válido</small>
+    <span *ngIf="textInfo.length > 0"
         class="text-muted">*{{textInfo}}</span>
 </div>
