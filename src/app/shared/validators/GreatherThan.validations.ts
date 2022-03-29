@@ -15,7 +15,8 @@ export function NumberGreaterValidations(): ValidationErrors | any {
     const hourUpperLimit: Date = form.controls['hourUpperLimit']?.value
     const minuteLowerLimit: Date = form.controls['minuteLowerLimit']?.value
     const minuteUpperLimit: Date = form.controls['minuteUpperLimit']?.value
-    const result = hourLowerLimit < hourUpperLimit
+    const result = hourLowerLimit <= hourUpperLimit && hourLowerLimit < hourUpperLimit? true: minuteLowerLimit < minuteUpperLimit
+    console.log(result)
     return result ? null : { quantitiesInvalid: true }
   }
 }

@@ -313,15 +313,15 @@ export class TariffComponent implements OnInit {
   }
 cleanForms(){
   this.generalDataForm.reset()
+  this.generalDataForm.controls['isShowDescription'].setValue(true)
     this.holidayForm.reset()
     this.rankForm.reset()
     this.blockForm.reset()
     this.defaultForm.reset()
-    this.prioriceForm.reset()
-    this.daysSelectedForm.reset()
     this.principalScheduleForm.reset()
     this.hourAHalfForm.reset()
     this.fixedCostForm.reset()
+  this.costType = 1
 }
   saveRule() {
     const isValid = this.validateForms()
