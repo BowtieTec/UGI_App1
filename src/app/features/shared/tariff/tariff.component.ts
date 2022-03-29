@@ -134,11 +134,11 @@ export class TariffComponent implements OnInit {
   get holidayFormValues(): HolidayInputModel {
     const fromDate = this.date.transform(
       this.holidayForm.get('from')?.value,
-      'medium'
+      'short'
     )
     const toDate = this.date.transform(
       this.holidayForm.get('to')?.value,
-      'medium'
+      'short'
     )
     return {
       static_descriptionTime: `Día festivo: Desde ${fromDate} Hasta el ${toDate}.`,
@@ -311,7 +311,18 @@ export class TariffComponent implements OnInit {
       this.getTariffs()
     }
   }
-
+cleanForms(){
+  this.generalDataForm.reset()
+    this.holidayForm.reset()
+    this.rankForm.reset()
+    this.blockForm.reset()
+    this.defaultForm.reset()
+    this.prioriceForm.reset()
+    this.daysSelectedForm.reset()
+    this.principalScheduleForm.reset()
+    this.hourAHalfForm.reset()
+    this.fixedCostForm.reset()
+}
   saveRule() {
     const isValid = this.validateForms()
     if (!isValid) return
@@ -321,7 +332,8 @@ export class TariffComponent implements OnInit {
         '',
         'No pudo obtenerse la tarifa para ser guardada.'
       )
-    } else {
+      return
+    }
       this.parkingService
         .setRule(newRule)
         .then((data) => {
@@ -333,13 +345,14 @@ export class TariffComponent implements OnInit {
           return data
         })
         .then(() => {
-          this.getTariffs()
+          this.getTariffs().catch()
+          this.cleanForms()
         })
         .catch((e) => {
-          this.messageService.uncontrolledError(e.message)
+         throw new Error(e.message)
         })
       this.messageService.OkTimeOut()
-    }
+
   }
 
   validateSelected(time: number, cost: number) {
@@ -449,7 +462,7 @@ export class TariffComponent implements OnInit {
   }
 
   private buildTariffJsonRules() {
-    let newRule: CreateTariffModel = new CreateTariffModel()
+    let newRule: CreateTariffModel
     const rules: Rules[] = [
       {
         conditions: {

@@ -112,7 +112,6 @@ export class TariffTestComponent {
       .then((data) => {
         if (data.success) {
           this.courtesies = data.data
-          console.log(this.courtesies)
         } else {
           this.messageService.error('', data.message)
         }
