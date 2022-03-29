@@ -93,7 +93,7 @@ export class CourtesyComponent implements AfterViewInit, OnDestroy {
       .toPromise()
       .then((data) => {
         if (data.success) {
-          this.courtesyTypes = data.data.type
+          this.courtesyTypes = data.data.type.filter((x:any) => x.id != 3)
           this.messageService.hideLoading()
         } else {
           this.messageService.errorTimeOut(
@@ -194,7 +194,7 @@ export class CourtesyComponent implements AfterViewInit, OnDestroy {
   private createForm() {
     return this.formBuilder.group({
       name: ['', [Validators.required]],
-      type: ['', [Validators.required]],
+      type: ['0', [Validators.required]],
       value: ['', [Validators.required, Validators.min(1)]],
       quantity: ['', [Validators.required, Validators.min(1)]],
       parkingId: [this.authService.getParking().id],

@@ -93,8 +93,7 @@ export class StationaryCourtesyComponent implements AfterViewInit, OnDestroy {
       .getTypes()
       .toPromise()
       .then((x) => {
-        console.log(x.data.type)
-        return x.data.type
+        return x.data.type.filter((x:any) => x.id !=3)
       })
   }
 
@@ -145,8 +144,7 @@ export class StationaryCourtesyComponent implements AfterViewInit, OnDestroy {
       ])
         .then((resp) => {
           this.allParking = resp[0]
-          this.typeCourtesies = resp[1]
-          console.log(this.typeCourtesies)
+          this.typeCourtesies = resp[1].filter(x => x.id <= 2)
           this.stations = resp[2].filter((x) => x.name)
           this.courtesyTypes = resp[3].data.type
           this.allCompanies = resp[4]
@@ -190,7 +188,7 @@ export class StationaryCourtesyComponent implements AfterViewInit, OnDestroy {
   getTypeDescription(id: number) {
     const newDescription = this.courtesyTypes.find((x) => x.id == id)
     return newDescription == undefined
-      ? { id: null, description: 'Sin descripción' }
+      ? { id: null, name: 'Sin descripción' }
       : newDescription
   }
 
