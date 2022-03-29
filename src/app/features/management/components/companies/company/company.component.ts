@@ -98,6 +98,7 @@ export class CompanyComponent implements AfterViewInit, OnDestroy {
   }
 
   async saveCompany() {
+    console.log(this.companiesForm.value)
     if (this.companiesForm.invalid) {
       this.messageService.error('', 'Datos no válidos o faltantes')
       return
@@ -107,18 +108,21 @@ export class CompanyComponent implements AfterViewInit, OnDestroy {
       newCompany.id = this.idCompanyToEdit
       await this.companyService
         .editCompany(newCompany, this.getAndRerender)
-        .toPromise()
-      this.idCompanyToEdit = ''
-      this.companiesForm.reset()
+        .toPromise().then(() => this.cleanCompanyForm())
       return
     }
     await this.companyService
       .createCompany(newCompany, this.getAndRerender)
       .toPromise()
+      .then(() => this.cleanCompanyForm())
 
-    this.companiesForm.reset()
   }
-
+cleanCompanyForm(){
+  this.companiesForm.reset()
+  this.idCompanyToEdit = ''
+  this.companiesForm.get('status')?.setValue(0)
+  this.companiesForm.get('parking')?.setValue(this.parkingId)
+}
   async deleteTheCompany(company: CompaniesModel) {
     if (!company.id) {
       this.messageService.errorTimeOut(
