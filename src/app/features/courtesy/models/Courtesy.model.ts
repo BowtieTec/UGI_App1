@@ -1,6 +1,6 @@
 export class CourtesyTypeModel {
   id = 0
-  description = ''
+  name = ''
 }
 
 export class CourtesyModel {

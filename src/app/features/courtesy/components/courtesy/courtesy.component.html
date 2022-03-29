@@ -23,7 +23,7 @@
                 <select [class.is-invalid]="controlInvalid('type')" class="inputClass" formControlName="type">
                   <option *ngIf="newCourtesyForm.controls['type'].value <= 0" value="">Tipo de cortesía
                   </option>
-                  <option *ngFor="let type of courtesyTypes" value="{{type.id}}">{{type.description}}</option>
+                  <option *ngFor="let type of courtesyTypes" value="{{type.id}}">{{type.name}}</option>
                 </select>
                 <small *ngIf="controlInvalid('type')" class="text-danger animate__animated  animate__rotateIn">* Este
                   campo es obligatorio</small>
@@ -99,7 +99,7 @@
           <tbody>
           <tr *ngFor="let courtesy of courtesies" class="animate__animated animate__fadeIn">
             <td>{{courtesy.name}}</td>
-            <td>{{this.getTypeDescription(courtesy.type).description}}</td>
+            <td>{{this.getTypeDescription(courtesy.type).name}}</td>
             <td>{{courtesy.quantity}}</td>
             <td>{{courtesy.company?.name | titlecase}}</td>
             <td>{{courtesy.value | courtesyValue: courtesy.type}}</td>

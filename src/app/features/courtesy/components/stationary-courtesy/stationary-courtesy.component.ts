@@ -95,7 +95,7 @@ export class StationaryCourtesyComponent implements AfterViewInit, OnDestroy {
         return x.data.type.map((item: any) => {
           return {
             id: item.id,
-            name: item.description
+            name: item.name
           }
         })
       })
@@ -192,7 +192,7 @@ export class StationaryCourtesyComponent implements AfterViewInit, OnDestroy {
   getTypeDescription(id: number) {
     const newDescription = this.courtesyTypes.find((x) => x.id == id)
     return newDescription == undefined
-      ? { id: null, description: 'Sin descripción' }
+      ? { id: null, name: 'Sin descripción' }
       : newDescription
   }
 
