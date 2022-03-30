@@ -63,7 +63,7 @@
                   class="inputClass"
                   formControlName="currency">
             <option *ngFor="let option of settingsOptions.currencyOptions"
-                    value="{{option.id}}">{{option.description}}</option>
+                    value="{{option.id}}">{{option.name}}</option>
           </select>
           <small *ngIf="controlInvalid('currency')"
                  class="text-danger animate__animated  animate__rotateIn">* Este campo es obligatorio</small>
@@ -164,7 +164,7 @@
                     class="inputClass"
                     formControlName="purchase_currency_bac">
               <option *ngFor="let option of this.settingsOptions.currencyOptions"
-                      value="{{option.id}}">{{option.description}}</option>
+                      value="{{option.id}}">{{option.name}}</option>
             </select>
             <small *ngIf="controlInvalid('purchase_currency_bac')"
                    class="text-danger animate__animated  animate__rotateIn">* Este campo es obligatorio</small>

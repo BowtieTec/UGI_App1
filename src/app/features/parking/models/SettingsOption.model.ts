@@ -5,7 +5,7 @@ export class PaymentMethodModel {
 
 export class CurrencyOptionModel {
   id = 0
-  description = ''
+  name = ''
 }
 
 export class ParkingStatusModel {
