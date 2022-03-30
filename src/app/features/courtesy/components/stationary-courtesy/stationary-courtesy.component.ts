@@ -146,6 +146,7 @@ export class StationaryCourtesyComponent implements AfterViewInit, OnDestroy {
           this.allParking = resp[0]
           this.typeCourtesies = resp[1].filter(x => x.id <= 2)
           this.stations = resp[2].filter((x) => x.name)
+          console.log(resp[2])
           this.courtesyTypes = resp[3].data.type
           this.allCompanies = resp[4]
         })
