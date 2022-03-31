@@ -127,8 +127,13 @@ export class MonthlyParkingComponent implements AfterViewInit, OnDestroy {
   }
 
   disableSubscription(idSubscription: string) {
-    this.parkingService.disableSubscription(idSubscription).then((data) => {
-      this.resolveResponse(data)
+    this.message.areYouSure('¿Esta seguro que desea congelar eta suscripción?').then(x => {
+      if(x.isConfirmed){
+        this.message.showLoading()
+        this.parkingService.disableSubscription(idSubscription).then((data) => {
+          this.resolveResponse(data)
+        })
+      }
     })
   }
 
@@ -139,8 +144,14 @@ export class MonthlyParkingComponent implements AfterViewInit, OnDestroy {
   }
 
   deleteSubscription(idSubscription: string) {
-    this.parkingService.deleteSubscription(idSubscription).then((data) => {
-      this.resolveResponse(data)
+    this.message.areYouSure('¿Esta seguro que desea eliminar esta suscripción?').then(x => {
+      if(x.isConfirmed){
+        this.message.showLoading()
+        this.parkingService.deleteSubscription(idSubscription).then((data) => {
+          this.resolveResponse(data)
+          this.message.OkTimeOut()
+        })
+      }
     })
   }
 
@@ -148,7 +159,6 @@ export class MonthlyParkingComponent implements AfterViewInit, OnDestroy {
     if (data.success) {
       this.getMonthlySubscription()
         .then(() => this.getProfiles())
-        .then(() => this.message.Ok())
     } else {
       this.message.error('', data.message)
     }

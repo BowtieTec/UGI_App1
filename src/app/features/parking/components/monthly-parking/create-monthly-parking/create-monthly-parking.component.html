@@ -46,7 +46,8 @@
                               type="button"></button>
                     </div>
                     <div class="modal-body">
-                      <div class="input-group-sm input-group mb-3">
+
+                      <div class="input-group-sm input-group ">
                         <input (change)="searchUser()"
                                (keydown.enter)="searchUser()"
                                aria-describedby="basic-addon1"
@@ -54,13 +55,14 @@
                                class="inputClass form-control"
                                formControlName="telephone"
                                placeholder="Número de teléfono"
-                               type="number">
+                               type="text">
                         <button (click)="searchUser()"
                                 class="btn btn-primary btn-input"
                                 type="button">
                           <em class="fas fa-search"></em>
                         </button>
                       </div>
+                      <span class='mb-5'> *Ingresar el número de teléfono</span>
                       <div *ngIf="loadingUser"
                            class="progress mb-5">
                         <div aria-valuemax="100"
@@ -70,13 +72,16 @@
                              role="progressbar"
                              style="width: 100%"></div>
                       </div>
-                      <div class="list-group">
+                      <div *ngIf='userSearched.length<=0 && searched' class='text-center mt-3'>
+                        No se han encontrado datos
+                      </div>
+                      <div class="list-group mt-3">
                         <button (click)="userSelect(user)"
                                 *ngFor="let user of userSearched"
                                 class="list-group-item list-group-item-action "
                                 data-bs-dismiss="modal" type="button">
                           {{user.name + ' ' + user.last_name + ' Teléfono: ' + user.phone_number}}
-                          <span style="right: 15px !important; color: #415ba2;" class='position-absolute '>Seleccionar</span>
+                          <span style="right: 15px !important; color: #415ba2;" class='position-absolute ml-2'>Seleccionar</span>
                         </button>
                       </div>
                     </div>

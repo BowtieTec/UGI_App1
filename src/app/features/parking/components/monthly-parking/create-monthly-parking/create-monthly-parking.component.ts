@@ -29,6 +29,7 @@ export class CreateMonthlyParkingComponent implements OnInit {
   stationsByParking: GetStationModel[] = []
   nameProfile = ''
   loadingUser = false
+  searched: boolean = false
   //Permissions
   createMonthlyParking = environment.createMonthlyParking
   deleteMonthlyParking = environment.deleteMonthlyParking
@@ -93,7 +94,9 @@ export class CreateMonthlyParkingComponent implements OnInit {
         this.message.hideLoading()
       })
   }
-
+get telephoneWritten(){
+  return this.monthlyForm.controls['telephone']?.value
+}
   searchUser() {
     this.loadingUser = true
     this.message.showLoading()
@@ -102,6 +105,7 @@ export class CreateMonthlyParkingComponent implements OnInit {
       .then((data) => {
         if (data.success) {
           this.userSearched = data.data.users
+          this.searched = true
         }
       })
       .then(() => {
@@ -209,6 +213,7 @@ cleanForm(){
   createMonthly() {
     if (!this.monthlyForm.valid || !this.userSelected.id) {
       this.message.error(' Hacen falta datos o son inválidos.')
+      console.log(this.monthlyForm, this.userSelected)
       return
     }
 
@@ -245,7 +250,7 @@ cleanForm(){
       friday: [false],
       saturday: [false],
       sunday: [false],
-      telephone: [null, [Validators.required, Validators.minLength(7)]],
+      telephone: [null],
       isUnlimited: [true],
       begin_date: [null],
       finish_date: [null],
