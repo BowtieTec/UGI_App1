@@ -40,8 +40,8 @@ export class StationaryCourtesyComponent implements AfterViewInit, OnDestroy {
   idEditAntenna = ''
   allParking: ParkingModel[] = Array<ParkingModel>()
   typeCourtesies: SelectModel[] = []
-  stations: StationsCourtesyModel[] = []
-
+  stationsCourtesies: StationsCourtesyModel[] = []
+  allAntennas: StationsCourtesyModel[] = []
   /*Table*/
   @ViewChild(DataTableDirective)
   dtElement!: DataTableDirective
@@ -103,7 +103,7 @@ export class StationaryCourtesyComponent implements AfterViewInit, OnDestroy {
 
   createForm(): FormGroup {
     return this.formBuilder.group({
-      parkingId: [this.parkingId],
+      parkingId: [this.authService.getParking().id, [Validators.required]],
       value: ['', [Validators.required, Validators.min(1)]],
       type: ['0', [Validators.required]],
       name: ['', [Validators.required]],
@@ -116,20 +116,26 @@ export class StationaryCourtesyComponent implements AfterViewInit, OnDestroy {
     return param ? param : 'Sin valor'
   }
 
+  async getCourtesiesStationary(): Promise<StationsCourtesyModel[]> {
+ /*
+  *  When courtesy_details is null, that means that the antenna doesn't have courtesy
+  *  is just the antenna.
+  *  When courtesy_details is not null,
+  *  that means that the antennas has courtesy.
+  */
+    return await this.parkingService.getAntennasWithStationaryCourtesy(this.parkingId).then(x => x.filter(a => a.courtesy_detail))
+  }
+
   async searchAntennasByParking() {
     if (this.authService.isSudo && !this.idEditAntenna) {
       this.message.showLoading()
       this.parkingId = this.stationaryForm.controls['parkingId']?.value
-      const newStations =
-        await this.parkingService.getAntennasWithStationaryCourtesy(
-          this.parkingId
-        )
-      this.stations = newStations.filter((x) => x.courtesy_detail)
+      this.allAntennas = await this.parkingService.getAntennasWithStationaryCourtesy(this.parkingId)
+      this.stationsCourtesies = await this.getCourtesiesStationary()
       this.rerender()
-
       this.message.hideLoading()
     }
-    return this.stations
+    return this.stationsCourtesies
   }
 
   async getInitialData() {
@@ -138,15 +144,14 @@ export class StationaryCourtesyComponent implements AfterViewInit, OnDestroy {
       Promise.all([
         this.parkingService.getAllParking().then((data) => data.data.parkings),
         this.getTypeCourtesies(),
-        this.parkingService.getAntennasWithStationaryCourtesy(this.parkingId),
+        this.getCourtesiesStationary(),
         this.courtesyService.getTypes().toPromise(),
         this.companyService.getCompanies(this.parkingId).toPromise()
       ])
         .then((resp) => {
           this.allParking = resp[0]
           this.typeCourtesies = resp[1].filter(x => x.id <= 2)
-          this.stations = resp[2].filter((x) => x.name)
-          console.log(resp[2])
+          this.stationsCourtesies = resp[2]
           this.courtesyTypes = resp[3].data.type
           this.allCompanies = resp[4]
         })
