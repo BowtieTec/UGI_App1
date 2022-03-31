@@ -57,7 +57,6 @@ export class GlobalErrorHandler implements ErrorHandler {
       const message = error.toString().slice(error.toString().indexOf('"message":"Error:')+17, error.toString().indexOf('}}')-2)
       this.message.error(message)
     }
-
     return throwError(error)
   }
 
