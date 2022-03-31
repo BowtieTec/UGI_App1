@@ -43,6 +43,7 @@ export class CourtesyStationReportComponent implements OnInit {
   report: desc[] = []
   dataSource: any
   parqueo: any
+  nowDateTime = new Date()
 
   allParking: ParkingModel[] = Array<ParkingModel>()
   verTodosLosParqueosReport = environment.verTodosLosParqueosReport
@@ -87,6 +88,13 @@ export class CourtesyStationReportComponent implements OnInit {
   }
 
   getCourtesyStationRpt(initDate: string, endDate: string) {
+    if (endDate < initDate) {
+      this.messageService.error(
+        '',
+        'La fecha de inicio debe ser mayor a la fecha fin'
+      )
+      return
+    }
     this.startDateReport = initDate
     this.endDateReport = endDate
     this.parqueo = this.datosUsuarioLogeado.id

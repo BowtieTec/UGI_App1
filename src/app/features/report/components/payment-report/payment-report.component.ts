@@ -51,7 +51,7 @@ export class PaymentReportComponent implements OnInit, AfterViewInit {
   report: pagos[] = []
   dataSource: any
   parqueo: any
-
+  nowDateTime = new Date()
   allParking: ParkingModel[] = Array<ParkingModel>()
   verTodosLosParqueosReport = environment.verTodosLosParqueosReport
   @ViewChild('inputParking') inputParking!: ElementRef
@@ -89,6 +89,13 @@ export class PaymentReportComponent implements OnInit, AfterViewInit {
   }
 
   getPaymentRpt(initDate: string, endDate: string) {
+    if (endDate < initDate) {
+      this.messageService.error(
+        '',
+        'La fecha de inicio debe ser mayor a la fecha fin'
+      )
+      return
+    }
     this.startDateReport = initDate
     this.endDateReport = endDate
     this.parqueo = this.datosUsuarioLogeado.id
