@@ -29,6 +29,7 @@
                    name="initDate"
                    placeholder="Fecha/Hora de entrada"
                    type="Date"
+                   max="{{nowDateTime | date: 'yyyy-MM-dd'}}"
                    [value]="fechaActual"
             >
 
@@ -46,6 +47,7 @@
               name="endDate"
               placeholder="Fecha/Hora de salida"
               type="date"
+              max="{{nowDateTime | date: 'yyyy-MM-dd'}}"
             >
           </div>
         </div>
