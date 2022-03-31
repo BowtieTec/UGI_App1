@@ -94,9 +94,6 @@ export class CreateMonthlyParkingComponent implements OnInit {
         this.message.hideLoading()
       })
   }
-get telephoneWritten(){
-  return this.monthlyForm.controls['telephone']?.value
-}
   searchUser() {
     this.loadingUser = true
     this.message.showLoading()
@@ -170,9 +167,9 @@ get telephoneWritten(){
   }
 cleanForm(){
     this.monthlyForm.reset()
-    this.isUnlimitedForm.setValue(true)
     this.userSelected = new MonthlyUserModel()
     this.userSearched = []
+    this.isUnlimitedForm.setValue(true)
   }
   getProfiles() {
     const parkingId = this.authService.getParking().id
@@ -213,7 +210,10 @@ cleanForm(){
   createMonthly() {
     if (!this.monthlyForm.valid || !this.userSelected.id) {
       this.message.error(' Hacen falta datos o son inválidos.')
-      console.log(this.monthlyForm, this.userSelected)
+      return
+    }
+    if(new Date(this.monthlyForm.get('begin_date')?.value)> new Date(this.monthlyForm.get('finish_date')?.value)){
+      this.message.error('Las fechas no son validas. Valide que la segunda sea mayor que la primera.')
       return
     }
 

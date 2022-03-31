@@ -200,12 +200,14 @@
               <select aria-label="Default select example"
                       class="form-select inputClass"
                       formControlName="profile_subscription">
+
                 <option selected
                         value="">Sin perfil de acceso
                 </option>
                 <option *ngFor="let profile of profiles"
                         [value]="profile.id">{{profile.name }}</option>
               </select>
+              <em class="fas fa-chevron-down" style=' position: absolute;right: 0;margin-right: 85px;margin-top: 18px; z-index: 99'></em>
               <!-- Button trigger modal -->
               <div class="input-group-append">
                 <button *ngIf="ifHaveAction(createAccessProfileMonthlyParking)"
