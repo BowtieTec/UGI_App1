@@ -159,8 +159,8 @@ export class CreateMonthlyParkingComponent implements OnInit {
       amount: this.monthlyForm.controls['amount'].value,
       enables_days,
       isUnlimited: this.isUnlimitedForm.value,
-      begin_date: this.monthlyForm.controls['begin_date'].value,
-      finish_date: this.monthlyForm.controls['finish_date'].value,
+      begin_date: new Date(this.monthlyForm.controls['begin_date']?.value),
+      finish_date: new Date(this.monthlyForm.controls['finish_date'].value),
       profile_subscription:
         this.monthlyForm.controls['profile_subscription'].value
     }
