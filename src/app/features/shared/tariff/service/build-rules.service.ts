@@ -253,10 +253,15 @@ export class BuildRulesService {
   public static getFixedPriceEvent(input: FixedCostInputModel): IEvent {
     return {
       type: 'costo fijo',
-      params: {
-        value: input.fixedCost,
-        path: 1
-      }
+      params: [
+        {
+          type: 'costo fijo',
+          params: {
+            value: input.fixedCost,
+            path: 1
+          }
+        }
+      ]
     }
   }
 }
