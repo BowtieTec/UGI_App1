@@ -76,7 +76,6 @@ export class AntennasFromCourtesyComponent implements AfterViewInit, OnDestroy {
         .then((resp) => {
           this.allParking = resp[0]
           this.stationsCourtesy = resp[1]
-          console.log(resp[1])
         })
         .then(() => this.rerender())
     } catch (ex) {
@@ -89,7 +88,6 @@ export class AntennasFromCourtesyComponent implements AfterViewInit, OnDestroy {
   }
 
   async searchStationsByParking() {
-    if (this.authService.isSudo) {
       const parkingId = this.antennasForm.controls['parkingId'].value
       this.stationsCourtesy =
         await this.parkingService.getAntennasWithStationaryCourtesy(parkingId)
@@ -97,7 +95,7 @@ export class AntennasFromCourtesyComponent implements AfterViewInit, OnDestroy {
         this.parkingId = parkingId
         this.rerender()
       }
-    }
+
   }
 
   ngAfterViewInit(): void {
