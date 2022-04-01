@@ -55,21 +55,22 @@
           <td>{{subscription.begin_date | date: 'longDate'}}</td>
           <td>{{subscription.finish_date | date: 'longDate'}}</td>
           <td>
-            <button (click)="disableSubscription(subscription.id)"
-                    *ngIf="ifHaveAction(disableMonthlyParking)"
+            <button
+              (click)="disableSubscription(subscription.id)"
+                    *ngIf="ifHaveAction(disableMonthlyParking) && subscription.status==2"
                     class="buttonRowAlert ms-1 me-1 mb-1"
-                    title="Congelar suscripción"><em class="fas fa-exclamation "></em>
+                    title="Deshabilitar suscripción"><em class="fas fa-exclamation "></em>
             </button>
             <button (click)="deleteSubscription(subscription.id)"
                     *ngIf="ifHaveAction(deleteMonthlyParking)"
                     class="buttonRowDelete ms-1 me-1 mb-1"
                     title="Eliminar Suscripción"><em class="fas fa-trash-alt"></em>
             </button>
-            <button (click)="editSubscription(subscription)"
+            <!--<button (click)="editSubscription(subscription)"
                     *ngIf="ifHaveAction(deleteMonthlyParking)"
                     class="buttonRowAlert"
                     title="Editar"><em class="fas fa-edit"></em>
-            </button>
+            </button>-->
           </td>
         </tr>
         </tbody>

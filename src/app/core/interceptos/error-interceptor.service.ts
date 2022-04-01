@@ -48,11 +48,14 @@ export class GlobalErrorHandler implements ErrorHandler {
         }
     }
     if(error.toString().includes('Duplicate entry')){
-      const duplicateField = error.toString().slice(error.toString().indexOf('Duplicate entry \'')+17, error.toString().indexOf('\' for key '))
-      this.message.error(` "${duplicateField}" ya existe`)
+      const message = error.toString().slice(error.toString().indexOf('Duplicate entry \'')+17, error.toString().indexOf('\' for key '))
+      this.message.error(` "${message}" ya existe`)
     }else if(error.toString().includes('Error: Error:')){
-      const duplicateField = error.toString().slice(error.toString().indexOf('Error: Error:')+14, error.toString().lastIndexOf('Error: Error:'))
-      this.message.error(duplicateField)
+      const message = error.toString().slice(error.toString().indexOf('Error: Error:')+14, error.toString().lastIndexOf('Error: Error:'))
+      this.message.error(message)
+    }else if(error.toString().includes('Error: ')){
+      const message = error.toString().slice(error.toString().indexOf('"message":"Error:')+17, error.toString().indexOf('}}')-2)
+      this.message.error(message)
     }
     return throwError(error)
   }

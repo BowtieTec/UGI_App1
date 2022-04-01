@@ -9,6 +9,11 @@ body {
 .bgBody {
   background: #f7f7f7;
 }
+.iconInput {
+  position: absolute;
+  right: 0;
+  margin: 15px;
+}
 
 .btn {
   border-radius: 6px !important;
