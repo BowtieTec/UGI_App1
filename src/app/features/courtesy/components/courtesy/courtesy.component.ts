@@ -93,7 +93,7 @@ export class CourtesyComponent implements AfterViewInit, OnDestroy {
       .toPromise()
       .then((data) => {
         if (data.success) {
-          this.courtesyTypes = data.data.type.filter((x:any) => x.id != 3)
+          this.courtesyTypes = data.data.type.filter((x: any) => x.id != 3)
           this.messageService.hideLoading()
         } else {
           this.messageService.errorTimeOut(
@@ -129,8 +129,8 @@ export class CourtesyComponent implements AfterViewInit, OnDestroy {
       value: this.newCourtesyForm.controls['value'].value,
       quantity: this.newCourtesyForm.controls['quantity'].value,
       companyId: this.newCourtesyForm.controls['companyId'].value,
-      discountOnWhat: this.newCourtesyForm.controls['companyId'].value,
-      condition: this.newCourtesyForm.controls['companyId'].value
+      discountOnWhat: this.newCourtesyForm.controls['discountOnWhat'].value,
+      condition: this.newCourtesyForm.controls['condition'].value
     }
   }
 
