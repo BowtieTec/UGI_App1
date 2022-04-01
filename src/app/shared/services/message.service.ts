@@ -96,7 +96,7 @@ export class MessageService {
       title,
       text,
       timer: 3000,
-      showConfirmButton: false
+      showConfirmButton: true
     })
   }
 
@@ -106,7 +106,7 @@ export class MessageService {
       icon: 'info',
       title,
       text,
-      showConfirmButton: false
+      showConfirmButton: true
     })
   }
 
