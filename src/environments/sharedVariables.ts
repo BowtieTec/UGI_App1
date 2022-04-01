@@ -109,5 +109,5 @@ export const DiscountOnWhat = [
 ]
 export const TypeOfCondition = [
   { id: 1, name: 'Aplicar siempre' },
-  { id: 2, name: 'Solo si Cant. Horas menor a descuento' }
+  { id: 2, name: 'Solo si Cant. Horas es menor o igual a ' }
 ]

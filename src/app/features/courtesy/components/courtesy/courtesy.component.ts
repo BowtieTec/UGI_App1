@@ -72,6 +72,10 @@ export class CourtesyComponent implements AfterViewInit, OnDestroy {
     return DataTableOptions.getSpanishOptions(10)
   }
 
+  get conditionValue() {
+    return this.newCourtesyForm.get('condition')?.value
+  }
+
   getTypeDescription(id: number) {
     const newDescription = this.courtesyTypes.find((x) => x.id == id)
     return newDescription == undefined
@@ -93,7 +97,7 @@ export class CourtesyComponent implements AfterViewInit, OnDestroy {
       .toPromise()
       .then((data) => {
         if (data.success) {
-          this.courtesyTypes = data.data.type.filter((x:any) => x.id != 3)
+          this.courtesyTypes = data.data.type.filter((x: any) => x.id != 3)
           this.messageService.hideLoading()
         } else {
           this.messageService.errorTimeOut(
@@ -129,8 +133,8 @@ export class CourtesyComponent implements AfterViewInit, OnDestroy {
       value: this.newCourtesyForm.controls['value'].value,
       quantity: this.newCourtesyForm.controls['quantity'].value,
       companyId: this.newCourtesyForm.controls['companyId'].value,
-      discountOnWhat: this.newCourtesyForm.controls['companyId'].value,
-      condition: this.newCourtesyForm.controls['companyId'].value
+      condition: this.newCourtesyForm.controls['condition'].value,
+      cantHours: this.newCourtesyForm.controls['cantHours'].value
     }
   }
 
@@ -146,6 +150,12 @@ export class CourtesyComponent implements AfterViewInit, OnDestroy {
           this.messageService.error('', data.message)
         }
       })
+  }
+
+  getConditionDescription(courtesy: CourtesyModel) {
+    return courtesy.condition == 2 ?
+        'Si el total de horas es menor o igual a ' + courtesy.cantHours
+        : 'Siempre'
   }
 
   getCompanyName(id: string) {
@@ -199,8 +209,8 @@ export class CourtesyComponent implements AfterViewInit, OnDestroy {
       quantity: ['', [Validators.required, Validators.min(1)]],
       parkingId: [this.authService.getParking().id],
       companyId: ['0', [Validators.required]],
-      discountOnWhat: ['0', [Validators.required]],
-      condition: ['0', [Validators.required]]
+      condition: ['0', [Validators.required]],
+      cantHours: ['0', [Validators.required]]
     })
   }
 
