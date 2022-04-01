@@ -376,7 +376,6 @@ export class ParkingService {
       .toPromise()
       .then((data) => {
         if (data.success) {
-          console.log(data.data.stations)
           return data.data.stations
         }
         return new Array<StationsCourtesyModel>()
