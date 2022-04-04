@@ -60,21 +60,21 @@
   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
     <div class="panels">
       <div class="row">
-        <dx-data-grid [columnHidingEnabled]="true"
+        <dx-data-grid [columnHidingEnabled]="false"
                       [dataSource]="dataSource"
                       [showBorders]="true"
                       id="gridContainer">
           <dxi-column
             dataField="isUnlimited"
             caption="Tipo parqueo"
-            width="200"
+            width="120"
           ></dxi-column>
           <dxi-column
             caption="Monto"
             dataField="ms_amount"
             format="Q ,###,###,##0.00"
             type="currency"
-            width="150"
+            width="90"
           ></dxi-column>
           <dxi-column
             caption="Nombre"
@@ -85,6 +85,7 @@
             caption="Teléfono"
             dataField="u_phone_number"
             type="text"
+            width='125'
           ></dxi-column>
           <dxi-column
             caption="Correo"
