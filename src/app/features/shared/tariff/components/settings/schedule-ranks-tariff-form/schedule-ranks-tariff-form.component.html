@@ -2,28 +2,15 @@
   <p><b> horarios o rango de horas</b></p>
   <form [formGroup]="rankForm" action="">
     <div class="row justify-content-center">
-      <div class="col-md-4">
-        <div class="mb-3">
-
-          <label class="labelInput" style="display: block;">Desde</label>
-          <input [class.is-invalid]="validateRankForm('from')"
-                 aria-describedby="basic-addon1" class="inputClass" formControlName="from" type="time">
-
-          <small *ngIf="validateRankForm('from')" class="text-danger animate__animated  animate__rotateIn">*
-            Este
-            campo es obligatorio</small>
-        </div>
+      <div class="col-md-6">
+        <app-input-container
+          [formGroup]="rankForm" controlName="from" name="Desde" type="time">
+        </app-input-container>
       </div>
-      <div class="col-md-4">
-        <div class="mb-3">
-
-          <label class="labelInput" style="display: block;">Hasta</label>
-          <input [class.is-invalid]="validateRankForm('to')"
-                 aria-describedby="basic-addon1" class="inputClass" formControlName="to" type="time">
-          <small *ngIf="validateRankForm('to')" class="text-danger animate__animated  animate__rotateIn">*
-            Este
-            campo es obligatorio</small>
-        </div>
+      <div class="col-md-6">
+        <app-input-container
+          [formGroup]="rankForm" controlName="to" name="Hasta" type="time">
+        </app-input-container>
       </div>
     </div>
   </form>

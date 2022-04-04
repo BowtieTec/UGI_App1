@@ -1,5 +1,10 @@
-import { Component, Input } from '@angular/core'
-import { ControlContainer, FormGroup, FormGroupDirective } from '@angular/forms'
+import { Component, Input, OnInit } from '@angular/core'
+import {
+  ControlContainer,
+  FormGroup,
+  FormGroupDirective,
+  Validators
+} from '@angular/forms'
 import { UtilitiesService } from '../../services/utilities.service'
 
 @Component({
@@ -13,16 +18,33 @@ import { UtilitiesService } from '../../services/utilities.service'
     }
   ]
 })
-export class InputContainerComponent {
+export class InputContainerComponent implements OnInit {
   @Input() name!: string
   @Input() controlName!: string
   @Input() formGroup!: FormGroup
   @Input() type = 'text'
   @Input() textInfo = ''
+  @Input() readonly: boolean = false
+  @Input() minL = '0'
+  @Input() maxL = '0'
 
   constructor(private utilitiesService: UtilitiesService) {}
 
   controlInvalid(control: string): boolean {
     return this.utilitiesService.controlInvalid(this.formGroup, control)
+  }
+
+  ngOnInit(): void {
+    if (this.type == 'text') {
+      this.formGroup.controls[this.controlName].addValidators([
+        Validators.minLength(1),
+        Validators.maxLength(30)
+      ])
+    } else if (this.type == 'number') {
+      this.formGroup.controls[this.controlName].addValidators([
+        Validators.min(0),
+        Validators.max(999999.99)
+      ])
+    }
   }
 }

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core'
-import { FormBuilder, FormGroup } from '@angular/forms'
+import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { AuthService } from '../../../shared/services/auth.service'
 import { MessageService } from '../../../shared/services/message.service'
 
@@ -31,15 +31,14 @@ export class LoginComponent {
       //TODO: Quitar los valores por defecto. Estos solo fueron puestos para hacer mas facil el logueo dentro del sistema mientras se desarrolla.
       //TODO: Descomentar las validacioens cuando se suba a produccion. Esto se comentó porque el email y contraseña admin son de prueba y no cumplen con los requerimientos
       email: [
-        ''
-        /*   [
-             Validators.required,
+        '',
+           [Validators.required,
              Validators.pattern(
                "^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$"
              ),
-           ],*/
+           ]
       ],
-      password: ['' /* [Validators.required, Validators.minLength(8)]*/]
+      password: ['', [Validators.required, Validators.minLength(8)]]
     })
   }
 

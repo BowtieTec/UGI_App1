@@ -9,6 +9,11 @@ body {
 .bgBody {
   background: #f7f7f7;
 }
+.iconInput {
+  position: absolute;
+  right: 0;
+  margin: 15px;
+}
 
 .btn {
   border-radius: 6px !important;
@@ -22,7 +27,7 @@ body {
 .buttonIcon {
   background: #021C70;
   color: #fff;
-  border: 0px;
+  border: 0;
   border-radius: 4px;
   height: 32px;
   width: 32px;
@@ -141,7 +146,7 @@ body {
 
 .btn-delete {
   background: #c36554;
-  border: 0px;
+  border: 0;
   color: #fff;
 }
 
@@ -153,7 +158,7 @@ body {
 
 .btn-success {
   background: #10ceb2;
-  border: 0px
+  border: 0
 }
 
 .btn-secundary {
@@ -161,7 +166,7 @@ body {
 }
 
 .btn-s {
-  border: 0px;
+  border: 0;
   border-radius: 4px;
   height: 30px;
   width: 30px;
@@ -443,7 +448,7 @@ button.login {
 label.labelInput {
   position: absolute;
   font-size: 11px;
-  margin: -10px 0 0 5px;
+  margin: -14px 0 0 5px;
   padding: 0;
   color: #021C70;
   border-radius: 4px;
@@ -906,8 +911,66 @@ nav > .nav-link.active {
 
 }
 
+/*this was placed to hide download option in the dashboard graphs*/
+.apexcharts-menu-item.exportSVG {
+  display: none;
+}
+.apexcharts-menu-item.exportPNG {
+  display: none;
+}
+
+.swal2-styled {
+  min-width: 150px !important;
+}
+
+.swal2-confirm {
+  background: #415ba2 !important;
+}
+
+.swal2-title {
+  position: relative;
+  max-width: 100%;
+  margin: 0;
+  padding: 2em 3em 1em !important;
+  color: #595959;
+  font-size: 1.25em !important;
+  font-weight: 600;
+  text-align: center;
+  text-transform: none;
+  word-wrap: break-word;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px
+}
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 3px grey;
+  border-radius: 24px;
+}
+::-webkit-scrollbar-thumb {
+  background: #415BA1;
+  border-radius: 10px;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator,input[type="datetime-local"]::-webkit-calendar-picker-indicator , input[type="time"]::-webkit-calendar-picker-indicator{
+  background: transparent;
+  bottom: 0;
+  color: transparent;
+  cursor: pointer;
+  height: auto;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: auto;
+}
+
 @media (max-width: 460px) {
   .locationPanel {
     zoom: 0.7;
   }
 }
+
+
+

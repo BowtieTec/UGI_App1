@@ -12,15 +12,19 @@
 
         <div class="col-md-6 mb-4">
           <div class="m-3 relative ">
-            <app-select-container *ngIf="isSudo"
+            <app-select-container (change)="getCourtesies(this.parkingSelected)" *ngIf="isSudo"
                                   [data]="this.allParkingLot"
                                   [formGroup]="tariffTestForm"
                                   controlName="parking"
-                                  name="Estado"></app-select-container>
+                                  name="Parqueo"></app-select-container>
           </div>
         </div>
         <div class="col-md-6 mb-4">
-
+          <app-select-container (change) = "this.courtesySelected()"
+                                [data]="this.courtesies"
+                                [formGroup]="tariffTestForm"
+                                controlName="courtesyId"
+                                name="Cortesías"></app-select-container>
         </div>
 
         <div class="col-md-6 mb-4">

@@ -28,6 +28,7 @@ export class BillingDataComponent {
     private route: Router
   ) {
     this.settingsOptions = this.parkingService.settingsOptions
+    console.log(this.settingsOptions)
   }
 
   get isVisaSelected() {

@@ -11,6 +11,7 @@ export class CreateParkingStepOneModel {
   minutes_to_exit = 0
   public?: boolean = false
   is_draft?: boolean = false
+  is_TAS?: boolean=false
 }
 
 export class CreateParkingStepTwoModel {

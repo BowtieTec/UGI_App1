@@ -1,7 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core'
 import * as ApexCharts from 'apexcharts'
 import { DashboardService } from '../services/dashboard.service'
-import { AuthService } from '../../shared/services/auth.service'
+import { AuthService } from '../services/auth.service'
+import { MessageService } from '../services/message.service'
 
 @Component({
   selector: 'app-bar-chart',
@@ -13,7 +14,7 @@ export class BarChartComponent implements OnInit {
   @Input() fecha = ''
   @Input() parking = ''
   @Input() tipoChart = 'bar'
-  @Input() periodo = 'dia'
+  @Input() periodo: string = 'dia'
   datosDiarios: number[] = []
   datosMes: number[] = []
   datosAnio: number[] = []
@@ -33,6 +34,11 @@ export class BarChartComponent implements OnInit {
           zoomout: false,
           pan: false,
           reset: false
+        },
+        export: {
+          csv: {
+            filename: `${this.tipo} - ${this.periodo} ${new Date().toLocaleDateString()}`
+          }
         }
       }
     },
@@ -71,7 +77,7 @@ export class BarChartComponent implements OnInit {
     ],
     labels: [
       1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21,
-      22, 23
+      22, 23, 24
     ],
     xaxis: {
       type: 'category',
@@ -144,6 +150,11 @@ export class BarChartComponent implements OnInit {
           zoomout: false,
           pan: false,
           reset: false
+        },
+        export: {
+          csv: {
+            filename: `${this.tipo} - ${this.periodo} ${new Date().toLocaleDateString()}`
+          }
         }
       }
     },
@@ -254,6 +265,11 @@ export class BarChartComponent implements OnInit {
           zoomout: false,
           pan: false,
           reset: false
+        },
+        export: {
+          csv: {
+            filename: `${this.tipo} - ${this.periodo} ${new Date().toLocaleDateString()}`
+          }
         }
       }
     },
@@ -368,8 +384,11 @@ export class BarChartComponent implements OnInit {
 
   constructor(
     private auth: AuthService,
-    private dashboardService: DashboardService
-  ) {}
+    private dashboardService: DashboardService,
+    private messageService: MessageService
+  ) {
+
+  }
 
   ngOnChanges(): void {
     const fecha = this.fecha
@@ -435,6 +454,7 @@ export class BarChartComponent implements OnInit {
   ngOnInit(): void {
     if (this.periodo == 'dia') {
       this.diaOptions.chart.type = this.tipoChart
+      this.diaOptions.chart.toolbar.export.csv.filename = `${this.tipo.toLocaleUpperCase()} - POR DIA - ${this.currentDate}`;
       this.chart = new ApexCharts(
         document.querySelector(
           '.' + this.tipo + ' #' + this.periodo + ' #grafica'
@@ -445,6 +465,8 @@ export class BarChartComponent implements OnInit {
     }
     if (this.periodo == 'mes') {
       this.mesOptions.chart.type = this.tipoChart
+      this.mesOptions.chart.toolbar.export.csv.filename =` ${this.tipo.toLocaleUpperCase()} - POR MES - ${this.currentDate}`;
+
       this.chart = new ApexCharts(
         document.querySelector(
           '.' + this.tipo + ' #' + this.periodo + ' #grafica'
@@ -455,6 +477,8 @@ export class BarChartComponent implements OnInit {
     }
     if (this.periodo == 'anio') {
       this.anioOptions.chart.type = this.tipoChart
+      this.anioOptions.chart.toolbar.export.csv.filename = `${this.tipo.toLocaleUpperCase()} - POR AÑO - ${this.currentDate}`;
+
       this.chart = new ApexCharts(
         document.querySelector(
           '.' + this.tipo + ' #' + this.periodo + ' #grafica'
@@ -464,9 +488,13 @@ export class BarChartComponent implements OnInit {
       this.chart.render()
     }
   }
-
+get currentDate(){
+    const now = new Date()
+    return `${now.getDay()}-${now.getMonth()}-${now.getFullYear()}`
+}
   //Entradas
   getDatosDiarios(parkingId: string, fecha: string) {
+    this.messageService.showLoading()
     return this.dashboardService
       .getDailyEntries(parkingId, fecha)
       .toPromise()
@@ -513,6 +541,7 @@ export class BarChartComponent implements OnInit {
             })
           }
         }
+        this.messageService.hideLoading()
       })
   }
 

@@ -2,28 +2,23 @@
   <h4>Hora / Fracción</h4>
   <form [formGroup]="hourAHalfForm" action="">
     <div class="row ">
-      <div class="mb-3">
-        <div class="input-group ">
-          <span class="input-group-text" id="basic-addon1">Precio por hora</span>
-          <input [class.is-invalid]="validateHourHalfCost('hourCost')" aria-describedby="basic-addon1"
-                 aria-label="cost" class="form-control" formControlName="hourCost" placeholder="123.12"
-                 type="number">
-        </div>
-        <small *ngIf="validateHourHalfCost('hourCost')"
-               class="text-danger animate__animated  animate__rotateIn">* Este campo es obligatorio</small>
-      </div>
+      <app-input-container
+        controlName='hourCost'
+        [formGroup]='hourAHalfForm'
+        name='Precio por hora'
+        type='number'
+      >
+      </app-input-container>
     </div>
     <div class="row ">
-      <div class="mb-3">
-        <div class="input-group ">
-          <span class="input-group-text">Precio por fracción</span>
-          <input [class.is-invalid]="validateHourHalfCost('halfCost')" aria-describedby="basic-addon1"
-                 aria-label="cost" class="form-control" formControlName="halfCost" placeholder="123.12"
-                 type="number">
-        </div>
-        <small *ngIf="validateHourHalfCost('halfCost')"
-               class="text-danger animate__animated animate__rotateIn">* Este campo es obligatorio</small>
-      </div>
+      <app-input-container
+        controlName='halfCost'
+        [formGroup]='hourAHalfForm'
+        name='Precio por fracción'
+        type='number'
+      >
+      </app-input-container>
+
     </div>
   </form>
 </div>

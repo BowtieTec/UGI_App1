@@ -60,6 +60,7 @@ export class ParkingTicketReportComponent implements OnInit {
   @ViewChild('inputParking') inputParking!: ElementRef
   fechaActual = new Date().toISOString().split('T')[0]
 
+  nowDateTime = new Date()
   datosUsuarioLogeado = this.auth.getParking()
   parqueoDetalle = '0'
   startDateReport: any
@@ -99,6 +100,13 @@ export class ParkingTicketReportComponent implements OnInit {
   }
 
   getTicketRpt(initDate: string, endDate: string) {
+    if (endDate < initDate) {
+      this.messageService.error(
+        '',
+        'La fecha de inicio debe ser mayor a la fecha fin'
+      )
+      return
+    }
     this.startDateReport = initDate
     this.endDateReport = endDate
     this.parqueo = this.datosUsuarioLogeado.id

@@ -1,110 +1,75 @@
-<form [formGroup] = "newUserForm" >
-  <div class = "panels animate__animated animate__fadeInLeft" >
-    <div class = "titleCards" >
-      <span ><em class = "fas fa-user-plus" ></em ></span > Nuevo usuario
-    </div >
-    <div class = "row" >
-      <div class = "col-xl-12 col-lg-12  col-sm-12" >
-        <div class = "mb-4 relative" >
-          <label class = "labelInput" >Nombre </label >
-          <input [class.is-invalid] = "controlInvalid('name')"
-                 class = "form-control inputClass"
-                 formControlName = "name"
-                 placeholder = "NOMBRE:"
-                 type = "text" >
-          <small *ngIf = "controlInvalid('name')"
-                 class = "text-danger animate__animated  animate__rotateIn" >* Este campo es obligatorio</small >
-        </div >
-      </div >
-      <div class = "col-xl-12 col-lg-12  col-sm-12" >
-        <div class = "mb-4 relative" >
-          <label class = "labelInput" >Apellido</label >
-          <input [class.is-invalid] = "controlInvalid('last_name')"
-                 class = "form-control inputClass"
-                 formControlName = "last_name"
-                 placeholder = "APELLIDO:"
-                 type = "text" >
-          <small *ngIf = "controlInvalid('last_name')"
-                 class = "text-danger animate__animated  animate__rotateIn" >* Este campo es obligatorio</small >
-        </div >
-      </div >
-      <div class = "col-xl-12 col-lg-12  col-sm-12" >
-        <div class = "mb-4 relative" >
-          <label class = "labelInput" >Email</label >
-          <input [class.is-invalid] = "controlInvalid('email')"
-                 [readOnly] = "isEdit"
-                 class = "form-control inputClass"
-                 formControlName = "email"
-                 placeholder = "EMAIL:"
-                 type = "text" >
-          <small *ngIf = "controlInvalid('email')"
-                 class = "text-danger animate__animated  animate__rotateIn" >* Este campo es obligatorio</small >
-        </div >
-      </div >
-      <div class = "col-xl-12 col-lg-12 col-xs-12" >
-        <div class = "mb-4 relative" >
-          <label class = "labelInput" >Tipo de usuario</label >
-          <select
-            [class.is-invalid] = "controlInvalid('role')"
-            class = "inputClass"
-            formControlName = "role" >
-            <option *ngIf = "!userRoleSelected"
-                    value = "" >TIPO DE USUARIO
-            </option >
-            <option *ngFor = "let role of Roles"
-                    value = "{{role.id}}" >{{role.name}}</option >
-          </select >
-          <small *ngIf = "controlInvalid('role')"
-                 class = "text-danger animate__animated  animate__rotateIn" >* Este campo es obligatorio</small >
-        </div >
-        <div class = "col-xl-12 col-lg-12  col-sm-12" >
-          <div class = "mb-4 relative" >
-            <label class = "labelInput" >Nombre de usuario</label >
-            <input [class.is-invalid] = "controlInvalid('user')"
-                   class = "form-control inputClass"
-                   formControlName = "user"
-                   placeholder = "NOMBRE DE USUARIO:"
-                   type = "text" >
-            <small *ngIf = "controlInvalid('user')"
-                   class = "text-danger animate__animated  animate__rotateIn" >* Este campo es obligatorio</small >
-          </div >
-        </div >
-        <div class = "col-xl-12 col-lg-12  col-sm-12" >
-          <div class = "mb-4 relative" >
-            <label class = "labelInput" >Contraseña</label >
-            <input [class.is-invalid] = "controlInvalid('password')"
-                   [readOnly] = "isEdit"
-                   class = "form-control inputClass"
-                   formControlName = "password"
-                   placeholder = "CONTRASEÑA:"
-                   type = "password" >
-            <small *ngIf = "controlInvalid('password')"
-                   class = "text-danger animate__animated  animate__rotateIn" >* Este campo es obligatorio</small >
-          </div >
-        </div >
-        <div class = "col-xl-12 col-lg-12  col-sm-12" *ngIf="ifHaveAction(changeParkingAtCreateUser)">
-          <div class = "mb-4 relative" >
-           <app-select-container
-           [formGroup]="newUserForm"
-           name="Parqueo"
-           controlName="parking"
-           [data]="allParking"></app-select-container>
-          </div >
-        </div >
-      </div >
-      <div class = "col-xl-12 col-lg-12 col-sm-12" >
-        <div class = "text-center" >
-          <button (click) = "saveNewUser()"
-                  class = "btn btn-success me-3"
-                  type = "button" >GUARDAR
-          </button >
-          <button (click) = "cleanForm()"
-                  class = "btn btn-secundary "
-                  type = "button" >Limpiar
-          </button >
-        </div >
-        <div class = "mb-4 relative" ></div >
-      </div >
-    </div >
-  </div >
-</form >
+<form [formGroup]='newUserForm' autocomplete="off">
+  <div class='panels animate__animated animate__fadeInLeft'>
+    <div class='titleCards'>
+      <span><em class='fas fa-user-plus'></em></span> Nuevo usuario
+    </div>
+    <div class='row'>
+      <div class='col-xl-12 col-lg-12  col-sm-12'>
+        <app-input-container
+          [formGroup]='newUserForm'
+          controlName='name'
+          name='Nombre'>
+        </app-input-container>
+      </div>
+      <div class='col-xl-12 col-lg-12  col-sm-12'>
+        <app-input-container
+          [formGroup]='newUserForm'
+          controlName='last_name'
+          name='Apellido'>
+        </app-input-container>
+      </div>
+      <div class='col-xl-12 col-lg-12  col-sm-12'>
+        <app-input-container
+          [formGroup]='newUserForm'
+          [readonly]='isEdit'
+          controlName='email'
+          name='Correo'>
+        </app-input-container>
+      </div>
+      <div class='col-xl-12 col-lg-12 col-xs-12'>
+        <app-select-container
+          [data]='Roles'
+          [formGroup]='newUserForm'
+          controlName='role'
+          name='Roles de usuario'>
+        </app-select-container>
+      </div>
+      <div class='col-xl-12 col-lg-12 col-sm-12'>
+        <app-input-container
+          [formGroup]='newUserForm'
+          controlName='user'
+          name='Alias'>
+        </app-input-container>
+      </div>
+      <div class='col-xl-12 col-lg-12 col-sm-12'>
+        <app-input-container
+          [formGroup]='newUserForm'
+          [readonly]='isEdit'
+          controlName='password'
+          type='password'
+          name='Contraseña'>
+        </app-input-container>
+      </div>
+      <div *ngIf='ifHaveAction(changeParkingAtCreateUser)' class='col-xl-12 col-lg-12  col-sm-12'>
+          <app-select-container
+            [data]='allParking'
+            [formGroup]='newUserForm'
+            controlName='parking'
+            name='Parqueo'></app-select-container>
+      </div>
+    </div>
+    <div class='col-xl-12 col-lg-12 col-sm-12'>
+      <div class='text-center'>
+        <button (click)='saveNewUser()'
+                class='btn btn-success me-3'
+                type='button'>GUARDAR
+        </button>
+        <button (click)='cleanForm()' *ngIf='isEdit'
+                class='btn btn-secundary '
+                type='button'>Cancelar edicion
+        </button>
+      </div>
+      <div class='mb-4 relative'></div>
+    </div>
+  </div>
+</form>

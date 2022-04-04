@@ -28,7 +28,7 @@ import { DataTableOptions } from '../../../../../../shared/model/DataTableOption
 export class AntennasFromCourtesyComponent implements AfterViewInit, OnDestroy {
   @Input() parkingId: string = this.authService.getParking().id
   @Output() stationsSaved = new EventEmitter<boolean>()
-  stations: StationsCourtesyModel[] = []
+  stationsCourtesy: StationsCourtesyModel[] = []
   antennasForm: FormGroup
   allParking: ParkingModel[] = Array<ParkingModel>()
 
@@ -75,7 +75,7 @@ export class AntennasFromCourtesyComponent implements AfterViewInit, OnDestroy {
       ])
         .then((resp) => {
           this.allParking = resp[0]
-          this.stations = resp[1]
+          this.stationsCourtesy = resp[1]
         })
         .then(() => this.rerender())
     } catch (ex) {
@@ -88,15 +88,14 @@ export class AntennasFromCourtesyComponent implements AfterViewInit, OnDestroy {
   }
 
   async searchStationsByParking() {
-    if (this.authService.isSudo) {
       const parkingId = this.antennasForm.controls['parkingId'].value
-      this.stations =
+      this.stationsCourtesy =
         await this.parkingService.getAntennasWithStationaryCourtesy(parkingId)
-      if (this.stations) {
+      if (this.stationsCourtesy) {
         this.parkingId = parkingId
         this.rerender()
       }
-    }
+
   }
 
   ngAfterViewInit(): void {

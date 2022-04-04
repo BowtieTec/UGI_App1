@@ -56,12 +56,12 @@ export class BuildRulesService {
         value: input.hourUpperLimit
       },
       {
-        fact: 'minutes',
+        fact: 'minute',
         operator: 'greaterThanInclusive',
         value: input.minuteLowerLimit
       },
       {
-        fact: 'minutes',
+        fact: 'minute',
         operator: 'lessThanInclusive',
         value: input.minuteUpperLimit
       }
@@ -253,10 +253,15 @@ export class BuildRulesService {
   public static getFixedPriceEvent(input: FixedCostInputModel): IEvent {
     return {
       type: 'costo fijo',
-      params: {
-        value: input.fixedCost,
-        path: 1
-      }
+      params: [
+        {
+          type: 'costo fijo',
+          params: {
+            value: input.fixedCost,
+            path: 1
+          }
+        }
+      ]
     }
   }
 }

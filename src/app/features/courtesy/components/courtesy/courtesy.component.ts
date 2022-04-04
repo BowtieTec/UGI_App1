@@ -15,6 +15,7 @@ import { ParkingService } from '../../../parking/services/parking.service'
 import { ParkingModel } from '../../../parking/models/Parking.model'
 import { CompaniesModel } from '../../../management/components/users/models/companies.model'
 import { CompaniesService } from '../../../management/components/users/services/companies.service'
+import { SelectModel } from '../../../../shared/model/CommonModels'
 
 @Component({
   selector: 'app-courtesy',
@@ -28,7 +29,8 @@ export class CourtesyComponent implements AfterViewInit, OnDestroy {
   parkingId: string = this.authService.getParking().id
   courtesies: CourtesyModel[] = []
   allCompanies: CompaniesModel[] = []
-
+  discountOnWhatList: SelectModel[] = this.courtesyService.DiscountOnWhatOptions
+  typeOfCondition: SelectModel[] = this.courtesyService.TypeOfConditions
   /*Table*/
   @ViewChild(DataTableDirective)
   dtElement!: DataTableDirective
@@ -70,6 +72,10 @@ export class CourtesyComponent implements AfterViewInit, OnDestroy {
     return DataTableOptions.getSpanishOptions(10)
   }
 
+  get conditionValue() {
+    return this.newCourtesyForm.get('condition')?.value
+  }
+
   getTypeDescription(id: number) {
     const newDescription = this.courtesyTypes.find((x) => x.id == id)
     return newDescription == undefined
@@ -91,7 +97,7 @@ export class CourtesyComponent implements AfterViewInit, OnDestroy {
       .toPromise()
       .then((data) => {
         if (data.success) {
-          this.courtesyTypes = data.data.type
+          this.courtesyTypes = data.data.type.filter((x: any) => x.id != 3)
           this.messageService.hideLoading()
         } else {
           this.messageService.errorTimeOut(
@@ -119,14 +125,16 @@ export class CourtesyComponent implements AfterViewInit, OnDestroy {
       })
   }
 
-  getCourtesy(): any {
+  getCourtesy(): CourtesyModel {
     return {
       parkingId: this.parkingId,
       name: this.newCourtesyForm.controls['name'].value,
       type: this.newCourtesyForm.controls['type'].value,
       value: this.newCourtesyForm.controls['value'].value,
       quantity: this.newCourtesyForm.controls['quantity'].value,
-      companyId: this.newCourtesyForm.controls['companyId'].value
+      companyId: this.newCourtesyForm.controls['companyId'].value,
+      condition: this.newCourtesyForm.controls['condition'].value,
+      cantHours: this.newCourtesyForm.controls['cantHours'].value
     }
   }
 
@@ -142,6 +150,12 @@ export class CourtesyComponent implements AfterViewInit, OnDestroy {
           this.messageService.error('', data.message)
         }
       })
+  }
+
+  getConditionDescription(courtesy: CourtesyModel) {
+    return courtesy.condition == 2 ?
+        'Si el total de horas es menor o igual a ' + courtesy.cantHours
+        : 'Siempre'
   }
 
   getCompanyName(id: string) {
@@ -190,11 +204,13 @@ export class CourtesyComponent implements AfterViewInit, OnDestroy {
   private createForm() {
     return this.formBuilder.group({
       name: ['', [Validators.required]],
-      type: ['', [Validators.required]],
+      type: ['0', [Validators.required]],
       value: ['', [Validators.required, Validators.min(1)]],
       quantity: ['', [Validators.required, Validators.min(1)]],
       parkingId: [this.authService.getParking().id],
-      companyId: ['0', [Validators.required]]
+      companyId: ['0', [Validators.required]],
+      condition: ['0', [Validators.required]],
+      cantHours: ['0', [Validators.required]]
     })
   }
 

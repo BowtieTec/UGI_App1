@@ -5,6 +5,7 @@ import { ParkingService } from '../../parking/services/parking.service'
 import { FormGroup } from '@angular/forms'
 import { ParkingModel } from '../../parking/models/Parking.model'
 import { AuthService } from '../../../shared/services/auth.service'
+import { MessageService } from '../../../shared/services/message.service'
 
 @Component({
   selector: 'app-dashboard',
@@ -12,7 +13,7 @@ import { AuthService } from '../../../shared/services/auth.service'
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
-  searchIngresosForm!: FormGroup
+  nowDateTime = new Date()
   ingresos = 'Ingresos'
   flujo = 'Flujo'
   cortesias = 'Cortesias'
@@ -96,8 +97,8 @@ export class DashboardComponent implements OnInit {
 
   MesActual = new Date().toISOString().split('T')[0].split('-')[1]
   AnioActual: any = +new Date().toISOString().split('T')[0].split('-')[0]
-
-  Meses = [
+  monthFiltered: any[] = [];
+  allMonths = [
     { key: '01', valor: 'Enero' },
     { key: '02', valor: 'Febrero' },
     { key: '03', valor: 'Marzo' },
@@ -124,7 +125,8 @@ export class DashboardComponent implements OnInit {
   constructor(
     private auth: AuthService,
     private permissionService: PermissionsService,
-    private parkingService: ParkingService
+    private parkingService: ParkingService,
+    private messageService: MessageService
   ) {
     if (this.ifHaveAction('graficosIngresoVehiculos')) {
       this.idTabActiva = 'ingresos'
@@ -136,8 +138,8 @@ export class DashboardComponent implements OnInit {
       this.idTabActiva = 'cortesiasEstacionarias'
     }
     for (
-      let iAnio = this.AnioActual - 2;
-      iAnio < this.AnioActual + 6;
+      let iAnio = this.AnioActual - 5;
+      iAnio <= this.AnioActual;
       iAnio++
     ) {
       this.AniosSelect.push({
@@ -145,14 +147,15 @@ export class DashboardComponent implements OnInit {
         valor: iAnio
       })
     }
+   this.monthFiltered = this.allMonths.filter(x => Number(x.key) <= new Date().getMonth()+1)
   }
-
   ngOnInit(): void {
     this.parkingService.getAllParking().then((data) => {
       if (data.success) {
         this.allParking = data.data.parkings
       }
     })
+
   }
 
   ifHaveAction(action: string) {
@@ -269,5 +272,15 @@ export class DashboardComponent implements OnInit {
 
   tabChanges(ids: string) {
     this.idTabActiva = ids
+  }
+
+  filterMonth() {
+    const yearSelected = this.inputIngresoMesAnio.nativeElement.value;
+    if(yearSelected == new Date().getFullYear()){
+      this.monthFiltered = this.allMonths.filter(x =>Number(x.key)<= Number(new Date().getMonth())+1)
+      console.log(Number(new Date().getMonth()))
+    }else{
+      this.monthFiltered = this.allMonths
+    }
   }
 }

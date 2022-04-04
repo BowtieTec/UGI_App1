@@ -6,7 +6,7 @@ export class NewUserModel {
   email = ''
   password?: string = ''
   role = ''
-  parking?: string = ''
+  parking: string = ''
   status?: number
   Admin?: string
 }

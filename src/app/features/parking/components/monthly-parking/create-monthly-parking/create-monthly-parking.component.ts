@@ -29,6 +29,7 @@ export class CreateMonthlyParkingComponent implements OnInit {
   stationsByParking: GetStationModel[] = []
   nameProfile = ''
   loadingUser = false
+  searched: boolean = false
   //Permissions
   createMonthlyParking = environment.createMonthlyParking
   deleteMonthlyParking = environment.deleteMonthlyParking
@@ -93,7 +94,6 @@ export class CreateMonthlyParkingComponent implements OnInit {
         this.message.hideLoading()
       })
   }
-
   searchUser() {
     this.loadingUser = true
     this.message.showLoading()
@@ -102,6 +102,7 @@ export class CreateMonthlyParkingComponent implements OnInit {
       .then((data) => {
         if (data.success) {
           this.userSearched = data.data.users
+          this.searched = true
         }
       })
       .then(() => {
@@ -158,13 +159,18 @@ export class CreateMonthlyParkingComponent implements OnInit {
       amount: this.monthlyForm.controls['amount'].value,
       enables_days,
       isUnlimited: this.isUnlimitedForm.value,
-      begin_date: this.monthlyForm.controls['begin_date'].value,
-      finish_date: this.monthlyForm.controls['finish_date'].value,
+      begin_date: new Date(this.monthlyForm.controls['begin_date']?.value),
+      finish_date: new Date(this.monthlyForm.controls['finish_date'].value),
       profile_subscription:
         this.monthlyForm.controls['profile_subscription'].value
     }
   }
-
+cleanForm(){
+    this.monthlyForm.reset()
+    this.userSelected = new MonthlyUserModel()
+    this.userSearched = []
+    this.isUnlimitedForm.setValue(true)
+  }
   getProfiles() {
     const parkingId = this.authService.getParking().id
     return this.parkingService
@@ -206,6 +212,10 @@ export class CreateMonthlyParkingComponent implements OnInit {
       this.message.error(' Hacen falta datos o son inválidos.')
       return
     }
+    if(new Date(this.monthlyForm.get('begin_date')?.value)> new Date(this.monthlyForm.get('finish_date')?.value)){
+      this.message.error('Las fechas no son validas. Valide que la segunda sea mayor que la primera.')
+      return
+    }
 
     this.message.showLoading()
     const newSubscription: any = this.getFormValue()
@@ -223,7 +233,9 @@ export class CreateMonthlyParkingComponent implements OnInit {
         return this.getMonthlySubscription()
       })
       .then(() => {
+        this.cleanForm()
         this.message.Ok('Guardado')
+
       })
       .catch()
   }
@@ -238,7 +250,7 @@ export class CreateMonthlyParkingComponent implements OnInit {
       friday: [false],
       saturday: [false],
       sunday: [false],
-      telephone: [null, [Validators.required, Validators.minLength(7)]],
+      telephone: [null],
       isUnlimited: [true],
       begin_date: [null],
       finish_date: [null],

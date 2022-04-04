@@ -1,6 +1,6 @@
 export class CourtesyTypeModel {
   id = 0
-  description = ''
+  name = ''
 }
 
 export class CourtesyModel {
@@ -12,9 +12,16 @@ export class CourtesyModel {
   name?: string = ''
   company?: CompanyModel = new CompanyModel()
   companyId?: string = ''
+  condition? = 0
+  cantHours? = 0
 }
 
 class CompanyModel {
   id = ''
   name = ''
+}
+
+export enum DiscountOnWhat {
+  total = 1,
+  cantHours = 2
 }

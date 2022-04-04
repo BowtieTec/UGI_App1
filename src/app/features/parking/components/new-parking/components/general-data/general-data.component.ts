@@ -136,6 +136,7 @@ export class GeneralDataComponent implements OnInit {
       ],
       rules: [this.parkingService.parkingStepOne.rules, Validators.required],
       is_show_map: [this.parkingService.parkingStepOne.is_show_map],
+      is_TAS: [this.parkingService.parkingStepOne.is_show_map],
       country: [
         this.parkingService.parkingStepOne.country
           ? null
@@ -162,7 +163,8 @@ export class GeneralDataComponent implements OnInit {
       special_parking_spaces:
         this.stepOneForm.controls['special_parking_spaces'].value,
       public: this.isPublic,
-      is_draft: this.isPublic
+      is_draft: this.isPublic,
+      is_TAS: this.stepOneForm.controls['is_TAS'].value,
     }
   }
 }

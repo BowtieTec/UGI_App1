@@ -24,6 +24,7 @@ import { Subject } from 'rxjs'
 import { DataTableOptions } from '../../../../shared/model/DataTableOptions'
 import { CompaniesModel } from '../../../management/components/users/models/companies.model'
 import { CompaniesService } from '../../../management/components/users/services/companies.service'
+import { SelectModel } from '../../../../shared/model/CommonModels'
 
 @Component({
   selector: 'app-stationary-courtesy',
@@ -38,9 +39,9 @@ export class StationaryCourtesyComponent implements AfterViewInit, OnDestroy {
   courtesyTypes: CourtesyTypeModel[] = []
   idEditAntenna = ''
   allParking: ParkingModel[] = Array<ParkingModel>()
-  typeCourtesies: Array<{ id: number; name: string }> = []
-  stations: StationsCourtesyModel[] = []
-
+  typeCourtesies: SelectModel[] = []
+  stationsCourtesies: StationsCourtesyModel[] = []
+  allAntennas: StationsCourtesyModel[] = []
   /*Table*/
   @ViewChild(DataTableDirective)
   dtElement!: DataTableDirective
@@ -65,7 +66,7 @@ export class StationaryCourtesyComponent implements AfterViewInit, OnDestroy {
   ) {
     this.stationaryForm = this.createForm()
     this.formGroup = formBuilder.group({ filter: [''] })
-    this.getInitialData()
+    this.getInitialData().catch()
   }
 
   get dtOptions() {
@@ -87,17 +88,12 @@ export class StationaryCourtesyComponent implements AfterViewInit, OnDestroy {
     }
   }
 
-  async getTypeCourtesies(): Promise<Array<{ id: number; name: string }>> {
+  async getTypeCourtesies(): Promise<SelectModel[]> {
     return this.courtesyService
       .getTypes()
       .toPromise()
       .then((x) => {
-        return x.data.type.map((item: any) => {
-          return {
-            id: item.id,
-            name: item.description
-          }
-        })
+        return x.data.type.filter((x:any) => x.id !=3)
       })
   }
 
@@ -107,7 +103,7 @@ export class StationaryCourtesyComponent implements AfterViewInit, OnDestroy {
 
   createForm(): FormGroup {
     return this.formBuilder.group({
-      parkingId: [this.parkingId],
+      parkingId: [this.authService.getParking().id, [Validators.required]],
       value: ['', [Validators.required, Validators.min(1)]],
       type: ['0', [Validators.required]],
       name: ['', [Validators.required]],
@@ -115,25 +111,31 @@ export class StationaryCourtesyComponent implements AfterViewInit, OnDestroy {
       companyId: ['0', [Validators.required]]
     })
   }
-
+get allAntennasFiltered(){
+    return this.parkingService.getAntennasWithStationaryCourtesy(this.parkingId).then(x => x.filter(a=> a.courtesy_detail == null))
+}
   validateParam(param: any) {
     return param ? param : 'Sin valor'
   }
 
-  async searchAntennasByParking() {
-    if (this.authService.isSudo && !this.idEditAntenna) {
-      this.message.showLoading()
-      this.parkingId = this.stationaryForm.controls['parkingId']?.value
-      const newStations =
-        await this.parkingService.getAntennasWithStationaryCourtesy(
-          this.parkingId
-        )
-      this.stations = newStations.filter((x) => x.courtesy_detail)
-      this.rerender()
+  async getCourtesiesStationary(): Promise<StationsCourtesyModel[]> {
+ /*
+  *  When courtesy_details is null, that means that the antenna doesn't have courtesy
+  *  is just the antenna.
+  *  When courtesy_details is not null,
+  *  that means that the antennas has courtesy.
+  */
+    return await this.parkingService.getAntennasWithStationaryCourtesy(this.parkingId).then(x => x.filter(a => a.courtesy_detail))
+  }
 
+  async searchAntennasByParking() {
+    if (!this.idEditAntenna) {
+      this.message.showLoading()
+      this.parkingId = this.stationaryForm.controls['parkingId']?.value? this.stationaryForm.controls['parkingId']?.value: this.parkingId
+      this.allAntennas = await this.allAntennasFiltered
+      this.rerender()
       this.message.hideLoading()
     }
-    return this.stations
   }
 
   async getInitialData() {
@@ -142,16 +144,18 @@ export class StationaryCourtesyComponent implements AfterViewInit, OnDestroy {
       Promise.all([
         this.parkingService.getAllParking().then((data) => data.data.parkings),
         this.getTypeCourtesies(),
-        this.parkingService.getAntennasWithStationaryCourtesy(this.parkingId),
+        this.getCourtesiesStationary(),
         this.courtesyService.getTypes().toPromise(),
-        this.companyService.getCompanies(this.parkingId).toPromise()
+        this.companyService.getCompanies(this.parkingId).toPromise(),
+        this.searchAntennasByParking()
       ])
         .then((resp) => {
           this.allParking = resp[0]
-          this.typeCourtesies = resp[1]
-          this.stations = resp[2].filter((x) => x.courtesy_detail)
+          this.typeCourtesies = resp[1].filter(x => x.id <= 2)
+          this.stationsCourtesies = resp[2]
           this.courtesyTypes = resp[3].data.type
           this.allCompanies = resp[4]
+          // ignore resp [5]
         })
         .catch((x) => {
           this.message.errorTimeOut(
@@ -167,6 +171,11 @@ export class StationaryCourtesyComponent implements AfterViewInit, OnDestroy {
     } catch (err: unknown) {
       throw new Error('')
     }
+  }
+
+  cleanForm(){
+    this.stationaryForm.reset();
+    this.stationaryForm.get('parkingId')?.setValue(this.parkingId)
   }
 
   ngAfterViewInit(): void {
@@ -192,7 +201,7 @@ export class StationaryCourtesyComponent implements AfterViewInit, OnDestroy {
   getTypeDescription(id: number) {
     const newDescription = this.courtesyTypes.find((x) => x.id == id)
     return newDescription == undefined
-      ? { id: null, description: 'Sin descripción' }
+      ? { id: null, name: 'Sin descripción' }
       : newDescription
   }
 
@@ -210,13 +219,12 @@ export class StationaryCourtesyComponent implements AfterViewInit, OnDestroy {
       )
       if (resp.success) {
         await this.getInitialData()
-        this.rerender()
-        this.message.OkTimeOut()
       } else {
         this.message.error('', resp.message)
       }
     } finally {
-      await this.getInitialData()
+      this.cleanForm()
+      this.message.OkTimeOut()
       setTimeout(() => this.message.hideLoading(), 3000)
     }
   }

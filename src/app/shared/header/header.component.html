@@ -2,11 +2,11 @@
   <nav class = "navbar navbar-light" >
     <div class = "container-fluid" >
       <form class = "d-flex search" >
-        <div class = "input-group" >
+        <div *ngIf='false' class = "input-group" >
               <span class = "input-group-prepend" >
                 <div class = "input-group-text bg-transparent border-0" ><em class = "fa fa-search" ></em ></div >
             </span >
-          <input aria-label = "Search"
+          <input  aria-label = "Search"
                  class = "form-control me-2 border-0"
                  placeholder = "Buscar usuarios"
                  type = "search" >
@@ -30,7 +30,7 @@
           <div
             class = "dropdown-content" >
             <ul class = "nav flex-column" >
-              
+
               <!-- <li class = "nav-item text-center" >
                 {{this.authData.user.name + ' ' + this.authData.user.last_name}}
               </li >
@@ -38,7 +38,7 @@
               <li class = "nav-item text-center" >
                 {{this.authData.user.email}}
               </li >
-              
+
               <li class = "nav-item text-center" >
                 <div style="font-size:12px; font-weight:600">{{this.authData.user.role.name}}</div>
               </li >

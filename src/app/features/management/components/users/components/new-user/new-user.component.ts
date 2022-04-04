@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core'
+import { AfterContentInit, AfterViewInit, Component, Input, OnInit } from '@angular/core'
 import { UserService } from '../../services/user.service'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { UtilitiesService } from '../../../../../../shared/services/utilities.service'
@@ -9,6 +9,7 @@ import { ParkingModel } from '../../../../../parking/models/Parking.model'
 import { ParkingService } from '../../../../../parking/services/parking.service'
 import { PermissionsService } from '../../../../../../shared/services/permissions.service'
 import { environment } from '../../../../../../../environments/environment'
+import { AuthService } from '../../../../../../shared/services/auth.service'
 
 @Component({
   selector: 'app-new-user',
@@ -21,17 +22,18 @@ export class NewUserComponent implements OnInit {
   isEdit = false
   allParking: ParkingModel[] = []
   changeParkingAtCreateUser: string = environment.changeParkingAtCreateUser
-
+  parkingId: string = this.authService.getParking().id
   constructor(
     private userService: UserService,
     private formBuilder: FormBuilder,
     private utilitiesService: UtilitiesService,
     private messageServices: MessageService,
     private parkingService: ParkingService,
-    private permissionService: PermissionsService
+    private permissionService: PermissionsService,
+    private authService: AuthService
   ) {
     this.newUserForm = this.createForm()
-    this.getInitialData()
+    this.getInitialData().catch()
   }
 
   get Roles() {
@@ -58,7 +60,7 @@ export class NewUserComponent implements OnInit {
         )
         this.newUserForm.controls['role'].setValue(user.role)
         this.newUserForm.controls['name'].setValue(user.name)
-        this.newUserForm.controls['idParking'].setValue(user.parking)
+        this.newUserForm.controls['parking'].setValue(user.parking)
         this.newUserForm.controls['id'].setValue(user.id)
         this.isEdit = true
       }
@@ -70,7 +72,6 @@ export class NewUserComponent implements OnInit {
     this.allParking = await this.parkingService
       .getAllParking()
       .then((x) => x.data.parkings)
-
     this.messageServices.hideLoading()
   }
 
@@ -83,17 +84,26 @@ export class NewUserComponent implements OnInit {
       role: this.newUserForm.controls['role'].value,
       user: this.newUserForm.controls['user'].value,
       id: this.newUserForm.controls['id'].value,
-      parking: this.newUserForm.controls['parking'].value
+      parking: this.newUserForm.controls['parking'].value?
+        this.newUserForm.controls['parking'].value:
+        this.parkingId
     }
   }
 
   saveNewUser() {
-    const newUserForm: NewUserModel = this.getNewUserDataForm()
+    let newUserValue: NewUserModel = this.getNewUserDataForm()
+    if (!newUserValue) {
+      this.utilitiesService.markAsTouched(this.newUserForm)
+      this.messageServices.errorTimeOut('Datos incorrectos o faltantes.')
+      return
+    }
+
+    console.log(newUserValue)
     this.messageServices.showLoading()
     if (this.isEdit) {
-      delete newUserForm.password
+      delete newUserValue.password
       this.userService
-        .editUser(this.getNewUserDataForm())
+        .editUser(newUserValue)
         .toPromise()
         .then((data) => {
           if (data.success) {
@@ -119,9 +129,9 @@ export class NewUserComponent implements OnInit {
             })
         })
     } else {
-      delete newUserForm.id
+      delete newUserValue.id
       this.userService
-        .saveNewUser(newUserForm)
+        .saveNewUser(newUserValue)
         .toPromise()
         .then((data) => {
           if (data.success) {
@@ -131,7 +141,10 @@ export class NewUserComponent implements OnInit {
           }
           this.cleanForm()
           this.isEdit = false
-        })
+        }).catch(x => {
+        console.log(x)
+        throw new Error(x.error.message)
+      })
         .then(() => {
           this.cleanForm()
           this.subject.next(new NewUserModel())
@@ -140,14 +153,7 @@ export class NewUserComponent implements OnInit {
   }
 
   cleanForm() {
-    this.newUserForm.controls['email'].setValue('')
-    this.newUserForm.controls['last_name'].setValue('')
-    this.newUserForm.controls['name'].setValue('')
-    this.newUserForm.controls['password'].setValue('')
-    this.newUserForm.controls['role'].setValue('')
-    this.newUserForm.controls['user'].setValue('')
-    this.newUserForm.controls['parking'].setValue('')
-    this.utilitiesService.markAsUnTouched(this.newUserForm)
+    this.newUserForm.reset()
     this.isEdit = false
   }
 
@@ -158,19 +164,16 @@ export class NewUserComponent implements OnInit {
   private createForm() {
     return this.formBuilder.group({
       id: [''],
-      name: [this.userService.newUser.name, [Validators.required]],
-      last_name: [this.userService.newUser.last_name, [Validators.required]],
-      email: [
-        this.userService.newUser.email,
-        [
+      name: ['', [Validators.required]],
+      last_name: ['', [Validators.required]],
+      email: ['', [
           Validators.required,
           Validators.pattern(this.utilitiesService.getPatterEmail)
-        ]
-      ],
-      user: [this.userService.newUser.user, [Validators.required]],
-      password: [this.userService.newUser.password, [Validators.required]],
-      role: [this.userService.newUser.role, [Validators.required]],
-      parking: [this.userService.newUser.parking, [Validators.required]]
+        ]],
+      user: ['', [Validators.required]],
+      password: ['', [Validators.required]],
+      role: ['0', [Validators.required]],
+      parking: [this.parkingId, [Validators.required]]
     })
   }
 }

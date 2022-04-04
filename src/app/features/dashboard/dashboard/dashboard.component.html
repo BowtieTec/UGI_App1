@@ -38,9 +38,9 @@
                   <div class="col-xl-4 col-lg-6 col-sm-12">
                     <div class="mb-4 relative">
                       <label class="text-secondary " style="display:block">Fecha</label>
-                      <input #inputFechaIngresoDia class="form-control inputClass datetimepicker"
+                      <input #inputFechaIngresoDia class="form-control inputClass datetimepicker" required
                         formControlName="inputFechaIngresoDia" name="inputFechaIngresoDia" placeholder="Fecha/Hora"
-                        type="date" value={{fechaIngresosDia}}>
+                        type="date" value={{fechaIngresosDia}} max="{{nowDateTime | date: 'yyyy-MM-dd'}}">
                     </div>
                   </div>
                   <div class="col-xl-12 col-lg-12 col-sm-12">
@@ -80,7 +80,7 @@
                     <div class="mb-4 relative">
                       <label class="text-secondary" style="display:block">Año</label>
                       <select #inputIngresoMesAnio ngModel="inputIngresoMesAnio" ngControl="inputIngresoMesAnio"
-                        class="inputClass">
+                        class="inputClass" (change)='filterMonth()'>
                         <option *ngFor="let opt of AniosSelect" [selected]="opt.key == AnioActual" [value]="opt.key">
                           {{opt.valor}}</option>
                       </select>
@@ -90,7 +90,7 @@
                     <div class="mb-4 relative">
                       <label class="text-secondary" style="display:block">Mes</label>
                       <select #inputIngresoMes ngModel="inputIngresoMes" ngControl="inputIngresoMes" class="inputClass">
-                        <option *ngFor="let opt of Meses" [selected]="opt.key == MesActual" [value]="opt.key">
+                        <option *ngFor="let opt of monthFiltered" [selected]="opt.key == MesActual" [value]="opt.key">
                           {{opt.valor}}</option>
                       </select>
                     </div>
@@ -177,7 +177,7 @@
                       <label class="text-secondary" style="display:block">Fecha</label>
                       <input #inputFechaFlujoDia class="form-control inputClass datetimepicker"
                         formControlName="inputFechaFlujoDia" name="inputFechaFlujoDia" placeholder="Fecha/Hora"
-                        type="date" value={{fechaFlujoDia}}>
+                        type="date" value={{fechaFlujoDia}} max="{{nowDateTime | date: 'yyyy-MM-dd'}}">
                     </div>
                   </div>
                   <div class="col-xl-12 col-lg-12 col-sm-12">
@@ -227,7 +227,7 @@
                     <div class="mb-4 relative">
                       <label class="text-secondary" style="display:block">Mes</label>
                       <select #inputFlujoMes ngModel="inputFlujoMes" ngControl="inputFlujoMes" class="inputClass">
-                        <option *ngFor="let opt of Meses" [selected]="opt.key == MesActual" [value]="opt.key">
+                        <option *ngFor="let opt of monthFiltered" [selected]="opt.key == MesActual" [value]="opt.key">
                           {{opt.valor}}</option>
                       </select>
                     </div>
@@ -314,7 +314,7 @@
                     <label class="labelInput" style="display:block">Fecha</label>
                     <input #inputFechaCortesiasDia class="form-control inputClass datetimepicker"
                       formControlName="inputFechaCortesiasDia" name="inputFechaCortesiasDia" placeholder="Fecha/Hora"
-                      type="date" value={{fechaCortesiasDia}}>
+                      type="date" value={{fechaCortesiasDia}} max="{{nowDateTime | date: 'yyyy-MM-dd'}}">
                   </div>
                 </div>
                 <div class="col-xl-12 col-lg-12 col-sm-12">
@@ -380,7 +380,7 @@
                       <label class="labelInput" style="display:block">Mes</label>
                       <select #inputCortesiasMes class="inputClass" ngControl="inputCortesiasMes"
                         ngModel="inputCortesiasMes">
-                        <option *ngFor="let opt of Meses" [selected]="opt.key == MesActual" [value]="opt.key">
+                        <option *ngFor="let opt of monthFiltered" [selected]="opt.key == MesActual" [value]="opt.key">
                           {{opt.valor}}</option>
                       </select>
                     </div>
@@ -507,7 +507,7 @@
                       <label class="labelInput" style="display:block">Fecha</label>
                       <input #inputFechaCortesiasEstacionariasDia class="form-control inputClass datetimepicker "
                         formControlName="inputFechaCortesiasEstacionariasDia" name="inputFechaCortesiasEstacionariasDia"
-                        placeholder="Fecha/Hora" type="date" value={{fechaCortesiasEstacionariasDia}}>
+                        placeholder="Fecha/Hora" type="date" value={{fechaCortesiasEstacionariasDia}} max="{{nowDateTime | date: 'yyyy-MM-dd'}}">
                     </div>
                   </div>
                   <div class="col-xl-12 col-lg-12 col-sm-12">
@@ -578,7 +578,7 @@
                       <label class="labelInput" style="display:block">Mes</label>
                       <select #inputCortesiasEstacionariasMes class="inputClass"
                         ngControl="inputCortesiasEstacionariasMes" ngModel="inputCortesiasEstacionariasMes">
-                        <option *ngFor="let opt of Meses" [selected]="opt.key == MesActual" [value]="opt.key">
+                        <option *ngFor="let opt of monthFiltered" [selected]="opt.key == MesActual" [value]="opt.key">
                           {{opt.valor}}</option>
                       </select>
                     </div>
