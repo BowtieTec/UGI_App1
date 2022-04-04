@@ -111,7 +111,9 @@ export class StationaryCourtesyComponent implements AfterViewInit, OnDestroy {
       companyId: ['0', [Validators.required]]
     })
   }
-
+get allAntennasFiltered(){
+    return this.parkingService.getAntennasWithStationaryCourtesy(this.parkingId).then(x => x.filter(a=> a.courtesy_detail == null))
+}
   validateParam(param: any) {
     return param ? param : 'Sin valor'
   }
@@ -127,16 +129,13 @@ export class StationaryCourtesyComponent implements AfterViewInit, OnDestroy {
   }
 
   async searchAntennasByParking() {
-    if (this.authService.isSudo && !this.idEditAntenna) {
+    if (!this.idEditAntenna) {
       this.message.showLoading()
-      this.parkingId = this.stationaryForm.controls['parkingId']?.value
-      this.allAntennas = await this.parkingService.getAntennasWithStationaryCourtesy(this.parkingId)
-      this.stationsCourtesies = await this.getCourtesiesStationary()
-      this.allCompanies =  await this.companyService.getCompanies(this.parkingId).toPromise()
+      this.parkingId = this.stationaryForm.controls['parkingId']?.value? this.stationaryForm.controls['parkingId']?.value: this.parkingId
+      this.allAntennas = await this.allAntennasFiltered
       this.rerender()
       this.message.hideLoading()
     }
-    return this.stationsCourtesies
   }
 
   async getInitialData() {
@@ -147,15 +146,16 @@ export class StationaryCourtesyComponent implements AfterViewInit, OnDestroy {
         this.getTypeCourtesies(),
         this.getCourtesiesStationary(),
         this.courtesyService.getTypes().toPromise(),
-        this.companyService.getCompanies(this.parkingId).toPromise()
+        this.companyService.getCompanies(this.parkingId).toPromise(),
+        this.searchAntennasByParking()
       ])
         .then((resp) => {
           this.allParking = resp[0]
           this.typeCourtesies = resp[1].filter(x => x.id <= 2)
           this.stationsCourtesies = resp[2]
-          console.log(this.stationsCourtesies)
           this.courtesyTypes = resp[3].data.type
           this.allCompanies = resp[4]
+          // ignore resp [5]
         })
         .catch((x) => {
           this.message.errorTimeOut(
@@ -218,13 +218,11 @@ export class StationaryCourtesyComponent implements AfterViewInit, OnDestroy {
         newCourtesy
       )
       if (resp.success) {
-
+        await this.getInitialData()
       } else {
         this.message.error('', resp.message)
       }
     } finally {
-      await this.getInitialData()
-      this.rerender()
       this.cleanForm()
       this.message.OkTimeOut()
       setTimeout(() => this.message.hideLoading(), 3000)

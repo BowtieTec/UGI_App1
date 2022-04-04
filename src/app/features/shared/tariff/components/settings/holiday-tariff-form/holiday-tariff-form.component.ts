@@ -8,10 +8,12 @@ import { FormGroup } from '@angular/forms'
   styleUrls: ['./holiday-tariff-form.component.css']
 })
 export class HolidayTariffFormComponent implements OnInit {
+  time = new Date()
   @Input() holidayForm!: FormGroup
   @Input() timeRange!: number
 
   constructor(private utilitiesService: UtilitiesService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+  }
 }
