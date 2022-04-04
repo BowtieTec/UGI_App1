@@ -3,14 +3,20 @@
   <form [formGroup]="holidayForm" action="">
     <div class="row justify-content-center">
       <div class="col-md-6">
-        <app-input-container
-          [formGroup]="holidayForm" controlName="from" name="Desde" type="datetime-local">
-        </app-input-container>
+         <div class="mb-4 relative">
+                    <label class="labelInput" style="display:block">Desde</label>
+                    <input class="form-control inputClass datetimepicker"
+                           formControlName="from" placeholder="Fecha/Hora"
+                           type="date" min="{{time | date: 'yyyy-MM-dd'}}">
+         </div>
       </div>
-      <div class="col-md-6">
-        <app-input-container
-          [formGroup]="holidayForm" controlName="to" name="Hasta" type="datetime-local">
-        </app-input-container>
+        <div class="col-md-6">
+           <div class="mb-4 relative">
+                    <label class="labelInput" style="display:block">Hasta</label>
+                    <input class="form-control inputClass datetimepicker"
+                           formControlName="to" placeholder="Fecha/Hora"
+                           type="date" min="{{time | date: 'yyyy-MM-dd'}}">
+                  </div>
       </div>
     </div>
   </form>
