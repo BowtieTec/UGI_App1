@@ -7,7 +7,7 @@ import Swal from 'sweetalert2'
 export class MessageService {
   loading = false
   footer =
-    '<div class="text-center"> <bold> Si el problema persiste, por favor comunicarse con el administrador.</bold> </div>'
+    '<div class="text-center"> <bold> Si el problema persiste, por favor comunicarse con el administrador o enviar un mensaje usando la opción de soporte indicando el error.</bold> </div>'
 
   showLoading() {
     this.loading = true

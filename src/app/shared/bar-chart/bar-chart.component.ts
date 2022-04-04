@@ -454,7 +454,7 @@ export class BarChartComponent implements OnInit {
   ngOnInit(): void {
     if (this.periodo == 'dia') {
       this.diaOptions.chart.type = this.tipoChart
-      this.diaOptions.chart.toolbar.export.csv.filename = `${this.tipo.toLocaleUpperCase()} POR ${this.periodo.toUpperCase()} ${new Date().getUTCDate()}`;
+      this.diaOptions.chart.toolbar.export.csv.filename = `${this.tipo.toLocaleUpperCase()} - POR DIA - ${this.currentDate}`;
       this.chart = new ApexCharts(
         document.querySelector(
           '.' + this.tipo + ' #' + this.periodo + ' #grafica'
@@ -465,7 +465,7 @@ export class BarChartComponent implements OnInit {
     }
     if (this.periodo == 'mes') {
       this.mesOptions.chart.type = this.tipoChart
-      this.mesOptions.chart.toolbar.export.csv.filename = this.tipo.toLocaleUpperCase() + ' POR ' + this.periodo.toUpperCase() + ' ' +new Date().getMonth();
+      this.mesOptions.chart.toolbar.export.csv.filename =` ${this.tipo.toLocaleUpperCase()} - POR MES - ${this.currentDate}`;
 
       this.chart = new ApexCharts(
         document.querySelector(
@@ -477,7 +477,7 @@ export class BarChartComponent implements OnInit {
     }
     if (this.periodo == 'anio') {
       this.anioOptions.chart.type = this.tipoChart
-      this.anioOptions.chart.toolbar.export.csv.filename = this.tipo.toLocaleUpperCase() + ' POR ' + this.periodo.toUpperCase() + ' ' +new Date().getDate();
+      this.anioOptions.chart.toolbar.export.csv.filename = `${this.tipo.toLocaleUpperCase()} - POR AÑO - ${this.currentDate}`;
 
       this.chart = new ApexCharts(
         document.querySelector(
@@ -488,7 +488,10 @@ export class BarChartComponent implements OnInit {
       this.chart.render()
     }
   }
-
+get currentDate(){
+    const now = new Date()
+    return `${now.getDay()}-${now.getMonth()}-${now.getFullYear()}`
+}
   //Entradas
   getDatosDiarios(parkingId: string, fecha: string) {
     this.messageService.showLoading()
