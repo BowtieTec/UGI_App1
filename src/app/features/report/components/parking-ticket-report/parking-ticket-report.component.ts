@@ -121,6 +121,9 @@ export class ParkingTicketReportComponent implements OnInit {
         if (data.success) {
           this.report = data.data
           this.dataSource = data.data
+          if (this.report.length == 0) {
+            this.messageService.infoTimeOut('No se encontraron datos')
+          }
           this.rerender()
         } else {
           this.messageService.error('', data.message)

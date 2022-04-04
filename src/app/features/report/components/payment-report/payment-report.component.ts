@@ -96,6 +96,7 @@ export class PaymentReportComponent implements OnInit, AfterViewInit {
       )
       return
     }
+
     this.startDateReport = new Date(initDate).toLocaleDateString('es-GT')
     this.endDateReport = new Date(endDate).toLocaleDateString('es-GT')
     this.parqueo = this.datosUsuarioLogeado.id
@@ -109,6 +110,9 @@ export class PaymentReportComponent implements OnInit, AfterViewInit {
         if (data.success) {
           this.report = data.data
           this.dataSource = data.data
+          if (this.report.length == 0) {
+            this.messageService.infoTimeOut('No se encontraron datos')
+          }
           this.rerender()
         } else {
           this.messageService.error('', data.message)

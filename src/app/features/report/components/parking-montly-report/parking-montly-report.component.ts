@@ -109,6 +109,9 @@ export class ParkingMontlyReportComponent implements OnInit {
         if (data.success) {
           this.report = data.data
           this.dataSource = data.data
+          if (this.report.length == 0) {
+            this.messageService.infoTimeOut('No se encontraron datos')
+          }
           this.rerender()
         } else {
           this.messageService.error('', data.message)
@@ -395,5 +398,12 @@ export class ParkingMontlyReportComponent implements OnInit {
         this.dtTrigger.next()
       })
     }
+  }
+
+  customizeText(cellInfo: any) {
+    console.log(cellInfo.value)
+    let text: string =
+      cellInfo.value == null ? 'Sin perfil especial' : cellInfo.value
+    return text
   }
 }
