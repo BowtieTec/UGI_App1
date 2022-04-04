@@ -94,8 +94,8 @@ export class ParkingDayReportComponent implements OnInit {
       )
       return
     }
-    this.startDateReport = initDate
-    this.endDateReport = endDate
+    this.startDateReport = new Date(initDate).toLocaleDateString('es-GT')
+    this.endDateReport = new Date(endDate).toLocaleDateString('es-GT')
     this.parqueo = this.datosUsuarioLogeado.id
     if (this.ifHaveAction('verTodosLosParqueosReport')) {
       this.parqueo = this.inputParking.nativeElement.value
@@ -108,6 +108,9 @@ export class ParkingDayReportComponent implements OnInit {
         if (data.success) {
           this.report = data.data
           this.dataSource = data.data
+          if (this.report.length == 0) {
+            this.messageService.infoTimeOut('No se encontraron datos')
+          }
           this.rerender()
         } else {
           this.messageService.error('', data.message)
@@ -125,21 +128,6 @@ export class ParkingDayReportComponent implements OnInit {
       this.parqueo = '0'
     }
     this.parqueoDetalle = this.parqueo
-    return this.reportService
-      .getParkingRpt(this.fechaActual, this.fechaActual, this.parqueo)
-      .toPromise()
-      .then((data) => {
-        if (data.success) {
-          this.report = data.data
-          this.dataSource = data.data
-          this.rerender()
-        } else {
-          this.messageService.error('', data.message)
-        }
-      })
-      .then(() => {
-        this.messageService.hideLoading()
-      })
   }
 
   exportGrid() {
@@ -280,8 +268,8 @@ export class ParkingDayReportComponent implements OnInit {
       '',
       '',
       'Documento generado: ' +
-        new Date().toISOString().slice(0, 10) +
-        ' ' +
+        new Date().toLocaleDateString('es-GT') +
+        '  ' +
         new Date().toLocaleTimeString()
     ])
     header2.eachCell((cell, number) => {
@@ -320,7 +308,7 @@ export class ParkingDayReportComponent implements OnInit {
     this.dataSource.forEach((d: any) => {
       const row = worksheet.addRow([
         '',
-        d.fecha ? new Date(d.fecha).toLocaleDateString() : ' ',
+        d.fecha ? new Date(d.fecha).toLocaleDateString('es-GT') : ' ',
         d.total_v,
         d.total,
         d.descuento,

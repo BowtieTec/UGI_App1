@@ -96,8 +96,8 @@ export class ParkingMontlyReportComponent implements OnInit {
       )
       return
     }
-    this.startDateReport = initDate
-    this.endDateReport = endDate
+    this.startDateReport = new Date(initDate).toLocaleDateString('es-GT')
+    this.endDateReport = new Date(endDate).toLocaleDateString('es-GT')
     this.parqueo = this.datosUsuarioLogeado.id
     if (this.ifHaveAction('verTodosLosParqueosReport')) {
       this.parqueo = this.inputParking.nativeElement.value
@@ -109,6 +109,9 @@ export class ParkingMontlyReportComponent implements OnInit {
         if (data.success) {
           this.report = data.data
           this.dataSource = data.data
+          if (this.report.length == 0) {
+            this.messageService.infoTimeOut('No se encontraron datos')
+          }
           this.rerender()
         } else {
           this.messageService.error('', data.message)
@@ -125,21 +128,6 @@ export class ParkingMontlyReportComponent implements OnInit {
     if (this.ifHaveAction('verTodosLosParqueosReport')) {
       this.parqueo = '0'
     }
-    return this.reportService
-      .getParkingMonthlyRpt(this.fechaActual, this.fechaActual, this.parqueo)
-      .toPromise()
-      .then((data) => {
-        if (data.success) {
-          this.report = data.data
-          this.dataSource = data.data
-          this.rerender()
-        } else {
-          this.messageService.error('', data.message)
-        }
-      })
-      .then(() => {
-        this.messageService.hideLoading()
-      })
   }
 
   exportGrid() {
@@ -282,8 +270,8 @@ export class ParkingMontlyReportComponent implements OnInit {
       '',
       '',
       'Documento generado: ' +
-        new Date().toISOString().slice(0, 10) +
-        ' ' +
+        new Date().toLocaleDateString('es-GT') +
+        '  ' +
         new Date().toLocaleTimeString()
     ])
     header2.eachCell((cell, number) => {
@@ -324,10 +312,16 @@ export class ParkingMontlyReportComponent implements OnInit {
         '',
         d.phone_key,
         d.isUnlimited,
-        d.begin_date ? new Date(d.begin_date).toLocaleDateString() : ' ',
-        d.finish_date ? new Date(d.finish_date).toLocaleDateString() : ' ',
-        d.ultimo_pago ? new Date(d.ultimo_pago).toLocaleDateString() : ' ',
-        d.proximo_pago ? new Date(d.proximo_pago).toLocaleDateString() : ' ',
+        d.begin_date ? new Date(d.begin_date).toLocaleDateString('es-GT') : ' ',
+        d.finish_date
+          ? new Date(d.finish_date).toLocaleDateString('es-GT')
+          : ' ',
+        d.ultimo_pago
+          ? new Date(d.ultimo_pago).toLocaleDateString('es-GT')
+          : ' ',
+        d.proximo_pago
+          ? new Date(d.proximo_pago).toLocaleDateString('es-GT')
+          : ' ',
         d.estadoSuscripcion
       ])
       row.eachCell((cell, number) => {
@@ -404,5 +398,12 @@ export class ParkingMontlyReportComponent implements OnInit {
         this.dtTrigger.next()
       })
     }
+  }
+
+  customizeText(cellInfo: any) {
+    console.log(cellInfo.value)
+    let text: string =
+      cellInfo.value == null ? 'Sin perfil especial' : cellInfo.value
+    return text
   }
 }

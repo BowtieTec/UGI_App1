@@ -58,7 +58,7 @@ export class NewTicketComponent {
       .toPromise()
 
     if (response) {
-      this.messageService.info(
+      this.messageService.infoTimeOut(
         'Se ha enviado su petición, pronto recibirá una notificación en su correo'
       )
       this.reloadComponent()
