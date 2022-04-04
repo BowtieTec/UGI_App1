@@ -124,21 +124,6 @@ export class CourtesyStationReportComponent implements OnInit {
     if (this.ifHaveAction('verTodosLosParqueosReport')) {
       this.parqueo = '0'
     }
-    return this.reportService
-      .getCourtesyStationRpt(this.fechaActual, this.fechaActual, this.parqueo)
-      .toPromise()
-      .then((data) => {
-        if (data.success) {
-          this.report = data.data
-          this.dataSource = data.data
-          this.rerender()
-        } else {
-          this.messageService.error('', data.message)
-        }
-      })
-      .then(() => {
-        this.messageService.hideLoading()
-      })
   }
 
   exportGrid() {

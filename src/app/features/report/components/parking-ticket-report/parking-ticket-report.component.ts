@@ -138,21 +138,6 @@ export class ParkingTicketReportComponent implements OnInit {
       this.parqueo = '0'
     }
     this.parqueoDetalle = this.parqueo
-    return this.reportService
-      .getTicketsRpt(this.fechaActual, this.fechaActual, this.parqueo)
-      .toPromise()
-      .then((data) => {
-        if (data.success) {
-          this.report = data.data
-          this.dataSource = data.data
-          this.rerender()
-        } else {
-          this.messageService.error('', data.message)
-        }
-      })
-      .then(() => {
-        this.messageService.hideLoading()
-      })
   }
 
   exportGrid() {
@@ -293,8 +278,7 @@ export class ParkingTicketReportComponent implements OnInit {
       '',
       '',
       'Documento generado: ' +
-        new Date().toISOString().slice(0, 10) +
-        ' ' +
+        new Date().toLocaleDateString('dd/MM/YYYY') +
         new Date().toLocaleTimeString()
     ])
     header2.eachCell((cell, number) => {
@@ -331,9 +315,11 @@ export class ParkingTicketReportComponent implements OnInit {
     })
     // Add Data and Conditional Formatting
     this.dataSource.forEach((d: any) => {
+      console.log(d.fecha)
       const row = worksheet.addRow([
         '',
-        d.fecha ? new Date(d.fecha).toLocaleDateString() : ' ',
+
+        d.fecha ? new Date(d.fecha) : ' ',
         d.total_v,
         d.total,
         d.descuento,
