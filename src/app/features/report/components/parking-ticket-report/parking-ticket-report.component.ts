@@ -107,8 +107,8 @@ export class ParkingTicketReportComponent implements OnInit {
       )
       return
     }
-    this.startDateReport = initDate
-    this.endDateReport = endDate
+    this.startDateReport = new Date(initDate).toLocaleDateString('es-GT')
+    this.endDateReport = new Date(endDate).toLocaleDateString('es-GT')
     this.parqueo = this.datosUsuarioLogeado.id
     if (this.ifHaveAction('verTodosLosParqueosReport')) {
       this.parqueo = this.inputParking.nativeElement.value
@@ -278,7 +278,8 @@ export class ParkingTicketReportComponent implements OnInit {
       '',
       '',
       'Documento generado: ' +
-        new Date().toLocaleDateString('dd/MM/YYYY') +
+        new Date().toLocaleDateString('es-GT') +
+        '  ' +
         new Date().toLocaleTimeString()
     ])
     header2.eachCell((cell, number) => {

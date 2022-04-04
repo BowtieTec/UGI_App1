@@ -117,7 +117,7 @@
               ></dx-button>
             </dxi-item>
             <dxi-item location="after">
-              <dx-button
+              <dx-button *ngIf='this.report.length > 0'
                 icon="xlsxfile"
                 text="Exportar a Excel"
                 (onClick)="onExporting($event)"

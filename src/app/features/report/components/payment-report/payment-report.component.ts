@@ -96,8 +96,8 @@ export class PaymentReportComponent implements OnInit, AfterViewInit {
       )
       return
     }
-    this.startDateReport = initDate
-    this.endDateReport = endDate
+    this.startDateReport = new Date(initDate).toLocaleDateString('es-GT')
+    this.endDateReport = new Date(endDate).toLocaleDateString('es-GT')
     this.parqueo = this.datosUsuarioLogeado.id
     if (this.ifHaveAction('verTodosLosParqueosReport')) {
       this.parqueo = this.inputParking.nativeElement.value
@@ -284,8 +284,8 @@ export class PaymentReportComponent implements OnInit, AfterViewInit {
       '',
       '',
       'Documento generado: ' +
-        new Date().toISOString().slice(0, 10) +
-        ' ' +
+        new Date().toLocaleDateString('es-GT') +
+        '  ' +
         new Date().toLocaleTimeString()
     ])
     header2.eachCell((cell, number) => {

@@ -96,8 +96,8 @@ export class CourtesyReportComponent implements OnInit {
       )
       return
     }
-    this.startDateReport = initDate
-    this.endDateReport = endDate
+    this.startDateReport = new Date(initDate).toLocaleDateString('es-GT')
+    this.endDateReport = new Date(endDate).toLocaleDateString('es-GT')
     this.parqueo = this.datosUsuarioLogeado.id
     if (this.ifHaveAction('verTodosLosParqueosReport')) {
       this.parqueo = this.inputParking.nativeElement.value
@@ -133,7 +133,7 @@ export class CourtesyReportComponent implements OnInit {
       jsPDFDocument: doc,
       component: this.dataGrid.instance
     }).then(() => {
-      doc.save('Duracin.pdf')
+      doc.save('Duracion.pdf')
     })
   }
 
@@ -270,8 +270,8 @@ export class CourtesyReportComponent implements OnInit {
       '',
       '',
       'Documento generado: ' +
-        new Date().toISOString().slice(0, 10) +
-        ' ' +
+        new Date().toLocaleDateString('es-GT') +
+        '  ' +
         new Date().toLocaleTimeString()
     ])
     header2.eachCell((cell, number) => {

@@ -94,8 +94,8 @@ export class ParkingDayReportComponent implements OnInit {
       )
       return
     }
-    this.startDateReport = initDate
-    this.endDateReport = endDate
+    this.startDateReport = new Date(initDate).toLocaleDateString('es-GT')
+    this.endDateReport = new Date(endDate).toLocaleDateString('es-GT')
     this.parqueo = this.datosUsuarioLogeado.id
     if (this.ifHaveAction('verTodosLosParqueosReport')) {
       this.parqueo = this.inputParking.nativeElement.value
@@ -265,8 +265,8 @@ export class ParkingDayReportComponent implements OnInit {
       '',
       '',
       'Documento generado: ' +
-        new Date().toISOString().slice(0, 10) +
-        ' ' +
+        new Date().toLocaleDateString('es-GT') +
+        '  ' +
         new Date().toLocaleTimeString()
     ])
     header2.eachCell((cell, number) => {
@@ -305,7 +305,7 @@ export class ParkingDayReportComponent implements OnInit {
     this.dataSource.forEach((d: any) => {
       const row = worksheet.addRow([
         '',
-        d.fecha ? new Date(d.fecha).toLocaleDateString() : ' ',
+        d.fecha ? new Date(d.fecha).toLocaleDateString('es-GT') : ' ',
         d.total_v,
         d.total,
         d.descuento,
