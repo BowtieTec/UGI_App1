@@ -64,9 +64,6 @@ export class DurationReportComponent implements OnInit {
     private excelService: ReportService,
     private parkingService: ParkingService
   ) {
-    this.messageService.showLoading()
-
-    this.messageService.hideLoading()
   }
 
   ngOnInit(): void {

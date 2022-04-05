@@ -87,7 +87,7 @@ export class ParkingTicketReportComponent implements OnInit {
           this.allParking = data.data.parkings
         }
       })
-      .finally(() => this.messageService.showLoading())
+      .finally(() => this.messageService.hideLoading())
   }
 
   ifHaveAction(action: string) {
