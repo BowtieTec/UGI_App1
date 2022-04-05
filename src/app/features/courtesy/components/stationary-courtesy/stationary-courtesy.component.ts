@@ -42,6 +42,8 @@ export class StationaryCourtesyComponent implements AfterViewInit, OnDestroy {
   typeCourtesies: SelectModel[] = []
   stationsCourtesies: StationsCourtesyModel[] = []
   allAntennas: StationsCourtesyModel[] = []
+  typeOfCondition: SelectModel[] = this.courtesyService.TypeOfConditions
+
   /*Table*/
   @ViewChild(DataTableDirective)
   dtElement!: DataTableDirective
@@ -72,19 +74,23 @@ export class StationaryCourtesyComponent implements AfterViewInit, OnDestroy {
   get dtOptions() {
     return DataTableOptions.getSpanishOptions(10)
   }
-
+  get conditionValue() {
+    return this.stationaryForm.get('condition')?.value
+  }
   get isSudo() {
     return this.authService.isSudo
   }
 
-  get stationaryCourtesiesFormValue() {
+  get stationaryCourtesiesFormValue(): CreateStationaryCourtesy {
     return {
       parkingId: this.stationaryForm.get('parkingId')?.value,
       value: this.stationaryForm.get('value')?.value,
       type: this.stationaryForm.get('type')?.value,
       name: this.stationaryForm.get('name')?.value,
       stationId: this.stationaryForm.get('stationId')?.value,
-      companyId: this.stationaryForm.controls['companyId'].value
+      companyId: this.stationaryForm.controls['companyId'].value,
+      condition: this.stationaryForm.controls['condition'].value,
+      cantHours: this.stationaryForm.controls['cantHours'].value
     }
   }
 
@@ -108,7 +114,9 @@ export class StationaryCourtesyComponent implements AfterViewInit, OnDestroy {
       type: ['0', [Validators.required]],
       name: ['', [Validators.required]],
       stationId: ['0', [Validators.required]],
-      companyId: ['0', [Validators.required]]
+      companyId: ['0', [Validators.required]],
+      condition: ['', [Validators.required]],
+      cantHours: ['', [Validators.required]]
     })
   }
 get allAntennasFiltered(){
@@ -183,7 +191,8 @@ get allAntennasFiltered(){
   }
 
   ngOnDestroy(): void {
-    this.dtTrigger.unsubscribe()
+    try{this.dtTrigger.unsubscribe()}catch (e) {
+    }
   }
 
   editAntenna(antenna: StationsCourtesyModel) {

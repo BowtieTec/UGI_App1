@@ -16,6 +16,8 @@ export class CourtesyDetail {
   type = 0
   value = 0
   company?: CompanyModel = new CompanyModel()
+  condition?: number
+  cantHours?: number
   haveStation = 0
   created_at: Date = new Date()
   updated_at: Date = new Date()
@@ -39,4 +41,7 @@ export class CreateStationaryCourtesy {
   type = 0
   name = ''
   stationId = ''
+  condition= 0
+  companyId = 0
+  cantHours = 0
 }
