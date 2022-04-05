@@ -13,6 +13,7 @@ import { RolesComponent } from './components/roles/roles.component'
 import { CompanyComponent } from './components/companies/company/company.component'
 import { ParkingModule } from '../parking/parking.module'
 import { TariffTestComponent } from './components/tariff-test/tariff-test.component'
+import { UsersAppComponent } from './components/users-app/users-app.component'
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { TariffTestComponent } from './components/tariff-test/tariff-test.compon
     UsersComponent,
     RolesComponent,
     CompanyComponent,
-    TariffTestComponent
+    TariffTestComponent,
+    UsersAppComponent
   ],
   imports: [
     CommonModule,

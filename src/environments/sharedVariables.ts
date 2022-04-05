@@ -4,6 +4,7 @@ export const permission = {
   editUser: 'editUser',
   listParking: 'listParking',
   listUser: 'listUser',
+  listUserApp: 'listUserApp',
   listCourtesy: 'listCourtesy',
   downloadCourtesy: 'downloadCourtesy',
   deleteRole: 'deleteRole',
