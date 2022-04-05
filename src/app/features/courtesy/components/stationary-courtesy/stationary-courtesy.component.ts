@@ -1,10 +1,4 @@
-import {
-  AfterViewInit,
-  Component,
-  Input,
-  OnDestroy,
-  ViewChild
-} from '@angular/core'
+import { AfterViewInit, Component, Input, OnDestroy, ViewChild } from '@angular/core'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { MessageService } from '../../../../shared/services/message.service'
 import { ParkingService } from '../../../parking/services/parking.service'
@@ -14,10 +8,7 @@ import { PermissionsService } from '../../../../shared/services/permissions.serv
 import { environment } from '../../../../../environments/environment'
 import { ParkingModel } from '../../../parking/models/Parking.model'
 import { CourtesyService } from '../../services/courtesy.service'
-import {
-  CreateStationaryCourtesy,
-  StationsCourtesyModel
-} from '../../../parking/models/StationaryCourtesy.model'
+import { CreateStationaryCourtesy, StationsCourtesyModel } from '../../../parking/models/StationaryCourtesy.model'
 import { CourtesyTypeModel } from '../../models/Courtesy.model'
 import { DataTableDirective } from 'angular-datatables'
 import { Subject } from 'rxjs'
@@ -116,7 +107,7 @@ export class StationaryCourtesyComponent implements AfterViewInit, OnDestroy {
       stationId: ['0', [Validators.required]],
       companyId: ['0', [Validators.required]],
       condition: ['', [Validators.required]],
-      cantHours: ['', [Validators.required]]
+      cantHours: ['']
     })
   }
 get allAntennasFiltered(){
