@@ -6,19 +6,18 @@
       novalidate="">
   <div *ngIf="settingsOptions"
        id="steps-container">
-    <h6>Facturación</h6>
+    <div class='row'>
+      <h6>Facturación</h6>
+    </div>
+
     <div class="row">
       <div class=" col-md-6 col-sm-12">
-        <div class="m-3 relative">
-          <label class="labelInput">Nombre:</label>
-          <input [class.is-invalid]="controlInvalid('business_name')"
-                 class="form-control inputClass"
-                 formControlName="business_name"
-                 placeholder="Nombre:"
-                 type="text">
-          <small *ngIf="controlInvalid('business_name')"
-                 class="text-danger animate__animated  animate__rotateIn">* Este campo es obligatorio</small>
-        </div>
+        <app-input-container [formGroup]="stepFourForm"
+        type='text'
+        controlName='business_name'
+        name='Nombre'
+        >
+        </app-input-container>
         <div class="m-3 relative">
           <label class="labelInput">NIT</label>
           <input [class.is-invalid]="controlInvalid('nit')"
@@ -32,16 +31,13 @@
         </div>
       </div>
       <div class=" col-md-6 col-sm-12">
-        <div class="m-3 relative">
-          <label class="labelInput">Dirección</label>
-          <input [class.is-invalid]="controlInvalid('business_address')"
-                 class="form-control inputClass"
-                 formControlName="business_address"
-                 placeholder="Dirección:"
-                 type="text">
-          <small *ngIf="controlInvalid('business_address')"
-                 class="text-danger animate__animated  animate__rotateIn">* Este campo es obligatorio</small>
-        </div>
+        <app-input-container [formGroup]="stepFourForm"
+                             type='text'
+                             controlName='business_address'
+                             name='Dirección'
+        >
+        </app-input-container>
+
         <div *ngIf="false" class="m-3 relative">
           <label class="labelInput">Método de pago</label>
           <select
@@ -57,17 +53,11 @@
         </div>
       </div>
       <div class=" col-md-6 col-sm-12">
-        <div class="m-3 relative">
-          <label class="labelInput">Moneda</label>
-          <select [class.is-invalid]="controlInvalid('currency')"
-                  class="inputClass"
-                  formControlName="currency">
-            <option *ngFor="let option of settingsOptions.currencyOptions"
-                    value="{{option.id}}">{{option.name}}</option>
-          </select>
-          <small *ngIf="controlInvalid('currency')"
-                 class="text-danger animate__animated  animate__rotateIn">* Este campo es obligatorio</small>
-        </div>
+        <app-select-container
+                              [data]="this.settingsOptions.currencyOptions"
+                              [formGroup]="stepFourForm"
+                              controlName="currency"
+                              name="Moneda"></app-select-container>
       </div>
 
       <div class="row mt-3">
@@ -78,7 +68,7 @@
               <li><input formControlName="is_our_visa_credential"
                          id="is_our_visa_credential"
                          type="checkbox"
-
+                         (click)="addValidators()"
                          value="is_show_map"><label for="is_our_visa_credential">Credenciales
                 Visa</label></li>
             </ul>
@@ -103,36 +93,40 @@
           id="visaCredential">
           <div *ngIf="stepFourForm.controls['is_our_visa_credential'].value"
                class="animate__animated animate__fadeInLeft">
-            <div class="m-3 relative">
-              <label class="labelInput">ID Comerciante</label>
-              <input [class.is-invalid]="controlInvalid('merchant_id_visa')"
-                     class="form-control inputClass"
-                     formControlName="merchant_id_visa"
-                     placeholder="ID Mercante"
-                     type="text">
-              <small *ngIf="controlInvalid('merchant_id_visa')"
-                     class="text-danger animate__animated  animate__rotateIn">* Este campo es obligatorio</small>
-            </div>
-            <div class="m-3 relative">
-              <label class="labelInput">Llave de transacción</label>
-              <input [class.is-invalid]="controlInvalid('transaction_key_visa')"
-                     class="form-control inputClass"
-                     formControlName="transaction_key_visa"
-                     placeholder="Llave de transacción:"
-                     type="text">
-              <small *ngIf="controlInvalid('transaction_key_visa')"
-                     class="text-danger animate__animated  animate__rotateIn">* Este campo es obligatorio</small>
-            </div>
-            <div class="m-3 relative">
-              <label class="labelInput">URL</label>
-              <input [class.is-invalid]="controlInvalid('url_visa')"
-                     class="form-control inputClass"
-                     formControlName="url_visa"
-                     placeholder="URL:"
-                     type="text">
-              <small *ngIf="controlInvalid('url_visa')"
-                     class="text-danger animate__animated  animate__rotateIn">* Este campo es obligatorio</small>
-            </div>
+
+            <app-input-container
+              [formGroup]='stepFourForm'
+              controlName='afiliacion'
+              name='Afilicaión'
+              type='text'
+
+            >
+            </app-input-container>
+            <app-input-container
+              [formGroup]='stepFourForm'
+              controlName='terminal'
+              name='Terminal'
+              type='text'
+
+            >
+            </app-input-container>
+
+            <app-input-container
+              [formGroup]='stepFourForm'
+              controlName='merchant_id_visa'
+              name='Id Mercante'
+              type='text'
+
+            >
+            </app-input-container>
+            <app-input-container
+              [formGroup]='stepFourForm'
+              controlName='merchant_pass_visa'
+              name='Contraseña Mercante'
+              type='password'
+
+            >
+            </app-input-container>
           </div>
         </div>
         <div *ngIf="stepFourForm.controls['is_our_bac_credential'].value "

@@ -41,12 +41,33 @@ export class BillingDataComponent {
     return selected != 0 && selected
   }
 
+  addValidators() {
+    if (!this.stepFourForm.controls['is_our_visa_credential'].value) {
+      this.stepFourForm.controls['merchant_id_visa'].setValidators(
+        Validators.required
+      )
+      this.stepFourForm.controls['merchant_pass_visa'].setValidators(
+        Validators.required
+      )
+      this.stepFourForm.controls['afiliacion'].setValidators(
+        Validators.required
+      )
+      this.stepFourForm.controls['terminal'].setValidators(Validators.required)
+    } else {
+      this.stepFourForm.controls['merchant_id_visa'].clearValidators()
+      this.stepFourForm.controls['merchant_pass_visa'].clearValidators()
+      this.stepFourForm.controls['afiliacion'].clearValidators()
+      this.stepFourForm.controls['terminal'].clearValidators()
+    }
+  }
+
   controlInvalid(control: string): boolean {
     return this.utilitiesService.controlInvalid(this.stepFourForm, control)
   }
 
   async emmitStep(number: number) {
     this.message.showLoading()
+    console.log(this.getStepFour())
     if (number == 1) {
       if (this.stepFourForm.valid) {
         this.parkingService.parkingStepFour = this.getStepFour()
@@ -93,8 +114,9 @@ export class BillingDataComponent {
       is_our_bac_credential: false,
       //Visa Credential
       merchant_id_visa: [null],
-      transaction_key_visa: [null],
-      url_visa: [null],
+      merchant_pass_visa: [null],
+      afiliacion: [null],
+      terminal: [null],
       //  BAC Credential
       merchant_id_bac: [null],
       acquirer_id_bac: [null],
@@ -117,10 +139,11 @@ export class BillingDataComponent {
       nit: this.stepFourForm.controls['nit'].value,
       pay_method: this.stepFourForm.controls['pay_method'].value,
       visa_credential: {
-        url: this.stepFourForm.controls['url_visa'].value,
-        merchant_id: this.stepFourForm.controls['merchant_id_visa'].value,
-        transaction_key:
-          this.stepFourForm.controls['transaction_key_visa'].value
+        cardAcqId: this.stepFourForm.controls['afiliacion'].value,
+        terminal: this.stepFourForm.controls['terminal'].value,
+        merchant_user: this.stepFourForm.controls['merchant_id_visa'].value,
+        merchant_password:
+          this.stepFourForm.controls['merchant_pass_visa'].value
       },
       bac_credential: {
         url: this.stepFourForm.controls['url_bac'].value,
