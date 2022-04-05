@@ -11,7 +11,7 @@ export class CreateParkingStepOneModel {
   minutes_to_exit = 0
   public?: boolean = false
   is_draft?: boolean = false
-  is_TAS?: boolean=false
+  is_TAS?: boolean = false
 }
 
 export class CreateParkingStepTwoModel {
@@ -70,9 +70,10 @@ export class TimeData {
 }
 
 export class VisaCredentialModel {
-  merchant_id = ''
-  transaction_key = ''
-  url = ''
+  cardAcqId = ''
+  merchant_user = ''
+  merchant_password = ''
+  terminal = ''
 }
 
 export class BacCredentialModel {
