@@ -133,6 +133,7 @@
                         class="form-control inputClass datetimepicker"
                         formControlName="begin_date"
                         id="dateInOut"
+                        min = "{{currentDate | date: 'yyyy-MM-dd'}}"
                         name="Appointment_time"
                         placeholder="Fecha/Hora de entrada"
                         type="date">
@@ -147,6 +148,7 @@
                         class="form-control inputClass datetimepicker"
                         formControlName="finish_date"
                         id="dateEnd"
+                        min = "{{currentDate | date: 'yyyy-MM-dd'}}"
                         name="Appointment_time"
                         placeholder="Fecha/Hora de salida"
                         type="date">

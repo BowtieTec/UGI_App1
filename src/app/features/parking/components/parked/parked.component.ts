@@ -1,17 +1,7 @@
-import {
-  AfterViewInit,
-  Component,
-  OnDestroy,
-  OnInit,
-  ViewChild
-} from '@angular/core'
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core'
 import { FormBuilder, FormGroup } from '@angular/forms'
 import { ParkingService } from '../../services/parking.service'
-import {
-  ParkedModel,
-  ParkingModel,
-  StatusParked
-} from '../../models/Parking.model'
+import { ParkedModel, ParkingModel, StatusParked } from '../../models/Parking.model'
 import { AuthService } from '../../../../shared/services/auth.service'
 import { DataTableDirective } from 'angular-datatables'
 import { DataTableOptions } from '../../../../shared/model/DataTableOptions'
@@ -48,7 +38,7 @@ export class ParkedComponent implements OnDestroy, AfterViewInit, OnInit {
     private messageService: MessageService,
     private permissionService: PermissionsService
   ) {
-    this.getInitialData()
+    this.getInitialData().catch()
   }
 
   get isSudo() {

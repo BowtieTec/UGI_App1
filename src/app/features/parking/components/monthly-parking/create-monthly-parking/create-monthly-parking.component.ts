@@ -22,6 +22,7 @@ import { ResponseModel } from '../../../../../shared/model/Request.model'
 })
 export class CreateMonthlyParkingComponent implements OnInit {
   monthlyForm: FormGroup = this.createForm()
+  currentDate: Date = new Date()
   userSelected: MonthlyUserModel = new MonthlyUserModel()
   userSearched: Array<MonthlyUserModel> = []
   profiles: ProfilesModel[] = []
