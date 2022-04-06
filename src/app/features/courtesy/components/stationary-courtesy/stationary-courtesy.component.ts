@@ -106,7 +106,7 @@ export class StationaryCourtesyComponent implements AfterViewInit, OnDestroy {
       name: ['', [Validators.required]],
       stationId: ['0', [Validators.required]],
       companyId: ['0', [Validators.required]],
-      condition: ['', [Validators.required]],
+      condition: ['0', [Validators.required]],
       cantHours: ['0']
     })
   }
@@ -172,8 +172,15 @@ get allAntennasFiltered(){
     }
   }
 
-  cleanForm(){
-    this.stationaryForm.reset();
+  cleanForm() {
+    this.stationaryForm.reset()
+    this.stationaryForm.get('value')?.setValue('')
+    this.stationaryForm.get('type')?.setValue('0')
+    this.stationaryForm.get('name')?.setValue('')
+    this.stationaryForm.get('stationId')?.setValue('0')
+    this.stationaryForm.get('companyId')?.setValue('0')
+    this.stationaryForm.get('condition')?.setValue('0')
+    this.stationaryForm.get('cantHours')?.setValue('0')
     this.stationaryForm.get('parkingId')?.setValue(this.parkingId)
   }
 
