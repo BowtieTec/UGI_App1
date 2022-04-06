@@ -22,7 +22,7 @@
         class = "animate__animated animate__fadeIn" >
       <td >{{user.name + ' ' + (!user.last_name ? '' : user.last_name)}}</td >
       <td >{{user.email}}</td >
-      <td >{{user.phone_number}}</td >
+      <td>****-{{user.phone_number | slice: -4}}</td>
       <td>{{getStatus(!user.status ? 0 : user.status)}}</td>
     </tr >
     </tbody >
