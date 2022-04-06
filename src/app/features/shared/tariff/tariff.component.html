@@ -2,6 +2,7 @@
   <div class="titleCards">
     <span> <em class="fas fa-comment-dollar"></em> </span> Tarifa
   </div>
+  <div *ngIf='ifHaveAction(createTariff)'>
   <div class="row justify-content-center">
     <ng-container [formGroup]="prioriceForm" class="radio-inline">
       <div class="col-xl-4 col-lg-4 col-sm-6">
@@ -16,6 +17,7 @@
   </div>
   <app-tariff-general-data
     [generalDataForm]="generalDataForm"></app-tariff-general-data>
+  </div>
   <div class="row justify-content-center">
     <div *ngIf="isValidGeneralData" class="titleCards animate__animated animate__fadeInUp">
       <span><em class="fas fa-cogs"></em></span> Rangos y Costos

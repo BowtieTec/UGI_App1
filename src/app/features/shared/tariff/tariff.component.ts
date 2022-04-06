@@ -20,6 +20,8 @@ import {
 } from './model/Tariff.model'
 import { CreateTariffModel } from '../../parking/models/Tariff.model'
 import { BuildRulesService } from './service/build-rules.service'
+import { environment } from '../../../../environments/environment'
+import { PermissionsService } from '../../../shared/services/permissions.service'
 
 @Component({
   selector: 'app-tariff',
@@ -33,7 +35,7 @@ export class TariffComponent implements OnInit {
   timeRange = 1
   costType = 1
   tariffs: Array<any> = []
-
+  createTariff = environment.createTariff
   generalDataForm: FormGroup = this.tariffForms.createGeneralDataForm()
   holidayForm: FormGroup = this.tariffForms.createHolidayOrRankForm()
   rankForm: FormGroup = this.tariffForms.createHolidayOrRankForm()
@@ -57,7 +59,8 @@ export class TariffComponent implements OnInit {
     private authService: AuthService,
     private validationService: ValidationsService,
     private tariffForms: TariffFormsService,
-    private buildRuleService: BuildRulesService
+    private buildRuleService: BuildRulesService,
+    private permissionService: PermissionsService
   ) {}
 
   get daysFormValues() {
@@ -283,6 +286,10 @@ export class TariffComponent implements OnInit {
     }
   }
 
+  ifHaveAction(action: string) {
+    return this.permissionService.ifHaveAction(action)
+  }
+
   get ifHaveTariffData() {
     return this.tariffs && this.tariffs?.length > 0
   }
@@ -311,9 +318,9 @@ export class TariffComponent implements OnInit {
       this.getTariffs()
     }
   }
-cleanForms(){
-  this.generalDataForm.reset()
-  this.generalDataForm.controls['isShowDescription'].setValue(true)
+  cleanForms() {
+    this.generalDataForm.reset()
+    this.generalDataForm.controls['isShowDescription'].setValue(true)
     this.holidayForm.reset()
     this.rankForm.reset()
     this.blockForm.reset()
@@ -321,8 +328,8 @@ cleanForms(){
     this.principalScheduleForm.reset()
     this.hourAHalfForm.reset()
     this.fixedCostForm.reset()
-  this.costType = 1
-}
+    this.costType = 1
+  }
   saveRule() {
     const isValid = this.validateForms()
     if (!isValid) return
@@ -334,25 +341,24 @@ cleanForms(){
       )
       return
     }
-      this.parkingService
-        .setRule(newRule)
-        .then((data) => {
-          if (data.success) {
-            this.messageService.OkTimeOut()
-          } else {
-            this.messageService.error('', data.message)
-          }
-          return data
-        })
-        .then(() => {
-          this.getTariffs().catch()
-          this.cleanForms()
-        })
-        .catch((e) => {
-         throw new Error(e.message)
-        })
-      this.messageService.OkTimeOut()
-
+    this.parkingService
+      .setRule(newRule)
+      .then((data) => {
+        if (data.success) {
+          this.messageService.OkTimeOut()
+        } else {
+          this.messageService.error('', data.message)
+        }
+        return data
+      })
+      .then(() => {
+        this.getTariffs().catch()
+        this.cleanForms()
+      })
+      .catch((e) => {
+        throw new Error(e.message)
+      })
+    this.messageService.OkTimeOut()
   }
 
   validateSelected(time: number, cost: number) {
