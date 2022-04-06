@@ -51,6 +51,7 @@ export const permission = {
 
   listSchedules: 'listSchedules',
   listTariff: 'listTariff',
+  createTariff: 'createTariff',
   tariffTest: 'tariffTest',
   newTicket: 'newTicket'
 }
