@@ -53,6 +53,12 @@ export class UserService {
     )
   }
 
+  getUsersApp(): Observable<any> {
+    this.messageService.showLoading()
+    return this.http.get<ResponseModel>(
+      `${this.apiUrl}backoffice/user/userApp/`
+    )
+  }
   getAdminsByParking() {
     this.messageService.showLoading()
     this.http

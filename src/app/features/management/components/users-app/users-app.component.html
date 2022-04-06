@@ -1,0 +1,30 @@
+<div class = "panels animate__animated animate__fadeInLeft" >
+  <div class = "titleCards" >
+    <span ><em class = "fas fa-users" ></em ></span > Usuarios registrados en la aplicación
+  </div >
+
+  <table [dtOptions] = "dtOptions"
+         [dtTrigger] = "dtTrigger"
+         aria-label = "Tabla de usuarios"
+         class = "table table-striped"
+         datatable >
+    <thead >
+    <tr >
+      <th scope = "col" >Nombre
+      </th >
+      <th scope = "col" >Email</th >
+      <th scope = "col" >Teléfono</th >
+      <th scope = "col" >Estado</th >
+    </tr >
+    </thead >
+    <tbody >
+    <tr *ngFor = "let user of users"
+        class = "animate__animated animate__fadeIn" >
+      <td >{{user.name + ' ' + (!user.last_name ? '' : user.last_name)}}</td >
+      <td >{{user.email}}</td >
+      <td >{{user.phone_number}}</td >
+      <td>{{getStatus(!user.status ? 0 : user.status)}}</td>
+    </tr >
+    </tbody >
+  </table >
+</div >
