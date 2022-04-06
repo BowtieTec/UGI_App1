@@ -14,6 +14,7 @@ export class ParkingMenuComponent {
   listAntennas = environment.listAntennas
   listMonthlyParking = environment.listMonthlyParking
   listParkedParking = environment.listParkedParking
+  createMonthlyParking = environment.createMonthlyParking
   private actions: string[] = this.permissionService.actionsOfPermissions
 
   constructor(

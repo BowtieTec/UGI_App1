@@ -22,10 +22,12 @@
       <app-monthly-parking></app-monthly-parking>
     </ng-template>
   </ng-container>
-  <ng-container *ngIf="ifHaveAction(listMonthlyParking)" ngbNavItem>
-    <a ngbNavLink><em class="fas fa-calendar-check"></em> Crear parqueos mensuales</a>
+  <ng-container
+    *ngIf = 'ifHaveAction(createMonthlyParking)'
+    ngbNavItem>
+    <a ngbNavLink><em class = 'fas fa-calendar-check'></em> Crear parqueos mensuales</a>
     <ng-template ngbNavContent>
-      <app-create-monthly-parking *ngIf="ifHaveAction(listMonthlyParking)"></app-create-monthly-parking>
+      <app-create-monthly-parking *ngIf = 'ifHaveAction(listMonthlyParking)'></app-create-monthly-parking>
     </ng-template>
   </ng-container>
   <ng-container *ngIf="ifHaveAction(listAntennas)"
