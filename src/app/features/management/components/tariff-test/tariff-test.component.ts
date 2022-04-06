@@ -11,6 +11,7 @@ import { TicketTestModule } from './models/ticket-test.module'
 import { UtilitiesService } from 'src/app/shared/services/utilities.service'
 import { CourtesyService } from '../../../courtesy/services/courtesy.service'
 import { CourtesyModel } from '../../../courtesy/models/Courtesy.model'
+import { environment } from '../../../../../environments/environment'
 
 @Component({
   selector: 'app-tariff-test',
@@ -24,7 +25,7 @@ export class TariffTestComponent {
   ticket: TicketTestModule
   private courtesyId: string = ''
   private parkingId: string = this.authService.getParking().id
-
+  tariffTestPermission = environment.tariffTest
   constructor(
     private permissionService: PermissionsService,
     private formBuilder: FormBuilder,
