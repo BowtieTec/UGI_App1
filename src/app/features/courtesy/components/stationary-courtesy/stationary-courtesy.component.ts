@@ -107,7 +107,7 @@ export class StationaryCourtesyComponent implements AfterViewInit, OnDestroy {
       stationId: ['0', [Validators.required]],
       companyId: ['0', [Validators.required]],
       condition: ['', [Validators.required]],
-      cantHours: ['']
+      cantHours: ['0']
     })
   }
 get allAntennasFiltered(){
