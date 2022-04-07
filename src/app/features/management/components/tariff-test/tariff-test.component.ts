@@ -60,7 +60,7 @@ export class TariffTestComponent {
 
   get parkingSelected() {
     this.parkingId = this.tariffTestForm.get('parking')?.value
-    this.tariffTestForm.controls['courtesyId'].setValue('')
+    this.tariffTestForm.controls['courtesyId'].setValue('0')
     return this.tariffTestForm.get('parking')?.value
   }
 
@@ -78,18 +78,26 @@ export class TariffTestComponent {
     this.ticket = await this.testService
       .getTariffTest(newTest)
       .then((x) => x.ticket)
+    this.tariffTestForm.reset()
+    this.resetTestForm()
   }
 
   validateDateForm(control: string) {
     return this.utilitiesService.controlInvalid(this.tariffTestForm, control)
   }
 
+  private resetTestForm() {
+    this.tariffTestForm.controls['parking'].setValue(this.parkingId)
+    this.tariffTestForm.controls['date_in'].setValue('')
+    this.tariffTestForm.controls['date_out'].setValue('')
+    this.tariffTestForm.controls['courtesyId'].setValue('0')
+  }
   private createTariffTestForm() {
     return this.formBuilder.group({
       parking: [this.parkingId, [Validators.required]],
       date_in: ['', [Validators.required]],
       date_out: ['', [Validators.required]],
-      courtesyId: ['']
+      courtesyId: ['0']
     })
   }
 
@@ -113,6 +121,7 @@ export class TariffTestComponent {
       .then((data) => {
         if (data.success) {
           this.courtesies = data.data
+          console.log(data.data)
         } else {
           this.messageService.error('', data.message)
         }

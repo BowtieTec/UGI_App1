@@ -10,6 +10,8 @@
     </option>
     <option *ngFor = "let item of data" selected
             [value] = "item.id">{{item.name | titlecase}}</option>
+    <option *ngIf='unselect'
+      [value] = "null">Sin {{name}}</option>
   </select>
   <small *ngIf = "controlInvalid(controlName)"
          class = "text-danger animate__animated animate__fadeIn">* El valor no es valido</small>

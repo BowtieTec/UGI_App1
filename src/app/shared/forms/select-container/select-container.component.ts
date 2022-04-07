@@ -18,6 +18,7 @@ export class SelectContainerComponent {
   @Input() controlName!: string
   @Input() formGroup!: FormGroup
   @Input() data: any = []
+  @Input() unselect: boolean = false
 
   constructor(private utilitiesService: UtilitiesService) {}
 

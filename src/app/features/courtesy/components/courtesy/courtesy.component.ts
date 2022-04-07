@@ -153,8 +153,8 @@ export class CourtesyComponent implements AfterViewInit, OnDestroy {
   }
 
   getConditionDescription(courtesy: CourtesyModel) {
-    return courtesy.condition == 2 ?
-      'Si el total de horas es menor o igual a ' + courtesy.cantHours
+    return courtesy.condition == 2
+      ? 'Si el total de horas es menor o igual a ' + courtesy.cantHours
       : 'Siempre'
   }
 
