@@ -1,13 +1,8 @@
-import { Injectable } from '@angular/core'
-import { HolidayInputModel } from '../model/HolidayTariff.model'
-import {
-  All,
-  FixedCostInputModel,
-  HourHalfInputModel,
-  IEvent
-} from '../model/Tariff.model'
-import { BlockInputModel } from '../model/BlockTariff.model'
-import { RankInputModel } from '../model/RankTariff.model'
+import {Injectable} from '@angular/core'
+import {HolidayInputModel} from '../model/HolidayTariff.model'
+import {All, FixedCostInputModel, HourHalfInputModel, IEvent} from '../model/Tariff.model'
+import {BlockInputModel} from '../model/BlockTariff.model'
+import {RankInputModel} from '../model/RankTariff.model'
 
 @Injectable({
   providedIn: 'root'
@@ -97,62 +92,97 @@ export class BuildRulesService {
     ]
   }
 
-  public static getRanksOrScheduleIn(input: RankInputModel): All[] {
-    return [
-      {
-        fact: 'date_in_object',
-        path: 'hour',
-        operator: 'greaterThanInclusive',
-        value: input.fromTime.hours
-      },
-      {
-        fact: 'date_in_object',
-        path: 'hour',
-        operator: 'lessThanInclusive',
-        value: input.toTime.hours
-      },
-      {
-        fact: 'date_in_object',
-        path: 'minute',
-        operator: 'greaterThanInclusive',
-        value: input.fromTime.minutes
-      },
-      {
-        fact: 'date_in_object',
-        path: 'minute',
-        operator: 'lessThanInclusive',
-        value: input.toTime.minutes
-      }
-    ]
+  public static getRanksOrScheduleIn(input: RankInputModel, isHour: number = 0): All[] {
+    if (isHour == 0) {
+      return [
+        {
+          fact: 'date_in_object',
+          path: 'hour',
+          operator: 'greaterThanInclusive',
+          value: input.fromTime.hours
+        },
+        {
+          fact: 'date_in_object',
+          path: 'hour',
+          operator: 'lessThanInclusive',
+          value: input.toTime.hours
+        },
+        {
+          fact: 'date_in_object',
+          path: 'minute',
+          operator: 'greaterThanInclusive',
+          value: input.fromTime.minutes
+        },
+        {
+          fact: 'date_in_object',
+          path: 'minute',
+          operator: 'lessThanInclusive',
+          value: input.toTime.minutes
+        }
+      ]
+    } else {
+      return [
+        {
+          fact: 'date_in_object',
+          path: 'hour',
+          operator: 'greaterThanInclusive',
+          value: input.fromTime.hours
+        },
+        {
+          fact: 'date_in_object',
+          path: 'hour',
+          operator: 'lessThanInclusive',
+          value: input.toTime.hours
+        }
+      ]
+    }
+
   }
 
-  public static getRanksOrScheduleOut(input: RankInputModel): All[] {
-    return [
-      {
-        fact: 'date_out_object',
-        path: 'hour',
-        operator: 'greaterThanInclusive',
-        value: input.fromTime.hours
-      },
-      {
-        fact: 'date_out_object',
-        path: 'hour',
-        operator: 'lessThanInclusive',
-        value: input.toTime.hours
-      },
-      {
-        fact: 'date_out_object',
-        path: 'minute',
-        operator: 'greaterThanInclusive',
-        value: input.fromTime.minutes
-      },
-      {
-        fact: 'date_out_object',
-        path: 'minute',
-        operator: 'lessThanInclusive',
-        value: input.toTime.minutes
-      }
-    ]
+  public static getRanksOrScheduleOut(input: RankInputModel, isHour: number = 0): All[] {
+    if (isHour == 0) {
+      return [
+        {
+          fact: 'date_out_object',
+          path: 'hour',
+          operator: 'greaterThanInclusive',
+          value: input.fromTime.hours
+        },
+        {
+          fact: 'date_out_object',
+          path: 'hour',
+          operator: 'lessThanInclusive',
+          value: input.toTime.hours
+        },
+        {
+          fact: 'date_out_object',
+          path: 'minute',
+          operator: 'greaterThanInclusive',
+          value: input.fromTime.minutes
+        },
+        {
+          fact: 'date_out_object',
+          path: 'minute',
+          operator: 'lessThanInclusive',
+          value: input.toTime.minutes
+        }
+      ]
+    } else {
+      return [
+        {
+          fact: 'date_out_object',
+          path: 'hour',
+          operator: 'greaterThanInclusive',
+          value: input.fromTime.hours
+        },
+        {
+          fact: 'date_out_object',
+          path: 'hour',
+          operator: 'lessThanInclusive',
+          value: input.toTime.hours
+        }
+      ]
+    }
   }
 
   public static getDaysIn(days: number[]): All[] {
@@ -228,26 +258,35 @@ export class BuildRulesService {
     ]
   }
 
-  public static getHourOrHalfEvent(input: HourHalfInputModel): IEvent {
-    return {
-      type: 'Tarifa por hora y fraccion',
-      params: [
-        {
-          type: 'Fraccion',
-          params: {
-            value: input.costAHalf,
-            path: 1
+  public static getHourOrHalfEvent(input: HourHalfInputModel, isHour: number = 0): IEvent {
+    if (isHour == 0) {
+      return {
+        type: 'Tarifa por fracción',
+        params: [
+          {
+            type: 'Fracción',
+            params: {
+              value: input.costAHalf,
+              path: 1
+            }
           }
-        },
-        {
-          type: 'Hora',
-          params: {
-            value: input.costHour,
-            path: 'hour'
+        ]
+      }
+    } else {
+      return {
+        type: 'Tarifa por hora,',
+        params: [
+          {
+            type: 'Hora',
+            params: {
+              value: input.costHour,
+              path: 'hour'
+            }
           }
-        }
-      ]
+        ]
+      }
     }
+
   }
 
   public static getFixedPriceEvent(input: FixedCostInputModel): IEvent {

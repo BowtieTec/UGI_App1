@@ -1,27 +1,21 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
-import { FormBuilder, FormGroup } from '@angular/forms'
-import { UtilitiesService } from '../../../shared/services/utilities.service'
-import { MessageService } from '../../../shared/services/message.service'
-import { HolidayInputModel } from './model/HolidayTariff.model'
-import { RankInputModel } from './model/RankTariff.model'
-import { BlockInputModel } from './model/BlockTariff.model'
-import { DefaultInputModel } from './model/DefaultTariff.model'
-import { ParkingService } from '../../parking/services/parking.service'
-import { CurrencyPipe, DatePipe, Time } from '@angular/common'
-import { ValidationsService } from './service/validations.service'
-import { AuthService } from '../../../shared/services/auth.service'
-import { TariffFormsService } from './service/tariff-forms.service'
-import {
-  All,
-  FixedCostInputModel,
-  HourHalfInputModel,
-  IEvent,
-  Rules
-} from './model/Tariff.model'
-import { CreateTariffModel } from '../../parking/models/Tariff.model'
-import { BuildRulesService } from './service/build-rules.service'
-import { environment } from '../../../../environments/environment'
-import { PermissionsService } from '../../../shared/services/permissions.service'
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core'
+import {FormBuilder, FormGroup} from '@angular/forms'
+import {UtilitiesService} from '../../../shared/services/utilities.service'
+import {MessageService} from '../../../shared/services/message.service'
+import {HolidayInputModel} from './model/HolidayTariff.model'
+import {RankInputModel} from './model/RankTariff.model'
+import {BlockInputModel} from './model/BlockTariff.model'
+import {DefaultInputModel} from './model/DefaultTariff.model'
+import {ParkingService} from '../../parking/services/parking.service'
+import {CurrencyPipe, DatePipe, Time} from '@angular/common'
+import {ValidationsService} from './service/validations.service'
+import {AuthService} from '../../../shared/services/auth.service'
+import {TariffFormsService} from './service/tariff-forms.service'
+import {All, FixedCostInputModel, HourHalfInputModel, IEvent, Rules} from './model/Tariff.model'
+import {CreateTariffModel} from '../../parking/models/Tariff.model'
+import {BuildRulesService} from './service/build-rules.service'
+import {environment} from '../../../../environments/environment'
+import {PermissionsService} from '../../../shared/services/permissions.service'
 
 @Component({
   selector: 'app-tariff',
@@ -61,11 +55,12 @@ export class TariffComponent implements OnInit {
     private tariffForms: TariffFormsService,
     private buildRuleService: BuildRulesService,
     private permissionService: PermissionsService
-  ) {}
+  ) {
+  }
 
   get daysFormValues() {
     const days: number[] = []
-    const { mon, tue, wen, thu, fri, sat, sun } = this.justDaysValue
+    const {mon, tue, wen, thu, fri, sat, sun} = this.justDaysValue
 
     mon == true ? days.push(1) : false
     tue == true ? days.push(2) : false
@@ -98,7 +93,7 @@ export class TariffComponent implements OnInit {
 
   get daysValuesDescription() {
     const days: string[] = []
-    const { mon, tue, wen, thu, fri, sat, sun } = this.justDaysValue
+    const {mon, tue, wen, thu, fri, sat, sun} = this.justDaysValue
 
     mon == true ? days.push('Lunes') : false
     tue == true ? days.push('Martes') : false
@@ -318,6 +313,7 @@ export class TariffComponent implements OnInit {
       this.getTariffs()
     }
   }
+
   cleanForms() {
     this.generalDataForm.reset()
     this.generalDataForm.controls['isShowDescription'].setValue(true)
@@ -330,6 +326,7 @@ export class TariffComponent implements OnInit {
     this.fixedCostForm.reset()
     this.costType = 1
   }
+
   saveRule() {
     const isValid = this.validateForms()
     if (!isValid) return
@@ -467,9 +464,8 @@ export class TariffComponent implements OnInit {
     })
   }
 
-  private buildTariffJsonRules() {
-    let newRule: CreateTariffModel
-    const rules: Rules[] = [
+  get FractionOrFixedRules() {
+    return [
       {
         conditions: {
           all: this.getConditions()
@@ -479,7 +475,32 @@ export class TariffComponent implements OnInit {
         }
       }
     ]
-    newRule = { ...this.generalDataFormValues, parking: this.parkingId, rules }
+  }
+
+  get HourRules() {
+    if (this.costType == 1) {
+      return [
+        {
+          conditions: {
+            all: this.getHourConditions()
+          },
+          event: {
+            ...this.getHourEvent()
+          }
+        }
+      ]
+    }
+    return []
+
+  }
+
+  private buildTariffJsonRules() {
+    let newRule: CreateTariffModel
+    const rules: Rules[] = [
+      ...this.FractionOrFixedRules,
+      ...this.HourRules
+    ]
+    newRule = {...this.generalDataFormValues, parking: this.parkingId, rules}
     newRule.static_description = this.getStaticDescription()
     return newRule
   }
@@ -492,14 +513,22 @@ export class TariffComponent implements OnInit {
     ]
   }
 
-  private getRangesOfTime(): All[] {
+  private getHourConditions(): All[] {
+    return [
+      ...this.getRangesOfTime(1),
+      ...this.getGlobalSchedule(),
+      ...this.getDays()
+    ]
+  }
+
+  private getRangesOfTime(isHour: number = 0): All[] {
     if (this.prioriceTime == 1) {
       //Prioritizing input
       switch (this.timeRange) {
         case 1:
           return BuildRulesService.getHolidayIn(this.holidayFormValues)
         case 2:
-          return BuildRulesService.getRanksOrScheduleIn(this.rankFormValues)
+          return BuildRulesService.getRanksOrScheduleIn(this.rankFormValues, isHour)
       }
     }
     if (this.prioriceTime == 2) {
@@ -508,7 +537,7 @@ export class TariffComponent implements OnInit {
         case 1:
           return BuildRulesService.getHolidayOut(this.holidayFormValues)
         case 2:
-          return BuildRulesService.getRanksOrScheduleOut(this.rankFormValues)
+          return BuildRulesService.getRanksOrScheduleOut(this.rankFormValues, isHour)
       }
     }
     if (this.timeRange == 3) {
@@ -537,6 +566,10 @@ export class TariffComponent implements OnInit {
     return this.costType == 1
       ? BuildRulesService.getHourOrHalfEvent(this.hourHalfFormValues)
       : BuildRulesService.getFixedPriceEvent(this.fixedCostFormValue)
+  }
+
+  private getHourEvent(): IEvent {
+    return BuildRulesService.getHourOrHalfEvent(this.hourHalfFormValues, 1)
   }
 
   private getStaticDescription() {
