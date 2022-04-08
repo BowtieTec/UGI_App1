@@ -484,6 +484,24 @@ label.labelInputFile {
   outline: 0px
 }
 
+.selectClass {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border: none;
+  border-bottom: 1px solid #c6c6c6;
+  border-radius: 0;
+  padding-bottom: 0;
+  font-size: 12px;
+  width: 100%;
+  padding: 15px 15px 3px 10px;
+  color: #707981;
+}
+
+.selectClass:focus-visible {
+  outline: 0px
+}
+
 .tContent {
   background: #f9f9f9;
   width: 50%;
