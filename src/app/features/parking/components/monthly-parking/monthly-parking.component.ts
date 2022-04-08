@@ -112,6 +112,7 @@ export class MonthlyParkingComponent implements AfterViewInit, OnDestroy {
       .then((data) => {
         if (data.success) {
           this.subscriptions = data.data.subscriptions
+          this.rerender()
         } else {
           this.message.error('', data.message)
         }
@@ -127,14 +128,18 @@ export class MonthlyParkingComponent implements AfterViewInit, OnDestroy {
   }
 
   disableSubscription(idSubscription: string) {
-    this.message.areYouSure('¿Esta seguro que desea congelar eta suscripción?').then(x => {
-      if(x.isConfirmed){
-        this.message.showLoading()
-        this.parkingService.disableSubscription(idSubscription).then((data) => {
-          this.resolveResponse(data)
-        })
-      }
-    })
+    this.message
+      .areYouSure('¿Esta seguro que desea congelar eta suscripción?')
+      .then((x) => {
+        if (x.isConfirmed) {
+          this.message.showLoading()
+          this.parkingService
+            .disableSubscription(idSubscription)
+            .then((data) => {
+              this.resolveResponse(data)
+            })
+        }
+      })
   }
 
   cancelSubscription(idSubscription: string) {
@@ -144,21 +149,24 @@ export class MonthlyParkingComponent implements AfterViewInit, OnDestroy {
   }
 
   deleteSubscription(idSubscription: string) {
-    this.message.areYouSure('¿Esta seguro que desea eliminar esta suscripción?').then(x => {
-      if(x.isConfirmed){
-        this.message.showLoading()
-        this.parkingService.deleteSubscription(idSubscription).then((data) => {
-          this.resolveResponse(data)
-          this.message.OkTimeOut()
-        })
-      }
-    })
+    this.message
+      .areYouSure('¿Esta seguro que desea eliminar esta suscripción?')
+      .then((x) => {
+        if (x.isConfirmed) {
+          this.message.showLoading()
+          this.parkingService
+            .deleteSubscription(idSubscription)
+            .then((data) => {
+              this.resolveResponse(data)
+              this.message.OkTimeOut()
+            })
+        }
+      })
   }
 
   resolveResponse(data: ResponseModel) {
     if (data.success) {
-      this.getMonthlySubscription()
-        .then(() => this.getProfiles())
+      this.getMonthlySubscription().then(() => this.getProfiles())
     } else {
       this.message.error('', data.message)
     }
