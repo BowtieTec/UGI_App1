@@ -38,6 +38,7 @@
     "jspdf": "^2.5.0",
     "jspdf-autotable": "^3.5.23",
     "ng-apexcharts": "^1.5.12",
+    "ngx-toastr": "^14.2.3",
     "rxjs": "~6.6.0",
     "sweetalert2": "^11.1.8",
     "tslib": "^2.3.0",
