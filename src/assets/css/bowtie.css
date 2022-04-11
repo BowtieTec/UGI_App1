@@ -756,6 +756,20 @@ nav > .nav-link.active {
   background-color: #04ccae;
   transition: width .6s ease;
 }
+.btn-check:active+.btn-outline-primary, .btn-check:checked+.btn-outline-primary, .btn-outline-primary.active, .btn-outline-primary.dropdown-toggle.show, .btn-outline-primary:active {
+  color: #fff;
+  background-color: #415ba2!important;
+  border-color: #415ba2!important;
+}
+.btn-outline-primary {
+  color: #415ba2 ;
+  border-color: #415ba2!important;
+}
+.btn-outline-primary:hover {
+  color: #fff;
+  background-color: #415ba2 ;
+  border-color: #415ba2;
+}
 
 /* @media (max-width: 480px) {
   body {
