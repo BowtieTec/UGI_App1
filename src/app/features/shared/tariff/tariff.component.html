@@ -6,13 +6,13 @@
     <div class = "row justify-content-center">
       <ng-container [formGroup] = "prioriceForm"
                     class = "radio-inline">
-        <div class = "col-xl-4 col-lg-4 col-sm-6">
+        <div class = "col-xl-3 col-lg-4 col-sm-6 text-center">
           <app-radio-container [formGroup] = "prioriceForm"
                                [value] = "1"
                                controlName = "prioriceCost"
                                desc = "Solo tarifa de entrada"></app-radio-container>
         </div>
-        <div class = "col-xl-4 col-lg-4 col-sm-6">
+        <div class = "col-xl-3 col-lg-4 col-sm-6 text-center">
           <app-radio-container [formGroup] = "prioriceForm"
                                [value] = "2"
                                controlName = "prioriceCost"
@@ -80,7 +80,7 @@
                  id = "hourFraction"
                  name = "costType"
                  type = "radio">
-          <label class = "btn btn-outline-success m-1 "
+          <label class = "btn btn-outline-primary m-1 "
                  for = "hourFraction">Hora / Fracción</label>
           <input (click) = "this.costType=2"
                  autocomplete = "off"
@@ -88,7 +88,7 @@
                  id = "fixedTariff"
                  name = "costType"
                  type = "radio">
-          <label class = "btn btn-outline-success m-1"
+          <label class = "btn btn-outline-primary m-1"
                  for = "fixedTariff">Tarifa fija</label>
         </div>
         <div class = "row mt-4">
