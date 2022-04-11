@@ -15,15 +15,13 @@ import { PermissionsService } from '../../../../shared/services/permissions.serv
   templateUrl: './parked.component.html',
   styleUrls: ['./parked.component.css']
 })
-export class ParkedComponent implements OnDestroy, AfterViewInit, OnInit {
+  export class ParkedComponent implements OnDestroy, AfterViewInit {
   parkedForm: FormGroup = this.createForm()
   parkingData: ParkingModel[] = []
   parkedData: Array<ParkedModel> = []
   statusParked = StatusParked
 
-  @ViewChild(DataTableDirective)
-  dtElement!: DataTableDirective
-  dtOptions: DataTables.Settings = {}
+  @ViewChild(DataTableDirective) dtElement!: DataTableDirective
   dtTrigger: Subject<any> = new Subject()
   formGroup: FormGroup = this.formBuilder.group({ filter: [''] })
 
@@ -45,6 +43,10 @@ export class ParkedComponent implements OnDestroy, AfterViewInit, OnInit {
     return this.authService.isSudo
   }
 
+  get dtOptions() {
+    return DataTableOptions.getSpanishOptions(10)
+  }
+
   async getInitialData() {
     this.messageService.showLoading()
     await this.getAllParking()
@@ -53,7 +55,18 @@ export class ParkedComponent implements OnDestroy, AfterViewInit, OnInit {
         .get('parkingId')
         ?.setValue(this.authService.getParking().id)
     }
+    await this.getParkinData().then(() => this.rerender())
+
+  this.messageService.hideLoading()
     // await this.getParked().then(() => this.messageService.hideLoading());
+  }
+
+  private async getParkinData() {
+    return this.parkingService
+      .getParked(
+        this.getParkedFormValues(),
+      )
+      .toPromise().then((data)=> this.parkedData = data.data)
   }
 
   createForm(): FormGroup {
@@ -63,34 +76,6 @@ export class ParkedComponent implements OnDestroy, AfterViewInit, OnInit {
       textToSearch: ['']
     })
   }
-
-  getParkedServerSideOptions() {
-    return {
-      language: DataTableOptions.language,
-      serverSide: true,
-      processing: true,
-      pageLength: 10,
-      ajax: (dataTablesParameters: any, callback: any) => {
-        this.messageService.showLoading()
-        this.parkingService
-          .getParked(
-            this.getParkedFormValues(),
-            dataTablesParameters.draw,
-            dataTablesParameters.length
-          )
-          .subscribe((resp) => {
-            this.parkedData = resp.data
-            callback({
-              recordsTotal: resp.data.recordsTotal,
-              recordsFiltered: resp.data.recordsFiltered,
-              data: []
-            })
-            this.messageService.hideLoading()
-          })
-      }
-    }
-  }
-
   async getAllParking() {
     if (!this.authService.isSudo) {
       return
@@ -194,49 +179,6 @@ export class ParkedComponent implements OnDestroy, AfterViewInit, OnInit {
         this.dtTrigger.next()
       })
     }
-  }
-
-  ngOnInit(): void {
-    const that = this
-    this.dtOptions = {
-      destroy: true,
-      responsive: true,
-      language: DataTableOptions.language,
-      pagingType: 'full_numbers',
-      serverSide: true,
-      processing: true,
-      pageLength: 10,
-      ajax: (dataTablesParameters: any, callback: any) => {
-        this.messageService.showLoading()
-        that.parkingService
-          .getParked(
-            this.getParkedFormValues(),
-            dataTablesParameters.draw,
-            dataTablesParameters.length
-          )
-          .subscribe((resp) => {
-            that.parkedData = resp.data
-            callback({
-              recordsTotal: resp.recordsTotal,
-              recordsFiltered: resp.recordsFiltered,
-              data: []
-            })
-            this.messageService.hideLoading()
-          })
-      },
-      columns: [
-        { data: 'phone_number', orderable: true },
-        { data: 'entry_date' },
-        { data: 'status' },
-        { data: 'type' },
-        {
-          data: 'parking',
-          visible: this.isSudo
-        },
-        { data: 'none' }
-      ]
-    }
-    this.messageService.hideLoading()
   }
 
   getTimeInParking(entry_date: any) {
