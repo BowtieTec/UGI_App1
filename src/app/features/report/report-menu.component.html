@@ -1,57 +1,57 @@
-<nav #nav="ngbNav"
-     class="nav-tabs "
+<nav #nav = "ngbNav"
+     class = "nav-tabs "
      ngbNav>
-  <ng-container *ngIf="ifHaveAction(verDailyParkingReportTicket)"
+  <ng-container *ngIf = "ifHaveAction(verDailyParkingReportTicket)"
                 ngbNavItem>
-    <a ngbNavLink><em class="fas fa-parking"></em> EbiGO Ticket</a>
+    <a ngbNavLink><em class = "fas fa-parking"></em> EbiGO Ticket General</a>
     <ng-template ngbNavContent>
       <app-parking-ticket-report></app-parking-ticket-report>
     </ng-template>
   </ng-container>
-  <ng-container *ngIf="ifHaveAction(verDailyParkingReport)"
+  <ng-container *ngIf = "ifHaveAction(verDailyParkingReport)"
                 ngbNavItem>
-    <a ngbNavLink><em class="fas fa-parking"></em> EbiGO Mensual</a>
+    <a ngbNavLink><em class = "fas fa-parking"></em> EbiGO Mensual General</a>
     <ng-template ngbNavContent>
       <app-parking-day-report></app-parking-day-report>
     </ng-template>
   </ng-container>
 
-  <ng-container *ngIf="ifHaveAction(verCourtesiesReport)"
+  <ng-container *ngIf = "ifHaveAction(verCourtesiesReport)"
                 ngbNavItem>
-    <a ngbNavLink><em class="fas fa-magic"></em> Cortesias</a>
+    <a ngbNavLink><em class = "fas fa-magic"></em> Cortesias</a>
     <ng-template ngbNavContent>
       <app-courtesy-report></app-courtesy-report>
     </ng-template>
   </ng-container>
-  <ng-container *ngIf="ifHaveAction(verCourtesiesStationReport)"
+  <ng-container *ngIf = "ifHaveAction(verCourtesiesStationReport)"
                 ngbNavItem>
-    <a ngbNavLink><em class="fas fa-magic"></em> C. estacionarias</a>
+    <a ngbNavLink><em class = "fas fa-magic"></em> C. estacionarias</a>
     <ng-template ngbNavContent>
       <app-courtesy-station-report></app-courtesy-station-report>
     </ng-template>
   </ng-container>
-  <ng-container *ngIf="ifHaveAction(verDurationReport)"
+  <ng-container *ngIf = "ifHaveAction(verDurationReport)"
                 ngbNavItem>
-    <a ngbNavLink><em class="fas fa-magic"></em> Duración</a>
+    <a ngbNavLink><em class = "fas fa-magic"></em> Duración</a>
     <ng-template ngbNavContent>
       <app-duration-report></app-duration-report>
     </ng-template>
   </ng-container>
-  <ng-container *ngIf="ifHaveAction(verMenuPayment)"
+  <ng-container *ngIf = "ifHaveAction(verMenuPayment)"
                 ngbNavItem>
-    <a ngbNavLink><em class="fas fa-parking"></em> Pagos Ticket</a>
+    <a ngbNavLink><em class = "fas fa-parking"></em> Detalle de Pagos Ticket</a>
     <ng-template ngbNavContent>
       <app-payment-report></app-payment-report>
     </ng-template>
   </ng-container>
-  <ng-container *ngIf="ifHaveAction(verMonthlyParkingReport)"
+  <ng-container *ngIf = "ifHaveAction(verMonthlyParkingReport)"
                 ngbNavItem>
-    <a ngbNavLink><em class="fas fa-parking"></em> Pagos mensuales</a>
+    <a ngbNavLink><em class = "fas fa-parking"></em> Detalle de Pagos mensuales</a>
     <ng-template ngbNavContent>
       <app-parking-montly-report></app-parking-montly-report>
     </ng-template>
   </ng-container>
 
 </nav>
-<div [ngbNavOutlet]="nav"
-     class="mt-2"></div>
+<div [ngbNavOutlet] = "nav"
+     class = "mt-2"></div>
