@@ -1,21 +1,22 @@
-import { AfterViewInit, Component, OnDestroy, ViewChild } from '@angular/core'
-import { CourtesyService } from '../../services/courtesy.service'
-import { MessageService } from '../../../../shared/services/message.service'
-import { CourtesyModel, CourtesyTypeModel } from '../../models/Courtesy.model'
-import { FormBuilder, FormGroup, Validators } from '@angular/forms'
-import { UtilitiesService } from '../../../../shared/services/utilities.service'
-import { AuthService } from '../../../../shared/services/auth.service'
-import { DataTableDirective } from 'angular-datatables'
-import { Subject } from 'rxjs'
-import { DataTableOptions } from '../../../../shared/model/DataTableOptions'
-import { saveAs } from 'file-saver'
-import { PermissionsService } from '../../../../shared/services/permissions.service'
-import { environment } from '../../../../../environments/environment'
-import { ParkingService } from '../../../parking/services/parking.service'
-import { ParkingModel } from '../../../parking/models/Parking.model'
-import { CompaniesModel } from '../../../management/components/users/models/companies.model'
-import { CompaniesService } from '../../../management/components/users/services/companies.service'
-import { SelectModel } from '../../../../shared/model/CommonModels'
+import {AfterViewInit, Component, OnDestroy, ViewChild} from '@angular/core'
+import {CourtesyService} from '../../services/courtesy.service'
+import {MessageService} from '../../../../shared/services/message.service'
+import {CourtesyModel, CourtesyTypeModel} from '../../models/Courtesy.model'
+import {FormBuilder, FormGroup, Validators} from '@angular/forms'
+import {UtilitiesService} from '../../../../shared/services/utilities.service'
+import {AuthService} from '../../../../shared/services/auth.service'
+import {DataTableDirective} from 'angular-datatables'
+import {Subject} from 'rxjs'
+import {DataTableOptions} from '../../../../shared/model/DataTableOptions'
+import {saveAs} from 'file-saver'
+import {PermissionsService} from '../../../../shared/services/permissions.service'
+import {environment} from '../../../../../environments/environment'
+import {ParkingService} from '../../../parking/services/parking.service'
+import {ParkingModel} from '../../../parking/models/Parking.model'
+import {CompaniesModel} from '../../../management/components/users/models/companies.model'
+import {CompaniesService} from '../../../management/components/users/services/companies.service'
+import {SelectModel} from '../../../../shared/model/CommonModels'
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-courtesy',
@@ -31,6 +32,7 @@ export class CourtesyComponent implements AfterViewInit, OnDestroy {
   allCompanies: CompaniesModel[] = []
   discountOnWhatList: SelectModel[] = this.courtesyService.DiscountOnWhatOptions
   typeOfCondition: SelectModel[] = this.courtesyService.TypeOfConditions
+  cantCourtesiesCreating = 0
   /*Table*/
   @ViewChild(DataTableDirective)
   dtElement!: DataTableDirective
@@ -50,10 +52,11 @@ export class CourtesyComponent implements AfterViewInit, OnDestroy {
     private authService: AuthService,
     private permissionService: PermissionsService,
     private parkingService: ParkingService,
-    private companyService: CompaniesService
+    private companyService: CompaniesService,
+    private toast: ToastrService
   ) {
     this.messageService.showLoading()
-    this.formGroup = formBuilder.group({ filter: [''] })
+    this.formGroup = formBuilder.group({filter: ['']})
     this.newCourtesyForm = this.createForm()
     this.getInitialData().then(() => {
       this.messageService.hideLoading()
@@ -153,8 +156,8 @@ export class CourtesyComponent implements AfterViewInit, OnDestroy {
   }
 
   getConditionDescription(courtesy: CourtesyModel) {
-    return courtesy.condition == 2 ?
-      'Si el total de horas es menor o igual a ' + courtesy.cantHours
+    return courtesy.condition == 2
+      ? 'Si el total de horas es menor o igual a ' + courtesy.cantHours
       : 'Siempre'
   }
 
@@ -164,14 +167,16 @@ export class CourtesyComponent implements AfterViewInit, OnDestroy {
 
   saveCourtesy() {
     if (this.newCourtesyForm.valid) {
-      this.messageService.showLoading()
+      this.cantCourtesiesCreating++
+      this.messageService.info('Recibirá una pequeña notificación cuando la cortesía haya terminado de crearse. Tomar en cuenta que entre mayor sea el numero, mas tiempo se necesita para crearse.', 'Creando cortesías')
       const newCourtesy: CourtesyModel = this.getCourtesy()
       this.courtesyService.saveCourtesy(newCourtesy).subscribe((data) => {
         if (data.success) {
-          this.messageService.OkTimeOut()
+          this.toast.success('Cortesía creada satisfactoriamente', 'Cortesía creada')
         } else {
-          this.messageService.error('', data.message)
+          this.messageService.error('No pudo crearse la cortesía', data.message)
         }
+        this.cantCourtesiesCreating--
         this.getCourtesies().then(() => {
           this.messageService.hideLoading()
         })
@@ -190,6 +195,7 @@ export class CourtesyComponent implements AfterViewInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.dtTrigger.unsubscribe()
+    this.cantCourtesiesCreating = 0
   }
 
   downloadPDF(courtesies: CourtesyModel) {
@@ -206,7 +212,7 @@ export class CourtesyComponent implements AfterViewInit, OnDestroy {
       name: ['', [Validators.required]],
       type: ['0', [Validators.required]],
       value: ['', [Validators.required, Validators.min(1)]],
-      quantity: ['', [Validators.required, Validators.min(1)]],
+      quantity: ['', [Validators.required, Validators.min(1), Validators.max(150)]],
       parkingId: [this.authService.getParking().id],
       companyId: ['0', [Validators.required]],
       condition: ['0', [Validators.required]],

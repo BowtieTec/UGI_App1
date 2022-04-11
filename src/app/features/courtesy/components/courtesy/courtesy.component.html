@@ -14,6 +14,18 @@
           <span><em class = 'fas fa-sitemap'></em></span> Cortesías
         </div>
         <div *ngIf = 'ifHaveAction(createCourtesy)'>
+          <div *ngIf = "cantCourtesiesCreating>0"
+               class = "progress mb-3"
+               style = "height: 12px">
+            <div aria-valuemax = "100"
+                 aria-valuemin = "0"
+                 aria-valuenow = "100"
+                 class = "progress-bar progress-bar-striped progress-bar-animated"
+                 role = "progressbar"
+                 style = "width: 100%">
+              Creando {{cantCourtesiesCreating}} {{cantCourtesiesCreating == 1 ? 'Cortesía' : 'Cortesías'}}
+            </div>
+          </div>
           <div class = 'row justify-content-center'>
             <div class = 'col-xl-4 col-lg-4 col-sm-12'>
               <app-input-container
@@ -68,23 +80,23 @@
               </app-input-container>
             </div>
             <div class = 'col-xl-4 col-lg-4 col-sm-12'>
-             <app-select-container
-               [data] = 'allCompanies'
-               [formGroup] = 'newCourtesyForm'
-               controlName = 'companyId'
-               name = 'Local'>
+              <app-select-container
+                [data] = 'allCompanies'
+                [formGroup] = 'newCourtesyForm'
+                controlName = 'companyId'
+                name = 'Local'>
               </app-select-container>
             </div>
           </div>
           <div class = 'row justify-content-center'>
             <div class = 'col-xl-4 col-lg-4 col-sm-12'>
-                <app-select-container
-                  (change) = 'getCourtesies(this.parkingSelected)'
-                  *ngIf = 'isSudo'
-                  [data] = 'allParking'
-                  [formGroup] = 'newCourtesyForm'
-                  controlName = 'parkingId'
-                  name = 'Parqueos'>
+              <app-select-container
+                (change) = 'getCourtesies(this.parkingSelected)'
+                *ngIf = 'isSudo'
+                [data] = 'allParking'
+                [formGroup] = 'newCourtesyForm'
+                controlName = 'parkingId'
+                name = 'Parqueos'>
               </app-select-container>
             </div>
           </div>
@@ -95,6 +107,7 @@
                   (click) = 'saveCourtesy()'
                   class = 'btn btn-primary'>Guardar
                 </button>
+
               </div>
             </div>
           </div>

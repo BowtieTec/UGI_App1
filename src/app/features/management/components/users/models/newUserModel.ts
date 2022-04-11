@@ -4,7 +4,7 @@ export class NewUserModel {
   last_name = ''
   user = ''
   email = ''
-  phone_number?: number
+  phone_number?: string = ''
   password?: string = ''
   role = ''
   parking: string = ''

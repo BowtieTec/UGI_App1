@@ -1,5 +1,6 @@
-import { Injectable } from '@angular/core'
+import {Injectable} from '@angular/core'
 import Swal from 'sweetalert2'
+
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +17,7 @@ export class MessageService {
   hideLoading() {
     this.loading = false
   }
+
 
   uncontrolledError(text = 'Error no controlado') {
     this.hideLoading()
@@ -138,4 +140,5 @@ export class MessageService {
       denyButtonText
     }).then((result) => result)
   }
+
 }

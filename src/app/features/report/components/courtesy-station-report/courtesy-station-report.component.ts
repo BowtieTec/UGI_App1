@@ -130,6 +130,10 @@ export class CourtesyStationReportComponent implements OnInit {
   }
 
   exportGrid() {
+    if (this.report.length == 0) {
+      this.messageService.infoTimeOut('No hay información para exportar')
+      return
+    }
     const doc = new jsPDF()
     exportDataGridToPdf({
       jsPDFDocument: doc,
@@ -140,6 +144,10 @@ export class CourtesyStationReportComponent implements OnInit {
   }
 
   onExporting(e: any) {
+    if (this.report.length == 0) {
+      this.messageService.infoTimeOut('No hay información para exportar')
+      return
+    }
     /* const context = this;
     const workbook = new Workbook();
     const worksheet = workbook.addWorksheet('General');

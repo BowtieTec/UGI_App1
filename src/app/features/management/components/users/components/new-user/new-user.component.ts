@@ -1,4 +1,10 @@
-import { AfterContentInit, AfterViewInit, Component, Input, OnInit } from '@angular/core'
+import {
+  AfterContentInit,
+  AfterViewInit,
+  Component,
+  Input,
+  OnInit
+} from '@angular/core'
 import { UserService } from '../../services/user.service'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { UtilitiesService } from '../../../../../../shared/services/utilities.service'
@@ -84,13 +90,17 @@ export class NewUserComponent implements OnInit {
       role: this.newUserForm.controls['role'].value,
       user: this.newUserForm.controls['user'].value,
       id: this.newUserForm.controls['id'].value,
-      parking: this.newUserForm.controls['parking'].value?
-        this.newUserForm.controls['parking'].value:
-        this.parkingId
+      parking: this.newUserForm.controls['parking'].value
+        ? this.newUserForm.controls['parking'].value
+        : this.parkingId
     }
   }
 
   saveNewUser() {
+    if (this.newUserForm.invalid) {
+      this.messageServices.error('', 'Datos no válidos o faltantes')
+      return
+    }
     let newUserValue: NewUserModel = this.getNewUserDataForm()
     if (!newUserValue) {
       this.utilitiesService.markAsTouched(this.newUserForm)
@@ -141,10 +151,11 @@ export class NewUserComponent implements OnInit {
           }
           this.cleanForm()
           this.isEdit = false
-        }).catch(x => {
-        console.log(x)
-        throw new Error(x.error.message)
-      })
+        })
+        .catch((x) => {
+          console.log(x)
+          throw new Error(x.error.message)
+        })
         .then(() => {
           this.cleanForm()
           this.subject.next(new NewUserModel())
@@ -166,10 +177,13 @@ export class NewUserComponent implements OnInit {
       id: [''],
       name: ['', [Validators.required]],
       last_name: ['', [Validators.required]],
-      email: ['', [
+      email: [
+        '',
+        [
           Validators.required,
           Validators.pattern(this.utilitiesService.getPatterEmail)
-        ]],
+        ]
+      ],
       user: ['', [Validators.required]],
       password: ['', [Validators.required]],
       role: ['0', [Validators.required]],

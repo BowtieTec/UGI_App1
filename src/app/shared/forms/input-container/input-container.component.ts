@@ -1,10 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core'
-import {
-  ControlContainer,
-  FormGroup,
-  FormGroupDirective,
-  Validators
-} from '@angular/forms'
+import { ControlContainer, FormGroup, FormGroupDirective, Validators } from '@angular/forms'
 import { UtilitiesService } from '../../services/utilities.service'
 
 @Component({
@@ -38,7 +33,8 @@ export class InputContainerComponent implements OnInit {
     if (this.type == 'text') {
       this.formGroup.controls[this.controlName].addValidators([
         Validators.minLength(1),
-        Validators.maxLength(30)
+        Validators.maxLength(30),
+        Validators.pattern(/^[^$%&|*'\\";:>#]*$/)
       ])
     } else if (this.type == 'number') {
       this.formGroup.controls[this.controlName].addValidators([

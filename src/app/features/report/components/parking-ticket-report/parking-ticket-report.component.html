@@ -108,10 +108,10 @@
               ></dx-button>
             </dxi-item>
             <dxi-item location="after">
-              <dx-button *ngIf='this.report.length > 0'
-                icon="xlsxfile"
-                text="Exportar a Excel"
-                (onClick)="onExporting($event)"
+              <dx-button
+                icon = 'xlsxfile'
+                text = 'Exportar a Excel'
+                (onClick) = 'onExporting($event)'
               ></dx-button>
             </dxi-item>
             <dxi-item name="searchPanel"></dxi-item>
