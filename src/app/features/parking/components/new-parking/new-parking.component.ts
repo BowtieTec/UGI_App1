@@ -1,9 +1,9 @@
-import { Component } from '@angular/core'
-import { FormBuilder, FormGroup } from '@angular/forms'
-import { MessageService } from '../../../../shared/services/message.service'
-import { ParkingService } from '../../services/parking.service'
-import { SettingsOptionsModel } from '../../models/SettingsOption.model'
-import { UtilitiesService } from '../../../../shared/services/utilities.service'
+import {Component} from '@angular/core'
+import {FormBuilder, FormGroup} from '@angular/forms'
+import {MessageService} from '../../../../shared/services/message.service'
+import {ParkingService} from '../../services/parking.service'
+import {SettingsOptionsModel} from '../../models/SettingsOption.model'
+import {UtilitiesService} from '../../../../shared/services/utilities.service'
 
 @Component({
   selector: 'app-new-parking',
@@ -57,7 +57,7 @@ export class NewParkingComponent {
 
   saveParking() {
     this.message.showLoading()
-
+    this.parkingService.clearObjects()
     this.message.OkTimeOut('Parqueo guardado')
   }
 

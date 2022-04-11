@@ -1,8 +1,8 @@
-import { Injectable } from '@angular/core'
-import { environment } from '../../../../environments/environment'
-import { HttpClient } from '@angular/common/http'
-import { MessageService } from '../../../shared/services/message.service'
-import { ResponseModel } from '../../../shared/model/Request.model'
+import {Injectable} from '@angular/core'
+import {environment} from '../../../../environments/environment'
+import {HttpClient} from '@angular/common/http'
+import {MessageService} from '../../../shared/services/message.service'
+import {ResponseModel} from '../../../shared/model/Request.model'
 import {
   AccessModel,
   CreateParkingFileModel,
@@ -11,25 +11,16 @@ import {
   CreateParkingStepOneModel,
   CreateParkingStepTwoModel
 } from '../models/CreateParking.model'
-import { Router } from '@angular/router'
-import { map } from 'rxjs/operators'
-import {
-  CurrencyOptionModel,
-  Day,
-  PaymentMethodModel,
-  SettingsOptionsModel
-} from '../models/SettingsOption.model'
-import { Observable, Subscribable } from 'rxjs'
-import { CountriesModel } from '../models/Countries.model'
-import { FormBuilder } from '@angular/forms'
-import { CreateTariffModel } from '../models/Tariff.model'
-import { CreateProfilesModel } from '../models/MontlyParking.model'
-import {
-  CreateStation,
-  CreateStationaryCourtesy,
-  StationsCourtesyModel
-} from '../models/StationaryCourtesy.model'
-import { ParkedModel } from '../models/Parking.model'
+import {Router} from '@angular/router'
+import {map} from 'rxjs/operators'
+import {CurrencyOptionModel, Day, PaymentMethodModel, SettingsOptionsModel} from '../models/SettingsOption.model'
+import {Observable, Subscribable} from 'rxjs'
+import {CountriesModel} from '../models/Countries.model'
+import {FormBuilder} from '@angular/forms'
+import {CreateTariffModel} from '../models/Tariff.model'
+import {CreateProfilesModel} from '../models/MontlyParking.model'
+import {CreateStation, CreateStationaryCourtesy, StationsCourtesyModel} from '../models/StationaryCourtesy.model'
+import {ParkedModel} from '../models/Parking.model'
 
 @Injectable({
   providedIn: 'root'
@@ -75,7 +66,7 @@ export class ParkingService {
       .pipe(
         map((data) => {
           if (!data.success) throw data.message
-          return { ...data.data }
+          return {...data.data}
         })
       )
   }
@@ -89,10 +80,10 @@ export class ParkingService {
 
   getAccesses(): Array<AccessModel> {
     return [
-      { id: 0, name: 'Entrada' },
-      { id: 1, name: 'Salida' },
-      { id: 2, name: 'Entrada restringida' },
-      { id: 3, name: 'Salida restringida' }
+      {id: 0, name: 'Entrada'},
+      {id: 1, name: 'Salida'},
+      {id: 2, name: 'Entrada restringida'},
+      {id: 3, name: 'Salida restringida'}
     ]
   }
 
@@ -201,7 +192,7 @@ export class ParkingService {
   getQR(stationID: string): Observable<Blob> {
     return this.http.get(
       `${this.apiUrl}backoffice/parking/station/${stationID}/downloadqr`,
-      { responseType: 'blob' }
+      {responseType: 'blob'}
     )
   }
 
@@ -417,5 +408,15 @@ export class ParkingService {
           }
         })
       )
+  }
+
+  clearObjects() {
+    this.route.navigate(['home']).then(() => {
+      this.parkingStepOne = new CreateParkingStepOneModel()
+      this.parkingStepTwo = new CreateParkingStepTwoModel()
+      this.parkingStepFour = new CreateParkingStepFourModel()
+      this.parkingFile = new CreateParkingFileModel()
+      this.parkingStepFive = []
+    })
   }
 }
