@@ -1,202 +1,204 @@
-<form [formGroup]="stepFourForm"
-      class="needs-validation form-group"
-      id="form-wrapper"
-      method="post"
-      name="form-wrapper"
-      novalidate="">
-  <div *ngIf="settingsOptions"
-       id="steps-container">
-    <div class='row'>
+<form [formGroup] = "stepFourForm"
+      class = "needs-validation form-group"
+      id = "form-wrapper"
+      method = "post"
+      name = "form-wrapper"
+      novalidate = "">
+  <div *ngIf = "settingsOptions"
+       id = "steps-container">
+    <div class = 'row'>
       <h6>Facturación</h6>
     </div>
 
-    <div class="row">
-      <div class=" col-md-6 col-sm-12">
-        <app-input-container [formGroup]="stepFourForm"
-        type='text'
-        controlName='business_name'
-        name='Nombre'
+    <div class = "row">
+      <div class = " col-md-6 col-sm-12">
+        <app-input-container [formGroup] = "stepFourForm"
+                             controlName = 'business_name'
+                             name = 'Nombre'
+                             type = 'text'
         >
         </app-input-container>
-        <div class="m-3 relative">
-          <label class="labelInput">NIT</label>
-          <input [class.is-invalid]="controlInvalid('nit')"
-                 class="form-control inputClass"
-                 formControlName="nit"
-                 placeholder="NIT:"
-                 type="number">
-          <small *ngIf="controlInvalid('nit')"
-                 class="text-danger">* Este campo es obligatorio y debe tener el formato '123456789' sin
-            guiones.</small>
+        <div class = "m-3 relative">
+          <label class = "labelInput">NIT</label>
+          <input [class.is-invalid] = "controlInvalid('nit')"
+                 class = "form-control inputClass"
+                 formControlName = "nit"
+                 placeholder = "NIT:"
+                 type = "number">
+          <small *ngIf = "controlInvalid('nit')"
+                 class = "text-danger">* Este campo es obligatorio y debe tener el formato '123456789' sin
+                                       guiones.</small>
         </div>
       </div>
-      <div class=" col-md-6 col-sm-12">
-        <app-input-container [formGroup]="stepFourForm"
-                             type='text'
-                             controlName='business_address'
-                             name='Dirección'
+      <div class = " col-md-6 col-sm-12">
+        <app-input-container [formGroup] = "stepFourForm"
+                             controlName = 'business_address'
+                             name = 'Dirección'
+                             type = 'text'
         >
         </app-input-container>
 
-        <div *ngIf="false" class="m-3 relative">
-          <label class="labelInput">Método de pago</label>
+        <div *ngIf = "false"
+             class = "m-3 relative">
+          <label class = "labelInput">Método de pago</label>
           <select
-            [class.is-invalid]="controlInvalid('pay_method')"
-            class="inputClass"
-            formControlName="pay_method">
-            <option *ngFor="let option of settingsOptions.paymentMethods"
-                    value="{{option.id}}">{{option.description}}</option>
+            [class.is-invalid] = "controlInvalid('pay_method')"
+            class = "inputClass"
+            formControlName = "pay_method">
+            <option *ngFor = "let option of settingsOptions.paymentMethods"
+                    value = "{{option.id}}">{{option.description}}</option>
 
           </select>
-          <small *ngIf="controlInvalid('pay_method')"
-                 class="text-danger animate__animated  animate__rotateIn">* Este campo es obligatorio</small>
+          <small *ngIf = "controlInvalid('pay_method')"
+                 class = "text-danger animate__animated  animate__rotateIn">* Este campo es obligatorio</small>
         </div>
       </div>
-      <div class=" col-md-6 col-sm-12">
+      <div class = " col-md-6 col-sm-12">
         <app-select-container
-                              [data]="this.settingsOptions.currencyOptions"
-                              [formGroup]="stepFourForm"
-                              controlName="currency"
-                              name="Moneda"></app-select-container>
+          [data] = "this.settingsOptions.currencyOptions"
+          [formGroup] = "stepFourForm"
+          controlName = "currency"
+          name = "Moneda"></app-select-container>
       </div>
 
-      <div class="row mt-3">
-        <div class=" col-md-6 col-sm-12">
-          <div *ngIf="isVisaSelected"
-               class="row col-xl-12 col-lg-12 col-sm-12">
-            <ul class="opcionActivo ">
-              <li><input formControlName="is_our_visa_credential"
-                         id="is_our_visa_credential"
-                         type="checkbox"
-                         (click)="addValidators()"
-                         value="is_show_map"><label for="is_our_visa_credential">Credenciales
-                Visa</label></li>
+      <div class = "row mt-3">
+        <div class = " col-md-6 col-sm-12">
+          <div *ngIf = "isVisaSelected"
+               class = "row col-xl-12 col-lg-12 col-sm-12">
+            <ul class = "opcionActivo ">
+              <li><input (change) = "addValidators()"
+                         formControlName = "is_our_visa_credential"
+                         id = "is_our_visa_credential"
+                         type = "checkbox"
+                         value = "is_show_map"><label for = "is_our_visa_credential">Credenciales
+                                                                                     Visa</label></li>
             </ul>
           </div>
         </div>
-        <div class=" col-md-6 col-sm-12">
-          <div *ngIf="isBacSelected"
-               class="row col-xl-12 col-lg-12 col-sm-12">
-            <ul class="opcionActivo ">
-              <li><input formControlName="is_our_bac_credential"
-                         id="is_our_bac_credential"
-                         type="checkbox"
-                         value="is_show_map"><label for="is_our_bac_credential">Credenciales
-                BAC</label></li>
+        <div class = " col-md-6 col-sm-12">
+          <div *ngIf = "isBacSelected"
+               class = "row col-xl-12 col-lg-12 col-sm-12">
+            <ul class = "opcionActivo ">
+              <li><input formControlName = "is_our_bac_credential"
+                         id = "is_our_bac_credential"
+                         type = "checkbox"
+                         value = "is_show_map"><label for = "is_our_bac_credential">Credenciales
+                                                                                    BAC</label></li>
             </ul>
           </div>
         </div>
       </div>
-      <div class="row">
+      <div class = "row">
         <div
-          class=" col-md-6 col-sm-12"
-          id="visaCredential">
-          <div *ngIf="stepFourForm.controls['is_our_visa_credential'].value"
-               class="animate__animated animate__fadeInLeft">
+          class = " col-md-6 col-sm-12"
+          id = "visaCredential">
+          <div *ngIf = "stepFourForm.controls['is_our_visa_credential'].value"
+               class = "animate__animated animate__fadeInLeft">
 
             <app-input-container
-              [formGroup]='stepFourForm'
-              controlName='afiliacion'
-              name='Afilicaión'
-              type='text'
+              [formGroup] = 'stepFourForm'
+              controlName = 'afiliacion'
+              name = 'Afilicaión'
+              type = 'text'
 
             >
             </app-input-container>
             <app-input-container
-              [formGroup]='stepFourForm'
-              controlName='terminal'
-              name='Terminal'
-              type='text'
+              [formGroup] = 'stepFourForm'
+              controlName = 'terminal'
+              name = 'Terminal'
+              type = 'text'
 
             >
             </app-input-container>
 
             <app-input-container
-              [formGroup]='stepFourForm'
-              controlName='merchant_id_visa'
-              name='Id Mercante'
-              type='text'
+              [formGroup] = 'stepFourForm'
+              controlName = 'merchant_id_visa'
+              name = 'Id Mercante'
+              type = 'text'
 
             >
             </app-input-container>
             <app-input-container
-              [formGroup]='stepFourForm'
-              controlName='merchant_pass_visa'
-              name='Contraseña Mercante'
-              type='password'
+              [formGroup] = 'stepFourForm'
+              controlName = 'merchant_pass_visa'
+              name = 'Contraseña Mercante'
+              type = 'password'
 
             >
             </app-input-container>
           </div>
         </div>
-        <div *ngIf="stepFourForm.controls['is_our_bac_credential'].value "
-             class=" col-md-6 col-sm-12 animate__animated animate__fadeInLeft"
-             id="BacCredential">
-          <div class="m-3 relative">
-            <label class="labelInput">ID Comerciante</label>
-            <input [class.is-invalid]="controlInvalid('merchant_id_bac')"
-                   class="form-control inputClass"
-                   formControlName="merchant_id_bac"
-                   placeholder="ID Comerciante:"
-                   type="text">
-            <small *ngIf="controlInvalid('merchant_id_bac')"
-                   class="text-danger animate__animated  animate__rotateIn">* Este campo es obligatorio</small>
+        <div *ngIf = "stepFourForm.controls['is_our_bac_credential'].value "
+             class = " col-md-6 col-sm-12 animate__animated animate__fadeInLeft"
+             id = "BacCredential">
+          <div class = "m-3 relative">
+            <label class = "labelInput">ID Comerciante</label>
+            <input [class.is-invalid] = "controlInvalid('merchant_id_bac')"
+                   class = "form-control inputClass"
+                   formControlName = "merchant_id_bac"
+                   placeholder = "ID Comerciante:"
+                   type = "text">
+            <small *ngIf = "controlInvalid('merchant_id_bac')"
+                   class = "text-danger animate__animated  animate__rotateIn">* Este campo es obligatorio</small>
           </div>
-          <div class="m-3 relative">
-            <label class="labelInput">ID Proveedor</label>
-            <input [class.is-invalid]="controlInvalid('acquirer_id_bac')"
-                   class="form-control inputClass"
-                   formControlName="acquirer_id_bac"
-                   placeholder="ID Proveedor"
-                   type="text">
-            <small *ngIf="controlInvalid('acquirer_id_bac')"
-                   class="text-danger animate__animated  animate__rotateIn">* Este campo es obligatorio</small>
+          <div class = "m-3 relative">
+            <label class = "labelInput">ID Proveedor</label>
+            <input [class.is-invalid] = "controlInvalid('acquirer_id_bac')"
+                   class = "form-control inputClass"
+                   formControlName = "acquirer_id_bac"
+                   placeholder = "ID Proveedor"
+                   type = "text">
+            <small *ngIf = "controlInvalid('acquirer_id_bac')"
+                   class = "text-danger animate__animated  animate__rotateIn">* Este campo es obligatorio</small>
           </div>
-          <div class="m-3 relative">
-            <label class="labelInput">Moneda</label>
-            <select [class.is-invalid]="controlInvalid('purchase_currency_bac')"
-                    class="inputClass"
-                    formControlName="purchase_currency_bac">
-              <option *ngFor="let option of this.settingsOptions.currencyOptions"
-                      value="{{option.id}}">{{option.name}}</option>
+          <div class = "m-3 relative">
+            <label class = "labelInput">Moneda</label>
+            <select [class.is-invalid] = "controlInvalid('purchase_currency_bac')"
+                    class = "inputClass"
+                    formControlName = "purchase_currency_bac">
+              <option *ngFor = "let option of this.settingsOptions.currencyOptions"
+                      value = "{{option.id}}">{{option.name}}</option>
             </select>
-            <small *ngIf="controlInvalid('purchase_currency_bac')"
-                   class="text-danger animate__animated  animate__rotateIn">* Este campo es obligatorio</small>
+            <small *ngIf = "controlInvalid('purchase_currency_bac')"
+                   class = "text-danger animate__animated  animate__rotateIn">* Este campo es obligatorio</small>
           </div>
-          <div class="m-3 relative">
-            <label class="labelInput">PMTNPSSW</label>
-            <input [class.is-invalid]="controlInvalid('pmtnpssw_bac')"
-                   class="form-control inputClass"
-                   formControlName="pmtnpssw_bac"
-                   placeholder="PMTNPSSW:"
-                   type="text">
-            <small *ngIf="controlInvalid('pmtnpssw_bac')"
-                   class="text-danger animate__animated  animate__rotateIn">* Este campo es obligatorio</small>
+          <div class = "m-3 relative">
+            <label class = "labelInput">PMTNPSSW</label>
+            <input [class.is-invalid] = "controlInvalid('pmtnpssw_bac')"
+                   class = "form-control inputClass"
+                   formControlName = "pmtnpssw_bac"
+                   placeholder = "PMTNPSSW:"
+                   type = "text">
+            <small *ngIf = "controlInvalid('pmtnpssw_bac')"
+                   class = "text-danger animate__animated  animate__rotateIn">* Este campo es obligatorio</small>
           </div>
-          <div class="m-3 relative">
-            <label class="labelInput">URL</label>
-            <input [class.is-invalid]="controlInvalid('url_bac')"
-                   class="form-control inputClass"
-                   formControlName="url_bac"
-                   placeholder="URL:"
-                   type="text">
-            <small *ngIf="controlInvalid('url_bac')"
-                   class="text-danger animate__animated  animate__rotateIn">* Este campo es obligatorio</small>
+          <div class = "m-3 relative">
+            <label class = "labelInput">URL</label>
+            <input [class.is-invalid] = "controlInvalid('url_bac')"
+                   class = "form-control inputClass"
+                   formControlName = "url_bac"
+                   placeholder = "URL:"
+                   type = "text">
+            <small *ngIf = "controlInvalid('url_bac')"
+                   class = "text-danger animate__animated  animate__rotateIn">* Este campo es obligatorio</small>
           </div>
         </div>
       </div>
     </div>
-    <div class="text-center"
-         id="q-box__buttons">
-      <button (click)="emmitStep(-1)"
-              *ngIf="showNavigationButtons"
-              class="btn btn-primary m-2"
-              id="prev-btn" type="button">Anterior
+    <div class = "text-center"
+         id = "q-box__buttons">
+      <button (click) = "emmitStep(-1)"
+              *ngIf = "showNavigationButtons"
+              class = "btn btn-primary m-2"
+              id = "prev-btn"
+              type = "button">Anterior
       </button>
-      <button (click)="emmitStep(1)"
-              class="btn btn-primary m-2"
-              id="next-btn"
-              type="button">{{showNavigationButtons ? 'Siguiente' : 'Guardar'}}
+      <button (click) = "emmitStep(1)"
+              class = "btn btn-primary m-2"
+              id = "next-btn"
+              type = "button">{{showNavigationButtons ? 'Siguiente' : 'Guardar'}}
       </button>
     </div>
   </div>

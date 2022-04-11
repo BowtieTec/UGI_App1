@@ -1,11 +1,11 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core'
-import { FormBuilder, FormGroup, Validators } from '@angular/forms'
-import { MessageService } from '../../../../../../shared/services/message.service'
-import { ParkingService } from '../../../../services/parking.service'
-import { UtilitiesService } from '../../../../../../shared/services/utilities.service'
-import { SettingsOptionsModel } from '../../../../models/SettingsOption.model'
-import { CreateParkingStepFourModel } from '../../../../models/CreateParking.model'
-import { Router } from '@angular/router'
+import {Component, EventEmitter, Input, Output} from '@angular/core'
+import {FormBuilder, FormGroup, Validators} from '@angular/forms'
+import {MessageService} from '../../../../../../shared/services/message.service'
+import {ParkingService} from '../../../../services/parking.service'
+import {UtilitiesService} from '../../../../../../shared/services/utilities.service'
+import {SettingsOptionsModel} from '../../../../models/SettingsOption.model'
+import {CreateParkingStepFourModel} from '../../../../models/CreateParking.model'
+import {Router} from '@angular/router'
 
 @Component({
   selector: 'app-billing-data',
@@ -42,7 +42,8 @@ export class BillingDataComponent {
   }
 
   addValidators() {
-    if (!this.stepFourForm.controls['is_our_visa_credential'].value) {
+    if (this.stepFourForm.controls['is_our_visa_credential'].value) {
+      console.log('IFFFFF')
       this.stepFourForm.controls['merchant_id_visa'].setValidators(
         Validators.required
       )
@@ -54,11 +55,17 @@ export class BillingDataComponent {
       )
       this.stepFourForm.controls['terminal'].setValidators(Validators.required)
     } else {
+      console.log('ELSEEE')
       this.stepFourForm.controls['merchant_id_visa'].clearValidators()
       this.stepFourForm.controls['merchant_pass_visa'].clearValidators()
       this.stepFourForm.controls['afiliacion'].clearValidators()
       this.stepFourForm.controls['terminal'].clearValidators()
+      this.stepFourForm.controls['merchant_id_visa'].setErrors(null)
+      this.stepFourForm.controls['merchant_pass_visa'].setErrors(null)
+      this.stepFourForm.controls['afiliacion'].setErrors(null)
+      this.stepFourForm.controls['terminal'].setErrors(null)
     }
+    console.log(this.stepFourForm)
   }
 
   controlInvalid(control: string): boolean {
@@ -66,8 +73,8 @@ export class BillingDataComponent {
   }
 
   async emmitStep(number: number) {
+    this.stepFourForm.updateValueAndValidity()
     this.message.showLoading()
-    console.log(this.getStepFour())
     if (number == 1) {
       if (this.stepFourForm.valid) {
         this.parkingService.parkingStepFour = this.getStepFour()
@@ -113,10 +120,10 @@ export class BillingDataComponent {
       is_our_visa_credential: false,
       is_our_bac_credential: false,
       //Visa Credential
-      merchant_id_visa: [null],
-      merchant_pass_visa: [null],
-      afiliacion: [null],
-      terminal: [null],
+      merchant_id_visa: [''],
+      merchant_pass_visa: [''],
+      afiliacion: [''],
+      terminal: [''],
       //  BAC Credential
       merchant_id_bac: [null],
       acquirer_id_bac: [null],
@@ -133,9 +140,9 @@ export class BillingDataComponent {
       business_name: this.stepFourForm.controls['business_name'].value,
       currency: this.stepFourForm.controls['currency'].value,
       is_our_bac_credential:
-        this.stepFourForm.controls['is_our_bac_credential'].value,
+      this.stepFourForm.controls['is_our_bac_credential'].value,
       is_our_visa_credential:
-        this.stepFourForm.controls['is_our_visa_credential'].value,
+      this.stepFourForm.controls['is_our_visa_credential'].value,
       nit: this.stepFourForm.controls['nit'].value,
       pay_method: this.stepFourForm.controls['pay_method'].value,
       visa_credential: {
@@ -143,7 +150,7 @@ export class BillingDataComponent {
         terminal: this.stepFourForm.controls['terminal'].value,
         merchant_user: this.stepFourForm.controls['merchant_id_visa'].value,
         merchant_password:
-          this.stepFourForm.controls['merchant_pass_visa'].value
+        this.stepFourForm.controls['merchant_pass_visa'].value
       },
       bac_credential: {
         url: this.stepFourForm.controls['url_bac'].value,
@@ -151,7 +158,7 @@ export class BillingDataComponent {
         acquirer_id: this.stepFourForm.controls['acquirer_id_bac'].value,
         pmtnpssw: this.stepFourForm.controls['pmtnpssw_bac'].value,
         purchase_currency:
-          this.stepFourForm.controls['purchase_currency_bac'].value
+        this.stepFourForm.controls['purchase_currency_bac'].value
       }
     }
   }
