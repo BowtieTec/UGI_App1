@@ -111,13 +111,6 @@
           <dxo-toolbar>
             <dxi-item location="after">
               <dx-button
-                icon="exportpdf"
-                text="Exportar a PDF"
-                (onClick)="exportGrid()"
-              ></dx-button>
-            </dxi-item>
-            <dxi-item location="after">
-              <dx-button *ngIf='this.report.length > 0'
                 icon="xlsxfile"
                 text="Exportar a Excel"
                 (onClick)="onExporting($event)"
