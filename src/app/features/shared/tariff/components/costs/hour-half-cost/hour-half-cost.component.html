@@ -10,12 +10,22 @@
       >
       </app-input-container>
     </div>
-    <div class="row ">
+    <div class = 'row '>
       <app-input-container
-        controlName='halfCost'
-        [formGroup]='hourAHalfForm'
-        name='Precio por fracción'
-        type='number'
+        controlName = 'halfCost'
+        [formGroup] = 'hourAHalfForm'
+        name = 'Precio por fracción'
+        type = 'number'
+      >
+      </app-input-container>
+
+    </div>
+     <div class = 'row '>
+      <app-input-container
+        [formGroup] = 'hourAHalfForm'
+        controlName = 'whenIsAHalf'
+        name = 'Cobrar cuando lleve x minutos'
+        type = 'number'
       >
       </app-input-container>
 

@@ -1,21 +1,21 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core'
-import {FormBuilder, FormGroup} from '@angular/forms'
-import {UtilitiesService} from '../../../shared/services/utilities.service'
-import {MessageService} from '../../../shared/services/message.service'
-import {HolidayInputModel} from './model/HolidayTariff.model'
-import {RankInputModel} from './model/RankTariff.model'
-import {BlockInputModel} from './model/BlockTariff.model'
-import {DefaultInputModel} from './model/DefaultTariff.model'
-import {ParkingService} from '../../parking/services/parking.service'
-import {CurrencyPipe, DatePipe, Time} from '@angular/common'
-import {ValidationsService} from './service/validations.service'
-import {AuthService} from '../../../shared/services/auth.service'
-import {TariffFormsService} from './service/tariff-forms.service'
-import {All, FixedCostInputModel, HourHalfInputModel, IEvent, Rules} from './model/Tariff.model'
-import {CreateTariffModel} from '../../parking/models/Tariff.model'
-import {BuildRulesService} from './service/build-rules.service'
-import {environment} from '../../../../environments/environment'
-import {PermissionsService} from '../../../shared/services/permissions.service'
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
+import { FormBuilder, FormGroup } from '@angular/forms'
+import { UtilitiesService } from '../../../shared/services/utilities.service'
+import { MessageService } from '../../../shared/services/message.service'
+import { HolidayInputModel } from './model/HolidayTariff.model'
+import { RankInputModel } from './model/RankTariff.model'
+import { BlockInputModel } from './model/BlockTariff.model'
+import { DefaultInputModel } from './model/DefaultTariff.model'
+import { ParkingService } from '../../parking/services/parking.service'
+import { CurrencyPipe, DatePipe, Time } from '@angular/common'
+import { ValidationsService } from './service/validations.service'
+import { AuthService } from '../../../shared/services/auth.service'
+import { TariffFormsService } from './service/tariff-forms.service'
+import { All, FixedCostInputModel, HourHalfInputModel, IEvent, Rules } from './model/Tariff.model'
+import { CreateTariffModel } from '../../parking/models/Tariff.model'
+import { BuildRulesService } from './service/build-rules.service'
+import { environment } from '../../../../environments/environment'
+import { PermissionsService } from '../../../shared/services/permissions.service'
 
 @Component({
   selector: 'app-tariff',
@@ -181,13 +181,15 @@ export class TariffComponent implements OnInit {
   get hourHalfFormValues(): HourHalfInputModel {
     const costHour = this.hourAHalfForm.get('hourCost')?.value
     const costAHalf = this.hourAHalfForm.get('halfCost')?.value
+    const whenIsAHalf = this.hourAHalfForm.get('whenIsAHalf')?.value
     return {
       static_descriptionCost: `Costo por hora: ${this.currencyPipe.transform(
         costHour,
         'GTQ'
       )} Costo por fracción: ${this.currencyPipe.transform(costAHalf, 'GTQ')}`,
       costHour,
-      costAHalf
+      costAHalf,
+      whenIsAHalf
     }
   }
 
@@ -310,7 +312,7 @@ export class TariffComponent implements OnInit {
   ngOnInit(): void {
     if (!this.isCreatingParking) {
       this.parkingId = this.authService.getParking().id
-      this.getTariffs()
+      this.getTariffs().catch()
     }
   }
 
@@ -446,7 +448,7 @@ export class TariffComponent implements OnInit {
       })
       .then((data) => {
         if (data.success) {
-          this.getTariffs()
+          this.getTariffs().catch()
           this.messageService.OkTimeOut()
         }
       })
@@ -500,16 +502,27 @@ export class TariffComponent implements OnInit {
       ...this.FractionOrFixedRules,
       ...this.HourRules
     ]
-    newRule = {...this.generalDataFormValues, parking: this.parkingId, rules}
+    newRule = { ...this.generalDataFormValues, parking: this.parkingId, rules }
     newRule.static_description = this.getStaticDescription()
     return newRule
   }
+
+  private otherConditions() {
+    let conditions: All[] = []
+    if (this.costType == 1) {
+      conditions.push(...BuildRulesService.isHalfOfHour(this.hourHalfFormValues.whenIsAHalf))
+    }
+
+    return conditions
+  }
+
 
   private getConditions(): All[] {
     return [
       ...this.getRangesOfTime(),
       ...this.getGlobalSchedule(),
-      ...this.getDays()
+      ...this.getDays(),
+      ...this.otherConditions()
     ]
   }
 

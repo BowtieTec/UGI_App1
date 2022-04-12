@@ -23,7 +23,8 @@ export class TariffFormsService {
   createHourHalfForm() {
     return this.formBuilder.group({
       hourCost: [null, Validators.required],
-      halfCost: [null, Validators.required]
+      halfCost: [null, Validators.required],
+      whenIsAHalf: [null, Validators.required]
     })
   }
 
