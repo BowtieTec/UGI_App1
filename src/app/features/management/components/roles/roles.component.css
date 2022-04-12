@@ -36,7 +36,7 @@ ul.opcionActivo li label {
   border: 1px solid rgb(65 91 161);
   color: #021C70;
   border-radius: 8px;
-  white-space: nowrap;
+  white-space: pre-wrap;
   margin: 3px 0px;
   -webkit-touch-callout: none;
   -webkit-user-select: none;
@@ -45,6 +45,8 @@ ul.opcionActivo li label {
   user-select: none;
   -webkit-tap-highlight-color: transparent;
   transition: all .2s;
+  min-width: 100%;
+  max-width: 300px;
 }
 
 ul.opcionActivo li input[type="checkbox"]:checked + label {
