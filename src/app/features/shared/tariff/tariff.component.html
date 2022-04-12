@@ -2,27 +2,16 @@
   <div class="titleCards">
     <span> <em class="fas fa-comment-dollar"></em> </span> Tarifa
   </div>
-  <div *ngIf = 'ifHaveAction(createTariff)'>
-    <div
-      *ngIf = 'false'
-      class = 'row justify-content-center'>
-      <ng-container
-        [formGroup] = 'prioriceForm'
-        class = 'radio-inline'>
-        <div class = 'col-xl-3 col-lg-4 col-sm-6 text-center'>
-          <app-radio-container
-            [formGroup] = 'prioriceForm'
-            [value] = '1'
-            [readOnly] = 'tariffs.length > 0'
-            controlName = 'prioriceCost'
-            desc = 'Aplicar tarifa de entrada'></app-radio-container>
+  <div *ngIf='ifHaveAction(createTariff)'>
+    <div *ngIf='false' class='row justify-content-center'>
+      <ng-container [formGroup]='prioriceForm' class='radio-inline'>
+        <div class='col-xl-3 col-lg-4 col-sm-6 text-center'>
+          <app-radio-container [formGroup]='prioriceForm' [value]='1' [readOnly]='tariffs.length > 0'
+            controlName='prioriceCost' desc='Aplicar tarifa de entrada'></app-radio-container>
         </div>
-        <div class = 'col-xl-3 col-lg-4 col-sm-6 text-center'>
-          <app-radio-container
-            [formGroup] = 'prioriceForm'
-            [value] = '2'
-            controlName = 'prioriceCost'
-            desc = 'Aplicar tarifa de salida'></app-radio-container>
+        <div class='col-xl-3 col-lg-4 col-sm-6 text-center'>
+          <app-radio-container [formGroup]='prioriceForm' [value]='2' controlName='prioriceCost'
+            desc='Aplicar tarifa de salida'></app-radio-container>
         </div>
       </ng-container>
     </div>
@@ -54,7 +43,7 @@
           <div *ngIf="timeRange == 4" class="animate__animated animate__fadeInUp ">
             <p><b>Por defecto</b></p>
             <p>
-             Se aplicará siempre que los datos no entren en ningún rango anterior o que no existan rangos
+              Se aplicará siempre que los datos no entren en ningún rango anterior o que no existan rangos
               anteriores.
             </p>
           </div>
@@ -76,14 +65,18 @@
           </div>
         </div>
 
-        
-          <div class="row">
-            <div class="col-md-12"> <app-hour-half-cost [costType]="costType" [hourAHalfForm]="hourAHalfForm"></app-hour-half-cost></div>
-            <div class="col-md-6"><app-fixed-cost [costType]="costType" [fixedCostForm]="fixedCostForm"></app-fixed-cost></div>
+
+        <div class="row">
+          <div class="col-md-12">
+            <app-hour-half-cost [costType]="costType" [hourAHalfForm]="hourAHalfForm"></app-hour-half-cost>
           </div>
-         
-          
-       
+          <div class="col-md-6">
+            <app-fixed-cost [costType]="costType" [fixedCostForm]="fixedCostForm"></app-fixed-cost>
+          </div>
+        </div>
+
+
+
         <div class=" text-center mt-4">
           <button (click)="saveRule()" class="btn btn-success btn-lg " type="button">Guardar
           </button>
@@ -99,7 +92,8 @@
     <div class="titleCards"><span><i class="fas fa-list-ul"></i></span> Reglas de la tarifa para este parqueo</div>
     <!--  Reglas de tarifa  -->
     <div *ngFor="let tariff of tariffs; index as i" class="">
-      <div class="row " style="background: #f7f7f7; margin: -15px; padding: 15px; left: 0;  right: 0;  top: 0;  border-radius: 0 0 10px 10px;">
+      <div class="row "
+        style="background: #f7f7f7; margin: -15px; padding: 15px; left: 0;  right: 0;  top: 0;  border-radius: 0 0 10px 10px;">
         <div class="col-md-6">
           <div class="panels">
             <div class="row">
@@ -107,7 +101,7 @@
                 <div class="titleCards pt-2 mb-1">Regla #{{i + 1}}</div>
               </div>
               <div class="col-auto text-end">
-                
+
                 <button (click)="deleteTariff(tariff.id)" class="btn btn-danger btn-icon" type="button">
                   <i class="fas fa-trash"></i>
                 </button>
@@ -118,14 +112,13 @@
           </div>
         </div>
       </div>
+    </div>
+    <div class="text-center" id="q-box__buttons">
+      <button (click)="emmitStep(-1)" *ngIf="isCreatingParking" class="btn btn-primary m-2" id="prev-btn"
+        type="button">Anterior
+      </button>
+      <button (click)="emmitStep(1)" *ngIf="isCreatingParking" class="btn btn-primary m-2" id="next-btn"
+        type="button">Siguiente
+      </button>
+    </div>
   </div>
-  <div class="text-center" id="q-box__buttons">
-    <button (click)="emmitStep(-1)" *ngIf="isCreatingParking" class="btn btn-primary m-2" id="prev-btn"
-      type="button">Anterior
-    </button>
-    <button (click)="emmitStep(1)" *ngIf="isCreatingParking" class="btn btn-primary m-2" id="next-btn"
-      type="button">Siguiente
-    </button>
-  </div>
-</div>
-</div>
