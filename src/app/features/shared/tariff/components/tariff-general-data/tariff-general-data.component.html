@@ -9,8 +9,8 @@
         <div class="mb-3">
             <app-input-container [formGroup] = "generalDataForm"
                                  class="form-control inputClass"
-                                 controlName = "name"
-                                 name = "Nombre de la tarifa"
+                                 controlName = 'name'
+                                 name = 'Nombre de la regla'
                                  type = 'text' >
             </app-input-container >
         </div>
@@ -23,7 +23,7 @@
             <textarea [class.is-invalid]="validateGeneralDataForm('description')"
                       class="form-control" formControlName="description" id="descriptionTextArea"
                       placeholder="Descripción de la tarifa" style="height: 100px"></textarea>
-          <label for="descriptionTextArea">Descripción de tarifa</label>
+          <label for = 'descriptionTextArea'>Descripción de la regla</label>
         </div>
         <small *ngIf="validateGeneralDataForm('description')"
                class="text-danger animate__animated  animate__rotateIn">* Este campo es obligatorio</small>
@@ -43,7 +43,7 @@
             <input class="form-check-input" formControlName="hasGlobalSchedule" id="hasGlobalSchedule"
                    type="checkbox">
             <label class="form-check-label ms-2" for="hasGlobalSchedule">
-              Horario principal
+              Horario global
             </label>
           </li>
         </ul>

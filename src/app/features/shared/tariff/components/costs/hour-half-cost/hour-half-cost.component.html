@@ -1,21 +1,33 @@
 <div *ngIf="costType==1" class="animate__animated animate__fadeInUp ">
   <h4>Hora / Fracción</h4>
   <form [formGroup]="hourAHalfForm" action="">
-    <div class="row">
-      <div class="col-md-6 ">
-        <app-input-container controlName='hourCost' [formGroup]='hourAHalfForm' name='Precio por hora' type='number'>
-        </app-input-container>
-      </div>
-      <div class="col-md-6 ">
-        <app-input-container controlName='halfCost' [formGroup]='hourAHalfForm' name='Precio por fracción'
-          type='number'>
-        </app-input-container>
+    <div class="row ">
+      <app-input-container
+        controlName='hourCost'
+        [formGroup]='hourAHalfForm'
+        name='Precio por hora'
+        type='number'
+      >
+      </app-input-container>
+    </div>
+    <div class = 'row '>
+      <app-input-container
+        controlName = 'halfCost'
+        [formGroup] = 'hourAHalfForm'
+        name = 'Precio por fracción'
+        type = 'number'
+      >
+      </app-input-container>
 
-      </div>
-      <!-- <div class="col-md-6 ">
-        <app-input-container controlName='whenIsAHalf' [formGroup]='hourAHalfForm' name='Cobrar cuando lleve x minutos'
-          type='number'>
-        </app-input-container>
+    </div>
+     <div class = 'row '>
+      <app-input-container
+        [formGroup] = 'hourAHalfForm'
+        controlName = 'whenIsAHalf'
+        name = 'Cobrar cuando lleve x minutos'
+        type = 'number'
+      >
+      </app-input-container>
 
       </div> -->
     </div>

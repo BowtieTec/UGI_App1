@@ -1,34 +1,24 @@
-<div *ngIf="timeRange == 1 || timeRange == 2" class="animate__animated animate__fadeInIn" id="principalSchedule">
-  <div class="titleCards">
-    
-    <span><em class="far fa-clock"></em></span> Horario global
+<div
+  class = 'animate__animated animate__fadeInLeft'
+  id = 'principalSchedule'>
+  <div class = 'titleCards'>
+    <hr>
+    <span><em class = 'far fa-clock'></em></span> Horario global
   </div>
   <!--Horarios globales-->
-  <form [formGroup]="holidayForm" action="">
-    <div class="row justify-content-center">
-      <div class="col-md-6">
-        <!-- <div class="mb-3">
-
-          <label class="text-secondary" style="display: block;">Desde</label>
-          <input [class.is-invalid]="validateHolidayForm('from')"
-                 aria-describedby="basic-addon1" class="inputClass" formControlName="from"
-                 type="time">
-          <small *ngIf="validateHolidayForm('from')" class="text-danger animate__animated  animate__rotateIn">*
-            Este
-            campo es obligatorio</small>
-        </div> -->
-        <app-input-container [formGroup]="holidayForm" controlName="from" name="Desde" type="time">
+  <form
+    [formGroup] = 'holidayForm'
+    action = ''>
+    <div class = 'row justify-content-center'>
+      <div class = 'col-md-5'>
+        <app-input-container
+          [formGroup] = 'holidayForm'
+          controlName = 'from'
+          name = 'Desde'
+          type = 'time'>
         </app-input-container>
       </div>
-      <div class="col-md-6">
-        <!-- <div class="mb-3">
-          <label class="text-secondary" style="display: block;">Hasta</label>
-          <input [class.is-invalid]="validateHolidayForm('to')"
-                 aria-describedby="basic-addon1" class="inputClass" formControlName="to" type="time">
-          <small *ngIf="validateHolidayForm('to')" class="text-danger animate__animated  animate__rotateIn">*
-            Este
-            campo es obligatorio</small>
-        </div> -->
+      <div class="col-md-5">
         <app-input-container [formGroup]="holidayForm" controlName="to" name="Hasta" type="time">
         </app-input-container>
       </div>
