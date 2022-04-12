@@ -6,11 +6,11 @@
     <div *ngIf = 'false' class="row justify-content-center">
       <ng-container [formGroup]="prioriceForm" class="radio-inline">
         <div class="col-xl-6 col-lg-4 col-sm-6 justify-content-center btn-group">
-          <app-radio-container [formGroup]="prioriceForm" [value]="1" [readOnly] = 'tariffs.length > 0' controlName="prioriceCost"
-            desc="Solo tarifa de entrada"></app-radio-container>
+          <app-radio-container [formGroup]='prioriceForm' [value]='1' [readOnly] = 'tariffs.length > 0' controlName='prioriceCost'
+            desc='Solo tarifa de entrada'></app-radio-container>
         
-          <app-radio-container [formGroup]="prioriceForm" [value]="2" controlName="prioriceCost"
-            desc="Solo tarifa de salida"></app-radio-container>
+          <app-radio-container [formGroup]='prioriceForm' [value]='2' controlName='prioriceCost'
+            desc='Solo tarifa de salida'></app-radio-container>
         </div>
       </ng-container>
     </div>
