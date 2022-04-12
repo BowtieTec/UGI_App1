@@ -1,12 +1,12 @@
-<div *ngIf="timeRange == 1 || timeRange == 2" class="animate__animated animate__fadeInLeft" id="principalSchedule">
+<div *ngIf="timeRange == 1 || timeRange == 2" class="animate__animated animate__fadeInIn" id="principalSchedule">
   <div class="titleCards">
-    <hr>
+    
     <span><em class="far fa-clock"></em></span> Horario global
   </div>
   <!--Horarios globales-->
   <form [formGroup]="holidayForm" action="">
     <div class="row justify-content-center">
-      <div class="col-md-5">
+      <div class="col-md-6">
         <!-- <div class="mb-3">
 
           <label class="text-secondary" style="display: block;">Desde</label>
@@ -20,7 +20,7 @@
         <app-input-container [formGroup]="holidayForm" controlName="from" name="Desde" type="time">
         </app-input-container>
       </div>
-      <div class="col-md-5">
+      <div class="col-md-6">
         <!-- <div class="mb-3">
           <label class="text-secondary" style="display: block;">Hasta</label>
           <input [class.is-invalid]="validateHolidayForm('to')"
@@ -34,4 +34,5 @@
       </div>
     </div>
   </form>
+  <hr>
 </div>

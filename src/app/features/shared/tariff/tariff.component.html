@@ -22,14 +22,14 @@
       <hr>
     </div>
     <div *ngIf="isValidGeneralData" class=" col-md-10 animate__animated animate__fadeInUp">
-      <div class="animate__animated animate__fadeIn">
+      <div class="">
         <app-principal-schedule *ngIf="this.hasGlobalSchedule" [holidayForm]="principalScheduleForm"
           [timeRange]="timeRange">
         </app-principal-schedule>
       </div>
       <app-days-of-week [daysSelectedForm]="daysSelectedForm"></app-days-of-week>
       <app-tariff-ranks (setNewTimeRange)="changeTimeRange($event)" [timeRange]="timeRange"></app-tariff-ranks>
-      <div class="animate__animated animate__fadeInRight" id="settings">
+      <div class="animate__animated animate__fadeInUp" id="settings">
         <div class="titleCards">
           <hr>
           <span><em class="fas fa-code-branch"></em></span> Configuración
@@ -48,7 +48,7 @@
           </div>
         </div>
       </div>
-      <div class="animate__animated animate__fadeInDown">
+      <div class="animate__animated animate__fadeInUp ">
         <div class="titleCards">
           <hr>
           <span><em class="fas fa-dollar-sign"></em></span> Tipo de costo
@@ -87,8 +87,8 @@
     <div class="titleCards"><span><i class="fas fa-list-ul"></i></span> Reglas de la tarifa para este parqueo</div>
     <!--  Reglas de tarifa  -->
     <div *ngFor="let tariff of tariffs; index as i" class="">
-      <div class="row justify-content-center" style="background: #f7f7f7; margin: -15px; padding: 15px; left: 0;  right: 0;  top: 0;  border-radius: 0 0 10px 10px;">
-        <div class="col-md-12">
+      <div class="row " style="background: #f7f7f7; margin: -15px; padding: 15px; left: 0;  right: 0;  top: 0;  border-radius: 0 0 10px 10px;">
+        <div class="col-md-6">
           <div class="panels">
             <div class="row">
               <div class="col">
