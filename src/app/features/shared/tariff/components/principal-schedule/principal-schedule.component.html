@@ -1,8 +1,8 @@
 <div
-  class = 'animate__animated animate__fadeInLeft'
+  class = 'animate__animated animate__fadeInUp'
   id = 'principalSchedule'>
   <div class = 'titleCards'>
-    <hr>
+    
     <span><em class = 'far fa-clock'></em></span> Horario global
   </div>
   <!--Horarios globales-->
@@ -10,7 +10,7 @@
     [formGroup] = 'holidayForm'
     action = ''>
     <div class = 'row justify-content-center'>
-      <div class = 'col-md-5'>
+      <div class = 'col-md-6'>
         <app-input-container
           [formGroup] = 'holidayForm'
           controlName = 'from'
@@ -18,7 +18,7 @@
           type = 'time'>
         </app-input-container>
       </div>
-      <div class="col-md-5">
+      <div class="col-md-6">
         <app-input-container [formGroup]="holidayForm" controlName="to" name="Hasta" type="time">
         </app-input-container>
       </div>
