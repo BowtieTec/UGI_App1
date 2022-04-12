@@ -11,7 +11,7 @@
             <label class="text-secundary" style="display:block">Parqueo</label>
             <select
               #inputParking
-              class="text-secondary">
+              class="inputClass">
               <option value="0">---- Todos los parqueos ----</option>
               <option *ngFor="let parking of this.allParking"
                       value="{{parking.id}}">{{parking.name}}</option>
@@ -62,11 +62,11 @@
     <div class="panels">
       <div class="row" id="exportable">
 
-        <dx-data-grid id="gridContainer" [dataSource]="dataSource" [showBorders]="true" [columnHidingEnabled]="true">
+        <dx-data-grid id="gridContainer" [dataSource]="dataSource" [showBorders]="true" [columnHidingEnabled]="false">
           <dxi-column
             caption="ID"
             dataField="phone_key"
-
+            width="100"
           ></dxi-column>
           <dxi-column
             dataField="total"
@@ -74,6 +74,7 @@
             dataType="number"
             format="currency"
             format="Q ,###,###,##0.00"
+            width="125"
           ></dxi-column>
           <dxi-column
             dataField="descuento"
@@ -82,6 +83,7 @@
 
             format="currency"
             format="Q ,###,###,##0.00"
+            width="125"
           ></dxi-column>
           <dxi-column
             dataField="pagado"
