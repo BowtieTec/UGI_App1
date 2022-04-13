@@ -10,4 +10,6 @@ export class NewUserModel {
   parking: string = ''
   status?: number
   Admin?: string
+  googleId?: string
+  appleId?: string
 }

@@ -16,6 +16,9 @@ import { MessageService } from '../../../../shared/services/message.service'
 import { PermissionsService } from '../../../../shared/services/permissions.service'
 import { DataTableOptions } from '../../../../shared/model/DataTableOptions'
 import { stat } from 'fs'
+import { UserModel } from '../../../../shared/model/UserResponse.model'
+import { UtilitiesService } from '../../../../shared/services/utilities.service'
+import { tariffTestModel } from '../tariff-test/models/tariff-test.model'
 
 @Component({
   selector: 'app-users-app',
@@ -80,6 +83,23 @@ export class UsersAppComponent implements OnInit, OnDestroy, AfterViewInit {
         return 'Inhabilitado'
     }
   }
+
+  getEmailEdit(user: NewUserModel){
+    this.isEditEmail = !!(user.appleId || user.googleId)
+    console.log(this.isEditEmail)
+  }
+
+  getRegister(user: NewUserModel){
+    if(user.appleId){
+      return 'AppleId'
+    }else if(user.googleId){
+      return 'AppleId'
+    }else{
+      return 'Registro Normal'
+    }
+  }
+
+
   private getUsersApp() {
     this.userService
       .getUsersApp()

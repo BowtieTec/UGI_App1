@@ -4,7 +4,7 @@ import { environment } from '../../../../../../environments/environment'
 import { HttpClient } from '@angular/common/http'
 import { ResponseModel } from '../../../../../shared/model/Request.model'
 import { RolesModel } from '../models/RolesModel'
-import { NewUserModel } from '../models/newUserModel'
+import { NewUserModel, updateUserApp } from '../models/newUserModel'
 import { Observable } from 'rxjs'
 import { AuthService } from '../../../../../shared/services/auth.service'
 
@@ -102,6 +102,10 @@ export class UserService {
       `${this.apiUrl}backoffice/admin/update/${newUser.id}`,
       newUser
     )
+  }
+
+  editUserApp(userApp: updateUserApp){
+    return this.http.put<ResponseModel>(`${this.apiUrl}backoffice/user/update/${userApp.id}`,userApp)
   }
 
   deleteUser(id: string) {
