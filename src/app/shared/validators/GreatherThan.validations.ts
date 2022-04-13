@@ -1,11 +1,11 @@
-import { FormGroup, ValidationErrors } from '@angular/forms'
+import {FormGroup, ValidationErrors} from '@angular/forms'
 
 export function DateGreaterValidations(): any {
   return (form: FormGroup) => {
     const from: Date = form.controls['from']?.value
     const to: Date = form.controls['to']?.value
     const result = from < to
-    return result ? null : { datesInvalid: true }
+    return result ? null : {datesInvalid: true}
   }
 }
 
@@ -15,9 +15,8 @@ export function NumberGreaterValidations(): ValidationErrors | any {
     const hourUpperLimit: Date = form.controls['hourUpperLimit']?.value
     const minuteLowerLimit: Date = form.controls['minuteLowerLimit']?.value
     const minuteUpperLimit: Date = form.controls['minuteUpperLimit']?.value
-    const result = hourLowerLimit <= hourUpperLimit && hourLowerLimit < hourUpperLimit? true: minuteLowerLimit < minuteUpperLimit
-    console.log(result)
-    return result ? null : { quantitiesInvalid: true }
+    const result = hourLowerLimit <= hourUpperLimit && hourLowerLimit < hourUpperLimit ? true : minuteLowerLimit < minuteUpperLimit
+    return result ? null : {quantitiesInvalid: true}
   }
 }
 
@@ -28,6 +27,6 @@ export function NumberParkingGreaterValidations(): ValidationErrors | null {
     )?.value
     const parking_spaces: number = form.get('parking_spaces')?.value
     const result = special_parking_spaces < parking_spaces
-    return result ? null : { parkingSpacesInvalid: true }
+    return result ? null : {parkingSpacesInvalid: true}
   }
 }

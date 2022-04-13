@@ -1,6 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core'
-import { FormGroup } from '@angular/forms'
-import { UtilitiesService } from '../../../../../../shared/services/utilities.service'
+import {Component, Input, OnInit} from '@angular/core'
+import {FormGroup} from '@angular/forms'
+import {UtilitiesService} from '../../../../../../shared/services/utilities.service'
 
 @Component({
   selector: 'app-hour-half-cost',
@@ -10,10 +10,25 @@ import { UtilitiesService } from '../../../../../../shared/services/utilities.se
 export class HourHalfCostComponent implements OnInit {
   @Input() costType!: number
   @Input() hourAHalfForm!: FormGroup
+  @Input() settingValues!: any
 
-  constructor(private utilitiesService: UtilitiesService) {}
+  constructor(private utilitiesService: UtilitiesService) {
+  }
 
-  ngOnInit(): void {}
+  get isHourReadOnly() {
+    const isHourReadOnly: boolean = ((this.settingValues.hourUpperLimit - this.settingValues.hourLowerLimit) <= 0)
+    if (isHourReadOnly) {
+      this.hourAHalfForm.get('hourCost')?.setValue(0)
+      return false
+    }
+
+
+    return true
+  }
+
+  ngOnInit(): void {
+    console.log(this.settingValues);
+  }
 
   validateHourHalfCost(control: string) {
     return this.utilitiesService.controlInvalid(this.hourAHalfForm, control)
