@@ -27,7 +27,7 @@
       <td class='d-none'>{{user.id}}</td>
       <td >{{user.name + ' ' + (!user.last_name ? '' : user.last_name)}}</td >
       <td >{{user.email}}</td >
-      <td>****-{{user.phone_number | slice: -4}}</td>
+      <td>****-{{user.phone_number?user.phone_number.substr(-4,4) : ""}}</td>
       <td>{{getStatus(!user.status ? 0 : user.status)}}</td>
       <td> {{getRegister(user)}}</td>
       <td class = "text-right" >
@@ -39,4 +39,54 @@
     </tr >
     </tbody >
   </table >
+
+  <ng-template #contenido let-modal>
+
+          <div class="modal-header">
+            <h3 class="modal-title" id="staticBackdropLabel"><span><em class='fas fa-user-edit'></em></span> Editar usuario</h3>
+            <button type="button" class="btn-close"
+                    (click)='modal.close()' data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+              <div class='row'>
+                <div class='col-xl-12 col-lg-12  col-sm-12'>
+                  <app-input-container
+                    [formGroup]='formGroup'
+                    controlName='name'
+                    name='Nombre'>
+                  </app-input-container>
+                </div>
+                <div class='col-xl-12 col-lg-12  col-sm-12'>
+                  <app-input-container
+                    [formGroup]='formGroup'
+                    controlName='last_name'
+                    name='Apellido'>
+                  </app-input-container>
+                </div>
+                <div class='col-xl-12 col-lg-12  col-sm-12'>
+                  <app-input-container
+                    [formGroup]='formGroup'
+                    [readonly]='isEditEmail'
+                    controlName='email'
+                    name='Correo'>
+                  </app-input-container>
+                </div>
+                <div class='col-xl-12 col-lg-12  col-sm-12'>
+                  <app-input-container
+                  [formGroup]='formGroup'
+                  controlName='phone'
+                  name='Número de Télefono'
+                  typeof='number'
+                  >
+                  </app-input-container>
+                </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)='modal.close()'>Close</button>
+            <button type="button" class="btn btn-primary" (click)='EditUserApp()' >Guardar</button>
+          </div>
+
+  </ng-template>
+
 </div >

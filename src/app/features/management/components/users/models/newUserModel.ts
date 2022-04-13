@@ -13,3 +13,11 @@ export class NewUserModel {
   googleId?: string
   appleId?: string
 }
+
+export class updateUserApp{
+  id: string = ''
+  name = ''
+  last_name ? = ''
+  email ? = ''
+  phone_number?: string = ''
+}
