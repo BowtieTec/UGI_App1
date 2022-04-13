@@ -3,7 +3,8 @@
     [attr.name]="controlName"
     autocomplete="off"
     class="btn-check"
-    formControlName="{{controlName}}"
+    [attr.readonly] = 'true'
+    formControlName = '{{controlName}}'
     id="{{randomString}}"
     type="radio"
     value="{{value}}">

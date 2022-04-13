@@ -597,8 +597,8 @@ ul.opcionActivo li input[type="radio"]:checked + label::before {
 }
 
 ul.opcionActivo li input[type="radio"]:checked + label {
-  border: 2px solid #021C70;
-  background-color: #021C70;
+  border: 2px solid #415ba2;
+  background-color: #415ba2;
   color: #fff;
   transition: all .2s;
 }

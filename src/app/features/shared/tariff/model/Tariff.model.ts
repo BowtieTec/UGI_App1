@@ -9,6 +9,7 @@ export class HourHalfInputModel {
   static_descriptionCost = ''
   costHour = 0
   costAHalf = 0
+  whenIsAHalf = 0
 }
 
 export class FixedCostInputModel {

@@ -1,22 +1,22 @@
-import {AfterViewInit, Component, OnDestroy, ViewChild} from '@angular/core'
-import {CourtesyService} from '../../services/courtesy.service'
-import {MessageService} from '../../../../shared/services/message.service'
-import {CourtesyModel, CourtesyTypeModel} from '../../models/Courtesy.model'
-import {FormBuilder, FormGroup, Validators} from '@angular/forms'
-import {UtilitiesService} from '../../../../shared/services/utilities.service'
-import {AuthService} from '../../../../shared/services/auth.service'
-import {DataTableDirective} from 'angular-datatables'
-import {Subject} from 'rxjs'
-import {DataTableOptions} from '../../../../shared/model/DataTableOptions'
-import {saveAs} from 'file-saver'
-import {PermissionsService} from '../../../../shared/services/permissions.service'
-import {environment} from '../../../../../environments/environment'
-import {ParkingService} from '../../../parking/services/parking.service'
-import {ParkingModel} from '../../../parking/models/Parking.model'
-import {CompaniesModel} from '../../../management/components/users/models/companies.model'
-import {CompaniesService} from '../../../management/components/users/services/companies.service'
-import {SelectModel} from '../../../../shared/model/CommonModels'
-import {ToastrService} from "ngx-toastr";
+import { AfterViewInit, Component, OnDestroy, ViewChild } from '@angular/core'
+import { CourtesyService } from '../../services/courtesy.service'
+import { MessageService } from '../../../../shared/services/message.service'
+import { CourtesyModel, CourtesyTypeModel } from '../../models/Courtesy.model'
+import { FormBuilder, FormGroup, Validators } from '@angular/forms'
+import { UtilitiesService } from '../../../../shared/services/utilities.service'
+import { AuthService } from '../../../../shared/services/auth.service'
+import { DataTableDirective } from 'angular-datatables'
+import { Subject } from 'rxjs'
+import { DataTableOptions } from '../../../../shared/model/DataTableOptions'
+import { saveAs } from 'file-saver'
+import { PermissionsService } from '../../../../shared/services/permissions.service'
+import { environment } from '../../../../../environments/environment'
+import { ParkingService } from '../../../parking/services/parking.service'
+import { ParkingModel } from '../../../parking/models/Parking.model'
+import { CompaniesModel } from '../../../management/components/users/models/companies.model'
+import { CompaniesService } from '../../../management/components/users/services/companies.service'
+import { SelectModel } from '../../../../shared/model/CommonModels'
+import { ToastrService } from 'ngx-toastr'
 
 @Component({
   selector: 'app-courtesy',
@@ -212,7 +212,7 @@ export class CourtesyComponent implements AfterViewInit, OnDestroy {
       name: ['', [Validators.required]],
       type: ['0', [Validators.required]],
       value: ['', [Validators.required, Validators.min(1)]],
-      quantity: ['', [Validators.required, Validators.min(1), Validators.max(150)]],
+      quantity: ['', [Validators.required, Validators.min(2), Validators.max(150)]],
       parkingId: [this.authService.getParking().id],
       companyId: ['0', [Validators.required, Validators.minLength(2)]],
       condition: ['0', [Validators.required, Validators.minLength(1)]],

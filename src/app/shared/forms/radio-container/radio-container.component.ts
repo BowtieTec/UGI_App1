@@ -13,13 +13,17 @@ export class RadioContainerComponent implements OnInit {
   @Input() value!: number
   @Input() formGroup!: FormGroup
   @Input() isChecked = false
+  @Input() readOnly = false
   randomString: string = this.utilitiesService.randomString()
 
-  constructor(private utilitiesService: UtilitiesService) {}
+  constructor(private utilitiesService: UtilitiesService) {
+  }
 
   controlInvalid(control: string): boolean {
     return this.utilitiesService.controlInvalid(this.formGroup, control)
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    console.log('readonly: ', this.readOnly)
+  }
 }

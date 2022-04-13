@@ -1,8 +1,8 @@
-import {Injectable} from '@angular/core'
-import {HolidayInputModel} from '../model/HolidayTariff.model'
-import {All, FixedCostInputModel, HourHalfInputModel, IEvent} from '../model/Tariff.model'
-import {BlockInputModel} from '../model/BlockTariff.model'
-import {RankInputModel} from '../model/RankTariff.model'
+import { Injectable } from '@angular/core'
+import { HolidayInputModel } from '../model/HolidayTariff.model'
+import { All, FixedCostInputModel, HourHalfInputModel, IEvent } from '../model/Tariff.model'
+import { BlockInputModel } from '../model/BlockTariff.model'
+import { RankInputModel } from '../model/RankTariff.model'
 
 @Injectable({
   providedIn: 'root'
@@ -34,6 +34,16 @@ export class BuildRulesService {
         fact: 'date_out',
         operator: 'dateIsLessThan',
         value: input.toDate
+      }
+    ]
+  }
+
+  public static isHalfOfHour(whenIsAHalf: number): All[] {
+    return [
+      {
+        fact: 'minute',
+        operator: 'greaterThanInclusive',
+        value: whenIsAHalf
       }
     ]
   }
