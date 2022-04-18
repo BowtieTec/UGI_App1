@@ -10,4 +10,14 @@ export class NewUserModel {
   parking: string = ''
   status?: number
   Admin?: string
+  googleId?: string
+  appleId?: string
+}
+
+export class updateUserApp{
+  id: string = ''
+  name = ''
+  last_name ? = ''
+  email ? = ''
+  phone_number?: string = ''
 }
