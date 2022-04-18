@@ -113,3 +113,7 @@ export const TypeOfCondition = [
   { id: 1, name: 'Aplicar siempre' },
   { id: 2, name: 'Solo si Cant. Horas es menor o igual a ' }
 ]
+export const settings = {
+  siteKey: '6LeIj4EfAAAAAOwg9h7y9Xh5qJ_N5-HOmeJOxfEZ'
+}
+

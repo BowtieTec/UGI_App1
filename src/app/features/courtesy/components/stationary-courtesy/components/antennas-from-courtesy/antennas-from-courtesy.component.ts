@@ -1,16 +1,5 @@
-import {
-  AfterViewInit,
-  Component,
-  EventEmitter,
-  Input,
-  OnDestroy,
-  Output,
-  ViewChild
-} from '@angular/core'
-import {
-  CreateStation,
-  StationsCourtesyModel
-} from '../../../../../parking/models/StationaryCourtesy.model'
+import { AfterViewInit, Component, EventEmitter, Input, OnDestroy, Output, ViewChild } from '@angular/core'
+import { CreateStation, StationsCourtesyModel } from '../../../../../parking/models/StationaryCourtesy.model'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { MessageService } from '../../../../../../shared/services/message.service'
 import { ParkingService } from '../../../../../parking/services/parking.service'
@@ -78,7 +67,7 @@ export class AntennasFromCourtesyComponent implements AfterViewInit, OnDestroy {
           this.stationsCourtesy = resp[1]
         })
         .then(() => this.rerender())
-    } catch (ex) {
+    } catch (ex: any) {
       throw new Error(ex.message)
     } finally {
       setTimeout(() => {
