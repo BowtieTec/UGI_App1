@@ -1,8 +1,9 @@
-import { Injectable } from '@angular/core'
-import { HolidayInputModel } from '../model/HolidayTariff.model'
-import { All, FixedCostInputModel, HourHalfInputModel, IEvent } from '../model/Tariff.model'
-import { BlockInputModel } from '../model/BlockTariff.model'
-import { RankInputModel } from '../model/RankTariff.model'
+import {Injectable} from '@angular/core'
+import {HolidayInputModel} from '../model/HolidayTariff.model'
+import {All, FixedCostInputModel, HourHalfInputModel, IEvent} from '../model/Tariff.model'
+import {BlockInputModel} from '../model/BlockTariff.model'
+import {RankInputModel} from '../model/RankTariff.model'
+import {DailyInputModel} from "../model/DailyTariff.model";
 
 @Injectable({
   providedIn: 'root'
@@ -19,6 +20,16 @@ export class BuildRulesService {
         fact: 'date_in',
         operator: 'dateIsLessThan',
         value: input.fromDate
+      }
+    ]
+  }
+
+  static getDaily(): All[] {
+    return [
+      {
+        fact: 'days',
+        operator: 'greaterThanInclusive',
+        value: 1
       }
     ]
   }
@@ -203,6 +214,21 @@ export class BuildRulesService {
         value: days
       }
     ]
+  }
+
+  public static getDailyEvent(costPerDay: DailyInputModel): IEvent {
+    return {
+      type: 'Tarifa por dia,',
+      params: [
+        {
+          type: 'Dia',
+          params: {
+            value: costPerDay.costPerDay,
+            path: 'days'
+          }
+        }
+      ]
+    }
   }
 
   public static getDaysOut(days: number[]): All[] {

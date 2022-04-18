@@ -1,22 +1,21 @@
-import { Injectable } from '@angular/core'
-import { FormBuilder, Validators } from '@angular/forms'
-import {
-  DateGreaterValidations,
-  NumberGreaterValidations
-} from '../../../../shared/validators/GreatherThan.validations'
+import {Injectable} from '@angular/core'
+import {FormBuilder, Validators} from '@angular/forms'
+import {DateGreaterValidations, NumberGreaterValidations} from '../../../../shared/validators/GreatherThan.validations'
 
 @Injectable({
   providedIn: 'root'
 })
 export class TariffFormsService {
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(private formBuilder: FormBuilder) {
+  }
 
   createGeneralDataForm() {
     return this.formBuilder.group({
       name: ['', Validators.required],
       description: ['', Validators.required],
       isShowDescription: [true],
-      hasGlobalSchedule: [false]
+      hasGlobalSchedule: [false],
+      isPerDayCondition: [false]
     })
   }
 
@@ -46,7 +45,7 @@ export class TariffFormsService {
         from: ['', [Validators.required]],
         to: ['', [Validators.required]]
       },
-      { validators: [DateGreaterValidations()] }
+      {validators: [DateGreaterValidations()]}
     )
   }
 
@@ -56,7 +55,7 @@ export class TariffFormsService {
         from: ['', Validators.required],
         to: ['', [Validators.required]]
       },
-      { validators: [DateGreaterValidations()] }
+      {validators: [DateGreaterValidations()]}
     )
   }
 
@@ -68,12 +67,18 @@ export class TariffFormsService {
         minuteLowerLimit: [null, [Validators.required, Validators.min(0)]],
         minuteUpperLimit: [null, [Validators.required, Validators.min(0)]]
       },
-      { validators: [NumberGreaterValidations()] }
+      {validators: [NumberGreaterValidations()]}
     )
   }
 
   createDefaultForm() {
     return this.formBuilder.group({})
+  }
+
+  createDailyForm() {
+    return this.formBuilder.group({
+      costPerDay: [null, [Validators.required]]
+    })
   }
 
   createDaysSelectedForm() {

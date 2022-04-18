@@ -24,9 +24,18 @@
     </div>
     <app-tariff-general-data [generalDataForm] = "generalDataForm"></app-tariff-general-data>
   </div>
-  <div class = "row justify-content-center">
-    <div *ngIf = "isValidGeneralData"
-         class = "titleCards animate__animated animate__fadeInUp">
+  <div *ngIf = "isValidGeneralData && this.generalDataFormValues.isPerDayCondition"
+       class = "row justify-content-center">
+    <div
+      class = "titleCards animate__animated animate__fadeInUp">
+      <span><em class = "fas fa-cogs"></em></span> Condicion por dia
+      <hr>
+      <app-dayli-tariff [daysSelectedForm] = "dailyForm"></app-dayli-tariff>
+    </div>
+  </div>
+  <div *ngIf = "isValidGeneralData && !this.generalDataFormValues.isPerDayCondition"
+       class = "row justify-content-center">
+    <div class = "titleCards animate__animated animate__fadeInUp">
       <span><em class = "fas fa-cogs"></em></span> Rangos y Costos
       <hr>
     </div>
@@ -106,16 +115,15 @@
                             [fixedCostForm] = "fixedCostForm"></app-fixed-cost>
           </div>
         </div>
-
-
-        <div class = " text-center mt-4">
-          <button (click) = "saveRule()"
-                  class = "btn btn-success btn-lg "
-                  type = "button">Guardar
-          </button>
-        </div>
       </div>
     </div>
+  </div>
+  <div *ngIf = "isValidGeneralData"
+       class = " text-center mt-4">
+    <button (click) = "saveRule()"
+            class = "btn btn-success btn-lg "
+            type = "button">Guardar
+    </button>
   </div>
   <div *ngIf = " ifHaveTariffData">
     <div class = "titleCards"><span><i class = "fas fa-list-ul"></i></span> Reglas de la tarifa para este parqueo</div>
