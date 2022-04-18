@@ -55,9 +55,9 @@
         <div class="panels">
           <b>Tiempo Total:</b>
           <br>
-          <p *ngIf="this.ticket.days != 0"> D: {{this.ticket.days}} </p>
-          <p *ngIf="this.ticket.hour != 0"> H: {{this.ticket.hour}} </p>
-          <p *ngIf="this.ticket.minute != 0"> M: {{this.ticket.minute}} </p>
+          <p *ngIf="this.ticket.days != 0"> Días: {{this.ticket.days}} </p>
+          <p *ngIf="this.ticket.hour != 0"> Horas: {{this.ticket.hour}} </p>
+          <p *ngIf="this.ticket.minute != 0"> Min.: {{this.ticket.minute}} </p>
         </div>
 
       </div>
@@ -83,5 +83,49 @@
     </div>
     ​
     ​
+    <div class='panels' >
+      <div class='row'>
+        <div class='col-12 text-center'>
+          <table class="table">
+            <thead >
+            <tr >
+              <th scope = "col" >Parqueo</th >
+              <th scope = "col" >Fecha de entrada</th >
+              <th scope = "col" >Fecha de salida</th >
+              <th scope = "col" >Tiempo</th >
+              <th scope = "col" >Descuento</th >
+              <th scope = "col" >Total
+              </th >
+
+
+            </tr >
+            </thead >
+            <tbody >
+            <tr *ngFor = "let ticket of ListTicketTest"
+                class = "animate__animated animate__fadeIn" >
+              <td >{{ticket.parking }}</td >
+              <td >{{ticket.date_in | date: 'dd/MM/YYYY hh:mm a'}}</td >
+              <td >{{ticket.date_out | date: 'dd/MM/YYYY hh:mm a'}}</td >
+              <td ><p *ngIf="this.ticket.days != 0"> Días: {{this.ticket.days}} </p>
+                <p *ngIf="this.ticket.hour != 0"> Horas: {{this.ticket.hour}} </p>
+                <p *ngIf="this.ticket.minute != 0"> Min.: {{this.ticket.minute}} </p></td>
+              <td >{{ticket.amount_disount ? (ticket.amount_disount | currency: 'GTQ') : 0 | currency: 'GTQ' }}</td >
+              <td >{{ticket.amount | currency: 'GTQ' }}</td >
+
+
+
+            </tr >
+            </tbody >
+            <tfoot>
+            <tr>
+              <td colspan="6">Esta es una tabla temporal</td>
+            </tr>
+            </tfoot>
+          </table >
+        </div>
+      </div>
+    </div>
   </div>
 </div>
+
+

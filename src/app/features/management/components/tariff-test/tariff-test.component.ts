@@ -6,7 +6,7 @@ import { ParkingModel } from 'src/app/features/parking/models/Parking.model'
 import { ParkingService } from 'src/app/features/parking/services/parking.service'
 import { MessageService } from 'src/app/shared/services/message.service'
 import { TariffTestService } from './services/tariff-test.service'
-import { tariffTestModel } from './models/tariff-test.model'
+import { listTariffTest, tariffTestModel } from './models/tariff-test.model'
 import { TicketTestModule } from './models/ticket-test.module'
 import { UtilitiesService } from 'src/app/shared/services/utilities.service'
 import { CourtesyService } from '../../../courtesy/services/courtesy.service'
@@ -23,6 +23,8 @@ export class TariffTestComponent {
   allParkingLot: ParkingModel[] = []
   courtesies: CourtesyModel[] = []
   ticket: TicketTestModule
+  listExist = false
+  ListTicketTest: TicketTestModule[] = []
   private courtesyId: string = ''
   private parkingId: string = this.authService.getParking().id
   tariffTestPermission = environment.tariffTest
@@ -39,6 +41,7 @@ export class TariffTestComponent {
     this.ticket = new TicketTestModule()
     this.tariffTestForm = this.createTariffTestForm()
     this.getInitialData().catch()
+
   }
 
   get isSudo() {
@@ -60,7 +63,7 @@ export class TariffTestComponent {
 
   get parkingSelected() {
     this.parkingId = this.tariffTestForm.get('parking')?.value
-    this.tariffTestForm.controls['courtesyId'].setValue('0')
+    this.tariffTestForm.controls['courtesyId'].setValue(null)
     return this.tariffTestForm.get('parking')?.value
   }
 
@@ -78,6 +81,8 @@ export class TariffTestComponent {
     this.ticket = await this.testService
       .getTariffTest(newTest)
       .then((x) => x.ticket)
+
+    this.addItem(this.ticket)
     this.tariffTestForm.reset()
     this.resetTestForm()
   }
@@ -90,14 +95,14 @@ export class TariffTestComponent {
     this.tariffTestForm.controls['parking'].setValue(this.parkingId)
     this.tariffTestForm.controls['date_in'].setValue('')
     this.tariffTestForm.controls['date_out'].setValue('')
-    this.tariffTestForm.controls['courtesyId'].setValue('0')
+    this.tariffTestForm.controls['courtesyId'].setValue(null)
   }
   private createTariffTestForm() {
     return this.formBuilder.group({
       parking: [this.parkingId, [Validators.required]],
       date_in: ['', [Validators.required]],
       date_out: ['', [Validators.required]],
-      courtesyId: ['0']
+      courtesyId: [null]
     })
   }
 
@@ -116,15 +121,28 @@ export class TariffTestComponent {
 
   getCourtesies(parkingId = this.parkingId) {
     return this.courtesyService
-      .getCourtesys(parkingId)
+      .getCourtesiesByParking(parkingId)
       .toPromise()
       .then((data) => {
         if (data.success) {
-          this.courtesies = data.data
-          console.log(data.data)
+          this.courtesies = data.data.filter((t:CourtesyModel) => t.id != null)
         } else {
           this.messageService.error('', data.message)
         }
       })
+  }
+
+  addItem(ticketTest: TicketTestModule){
+    console.log('estoy aca')
+    console.log(ticketTest)
+    if(sessionStorage.getItem('tariffTest') === null){
+        this.ListTicketTest.push(ticketTest)
+        sessionStorage.setItem('tariffTest', JSON.stringify(this.ListTicketTest))
+    }else{
+      this.ListTicketTest = JSON.parse(sessionStorage.getItem('tariffTest') || '[]')
+      this.ListTicketTest.unshift(ticketTest)
+      sessionStorage.setItem('tariffTest', JSON.stringify(this.ListTicketTest))
+    }
+
   }
 }

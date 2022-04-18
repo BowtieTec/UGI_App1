@@ -93,7 +93,6 @@ export class UsersAppComponent implements OnInit, OnDestroy, AfterViewInit {
 
   getEmailEdit(user: NewUserModel){
     this.isEditEmail = !!(user.appleId || user.googleId)
-    console.log(this.isEditEmail)
   }
 
   getRegister(user: NewUserModel){
