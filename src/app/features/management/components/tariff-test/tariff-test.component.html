@@ -1,5 +1,5 @@
 <div class="row justify-content-md-center">
-  <div class="col-xl-8 col-lg-10 col-md-12 col-sm-12">
+  <div class="col-xl-12 col-lg-10 col-md-12 col-sm-12">
     ​
     <div class="panels">
       <div class="titleCards">
@@ -55,16 +55,23 @@
         <div class="panels">
           <b>Tiempo Total:</b>
           <br>
-          <p *ngIf="this.ticket.days != 0"> D: {{this.ticket.days}} </p>
-          <p *ngIf="this.ticket.hour != 0"> H: {{this.ticket.hour}} </p>
-          <p *ngIf="this.ticket.minute != 0"> M: {{this.ticket.minute}} </p>
+          <div style="min-height: 48px;">
+            <br>
+            <h4>
+              <p *ngIf="this.ticket.days == 0 && this.ticket.hour == 0 && this.ticket.minute == 0" >0D:0H:0M</p>
+              <span *ngIf="this.ticket.days != 0">{{this.ticket.days}}D:</span>
+              <span *ngIf="this.ticket.hour != 0">{{this.ticket.hour}}H:</span>
+              <span *ngIf="this.ticket.minute != 0">{{this.ticket.minute}}M</span></h4>
+
+          </div>
+          
         </div>
 
       </div>
 
       <div class="col-md-6 ">
         <div class="panels">
-          <b>Total a pagar:</b><br> {{this.ticket.amount | currency:'GTQ'}}
+          <b>Total a pagar:</b><br><br><b><h4>{{this.ticket.amount | currency:'GTQ'}}</h4></b> 
         </div>
 
       </div>
