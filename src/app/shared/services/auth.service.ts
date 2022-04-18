@@ -7,38 +7,35 @@ import { MessageService } from './message.service'
 import { EncryptionService } from './encryption.service'
 import { Router } from '@angular/router'
 import { ReCaptchaV3Service } from 'ng-recaptcha'
+import { sha512 } from 'js-sha512'
+import { UtilitiesService } from './utilities.service'
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  ip = ''
   private apiUrl = environment.serverAPI
+  userContext = ''
 
   constructor(
     private http: HttpClient,
     private message: MessageService,
     private crypto: EncryptionService,
     private route: Router,
-    private recaptcha: ReCaptchaV3Service
+    private recaptcha: ReCaptchaV3Service,
+    private utilities: UtilitiesService
   ) {
+    this.userContext = sha512(this.utilities.randomString())
   }
 
   get isSudo() {
     return this.getUser().user.role.isSudo
   }
 
-  getIPAddress() {
-    return this.http.get('http://api.ipify.org/?format=json').subscribe((res: any) => {
-      this.ip = res.ip
-      console.log(this.ip)
-    })
-  }
-
   saveUser(user: AuthModel) {
-    localStorage.setItem(
-      this.crypto.encryptKey('User'),
+    sessionStorage.setItem(
+      this.crypto.encryptKey('User', this.userContext),
       this.crypto.encrypt(JSON.stringify(user).replace('/n', ''))
     )
   }
@@ -48,20 +45,20 @@ export class AuthService {
   }
 
   getUser(): AuthModel {
-    const sentence = localStorage.getItem(this.crypto.encryptKey('User'))
+    const sentence = sessionStorage.getItem(this.crypto.encryptKey('User', this.userContext))
     return {
       ...JSON.parse(this.crypto.decrypt(sentence!))
     }
   }
 
   cleanUser() {
-    localStorage.removeItem(this.crypto.encryptKey('User'))
+    sessionStorage.clear()
+    localStorage.clear()
   }
 
   login(login: UserRequestModel) {
-    this.recaptcha.execute('importantAction')
+    this.recaptcha.execute('login')
       .subscribe((token: string) => {
-        console.log(token)
         this.message.showLoading()
         this.http
           .post<UserResponseModel>(`${this.apiUrl}backoffice/admin/signin`, login)
