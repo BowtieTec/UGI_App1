@@ -1,9 +1,4 @@
-import {
-  DiscountOnWhat,
-  leftMenu,
-  permission,
-  TypeOfCondition
-} from './sharedVariables'
+import { DiscountOnWhat, leftMenu, permission, settings, TypeOfCondition } from './sharedVariables'
 
 const Ip = 'localhost'
 const Port = '3000'
@@ -14,5 +9,6 @@ export const environment = {
   DiscountOnWhat,
   TypeOfCondition,
   leftMenu,
-  ...permission
+  ...permission,
+  settings
 }

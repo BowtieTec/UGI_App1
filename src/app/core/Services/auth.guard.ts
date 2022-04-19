@@ -1,11 +1,5 @@
 import { Injectable } from '@angular/core'
-import {
-  ActivatedRouteSnapshot,
-  CanActivate,
-  Router,
-  RouterStateSnapshot,
-  UrlTree
-} from '@angular/router'
+import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router'
 import { Observable } from 'rxjs'
 import { AuthService } from '../../shared/services/auth.service'
 import { PermissionsService } from '../../shared/services/permissions.service'
@@ -33,7 +27,7 @@ export class AuthGuard implements CanActivate {
     | boolean
     | UrlTree {
     this.messageService.showLoading()
-    if (localStorage.getItem(this.crypto.encryptKey('User')) == undefined) {
+    if (sessionStorage.getItem(this.crypto.encryptKey('User', this.auth.userContext)) == undefined) {
       this.messageService.infoTimeOut(
         'Debe iniciar sesión para acceder a las funcionalidades.',
         'Iniciar sesión'

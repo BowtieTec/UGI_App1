@@ -2,12 +2,7 @@
 // `ng build` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
-import {
-  DiscountOnWhat,
-  leftMenu,
-  permission,
-  TypeOfCondition
-} from './sharedVariables'
+import { DiscountOnWhat, leftMenu, permission, settings, TypeOfCondition } from './sharedVariables'
 
 const Ip = 'dev.bowtietech.pro'
 const Port = '3001'
@@ -18,5 +13,6 @@ export const environment = {
   DiscountOnWhat,
   TypeOfCondition,
   leftMenu: leftMenu,
-  ...permission
+  ...permission,
+  settings
 }

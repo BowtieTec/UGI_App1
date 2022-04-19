@@ -32,13 +32,13 @@ export class EncryptionService {
     )
   }
 
-  encryptKey(sentence: string): string {
+  encryptKey(sentence: string, userContext: string): string {
     if (sentence == undefined) {
       return '{}'
     }
     return CryptoJS.HmacSHA256(
       CryptoJS.enc.Utf8.parse(sentence),
-      this.secretKey
+      userContext
     ).toString()
   }
 

@@ -214,8 +214,8 @@ export class CourtesyComponent implements AfterViewInit, OnDestroy {
       value: ['', [Validators.required, Validators.min(1)]],
       quantity: ['', [Validators.required, Validators.min(2), Validators.max(150)]],
       parkingId: [this.authService.getParking().id],
-      companyId: ['0', [Validators.required]],
-      condition: ['0', [Validators.required]],
+      companyId: ['0', [Validators.required, Validators.minLength(2)]],
+      condition: ['0', [Validators.required, Validators.minLength(1)]],
       cantHours: ['0', [Validators.required]]
     })
   }
