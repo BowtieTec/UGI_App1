@@ -33,6 +33,12 @@ export class CourtesyService {
     )
   }
 
+  getCourtesiesByParking(id: string){
+    return this.http.get<ResponseModel>(
+      `${this.apiUrl}backoffice/cortesy/cortesiesByParking/${id}`
+    )
+  }
+
   getPDF(id: string) {
     return this.http.get(
       `${this.apiUrl}backoffice/cortesy/cortesiespdf/${id}`,

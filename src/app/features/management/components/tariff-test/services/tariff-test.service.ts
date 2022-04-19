@@ -20,7 +20,7 @@ export class TariffTestService {
   getTariffTest(testModel: tariffTestModel) {
     this.messageService.showLoading()
     return this.http
-      .post<ResponseModel>(`${this.apiUrl}backoffice/tariff/test`, testModel)
+      .post<ResponseModel>(`${this.apiUrl}test/calculateTariff`, testModel)
       .pipe(
         map((x: ResponseModel) => {
           if (x.success) {
