@@ -6,7 +6,7 @@ import { ParkingModel } from 'src/app/features/parking/models/Parking.model'
 import { ParkingService } from 'src/app/features/parking/services/parking.service'
 import { MessageService } from 'src/app/shared/services/message.service'
 import { TariffTestService } from './services/tariff-test.service'
-import { listTariffTest, tariffTestModel } from './models/tariff-test.model'
+import { tariffTestModel } from './models/tariff-test.model'
 import { TicketTestModule } from './models/ticket-test.module'
 import { UtilitiesService } from 'src/app/shared/services/utilities.service'
 import { CourtesyService } from '../../../courtesy/services/courtesy.service'
@@ -133,10 +133,9 @@ export class TariffTestComponent {
   }
 
   addItem(ticketTest: TicketTestModule){
-    console.log('estoy aca')
-    console.log(ticketTest)
     if(sessionStorage.getItem('tariffTest') === null){
         this.ListTicketTest.push(ticketTest)
+        this.listExist = true
         sessionStorage.setItem('tariffTest', JSON.stringify(this.ListTicketTest))
     }else{
       this.ListTicketTest = JSON.parse(sessionStorage.getItem('tariffTest') || '[]')
