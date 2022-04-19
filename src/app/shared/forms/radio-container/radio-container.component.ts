@@ -24,6 +24,5 @@ export class RadioContainerComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log('readonly: ', this.readOnly)
   }
 }

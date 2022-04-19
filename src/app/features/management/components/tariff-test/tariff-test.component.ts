@@ -77,7 +77,6 @@ export class TariffTestComponent {
       return
     }
     const newTest = this.formTariffTestValues
-    console.log(newTest)
     this.ticket = await this.testService
       .getTariffTest(newTest)
       .then((x) => x.ticket)

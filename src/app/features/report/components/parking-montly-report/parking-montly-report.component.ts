@@ -409,7 +409,6 @@ export class ParkingMontlyReportComponent implements OnInit {
   }
 
   customizeText(cellInfo: any) {
-    console.log(cellInfo.value)
     let text: string =
       cellInfo.value == null ? 'Sin perfil especial' : cellInfo.value
     return text

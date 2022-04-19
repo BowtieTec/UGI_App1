@@ -1,11 +1,11 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core'
-import {FormBuilder, FormGroup, Validators} from '@angular/forms'
-import {MessageService} from '../../../../../../shared/services/message.service'
-import {ParkingService} from '../../../../services/parking.service'
-import {UtilitiesService} from '../../../../../../shared/services/utilities.service'
-import {SettingsOptionsModel} from '../../../../models/SettingsOption.model'
-import {CreateParkingStepFourModel} from '../../../../models/CreateParking.model'
-import {Router} from '@angular/router'
+import { Component, EventEmitter, Input, Output } from '@angular/core'
+import { FormBuilder, FormGroup, Validators } from '@angular/forms'
+import { MessageService } from '../../../../../../shared/services/message.service'
+import { ParkingService } from '../../../../services/parking.service'
+import { UtilitiesService } from '../../../../../../shared/services/utilities.service'
+import { SettingsOptionsModel } from '../../../../models/SettingsOption.model'
+import { CreateParkingStepFourModel } from '../../../../models/CreateParking.model'
+import { Router } from '@angular/router'
 
 @Component({
   selector: 'app-billing-data',
@@ -28,7 +28,6 @@ export class BillingDataComponent {
     private route: Router
   ) {
     this.settingsOptions = this.parkingService.settingsOptions
-    console.log(this.settingsOptions)
   }
 
   get isVisaSelected() {
@@ -43,7 +42,6 @@ export class BillingDataComponent {
 
   addValidators() {
     if (this.stepFourForm.controls['is_our_visa_credential'].value) {
-      console.log('IFFFFF')
       this.stepFourForm.controls['merchant_id_visa'].setValidators(
         Validators.required
       )
@@ -55,7 +53,6 @@ export class BillingDataComponent {
       )
       this.stepFourForm.controls['terminal'].setValidators(Validators.required)
     } else {
-      console.log('ELSEEE')
       this.stepFourForm.controls['merchant_id_visa'].clearValidators()
       this.stepFourForm.controls['merchant_pass_visa'].clearValidators()
       this.stepFourForm.controls['afiliacion'].clearValidators()
@@ -65,7 +62,6 @@ export class BillingDataComponent {
       this.stepFourForm.controls['afiliacion'].setErrors(null)
       this.stepFourForm.controls['terminal'].setErrors(null)
     }
-    console.log(this.stepFourForm)
   }
 
   controlInvalid(control: string): boolean {

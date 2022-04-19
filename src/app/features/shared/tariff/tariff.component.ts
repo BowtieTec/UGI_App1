@@ -1,22 +1,22 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core'
-import {FormBuilder, FormGroup} from '@angular/forms'
-import {UtilitiesService} from '../../../shared/services/utilities.service'
-import {MessageService} from '../../../shared/services/message.service'
-import {HolidayInputModel} from './model/HolidayTariff.model'
-import {RankInputModel} from './model/RankTariff.model'
-import {BlockInputModel} from './model/BlockTariff.model'
-import {DefaultInputModel} from './model/DefaultTariff.model'
-import {ParkingService} from '../../parking/services/parking.service'
-import {CurrencyPipe, DatePipe, Time} from '@angular/common'
-import {ValidationsService} from './service/validations.service'
-import {AuthService} from '../../../shared/services/auth.service'
-import {TariffFormsService} from './service/tariff-forms.service'
-import {All, FixedCostInputModel, HourHalfInputModel, IEvent, Rules} from './model/Tariff.model'
-import {CreateTariffModel} from '../../parking/models/Tariff.model'
-import {BuildRulesService} from './service/build-rules.service'
-import {environment} from '../../../../environments/environment'
-import {PermissionsService} from '../../../shared/services/permissions.service'
-import {DailyInputModel} from "./model/DailyTariff.model";
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
+import { FormBuilder, FormGroup } from '@angular/forms'
+import { UtilitiesService } from '../../../shared/services/utilities.service'
+import { MessageService } from '../../../shared/services/message.service'
+import { HolidayInputModel } from './model/HolidayTariff.model'
+import { RankInputModel } from './model/RankTariff.model'
+import { BlockInputModel } from './model/BlockTariff.model'
+import { DefaultInputModel } from './model/DefaultTariff.model'
+import { ParkingService } from '../../parking/services/parking.service'
+import { CurrencyPipe, DatePipe, Time } from '@angular/common'
+import { ValidationsService } from './service/validations.service'
+import { AuthService } from '../../../shared/services/auth.service'
+import { TariffFormsService } from './service/tariff-forms.service'
+import { All, FixedCostInputModel, HourHalfInputModel, IEvent, Rules } from './model/Tariff.model'
+import { CreateTariffModel } from '../../parking/models/Tariff.model'
+import { BuildRulesService } from './service/build-rules.service'
+import { environment } from '../../../../environments/environment'
+import { PermissionsService } from '../../../shared/services/permissions.service'
+import { DailyInputModel } from './model/DailyTariff.model'
 
 @Component({
   selector: 'app-tariff',
@@ -430,7 +430,6 @@ export class TariffComponent implements OnInit {
     const isValid = this.validateForms()
     if (!isValid) return
     const newRule = this.buildTariffJsonRules()
-    console.log(newRule);
     if (!newRule.rules) {
       this.messageService.error(
         '',

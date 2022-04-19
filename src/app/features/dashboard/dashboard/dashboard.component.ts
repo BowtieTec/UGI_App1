@@ -2,7 +2,6 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core'
 import { environment } from '../../../../environments/environment'
 import { PermissionsService } from '../../../shared/services/permissions.service'
 import { ParkingService } from '../../parking/services/parking.service'
-import { FormGroup } from '@angular/forms'
 import { ParkingModel } from '../../parking/models/Parking.model'
 import { AuthService } from '../../../shared/services/auth.service'
 import { MessageService } from '../../../shared/services/message.service'
@@ -278,7 +277,6 @@ export class DashboardComponent implements OnInit {
     const yearSelected = this.inputIngresoMesAnio.nativeElement.value;
     if(yearSelected == new Date().getFullYear()){
       this.monthFiltered = this.allMonths.filter(x =>Number(x.key)<= Number(new Date().getMonth())+1)
-      console.log(Number(new Date().getMonth()))
     }else{
       this.monthFiltered = this.allMonths
     }

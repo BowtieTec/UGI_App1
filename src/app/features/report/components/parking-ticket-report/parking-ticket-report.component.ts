@@ -121,7 +121,6 @@ export class ParkingTicketReportComponent implements OnInit {
         if (data.success) {
           this.report = data.data
           this.dataSource = data.data
-          console.log(this.report.length)
           if (this.report.length == 0) {
             this.messageService.infoTimeOut('No se encontraron datos')
           }
@@ -328,7 +327,6 @@ export class ParkingTicketReportComponent implements OnInit {
     })
     // Add Data and Conditional Formatting
     this.dataSource.forEach((d: any) => {
-      console.log(d.fecha)
       const row = worksheet.addRow([
         '',
 

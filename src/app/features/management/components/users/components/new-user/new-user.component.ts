@@ -1,10 +1,4 @@
-import {
-  AfterContentInit,
-  AfterViewInit,
-  Component,
-  Input,
-  OnInit
-} from '@angular/core'
+import { Component, Input, OnInit } from '@angular/core'
 import { UserService } from '../../services/user.service'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { UtilitiesService } from '../../../../../../shared/services/utilities.service'
@@ -107,8 +101,6 @@ export class NewUserComponent implements OnInit {
       this.messageServices.errorTimeOut('Datos incorrectos o faltantes.')
       return
     }
-
-    console.log(newUserValue)
     this.messageServices.showLoading()
     if (this.isEdit) {
       delete newUserValue.password
@@ -153,7 +145,6 @@ export class NewUserComponent implements OnInit {
           this.isEdit = false
         })
         .catch((x) => {
-          console.log(x)
           throw new Error(x.error.message)
         })
         .then(() => {

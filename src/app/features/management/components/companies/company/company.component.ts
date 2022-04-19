@@ -1,13 +1,6 @@
 import { environment } from 'src/environments/environment'
 import { PermissionsService } from './../../../../../shared/services/permissions.service'
-import {
-  AfterViewInit,
-  Component,
-  Input,
-  OnDestroy,
-  ViewChild,
-  OnInit
-} from '@angular/core'
+import { AfterViewInit, Component, Input, OnDestroy, ViewChild } from '@angular/core'
 import { UtilitiesService } from '../../../../../shared/services/utilities.service'
 import { CompaniesService } from '../../users/services/companies.service'
 import { AuthService } from '../../../../../shared/services/auth.service'
@@ -98,7 +91,6 @@ export class CompanyComponent implements AfterViewInit, OnDestroy {
   }
 
   async saveCompany() {
-    console.log(this.companiesForm.value)
     if (this.companiesForm.invalid) {
       this.messageService.error('', 'Datos no válidos o faltantes')
       return

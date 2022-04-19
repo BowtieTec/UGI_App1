@@ -4,7 +4,7 @@ import { Router } from '@angular/router'
 import { AuthService } from '../../shared/services/auth.service'
 import { throwError } from 'rxjs'
 import { environment } from '../../../environments/environment'
-import { HttpErrorResponse, HttpRequest, HttpResponse } from '@angular/common/http'
+import { HttpErrorResponse } from '@angular/common/http'
 
 @Injectable()
 export class GlobalErrorHandler implements ErrorHandler {
@@ -15,7 +15,6 @@ export class GlobalErrorHandler implements ErrorHandler {
   ) {}
 
   handleError(error: Response | HttpErrorResponse | any) {
-    console.log( error)
     if (!environment.production) console.error('Error: ')
     switch (error.status) {
       case 401:

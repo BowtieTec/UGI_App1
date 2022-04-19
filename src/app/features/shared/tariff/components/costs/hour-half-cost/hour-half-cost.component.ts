@@ -1,6 +1,6 @@
-import {Component, Input, OnInit} from '@angular/core'
-import {FormGroup} from '@angular/forms'
-import {UtilitiesService} from '../../../../../../shared/services/utilities.service'
+import { Component, Input, OnInit } from '@angular/core'
+import { FormGroup } from '@angular/forms'
+import { UtilitiesService } from '../../../../../../shared/services/utilities.service'
 
 @Component({
   selector: 'app-hour-half-cost',
@@ -27,7 +27,7 @@ export class HourHalfCostComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this.settingValues);
+
   }
 
   validateHourHalfCost(control: string) {
