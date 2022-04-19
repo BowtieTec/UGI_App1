@@ -15,7 +15,7 @@ export class ParkingStatusModel {
 
 export class Day {
   id = 0
-  description = ''
+  name = ''
 }
 
 export class SettingsOptionsModel {

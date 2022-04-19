@@ -21,7 +21,7 @@ export class InputContainerComponent implements OnInit {
   @Input() textInfo = ''
   @Input() readonly: boolean = false
   @Input() minL = '0'
-  @Input() maxL = '0'
+  @Input() maxL = '30'
 
   constructor(private utilitiesService: UtilitiesService) {}
 
@@ -33,7 +33,7 @@ export class InputContainerComponent implements OnInit {
     if (this.type == 'text') {
       this.formGroup.controls[this.controlName].addValidators([
         Validators.minLength(1),
-        Validators.maxLength(30),
+        Validators.maxLength(parseInt(this.maxL)),
         Validators.pattern(/^[^$%&|*'\\";:>#]*$/)
       ])
     } else if (this.type == 'number') {
