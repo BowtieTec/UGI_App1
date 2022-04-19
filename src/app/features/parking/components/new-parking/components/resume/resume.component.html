@@ -2,50 +2,35 @@
   Parqueo creado
 </div>
 
-  <h6>Datos generales</h6>
+<h6>Datos generales</h6>
 
 <div class='row'>
   <div class='col-lg-6 col-md-6 col-sm-12'>
     <div class="panels">
-      <div class="titleCards">
+      <div class="titleCards mb-1">
         <span>
           <i class="fas fa-parking" aria-hidden="true"></i>
         </span>Información de parqueo
       </div>
       <div class="row">
-
-        <div class="col-lg-12">
-          <div class="row">
-            <div class="col-md-4 mt-2"><b>Nombre:</b></div>
-            <div class="col-md-8 mb-2">
-              {{this.stepOne.name}}
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-4 mt-2"><b>Dirección:</b></div>
-            <div class="col-md-8 mb-2">
-              {{this.stepOne.address}}
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-4 mt-2"><b>No. de parqueos:</b></div>
-            <div class="col-md-8 mb-2">
-              {{this.stepOne.parking_spaces}}
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-4 mt-2"><b>Parqueos especiales:</b></div>
-            <div class="col-md-8 mb-2">
-              {{this.stepOne.special_parking_spaces}}
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-4 mt-2"><b>Tiempo de salida:</b></div>
-            <div class="col-md-8 mb-2">
-              {{this.stepOne.minutes_to_exit}}
-            </div>
-          </div>
-        </div>
+        <div class="col-md-4 mt-2"><b>Nombre:</b></div>
+        <div class="col-md-8 mb-2">{{this.stepOne.name}}</div>
+      </div>
+      <div class="row">
+        <div class="col-md-4 mt-2"><b>Dirección:</b></div>
+        <div class="col-md-8 mb-2">{{this.stepOne.address}}</div>
+      </div>
+      <div class="row">
+        <div class="col-md-4 mt-2"><b>No. de parqueos:</b></div>
+        <div class="col-md-8 mb-2">{{this.stepOne.parking_spaces}}</div>
+      </div>
+      <div class="row">
+        <div class="col-md-4 mt-2"><b>Parqueos especiales:</b></div>
+        <div class="col-md-8 mb-2">{{this.stepOne.special_parking_spaces}}</div>
+      </div>
+      <div class="row">
+        <div class="col-md-4 mt-2"><b>Tiempo de salida:</b></div>
+        <div class="col-md-8 mb-2">{{this.stepOne.minutes_to_exit}}</div>
       </div>
     </div>
   </div>
@@ -57,24 +42,24 @@
         </span>Datos de facturación
       </div>
       <div class="row">
-        <div class="col-4 mt-4 mt-2"><b>Razón Social:</b></div>
-        <div class="col-8 mt-4 mb-2">{{this.stepFour.business_name}}</div>
+        <div class="col-md-4 mt-2"><b>Razón Social:</b></div>
+        <div class="col-md-8 mb-2">{{this.stepFour.business_name}}</div>
       </div>
       <div class="row">
-        <div class="col-4 mt-2 mt-2"><b>No. de Nit:</b></div>
-        <div class="col-8 mt-2 mb-2">{{this.stepFour.nit}}</div>
+        <div class="col-md-4 mt-2"><b>No. de Nit:</b></div>
+        <div class="col-md-8 mb-2">{{this.stepFour.nit}}</div>
       </div>
       <div class="row">
-        <div class="col-4 mt-2 mt-2"><b>Dirección:</b></div>
-        <div class="col-8 mt-2 mb-2">{{this.stepFour.business_address}}</div>
+        <div class="col-md-4 mt-2"><b>Dirección:</b></div>
+        <div class="col-md-8 mb-2">{{this.stepFour.business_address}}</div>
       </div>
       <div class="row">
-        <div class="col-4 mt-2 mt-2"><b>Método de pago:</b></div>
-        <div class="col-8 mt-2 mb-2">{{this.getPayMethodById(this.stepFour.pay_method).description}}</div>
+        <div class="col-md-4 mt-2"><b>Método de pago:</b></div>
+        <div class="col-md-8 mb-2">{{this.getPayMethodById(this.stepFour.pay_method).description}}</div>
       </div>
       <div class="row">
-        <div class="col-4 mt-2 mt-2"><b>Moneda de facturación:</b></div>
-        <div class="col-8 mt-2 mb-2">{{this.getCurrencyById(this.stepFour.currency).name}}</div>
+        <div class="col-md-4 mt-2"><b>Moneda de facturación:</b></div>
+        <div class="col-md-8 mb-2">{{this.getCurrencyById(this.stepFour.currency).name}}</div>
       </div>
     </div>
   </div>
