@@ -169,10 +169,10 @@ export class CourtesyReportComponent implements OnInit {
       'Local',
       'Tipo',
       'Cortesias',
-      'Descuento',
+      'Descuento (Q)',
       'Transacciones',
       'Disponibles',
-      'Total descuento'
+      'Total descuento (Q)'
     ]
     //Create workbook and worksheet
     const workbook = new Workbook()
