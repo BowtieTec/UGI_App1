@@ -1,6 +1,6 @@
 export class PaymentMethodModel {
   id = 0
-  description = ''
+  name = ''
 }
 
 export class CurrencyOptionModel {
