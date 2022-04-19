@@ -143,30 +143,34 @@
                 <button (click) = "deleteTariff(tariff.id)"
                         class = "btn btn-danger btn-icon"
                         type = "button">
-                  <i class = "fas fa-trash"></i>
+                  <i class = 'fas fa-trash'></i>
                 </button>
               </div>
             </div>
-            <div class = "titleCards mb-0">{{tariff.name}}</div>
+            <div class = 'titleCards mb-0'>{{tariff.name}}</div>
             {{tariff.static_description}}
           </div>
         </div>
       </div>
     </div>
-    <div class = "text-center"
-         id = "q-box__buttons">
-      <button (click) = "emmitStep(-1)"
-              *ngIf = "isCreatingParking"
-              class = "btn btn-primary m-2"
-              id = "prev-btn"
-              type = "button">Anterior
+
+  </div>
+   <div
+     class = 'text-center'
+     id = 'q-box__buttons'>
+      <button
+        (click) = 'emmitStep(-1)'
+        *ngIf = 'isCreatingParking'
+        class = 'btn btn-primary m-2'
+        id = 'prev-btn'
+        type = 'button'>Anterior
       </button>
-      <button (click) = "emmitStep(1)"
-              *ngIf = "isCreatingParking"
-              class = "btn btn-primary m-2"
-              id = "next-btn"
-              type = "button">Siguiente
+      <button
+        (click) = 'emmitStep(1)'
+        *ngIf = 'isCreatingParking'
+        class = 'btn btn-primary m-2'
+        id = 'next-btn'
+        type = 'button'>Siguiente
       </button>
     </div>
-  </div>
 </div>

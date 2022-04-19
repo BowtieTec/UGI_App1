@@ -2,6 +2,7 @@ import { Component } from '@angular/core'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { AuthService } from '../../../shared/services/auth.service'
 import { MessageService } from '../../../shared/services/message.service'
+import { environment } from '../../../../environments/environment'
 
 @Component({
   selector: 'app-login',
@@ -38,7 +39,7 @@ export class LoginComponent {
              ),
            ]
       ],
-      password: ['', [Validators.required, Validators.minLength(8)]]
+      password: ['', [Validators.required, Validators.pattern(environment.settings.passwordPattern)]]
     })
   }
 

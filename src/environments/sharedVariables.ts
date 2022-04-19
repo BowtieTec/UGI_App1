@@ -114,6 +114,7 @@ export const TypeOfCondition = [
   { id: 2, name: 'Solo si Cant. Horas es menor o igual a ' }
 ]
 export const settings = {
-  siteKey: '6LesloIfAAAAANKGMOJ5SOxyRugy3woH7Y1DP1f6'
+  siteKey: '6LesloIfAAAAANKGMOJ5SOxyRugy3woH7Y1DP1f6',
+  passwordPattern: '^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[$@$!%*?&])([A-Za-z\\d$@$!%*?&]|[^ ]){8,30}$'
 }
 

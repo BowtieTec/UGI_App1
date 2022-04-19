@@ -13,16 +13,15 @@ import { BillingDataComponent } from './components/new-parking/components/billin
 import { AntennasComponent } from './components/antennas/antennas.component'
 import { ResumeComponent } from './components/new-parking/components/resume/resume.component'
 import { SharedModule } from '../../shared/shared.module'
-import {
-  NgbDatepickerModule,
-  NgbModule,
-  NgbTimepickerModule
-} from '@ng-bootstrap/ng-bootstrap'
+import { NgbDatepickerModule, NgbModule, NgbTimepickerModule } from '@ng-bootstrap/ng-bootstrap'
 import { ParkingMenuComponent } from './parking-menu.component'
 import { MonthlyParkingComponent } from './components/monthly-parking/monthly-parking.component'
 import { DataTablesModule } from 'angular-datatables'
-import { CreateMonthlyParkingComponent } from './components/monthly-parking/create-monthly-parking/create-monthly-parking.component'
+import {
+  CreateMonthlyParkingComponent
+} from './components/monthly-parking/create-monthly-parking/create-monthly-parking.component'
 import { FeaturesModule } from '../features.module'
+import { FileUploadModule } from '../../register-public-form/components/file-upload.module'
 
 @NgModule({
   declarations: [
@@ -49,7 +48,8 @@ import { FeaturesModule } from '../features.module'
     NgbModule,
     FormsModule,
     DataTablesModule,
-    FeaturesModule
+    FeaturesModule,
+    FileUploadModule
   ],
   providers: [DatePipe, CurrencyPipe],
   exports: [

@@ -18,16 +18,18 @@
         type = "text" >
 
     </div >
-    <div class = "form-group" >
-      <small *ngIf = "controlInvalid('password')"
-             class = "text-danger" >Se requiere una contraseña valida.</small >
-      <input [class.is-invalid] = "controlInvalid('password')"
-             class = "form-control"
-             formControlName = "password"
-             placeholder = "Contraseña"
-             required = "required"
-             type = "password" >
-    </div >
+    <div class = 'form-group'>
+      <small
+        *ngIf = "controlInvalid('password')"
+        class = 'text-danger'>La contraseña es inválida.</small>
+      <input
+        [class.is-invalid] = "controlInvalid('password')"
+        class = 'form-control'
+        formControlName = 'password'
+        placeholder = 'Contraseña'
+        required = 'required'
+        type = 'password'>
+    </div>
     <button class = "btn btn-primary btn-block login"
             onclick = "location.href='#'" >Ingresar
     </button >

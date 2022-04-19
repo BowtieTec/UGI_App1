@@ -40,6 +40,7 @@ export class FileUploadComponent implements OnInit {
 
   async emmitStep(number: number) {
     this.message.showLoading()
+    let promises = []
     if (number == 1) {
       if (this.filesPlans) {
         //Plans------------------------------------------
@@ -47,37 +48,37 @@ export class FileUploadComponent implements OnInit {
         for (let i = 0; i < this.filesPlans.length; i++) {
           formData.append('plans', this.filesPlans[i])
         }
-        await this.fileServices
+        promises.push(this.fileServices
           .UploadPlans(formData, this.parkingId)
           .toPromise()
-          .then((res) => {})
-          .catch((err: any) => console.log(err))
+          .catch((err: any) => this.message.errorTimeOut(err.message)))
       }
       if (this.fileTariff) {
         //Tariff-----------------------------------------
         const formDataTariff = new FormData()
         formDataTariff.append('rate', this.fileTariff)
-        await this.fileServices
+        promises.push(this.fileServices
           .UploadTariff(formDataTariff, this.parkingId)
           .toPromise()
-          .then((res: any) => {})
-          .catch((err: any) => this.message.OkTimeOut(err.message))
+          .catch((err: any) => this.message.errorTimeOut(err.message)))
       }
 
       if (this.fileLogo) {
         //LOGO----------------------------------------
         const formDataLogo = new FormData()
         formDataLogo.append('logo', this.fileLogo)
-        await this.fileServices
+        promises.push(this.fileServices
           .UploadLogo(formDataLogo, this.parkingId)
           .toPromise()
-          .then((res) => {})
-          .catch((err: any) => this.message.OkTimeOut(err.message))
-      } else {
+          .catch((err: any) => this.message.errorTimeOut(err.message)))
       }
     }
-    this.message.hideLoading()
-    this.changeStep.emit(number)
+    await Promise.all(promises)
+      .then(x => {
+        this.message.OkTimeOut()
+        this.changeStep.emit(number)
+      })
+
   }
 
   createForm() {

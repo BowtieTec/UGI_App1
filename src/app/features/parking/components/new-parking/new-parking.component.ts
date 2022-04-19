@@ -1,9 +1,9 @@
-import {Component} from '@angular/core'
-import {FormBuilder, FormGroup} from '@angular/forms'
-import {MessageService} from '../../../../shared/services/message.service'
-import {ParkingService} from '../../services/parking.service'
-import {SettingsOptionsModel} from '../../models/SettingsOption.model'
-import {UtilitiesService} from '../../../../shared/services/utilities.service'
+import { Component } from '@angular/core'
+import { FormBuilder, FormGroup } from '@angular/forms'
+import { MessageService } from '../../../../shared/services/message.service'
+import { ParkingService } from '../../services/parking.service'
+import { SettingsOptionsModel } from '../../models/SettingsOption.model'
+import { UtilitiesService } from '../../../../shared/services/utilities.service'
 
 @Component({
   selector: 'app-new-parking',
@@ -12,7 +12,7 @@ import {UtilitiesService} from '../../../../shared/services/utilities.service'
 })
 export class NewParkingComponent {
   newParkingForm!: FormGroup
-  totalSteps = 6
+  totalSteps = 7
   step = 1
 
   settingsOptions!: SettingsOptionsModel

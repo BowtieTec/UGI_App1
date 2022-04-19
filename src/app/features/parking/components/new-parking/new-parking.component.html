@@ -41,29 +41,40 @@
                 (changeStep)="changeStep($event)"
                 [isCreatingParking]="true" [parkingId]="parkingId"></app-tariff>
             </div>
-            <div *ngIf="step ==4 && this.settingsOptions != undefined"
-                 class="animate__animated animate__fadeInLeft"
-                 id="stepFour">
+            <div
+              *ngIf = 'step ==4 && this.settingsOptions != undefined'
+              class = 'animate__animated animate__fadeInLeft'
+              id = 'stepFour'>
               <app-billing-data
-                (changeStep)="changeStep($event)"
-                [parkingId]="parkingId">
+                (changeStep) = 'changeStep($event)'
+                [parkingId] = 'parkingId'>
               </app-billing-data>
 
             </div>
-            <div *ngIf="step ==5"
-                 class="animate__animated animate__fadeInLeft"
-                 id="stepFive">
+            <div
+              *ngIf = 'step ==5'
+              class = 'animate__animated animate__fadeInLeft'
+              id = 'stepFive'>
               <app-antennas
-                (changeStep)="changeStep($event)"
-                [isCreatingParking]="true"
-                [parkingId]="parkingId">
+                (changeStep) = 'changeStep($event)'
+                [isCreatingParking] = 'true'
+                [parkingId] = 'parkingId'>
               </app-antennas>
             </div>
+            <div>
+              <app-file-upload
+                (changeStep) = 'changeStep($event)'
+                *ngIf = 'step ==6'
+                [parkingId] = 'parkingId'
+                class = 'animate__animated animate__fadeInLeft'
+                id = 'stepSix'>>
+              </app-file-upload>
+            </div>
             <div
-              *ngIf="step == this.totalSteps"
-              class="animate__animated animate__fadeInLeft"
-              id="lastStep">
-              <app-resume (changeStep)="changeStep($event)"></app-resume>
+              *ngIf = 'step == this.totalSteps'
+              class = 'animate__animated animate__fadeInLeft'
+              id = 'lastStep'>
+              <app-resume (changeStep) = 'changeStep($event)'></app-resume>
             </div>
           </div>
           <div class="text-center"

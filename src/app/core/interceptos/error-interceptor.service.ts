@@ -42,18 +42,19 @@ export class GlobalErrorHandler implements ErrorHandler {
             )
             return
           case 500:
-            this.message.error('Error');
+            this.message.error('Error')
             return
         }
     }
-    if(error.toString().includes('Duplicate entry')){
-      const message = error.toString().slice(error.toString().indexOf('Duplicate entry \'')+17, error.toString().indexOf('\' for key '))
+    if (error.toString().includes('Duplicate entry')) {
+      const message = error.toString().slice(error.toString().indexOf('Duplicate entry \'') + 17, error.toString().indexOf('\' for key '))
       this.message.error(` "${message}" ya existe`)
-    }else if(error.toString().includes('Error: Error:')){
-      const message = error.toString().slice(error.toString().indexOf('Error: Error:')+14, error.toString().lastIndexOf('Error: Error:'))
+    } else if (error.toString().includes('Error: Error:')) {
+      const message = error.toString().slice(error.toString().indexOf('Error: Error:') + 14, error.toString().lastIndexOf('Error: Error:'))
       this.message.error(message)
-    }else if(error.toString().includes('Error: ')){
-      const message = error.toString().slice(error.toString().indexOf('"message":"Error:')+17, error.toString().indexOf('}}')-2)
+    } else if (error.toString().includes('"success":false,"message":"')) {
+      console.log(error.toString())
+      const message = error.toString().slice(error.toString().indexOf('"success":false,"message":"') + 27, error.toString().lastIndexOf('"}}:') - 2)
       this.message.error(message)
     }
     return throwError(error)

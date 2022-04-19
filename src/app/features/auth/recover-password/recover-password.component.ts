@@ -4,8 +4,7 @@ import { MessageService } from '../../../shared/services/message.service'
 import { RecoveryPasswordService } from '../services/recovery-password.service'
 import { ConfirmCodeModel } from '../models/RecoveryPassword.model'
 import { Router } from '@angular/router'
-import { HttpErrorResponse, HttpEventType } from '@angular/common/http'
-import { throwError } from 'rxjs'
+import { environment } from '../../../../environments/environment'
 
 @Component({
   selector: 'app-recover-password',
@@ -90,6 +89,10 @@ export class RecoverPasswordComponent {
       })
   }
 
+  get passwordPattern() {
+    return environment.settings.passwordPattern
+  }
+
   validations() {
     if (!this.emailControl?.valid && this.step == 1) {
       this.messageService.errorTimeOut('', 'Correo no valido')
@@ -161,7 +164,10 @@ export class RecoverPasswordComponent {
         } else {
           this.messageService.error('', data.message)
         }
-      })
+      }).catch((x) => {
+      console.log('asdfasdfsdf')
+      console.log(x.message)
+    })
   }
 
   controlInvalid(control: string) {

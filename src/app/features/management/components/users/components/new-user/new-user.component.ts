@@ -176,7 +176,7 @@ export class NewUserComponent implements OnInit {
         ]
       ],
       user: ['', [Validators.required]],
-      password: ['', [Validators.required]],
+      password: ['', [Validators.required, Validators.pattern(environment.settings.passwordPattern)]],
       role: ['0', [Validators.required]],
       parking: [this.parkingId, [Validators.required]]
     })
