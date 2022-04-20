@@ -25,9 +25,9 @@
                  formControlName = "nit"
                  placeholder = "NIT:"
                  type = "number">
-          <small *ngIf = "controlInvalid('nit')"
-                 class = "text-danger">* Este campo es obligatorio y debe tener el formato '123456789' sin
-                                       guiones.</small>
+          <div *ngIf = "controlInvalid('nit')"
+                 class = "text-danger mb-1">* Este campo es obligatorio y debe tener el formato '123456789' sin
+                                       guiones.</div>
         </div>
       </div>
       <div class = " col-md-6 col-sm-12">
@@ -50,8 +50,8 @@
                     value = "{{option.id}}">{{option.description}}</option>
 
           </select>
-          <small *ngIf = "controlInvalid('pay_method')"
-                 class = "text-danger animate__animated  animate__rotateIn">* Este campo es obligatorio</small>
+          <div *ngIf = "controlInvalid('pay_method')"
+                 class = "text-danger animate__animated  animate__fadeIn mb-1">* Este campo es obligatorio</div>
         </div>
       </div>
       <div class = " col-md-6 col-sm-12">
@@ -141,8 +141,8 @@
                    formControlName = "merchant_id_bac"
                    placeholder = "ID Comerciante:"
                    type = "text">
-            <small *ngIf = "controlInvalid('merchant_id_bac')"
-                   class = "text-danger animate__animated  animate__rotateIn">* Este campo es obligatorio</small>
+            <div *ngIf = "controlInvalid('merchant_id_bac')"
+                   class = "text-danger animate__animated  animate__fadeIn mb-1">* Este campo es obligatorio</div>
           </div>
           <div class = "m-3 relative">
             <label class = "labelInput">ID Proveedor</label>
@@ -151,8 +151,8 @@
                    formControlName = "acquirer_id_bac"
                    placeholder = "ID Proveedor"
                    type = "text">
-            <small *ngIf = "controlInvalid('acquirer_id_bac')"
-                   class = "text-danger animate__animated  animate__rotateIn">* Este campo es obligatorio</small>
+            <div *ngIf = "controlInvalid('acquirer_id_bac')"
+                   class = "text-danger animate__animated  animate__fadeIn mb-1">* Este campo es obligatorio</div>
           </div>
           <div class = "m-3 relative">
             <label class = "labelInput">Moneda</label>
@@ -162,8 +162,8 @@
               <option *ngFor = "let option of this.settingsOptions.currencyOptions"
                       value = "{{option.id}}">{{option.name}}</option>
             </select>
-            <small *ngIf = "controlInvalid('purchase_currency_bac')"
-                   class = "text-danger animate__animated  animate__rotateIn">* Este campo es obligatorio</small>
+            <div *ngIf = "controlInvalid('purchase_currency_bac')"
+                   class = "text-danger animate__animated  animate__fadeIn mb-1">* Este campo es obligatorio</div>
           </div>
           <div class = "m-3 relative">
             <label class = "labelInput">PMTNPSSW</label>
@@ -172,8 +172,8 @@
                    formControlName = "pmtnpssw_bac"
                    placeholder = "PMTNPSSW:"
                    type = "text">
-            <small *ngIf = "controlInvalid('pmtnpssw_bac')"
-                   class = "text-danger animate__animated  animate__rotateIn">* Este campo es obligatorio</small>
+            <div *ngIf = "controlInvalid('pmtnpssw_bac')"
+                   class = "text-danger animate__animated animate__fadeIn mb-1">* Este campo es obligatorio</div>
           </div>
           <div class = "m-3 relative">
             <label class = "labelInput">URL</label>
@@ -182,8 +182,8 @@
                    formControlName = "url_bac"
                    placeholder = "URL:"
                    type = "text">
-            <small *ngIf = "controlInvalid('url_bac')"
-                   class = "text-danger animate__animated  animate__rotateIn">* Este campo es obligatorio</small>
+            <div *ngIf = "controlInvalid('url_bac')"
+                   class = "text-danger animate__animated  animate__fadeIn mb-1">* Este campo es obligatorio</div>
           </div>
         </div>
       </div>
