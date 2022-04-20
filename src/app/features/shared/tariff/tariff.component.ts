@@ -322,13 +322,32 @@ export class TariffComponent implements OnInit {
   cleanForms() {
     this.generalDataForm.reset()
     this.generalDataForm.controls['isShowDescription'].setValue(true)
-    this.holidayForm.reset()
-    this.rankForm.reset()
-    this.blockForm.reset()
-    this.defaultForm.reset()
-    this.principalScheduleForm.reset()
-    this.hourAHalfForm.reset()
-    this.fixedCostForm.reset()
+    this.holidayForm.setValue({
+      from: '',
+      to: ''
+    })
+    this.rankForm.setValue({
+      from: '',
+      to: ''
+    })
+    this.blockForm.setValue({
+      hourLowerLimit: '',
+      hourUpperLimit: '',
+      minuteLowerLimit: '',
+      minuteUpperLimit: ''
+    })
+    this.principalScheduleForm.setValue({
+      from: '',
+      to: ''
+    })
+    this.hourAHalfForm.setValue({
+      hourCost: '',
+      halfCost: '',
+      whenIsAHalf: ''
+    })
+    this.fixedCostForm.setValue({
+      fixedCost: ''
+    })
     this.costType = 1
   }
 

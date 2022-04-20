@@ -15,7 +15,7 @@ export class GlobalErrorHandler implements ErrorHandler {
   ) {}
 
   handleError(error: Response | HttpErrorResponse | any) {
-    if (!environment.production) console.error('Error: ')
+    if (!environment.production) console.error('Error: ', error)
     switch (error.status) {
       case 401:
         this.message.error('Token vencido. Por favor iniciar sesión nuevamente')

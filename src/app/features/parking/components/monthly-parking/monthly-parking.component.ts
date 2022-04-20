@@ -167,6 +167,7 @@ export class MonthlyParkingComponent implements AfterViewInit, OnDestroy {
   resolveResponse(data: ResponseModel) {
     if (data.success) {
       this.getMonthlySubscription().then(() => this.getProfiles())
+      this.message.OkTimeOut()
     } else {
       this.message.error('', data.message)
     }

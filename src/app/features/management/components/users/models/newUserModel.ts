@@ -7,7 +7,7 @@ export class NewUserModel {
   phone_number?: string = ''
   password?: string = ''
   role = ''
-  parking: string = ''
+  parking: any
   status?: number
   Admin?: string
   googleId?: string

@@ -50,6 +50,7 @@ export class NewUserComponent implements OnInit {
 
   ngOnInit(): void {
     this.subject.subscribe((user: NewUserModel) => {
+      console.log(user.parking)
       if (user.name.length > 0) {
         this.newUserForm.controls['name'].setValue(user.name)
         this.newUserForm.controls['last_name'].setValue(user.last_name)
@@ -60,7 +61,7 @@ export class NewUserComponent implements OnInit {
         )
         this.newUserForm.controls['role'].setValue(user.role)
         this.newUserForm.controls['name'].setValue(user.name)
-        this.newUserForm.controls['parking'].setValue(user.parking)
+        this.newUserForm.controls['parking'].setValue(user.parking.id)
         this.newUserForm.controls['id'].setValue(user.id)
         this.isEdit = true
       }
@@ -91,7 +92,7 @@ export class NewUserComponent implements OnInit {
   }
 
   saveNewUser() {
-    if (this.newUserForm.invalid) {
+    if (this.newUserForm.invalid && !this.isEdit) {
       this.messageServices.error('', 'Datos no válidos o faltantes')
       return
     }
