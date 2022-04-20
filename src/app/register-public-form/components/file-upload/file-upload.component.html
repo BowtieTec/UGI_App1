@@ -18,8 +18,8 @@
                  name="logo"
                  class="form-control inputClass"
                  (change)="onFileChangeLogo($event)">
-          <small *ngIf="controlInvalid('logo')"
-                 class="text-danger animate__animated  animate__rotateIn">* Este campo es obligatorio</small>
+          <div *ngIf="controlInvalid('logo')"
+                 class="text-danger animate__animated  animate__fadeIn mb-1">* Este campo es obligatorio</div>
         </div>
         <div class="m-3 relative">
           <label class="labelInputFile">Planos: </label>
@@ -31,8 +31,8 @@
                  id="plans"
                  name="plans"
                  type="file">
-          <small *ngIf="controlInvalid('plans')"
-                 class="text-danger animate__animated  animate__rotateIn">* Este campo es obligatorio</small>
+          <div *ngIf="controlInvalid('plans')"
+                 class="text-danger animate__animated  animate__fadeIn mb-1">* Este campo es obligatorio</div>
         </div>
       </div>
       <div class=" col-md-6 col-sm-12">
@@ -45,8 +45,8 @@
                  name="rate"
                  id="rate"
                  type="file">
-          <small *ngIf="controlInvalid('rate')"
-                 class="text-danger animate__animated  animate__rotateIn">* Este campo es obligatorio</small>
+          <div *ngIf="controlInvalid('rate')"
+                 class="text-danger animate__animated  animate__fadeIn mb-1">* Este campo es obligatorio</div>
         </div>
       </div>
     </div>

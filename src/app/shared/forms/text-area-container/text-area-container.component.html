@@ -5,6 +5,6 @@
             placeholder="{{name}}:"
             rows="5">
                     </textarea>
-  <small *ngIf="controlInvalid(controlName)"
-         class="text-danger animate__animated animate__fadeIn">* El valor no es valido</small>
+  <div *ngIf="controlInvalid(controlName)"
+         class="text-danger animate__animated animate__fadeIn mb-1">* El valor no es valido</div>
 </div>
