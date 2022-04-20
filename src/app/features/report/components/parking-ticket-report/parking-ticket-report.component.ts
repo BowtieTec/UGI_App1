@@ -180,9 +180,9 @@ export class ParkingTicketReportComponent implements OnInit {
       '',
       'Fecha',
       'Total de vehículos',
-      'Total',
-      'Descuento',
-      'Pagado'
+      'Total (Q)',
+      'Cortesías (Q)',
+      'Pagado (Q)'
     ]
     //Create workbook and worksheet
     const workbook = new Workbook()

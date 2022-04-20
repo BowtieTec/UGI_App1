@@ -164,10 +164,10 @@ export class DurationReportComponent implements OnInit {
       '',
       'Duración',
       'No. vehículos',
-      'Porcentaje',
+      'Porcentaje (%)',
       'Aplicaron descuento',
-      'Descuento',
-      'Total sin descuento'
+      'Descuento (Q)',
+      'Total sin descuento (Q)'
     ]
     //Create workbook and worksheet
     const workbook = new Workbook()
