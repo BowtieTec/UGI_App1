@@ -170,10 +170,10 @@ export class PaymentReportComponent implements OnInit, AfterViewInit {
       'Tiempo estacionado',
       'Linea de ingreso',
       'Linea de egreso',
-      'Sub monto',
+      'Sub monto (Q)',
       'Tipo cortesia',
       'Monto/Tiempo',
-      'Total',
+      'Total (Q)',
       'Factura',
       'Id Descuento'
     ]
@@ -364,8 +364,8 @@ export class PaymentReportComponent implements OnInit, AfterViewInit {
       'Fecha',
       'Total de vehiculos',
       'Total de ingresos',
-      'Total de descuento',
-      'Total pagado'
+      'Total de descuento (Q)',
+      'Total pagado (Q)'
     ])
     headerResumen.eachCell((cell, number) => {
       if (number > 1) {

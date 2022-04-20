@@ -167,9 +167,9 @@ export class ParkingDayReportComponent implements OnInit {
       '',
       'Fecha',
       'Total de vehículos',
-      'Total',
-      'Descuento',
-      'Pagado'
+      'Total (Q)',
+      'Descuento (Q)',
+      'Pagado (Q)'
     ]
     //Create workbook and worksheet
     const workbook = new Workbook()
