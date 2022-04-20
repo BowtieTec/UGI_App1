@@ -26,8 +26,8 @@
                           type="button">
                   </button>
                 </div>
-                <small *ngIf="nameTelephone.length<=0"
-                       class="text-info animate__animated animate__rotateIn">* Este campo es obligatorio.</small>
+                <div *ngIf="nameTelephone.length<=0"
+                       class="text-info animate__animated animate__fadeIn mb-1">* Este campo es obligatorio.</div>
               </div>
               <!-- Modal -->
               <div aria-hidden="true"
@@ -236,8 +236,8 @@
                      placeholder="Monto mensual:"
                      step="0.01"
                      type="number">
-              <small *ngIf="controlInvalid('amount')"
-                     class="text-danger animate__animated  animate__rotateIn">* Este campo es obligatorio</small>
+              <div *ngIf="controlInvalid('amount')"
+                     class="text-danger animate__animated  animate__fadeIn mb-1">* Este campo es obligatorio</div>
             </div>
           </div>
           <div class="col-xl-12 col-lg-12 col-sm-12 animate__animated animate__fadeInRight">

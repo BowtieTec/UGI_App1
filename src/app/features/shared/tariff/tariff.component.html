@@ -30,7 +30,12 @@
       class = "titleCards animate__animated animate__fadeInUp">
       <span><em class = "fas fa-cogs"></em></span> Condicion por dia
       <hr>
-      <app-dayli-tariff [daysSelectedForm] = "dailyForm"></app-dayli-tariff>
+      <div class="row justify-content-center">
+        <div class="col-md-6">
+          <app-dayli-tariff [daysSelectedForm] = "dailyForm"></app-dayli-tariff>
+        </div>
+      </div>
+      
     </div>
   </div>
   <div *ngIf = "isValidGeneralData && !this.generalDataFormValues.isPerDayCondition"
@@ -125,14 +130,16 @@
             type = "button">Guardar
     </button>
   </div>
+  <hr>
   <div *ngIf = " ifHaveTariffData">
     <div class = "titleCards"><span><i class = "fas fa-list-ul"></i></span> Reglas de la tarifa para este parqueo</div>
     <!--  Reglas de tarifa  -->
+    <div class = "row "
+    style = "background: #f7f7f7; margin: -15px; padding: 15px; left: 0;  right: 0;  top: 0;  border-radius: 0 0 10px 10px;">
     <div *ngFor = "let tariff of tariffs; index as i"
-         class = "">
-      <div class = "row "
-           style = "background: #f7f7f7; margin: -15px; padding: 15px; left: 0;  right: 0;  top: 0;  border-radius: 0 0 10px 10px;">
-        <div class = "col-md-6">
+         class = "col-md-6">
+     
+     
           <div class = "panels">
             <div class = "row">
               <div class = "col">
@@ -150,7 +157,7 @@
             <div class = 'titleCards mb-0'>{{tariff.name}}</div>
             {{tariff.static_description}}
           </div>
-        </div>
+        
       </div>
     </div>
 
