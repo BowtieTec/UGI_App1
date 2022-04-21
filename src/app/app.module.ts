@@ -18,8 +18,7 @@ import { FileUploadModule } from './register-public-form/components/file-upload.
 import localGT from '@angular/common/locales/es-GT'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { ToastrModule } from 'ngx-toastr'
-import { RECAPTCHA_V3_SITE_KEY, ReCaptchaV3Service } from 'ng-recaptcha'
-import { environment } from '../environments/environment'
+import { ReCaptchaV3Service } from 'ng-recaptcha'
 
 registerLocaleData(localGT, 'es-GT')
 
@@ -57,10 +56,10 @@ registerLocaleData(localGT, 'es-GT')
       multi: true
     },
     { provide: CurrencyPipe },
-    {
-      provide: RECAPTCHA_V3_SITE_KEY,
-      useValue: environment.settings.siteKey
-    }
+    /*  {
+        provide: RECAPTCHA_V3_SITE_KEY,
+        useValue: environment.settings.siteKey
+      }*/
   ],
   bootstrap: [AppComponent],
   exports: []
