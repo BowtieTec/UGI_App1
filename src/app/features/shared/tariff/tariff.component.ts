@@ -17,6 +17,7 @@ import { BuildRulesService } from './service/build-rules.service'
 import { environment } from '../../../../environments/environment'
 import { PermissionsService } from '../../../shared/services/permissions.service'
 import { DailyInputModel } from './model/DailyTariff.model'
+import { ParkingModel } from '../../parking/models/Parking.model'
 
 @Component({
   selector: 'app-tariff',
@@ -27,6 +28,7 @@ export class TariffComponent implements OnInit {
   @Input() parkingId!: string
   @Input() isCreatingParking!: boolean
   @Output() changeStep = new EventEmitter<number>()
+  allParking: ParkingModel[] = []
   timeRange = 1
   costType = 1
   tariffs: Array<any> = []
@@ -93,9 +95,24 @@ export class TariffComponent implements OnInit {
     }
   }
 
+  get isSudo() {
+    return this.authService.isSudo
+  }
+
+  get generalDataFormValues() {
+    return {
+      name: this.generalDataForm.get('name')?.value,
+      description: this.generalDataForm.get('description')?.value,
+      isShowDescription: this.generalDataForm.get('isShowDescription')?.value,
+      hasGlobalSchedule: this.generalDataForm.get('hasGlobalSchedule')?.value,
+      isPerDayCondition: this.generalDataForm.get('isPerDayCondition')?.value,
+      parkingId: this.generalDataForm.get('parkingId')?.value
+    }
+  }
+
   get daysValuesDescription() {
     const days: string[] = []
-    const {mon, tue, wen, thu, fri, sat, sun} = this.justDaysValue
+    const { mon, tue, wen, thu, fri, sat, sun } = this.justDaysValue
 
     mon == true ? days.push('Lunes') : false
     tue == true ? days.push('Martes') : false
@@ -108,14 +125,15 @@ export class TariffComponent implements OnInit {
     return days
   }
 
-  get generalDataFormValues() {
-    return {
-      name: this.generalDataForm.get('name')?.value,
-      description: this.generalDataForm.get('description')?.value,
-      isShowDescription: this.generalDataForm.get('isShowDescription')?.value,
-      hasGlobalSchedule: this.generalDataForm.get('hasGlobalSchedule')?.value,
-      isPerDayCondition: this.generalDataForm.get('isPerDayCondition')?.value
-    }
+  getParkingLot() {
+    return this.parkingService.getAllParking().then(x => {
+      if (x.success) {
+        this.allParking = x.data.parkings
+      } else {
+        this.messageService.error(x.message)
+        return
+      }
+    })
   }
 
   get hasGlobalSchedule() {
@@ -313,15 +331,35 @@ export class TariffComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.generalDataForm.get('parkingId')?.setValue(this.parkingId)
     if (!this.isCreatingParking) {
       this.parkingId = this.authService.getParking().id
       this.getTariffs().catch()
+      this.getParkingLot().catch()
     }
+  }
+
+  markAsUntouchedAllForms() {
+    this.utilitiesService.markAsUnTouched(this.generalDataForm)
+    this.utilitiesService.markAsUnTouched(this.holidayForm)
+    this.utilitiesService.markAsUnTouched(this.rankForm)
+    this.utilitiesService.markAsUnTouched(this.blockForm)
+    this.utilitiesService.markAsUnTouched(this.defaultForm)
+    this.utilitiesService.markAsUnTouched(this.dailyForm)
+    this.utilitiesService.markAsUnTouched(this.prioriceForm)
+    this.utilitiesService.markAsUnTouched(this.daysSelectedForm)
+    this.utilitiesService.markAsUnTouched(this.principalScheduleForm)
+    this.utilitiesService.markAsUnTouched(this.hourAHalfForm)
+    this.utilitiesService.markAsUnTouched(this.fixedCostForm)
   }
 
   cleanForms() {
     this.generalDataForm.reset()
     this.generalDataForm.controls['isShowDescription'].setValue(true)
+    this.generalDataForm.controls['parkingId'].setValue(this.parkingId)
+    this.markAsUntouchedAllForms()
+    this.utilitiesService.markAsUnTouched(this.generalDataForm)
+    this.utilitiesService.markAsUnTouched(this.generalDataForm)
     this.holidayForm.setValue({
       from: '',
       to: ''
@@ -401,9 +439,12 @@ export class TariffComponent implements OnInit {
     this.timeRange = timeRange
   }
 
-  private async getTariffs() {
+  async getTariffs() {
+    if (this.isSudo)
+      this.parkingId = this.generalDataFormValues.parkingId
     return this.parkingService.getTariffsSaved(this.parkingId).then((data) => {
       if (data.success) {
+        console.log(data.data)
         this.tariffs = data.data.rules
       }
     })
@@ -667,5 +708,17 @@ export class TariffComponent implements OnInit {
         ? this.hourHalfFormValues.static_descriptionCost
         : this.fixedCostFormValue.static_descriptionCost
     return static_description
+  }
+
+  changeStatusTariff(tariff: any) {
+    this.messageService.showLoading()
+    this.parkingService.tariffStatusUpdate(tariff.id, !tariff.isActive).then((x: any) => {
+      if (x.success) {
+        this.getTariffs()
+          .then(() => this.messageService.OkTimeOut())
+      } else {
+        this.messageService.error(x.message)
+      }
+    })
   }
 }

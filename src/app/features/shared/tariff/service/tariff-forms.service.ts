@@ -1,6 +1,9 @@
-import {Injectable} from '@angular/core'
-import {FormBuilder, Validators} from '@angular/forms'
-import {DateGreaterValidations, NumberGreaterValidations} from '../../../../shared/validators/GreatherThan.validations'
+import { Injectable } from '@angular/core'
+import { FormBuilder, Validators } from '@angular/forms'
+import {
+  DateGreaterValidations,
+  NumberGreaterValidations
+} from '../../../../shared/validators/GreatherThan.validations'
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +18,8 @@ export class TariffFormsService {
       description: ['', Validators.required],
       isShowDescription: [true],
       hasGlobalSchedule: [false],
-      isPerDayCondition: [false]
+      isPerDayCondition: [false],
+      parkingId: []
     })
   }
 
