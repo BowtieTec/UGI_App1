@@ -86,8 +86,8 @@ export class CompanyComponent implements AfterViewInit, OnDestroy {
   }
 
   getAndRerender = () => {
-    this.getCompanies()
-    this.rerender()
+    this.getCompanies().then(() => this.rerender())
+
   }
 
   async saveCompany() {
