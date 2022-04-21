@@ -4,6 +4,8 @@ import { MessageService } from '../../../shared/services/message.service'
 import { ParkingService } from '../../parking/services/parking.service'
 import { UtilitiesService } from '../../../shared/services/utilities.service'
 import { CreateParkingStepTwoModel } from '../../parking/models/CreateParking.model'
+import { ParkingModel } from '../../parking/models/Parking.model'
+import { AuthService } from '../../../shared/services/auth.service'
 
 @Component({
   selector: 'app-schedule',
@@ -13,6 +15,7 @@ import { CreateParkingStepTwoModel } from '../../parking/models/CreateParking.mo
 export class ScheduleComponent implements OnInit {
   stepTwoForm: FormGroup = this.createForm()
   schedules: Array<any> = []
+  allParking: ParkingModel[] = []
   @Input() parkingId!: string
   @Input() isCreatingParking = false
   @Output() changeStep = new EventEmitter<number>()
@@ -21,10 +24,43 @@ export class ScheduleComponent implements OnInit {
     private message: MessageService,
     private parkingService: ParkingService,
     private formBuilder: FormBuilder,
-    private utilitiesService: UtilitiesService
-  ) {}
+    private utilitiesService: UtilitiesService,
+    private authService: AuthService
+  ) {
+  }
+
+  get ParkingIdSelected() {
+    return this.stepTwoForm.get('parkingId')?.value ? this.stepTwoForm.get('parkingId')?.value : this.parkingId
+  }
+
+  get isSudo() {
+    return this.authService.isSudo
+  }
+
+  async emmitStep(number: number) {
+    this.message.showLoading()
+    if (number == 1) {
+      await this.saveSchedules()
+      this.changeStep.emit(number)
+    } else {
+      this.message.hideLoading()
+      this.changeStep.emit(number)
+    }
+  }
+
+  getParkingLot() {
+    return this.parkingService.getAllParking().then(x => {
+      if (x.success) {
+        this.allParking = x.data.parkings
+      } else {
+        this.message.error(x.message)
+        return
+      }
+    })
+  }
 
   async saveSchedules() {
+    console.log(this.getStepTwo())
     if (this.stepTwoForm.valid) {
       this.parkingService.parkingStepTwo = this.getStepTwo()
       this.parkingService.parkingStepTwo.parkingId = this.parkingId
@@ -45,32 +81,27 @@ export class ScheduleComponent implements OnInit {
     }
   }
 
-  async emmitStep(number: number) {
+  getParkingInf(parkingId: string) {
     this.message.showLoading()
-    if (number == 1) {
-      await this.saveSchedules()
-      this.changeStep.emit(number)
-    } else {
+    this.parkingId = this.ParkingIdSelected
+    this.parkingService.getParkingInfo(parkingId).subscribe((x) => {
+      this.schedules = x.schedules
+      this.setSchedules(x.schedules)
       this.message.hideLoading()
-      this.changeStep.emit(number)
-    }
+    })
   }
 
   ngOnInit(): void {
     if (!this.isCreatingParking) {
-      this.message.showLoading()
-      this.parkingService.getParkingInfo(this.parkingId).subscribe((x) => {
-        this.schedules = x.schedules
-        this.setSchedules(x.schedules)
-        this.message.hideLoading()
-      })
+      this.getParkingInf(this.parkingId)
+      this.getParkingLot().then()
     }
   }
 
   private getStepTwo(): CreateParkingStepTwoModel {
     try {
       return {
-        parkingId: this.parkingId,
+        parkingId: this.stepTwoForm.controls['parkingId'].value,
         schedules: [
           {
             isOpen: this.stepTwoForm.controls['isOpen0'].value,
@@ -221,6 +252,7 @@ export class ScheduleComponent implements OnInit {
 
   private createForm() {
     return this.formBuilder.group({
+      parkingId: [this.parkingId],
       //Monday
       isOpen0: [{ value: true, disabled: true }],
       openning_time0: ['06:00:00'],
@@ -253,6 +285,7 @@ export class ScheduleComponent implements OnInit {
   }
 
   private setSchedules(schedules: any) {
+    this.stepTwoForm.get('parkingId')?.setValue(this.parkingId)
     //Monday
     this.stepTwoForm
       .get('openning_time0')

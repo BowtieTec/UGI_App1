@@ -1,8 +1,8 @@
-import {Injectable} from '@angular/core'
-import {environment} from '../../../../environments/environment'
-import {HttpClient} from '@angular/common/http'
-import {MessageService} from '../../../shared/services/message.service'
-import {ResponseModel} from '../../../shared/model/Request.model'
+import { Injectable } from '@angular/core'
+import { environment } from '../../../../environments/environment'
+import { HttpClient } from '@angular/common/http'
+import { MessageService } from '../../../shared/services/message.service'
+import { ResponseModel } from '../../../shared/model/Request.model'
 import {
   AccessModel,
   CreateParkingFileModel,
@@ -11,16 +11,16 @@ import {
   CreateParkingStepOneModel,
   CreateParkingStepTwoModel
 } from '../models/CreateParking.model'
-import {Router} from '@angular/router'
-import {map} from 'rxjs/operators'
-import {CurrencyOptionModel, Day, PaymentMethodModel, SettingsOptionsModel} from '../models/SettingsOption.model'
-import {Observable, Subscribable} from 'rxjs'
-import {CountriesModel} from '../models/Countries.model'
-import {FormBuilder} from '@angular/forms'
-import {CreateTariffModel} from '../models/Tariff.model'
-import {CreateProfilesModel} from '../models/MontlyParking.model'
-import {CreateStation, CreateStationaryCourtesy, StationsCourtesyModel} from '../models/StationaryCourtesy.model'
-import {ParkedModel} from '../models/Parking.model'
+import { Router } from '@angular/router'
+import { map } from 'rxjs/operators'
+import { CurrencyOptionModel, Day, PaymentMethodModel, SettingsOptionsModel } from '../models/SettingsOption.model'
+import { Observable, Subscribable } from 'rxjs'
+import { CountriesModel } from '../models/Countries.model'
+import { FormBuilder } from '@angular/forms'
+import { CreateTariffModel } from '../models/Tariff.model'
+import { CreateProfilesModel } from '../models/MontlyParking.model'
+import { CreateStation, CreateStationaryCourtesy, StationsCourtesyModel } from '../models/StationaryCourtesy.model'
+import { ParkedModel } from '../models/Parking.model'
 
 @Injectable({
   providedIn: 'root'
@@ -418,5 +418,14 @@ export class ParkingService {
       this.parkingFile = new CreateParkingFileModel()
       this.parkingStepFive = []
     })
+  }
+
+  tariffStatusUpdate(parkingId: string, newStatus: boolean) {
+    return this.http
+      .put<ResponseModel>(
+        `${this.apiUrl}backoffice/tariff/rule/active/${parkingId}`,
+        { isActive: newStatus }
+      )
+      .toPromise()
   }
 }
