@@ -60,7 +60,6 @@ export class ScheduleComponent implements OnInit {
   }
 
   async saveSchedules() {
-    console.log(this.getStepTwo())
     if (this.stepTwoForm.valid) {
       this.parkingService.parkingStepTwo = this.getStepTwo()
       this.parkingService.parkingStepTwo.parkingId = this.parkingId

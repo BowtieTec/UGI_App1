@@ -53,7 +53,6 @@ export class GlobalErrorHandler implements ErrorHandler {
       const message = error.toString().slice(error.toString().indexOf('Error: Error:') + 14, error.toString().lastIndexOf('Error: Error:'))
       this.message.error(message)
     } else if (error.toString().includes('"success":false,"message":"')) {
-      console.log(error.toString())
       const message = error.toString().slice(error.toString().indexOf('"success":false,"message":"') + 27, error.toString().lastIndexOf('"}}:') - 2)
       this.message.error(message)
     }

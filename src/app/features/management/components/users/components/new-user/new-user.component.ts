@@ -50,14 +50,13 @@ export class NewUserComponent implements OnInit {
 
   ngOnInit(): void {
     this.subject.subscribe((user: NewUserModel) => {
-      console.log(user.parking)
       if (user.name.length > 0) {
         this.newUserForm.controls['name'].setValue(user.name)
         this.newUserForm.controls['last_name'].setValue(user.last_name)
         this.newUserForm.controls['email'].setValue(user.email)
         this.newUserForm.controls['user'].setValue(user.user)
         this.newUserForm.controls['password'].setValue(
-          'EstaPuedeOnoSerLaContraseña'
+          'EstaPuedeOnoSerLaContraseña100&'
         )
         this.newUserForm.controls['role'].setValue(user.role)
         this.newUserForm.controls['name'].setValue(user.name)
@@ -65,7 +64,9 @@ export class NewUserComponent implements OnInit {
         this.newUserForm.controls['id'].setValue(user.id)
         this.isEdit = true
       }
+      this.utilitiesService.markAsUnTouched(this.newUserForm)
     })
+
   }
 
   async getInitialData() {
@@ -92,6 +93,7 @@ export class NewUserComponent implements OnInit {
   }
 
   saveNewUser() {
+    this.messageServices.showLoading()
     if (this.newUserForm.invalid && !this.isEdit) {
       this.messageServices.error('', 'Datos no válidos o faltantes')
       return
@@ -102,7 +104,6 @@ export class NewUserComponent implements OnInit {
       this.messageServices.errorTimeOut('Datos incorrectos o faltantes.')
       return
     }
-    this.messageServices.showLoading()
     if (this.isEdit) {
       delete newUserValue.password
       this.userService

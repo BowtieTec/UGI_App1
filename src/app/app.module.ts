@@ -55,11 +55,11 @@ registerLocaleData(localGT, 'es-GT')
       useClass: AuthInterceptorService,
       multi: true
     },
-    { provide: CurrencyPipe },
-    /*  {
-        provide: RECAPTCHA_V3_SITE_KEY,
-        useValue: environment.settings.siteKey
-      }*/
+    { provide: CurrencyPipe }
+    /*   {
+         provide: RECAPTCHA_V3_SITE_KEY,
+         useValue: environment.settings.siteKey
+       }*/
   ],
   bootstrap: [AppComponent],
   exports: []

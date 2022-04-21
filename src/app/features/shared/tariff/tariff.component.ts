@@ -444,7 +444,6 @@ export class TariffComponent implements OnInit {
       this.parkingId = this.generalDataFormValues.parkingId
     return this.parkingService.getTariffsSaved(this.parkingId).then((data) => {
       if (data.success) {
-        console.log(data.data)
         this.tariffs = data.data.rules
       }
     })

@@ -6,7 +6,6 @@ import { environment } from '../../../environments/environment'
 import { MessageService } from './message.service'
 import { EncryptionService } from './encryption.service'
 import { Router } from '@angular/router'
-import { ReCaptchaV3Service } from 'ng-recaptcha'
 import { sha512 } from 'js-sha512'
 import { UtilitiesService } from './utilities.service'
 
@@ -23,7 +22,6 @@ export class AuthService {
     private message: MessageService,
     private crypto: EncryptionService,
     private route: Router,
-    private recaptcha: ReCaptchaV3Service,
     private utilities: UtilitiesService
   ) {
     this.userContext = sha512(this.utilities.randomString())

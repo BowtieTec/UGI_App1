@@ -165,8 +165,7 @@ export class RecoverPasswordComponent {
           this.messageService.error('', data.message)
         }
       }).catch((x) => {
-      console.log('asdfasdfsdf')
-      console.log(x.message)
+      this.messageService.error(x.message)
     })
   }
 
