@@ -1,21 +1,33 @@
-<div class = "panels">
-  <div class = "titleCards">
-    <span> <em class = "fas fa-comment-dollar"></em> </span> Tarifa
+<div class = 'panels'>
+l  <div class = 'titleCards'>
+    <span> <em class = 'fas fa-comment-dollar'></em> </span> Tarifa
+     <app-select-container
+       (change) = 'getTariffs()'
+       *ngIf = 'isSudo'
+       [data] = 'allParking'
+       [formGroup] = 'generalDataForm'
+       controlName = 'parkingId'
+       name = 'Parqueo'
+     ></app-select-container>
   </div>
   <div *ngIf = 'ifHaveAction(createTariff)'>
-    <div *ngIf = 'false'
-         class = 'row justify-content-center'>
-      <ng-container [formGroup] = 'prioriceForm'
-                    class = 'radio-inline'>
+    <div
+      *ngIf = 'false'
+      class = 'row justify-content-center'>
+      <ng-container
+        [formGroup] = 'prioriceForm'
+        class = 'radio-inline'>
         <div class = 'col-xl-3 col-lg-4 col-sm-6 text-center'>
-          <app-radio-container [formGroup] = 'prioriceForm'
-                               [readOnly] = 'tariffs.length > 0'
-                               [value] = '1'
-                               controlName = 'prioriceCost'
-                               desc = 'Aplicar tarifa de entrada'></app-radio-container>
+          <app-radio-container
+            [formGroup] = 'prioriceForm'
+            [readOnly] = 'tariffs.length > 0'
+            [value] = '1'
+            controlName = 'prioriceCost'
+            desc = 'Aplicar tarifa de entrada'></app-radio-container>
         </div>
         <div class = 'col-xl-3 col-lg-4 col-sm-6 text-center'>
-          <app-radio-container [formGroup] = 'prioriceForm'
+          <app-radio-container
+            [formGroup] = 'prioriceForm'
                                [value] = '2'
                                controlName = 'prioriceCost'
                                desc = 'Aplicar tarifa de salida'></app-radio-container>
@@ -35,7 +47,7 @@
           <app-dayli-tariff [daysSelectedForm] = "dailyForm"></app-dayli-tariff>
         </div>
       </div>
-      
+
     </div>
   </div>
   <div *ngIf = "isValidGeneralData && !this.generalDataFormValues.isPerDayCondition"
@@ -113,51 +125,75 @@
           <div class = "col-md-12">
             <app-hour-half-cost [costType] = "costType"
                                 [hourAHalfForm] = "hourAHalfForm"
-                                [settingValues] = "formValueTimeRangeSelected"></app-hour-half-cost>
+                                [settingValues] = 'formValueTimeRangeSelected'></app-hour-half-cost>
           </div>
-          <div class = "col-md-6">
-            <app-fixed-cost [costType] = "costType"
-                            [fixedCostForm] = "fixedCostForm"></app-fixed-cost>
+          <div class = 'col-md-6'>
+            <app-fixed-cost
+              [costType] = 'costType'
+              [fixedCostForm] = 'fixedCostForm'></app-fixed-cost>
           </div>
         </div>
       </div>
     </div>
   </div>
-  <div *ngIf = "isValidGeneralData"
-       class = " text-center mt-4">
-    <button (click) = "saveRule()"
-            class = "btn btn-success btn-lg "
-            type = "button">Guardar
+  <div
+    *ngIf = 'isValidGeneralData'
+    class = ' text-center mt-4'>
+    <button
+      (click) = 'saveRule()'
+      class = 'btn btn-success btn-lg '
+      type = 'button'>Guardar
     </button>
   </div>
   <hr>
-  <div *ngIf = " ifHaveTariffData">
-    <div class = "titleCards"><span><i class = "fas fa-list-ul"></i></span> Reglas de la tarifa para este parqueo</div>
+  <div>
+    <div class = 'titleCards'><span><i class = 'fas fa-list-ul'></i></span> Reglas de la tarifa para este parqueo</div>
     <!--  Reglas de tarifa  -->
-    <div class = "row "
-    style = "background: #f7f7f7; margin: -15px; padding: 15px; left: 0;  right: 0;  top: 0;  border-radius: 0 0 10px 10px;">
-    <div *ngFor = "let tariff of tariffs; index as i"
-         class = "col-md-6">
-     
-     
-          <div class = "panels">
-            <div class = "row">
-              <div class = "col">
-                <div class = "titleCards pt-2 mb-1">Regla #{{i + 1}}</div>
+      <div
+        *ngIf = '!ifHaveTariffData'
+        class = 'text-center'>
+         <h1 class = 'display-5 fw-lighter text-secondary animate__animated animate__fadeIn'>No se encontraron tarifas</h1>
+      </div>
+    <div
+      *ngIf = 'ifHaveTariffData'
+      class = 'row '
+      style = 'background: #f7f7f7; margin: -15px; padding: 15px; left: 0;  right: 0;  top: 0;  border-radius: 0 0 10px 10px;'>
+         <div
+           *ngFor = 'let tariff of tariffs; index as i'
+           class = 'col-md-6 animate__animated animate__zoomIn'>
+          <div class = 'panels'>
+            <div class = 'row'>
+              <div class = 'col'>
+                <div class = 'titleCards pt-2 mb-1'>Regla #{{i + 1}}</div>
               </div>
-              <div class = "col-auto text-end">
-
-                <button (click) = "deleteTariff(tariff.id)"
-                        class = "btn btn-danger btn-icon"
-                        type = "button">
+              <div class = 'col-auto text-end'>
+                <button
+                  (click) = 'deleteTariff(tariff.id)'
+                  class = 'btn btn-danger btn-icon'
+                  type = 'button'>
                   <i class = 'fas fa-trash'></i>
                 </button>
+            <div>
+            <ul class = 'opcionActivo col-auto text-end'>
+              <li>
+                <input
+                  (change) = 'changeStatusTariff(tariff)'
+                  [checked] = 'tariff.isActive'
+                  class = 'form-check-input'
+                  id = '{{tariff.name + i}}'
+                  type = 'checkbox'>
+                <label
+                  class = 'form-check-label ms-1'
+                  for = '{{tariff.name + i}}'>Activo</label>
+              </li>
+            </ul>
+            </div>
               </div>
             </div>
             <div class = 'titleCards mb-0'>{{tariff.name}}</div>
             {{tariff.static_description}}
           </div>
-        
+
       </div>
     </div>
 

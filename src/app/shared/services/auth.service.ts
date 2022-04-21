@@ -57,19 +57,19 @@ export class AuthService {
   }
 
   login(login: UserRequestModel) {
-    this.recaptcha.execute('login')
-      .subscribe((token: string) => {
-        login.userContext = token
-        this.message.showLoading()
-        this.http
-          .post<UserResponseModel>(`${this.apiUrl}backoffice/admin/signin`, login)
-          .toPromise()
-          .then((data) => {
-            if (data.success) {
-              this.saveUser(data.data)
-              this.message.OkTimeOut('!Listo!')
-              this.route.navigate(['/home']).catch()
-            } else {
+    /*this.recaptcha.execute('login')
+      .subscribe((token: string) => {*/
+    //login.userContext = token
+    this.message.showLoading()
+    this.http
+      .post<UserResponseModel>(`${this.apiUrl}backoffice/admin/signin`, login)
+      .toPromise()
+      .then((data) => {
+        if (data.success) {
+          this.saveUser(data.data)
+          this.message.OkTimeOut('!Listo!')
+          this.route.navigate(['/home']).catch()
+        } else {
               this.cleanUser()
               this.message.error('', data.message)
               this.route.navigate(['/']).catch()
@@ -80,8 +80,8 @@ export class AuthService {
             this.message.error('', data.error.message)
             this.route.navigate(['/']).catch()
           })
-      }, (err) => {
-        throw new Error('Error: No pudo completarse el reCAPTCHA. Vuelva a iniciar sesión.')
-      })
+    /* }, (err) => {
+       throw new Error('Error: No pudo completarse el reCAPTCHA. Vuelva a iniciar sesión.')
+     })*/
   }
 }
