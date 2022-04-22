@@ -6,7 +6,6 @@ import {environment} from '../../../environments/environment'
 import {MessageService} from './message.service'
 import {EncryptionService} from './encryption.service'
 import {Router} from '@angular/router'
-import {sha512} from 'js-sha512'
 import {UtilitiesService} from './utilities.service'
 import {ReCaptchaV3Service} from "ng-recaptcha";
 
@@ -26,7 +25,7 @@ export class AuthService {
     private utilities: UtilitiesService,
     private recaptcha: ReCaptchaV3Service
   ) {
-    this.userContext = sha512(this.utilities.randomString())
+    //this.userContext = sha512(this.utilities.randomString())
   }
 
   get isSudo() {
@@ -35,7 +34,7 @@ export class AuthService {
 
   saveUser(user: AuthModel) {
     sessionStorage.setItem(
-      this.crypto.encryptKey('User', this.userContext),
+      this.crypto.encryptKey('User'),
       this.crypto.encrypt(JSON.stringify(user).replace('/n', ''))
     )
   }
@@ -45,7 +44,7 @@ export class AuthService {
   }
 
   getUser(): AuthModel {
-    const sentence = sessionStorage.getItem(this.crypto.encryptKey('User', this.userContext))
+    const sentence = sessionStorage.getItem(this.crypto.encryptKey('User'))
     return {
       ...JSON.parse(this.crypto.decrypt(sentence!))
     }
@@ -60,6 +59,7 @@ export class AuthService {
     this.recaptcha.execute('login')
       .subscribe((token: string) => {
         login.userContext = token
+        console.log(token);
         this.message.showLoading()
         this.http
           .post<UserResponseModel>(`${this.apiUrl}backoffice/admin/signin`, login)
