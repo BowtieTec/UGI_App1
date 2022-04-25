@@ -56,13 +56,16 @@ import { PermissionsService } from '../../../../shared/services/permissions.serv
         .get('parkingId')
         ?.setValue(this.authService.getParking().id)
     }
-    await this.getParkinData().then(() => this.rerender())
+    await this.getParkedData().then(() => this.rerender()).then(() =>{})
+    setInterval(() => {
+      this.getParkedData().then(() => this.rerender()).catch()
+    }, 10000)
 
   this.messageService.hideLoading()
     // await this.getParked().then(() => this.messageService.hideLoading());
   }
 
-  private async getParkinData() {
+  private async getParkedData() {
     return this.parkingService
       .getParked(
         this.getParkedFormValues(),
