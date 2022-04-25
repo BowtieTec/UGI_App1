@@ -29,8 +29,6 @@ export class LoginComponent {
 
   createForm() {
     this.loginForm = this.formBuilder.group({
-      //TODO: Quitar los valores por defecto. Estos solo fueron puestos para hacer mas facil el logueo dentro del sistema mientras se desarrolla.
-      //TODO: Descomentar las validacioens cuando se suba a produccion. Esto se comentó porque el email y contraseña admin son de prueba y no cumplen con los requerimientos
       email: [
         '',
            [Validators.required,

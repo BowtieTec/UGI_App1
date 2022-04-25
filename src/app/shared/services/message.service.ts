@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core'
+import { Injectable } from '@angular/core'
 import Swal from 'sweetalert2'
 
 
@@ -125,6 +125,11 @@ export class MessageService {
     }).then((result) => result)
   }
 
+  get nowTimeFormat() {
+    const now = new Date()
+    return `${now.getFullYear()}-${(now.getMonth() + 1 < 10 ? '0' : '')}${now.getMonth() + 1}-${(now.getDate() < 10 ? '0' : '')}${now.getDate()}T23:59`
+  }
+
   async areYouSureWithCancel(
     title: string,
     confirmButtonText = 'Si',
@@ -141,4 +146,36 @@ export class MessageService {
     }).then((result) => result)
   }
 
+  async areYouSureWithCancelAndInput(
+    title: string,
+    confirmButtonText = 'Si',
+    denyButtonText = 'No',
+    output?: Date
+  ) {
+    return Swal.fire({
+      confirmButtonColor: '#05ccae',
+      denyButtonColor: '#415ba1',
+      title,
+      showDenyButton: true,
+      showCancelButton: true,
+      confirmButtonText,
+      denyButtonText,
+      html: `
+          <div>
+        <label class = "labelInput"
+               style = "display: block;">Hora de salida</label>
+        <input
+          class = "inputClass "
+          id='dateOut'
+          name='dateOut'
+          value='${output}'
+          ngModel='${output}'
+          max='${this.nowTimeFormat}'
+          placeholder = 'Hora de salida'
+          autocomplete = 'off'
+          type = 'datetime-local'>
+      </div>
+      `
+    }).then((result) => result)
+  }
 }

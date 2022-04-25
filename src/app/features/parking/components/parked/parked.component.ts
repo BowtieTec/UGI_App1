@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core'
+import { AfterViewInit, Component, OnDestroy, ViewChild } from '@angular/core'
 import { FormBuilder, FormGroup } from '@angular/forms'
 import { ParkingService } from '../../services/parking.service'
 import { ParkedModel, ParkingModel, StatusParked } from '../../models/Parking.model'
@@ -20,6 +20,7 @@ import { PermissionsService } from '../../../../shared/services/permissions.serv
   parkingData: ParkingModel[] = []
   parkedData: Array<ParkedModel> = []
   statusParked = StatusParked
+  dateOutToGetOut: Date = new Date()
 
   @ViewChild(DataTableDirective) dtElement!: DataTableDirective
   dtTrigger: Subject<any> = new Subject()
@@ -73,7 +74,8 @@ import { PermissionsService } from '../../../../shared/services/permissions.serv
     return this.formBuilder.group({
       parkingId: ['0'],
       status: ['1'],
-      textToSearch: ['']
+      textToSearch: [''],
+      dateOutToGetOut: ['']
     })
   }
   async getAllParking() {
@@ -126,10 +128,11 @@ import { PermissionsService } from '../../../../shared/services/permissions.serv
         this.ifHaveAction(this.getOutWithoutPayment) &&
         this.ifHaveAction(this.getOutWithPayment)
       ) {
-        const statusWillUpdate = await this.messageService.areYouSureWithCancel(
+        const statusWillUpdate = await this.messageService.areYouSureWithCancelAndInput(
           '¿Dejar salir a usuario con el cobro pendiente o cancelado?',
           'Cobro Cancelado',
-          'Cobrar parqueo'
+          'Cobrar parqueo',
+          this.dateOutToGetOut
         )
         if (statusWillUpdate.isConfirmed) status = 3
         if (statusWillUpdate.isDenied) status = 2
@@ -147,6 +150,11 @@ import { PermissionsService } from '../../../../shared/services/permissions.serv
       return
     }
     const status = await this.getStatusToSave(parked.type)
+    if (!this.dateOutToGetOut) {
+      this.messageService.error('Debe seleccionar una fecha de salida')
+      return
+    }
+
     if (status == -1) {
       return
     }
@@ -161,10 +169,11 @@ import { PermissionsService } from '../../../../shared/services/permissions.serv
     }
     if (result.isConfirmed) {
       this.messageService.showLoading()
-      this.parkingService.getOutParked(parked.id, status).then((data) => {
+      this.parkingService.getOutParked(parked.id, status, this.dateOutToGetOut).then((data) => {
         if (data.success) {
           this.rerender()
           this.messageService.Ok(data.message)
+          this.dateOutToGetOut = new Date()
         } else {
           this.messageService.error('', data.message)
         }
