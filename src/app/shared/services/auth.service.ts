@@ -56,11 +56,10 @@ export class AuthService {
   }
 
   login(login: UserRequestModel) {
+    this.message.showLoading()
     this.recaptcha.execute('login')
       .subscribe((token: string) => {
         login.userContext = token
-        console.log(token);
-        this.message.showLoading()
         this.http
           .post<UserResponseModel>(`${this.apiUrl}backoffice/admin/signin`, login)
           .toPromise()
@@ -81,6 +80,7 @@ export class AuthService {
             this.route.navigate(['/']).catch()
           })
       }, (err) => {
+        this.message.hideLoading()
         throw new Error('Error: No pudo completarse el reCAPTCHA. Vuelva a iniciar sesión.')
       })
   }
