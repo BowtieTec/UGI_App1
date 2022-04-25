@@ -67,64 +67,40 @@
           <dxi-column
             dataField="isUnlimited"
             caption="Tipo parqueo"
+            [allowSorting]='true'
             width="120"
           ></dxi-column>
           <dxi-column
             caption="Monto"
-            dataField="ms_amount"
+            dataField="ms_amount"[allowSorting]='true'
             format="Q ,###,###,##0.00"
             type="currency"
             width="90"
           ></dxi-column>
           <dxi-column
             caption="Nombre"
-            dataField="full_name"
+            dataField="full_name"[allowSorting]='true'
             type="text"
           ></dxi-column>
           <dxi-column
             caption="Teléfono"
-            dataField="u_phone_number"
+            dataField="u_phone_number"[allowSorting]='true'
             type="text"
             width='125'
           ></dxi-column>
           <dxi-column
             caption="Correo"
-            dataField="email"
+            dataField="email"[allowSorting]='true'
             type="text"
           ></dxi-column>
           <dxi-column
-            caption="Perfil de acceso"
+            caption="Perfil de acceso"[allowSorting]='true'
             dataField="suscripcion"
             [customizeText]="customizeText"
             type="text"
           ></dxi-column>
-          <!--<dxi-column
-            dataField="begin_date"
-            caption="Fecha inicio" dataType="datetime"
-            [width]="200"
-            format="dd/MM/yyyy hh:mm a "
-          ></dxi-column>
           <dxi-column
-            dataField="finish_date"
-            [width]="150"
-            caption="Fecha fin" dataType="datetime"
-            [width]="200"
-            format="dd/MM/yyyy hh:mm a "
-          ></dxi-column>-->
-          <!--  <dxi-column
-              dataField="ultimo_pago"
-              caption="Último pago"
-              dataType="datetime"
-              format="dd/MM/yyyy hh:mm a "
-            ></dxi-column>
-            <dxi-column
-              dataField="proximo_pago"
-              caption="Próximo pago"
-              dataType="datetime"
-              format="dd/MM/yyyy hh:mm a "
-            ></dxi-column>-->
-          <dxi-column
-            dataField="estadoSuscripcion"
+            dataField="estadoSuscripcion"[allowSorting]='true'
             caption="Estado"
           ></dxi-column>
           <dxo-header-filter [visible]="true"></dxo-header-filter>
