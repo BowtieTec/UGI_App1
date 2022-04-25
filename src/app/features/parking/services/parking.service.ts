@@ -337,7 +337,6 @@ export class ParkingService {
   }
 
   getOutParked(parkedId: string, status: number, dateOutToGetOut: Date) {
-    console.log(parkedId, status, dateOutToGetOut)
     return this.http
       .post<ResponseModel>(`${this.apiUrl}backoffice/parking/getOut`, {
         parkedId,
