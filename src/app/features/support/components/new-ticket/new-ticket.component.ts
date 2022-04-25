@@ -20,6 +20,7 @@ export class NewTicketComponent {
   date: Date = new Date()
   authData: AuthModel = this.authService.getUser()
 
+
   constructor(
     private permissionService: PermissionsService,
     private formBuilder: FormBuilder,
@@ -42,7 +43,9 @@ export class NewTicketComponent {
     return {
       email: this.authData.user.email, //this.supportTicketForm.get('email')?.value,
       subject: this.supportTicketForm.get('subject')?.value,
-      description: this.supportTicketForm.get('description')?.value
+      description: this.supportTicketForm.get('description')?.value,
+      parkingName: this.authService.getParking().name ? this.authService.getParking().name : 'No encontrado'
+
     }
   }
 
