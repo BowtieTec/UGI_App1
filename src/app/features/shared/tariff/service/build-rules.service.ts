@@ -14,12 +14,12 @@ export class BuildRulesService {
       {
         fact: 'date_in',
         operator: 'dateIsGreaterThan',
-        value: input.toDate
+        value: input.fromDate
       },
       {
         fact: 'date_in',
         operator: 'dateIsLessThan',
-        value: input.fromDate
+        value: input.toDate
       }
     ]
   }
@@ -263,30 +263,6 @@ export class BuildRulesService {
       },
       {
         fact: 'date_in_object',
-        path: 'minute',
-        operator: 'lessThanInclusive',
-        value: input.toTime.minutes
-      },
-      {
-        fact: 'date_out_object',
-        path: 'hour',
-        operator: 'greaterThanInclusive',
-        value: input.fromTime.hours
-      },
-      {
-        fact: 'date_out_object',
-        path: 'hour',
-        operator: 'lessThanInclusive',
-        value: input.toTime.hours
-      },
-      {
-        fact: 'date_out_object',
-        path: 'minute',
-        operator: 'greaterThanInclusive',
-        value: input.fromTime.minutes
-      },
-      {
-        fact: 'date_out_object',
         path: 'minute',
         operator: 'lessThanInclusive',
         value: input.toTime.minutes
