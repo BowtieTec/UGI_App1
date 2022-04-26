@@ -1,23 +1,23 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
-import { FormBuilder, FormGroup } from '@angular/forms'
-import { UtilitiesService } from '../../../shared/services/utilities.service'
-import { MessageService } from '../../../shared/services/message.service'
-import { HolidayInputModel } from './model/HolidayTariff.model'
-import { RankInputModel } from './model/RankTariff.model'
-import { BlockInputModel } from './model/BlockTariff.model'
-import { DefaultInputModel } from './model/DefaultTariff.model'
-import { ParkingService } from '../../parking/services/parking.service'
-import { CurrencyPipe, DatePipe, Time } from '@angular/common'
-import { ValidationsService } from './service/validations.service'
-import { AuthService } from '../../../shared/services/auth.service'
-import { TariffFormsService } from './service/tariff-forms.service'
-import { All, FixedCostInputModel, HourHalfInputModel, IEvent, Rules } from './model/Tariff.model'
-import { CreateTariffModel } from '../../parking/models/Tariff.model'
-import { BuildRulesService } from './service/build-rules.service'
-import { environment } from '../../../../environments/environment'
-import { PermissionsService } from '../../../shared/services/permissions.service'
-import { DailyInputModel } from './model/DailyTariff.model'
-import { ParkingModel } from '../../parking/models/Parking.model'
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core'
+import {FormBuilder, FormGroup} from '@angular/forms'
+import {UtilitiesService} from '../../../shared/services/utilities.service'
+import {MessageService} from '../../../shared/services/message.service'
+import {HolidayInputModel} from './model/HolidayTariff.model'
+import {RankInputModel} from './model/RankTariff.model'
+import {BlockInputModel} from './model/BlockTariff.model'
+import {DefaultInputModel} from './model/DefaultTariff.model'
+import {ParkingService} from '../../parking/services/parking.service'
+import {CurrencyPipe, DatePipe, Time} from '@angular/common'
+import {ValidationsService} from './service/validations.service'
+import {AuthService} from '../../../shared/services/auth.service'
+import {TariffFormsService} from './service/tariff-forms.service'
+import {All, FixedCostInputModel, HourHalfInputModel, IEvent, Rules} from './model/Tariff.model'
+import {CreateTariffModel} from '../../parking/models/Tariff.model'
+import {BuildRulesService} from './service/build-rules.service'
+import {environment} from '../../../../environments/environment'
+import {PermissionsService} from '../../../shared/services/permissions.service'
+import {DailyInputModel} from './model/DailyTariff.model'
+import {ParkingModel} from '../../parking/models/Parking.model'
 
 @Component({
   selector: 'app-tariff',
@@ -112,7 +112,7 @@ export class TariffComponent implements OnInit {
 
   get daysValuesDescription() {
     const days: string[] = []
-    const { mon, tue, wen, thu, fri, sat, sun } = this.justDaysValue
+    const {mon, tue, wen, thu, fri, sat, sun} = this.justDaysValue
 
     mon == true ? days.push('Lunes') : false
     tue == true ? days.push('Martes') : false
@@ -207,7 +207,7 @@ export class TariffComponent implements OnInit {
       static_descriptionCost: `Costo por hora: ${this.currencyPipe.transform(
         costHour,
         'GTQ'
-      )} Costo por fracción: ${this.currencyPipe.transform(costAHalf, 'GTQ')}`,
+      )} Costo por fracción: ${this.currencyPipe.transform(costAHalf, 'GTQ')}. Comenzando a cobrar desde el minuto ${whenIsAHalf}`,
       costHour,
       costAHalf,
       whenIsAHalf
@@ -244,12 +244,14 @@ export class TariffComponent implements OnInit {
 
   get fixedCostFormValue(): FixedCostInputModel {
     const fixedCost = this.fixedCostForm.get('fixedCost')?.value
+    const whenIsAHalf = this.fixedCostForm.get('whenIsAHalf')?.value
     return {
       static_descriptionCost: `Único pago o Tarifa única: ${this.currencyPipe.transform(
         fixedCost,
         'GTQ'
-      )}`,
-      fixedCost
+      )}. Cobrar desde el minuto ${whenIsAHalf}`,
+      fixedCost,
+      whenIsAHalf
     }
   }
 
@@ -381,10 +383,11 @@ export class TariffComponent implements OnInit {
     this.hourAHalfForm.setValue({
       hourCost: '',
       halfCost: '',
-      whenIsAHalf: ''
+      whenIsAHalf: '1'
     })
     this.fixedCostForm.setValue({
-      fixedCost: ''
+      fixedCost: '',
+      whenIsAHalf: '1'
     })
     this.costType = 1
   }
@@ -593,7 +596,9 @@ export class TariffComponent implements OnInit {
   private otherConditions() {
     let conditions: All[] = []
     if (this.costType == 1) {
-      conditions.push(...BuildRulesService.isHalfOfHour(this.hourHalfFormValues.whenIsAHalf))
+      conditions.push(...BuildRulesService.beginChargingWhen(this.hourHalfFormValues.whenIsAHalf))
+    } else if (this.costType == 2) {
+      conditions.push(...BuildRulesService.beginChargingWhen(this.fixedCostFormValue.whenIsAHalf))
     }
 
     return conditions
@@ -610,22 +615,26 @@ export class TariffComponent implements OnInit {
   }
 
   private buildTariffJsonRules() {
-    let newRule: CreateTariffModel
-    let rules: Rules[] = []
-    if (this.generalDataFormValues.isPerDayCondition) {
-      rules = [
-        ...this.DailyRules
-      ]
-    } else {
-      rules = [
-        ...this.FractionOrFixedRules,
-        ...this.HourRules,
-      ]
-    }
+    try {
+      let newRule: CreateTariffModel
+      let rules: Rules[] = []
+      if (this.generalDataFormValues.isPerDayCondition) {
+        rules = [
+          ...this.DailyRules
+        ]
+      } else {
+        rules = [
+          ...this.FractionOrFixedRules,
+          ...this.HourRules,
+        ]
+      }
 
-    newRule = {...this.generalDataFormValues, parking: this.parkingId, rules}
-    newRule.static_description = this.getStaticDescription()
-    return newRule
+      newRule = {...this.generalDataFormValues, parking: this.parkingId, rules}
+      newRule.static_description = this.getStaticDescription()
+      return newRule
+    } catch (ex: any) {
+      throw new Error(ex.message)
+    }
   }
 
   private getHourConditions(): All[] {

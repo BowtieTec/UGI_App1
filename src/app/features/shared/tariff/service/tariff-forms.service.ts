@@ -1,9 +1,6 @@
-import { Injectable } from '@angular/core'
-import { FormBuilder, Validators } from '@angular/forms'
-import {
-  DateGreaterValidations,
-  NumberGreaterValidations
-} from '../../../../shared/validators/GreatherThan.validations'
+import {Injectable} from '@angular/core'
+import {FormBuilder, Validators} from '@angular/forms'
+import {DateGreaterValidations, NumberGreaterValidations} from '../../../../shared/validators/GreatherThan.validations'
 
 @Injectable({
   providedIn: 'root'
@@ -27,13 +24,14 @@ export class TariffFormsService {
     return this.formBuilder.group({
       hourCost: [null, Validators.required],
       halfCost: [null, Validators.required],
-      whenIsAHalf: [null, Validators.required]
+      whenIsAHalf: ['1', Validators.required]
     })
   }
 
   createFixedCostForm() {
     return this.formBuilder.group({
-      fixedCost: [null, Validators.required]
+      fixedCost: [null, Validators.required],
+      whenIsAHalf: ['1', Validators.required]
     })
   }
 

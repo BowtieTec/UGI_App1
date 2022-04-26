@@ -1,13 +1,29 @@
-<div *ngIf="costType==2" class="animate__animated animate__fadeInUp ">
+<div *ngIf = "costType==2"
+     class = "animate__animated animate__fadeInUp ">
   <h4>Tarifa fija</h4>
 
-  <form [formGroup]="fixedCostForm" action="">
-    <app-input-container
-      controlName='fixedCost'
-      [formGroup]='fixedCostForm'
-      name='Precio fijo'
-      type='number'
-    >
-    </app-input-container>
+  <form [formGroup] = "fixedCostForm"
+        action = "">
+    <div class = "row">
+      <div class = "col-sm-12 col-xl-6">
+        <app-input-container
+          [formGroup] = 'fixedCostForm'
+          class = "col-sm-6"
+          controlName = 'fixedCost'
+          name = 'Precio fijo'
+          type = 'number'
+        >
+        </app-input-container>
+      </div>
+      <div class = "col-sm-12 col-xl-6">
+        <app-input-container
+
+          [formGroup] = 'fixedCostForm'
+          controlName = 'whenIsAHalf'
+          name = 'Cobrar cuando lleve x minutos'
+          type = 'number'>
+        </app-input-container>
+      </div>
+    </div>
   </form>
 </div>

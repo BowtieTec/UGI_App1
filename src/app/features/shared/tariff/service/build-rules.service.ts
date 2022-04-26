@@ -49,7 +49,7 @@ export class BuildRulesService {
     ]
   }
 
-  public static isHalfOfHour(whenIsAHalf: number): All[] {
+  public static beginChargingWhen(whenIsAHalf: number): All[] {
     return [
       {
         fact: 'minute',
