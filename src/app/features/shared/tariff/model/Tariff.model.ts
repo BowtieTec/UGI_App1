@@ -1,4 +1,4 @@
-import { ParkingModel } from '../../../parking/models/Parking.model'
+import {ParkingModel} from '../../../parking/models/Parking.model'
 
 export class RuleModel {
   conditions?: Conditions
@@ -15,6 +15,7 @@ export class HourHalfInputModel {
 export class FixedCostInputModel {
   static_descriptionCost = ''
   fixedCost = 0
+  whenIsAHalf = 0
 }
 
 export class RuleModelSaved {

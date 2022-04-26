@@ -1,14 +1,15 @@
 <div class = 'panels'>
-l  <div class = 'titleCards'>
+  l
+  <div class = 'titleCards'>
     <span> <em class = 'fas fa-comment-dollar'></em> </span> Tarifa
-     <app-select-container
-       (change) = 'getTariffs()'
-       *ngIf = 'isSudo'
-       [data] = 'allParking'
-       [formGroup] = 'generalDataForm'
-       controlName = 'parkingId'
-       name = 'Parqueo'
-     ></app-select-container>
+    <app-select-container
+      (change) = 'getTariffs()'
+      *ngIf = 'isSudo'
+      [data] = 'allParking'
+      [formGroup] = 'generalDataForm'
+      controlName = 'parkingId'
+      name = 'Parqueo'
+    ></app-select-container>
   </div>
   <div *ngIf = 'ifHaveAction(createTariff)'>
     <div
@@ -28,9 +29,9 @@ l  <div class = 'titleCards'>
         <div class = 'col-xl-3 col-lg-4 col-sm-6 text-center'>
           <app-radio-container
             [formGroup] = 'prioriceForm'
-                               [value] = '2'
-                               controlName = 'prioriceCost'
-                               desc = 'Aplicar tarifa de salida'></app-radio-container>
+            [value] = '2'
+            controlName = 'prioriceCost'
+            desc = 'Aplicar tarifa de salida'></app-radio-container>
         </div>
       </ng-container>
     </div>
@@ -42,8 +43,8 @@ l  <div class = 'titleCards'>
       class = "titleCards animate__animated animate__fadeInUp">
       <span><em class = "fas fa-cogs"></em></span> Condicion por dia
       <hr>
-      <div class="row justify-content-center">
-        <div class="col-md-6">
+      <div class = "row justify-content-center">
+        <div class = "col-md-6">
           <app-dayli-tariff [daysSelectedForm] = "dailyForm"></app-dayli-tariff>
         </div>
       </div>
@@ -127,7 +128,7 @@ l  <div class = 'titleCards'>
                                 [hourAHalfForm] = "hourAHalfForm"
                                 [settingValues] = 'formValueTimeRangeSelected'></app-hour-half-cost>
           </div>
-          <div class = 'col-md-6'>
+          <div class = 'col-md-12'>
             <app-fixed-cost
               [costType] = 'costType'
               [fixedCostForm] = 'fixedCostForm'></app-fixed-cost>
@@ -149,71 +150,71 @@ l  <div class = 'titleCards'>
   <div>
     <div class = 'titleCards'><span><i class = 'fas fa-list-ul'></i></span> Reglas de la tarifa para este parqueo</div>
     <!--  Reglas de tarifa  -->
-      <div
-        *ngIf = '!ifHaveTariffData'
-        class = 'text-center'>
-         <h1 class = 'display-5 fw-lighter text-secondary animate__animated animate__fadeIn'>No se encontraron tarifas</h1>
-      </div>
+    <div
+      *ngIf = '!ifHaveTariffData'
+      class = 'text-center'>
+      <h1 class = 'display-5 fw-lighter text-secondary animate__animated animate__fadeIn'>No se encontraron tarifas</h1>
+    </div>
     <div
       *ngIf = 'ifHaveTariffData'
       class = 'row '
       style = 'background: #f7f7f7; margin: -15px; padding: 15px; left: 0;  right: 0;  top: 0;  border-radius: 0 0 10px 10px;'>
-         <div
-           *ngFor = 'let tariff of tariffs; index as i'
-           class = 'col-md-6 animate__animated animate__zoomIn'>
-          <div class = 'panels'>
-            <div class = 'row'>
-              <div class = 'col'>
-                <div class = 'titleCards pt-2 mb-1'>Regla #{{i + 1}}</div>
-              </div>
-              <div class = 'col-auto text-end'>
-                <button
-                  (click) = 'deleteTariff(tariff.id)'
-                  class = 'btn btn-danger btn-icon'
-                  type = 'button'>
-                  <i class = 'fas fa-trash'></i>
-                </button>
-            <div>
-            <ul class = 'opcionActivo col-auto text-end'>
-              <li>
-                <input
-                  (change) = 'changeStatusTariff(tariff)'
-                  [checked] = 'tariff.isActive'
-                  class = 'form-check-input'
-                  id = '{{tariff.name + i}}'
-                  type = 'checkbox'>
-                <label
-                  class = 'form-check-label ms-1'
-                  for = '{{tariff.name + i}}'>Activo</label>
-              </li>
-            </ul>
+      <div
+        *ngFor = 'let tariff of tariffs; index as i'
+        class = 'col-md-6 animate__animated animate__zoomIn'>
+        <div class = 'panels'>
+          <div class = 'row'>
+            <div class = 'col'>
+              <div class = 'titleCards pt-2 mb-1'>Regla #{{i + 1}}</div>
             </div>
+            <div class = 'col-auto text-end'>
+              <button
+                (click) = 'deleteTariff(tariff.id)'
+                class = 'btn btn-danger btn-icon'
+                type = 'button'>
+                <i class = 'fas fa-trash'></i>
+              </button>
+              <div>
+                <ul class = 'opcionActivo col-auto text-end'>
+                  <li>
+                    <input
+                      (change) = 'changeStatusTariff(tariff)'
+                      [checked] = 'tariff.isActive'
+                      class = 'form-check-input'
+                      id = '{{tariff.name + i}}'
+                      type = 'checkbox'>
+                    <label
+                      class = 'form-check-label ms-1'
+                      for = '{{tariff.name + i}}'>Activo</label>
+                  </li>
+                </ul>
               </div>
             </div>
-            <div class = 'titleCards mb-0'>{{tariff.name}}</div>
-            {{tariff.static_description}}
           </div>
+          <div class = 'titleCards mb-0'>{{tariff.name}}</div>
+          {{tariff.static_description}}
+        </div>
 
       </div>
     </div>
 
   </div>
-   <div
-     class = 'text-center'
-     id = 'q-box__buttons'>
-      <button
-        (click) = 'emmitStep(-1)'
-        *ngIf = 'isCreatingParking'
-        class = 'btn btn-primary m-2'
-        id = 'prev-btn'
-        type = 'button'>Anterior
-      </button>
-      <button
-        (click) = 'emmitStep(1)'
-        *ngIf = 'isCreatingParking'
-        class = 'btn btn-primary m-2'
-        id = 'next-btn'
-        type = 'button'>Siguiente
-      </button>
-    </div>
+  <div
+    class = 'text-center'
+    id = 'q-box__buttons'>
+    <button
+      (click) = 'emmitStep(-1)'
+      *ngIf = 'isCreatingParking'
+      class = 'btn btn-primary m-2'
+      id = 'prev-btn'
+      type = 'button'>Anterior
+    </button>
+    <button
+      (click) = 'emmitStep(1)'
+      *ngIf = 'isCreatingParking'
+      class = 'btn btn-primary m-2'
+      id = 'next-btn'
+      type = 'button'>Siguiente
+    </button>
+  </div>
 </div>
