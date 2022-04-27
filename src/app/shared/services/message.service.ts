@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core'
+import {Injectable} from '@angular/core'
 import Swal from 'sweetalert2'
 
 
@@ -148,17 +148,15 @@ export class MessageService {
 
   async areYouSureWithCancelAndInput(
     title: string,
-    confirmButtonText = 'Si',
     denyButtonText = 'No',
     output?: Date
   ) {
     return Swal.fire({
-      confirmButtonColor: '#05ccae',
       denyButtonColor: '#415ba1',
       title,
       showDenyButton: true,
       showCancelButton: true,
-      confirmButtonText,
+      showConfirmButton: false,
       denyButtonText,
       html: `
           <div>
