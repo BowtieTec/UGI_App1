@@ -59,11 +59,15 @@ export class ParkedComponent implements OnDestroy, AfterViewInit {
     await this.getParkedData().then(() => this.rerender()).then(() => {
     })
     setInterval(() => {
-      this.getParkedData().then(() => this.rerender()).catch()
+      this.refreshParkedData()
     }, 10000)
 
     this.messageService.hideLoading()
     // await this.getParked().then(() => this.messageService.hideLoading());
+  }
+
+  async refreshParkedData() {
+    return this.getParkedData().then(() => this.rerender())
   }
 
   private async getParkedData() {
@@ -147,18 +151,16 @@ export class ParkedComponent implements OnDestroy, AfterViewInit {
   }
 
   async getOut(parked: ParkedModel) {
-    if (parked.type) {
-      this.messageService.error(
-        'Este parqueo no tiene un tipo de parqueo valido.'
-      )
-      return
-    }
     const status = await this.getStatusToSave(parked.type)
     if (!this.dateOutToGetOut) {
       this.messageService.error('Debe seleccionar una fecha de salida')
       return
     }
-
+    console.log(this.dateOutToGetOut <= parked.entry_date)
+    if (new Date(this.dateOutToGetOut) <= new Date(parked.entry_date)) {
+      this.messageService.error('La fecha y hora de salida debe ser mayor a la de entrada.')
+      return
+    }
     if (status == -1) {
       return
     }
