@@ -1,0 +1,139 @@
+<div class="row justify-content-center">
+  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 panelLeft animate__animated animate__fadeInLeft">
+    <div class="panels">
+      <div class="titleCards">
+        <span><i class="fas fa-sitemap"></i></span> Reporte de Facturación
+      </div>
+      <div class="row justify-content-center">
+        <div *ngIf="ifHaveAction(verTodosLosParqueosReport)"
+             class="col-xl-4 col-lg-6 col-sm-12">
+          <div class="mb-4 relative">
+            <label class="text-secundary" style="display:block">Parqueo</label>
+            <select
+              #inputParking
+              class="inputClass">
+              <option value="0">---- Todos los parqueos ----</option>
+              <option *ngFor="let parking of this.allParking"
+                      value="{{parking.id}}">{{parking.name}}</option>
+            </select>
+
+          </div>
+        </div>
+        <div class="col-xl-2 col-lg-6 col-sm-12">
+          <div class="mb-4 relative">
+            <label class="text-secondary"
+                   style="display:block">Fecha de inicio</label>
+            <input #initDate class="form-control inputClass datetimepicker"
+                   for="initDate"
+                   name="initDate"
+                   placeholder="Fecha/Hora de entrada"
+                   type="Date"
+                   max="{{nowDateTime | date: 'yyyy-MM-dd'}}"
+                   [value]="fechaActual"
+            >
+          </div>
+        </div>
+        <div class="col-xl-2 col-lg-6 col-sm-12">
+          <div class="mb-4 relative">
+            <label class="text-secondary"
+                   style="display:block">Fecha de fin</label>
+            <input
+              #endDate [value]="fechaActual"
+              class="form-control inputClass datetimepicker"
+              for="endDate"
+              name="endDate"
+              placeholder="Fecha/Hora de salida"
+              type="date"
+              max="{{nowDateTime | date: 'yyyy-MM-dd'}}"
+            >
+          </div>
+        </div>
+        <div class="col-xl-12 col-lg-12 col-sm-12">
+          <div class="text-center">
+            <button (click)="getBillingRpt(initDate.value,endDate.value)"
+                    class="btn btn-primary m-2">Buscar
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+    <div class="panels">
+      <div class="row" id="exportable">
+
+        <dx-data-grid id="gridContainer" [dataSource]="dataSource" [showBorders]="true" [columnHidingEnabled]="false">
+          <dxi-column
+            caption="Serie Factura"
+            dataField="serial"
+            width="125"
+          ></dxi-column>
+          <dxi-column
+            dataField="fiscal_number"
+            caption="No Factura"
+            width="125"
+          ></dxi-column>
+          <dxi-column
+            dataField="receip_number"
+            caption="DocID"
+            width="125"
+          ></dxi-column>
+          <dxi-column
+            dataField="full_name"
+            caption="Nombre"
+            width="125"
+          ></dxi-column>
+          <dxi-column
+            dataField="u_email"
+            caption="Correo"
+            width="auto"
+          ></dxi-column>
+
+          <dxi-column
+            dataField="nit"
+            caption="Nit"
+            width="125"
+          ></dxi-column>
+
+          <dxi-column
+            dataField="pagado"
+            caption="Total "
+            dataType="number"
+            format="currency"
+            format="Q ,###,###,##0.00"
+            width="125"
+          ></dxi-column>
+          <dxi-column
+            dataField="dateBilling"
+            caption="Fecha Factura"
+            width="125"
+            dataType="datetime"
+            format="dd/MM/yyyy hh:mm:ss"
+          ></dxi-column>
+          <!--<dxi-column
+            dataField="estacionEntrada"
+            caption="Estación de entrada"
+          ></dxi-column>-->
+          <!--<dxi-column
+            dataField="estacionSalida"
+            caption="Estación de salida"
+          ></dxi-column>-->
+
+          <dxo-header-filter [visible]="true"></dxo-header-filter>
+          <dxo-search-panel [visible]="true" placeholder="Buscar..."></dxo-search-panel>
+          <dxo-toolbar>
+            <dxi-item location="after">
+              <dx-button
+                icon="xlsxfile"
+                text="Exportar a Excel"
+                (onClick)="onExporting($event)"
+              ></dx-button>
+            </dxi-item>
+            <dxi-item name="searchPanel"></dxi-item>
+          </dxo-toolbar>
+          <dxo-export [enabled]="true"></dxo-export>
+        </dx-data-grid>
+      </div>
+    </div>
+  </div>
+</div>
