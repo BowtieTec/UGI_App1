@@ -177,7 +177,7 @@ export class ParkedComponent implements OnDestroy, AfterViewInit {
       this.messageService.showLoading()
       this.parkingService.getOutParked(parked.id, status, this.dateOutToGetOut).then((data) => {
         if (data.success) {
-          this.rerender()
+          this.refreshParkedData()
           this.messageService.Ok(data.message)
           this.dateOutToGetOut = new Date()
         } else {

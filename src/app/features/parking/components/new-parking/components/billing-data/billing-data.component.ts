@@ -1,11 +1,11 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core'
-import { FormBuilder, FormGroup, Validators } from '@angular/forms'
-import { MessageService } from '../../../../../../shared/services/message.service'
-import { ParkingService } from '../../../../services/parking.service'
-import { UtilitiesService } from '../../../../../../shared/services/utilities.service'
-import { SettingsOptionsModel } from '../../../../models/SettingsOption.model'
-import { CreateParkingStepFourModel } from '../../../../models/CreateParking.model'
-import { Router } from '@angular/router'
+import {Component, EventEmitter, Input, Output} from '@angular/core'
+import {FormBuilder, FormGroup, Validators} from '@angular/forms'
+import {MessageService} from '../../../../../../shared/services/message.service'
+import {ParkingService} from '../../../../services/parking.service'
+import {UtilitiesService} from '../../../../../../shared/services/utilities.service'
+import {SettingsOptionsModel} from '../../../../models/SettingsOption.model'
+import {CreateParkingStepFourModel} from '../../../../models/CreateParking.model'
+import {Router} from '@angular/router'
 
 @Component({
   selector: 'app-billing-data',
@@ -108,7 +108,7 @@ export class BillingDataComponent {
 
   createForm() {
     return this.formBuilder.group({
-      nit: [null, [Validators.required, this.utilitiesService.validateNIT]],
+      nit: [null, [Validators.required]],
       business_address: [null, Validators.required],
       business_name: [null, Validators.required],
       pay_method: ['0'],

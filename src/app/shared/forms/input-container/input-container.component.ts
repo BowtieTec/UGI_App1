@@ -21,7 +21,7 @@ export class InputContainerComponent implements OnInit {
   @Input() textInfo = ''
   @Input() readonly: boolean = false
   @Input() minL = '0'
-  @Input() maxL = '30'
+  @Input() maxL = '80'
 
   constructor(private utilitiesService: UtilitiesService) {
   }

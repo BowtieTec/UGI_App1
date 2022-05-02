@@ -157,13 +157,14 @@ export class MessageService {
       showDenyButton: true,
       showCancelButton: true,
       showConfirmButton: false,
+      allowOutsideClick: false,
       denyButtonText,
       html: `
-          <div>
-        <label class = "labelInput"
+        <div>
+        <label class = ""
                style = "display: block;">Hora de salida</label>
         <input
-          class = "inputClass "
+          class = "inputClass"
           id='dateOut'
           name='dateOut'
           value='${output}'
@@ -172,6 +173,7 @@ export class MessageService {
           placeholder = 'Hora de salida'
           autocomplete = 'off'
           type = 'datetime-local'>
+
       </div>
       `
     }).then((result) => result)
