@@ -20,7 +20,8 @@ import { DxButtonModule, DxDataGridModule } from 'devextreme-angular'
 
 import { DetailGridComponent } from './components/parking-ticket-report/detail/detail-grid.component'
 import { DetailGridMonthComponent } from './components/parking-day-report/detail/detail-grid-month.component'
-import { ReportComponent } from './report/report.component'
+import { ReportComponent } from './report/report.component';
+import { BillingReportComponent } from './components/billing-report/billing-report.component'
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { ReportComponent } from './report/report.component'
     ParkingDayReportComponent,
     DetailGridComponent,
     ReportComponent,
-    DetailGridMonthComponent
+    DetailGridMonthComponent,
+    BillingReportComponent
   ],
   imports: [
     CommonModule,

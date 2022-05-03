@@ -16,6 +16,7 @@ export class ReportMenuComponent {
   verMonthlyParkingReport = environment.verMonthlyParkingReport
   verDailyParkingReportTicket = environment.verDailyParkingReportTicket
   verCourtesiesStationReport = environment.verCourtesiesStationReport
+  verBillingReport = environment.verBillingReport
   private actions: string[] = this.permissionService.actionsOfPermissions
 
   constructor(
