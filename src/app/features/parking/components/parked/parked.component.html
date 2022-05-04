@@ -59,6 +59,7 @@
       <tr class = "text-center">
         <th scope = "col">Teléfono</th>
         <th scope = "col">Entrada</th>
+        <th scope = "col">Salida</th>
         <th scope = "col">Tiempo dentro</th>
         <th scope = "col">Estado</th>
         <th scope = "col">Tipo</th>
@@ -75,7 +76,8 @@
           class = "animate__animated animate__fadeIn">
         <td>****-{{parked?.phone_number | slice: -4}}</td>
         <td>{{parked?.entry_date | date: 'short'}}</td>
-        <td>{{getTimeInParking(parked?.entry_date)}}</td>
+        <td>{{parked?.exit_date ? (parked.exit_date | date: 'short') : 'No ha salido'}}</td>
+        <td>{{getTimeInParking(parked)}}</td>
         <td>
               <span *ngIf = "parked?.status==0"
                     class = "">Intentando entrar</span>

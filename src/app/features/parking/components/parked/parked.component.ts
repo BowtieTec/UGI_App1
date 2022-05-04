@@ -70,12 +70,22 @@ export class ParkedComponent implements OnDestroy, AfterViewInit {
     return this.getParkedData().then(() => this.rerender())
   }
 
-  private async getParkedData() {
-    return this.parkingService
-      .getParked(
-        this.getParkedFormValues(),
-      )
-      .toPromise().then((data) => this.parkedData = data.data)
+  getTimeInParking(entry: ParkedModel) {
+    const entry_date = entry.entry_date
+    const oldTime = new Date(entry_date).getTime()
+    const timeNow = entry.exit_date ? (new Date(entry.exit_date).getTime()) : new Date().getTime()
+
+    const days = Math.round((timeNow - oldTime) / (1000 * 60 * 60 * 24))
+    const hours = Math.round(
+      (Math.abs(timeNow - oldTime) / (1000 * 60 * 60)) % 24
+    )
+    const minutes = Math.round((Math.abs(timeNow - oldTime) / (1000 * 60)) % 60)
+
+    if (days > 0) return `${days} dias con ${hours} horas`
+    if (hours > 0) return `${hours} horas con ${minutes} minutos`
+    if (minutes > 0) return `${minutes} minutos`
+
+    return 'No calculable'
   }
 
   createForm(): FormGroup {
@@ -196,19 +206,14 @@ export class ParkedComponent implements OnDestroy, AfterViewInit {
     }
   }
 
-  getTimeInParking(entry_date: any) {
-    const oldTime = new Date(entry_date).getTime()
-    const timeNow = new Date().getTime()
-    const days = Math.round((timeNow - oldTime) / (1000 * 60 * 60 * 24))
-    const hours = Math.round(
-      (Math.abs(timeNow - oldTime) / (1000 * 60 * 60)) % 24
-    )
-    const minutes = Math.round((Math.abs(timeNow - oldTime) / (1000 * 60)) % 60)
-
-    if (days > 0) return `${days} dias con ${hours} horas`
-    if (hours > 0) return `${hours} horas con ${minutes} minutos`
-    if (minutes > 0) return `${minutes} minutos`
-
-    return 'No calculable'
+  private async getParkedData() {
+    return this.parkingService
+      .getParked(
+        this.getParkedFormValues(),
+      )
+      .toPromise().then((data) => {
+        this.parkedData = data.data
+        console.log(this.parkedData);
+      })
   }
 }
