@@ -8,6 +8,14 @@ export class DataTableOptions {
       infoFiltered: '(Filtrados de _MAX_ registros totales)',
       searchPlaceholder: 'Buscar',
       lengthMenu: 'Mostrar _MENU_ registros',
+      buttons: {
+        colvis: 'Mostrar/Ocultar columnas',
+        copy: 'Copiar',
+        csv: 'Exportar a CSV',
+        excel: 'Exportar a Excel',
+        pdf: 'Exportar a PDF',
+        print: 'Imprimir'
+      },
       paginate: {
         first: 'Primera',
         last: 'Última',
@@ -22,21 +30,11 @@ export class DataTableOptions {
       destroy: true,
       pagingType: 'full_numbers',
       pageLength: pageLength,
-      language: {
-        search: ' ',
-        zeroRecords: 'No se ha encontrado registros - lo lamento',
-        info: 'Mostrando página _PAGE_ de _PAGES_',
-        infoEmpty: 'No hay registros',
-        infoFiltered: '(Filtrados de _MAX_ registros totales)',
-        searchPlaceholder: 'Buscar',
-        lengthMenu: 'Mostrar _MENU_ registros',
-        paginate: {
-          first: 'Primera',
-          last: 'Última',
-          next: 'Siguiente',
-          previous: 'Anterior'
-        }
-      }
+      dom: 'Bfrtip',
+      buttons: [
+        'csv', 'copy', 'colvis',
+      ],
+      language: this.language,
     }
   }
 }
