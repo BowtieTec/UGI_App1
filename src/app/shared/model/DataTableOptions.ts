@@ -32,7 +32,7 @@ export class DataTableOptions {
       pageLength: pageLength,
       dom: 'Bfrtip',
       buttons: [
-        'csv', 'copy', 'colvis',
+        'csv', 'copy'
       ],
       language: this.language,
     }

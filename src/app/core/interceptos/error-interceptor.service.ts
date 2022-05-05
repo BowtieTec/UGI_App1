@@ -17,19 +17,21 @@ export class GlobalErrorHandler implements ErrorHandler {
 
   handleError(error: Response | HttpErrorResponse | any) {
     if (!environment.production) console.error('Error: ', error)
-    const err = error.error.message
-    if (err.toString().includes('Duplicate entry')) {
-      const message = err.toString().slice(err.toString().indexOf('Duplicate entry \'') + 17, err.toString().indexOf('\' for key '))
-      this.message.error(` "${message}" ya existe`)
-      return
-    } else if (err.toString().includes('Error: Error:')) {
-      const message = err.toString().slice(err.toString().indexOf('Error: Error:') + 14, err.toString().lastIndexOf('Error: Error:'))
-      this.message.error(message)
-      return
-    } else if (err.toString().includes('"success":false,"message":"')) {
-      const message = err.toString().slice(err.toString().indexOf('"success":false,"message":"') + 27, err.toString().lastIndexOf('"}}:') - 2)
-      this.message.error(message)
-      return
+    if (error.error?.message) {
+      const err = error.error.message
+      if (err.toString().includes('Duplicate entry')) {
+        const message = err.toString().slice(err.toString().indexOf('Duplicate entry \'') + 17, err.toString().indexOf('\' for key '))
+        this.message.error(` "${message}" ya existe`)
+        return
+      } else if (err.toString().includes('Error: Error:')) {
+        const message = err.toString().slice(err.toString().indexOf('Error: Error:') + 14, err.toString().lastIndexOf('Error: Error:'))
+        this.message.error(message)
+        return
+      } else if (err.toString().includes('"success":false,"message":"')) {
+        const message = err.toString().slice(err.toString().indexOf('"success":false,"message":"') + 27, err.toString().lastIndexOf('"}}:') - 2)
+        this.message.error(message)
+        return
+      }
     }
 
     switch (error.status) {
@@ -53,7 +55,7 @@ export class GlobalErrorHandler implements ErrorHandler {
       }
     }
 
-    if (err.toString().includes('Duplicate entry')) {
+    if (error.toString().includes('Duplicate entry')) {
       const message = error.toString().slice(error.toString().indexOf('Duplicate entry \'') + 17, error.toString().indexOf('\' for key '))
       this.message.error(` "${message}" ya existe`)
       return
