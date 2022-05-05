@@ -130,7 +130,7 @@ export class ParkedComponent implements OnDestroy, AfterViewInit {
   }
 
   ngOnDestroy(): void {
-    this.dtTrigger.unsubscribe()
+    //this.dtTrigger.unsubscribe()
   }
 
   ifHaveAction(action: string) {
@@ -166,7 +166,6 @@ export class ParkedComponent implements OnDestroy, AfterViewInit {
       this.messageService.error('Debe seleccionar una fecha de salida')
       return
     }
-    console.log(this.dateOutToGetOut <= parked.entry_date)
     if (new Date(this.dateOutToGetOut) <= new Date(parked.entry_date)) {
       this.messageService.error('La fecha y hora de salida debe ser mayor a la de entrada.')
       return
@@ -213,7 +212,6 @@ export class ParkedComponent implements OnDestroy, AfterViewInit {
       )
       .toPromise().then((data) => {
         this.parkedData = data.data
-        console.log(this.parkedData);
       })
   }
 }
