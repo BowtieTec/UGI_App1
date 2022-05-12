@@ -52,36 +52,59 @@ export class BuildRulesService {
   public static beginChargingWhen(whenIsAHalf: number): All[] {
     return [
       {
-        fact: 'minute',
-        operator: 'greaterThanInclusive',
-        value: whenIsAHalf
+        any: [{
+          fact: 'minute',
+          operator: 'greaterThanInclusive',
+          value: whenIsAHalf,
+
+        }, {
+          fact: 'hour',
+          operator: 'greaterThanInclusive',
+          value: 1,
+        }]
       }
     ]
   }
 
-  public static getBlock(input: BlockInputModel): All[] {
-    return [
-      {
-        fact: 'hour',
-        operator: 'greaterThanInclusive',
-        value: input.hourLowerLimit
-      },
-      {
-        fact: 'hour',
-        operator: 'lessThanInclusive',
-        value: input.hourUpperLimit
-      },
-      {
-        fact: 'minute',
-        operator: 'greaterThanInclusive',
-        value: input.minuteLowerLimit
-      },
-      {
-        fact: 'minute',
-        operator: 'lessThanInclusive',
-        value: input.minuteUpperLimit
-      }
-    ]
+  public static getBlock(input: BlockInputModel, isHour: number): All[] {
+    if (isHour == 0) {
+      return [
+        {
+          fact: 'hour',
+          operator: 'greaterThanInclusive',
+          value: input.hourLowerLimit
+        },
+        {
+          fact: 'hour',
+          operator: 'lessThanInclusive',
+          value: input.hourUpperLimit
+        },
+        {
+          fact: 'minute',
+          operator: 'greaterThanInclusive',
+          value: input.minuteLowerLimit
+        },
+        {
+          fact: 'minute',
+          operator: 'lessThanInclusive',
+          value: input.minuteUpperLimit
+        }
+      ]
+    } else {
+      return [
+        {
+          fact: 'hour',
+          operator: 'greaterThanInclusive',
+          value: input.hourLowerLimit
+        },
+        {
+          fact: 'hour',
+          operator: 'lessThanInclusive',
+          value: input.hourUpperLimit
+        },
+      ]
+    }
+
   }
 
   public static getRanksOut(input: RankInputModel): All[] {

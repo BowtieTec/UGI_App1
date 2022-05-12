@@ -70,12 +70,22 @@ export class ParkedComponent implements OnDestroy, AfterViewInit {
     return this.getParkedData().then(() => this.rerender())
   }
 
-  private async getParkedData() {
-    return this.parkingService
-      .getParked(
-        this.getParkedFormValues(),
-      )
-      .toPromise().then((data) => this.parkedData = data.data)
+  getTimeInParking(entry: ParkedModel) {
+    const entry_date = entry.entry_date
+    const oldTime = new Date(entry_date).getTime()
+    const timeNow = entry.exit_date ? (new Date(entry.exit_date).getTime()) : new Date().getTime()
+
+    const days = Math.round((timeNow - oldTime) / (1000 * 60 * 60 * 24))
+    const hours = Math.round(
+      (Math.abs(timeNow - oldTime) / (1000 * 60 * 60)) % 24
+    )
+    const minutes = Math.round((Math.abs(timeNow - oldTime) / (1000 * 60)) % 60)
+
+    if (days > 0) return `${days} dias con ${hours} horas`
+    if (hours > 0) return `${hours} horas con ${minutes} minutos`
+    if (minutes > 0) return `${minutes} minutos`
+
+    return 'No calculable'
   }
 
   createForm(): FormGroup {
@@ -120,7 +130,7 @@ export class ParkedComponent implements OnDestroy, AfterViewInit {
   }
 
   ngOnDestroy(): void {
-    this.dtTrigger.unsubscribe()
+    //this.dtTrigger.unsubscribe()
   }
 
   ifHaveAction(action: string) {
@@ -156,7 +166,6 @@ export class ParkedComponent implements OnDestroy, AfterViewInit {
       this.messageService.error('Debe seleccionar una fecha de salida')
       return
     }
-    console.log(this.dateOutToGetOut <= parked.entry_date)
     if (new Date(this.dateOutToGetOut) <= new Date(parked.entry_date)) {
       this.messageService.error('La fecha y hora de salida debe ser mayor a la de entrada.')
       return
@@ -196,19 +205,13 @@ export class ParkedComponent implements OnDestroy, AfterViewInit {
     }
   }
 
-  getTimeInParking(entry_date: any) {
-    const oldTime = new Date(entry_date).getTime()
-    const timeNow = new Date().getTime()
-    const days = Math.round((timeNow - oldTime) / (1000 * 60 * 60 * 24))
-    const hours = Math.round(
-      (Math.abs(timeNow - oldTime) / (1000 * 60 * 60)) % 24
-    )
-    const minutes = Math.round((Math.abs(timeNow - oldTime) / (1000 * 60)) % 60)
-
-    if (days > 0) return `${days} dias con ${hours} horas`
-    if (hours > 0) return `${hours} horas con ${minutes} minutos`
-    if (minutes > 0) return `${minutes} minutos`
-
-    return 'No calculable'
+  private async getParkedData() {
+    return this.parkingService
+      .getParked(
+        this.getParkedFormValues(),
+      )
+      .toPromise().then((data) => {
+        this.parkedData = data.data
+      })
   }
 }
