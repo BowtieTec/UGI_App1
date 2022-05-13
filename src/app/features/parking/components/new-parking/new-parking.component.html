@@ -47,7 +47,9 @@
               id = 'stepFour'>
               <app-billing-data
                 (changeStep) = 'changeStep($event)'
+                [isCreatingParking] = "true"
                 [parkingId] = 'parkingId'>
+
               </app-billing-data>
 
             </div>
