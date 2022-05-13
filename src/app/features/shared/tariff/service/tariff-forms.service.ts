@@ -24,14 +24,16 @@ export class TariffFormsService {
     return this.formBuilder.group({
       hourCost: [null, Validators.required],
       halfCost: [null, Validators.required],
-      whenIsAHalf: ['1', Validators.required]
+      whenIsAHalf: ['1', Validators.required],
+      subtract: ['0', [Validators.required]]
     })
   }
 
   createFixedCostForm() {
     return this.formBuilder.group({
       fixedCost: [null, Validators.required],
-      whenIsAHalf: ['1', Validators.required]
+      whenIsAHalf: ['1', Validators.required],
+      subtract: ['0', [Validators.required]]
     })
   }
 

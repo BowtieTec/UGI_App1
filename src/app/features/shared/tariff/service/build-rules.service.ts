@@ -315,13 +315,13 @@ export class BuildRulesService {
             type: 'Hora',
             params: {
               value: input.costHour,
-              path: 'hour'
+              path: 'hour',
+              limit: input.subtract,
             }
           }
         ]
       }
     }
-
   }
 
   public static getFixedPriceEvent(input: FixedCostInputModel): IEvent {
@@ -332,7 +332,8 @@ export class BuildRulesService {
           type: 'costo fijo',
           params: {
             value: input.fixedCost,
-            path: 1
+            path: 1,
+            limit: input.subtract
           }
         }
       ]
