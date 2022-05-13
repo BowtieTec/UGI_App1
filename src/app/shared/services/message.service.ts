@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core'
+import {Injectable} from '@angular/core'
 import Swal from 'sweetalert2'
 
 
@@ -148,24 +148,23 @@ export class MessageService {
 
   async areYouSureWithCancelAndInput(
     title: string,
-    confirmButtonText = 'Si',
     denyButtonText = 'No',
     output?: Date
   ) {
     return Swal.fire({
-      confirmButtonColor: '#05ccae',
       denyButtonColor: '#415ba1',
       title,
       showDenyButton: true,
       showCancelButton: true,
-      confirmButtonText,
+      showConfirmButton: false,
+      allowOutsideClick: false,
       denyButtonText,
       html: `
-          <div>
-        <label class = "labelInput"
+        <div>
+        <label class = ""
                style = "display: block;">Hora de salida</label>
         <input
-          class = "inputClass "
+          class = "inputClass"
           id='dateOut'
           name='dateOut'
           value='${output}'
@@ -174,6 +173,7 @@ export class MessageService {
           placeholder = 'Hora de salida'
           autocomplete = 'off'
           type = 'datetime-local'>
+
       </div>
       `
     }).then((result) => result)

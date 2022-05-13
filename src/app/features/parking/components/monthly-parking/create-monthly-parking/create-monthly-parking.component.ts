@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core'
-import { FormBuilder, FormGroup, Validators } from '@angular/forms'
-import { MessageService } from '../../../../../shared/services/message.service'
-import { ParkingService } from '../../../services/parking.service'
-import { UtilitiesService } from '../../../../../shared/services/utilities.service'
-import { AuthService } from '../../../../../shared/services/auth.service'
-import { PermissionsService } from '../../../../../shared/services/permissions.service'
+import {Component, OnInit} from '@angular/core'
+import {FormBuilder, FormGroup, Validators} from '@angular/forms'
+import {MessageService} from '../../../../../shared/services/message.service'
+import {ParkingService} from '../../../services/parking.service'
+import {UtilitiesService} from '../../../../../shared/services/utilities.service'
+import {AuthService} from '../../../../../shared/services/auth.service'
+import {PermissionsService} from '../../../../../shared/services/permissions.service'
 import {
   CreateProfilesModel,
   GetStationModel,
@@ -12,8 +12,8 @@ import {
   ProfilesModel,
   SubscriptionModel
 } from '../../../models/MontlyParking.model'
-import { environment } from '../../../../../../environments/environment'
-import { ResponseModel } from '../../../../../shared/model/Request.model'
+import {environment} from '../../../../../../environments/environment'
+import {ResponseModel} from '../../../../../shared/model/Request.model'
 
 @Component({
   selector: 'app-create-monthly-parking',
@@ -73,7 +73,9 @@ export class CreateMonthlyParkingComponent implements OnInit {
     return this.monthlyForm.controls['isUnlimited']
   }
 
-  ngOnInit(): void {}
+  get isUnlimitedValue() {
+    return this.monthlyForm.get('isUnlimited')?.value
+  }
 
   getAntennasByParking() {
     this.message.showLoading()
@@ -95,6 +97,7 @@ export class CreateMonthlyParkingComponent implements OnInit {
         this.message.hideLoading()
       })
   }
+
   searchUser() {
     this.loadingUser = true
     this.message.showLoading()
@@ -110,6 +113,9 @@ export class CreateMonthlyParkingComponent implements OnInit {
         this.message.hideLoading()
         this.loadingUser = false
       })
+  }
+
+  ngOnInit(): void {
   }
 
   changeValueIsUnlimited() {
@@ -172,12 +178,14 @@ export class CreateMonthlyParkingComponent implements OnInit {
       this.monthlyForm.controls['profile_subscription'].value
     }
   }
-cleanForm(){
+
+  cleanForm() {
     this.monthlyForm.reset()
     this.userSelected = new MonthlyUserModel()
     this.userSearched = []
     this.isUnlimitedForm.setValue(true)
   }
+
   getProfiles() {
     const parkingId = this.authService.getParking().id
     return this.parkingService
@@ -219,7 +227,7 @@ cleanForm(){
       this.message.error(' Hacen falta datos o son inválidos.')
       return
     }
-    if(new Date(this.monthlyForm.get('begin_date')?.value)> new Date(this.monthlyForm.get('finish_date')?.value)){
+    if (new Date(this.monthlyForm.get('begin_date')?.value) > new Date(this.monthlyForm.get('finish_date')?.value)) {
       this.message.error('Las fechas no son validas. Valide que la segunda sea mayor que la primera.')
       return
     }

@@ -34,6 +34,9 @@ export const StatusParked = [
   {
     id: 4,
     name: 'Problema con la estación'
+  },{
+    id: 2,
+    name: 'Problemas con el pago'
   }
 ]
 /*

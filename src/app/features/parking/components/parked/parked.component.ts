@@ -1,21 +1,21 @@
-import { AfterViewInit, Component, OnDestroy, ViewChild } from '@angular/core'
-import { FormBuilder, FormGroup } from '@angular/forms'
-import { ParkingService } from '../../services/parking.service'
-import { ParkedModel, ParkingModel, StatusParked } from '../../models/Parking.model'
-import { AuthService } from '../../../../shared/services/auth.service'
-import { DataTableDirective } from 'angular-datatables'
-import { DataTableOptions } from '../../../../shared/model/DataTableOptions'
-import { Subject } from 'rxjs'
-import { MessageService } from '../../../../shared/services/message.service'
-import { environment } from '../../../../../environments/environment'
-import { PermissionsService } from '../../../../shared/services/permissions.service'
+import {AfterViewInit, Component, OnDestroy, ViewChild} from '@angular/core'
+import {FormBuilder, FormGroup} from '@angular/forms'
+import {ParkingService} from '../../services/parking.service'
+import {ParkedModel, ParkingModel, StatusParked} from '../../models/Parking.model'
+import {AuthService} from '../../../../shared/services/auth.service'
+import {DataTableDirective} from 'angular-datatables'
+import {DataTableOptions} from '../../../../shared/model/DataTableOptions'
+import {Subject} from 'rxjs'
+import {MessageService} from '../../../../shared/services/message.service'
+import {environment} from '../../../../../environments/environment'
+import {PermissionsService} from '../../../../shared/services/permissions.service'
 
 @Component({
   selector: 'app-parked',
   templateUrl: './parked.component.html',
   styleUrls: ['./parked.component.css']
 })
-  export class ParkedComponent implements OnDestroy, AfterViewInit {
+export class ParkedComponent implements OnDestroy, AfterViewInit {
   parkedForm: FormGroup = this.createForm()
   parkingData: ParkingModel[] = []
   parkedData: Array<ParkedModel> = []
@@ -24,7 +24,7 @@ import { PermissionsService } from '../../../../shared/services/permissions.serv
 
   @ViewChild(DataTableDirective) dtElement!: DataTableDirective
   dtTrigger: Subject<any> = new Subject()
-  formGroup: FormGroup = this.formBuilder.group({ filter: [''] })
+  formGroup: FormGroup = this.formBuilder.group({filter: ['']})
 
   getOutWithPayment = environment.getOutWithPaymentDoneParkedParking
   getOutWithoutPayment = environment.getOutWithoutPaymentDoneParkedParking
@@ -56,21 +56,36 @@ import { PermissionsService } from '../../../../shared/services/permissions.serv
         .get('parkingId')
         ?.setValue(this.authService.getParking().id)
     }
-    await this.getParkedData().then(() => this.rerender()).then(() =>{})
+    await this.getParkedData().then(() => this.rerender()).then(() => {
+    })
     setInterval(() => {
-      this.getParkedData().then(() => this.rerender()).catch()
+      this.refreshParkedData()
     }, 10000)
 
-  this.messageService.hideLoading()
+    this.messageService.hideLoading()
     // await this.getParked().then(() => this.messageService.hideLoading());
   }
 
-  private async getParkedData() {
-    return this.parkingService
-      .getParked(
-        this.getParkedFormValues(),
-      )
-      .toPromise().then((data)=> this.parkedData = data.data)
+  async refreshParkedData() {
+    return this.getParkedData().then(() => this.rerender())
+  }
+
+  getTimeInParking(entry: ParkedModel) {
+    const entry_date = entry.entry_date
+    const oldTime = new Date(entry_date).getTime()
+    const timeNow = entry.exit_date ? (new Date(entry.exit_date).getTime()) : new Date().getTime()
+
+    const days = Math.round((timeNow - oldTime) / (1000 * 60 * 60 * 24))
+    const hours = Math.round(
+      (Math.abs(timeNow - oldTime) / (1000 * 60 * 60)) % 24
+    )
+    const minutes = Math.round((Math.abs(timeNow - oldTime) / (1000 * 60)) % 60)
+
+    if (days > 0) return `${days} dias con ${hours} horas`
+    if (hours > 0) return `${hours} horas con ${minutes} minutos`
+    if (minutes > 0) return `${minutes} minutos`
+
+    return 'No calculable'
   }
 
   createForm(): FormGroup {
@@ -81,6 +96,7 @@ import { PermissionsService } from '../../../../shared/services/permissions.serv
       dateOutToGetOut: ['']
     })
   }
+
   async getAllParking() {
     if (!this.authService.isSudo) {
       return
@@ -114,7 +130,7 @@ import { PermissionsService } from '../../../../shared/services/permissions.serv
   }
 
   ngOnDestroy(): void {
-    this.dtTrigger.unsubscribe()
+    //this.dtTrigger.unsubscribe()
   }
 
   ifHaveAction(action: string) {
@@ -133,7 +149,6 @@ import { PermissionsService } from '../../../../shared/services/permissions.serv
       ) {
         const statusWillUpdate = await this.messageService.areYouSureWithCancelAndInput(
           '¿Dejar salir a usuario con el cobro pendiente o cancelado?',
-          'Cobro Cancelado',
           'Cobrar parqueo',
           this.dateOutToGetOut
         )
@@ -146,18 +161,15 @@ import { PermissionsService } from '../../../../shared/services/permissions.serv
   }
 
   async getOut(parked: ParkedModel) {
-    if (parked.type) {
-      this.messageService.error(
-        'Este parqueo no tiene un tipo de parqueo valido.'
-      )
-      return
-    }
     const status = await this.getStatusToSave(parked.type)
     if (!this.dateOutToGetOut) {
       this.messageService.error('Debe seleccionar una fecha de salida')
       return
     }
-
+    if (new Date(this.dateOutToGetOut) <= new Date(parked.entry_date)) {
+      this.messageService.error('La fecha y hora de salida debe ser mayor a la de entrada.')
+      return
+    }
     if (status == -1) {
       return
     }
@@ -174,7 +186,7 @@ import { PermissionsService } from '../../../../shared/services/permissions.serv
       this.messageService.showLoading()
       this.parkingService.getOutParked(parked.id, status, this.dateOutToGetOut).then((data) => {
         if (data.success) {
-          this.rerender()
+          this.refreshParkedData()
           this.messageService.Ok(data.message)
           this.dateOutToGetOut = new Date()
         } else {
@@ -193,19 +205,13 @@ import { PermissionsService } from '../../../../shared/services/permissions.serv
     }
   }
 
-  getTimeInParking(entry_date: any) {
-    const oldTime = new Date(entry_date).getTime()
-    const timeNow = new Date().getTime()
-    const days = Math.round((timeNow - oldTime) / (1000 * 60 * 60 * 24))
-    const hours = Math.round(
-      (Math.abs(timeNow - oldTime) / (1000 * 60 * 60)) % 24
-    )
-    const minutes = Math.round((Math.abs(timeNow - oldTime) / (1000 * 60)) % 60)
-
-    if (days > 0) return `${days} dias con ${hours} horas`
-    if (hours > 0) return `${hours} horas con ${minutes} minutos`
-    if (minutes > 0) return `${minutes} minutos`
-
-    return 'No calculable'
+  private async getParkedData() {
+    return this.parkingService
+      .getParked(
+        this.getParkedFormValues(),
+      )
+      .toPromise().then((data) => {
+        this.parkedData = data.data
+      })
   }
 }
