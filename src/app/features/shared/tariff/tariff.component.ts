@@ -499,7 +499,6 @@ export class TariffComponent implements OnInit {
     const isValid = this.validateForms()
     if (!isValid) return
     const newRule = this.buildTariffJsonRules()
-    console.log(newRule);
     if (!newRule.rules) {
       this.messageService.error(
         '',
