@@ -36,8 +36,8 @@ export class Conditions {
 }
 
 export class All implements ICondition {
-  fact = ''
-  operator = ''
+  fact? = ''
+  operator? = ''
   path?: string
   value?: string | number | Date | number[]
   any?: Any[]
@@ -62,8 +62,8 @@ export class Params implements IParamParams {
 }
 
 export interface ICondition {
-  fact: string
-  operator: string
+  fact?: string
+  operator?: string
   path?: string
   value?: string | number | Date | number[]
 }

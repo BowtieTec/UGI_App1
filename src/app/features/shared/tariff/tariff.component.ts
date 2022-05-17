@@ -665,7 +665,7 @@ export class TariffComponent implements OnInit {
       }
     }
     if (this.timeRange == 3) {
-      return BuildRulesService.getBlock(this.blockFormValues)
+      return BuildRulesService.getBlock(this.blockFormValues, isHour)
     }
     if (this.timeRange == 4) {
       return []

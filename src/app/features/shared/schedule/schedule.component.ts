@@ -1,11 +1,11 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
-import { FormBuilder, FormGroup } from '@angular/forms'
-import { MessageService } from '../../../shared/services/message.service'
-import { ParkingService } from '../../parking/services/parking.service'
-import { UtilitiesService } from '../../../shared/services/utilities.service'
-import { CreateParkingStepTwoModel } from '../../parking/models/CreateParking.model'
-import { ParkingModel } from '../../parking/models/Parking.model'
-import { AuthService } from '../../../shared/services/auth.service'
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core'
+import {FormBuilder, FormGroup} from '@angular/forms'
+import {MessageService} from '../../../shared/services/message.service'
+import {ParkingService} from '../../parking/services/parking.service'
+import {UtilitiesService} from '../../../shared/services/utilities.service'
+import {CreateParkingStepTwoModel} from '../../parking/models/CreateParking.model'
+import {ParkingModel} from '../../parking/models/Parking.model'
+import {AuthService} from '../../../shared/services/auth.service'
 
 @Component({
   selector: 'app-schedule',
@@ -104,7 +104,7 @@ export class ScheduleComponent implements OnInit {
         schedules: [
           {
             isOpen: this.stepTwoForm.controls['isOpen0'].value,
-            day: 0,
+            day: 1,
             openning_time: {
               hour: this.stepTwoForm.controls['openning_time0'].value.split(
                 ':'
@@ -124,7 +124,7 @@ export class ScheduleComponent implements OnInit {
           },
           {
             isOpen: this.stepTwoForm.controls['isOpen1'].value,
-            day: 1,
+            day: 2,
             openning_time: {
               hour: this.stepTwoForm.controls['openning_time1'].value.split(
                 ':'
@@ -144,7 +144,7 @@ export class ScheduleComponent implements OnInit {
           },
           {
             isOpen: this.stepTwoForm.controls['isOpen2'].value,
-            day: 2,
+            day: 3,
             openning_time: {
               hour: this.stepTwoForm.controls['openning_time2'].value.split(
                 ':'
@@ -164,7 +164,7 @@ export class ScheduleComponent implements OnInit {
           },
           {
             isOpen: this.stepTwoForm.controls['isOpen3'].value,
-            day: 3,
+            day: 4,
             openning_time: {
               hour: this.stepTwoForm.controls['openning_time3'].value.split(
                 ':'
@@ -184,7 +184,7 @@ export class ScheduleComponent implements OnInit {
           },
           {
             isOpen: this.stepTwoForm.controls['isOpen4'].value,
-            day: 4,
+            day: 5,
             openning_time: {
               hour: this.stepTwoForm.controls['openning_time4'].value.split(
                 ':'
@@ -204,7 +204,7 @@ export class ScheduleComponent implements OnInit {
           },
           {
             isOpen: this.stepTwoForm.controls['isOpen5'].value,
-            day: 5,
+            day: 6,
             openning_time: {
               hour: this.stepTwoForm.controls['openning_time5'].value.split(
                 ':'
@@ -224,7 +224,7 @@ export class ScheduleComponent implements OnInit {
           },
           {
             isOpen: this.stepTwoForm.controls['isOpen6'].value,
-            day: 6,
+            day: 0,
             openning_time: {
               hour: this.stepTwoForm.controls['openning_time6'].value.split(
                 ':'
@@ -253,31 +253,31 @@ export class ScheduleComponent implements OnInit {
     return this.formBuilder.group({
       parkingId: [this.parkingId],
       //Monday
-      isOpen0: [{ value: true, disabled: true }],
+      isOpen0: [{value: true, disabled: true}],
       openning_time0: ['06:00:00'],
       closing_time0: ['00:00:00'],
       //Tuesday
-      isOpen1: [{ value: true, disabled: true }],
+      isOpen1: [{value: true, disabled: true}],
       openning_time1: ['06:00:00'],
       closing_time1: ['00:00:00'],
       //Wednesday
-      isOpen2: [{ value: true, disabled: true }],
+      isOpen2: [{value: true, disabled: true}],
       openning_time2: ['06:00:00'],
       closing_time2: ['00:00:00'],
       //Thursday
-      isOpen3: [{ value: true, disabled: true }],
+      isOpen3: [{value: true, disabled: true}],
       openning_time3: ['06:00:00'],
       closing_time3: ['00:00:00'],
       //Friday
-      isOpen4: [{ value: true, disabled: true }],
+      isOpen4: [{value: true, disabled: true}],
       openning_time4: ['06:00:00'],
       closing_time4: ['00:00:00'],
       //Saturday
-      isOpen5: [{ value: true, disabled: true }],
+      isOpen5: [{value: true, disabled: true}],
       openning_time5: ['06:00:00'],
       closing_time5: ['00:00:00'],
       //Sunday
-      isOpen6: [{ value: true, disabled: true }],
+      isOpen6: [{value: true, disabled: true}],
       openning_time6: ['06:00:00'],
       closing_time6: ['00:00:00']
     })

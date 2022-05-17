@@ -22,7 +22,7 @@
           <div class = "col-xl-6 col-lg-6  col-sm-12">
             <div class = "mb-4 relative">
               <app-select-container
-                (change) = "rerender()"
+                (change) = "this.refreshParkedData()"
                 [data] = "statusParked"
                 [formGroup] = "parkedForm"
                 controlName = "status"
@@ -32,7 +32,7 @@
           <div class = "col-xl-6 col-lg-6  col-sm-12">
             <div class = "mb-4 relative">
               <app-input-container
-                (keydown.enter) = "rerender()"
+                (keydown.enter) = "this.refreshParkedData()"
                 [formGroup] = "parkedForm"
                 controlName = "textToSearch"
                 name = "Buscar"
@@ -59,6 +59,7 @@
       <tr class = "text-center">
         <th scope = "col">Teléfono</th>
         <th scope = "col">Entrada</th>
+        <th scope = "col">Salida</th>
         <th scope = "col">Tiempo dentro</th>
         <th scope = "col">Estado</th>
         <th scope = "col">Tipo</th>
@@ -75,12 +76,13 @@
           class = "animate__animated animate__fadeIn">
         <td>****-{{parked?.phone_number | slice: -4}}</td>
         <td>{{parked?.entry_date | date: 'short'}}</td>
-        <td>{{getTimeInParking(parked?.entry_date)}}</td>
+        <td>{{parked?.exit_date ? (parked.exit_date | date: 'short') : 'No ha salido'}}</td>
+        <td>{{getTimeInParking(parked)}}</td>
         <td>
               <span *ngIf = "parked?.status==0"
                     class = "">Intentando entrar</span>
           <span *ngIf = "parked?.status==2"
-                class = "">Fuera del parqueo</span>
+                class = "">Problemas con el pago</span>
           <span *ngIf = "parked?.status==1"
                 class = "">Dentro del parqueo</span>
           <span *ngIf = "parked?.status==3"
