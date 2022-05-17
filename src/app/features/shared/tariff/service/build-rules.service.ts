@@ -52,16 +52,9 @@ export class BuildRulesService {
   public static beginChargingWhen(whenIsAHalf: number): All[] {
     return [
       {
-        any: [{
-          fact: 'minute',
-          operator: 'greaterThanInclusive',
-          value: whenIsAHalf,
-
-        }, {
-          fact: 'hour',
-          operator: 'greaterThanInclusive',
-          value: 1,
-        }]
+        fact: 'minute',
+        operator: 'greaterThanInclusive',
+        value: whenIsAHalf,
       }
     ]
   }
