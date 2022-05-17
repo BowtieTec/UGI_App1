@@ -1,64 +1,65 @@
-<form [formGroup]="stepFourForm"
-      class="needs-validation form-group"
-      id="form-wrapper"
-      method="post"
-      name="form-wrapper"
-      novalidate="">
-  <div *ngIf="settingsOptions"
-       class="container form-group" id="steps-container">
+<form [formGroup] = "stepFourForm"
+      class = "needs-validation form-group"
+      id = "form-wrapper"
+      method = "post"
+      name = "form-wrapper"
+      novalidate = "">
+  <div *ngIf = "settingsOptions"
+       class = "container form-group"
+       id = "steps-container">
     <h6>Información adicional</h6>
-    <div class="row">
-      <div class=" col-md-6 col-sm-12">
-        <div class="m-3 relative">
-          <label class="labelInputFile">Logo del parqueo:</label>
-          <input [class.is-invalid]="controlInvalid('logo')"
-                 formControlName="logo"
-                 id="logo"
-                 type="file"
-                 name="logo"
-                 class="form-control inputClass"
-                 (change)="onFileChangeLogo($event)">
-          <div *ngIf="controlInvalid('logo')"
-                 class="text-danger animate__animated  animate__fadeIn mb-1">* Este campo es obligatorio</div>
+    <div class = "row">
+      <div class = " col-md-6 col-sm-12">
+        <div class = "m-3 relative">
+          <label class = "labelInputFile">Logo del parqueo:</label>
+          <input [class.is-invalid] = "controlInvalid('logo')"
+                 formControlName = "logo"
+                 id = "logo"
+                 type = "file"
+                 name = "logo"
+                 class = "form-control inputClass"
+                 (change) = "onFileChangeLogo($event)">
+          <small *ngIf = "controlInvalid('logo')"
+                 class = "text-danger animate__animated  animate__rotateIn">* Este campo es obligatorio</small>
         </div>
-        <div class="m-3 relative">
-          <label class="labelInputFile">Planos: </label>
-          <input (change)="onFileChangePlans($event)"
-                 [class.is-invalid]="controlInvalid('plans')"
-                 class="form-control inputClass"
-                 formControlName="plans"
+        <div class = "m-3 relative">
+          <label class = "labelInputFile">Planos: </label>
+          <input (change) = "onFileChangePlans($event)"
+                 [class.is-invalid] = "controlInvalid('plans')"
+                 class = "form-control inputClass"
+                 formControlName = "plans"
                  multiple
-                 id="plans"
-                 name="plans"
-                 type="file">
-          <div *ngIf="controlInvalid('plans')"
-                 class="text-danger animate__animated  animate__fadeIn mb-1">* Este campo es obligatorio</div>
+                 id = "plans"
+                 name = "plans"
+                 type = "file">
+          <small *ngIf = "controlInvalid('plans')"
+                 class = "text-danger animate__animated  animate__rotateIn">* Este campo es obligatorio</small>
         </div>
       </div>
-      <div class=" col-md-6 col-sm-12">
-        <div class="m-3 relative">
-          <label class="labelInputFile">Tarifas:</label>
-          <input (change)="onFileChangeTarif($event)"
-                 [class.is-invalid]="controlInvalid('rate')"
-                 class="form-control inputClass"
-                 formControlName="rate"
-                 name="rate"
-                 id="rate"
-                 type="file">
-          <div *ngIf="controlInvalid('rate')"
-                 class="text-danger animate__animated  animate__fadeIn mb-1">* Este campo es obligatorio</div>
+      <div class = " col-md-6 col-sm-12">
+        <div class = "m-3 relative">
+          <label class = "labelInputFile">Tarifas:</label>
+          <input (change) = "onFileChangeTarif($event)"
+                 [class.is-invalid] = "controlInvalid('rate')"
+                 class = "form-control inputClass"
+                 formControlName = "rate"
+                 name = "rate"
+                 id = "rate"
+                 type = "file">
+          <small *ngIf = "controlInvalid('rate')"
+                 class = "text-danger animate__animated  animate__rotateIn">* Este campo es obligatorio</small>
         </div>
       </div>
     </div>
-    <div class="text-center"
-         id="q-box__buttons">
-      <button (click)="emmitStep(-1)"
-              class="btn btn-primary m-2"
-              type="button">Anterior
+    <div class = "text-center"
+         id = "q-box__buttons">
+      <button (click) = "emmitStep(-1)"
+              class = "btn btn-primary m-2"
+              type = "button">Anterior
       </button>
-      <button (click)="emmitStep(1)"
-              class="btn btn-primary m-2"
-              type="button">Siguiente
+      <button (click) = "emmitStep(1)"
+              class = "btn btn-primary m-2"
+              type = "button">Siguiente
       </button>
     </div>
   </div>
