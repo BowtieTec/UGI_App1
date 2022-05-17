@@ -17,10 +17,17 @@
       </div>
       <div class = "col-sm-12 col-xl-6">
         <app-input-container
-
           [formGroup] = 'fixedCostForm'
           controlName = 'whenIsAHalf'
           name = 'Cobrar cuando lleve x minutos'
+          type = 'number'>
+        </app-input-container>
+      </div>
+      <div class = "col-sm-12 col-xl-6">
+        <app-input-container
+          [formGroup] = 'fixedCostForm'
+          controlName = 'subtract'
+          name = 'Restar cantidad de horas'
           type = 'number'>
         </app-input-container>
       </div>

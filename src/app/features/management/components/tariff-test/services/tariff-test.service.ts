@@ -1,10 +1,10 @@
-import { HttpClient } from '@angular/common/http'
-import { Injectable } from '@angular/core'
-import { ResponseModel } from 'src/app/shared/model/Request.model'
-import { MessageService } from 'src/app/shared/services/message.service'
-import { environment } from 'src/environments/environment'
-import { map } from 'rxjs/operators'
-import { tariffTestModel } from '../models/tariff-test.model'
+import {HttpClient} from '@angular/common/http'
+import {Injectable} from '@angular/core'
+import {ResponseModel} from 'src/app/shared/model/Request.model'
+import {MessageService} from 'src/app/shared/services/message.service'
+import {environment} from 'src/environments/environment'
+import {map} from 'rxjs/operators'
+import {tariffTestModel} from '../models/tariff-test.model'
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +15,8 @@ export class TariffTestService {
   constructor(
     private messageService: MessageService,
     private http: HttpClient
-  ) {}
+  ) {
+  }
 
   getTariffTest(testModel: tariffTestModel) {
     this.messageService.showLoading()
