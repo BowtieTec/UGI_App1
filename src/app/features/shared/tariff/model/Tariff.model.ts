@@ -10,12 +10,14 @@ export class HourHalfInputModel {
   costHour = 0
   costAHalf = 0
   whenIsAHalf = 0
+  subtract = 0
 }
 
 export class FixedCostInputModel {
   static_descriptionCost = ''
   fixedCost = 0
   whenIsAHalf = 0
+  subtract = 0
 }
 
 export class RuleModelSaved {
@@ -59,6 +61,7 @@ export class Event implements IEvent {
 export class Params implements IParamParams {
   value?: number
   path?: number | string
+  limit: number = 0
 }
 
 export interface ICondition {
@@ -81,6 +84,7 @@ export interface IParam {
 export interface IParamParams {
   value?: number
   path?: number | string
+  limit?: number
 }
 
 export interface IParamsParams {

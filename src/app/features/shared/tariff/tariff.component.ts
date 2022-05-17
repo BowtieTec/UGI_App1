@@ -203,14 +203,17 @@ export class TariffComponent implements OnInit {
     const costHour = this.hourAHalfForm.get('hourCost')?.value
     const costAHalf = this.hourAHalfForm.get('halfCost')?.value
     const whenIsAHalf = this.hourAHalfForm.get('whenIsAHalf')?.value
+    const subtract = this.hourAHalfForm.get('subtract')?.value ? this.hourAHalfForm.get('subtract')?.value : '0'
     return {
       static_descriptionCost: `Costo por hora: ${this.currencyPipe.transform(
         costHour,
         'GTQ'
-      )} Costo por fracción: ${this.currencyPipe.transform(costAHalf, 'GTQ')}. Comenzando a cobrar desde el minuto ${whenIsAHalf}`,
+      )} Costo por fracción: ${this.currencyPipe.transform(costAHalf, 'GTQ')}. Comenzando a cobrar desde el minuto ${whenIsAHalf}.
+      Se le resta ${subtract} horas al cobro.`,
       costHour,
       costAHalf,
-      whenIsAHalf
+      whenIsAHalf,
+      subtract
     }
   }
 
@@ -245,13 +248,15 @@ export class TariffComponent implements OnInit {
   get fixedCostFormValue(): FixedCostInputModel {
     const fixedCost = this.fixedCostForm.get('fixedCost')?.value
     const whenIsAHalf = this.fixedCostForm.get('whenIsAHalf')?.value
+    const subtract = this.fixedCostForm.get('subtract')?.value ? this.hourAHalfForm.get('subtract')?.value : '0'
     return {
       static_descriptionCost: `Único pago o Tarifa única: ${this.currencyPipe.transform(
         fixedCost,
         'GTQ'
-      )}. Cobrar desde el minuto ${whenIsAHalf}`,
+      )}. Cobrar desde el minuto ${whenIsAHalf}. Se le resta ${subtract} horas al cobro.`,
       fixedCost,
-      whenIsAHalf
+      whenIsAHalf,
+      subtract
     }
   }
 
@@ -383,11 +388,13 @@ export class TariffComponent implements OnInit {
     this.hourAHalfForm.setValue({
       hourCost: '',
       halfCost: '',
-      whenIsAHalf: '1'
+      whenIsAHalf: '1',
+      subtract: '0'
     })
     this.fixedCostForm.setValue({
       fixedCost: '',
-      whenIsAHalf: '1'
+      whenIsAHalf: '1',
+      subtract: '0',
     })
     this.costType = 1
   }
