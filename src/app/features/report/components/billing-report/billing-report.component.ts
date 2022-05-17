@@ -102,6 +102,7 @@ export class BillingReportComponent implements OnInit {
     }
     this.startDateReport = new Date(initDate+'T00:00:00').toLocaleDateString('es-GT')
     this.endDateReport = new Date(endDate+'T00:00:00').toLocaleDateString('es-GT')
+
     this.parqueo = this.datosUsuarioLogeado.id
     if (this.ifHaveAction('verTodosLosParqueosReport')) {
       this.parqueo = this.inputParking.nativeElement.value
