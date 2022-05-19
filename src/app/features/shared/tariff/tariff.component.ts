@@ -204,6 +204,8 @@ export class TariffComponent implements OnInit {
     const costAHalf = this.hourAHalfForm.get('halfCost')?.value
     const whenIsAHalf = this.hourAHalfForm.get('whenIsAHalf')?.value
     const subtract = this.hourAHalfForm.get('subtract')?.value ? this.hourAHalfForm.get('subtract')?.value : '0'
+    const subtractMinutes = this.hourAHalfForm.get('subtractMinutes')?.value ? this.hourAHalfForm.get('subtractMinutes')?.value : '0'
+
     return {
       static_descriptionCost: `Costo por hora: ${this.currencyPipe.transform(
         costHour,
@@ -213,7 +215,8 @@ export class TariffComponent implements OnInit {
       costHour,
       costAHalf,
       whenIsAHalf,
-      subtract
+      subtract,
+      subtractMinutes,
     }
   }
 
@@ -249,6 +252,7 @@ export class TariffComponent implements OnInit {
     const fixedCost = this.fixedCostForm.get('fixedCost')?.value
     const whenIsAHalf = this.fixedCostForm.get('whenIsAHalf')?.value
     const subtract = this.fixedCostForm.get('subtract')?.value ? this.hourAHalfForm.get('subtract')?.value : '0'
+    const subtractMinutes = this.fixedCostForm.get('subtractMinutes')?.value ? this.fixedCostForm.get('subtractMinutes')?.value : '0'
     return {
       static_descriptionCost: `Único pago o Tarifa única: ${this.currencyPipe.transform(
         fixedCost,
@@ -256,7 +260,8 @@ export class TariffComponent implements OnInit {
       )}. Cobrar desde el minuto ${whenIsAHalf}. Se le resta ${subtract} horas al cobro.`,
       fixedCost,
       whenIsAHalf,
-      subtract
+      subtract,
+      subtractMinutes,
     }
   }
 

@@ -295,7 +295,9 @@ export class BuildRulesService {
             type: 'Fracción',
             params: {
               value: input.costAHalf,
-              path: 1
+              path: 1,
+              pathToLimit: 'minutes'
+              limit: input.subtractMinutes
             }
           }
         ]

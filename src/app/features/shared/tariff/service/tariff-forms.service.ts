@@ -25,7 +25,8 @@ export class TariffFormsService {
       hourCost: [null, Validators.required],
       halfCost: [null, Validators.required],
       whenIsAHalf: ['1', Validators.required],
-      subtract: ['0', [Validators.required]]
+      subtract: ['0', [Validators.required]],
+      subtractMinutes: ['0', [Validators.required]]
     })
   }
 
@@ -33,7 +34,8 @@ export class TariffFormsService {
     return this.formBuilder.group({
       fixedCost: [null, Validators.required],
       whenIsAHalf: ['1', Validators.required],
-      subtract: ['0', [Validators.required]]
+      subtract: ['0', [Validators.required]],
+      subtractMinutes: ['0', [Validators.required]]
     })
   }
 
