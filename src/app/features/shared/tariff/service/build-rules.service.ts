@@ -296,7 +296,6 @@ export class BuildRulesService {
             params: {
               value: input.costAHalf,
               path: 1,
-              pathToLimit: 'minutes'
               limit: input.subtractMinutes
             }
           }
