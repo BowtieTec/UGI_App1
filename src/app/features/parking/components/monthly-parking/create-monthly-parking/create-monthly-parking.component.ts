@@ -128,7 +128,7 @@ export class CreateMonthlyParkingComponent implements OnInit {
   }
 
   getStationsToCreateProfile(): any {
-    return this.stationsByParking.filter((x) => x.addStation)
+    return this.stationsByParking.filter((x) => x)
   }
 
   createNewProfile() {
