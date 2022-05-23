@@ -89,7 +89,7 @@ export class CreateMonthlyParkingComponent implements OnInit {
           solo se debe comentar las siguientes dos lineas que pertenecen al filter:
           */
           this.stationsByParking = this.stationsByParking.filter(
-            (x) => x.type == 2 || x.type == 3
+            (x) => x.isPrivate
           )
         } else {
           this.message.error('', data.message)
