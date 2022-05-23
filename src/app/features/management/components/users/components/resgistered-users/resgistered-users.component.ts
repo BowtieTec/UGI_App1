@@ -8,6 +8,8 @@ import {DataTableDirective} from 'angular-datatables'
 import {MessageService} from '../../../../../../shared/services/message.service'
 import {PermissionsService} from '../../../../../../shared/services/permissions.service'
 import {environment} from '../../../../../../../environments/environment'
+import {RecoveryPasswordService} from "../../../../../auth/services/recovery-password.service";
+import {UtilitiesService} from "../../../../../../shared/services/utilities.service";
 
 @Component({
   selector: 'app-resgistered-users',
@@ -18,6 +20,7 @@ export class ResgisteredUsersComponent
   implements OnInit, AfterViewInit, OnDestroy {
   deleteUser = environment.deleteUser
   editUser = environment.editUser
+  restartPassword = environment.restartPassword
   @Input() subject: Subject<NewUserModel> = new Subject<NewUserModel>()
   @ViewChild(DataTableDirective)
   dtElement!: DataTableDirective
@@ -29,7 +32,9 @@ export class ResgisteredUsersComponent
     private userService: UserService,
     private formBuilder: FormBuilder,
     private message: MessageService,
-    private permissionsService: PermissionsService
+    private permissionsService: PermissionsService,
+    private recoveryService: RecoveryPasswordService,
+    private utilitiesService: UtilitiesService
   ) {
     this.formGroup = formBuilder.group({filter: ['']})
   }
@@ -104,5 +109,22 @@ export class ResgisteredUsersComponent
       dtInstance.destroy()
       this.dtTrigger.next()
     })
+  }
+
+  restartPasswordUser(user: NewUserModel) {
+    const newPassword: string = this.utilitiesService.randomString() + '$$';
+
+    this.recoveryService.recoveryPassword({
+      newPassword,
+      newPasswordConfirmation: newPassword,
+      userId: user.id as string
+    })
+      .subscribe((data) => {
+        if (data.success) {
+          this.message.Ok('Contraseña reiniciada')
+        } else {
+          this.message.errorTimeOut('', data.message)
+        }
+      })
   }
 }

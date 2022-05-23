@@ -55,6 +55,7 @@ export const permission = {
   tariffTest: 'tariffTest',
   newTicket: 'newTicket',
   listInvoiceInfo: 'changeInvoiceInfo',
+  restartPassword: 'restartPassword'
 }
 export const leftMenu = [
   {
