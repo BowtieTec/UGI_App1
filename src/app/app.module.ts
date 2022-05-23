@@ -11,9 +11,7 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap'
 import {DataTablesModule} from 'angular-datatables'
 import {SharedModule} from './shared/shared.module'
 import {CurrencyPipe, registerLocaleData} from '@angular/common'
-import {RegisterPublicFormComponent} from './register-public-form/register-public-form.component'
 import {ParkingModule} from './features/parking/parking.module'
-import {FileUploadModule} from './register-public-form/components/file-upload.module'
 
 import localGT from '@angular/common/locales/es-GT'
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations'
@@ -24,7 +22,7 @@ import {environment} from "../environments/environment";
 registerLocaleData(localGT, 'es-GT')
 
 @NgModule({
-  declarations: [AppComponent, RegisterPublicFormComponent],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -36,7 +34,6 @@ registerLocaleData(localGT, 'es-GT')
     DataTablesModule,
     SharedModule,
     ParkingModule,
-    FileUploadModule,
     BrowserAnimationsModule,
     ToastrModule.forRoot({
       timeOut: 30000,

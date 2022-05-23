@@ -10,7 +10,8 @@
       <div class = 'titleCards '>
         <span> <em class = 'fas fa-file-invoice'></em></span> Facturación
       </div>
-      <div class = "p-3 mb-4 bg-warning text-dark">Para editar la información de facturación necesitas volver
+      <div *ngIf = "isCreatingParking == false"
+           class = "p-3 mb-4 bg-warning text-dark">Para editar la información de facturación necesitas volver
                                                    ingresar
                                                    las credenciales de VISA. Si no, se toma
                                                    como que no se requieren.

@@ -1,12 +1,7 @@
-import { NgModule } from '@angular/core'
-import { RouterModule, Routes } from '@angular/router'
-import { RegisterPublicFormComponent } from './register-public-form/register-public-form.component'
+import {NgModule} from '@angular/core'
+import {RouterModule, Routes} from '@angular/router'
 
 const routes: Routes = [
-  {
-    path: 'registro',
-    component: RegisterPublicFormComponent
-  },
   {
     path: '',
     loadChildren: () =>
@@ -19,7 +14,8 @@ const routes: Routes = [
 ]
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, { useHash: true })],
+  imports: [RouterModule.forRoot(routes, {useHash: true})],
   exports: [RouterModule]
 })
-export class AppRoutingModule {}
+export class AppRoutingModule {
+}

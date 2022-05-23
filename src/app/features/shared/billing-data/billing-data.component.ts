@@ -16,13 +16,14 @@ import {AuthService} from '../../../shared/services/auth.service'
 })
 export class BillingDataComponent implements OnInit {
   stepFourForm: FormGroup = this.createForm()
-  @Output() changeStep = new EventEmitter<number>()
   settingsOptions!: SettingsOptionsModel
   allParking: ParkingModel[] = []
+
   @Input() parkingId!: string
   @Input() showNavigationButtons = true
   @Input() isCreatingParking = false
   @Input() isPublic = false
+  @Output() changeStep = new EventEmitter<number>()
 
   constructor(
     private message: MessageService,
@@ -162,8 +163,8 @@ export class BillingDataComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.settingsOptions = this.parkingService.settingsOptions
     if (!this.isCreatingParking) {
-      this.settingsOptions = this.parkingService.settingsOptions
       this.stepFourForm.get('parkingId')?.setValue(this.parkingId)
       this.getParkingLot().then()
       this.parkingIdSelected()
