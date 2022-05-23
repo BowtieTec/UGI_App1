@@ -284,6 +284,10 @@ export class ScheduleComponent implements OnInit {
   }
 
   private setSchedules(schedules: any) {
+    if (!schedules) {
+      this.message.error('No se encontraron horarios para este parqueo')
+      return;
+    }
     this.stepTwoForm.get('parkingId')?.setValue(this.parkingId)
     //Monday
     this.stepTwoForm

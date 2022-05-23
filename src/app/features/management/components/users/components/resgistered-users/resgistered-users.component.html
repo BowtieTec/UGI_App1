@@ -1,43 +1,49 @@
-<div class = "panels animate__animated animate__fadeInLeft" >
-  <div class = "titleCards" >
-    <span ><em class = "fas fa-users" ></em ></span > Usuarios Administradores registrados
-  </div >
+<div class = "panels animate__animated animate__fadeInLeft">
+  <div class = "titleCards">
+    <span><em class = "fas fa-users"></em></span> Usuarios Administradores registrados
+  </div>
 
   <table [dtOptions] = "dtOptions"
          [dtTrigger] = "dtTrigger"
          aria-label = "Tabla de usuarios"
          class = "table table-striped"
-         datatable >
-    <thead >
-    <tr >
-      <th scope = "col" >Nombre
-      </th >
-      <th scope = "col" >Email</th >
+         datatable>
+    <thead>
+    <tr>
+      <th scope = "col">Nombre
+      </th>
+      <th scope = "col">Email</th>
       <th scope = "col text-right"
           style = "width: 20%"
       >Acciones
-      </th >
-    </tr >
-    </thead >
-    <tbody >
+      </th>
+    </tr>
+    </thead>
+    <tbody>
     <tr *ngFor = "let user of users"
-        class = "animate__animated animate__fadeIn" >
-      <td >{{user.name + ' ' + user.last_name}}</td >
-      <td >{{user.email}}</td >
-      <td class = "text-right" >
+        class = "animate__animated animate__fadeIn">
+      <td>{{user.name + ' ' + user.last_name}}</td>
+      <td>{{user.email}}</td>
+      <td class = "text-right">
         <button (click) = "editTheUser(user)"
                 *ngIf = "ifHaveAction(editUser)"
                 class = "buttonRowEdit me-1"
-                title = "Editar" ><em class = "fas fa-user-edit" ></em >
-        </button >
+                title = "Editar"><em class = "fas fa-user-edit"></em>
+        </button>
         <button
           (click) = "deleteTheUser(user)"
           *ngIf = "ifHaveAction(deleteUser)"
-          class = "buttonRowDelete"
-          title='Eliminar'><em class = "fas fa-user-times" ></em >
-        </button >
-      </td >
-    </tr >
-    </tbody >
-  </table >
-</div >
+          class = "buttonRowDelete me-1"
+          title = 'Eliminar'><em class = "fas fa-user-times"></em>
+        </button>
+        <button
+          (click) = "restartPasswordUser(user)"
+          *ngIf = "ifHaveAction(restartPassword)"
+          class = "buttonRowDisable"
+          title = 'Reiniciar contraseña'><em class = "fas fa-key"></em>
+        </button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>

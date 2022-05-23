@@ -1,28 +1,29 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
-import { FormBuilder, FormGroup, Validators } from '@angular/forms'
-import { MessageService } from '../../../shared/services/message.service'
-import { ParkingService } from '../../parking/services/parking.service'
-import { UtilitiesService } from '../../../shared/services/utilities.service'
-import { SettingsOptionsModel } from '../../parking/models/SettingsOption.model'
-import { CreateParkingStepFourModel } from '../../parking/models/CreateParking.model'
-import { Router } from '@angular/router'
-import { ParkingModel } from '../../parking/models/Parking.model'
-import { AuthService } from '../../../shared/services/auth.service'
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core'
+import {FormBuilder, FormGroup, Validators} from '@angular/forms'
+import {MessageService} from '../../../shared/services/message.service'
+import {ParkingService} from '../../parking/services/parking.service'
+import {UtilitiesService} from '../../../shared/services/utilities.service'
+import {SettingsOptionsModel} from '../../parking/models/SettingsOption.model'
+import {CreateParkingStepFourModel} from '../../parking/models/CreateParking.model'
+import {Router} from '@angular/router'
+import {ParkingModel} from '../../parking/models/Parking.model'
+import {AuthService} from '../../../shared/services/auth.service'
 
 @Component({
   selector: 'app-billing-data',
   templateUrl: './billing-data.component.html',
   styleUrls: ['./billing-data.component.css']
 })
-export class BillingDataComponent implements OnInit{
+export class BillingDataComponent implements OnInit {
   stepFourForm: FormGroup = this.createForm()
-  @Output() changeStep = new EventEmitter<number>()
   settingsOptions!: SettingsOptionsModel
   allParking: ParkingModel[] = []
+
   @Input() parkingId!: string
   @Input() showNavigationButtons = true
   @Input() isCreatingParking = false
   @Input() isPublic = false
+  @Output() changeStep = new EventEmitter<number>()
 
   constructor(
     private message: MessageService,
@@ -32,12 +33,18 @@ export class BillingDataComponent implements OnInit{
     private route: Router,
     private authService: AuthService
   ) {
-    this.settingsOptions = this.parkingService.settingsOptions
   }
 
-  ParkingIdSelected() {
-    this.parkingId = this.stepFourForm.get('parkingId')?.value ? this.stepFourForm.get('parkingId')?.value : this.parkingId
-    console.log(this.parkingId)
+  get isSudo() {
+    return this.authService.isSudo
+  }
+
+  async setPaymentData(parkingId: string) {
+    const paymentInfo = await this.parkingService.getParkingInfo(parkingId).toPromise();
+    this.stepFourForm.get('business_address')?.setValue(paymentInfo.business_address)
+    this.stepFourForm.get('business_name')?.setValue(paymentInfo.business_name)
+    this.stepFourForm.get('currency')?.setValue(paymentInfo.currency)
+    this.stepFourForm.get('nit')?.setValue(paymentInfo.nit)
   }
 
   get isVisaSelected() {
@@ -96,25 +103,13 @@ export class BillingDataComponent implements OnInit{
     }
   }
 
-  async saveBillingData(){
-    if (this.stepFourForm.valid) {
-      this.parkingService.parkingStepFour = this.getStepFour()
-      this.parkingService.parkingStepFour.parkingId = this.parkingId
-      this.parkingService.setStepFour().subscribe((data) => {
-        if (data.success) {
-          this.message.Ok('Parqueo guardado.')
-        } else {
-          this.utilitiesService.markAsTouched(this.stepFourForm)
-          this.message.error('', data.message)
-        }
-      })
-    } else {
-      this.message.errorTimeOut(
-        '',
-        'Datos faltantes o incorrectos. Validar que los datos sean correctos.'
-      )
-      this.utilitiesService.markAsTouched(this.stepFourForm)
+  parkingIdSelected() {
+    this.message.showLoading()
+    this.parkingId = this.stepFourForm.get('parkingId')?.value ? this.stepFourForm.get('parkingId')?.value : this.parkingId
+    if (this.parkingId) {
+      this.setPaymentData(this.parkingId).catch()
     }
+    this.message.hideLoading()
   }
 
   private async endToken() {
@@ -145,9 +140,51 @@ export class BillingDataComponent implements OnInit{
     })
   }
 
+  async saveBillingData() {
+    if (this.stepFourForm.valid) {
+      this.parkingService.parkingStepFour = this.getStepFour()
+      console.log(this.parkingService.parkingStepFour);
+      this.parkingService.parkingStepFour.parkingId = this.parkingId
+      this.parkingService.setStepFour().subscribe((data) => {
+        if (data.success) {
+          this.message.Ok('Parqueo guardado.')
+        } else {
+          this.utilitiesService.markAsTouched(this.stepFourForm)
+          this.message.error('', data.message)
+        }
+      })
+    } else {
+      this.message.errorTimeOut(
+        '',
+        'Datos faltantes o incorrectos. Validar que los datos sean correctos.'
+      )
+      this.utilitiesService.markAsTouched(this.stepFourForm)
+    }
+  }
+
+  ngOnInit(): void {
+    this.settingsOptions = this.parkingService.settingsOptions
+    if (!this.isCreatingParking) {
+      this.stepFourForm.get('parkingId')?.setValue(this.parkingId)
+      this.getParkingLot().then()
+      this.parkingIdSelected()
+    }
+  }
+
+  getParkingLot() {
+    return this.parkingService.getAllParking().then(x => {
+      if (x.success) {
+        this.allParking = x.data.parkings
+      } else {
+        this.message.error(x.message)
+        return
+      }
+    })
+  }
+
   private getStepFour(): CreateParkingStepFourModel {
     return {
-      parkingId: '',
+      parkingId: this.authService.getParking().id,
       business_address: this.stepFourForm.controls['business_address'].value,
       business_name: this.stepFourForm.controls['business_name'].value,
       currency: this.stepFourForm.controls['currency'].value,
@@ -173,27 +210,5 @@ export class BillingDataComponent implements OnInit{
         this.stepFourForm.controls['purchase_currency_bac'].value
       }
     }
-  }
-
-  getParkingLot() {
-    return this.parkingService.getAllParking().then(x => {
-      if (x.success) {
-        this.allParking = x.data.parkings
-      } else {
-        this.message.error(x.message)
-        return
-      }
-    })
-  }
-
-  get isSudo() {
-    return this.authService.isSudo
-  }
-
-  ngOnInit(): void {
-    if(!this.isCreatingParking){
-      this.getParkingLot().then()
-    }
-
   }
 }

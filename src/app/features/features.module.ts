@@ -20,6 +20,7 @@ import {PrincipalScheduleComponent} from './shared/tariff/components/principal-s
 import {TariffRanksComponent} from './shared/tariff/components/tariff-ranks/tariff-ranks.component'
 import {TariffGeneralDataComponent} from './shared/tariff/components/tariff-general-data/tariff-general-data.component';
 import {DayliTariffComponent} from './shared/tariff/components/dayli-tariff/dayli-tariff.component'
+import {FileUploadComponent} from "./shared/file-upload/file-upload.component";
 
 @NgModule({
   declarations: [
@@ -32,13 +33,15 @@ import {DayliTariffComponent} from './shared/tariff/components/dayli-tariff/dayl
     ScheduleRanksTariffFormComponent,
     HourHalfCostComponent,
     FixedCostComponent,
-    DayliTariffComponent
+    DayliTariffComponent,
+    FileUploadComponent
   ],
   exports: [
     TariffGeneralDataComponent,
     PrincipalScheduleComponent,
     DaysOfWeekComponent,
     TariffRanksComponent,
+    FileUploadComponent,
     HolidayTariffFormComponent,
     ScheduleRanksTariffFormComponent,
     BlocksTariffFormComponent,

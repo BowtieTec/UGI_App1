@@ -11,6 +11,7 @@ export class HourHalfInputModel {
   costAHalf = 0
   whenIsAHalf = 0
   subtract = 0
+  subtractMinutes = 0
 }
 
 export class FixedCostInputModel {
@@ -18,6 +19,7 @@ export class FixedCostInputModel {
   fixedCost = 0
   whenIsAHalf = 0
   subtract = 0
+  subtractMinutes = 0
 }
 
 export class RuleModelSaved {

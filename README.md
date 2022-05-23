@@ -144,6 +144,14 @@ To launch the project with the parameters pointed to the backend on the localhos
    ng server -c local
    ```
 
+### Production environment
+
+To launch the project with the parameters pointed to the backend on production, you can use:
+
+   ```shell
+   ng server -c production
+   ```
+
 ### Build
 
 To build this project you can use this command in the terminal:

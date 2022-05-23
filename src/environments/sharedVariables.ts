@@ -49,12 +49,14 @@ export const permission = {
   createLocal: 'createLocal',
   disableLocal: 'disableLocal',
   editLocal: 'editLocal',
-
   listSchedules: 'listSchedules',
   listTariff: 'listTariff',
   createTariff: 'createTariff',
   tariffTest: 'tariffTest',
-  newTicket: 'newTicket'
+  newTicket: 'newTicket',
+  listInvoiceInfo: 'changeInvoiceInfo',
+  restartPassword: 'restartPassword',
+  updateFiles: 'updateFiles'
 }
 export const leftMenu = [
   {
@@ -107,12 +109,12 @@ export const leftMenu = [
   }
 ]
 export const DiscountOnWhat = [
-  { id: 1, name: 'Total' },
-  { id: 2, name: 'Cantidad de horas' }
+  {id: 1, name: 'Total'},
+  {id: 2, name: 'Cantidad de horas'}
 ]
 export const TypeOfCondition = [
-  { id: 1, name: 'Aplicar siempre' },
-  { id: 2, name: 'Solo si Cant. Horas es menor o igual a ' }
+  {id: 1, name: 'Aplicar siempre'},
+  {id: 2, name: 'Solo si Cant. Horas es menor o igual a '}
 ]
 export const settings = {
   siteKey: '6LesloIfAAAAANKGMOJ5SOxyRugy3woH7Y1DP1f6',
