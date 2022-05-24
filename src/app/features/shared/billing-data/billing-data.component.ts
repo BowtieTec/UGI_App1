@@ -119,7 +119,7 @@ export class BillingDataComponent implements OnInit {
   createForm() {
     return this.formBuilder.group({
       parkingId: [this.parkingId],
-      nit: [null, [Validators.required, this.utilitiesService.validateNIT]],
+      nit: [null, [Validators.required]],
       business_address: [null, Validators.required],
       business_name: [null, Validators.required],
       pay_method: ['0'],
