@@ -19,6 +19,7 @@ export class GlobalErrorHandler implements ErrorHandler {
     if (!environment.production) console.error('Error: ', error)
 
     if (error.error?.message) {
+
       const err = error.error.message.toString()
       if (err.includes('Duplicate entry')) {
         const message = err.slice(err.indexOf('Duplicate entry \'') + 17, err.indexOf('\' for key '))
@@ -44,6 +45,7 @@ export class GlobalErrorHandler implements ErrorHandler {
     }
     let errMsg: string
     if (error instanceof Response) {
+
       const body: any = error.json() || ''
       const err = body.error || JSON.stringify(body)
       errMsg = `${error.status} - ${error.statusText || ''} ${err.message}`
@@ -69,6 +71,11 @@ export class GlobalErrorHandler implements ErrorHandler {
       this.message.error(message)
       return
     } else if (errorString.includes('ObjectUnsubscribedError: object unsubscribed')) {
+      return
+    } else if (errorString.includes('"status":401,"statusText":"Unauthorized"')) {
+      this.message.error('Token vencido. Por favor iniciar sesión nuevamente')
+      this.auth.cleanUser()
+      this.router.navigate(['/'])
       return
     }
 
