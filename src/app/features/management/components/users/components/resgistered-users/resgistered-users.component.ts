@@ -114,7 +114,7 @@ export class ResgisteredUsersComponent
   restartPasswordUser(user: NewUserModel) {
     const newPassword: string = this.utilitiesService.randomString() + '$$';
 
-    this.recoveryService.recoveryPassword({
+    this.recoveryService.requestNewPassword({
       newPassword,
       newPasswordConfirmation: newPassword,
       userId: user.id as string

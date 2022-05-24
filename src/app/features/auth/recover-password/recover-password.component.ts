@@ -16,6 +16,7 @@ export class RecoverPasswordComponent {
   step = 1
   userId = ''
   email = ''
+  token = ''
 
   constructor(
     private formBuilder: FormBuilder,
@@ -58,7 +59,7 @@ export class RecoverPasswordComponent {
       .then((data) => {
         if (data.success) {
           this.messageService.Ok('Código Enviado')
-          console.log(data);
+
         } else {
           this.messageService.error('', data.message)
         }
@@ -81,6 +82,8 @@ export class RecoverPasswordComponent {
       .toPromise()
       .then((data) => {
         if (data.success) {
+          console.log(data);
+          this.token = data.data
           this.messageService.OkTimeOut('Código correcto')
           this.userId = data.data
         } else {
@@ -156,7 +159,7 @@ export class RecoverPasswordComponent {
       return
     }
     this.recoveryService
-      .recoveryPassword(this.passwordsValues)
+      .recoveryPassword(this.passwordsValues, this.token)
       .toPromise()
       .then((data) => {
         if (data.success) {
