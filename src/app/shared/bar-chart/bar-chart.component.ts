@@ -1,8 +1,8 @@
-import { Component, Input, OnInit } from '@angular/core'
+import {Component, Input, OnInit} from '@angular/core'
 import * as ApexCharts from 'apexcharts'
-import { DashboardService } from '../services/dashboard.service'
-import { AuthService } from '../services/auth.service'
-import { MessageService } from '../services/message.service'
+import {DashboardService} from '../services/dashboard.service'
+import {AuthService} from '../services/auth.service'
+import {MessageService} from '../services/message.service'
 
 @Component({
   selector: 'app-bar-chart',
@@ -284,7 +284,7 @@ export class BarChartComponent implements OnInit {
         endingShape: 'rounded',
         borderRadius: 4
       },
-      markers: { sieze: 5 }
+      markers: {sieze: 5}
     },
     dataLabels: {
       enabled: true,
@@ -390,7 +390,13 @@ export class BarChartComponent implements OnInit {
 
   }
 
+  get currentDate() {
+    const now = new Date()
+    return `${now.getDay()}-${now.getMonth()}-${now.getFullYear()}`
+  }
+
   ngOnChanges(): void {
+    this.parking = this.auth.getParking().id
     const fecha = this.fecha
     const partesFecha = fecha.split('-')
     const mes = partesFecha[1]
@@ -465,7 +471,7 @@ export class BarChartComponent implements OnInit {
     }
     if (this.periodo == 'mes') {
       this.mesOptions.chart.type = this.tipoChart
-      this.mesOptions.chart.toolbar.export.csv.filename =` ${this.tipo.toLocaleUpperCase()} - POR MES - ${this.currentDate}`;
+      this.mesOptions.chart.toolbar.export.csv.filename = ` ${this.tipo.toLocaleUpperCase()} - POR MES - ${this.currentDate}`;
 
       this.chart = new ApexCharts(
         document.querySelector(
@@ -488,10 +494,7 @@ export class BarChartComponent implements OnInit {
       this.chart.render()
     }
   }
-get currentDate(){
-    const now = new Date()
-    return `${now.getDay()}-${now.getMonth()}-${now.getFullYear()}`
-}
+
   //Entradas
   getDatosDiarios(parkingId: string, fecha: string) {
     this.messageService.showLoading()

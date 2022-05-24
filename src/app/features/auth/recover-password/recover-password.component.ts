@@ -1,10 +1,10 @@
-import { Component } from '@angular/core'
-import { FormBuilder, FormGroup, Validators } from '@angular/forms'
-import { MessageService } from '../../../shared/services/message.service'
-import { RecoveryPasswordService } from '../services/recovery-password.service'
-import { ConfirmCodeModel } from '../models/RecoveryPassword.model'
-import { Router } from '@angular/router'
-import { environment } from '../../../../environments/environment'
+import {Component} from '@angular/core'
+import {FormBuilder, FormGroup, Validators} from '@angular/forms'
+import {MessageService} from '../../../shared/services/message.service'
+import {RecoveryPasswordService} from '../services/recovery-password.service'
+import {ConfirmCodeModel} from '../models/RecoveryPassword.model'
+import {Router} from '@angular/router'
+import {environment} from '../../../../environments/environment'
 
 @Component({
   selector: 'app-recover-password',
@@ -51,21 +51,22 @@ export class RecoverPasswordComponent {
   }
 
   sendConfirmation(email: string) {
-      this.email = email
-      return this.recoveryService
-        .sendConfirmCode(email)
-        .toPromise()
-        .then((data) => {
-          if (data.success) {
-            this.messageService.Ok('Código Enviado')
-          } else {
-            this.messageService.error('', data.message)
-          }
-          return data.success
-        }).catch(err => {
-          this.messageService.error('', err.error.message)
+    this.email = email
+    return this.recoveryService
+      .sendConfirmCode(email)
+      .toPromise()
+      .then((data) => {
+        if (data.success) {
+          this.messageService.Ok('Código Enviado')
+          console.log(data);
+        } else {
+          this.messageService.error('', data.message)
+        }
+        return data.success
+      }).catch(err => {
+        this.messageService.error('', err.error.message)
         return false
-        })
+      })
 
   }
 
