@@ -19,12 +19,11 @@ export class LocationPanelComponent {
   parking: ParkingAuthModel = this.auth.getParking()
 
   constructor(private auth: AuthService) {
+    console.log(this.parking);
     if (this.parking.url_logo) {
-      this.urlLogo = `${this.path}logo/${this.parking.url_logo.split('/logo/')[1]}`
+      this.urlLogo = `${this.path}logo/${this.parking.url_logo}`
     } else {
       this.urlLogo = `./assets/img/parking.jpg`
     }
-
-
   }
 }
