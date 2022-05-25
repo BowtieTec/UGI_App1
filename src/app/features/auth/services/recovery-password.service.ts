@@ -42,7 +42,7 @@ export class RecoveryPasswordService {
 
   requestNewPassword(recoveryModel: ChangePasswordModel) {
     return this.http.post<ResponseModel>(
-      `${this.apiUrl}backoffice/recovery-password/changePassword`,
+      `${this.apiUrl}backoffice/recovery-password/requestNewPassword`,
       recoveryModel
     )
   }
