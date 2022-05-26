@@ -20,10 +20,10 @@ export class LocationPanelComponent {
 
   constructor(private auth: AuthService) {
     console.log(this.parking);
-    if (this.parking.url_logo) {
-      this.urlLogo = `${this.path}logo/${this.parking.url_logo}`
-    } else {
+    if (!this.parking.url_logo) {
       this.urlLogo = `./assets/img/parking.jpg`
+    } else {
+      this.urlLogo = this.parking.url_logo
     }
   }
 }
