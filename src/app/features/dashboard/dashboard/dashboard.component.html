@@ -2,10 +2,10 @@
   <div class="tab">
     <ul>
       <li (click)="tabChanges('ingresos')" *ngIf="ifHaveAction(graficosIngresoVehiculos)"
-        [class.color]="idTabActiva === 'ingresos'" id="ingresos">Ingreso de vehículos
+        [class.color]="idTabActiva === 'ingresos'" id="ingresos"><em class="fas fa-car fa-lg"></em> Ingreso de vehículos
       </li>
       <li (click)="tabChanges('flujo')" *ngIf="ifHaveAction(graficosFlujoDinero)"
-        [class.color]="idTabActiva === 'flujo'" id="flujo">Flujo de dinero
+        [class.color]="idTabActiva === 'flujo'" id="flujo"><em class="fas fa-chart-area fa-lg"></em>  Flujo de dinero
       </li>
       <li (click)="tabChanges('cortesias')" *ngIf="ifHaveAction(graficosCortesias)"
         [class.color]="idTabActiva === 'cortesias'" id="cortesias">Cortesías

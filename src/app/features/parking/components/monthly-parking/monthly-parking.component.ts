@@ -129,7 +129,7 @@ export class MonthlyParkingComponent implements AfterViewInit, OnDestroy {
 
   disableSubscription(idSubscription: string) {
     this.message
-      .areYouSure('¿Esta seguro que desea congelar eta suscripción?')
+      .areYouSure('¿Está seguro que desea congelar esta suscripción?')
       .then((x) => {
         if (x.isConfirmed) {
           this.message.showLoading()
@@ -150,7 +150,7 @@ export class MonthlyParkingComponent implements AfterViewInit, OnDestroy {
 
   deleteSubscription(idSubscription: string) {
     this.message
-      .areYouSure('¿Esta seguro que desea eliminar esta suscripción?')
+      .areYouSure('¿Está seguro que desea eliminar esta suscripción?')
       .then((x) => {
         if (x.isConfirmed) {
           this.message.showLoading()

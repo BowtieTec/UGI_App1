@@ -174,7 +174,7 @@ export class ParkedComponent implements OnDestroy, AfterViewInit {
       return
     }
     const result = await this.messageService.areYouSure(
-      `¿Esta seguro que desea sacar al usuario ${parked.user_name} ${parked.last_name} del parqueo ${parked.parking}?`
+      `¿Está seguro que desea sacar al usuario ${parked.user_name} ${parked.last_name} del parqueo ${parked.parking}?`
     )
     if (result.isDenied) {
       this.messageService.infoTimeOut(

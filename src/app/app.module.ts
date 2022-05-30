@@ -18,6 +18,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations'
 import {ToastrModule} from 'ngx-toastr'
 import {RECAPTCHA_V3_SITE_KEY, ReCaptchaV3Service} from 'ng-recaptcha'
 import {environment} from "../environments/environment";
+import { preserveWhitespacesDefault } from '@angular/compiler'
 
 registerLocaleData(localGT, 'es-GT')
 
