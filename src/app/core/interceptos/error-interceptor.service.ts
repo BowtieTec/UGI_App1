@@ -1,4 +1,4 @@
-import {ErrorHandler, Injectable} from '@angular/core'
+import { ErrorHandler, Injectable, NgZone } from '@angular/core'
 import {MessageService} from '../../shared/services/message.service'
 import {Router} from '@angular/router'
 import {AuthService} from '../../shared/services/auth.service'
@@ -11,15 +11,14 @@ export class GlobalErrorHandler implements ErrorHandler {
   constructor(
     private message: MessageService,
     private router: Router,
-    private auth: AuthService
+    private auth: AuthService,
+    private zone: NgZone
   ) {
   }
 
   handleError(error: Response | HttpErrorResponse | any) {
-    if (!environment.production) console.error('Error: ', error)
 
     if (error.error?.message) {
-
       const err = error.error.message.toString()
       if (err.includes('Duplicate entry')) {
         const message = err.slice(err.indexOf('Duplicate entry \'') + 17, err.indexOf('\' for key '))
@@ -39,8 +38,7 @@ export class GlobalErrorHandler implements ErrorHandler {
     switch (error.status) {
       case 401:
         this.message.error('Token vencido. Por favor iniciar sesión nuevamente')
-        this.auth.cleanUser()
-        this.router.navigate(['/'])
+        this.goToLogin()
         return
     }
     let errMsg: string
@@ -58,7 +56,12 @@ export class GlobalErrorHandler implements ErrorHandler {
       }
     }
     const errorString = error.toString()
-    if (errorString.includes('Duplicate entry')) {
+    console.log(errorString)
+    if(errorString.includes('Http failure responsePPPP')){
+      this.message.error('No hay conexión con los servidores de ebigo. Por favor intente mas tarde.')
+      this.goToLogin()
+      return
+    } else if (errorString.includes('Duplicate entry')) {
       const message = errorString.slice(errorString.indexOf('Duplicate entry \'') + 17, errorString.indexOf('\' for key '))
       this.message.error(` "${message}" ya existe`)
       return
@@ -70,19 +73,22 @@ export class GlobalErrorHandler implements ErrorHandler {
       const message = errorString.slice(errorString.indexOf('"success":false,"message":"') + 27, errorString.lastIndexOf('"}}:') - 2)
       this.message.error(message)
       return
-    } else if (errorString.includes('ObjectUnsubscribedError: object unsubscribed')) {
+    } else if (errorString.includes('ObjectUnsubscribedError:')) {
       return
     } else if (errorString.includes('"status":401,"statusText":"Unauthorized"')) {
       this.message.error('Token vencido. Por favor iniciar sesión nuevamente')
-      this.auth.cleanUser()
-      this.router.navigate(['/'])
-      return
+      this.goToLogin();
     }
-
     this.message.error('Error no manejado. Por favor contacte al administrador')
+    if (!environment.production) console.error('Error: ', error)
     throw Error(error)
   }
-
+goToLogin(){
+    this.zone.run(x => {
+    this.auth.cleanUser()
+    this.router.navigate(['/'])
+  })
+}
   protected extractData(res: Response) {
     const body: any = res.json()
     return body.data || {}

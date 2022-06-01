@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnDestroy, ViewChild} from '@angular/core'
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core'
 import {FormBuilder, FormGroup} from '@angular/forms'
 import {ParkingService} from '../../services/parking.service'
 import {ParkedModel, ParkingModel, StatusParked} from '../../models/Parking.model'
@@ -59,11 +59,11 @@ export class ParkedComponent implements OnDestroy, AfterViewInit {
     await this.getParkedData().then(() => this.rerender()).then(() => {
     })
     setInterval(() => {
-      this.refreshParkedData()
+      if (!this.dtTrigger.closed)
+        this.refreshParkedData()
     }, 10000)
 
     this.messageService.hideLoading()
-    // await this.getParked().then(() => this.messageService.hideLoading());
   }
 
   async refreshParkedData() {
@@ -124,13 +124,13 @@ export class ParkedComponent implements OnDestroy, AfterViewInit {
       textToSearch
     }
   }
-
   ngAfterViewInit(): void {
     this.dtTrigger.next()
   }
 
   ngOnDestroy(): void {
-    //this.dtTrigger.unsubscribe()
+    if (!this.dtTrigger.closed)
+      this.dtTrigger.unsubscribe()
   }
 
   ifHaveAction(action: string) {
