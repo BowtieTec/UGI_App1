@@ -23,7 +23,7 @@ export interface billingData {
   fiscal_number: string
   receip_number: string
   fiscal_uuid: string
-  total: number
+  total: string
   descuento: number
   pagado: number
   nit: number
@@ -114,6 +114,7 @@ export class BillingReportComponent implements OnInit {
       .then((data) => {
         if (data.success) {
           this.report = data.data
+          // this.dataSource = data.data.filter((data:billingData) => data.fiscal_uuid !== null)
           this.dataSource = data.data
           if (this.report.length == 0) {
             this.messageService.infoTimeOut('No se encontraron datos')
@@ -178,6 +179,7 @@ export class BillingReportComponent implements OnInit {
       'Total (Q)',
       'Moneda del documento',
       'Fecha emisión factura',
+      'Estado',
 
     ]
     //Create workbook and worksheet
@@ -199,7 +201,7 @@ export class BillingReportComponent implements OnInit {
         }
       }
     })
-    worksheet.mergeCells('D2:K3')
+    worksheet.mergeCells('D2:L3')
     let ParqueoReporte = 'Todos los parqueos'
     if (this.parqueo != '0') {
       const parqueoEncontrado = this.allParking.find(
@@ -222,7 +224,7 @@ export class BillingReportComponent implements OnInit {
         }
       }
     })
-    worksheet.mergeCells('D4:K5')
+    worksheet.mergeCells('D4:L5')
     const titleRow = worksheet.addRow(['', '', '', 'Reporte - ebiGO Facturación'])
     titleRow.font = { name: 'Calibri', family: 4, size: 11, bold: true }
     titleRow.alignment = { horizontal: 'center', vertical: 'middle' }
@@ -236,7 +238,7 @@ export class BillingReportComponent implements OnInit {
         }
       }
     })
-    worksheet.mergeCells('D6:K8')
+    worksheet.mergeCells('D6:L8')
     //Add Image
     worksheet.mergeCells('B2:C8')
     const logo = workbook.addImage({
@@ -258,7 +260,7 @@ export class BillingReportComponent implements OnInit {
         }
       }
     })
-    worksheet.mergeCells('B10:K11')
+    worksheet.mergeCells('B10:L11')
     worksheet.addRow([])
     const header1 = worksheet.addRow([
       '',
@@ -280,7 +282,7 @@ export class BillingReportComponent implements OnInit {
       }
     })
     worksheet.mergeCells('B13:F14')
-    worksheet.mergeCells('G13:K14')
+    worksheet.mergeCells('G13:L14')
     const header2 = worksheet.addRow([
       '',
       'Total de facturas emitidas: ' + this.dataSource.length,
@@ -304,7 +306,7 @@ export class BillingReportComponent implements OnInit {
       }
     })
     worksheet.mergeCells('B15:F16')
-    worksheet.mergeCells('G15:K16')
+    worksheet.mergeCells('G15:L16')
     worksheet.addRow([])
     const headerRow = worksheet.addRow(header)
 
@@ -327,6 +329,7 @@ export class BillingReportComponent implements OnInit {
     })
     // Add Data and Conditional Formatting
     this.dataSource.forEach((d: any) => {
+
       const row = worksheet.addRow([
         '',
         d.serial,
@@ -339,6 +342,7 @@ export class BillingReportComponent implements OnInit {
         d.pagado,
         'GTQ',
         d.dateBilling ? new Date(d.dateBilling) : ' ',
+        d.serial === '' && d.fiscal_uuid === '' ? 'PENDIENTE' : 'ENVIADA'
 
 
 
@@ -370,6 +374,7 @@ export class BillingReportComponent implements OnInit {
     worksheet.getColumn(9).width = 15
     worksheet.getColumn(10).width = 15
     worksheet.getColumn(11).width = 30
+    worksheet.getColumn(12).width = 20
 
 
     //Generate Excel File with given name
