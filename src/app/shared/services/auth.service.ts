@@ -75,9 +75,13 @@ export class AuthService {
             }
           })
           .catch((data) => {
-            this.cleanUser()
-            this.message.error('', data.error.message)
+            console.log(data)
+            if(!data.error.success){
+              this.message.error(data.error.message);
+              return
+            }
             this.route.navigate(['/']).catch()
+            throw new Error(data.message)
           })
       }, (err) => {
         this.message.hideLoading()
