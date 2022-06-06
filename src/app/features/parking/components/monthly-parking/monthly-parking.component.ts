@@ -1,8 +1,8 @@
-import { AfterViewInit, Component, OnDestroy, ViewChild } from '@angular/core'
-import { FormBuilder, FormGroup } from '@angular/forms'
-import { MessageService } from '../../../../shared/services/message.service'
-import { ParkingService } from '../../services/parking.service'
-import { UtilitiesService } from '../../../../shared/services/utilities.service'
+import {AfterViewInit, Component, OnDestroy, ViewChild} from '@angular/core'
+import {FormBuilder, FormGroup} from '@angular/forms'
+import {MessageService} from '../../../../shared/services/message.service'
+import {ParkingService} from '../../services/parking.service'
+import {UtilitiesService} from '../../../../shared/services/utilities.service'
 import {
   CreateProfilesModel,
   GetStationModel,
@@ -10,13 +10,13 @@ import {
   ProfilesModel,
   SubscriptionModel
 } from '../../models/MontlyParking.model'
-import { AuthService } from '../../../../shared/services/auth.service'
-import { DataTableDirective } from 'angular-datatables'
-import { Subject } from 'rxjs'
-import { DataTableOptions } from '../../../../shared/model/DataTableOptions'
-import { ResponseModel } from '../../../../shared/model/Request.model'
-import { PermissionsService } from '../../../../shared/services/permissions.service'
-import { environment } from '../../../../../environments/environment'
+import {AuthService} from '../../../../shared/services/auth.service'
+import {DataTableDirective} from 'angular-datatables'
+import {Subject} from 'rxjs'
+import {DataTableOptions} from '../../../../shared/model/DataTableOptions'
+import {ResponseModel} from '../../../../shared/model/Request.model'
+import {PermissionsService} from '../../../../shared/services/permissions.service'
+import {environment} from '../../../../../environments/environment'
 
 @Component({
   selector: 'app-monthly-parking',
@@ -52,7 +52,7 @@ export class MonthlyParkingComponent implements AfterViewInit, OnDestroy {
     private permissionService: PermissionsService
   ) {
     this.message.showLoading()
-    this.formGroup = formBuilder.group({ filter: [''] })
+    this.formGroup = formBuilder.group({filter: ['']})
     this.getProfiles()
       .then(() => {
         return this.getMonthlySubscription()
