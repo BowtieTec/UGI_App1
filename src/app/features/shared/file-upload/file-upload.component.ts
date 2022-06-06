@@ -72,6 +72,7 @@ export class FileUploadComponent implements OnInit {
     if (number == 1) {
 
       if (this.filesPlans) {
+        console.log(this.filesPlans);
         //Plans------------------------------------------
         const formData = new FormData()
         for (let i = 0; i < this.filesPlans.length; i++) {
@@ -102,7 +103,7 @@ export class FileUploadComponent implements OnInit {
           .catch((err: any) => this.message.errorTimeOut(err.message)))
       }
 
-      //BACKGROUND----------------------------------------
+      //BACKGROUND---------------------------------------
       if (this.backGroundApp) {
         const formDataBackground = new FormData()
         formDataBackground.append('backgroundApp', this.backGroundApp)
@@ -112,10 +113,8 @@ export class FileUploadComponent implements OnInit {
           .catch((err: any) => this.message.errorTimeOut(err.message)))
       }
     }
-    console.log(promises);
     await Promise.all(promises)
       .then(x => {
-        console.log(x);
         if (x.length <= 1) { //Siempre hay un promise porque se hace una promesa por cada archivo
           this.message.info('No se seleccionaron archivos')
         } else {
@@ -125,7 +124,6 @@ export class FileUploadComponent implements OnInit {
           this.changeStep.emit(number)
         }
       })
-
   }
 
   createForm() {

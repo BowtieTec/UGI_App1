@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core'
-import { PermissionsService } from '../services/permissions.service'
-import { OptionMenuModel } from '../model/OptionMenu.model'
+import {Component, OnInit} from '@angular/core'
+import {PermissionsService} from '../services/permissions.service'
+import {OptionMenuModel} from '../model/OptionMenu.model'
 
 @Component({
   selector: 'app-left-panel',
@@ -10,11 +10,18 @@ import { OptionMenuModel } from '../model/OptionMenu.model'
 export class LeftPanelComponent implements OnInit {
   menu: OptionMenuModel[] = Array<OptionMenuModel>()
 
-  constructor(private permissions: PermissionsService) {}
+  constructor(private permissions: PermissionsService) {
+  }
+
+  ifHaveModule(action: string) {
+    return this.permissions.ifHaveModule(action)
+  }
 
   ngOnInit(): void {
     this.permissions.getMenuOptionsValidated().then((options) => {
       this.menu = options.filter((optionFiltered) => optionFiltered.isShow)
+    }).then(x => {
+      console.log(this.permissions.modules);
     })
   }
 }
