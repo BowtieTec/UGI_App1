@@ -84,7 +84,7 @@
                                 class = "list-group-item list-group-item-action "
                                 data-bs-dismiss = "modal"
                                 type = "button">
-                          {{user.name + ' ' + user.last_name + ' Teléfono: ' + user.phone_number}}
+                          {{user.name + ' ' + (user.last_name ? user.last_name : '') + ' Teléfono: ' + user.phone_number}}
                           <span class = 'position-absolute ml-2'
                                 style = "right: 15px !important; color: #415ba2;">Seleccionar</span>
                         </button>

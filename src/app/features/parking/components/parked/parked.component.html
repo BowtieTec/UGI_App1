@@ -74,7 +74,7 @@
       <tbody>
       <tr *ngFor = "let parked of parkedData"
           class = "animate__animated animate__fadeIn">
-        <td>****-{{parked?.phone_number | slice: -4}}</td>
+        <td>{{parked?.phone_number }}</td>
         <td>{{parked?.entry_date | date: 'short'}}</td>
         <td>{{parked?.exit_date ? (parked.exit_date | date: 'short') : 'No ha salido'}}</td>
         <td>{{getTimeInParking(parked)}}</td>
