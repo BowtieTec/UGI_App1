@@ -1,70 +1,70 @@
-<div class="row justify-content-center">
-  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-    <div class="panels">
-      <div class="titleCards">
-        <span><em class="fas fa-sitemap"></em></span>Ver Parqueos mensuales
+<div class = "row justify-content-center">
+  <div class = "col-lg-12 col-md-12 col-sm-12 col-xs-12">
+    <div class = "panels">
+      <div class = "titleCards">
+        <span><em class = "fas fa-sitemap"></em></span>Ver Parqueos mensuales
       </div>
-      <table [dtOptions]="dtOptions"
-             [dtTrigger]="dtTrigger"
-             aria-label="Tabla de parqueos mensuales"
-             class="table hover table-striped animate__animated animate__fadeInLeft"
+      <table [dtOptions] = "dtOptions"
+             [dtTrigger] = "dtTrigger"
+             aria-label = "Tabla de parqueos mensuales"
+             class = "table hover table-striped animate__animated animate__fadeInLeft"
              datatable>
         <thead>
-        <tr class="text-center">
-          <th scope="col"
-              style="width: 9%">Usuario
+        <tr class = "text-center">
+          <th scope = "col"
+              style = "width: 9%">Usuario
           </th>
-          <th scope="col"
-              style="width: 9%">Correo
+          <th scope = "col"
+              style = "width: 9%">Correo
           </th>
-          <th scope="col">Teléfono</th>
-          <th scope="col">Monto</th>
-          <th scope="col">Ilimitado o por fechas</th>
-          <th scope="col">Estado</th>
-          <th scope="col">Perfil de acceso</th>
-          <th scope="col">Fecha de inicio</th>
-          <th scope="col">Fecha de Finalización</th>
-          <th scope="col"
-              style="width: 12%">Acciones
+          <th scope = "col">Teléfono</th>
+          <th scope = "col">Monto</th>
+          <th scope = "col">Ilimitado o por fechas</th>
+          <th scope = "col">Estado</th>
+          <th scope = "col">Perfil de acceso</th>
+          <th scope = "col">Fecha de inicio</th>
+          <th scope = "col">Fecha de Finalización</th>
+          <th scope = "col"
+              style = "width: 12%">Acciones
           </th>
         </tr>
         </thead>
         <tbody>
-        <tr *ngFor="let subscription of subscriptions"
-            class="text-center">
-          <td>{{subscription.user?.name + ' ' + subscription.user?.last_name}}</td>
+        <tr *ngFor = "let subscription of subscriptions"
+            class = "text-center">
+          <td>{{subscription.user?.name + ' ' + (subscription.user?.last_name ? subscription.user?.last_name : '')}}</td>
           <td>{{subscription.user?.email}}</td>
           <td>{{subscription.user?.phone_number}}</td>
           <td>{{subscription.amount | currency:'GTQ' }}</td>
           <td>{{subscription.isUnlimited ? 'Ilimitado' : 'Por fechas'}}</td>
           <td>
-            <span *ngIf="subscription.status==0"
-                  class="">Cancelado</span>
-            <span *ngIf="subscription.status==1"
-                  class="">Pendiente de confirmación</span>
-            <span *ngIf="subscription.status==2"
-                  class="">Activo</span>
-            <span *ngIf="subscription.status==3"
-                  class="">Desactivado</span>
-            <span *ngIf="subscription.status==4"
-                  class="">Pendiente de pago</span>
-            <span *ngIf="subscription.status==5"
-                  class="">Rechazado</span>
+            <span *ngIf = "subscription.status==0"
+                  class = "">Cancelado</span>
+            <span *ngIf = "subscription.status==1"
+                  class = "">Pendiente de confirmación</span>
+            <span *ngIf = "subscription.status==2"
+                  class = "">Activo</span>
+            <span *ngIf = "subscription.status==3"
+                  class = "">Desactivado</span>
+            <span *ngIf = "subscription.status==4"
+                  class = "">Pendiente de pago</span>
+            <span *ngIf = "subscription.status==5"
+                  class = "">Rechazado</span>
           </td>
           <td>{{subscription.profile_subscription?.name | titlecase}}</td>
           <td>{{subscription.begin_date | date: 'longDate'}}</td>
           <td>{{subscription.finish_date | date: 'longDate'}}</td>
           <td>
             <button
-              (click)="disableSubscription(subscription.id)"
-                    *ngIf="ifHaveAction(disableMonthlyParking) && subscription.status==2"
-                    class="buttonRowAlert ms-1 me-1 mb-1"
-                    title="Deshabilitar suscripción"><em class="fas fa-exclamation "></em>
+              (click) = "disableSubscription(subscription.id)"
+              *ngIf = "ifHaveAction(disableMonthlyParking) && subscription.status==2"
+              class = "buttonRowAlert ms-1 me-1 mb-1"
+              title = "Deshabilitar suscripción"><em class = "fas fa-exclamation "></em>
             </button>
-            <button (click)="deleteSubscription(subscription.id)"
-                    *ngIf="ifHaveAction(deleteMonthlyParking)"
-                    class="buttonRowDelete ms-1 me-1 mb-1"
-                    title="Eliminar Suscripción"><em class="fas fa-trash-alt"></em>
+            <button (click) = "deleteSubscription(subscription.id)"
+                    *ngIf = "ifHaveAction(deleteMonthlyParking)"
+                    class = "buttonRowDelete ms-1 me-1 mb-1"
+                    title = "Eliminar Suscripción"><em class = "fas fa-trash-alt"></em>
             </button>
             <!--<button (click)="editSubscription(subscription)"
                     *ngIf="ifHaveAction(deleteMonthlyParking)"
@@ -78,72 +78,70 @@
     </div>
   </div>
 </div>
-<div aria-hidden="true"
-     aria-labelledby="staticBackdropLabel"
-     class="modal fade"
-     id="newAccessProfiles"
-     tabindex="-1">
-  <div class="modal-dialog modal-md">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Crear perfil de acceso</h5>
-        <button aria-label="Close"
-                class="btn-close"
-                data-bs-dismiss="modal"
-                type="button"></button>
+<div aria-hidden = "true"
+     aria-labelledby = "staticBackdropLabel"
+     class = "modal fade"
+     id = "newAccessProfiles"
+     tabindex = "-1">
+  <div class = "modal-dialog modal-md">
+    <div class = "modal-content">
+      <div class = "modal-header">
+        <h5 class = "modal-title">Crear perfil de acceso</h5>
+        <button aria-label = "Close"
+                class = "btn-close"
+                data-bs-dismiss = "modal"
+                type = "button"></button>
       </div>
       <div
-        class="modal-body">
-        <div *ngIf="stationsByParking.length > 0">
-          <div class="input-group mb-3">
-                        <span class="input-group-text"
-                              id="perfilName">Nombre del perfil</span>
-            <input [(ngModel)]="nameProfile"
-                   aria-describedby="basic-addon1"
-                   aria-label="Nombre del perfil"
-                   class="form-control "
-                   placeholder="Nombre del perfil"
-                   type="text">
+        class = "modal-body">
+        <div *ngIf = "stationsByParking.length > 0">
+          <div class = "input-group mb-3">
+                        <span class = "input-group-text"
+                              id = "perfilName">Nombre del perfil</span>
+            <input [(ngModel)] = "nameProfile"
+                   aria-describedby = "basic-addon1"
+                   aria-label = "Nombre del perfil"
+                   class = "form-control "
+                   placeholder = "Nombre del perfil"
+                   type = "text">
           </div>
-          <div class="list-group">
-            <label *ngFor="let station of stationsByParking"
-                   class="list-group-item">
-              <input [(ngModel)]="station.addStation"
-                     class="form-check-input me-1"
-                     type="checkbox"
-                     value="">
+          <div class = "list-group">
+            <label *ngFor = "let station of stationsByParking"
+                   class = "list-group-item">
+              <input [(ngModel)] = "station.addStation"
+                     class = "form-check-input me-1"
+                     type = "checkbox"
+                     value = "">
               {{station.name}}
             </label>
           </div>
         </div>
-        <div *ngIf="stationsByParking.length <= 0">
-          <div class=""
-               role="alert">
-            <h4 class="alert-heading">No se encontraron estaciones privadas</h4>
+        <div *ngIf = "stationsByParking.length <= 0">
+          <div class = ""
+               role = "alert">
+            <h4 class = "alert-heading">No se encontraron estaciones privadas</h4>
             <p>Para crear un perfil, es necesario tener estaciones privadas. Las estaciones privadas pueden
-              configurarse al crear un parqueo nuevo o en la sección de estaciones.
-              Las estaciones privadas permiten a los usuarios ser accedidas solo por las personas que tengan uno de
-              los perfiles de
-              acceso habilitados.</p>
+               configurarse al crear un parqueo nuevo o en la sección de estaciones.
+               Las estaciones privadas permiten a los usuarios ser accedidas solo por las personas que tengan uno de
+               los perfiles de
+               acceso habilitados.</p>
             <hr>
-            <p class="mb-0">Si usted cree que este mensaje es un error, o desea mas información, por favor
-              comunicarse
-              con el administrador.</p>
+            <p class = "mb-0">Si usted cree que este mensaje es un error, o desea mas información, por favor
+                              comunicarse
+                              con el administrador.</p>
           </div>
         </div>
       </div>
-      <div class="modal-footer">
-        <button (click)="createNewProfile()"
-                *ngIf="stationsByParking.length> 0"
-                class="btn btn-primary "
-                data-bs-dismiss="modal"
-                type="button">Crear perfil
-
+      <div class = "modal-footer">
+        <button (click) = "createNewProfile()"
+                *ngIf = "stationsByParking.length> 0"
+                class = "btn btn-primary "
+                data-bs-dismiss = "modal"
+                type = "button">Crear perfil
         </button>
-
-        <button class="btn btn-secondary"
-                data-bs-dismiss="modal"
-                type="button">Cerrar
+        <button class = "btn btn-secondary"
+                data-bs-dismiss = "modal"
+                type = "button">Cerrar
         </button>
       </div>
     </div>

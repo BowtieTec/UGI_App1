@@ -5,7 +5,6 @@ import {AuthService} from '../../shared/services/auth.service'
 import {PermissionsService} from '../../shared/services/permissions.service'
 import {MessageService} from '../../shared/services/message.service'
 import {EncryptionService} from '../../shared/services/encryption.service'
-import {HttpClient} from "@angular/common/http";
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +16,6 @@ export class AuthGuard implements CanActivate {
     private permissions: PermissionsService,
     private messageService: MessageService,
     private crypto: EncryptionService,
-    private http: HttpClient
   ) {
   }
 
@@ -29,7 +27,6 @@ export class AuthGuard implements CanActivate {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    this.messageService.showLoading()
     if (sessionStorage.getItem(this.crypto.encryptKey('User')) == undefined) {
       this.messageService.infoTimeOut(
         'Debe iniciar sesión para acceder a las funcionalidades.',
@@ -38,16 +35,6 @@ export class AuthGuard implements CanActivate {
       this.router.navigate(['/'])
       return false
     }
-
-    return this.permissions
-      .getMenuOptionsValidated()
-      .then((options): boolean => {
-        this.messageService.hideLoading()
-        if (options.find((option) => option.module == route.url.toString())) {
-          return true
-        } else {
-          return false
-        }
-      })
+    return true
   }
 }

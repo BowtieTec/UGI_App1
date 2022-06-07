@@ -1,11 +1,12 @@
-import { Injectable } from '@angular/core'
-import { MessageService } from '../../../../../shared/services/message.service'
-import { HttpClient } from '@angular/common/http'
-import { CompaniesModel } from '../models/companies.model'
-import { ResponseModel } from '../../../../../shared/model/Request.model'
-import { environment } from '../../../../../../environments/environment'
-import { map } from 'rxjs/operators'
-import { Observable } from 'rxjs'
+import {Injectable} from '@angular/core'
+import {MessageService} from '../../../../../shared/services/message.service'
+import {HttpClient} from '@angular/common/http'
+import {CompaniesModel} from '../models/companies.model'
+import {ResponseModel} from '../../../../../shared/model/Request.model'
+import {environment} from '../../../../../../environments/environment'
+import {map} from 'rxjs/operators'
+import {NEVER, Observable} from 'rxjs'
+import {PermissionsService} from "../../../../../shared/services/permissions.service";
 
 @Injectable({
   providedIn: 'root'
@@ -16,8 +17,10 @@ export class CompaniesService {
 
   constructor(
     private messageService: MessageService,
-    private http: HttpClient
-  ) {}
+    private http: HttpClient,
+    private permissions: PermissionsService
+  ) {
+  }
 
   get states() {
     return [
@@ -33,6 +36,9 @@ export class CompaniesService {
   }
 
   getCompanies(parkingId: string): Observable<Array<CompaniesModel>> {
+    if (!this.permissions.ifHaveAction('listLocal')) {
+      return NEVER
+    }
     this.messageService.showLoading()
     return this.http
       .get<ResponseModel>(`${this.apiUrl}backoffice/company/${parkingId}`)

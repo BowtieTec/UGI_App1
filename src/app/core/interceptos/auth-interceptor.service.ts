@@ -20,7 +20,6 @@ export class AuthInterceptorService implements HttpInterceptor {
     const request = req.clone({
       setHeaders: {
         Authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json',
         'Referrer-Policy': 'no-referrer-when-downgrade',
         'X-Permitted-Cross-Domain-Policies': 'none',
         'strict-transport-security': 'max-age=31536000; includeSubDomains',

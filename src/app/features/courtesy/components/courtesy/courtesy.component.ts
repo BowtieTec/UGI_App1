@@ -118,10 +118,13 @@ export class CourtesyComponent implements AfterViewInit, OnDestroy {
           .then((x) => (this.allParking = x.data.parkings))
       })
       .then(() => {
-        return this.companyService
-          .getCompanies(this.parkingId)
-          .toPromise()
-          .then((x) => (this.allCompanies = x))
+        if (this.ifHaveAction('listLocal')) {
+          return this.companyService
+            .getCompanies(this.parkingId)
+            .toPromise()
+            .then((x) => (this.allCompanies = x))
+        }
+        return
       })
       .then(() => {
         this.messageService.hideLoading()
