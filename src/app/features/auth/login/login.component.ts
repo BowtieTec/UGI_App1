@@ -1,5 +1,5 @@
 import {Component} from '@angular/core'
-import {UntypedFormBuilder, UntypedFormGroup, Validators} from '@angular/forms'
+import {FormBuilder, FormGroup, Validators} from '@angular/forms'
 import {AuthService} from '../../../shared/services/auth.service'
 import {MessageService} from '../../../shared/services/message.service'
 import {environment} from '../../../../environments/environment'
@@ -10,10 +10,10 @@ import {environment} from '../../../../environments/environment'
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
-  loginForm!: UntypedFormGroup
+  loginForm!: FormGroup
 
   constructor(
-    private formBuilder: UntypedFormBuilder,
+    private formBuilder: FormBuilder,
     private auth: AuthService,
     private message: MessageService
   ) {
@@ -28,7 +28,7 @@ export class LoginComponent {
   }
 
   createForm() {
-    this.loginForm = this.formBuilder.group({
+    this.loginForm = this.formBuilder.nonNullable.group({
       email: [
         '',
         [Validators.required,
