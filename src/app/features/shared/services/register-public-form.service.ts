@@ -1,6 +1,6 @@
 import {HttpClient} from '@angular/common/http'
 import {Injectable, OnInit} from '@angular/core'
-import {FormBuilder} from '@angular/forms'
+import {UntypedFormBuilder} from '@angular/forms'
 import {Router} from '@angular/router'
 import {Observable} from 'rxjs'
 import {MessageService} from 'src/app/shared/services/message.service'
@@ -16,7 +16,7 @@ export class RegisterPublicFormService implements OnInit {
     private http: HttpClient,
     private message: MessageService,
     private route: Router,
-    private formBuilder: FormBuilder
+    private formBuilder: UntypedFormBuilder
   ) {
   }
 

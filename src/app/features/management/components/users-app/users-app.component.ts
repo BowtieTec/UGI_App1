@@ -1,25 +1,15 @@
-import {
-  AfterViewInit,
-  Component,
-  Input,
-  OnDestroy,
-  OnInit,
-  ViewChild
-} from '@angular/core'
-import { environment } from '../../../../../environments/environment'
-import { Subject } from 'rxjs'
-import { NewUserModel, updateUserApp } from '../users/models/newUserModel'
-import { DataTableDirective } from 'angular-datatables'
-import { FormBuilder, FormGroup, Validators } from '@angular/forms'
-import { UserService } from '../users/services/user.service'
-import { MessageService } from '../../../../shared/services/message.service'
-import { PermissionsService } from '../../../../shared/services/permissions.service'
-import { DataTableOptions } from '../../../../shared/model/DataTableOptions'
-import { NgbModal} from '@ng-bootstrap/ng-bootstrap'
-import { stat } from 'fs'
-import { UserModel } from '../../../../shared/model/UserResponse.model'
-import { UtilitiesService } from '../../../../shared/services/utilities.service'
-import { tariffTestModel } from '../tariff-test/models/tariff-test.model'
+import {AfterViewInit, Component, Input, OnDestroy, OnInit, ViewChild} from '@angular/core'
+import {environment} from '../../../../../environments/environment'
+import {Subject} from 'rxjs'
+import {NewUserModel, updateUserApp} from '../users/models/newUserModel'
+import {DataTableDirective} from 'angular-datatables'
+import {UntypedFormBuilder, UntypedFormGroup, Validators} from '@angular/forms'
+import {UserService} from '../users/services/user.service'
+import {MessageService} from '../../../../shared/services/message.service'
+import {PermissionsService} from '../../../../shared/services/permissions.service'
+import {DataTableOptions} from '../../../../shared/model/DataTableOptions'
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap'
+import {UtilitiesService} from '../../../../shared/services/utilities.service'
 
 @Component({
   selector: 'app-users-app',
@@ -34,13 +24,13 @@ export class UsersAppComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild(DataTableDirective)
   dtElement!: DataTableDirective
   dtTrigger: Subject<any> = new Subject()
-  formGroup: FormGroup
+  formGroup: UntypedFormGroup
   users: NewUserModel[] = []
 
 
   constructor(
     private userService: UserService,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private message: MessageService,
     private permissionsService: PermissionsService,
     private modal: NgbModal,

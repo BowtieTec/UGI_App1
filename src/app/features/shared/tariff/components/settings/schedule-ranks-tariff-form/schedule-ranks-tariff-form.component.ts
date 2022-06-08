@@ -1,6 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core'
-import { UtilitiesService } from '../../../../../../shared/services/utilities.service'
-import { FormGroup } from '@angular/forms'
+import {Component, Input, OnInit} from '@angular/core'
+import {UtilitiesService} from '../../../../../../shared/services/utilities.service'
+import {UntypedFormGroup} from '@angular/forms'
 
 @Component({
   selector: 'app-schedule-ranks-tariff-form',
@@ -8,7 +8,7 @@ import { FormGroup } from '@angular/forms'
   styleUrls: ['./schedule-ranks-tariff-form.component.css']
 })
 export class ScheduleRanksTariffFormComponent implements OnInit {
-  @Input() rankForm!: FormGroup
+  @Input() rankForm!: UntypedFormGroup
   @Input() timeRange!: number
 
   constructor(private utilitiesService: UtilitiesService) {}

@@ -1,6 +1,6 @@
-import { Component, Input } from '@angular/core'
-import { ControlContainer, FormGroup, FormGroupDirective } from '@angular/forms'
-import { UtilitiesService } from '../../services/utilities.service'
+import {Component, Input} from '@angular/core'
+import {ControlContainer, FormGroupDirective, UntypedFormGroup} from '@angular/forms'
+import {UtilitiesService} from '../../services/utilities.service'
 
 @Component({
   selector: 'app-select-container',
@@ -16,7 +16,7 @@ import { UtilitiesService } from '../../services/utilities.service'
 export class SelectContainerComponent {
   @Input() name!: string
   @Input() controlName!: string
-  @Input() formGroup!: FormGroup
+  @Input() formGroup!: UntypedFormGroup
   @Input() data: any = []
   @Input() unselect: boolean = false
 

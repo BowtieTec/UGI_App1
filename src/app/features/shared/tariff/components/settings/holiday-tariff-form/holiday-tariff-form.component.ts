@@ -1,6 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core'
-import { UtilitiesService } from '../../../../../../shared/services/utilities.service'
-import { FormGroup } from '@angular/forms'
+import {Component, Input, OnInit} from '@angular/core'
+import {UtilitiesService} from '../../../../../../shared/services/utilities.service'
+import {UntypedFormGroup} from '@angular/forms'
 
 @Component({
   selector: 'app-holiday-tariff-form',
@@ -9,7 +9,7 @@ import { FormGroup } from '@angular/forms'
 })
 export class HolidayTariffFormComponent implements OnInit {
   time = new Date()
-  @Input() holidayForm!: FormGroup
+  @Input() holidayForm!: UntypedFormGroup
   @Input() timeRange!: number
 
   constructor(private utilitiesService: UtilitiesService) {}

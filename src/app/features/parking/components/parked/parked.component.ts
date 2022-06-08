@@ -1,5 +1,5 @@
-import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core'
-import {FormBuilder, FormGroup} from '@angular/forms'
+import {AfterViewInit, Component, OnDestroy, ViewChild} from '@angular/core'
+import {UntypedFormBuilder, UntypedFormGroup} from '@angular/forms'
 import {ParkingService} from '../../services/parking.service'
 import {ParkedModel, ParkingModel, StatusParked} from '../../models/Parking.model'
 import {AuthService} from '../../../../shared/services/auth.service'
@@ -16,7 +16,7 @@ import {PermissionsService} from '../../../../shared/services/permissions.servic
   styleUrls: ['./parked.component.css']
 })
 export class ParkedComponent implements OnDestroy, AfterViewInit {
-  parkedForm: FormGroup = this.createForm()
+  parkedForm: UntypedFormGroup = this.createForm()
   parkingData: ParkingModel[] = []
   parkedData: Array<ParkedModel> = []
   statusParked = StatusParked
@@ -24,14 +24,14 @@ export class ParkedComponent implements OnDestroy, AfterViewInit {
 
   @ViewChild(DataTableDirective) dtElement!: DataTableDirective
   dtTrigger: Subject<any> = new Subject()
-  formGroup: FormGroup = this.formBuilder.group({filter: ['']})
+  formGroup: UntypedFormGroup = this.formBuilder.group({filter: ['']})
 
   getOutWithPayment = environment.getOutWithPaymentDoneParkedParking
   getOutWithoutPayment = environment.getOutWithoutPaymentDoneParkedParking
   private actions: string[] = this.permissionService.actionsOfPermissions
 
   constructor(
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private parkingService: ParkingService,
     private authService: AuthService,
     private messageService: MessageService,
@@ -88,7 +88,7 @@ export class ParkedComponent implements OnDestroy, AfterViewInit {
     return 'No calculable'
   }
 
-  createForm(): FormGroup {
+  createForm(): UntypedFormGroup {
     return this.formBuilder.group({
       parkingId: ['0'],
       status: ['1'],

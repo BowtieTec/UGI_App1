@@ -1,6 +1,6 @@
 import {Component, Input, NgZone, OnInit} from '@angular/core'
 import {UserService} from '../../services/user.service'
-import {FormBuilder, FormGroup, Validators} from '@angular/forms'
+import {UntypedFormBuilder, UntypedFormGroup, Validators} from '@angular/forms'
 import {UtilitiesService} from '../../../../../../shared/services/utilities.service'
 import {NewUserModel} from '../../models/newUserModel'
 import {MessageService} from '../../../../../../shared/services/message.service'
@@ -18,7 +18,7 @@ import {AuthService} from '../../../../../../shared/services/auth.service'
 })
 export class NewUserComponent implements OnInit {
   @Input() subject = new Subject<NewUserModel>()
-  newUserForm: FormGroup
+  newUserForm: UntypedFormGroup
   isEdit = false
   allParking: ParkingModel[] = []
   changeParkingAtCreateUser: string = environment.changeParkingAtCreateUser
@@ -26,7 +26,7 @@ export class NewUserComponent implements OnInit {
 
   constructor(
     private userService: UserService,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private utilitiesService: UtilitiesService,
     private messageServices: MessageService,
     private parkingService: ParkingService,

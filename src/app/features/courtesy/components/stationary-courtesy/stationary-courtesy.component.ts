@@ -1,21 +1,21 @@
-import { AfterViewInit, Component, Input, OnDestroy, ViewChild } from '@angular/core'
-import { FormBuilder, FormGroup, Validators } from '@angular/forms'
-import { MessageService } from '../../../../shared/services/message.service'
-import { ParkingService } from '../../../parking/services/parking.service'
-import { UtilitiesService } from '../../../../shared/services/utilities.service'
-import { AuthService } from '../../../../shared/services/auth.service'
-import { PermissionsService } from '../../../../shared/services/permissions.service'
-import { environment } from '../../../../../environments/environment'
-import { ParkingModel } from '../../../parking/models/Parking.model'
-import { CourtesyService } from '../../services/courtesy.service'
-import { CreateStationaryCourtesy, StationsCourtesyModel } from '../../../parking/models/StationaryCourtesy.model'
-import { CourtesyTypeModel } from '../../models/Courtesy.model'
-import { DataTableDirective } from 'angular-datatables'
-import { Subject } from 'rxjs'
-import { DataTableOptions } from '../../../../shared/model/DataTableOptions'
-import { CompaniesModel } from '../../../management/components/users/models/companies.model'
-import { CompaniesService } from '../../../management/components/users/services/companies.service'
-import { SelectModel } from '../../../../shared/model/CommonModels'
+import {AfterViewInit, Component, Input, OnDestroy, ViewChild} from '@angular/core'
+import {UntypedFormBuilder, UntypedFormGroup, Validators} from '@angular/forms'
+import {MessageService} from '../../../../shared/services/message.service'
+import {ParkingService} from '../../../parking/services/parking.service'
+import {UtilitiesService} from '../../../../shared/services/utilities.service'
+import {AuthService} from '../../../../shared/services/auth.service'
+import {PermissionsService} from '../../../../shared/services/permissions.service'
+import {environment} from '../../../../../environments/environment'
+import {ParkingModel} from '../../../parking/models/Parking.model'
+import {CourtesyService} from '../../services/courtesy.service'
+import {CreateStationaryCourtesy, StationsCourtesyModel} from '../../../parking/models/StationaryCourtesy.model'
+import {CourtesyTypeModel} from '../../models/Courtesy.model'
+import {DataTableDirective} from 'angular-datatables'
+import {Subject} from 'rxjs'
+import {DataTableOptions} from '../../../../shared/model/DataTableOptions'
+import {CompaniesModel} from '../../../management/components/users/models/companies.model'
+import {CompaniesService} from '../../../management/components/users/services/companies.service'
+import {SelectModel} from '../../../../shared/model/CommonModels'
 
 @Component({
   selector: 'app-stationary-courtesy',
@@ -26,7 +26,7 @@ export class StationaryCourtesyComponent implements AfterViewInit, OnDestroy {
   loading = true
   @Input() parkingId: string = this.authService.getParking().id
   allCompanies: CompaniesModel[] = []
-  stationaryForm: FormGroup
+  stationaryForm: UntypedFormGroup
   courtesyTypes: CourtesyTypeModel[] = []
   idEditAntenna = ''
   allParking: ParkingModel[] = Array<ParkingModel>()
@@ -39,7 +39,7 @@ export class StationaryCourtesyComponent implements AfterViewInit, OnDestroy {
   @ViewChild(DataTableDirective)
   dtElement!: DataTableDirective
   dtTrigger: Subject<any> = new Subject()
-  formGroup: FormGroup
+  formGroup: UntypedFormGroup
 
   /* Permissions */
   createCourtesyStationary: string = environment.createCourtesyStationary
@@ -48,7 +48,7 @@ export class StationaryCourtesyComponent implements AfterViewInit, OnDestroy {
   private actions: string[] = this.permissionService.actionsOfPermissions
 
   constructor(
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private message: MessageService,
     private parkingService: ParkingService,
     private utilitiesService: UtilitiesService,
@@ -98,7 +98,7 @@ export class StationaryCourtesyComponent implements AfterViewInit, OnDestroy {
     return !!this.actions.find((x) => x == action)
   }
 
-  createForm(): FormGroup {
+  createForm(): UntypedFormGroup {
     return this.formBuilder.group({
       parkingId: [this.authService.getParking().id, [Validators.required]],
       value: ['', [Validators.required, Validators.min(1)]],

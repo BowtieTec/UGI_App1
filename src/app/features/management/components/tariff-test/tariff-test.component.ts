@@ -1,17 +1,17 @@
-import { Component } from '@angular/core'
-import { PermissionsService } from 'src/app/shared/services/permissions.service'
-import { FormBuilder, FormGroup, Validators } from '@angular/forms'
-import { AuthService } from 'src/app/shared/services/auth.service'
-import { ParkingModel } from 'src/app/features/parking/models/Parking.model'
-import { ParkingService } from 'src/app/features/parking/services/parking.service'
-import { MessageService } from 'src/app/shared/services/message.service'
-import { TariffTestService } from './services/tariff-test.service'
-import { tariffTestModel } from './models/tariff-test.model'
-import { TicketTestModule } from './models/ticket-test.module'
-import { UtilitiesService } from 'src/app/shared/services/utilities.service'
-import { CourtesyService } from '../../../courtesy/services/courtesy.service'
-import { CourtesyModel } from '../../../courtesy/models/Courtesy.model'
-import { environment } from '../../../../../environments/environment'
+import {Component} from '@angular/core'
+import {PermissionsService} from 'src/app/shared/services/permissions.service'
+import {UntypedFormBuilder, UntypedFormGroup, Validators} from '@angular/forms'
+import {AuthService} from 'src/app/shared/services/auth.service'
+import {ParkingModel} from 'src/app/features/parking/models/Parking.model'
+import {ParkingService} from 'src/app/features/parking/services/parking.service'
+import {MessageService} from 'src/app/shared/services/message.service'
+import {TariffTestService} from './services/tariff-test.service'
+import {tariffTestModel} from './models/tariff-test.model'
+import {TicketTestModule} from './models/ticket-test.module'
+import {UtilitiesService} from 'src/app/shared/services/utilities.service'
+import {CourtesyService} from '../../../courtesy/services/courtesy.service'
+import {CourtesyModel} from '../../../courtesy/models/Courtesy.model'
+import {environment} from '../../../../../environments/environment'
 
 @Component({
   selector: 'app-tariff-test',
@@ -19,7 +19,7 @@ import { environment } from '../../../../../environments/environment'
   styleUrls: ['./tariff-test.component.css']
 })
 export class TariffTestComponent {
-  tariffTestForm: FormGroup
+  tariffTestForm: UntypedFormGroup
   allParkingLot: ParkingModel[] = []
   courtesies: CourtesyModel[] = []
   ticket: TicketTestModule
@@ -30,7 +30,7 @@ export class TariffTestComponent {
   tariffTestPermission = environment.tariffTest
   constructor(
     private permissionService: PermissionsService,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private authService: AuthService,
     private parkingService: ParkingService,
     private messageService: MessageService,

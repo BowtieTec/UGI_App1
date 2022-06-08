@@ -1,5 +1,5 @@
 import {AfterViewInit, Component, EventEmitter, Input, OnDestroy, Output, ViewChild} from '@angular/core'
-import {FormBuilder, FormGroup, Validators} from '@angular/forms'
+import {UntypedFormBuilder, UntypedFormGroup, Validators} from '@angular/forms'
 import {AccessModel, CreateParkingStepFiveModel} from '../../models/CreateParking.model'
 import {MessageService} from '../../../../shared/services/message.service'
 import {ParkingService} from '../../services/parking.service'
@@ -21,7 +21,7 @@ import {Subject} from 'rxjs'
 export class AntennasComponent implements AfterViewInit, OnDestroy {
   @Input() isCreatingParking = false
   @Input() parkingId: string = this.authService.getParking().id
-  stepFiveForm!: FormGroup
+  stepFiveForm!: UntypedFormGroup
   @Output() changeStep = new EventEmitter<number>()
   idEditAntenna = ''
   accessList: AccessModel[] = this.parkingService.getAccesses()
@@ -32,7 +32,7 @@ export class AntennasComponent implements AfterViewInit, OnDestroy {
   @ViewChild(DataTableDirective)
   dtElement!: DataTableDirective
   dtTrigger: Subject<any> = new Subject()
-  formGroup: FormGroup
+  formGroup: UntypedFormGroup
   /*Permissions*/
   editAntennaAction = environment.editAntennas
   deleteAntennaAction = environment.deleteAntennas
@@ -41,7 +41,7 @@ export class AntennasComponent implements AfterViewInit, OnDestroy {
   private actions: string[] = this.permissionService.actionsOfPermissions
 
   constructor(
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private message: MessageService,
     private parkingService: ParkingService,
     private utilitiesService: UtilitiesService,

@@ -1,5 +1,5 @@
-import { Component, Input } from '@angular/core'
-import { FormGroup } from '@angular/forms'
+import {Component, Input} from '@angular/core'
+import {UntypedFormGroup} from '@angular/forms'
 
 @Component({
   selector: 'app-checkbox-container',
@@ -9,5 +9,5 @@ import { FormGroup } from '@angular/forms'
 export class CheckboxContainerComponent {
   @Input() name!: string
   @Input() controlName!: string
-  @Input() formGroup!: FormGroup
+  @Input() formGroup!: UntypedFormGroup
 }

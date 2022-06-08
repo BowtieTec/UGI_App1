@@ -1,8 +1,8 @@
-import { Component } from '@angular/core'
-import { FormBuilder, FormGroup, Validators } from '@angular/forms'
-import { AuthService } from '../../../shared/services/auth.service'
-import { MessageService } from '../../../shared/services/message.service'
-import { environment } from '../../../../environments/environment'
+import {Component} from '@angular/core'
+import {UntypedFormBuilder, UntypedFormGroup, Validators} from '@angular/forms'
+import {AuthService} from '../../../shared/services/auth.service'
+import {MessageService} from '../../../shared/services/message.service'
+import {environment} from '../../../../environments/environment'
 
 @Component({
   selector: 'app-login',
@@ -10,10 +10,10 @@ import { environment } from '../../../../environments/environment'
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
-  loginForm!: FormGroup
+  loginForm!: UntypedFormGroup
 
   constructor(
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private auth: AuthService,
     private message: MessageService
   ) {

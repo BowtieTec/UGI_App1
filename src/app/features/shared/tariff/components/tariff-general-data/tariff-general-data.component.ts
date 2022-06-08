@@ -1,6 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core'
-import { FormGroup } from '@angular/forms'
-import { UtilitiesService } from '../../../../../shared/services/utilities.service'
+import {Component, Input, OnInit} from '@angular/core'
+import {UntypedFormGroup} from '@angular/forms'
+import {UtilitiesService} from '../../../../../shared/services/utilities.service'
 
 @Component({
   selector: 'app-tariff-general-data',
@@ -8,7 +8,7 @@ import { UtilitiesService } from '../../../../../shared/services/utilities.servi
   styleUrls: ['./tariff-general-data.component.css']
 })
 export class TariffGeneralDataComponent implements OnInit {
-  @Input() generalDataForm!: FormGroup
+  @Input() generalDataForm!: UntypedFormGroup
 
   constructor(private utilitiesService: UtilitiesService) {}
 

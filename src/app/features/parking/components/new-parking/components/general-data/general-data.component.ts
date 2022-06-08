@@ -1,11 +1,11 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
-import { MessageService } from '../../../../../../shared/services/message.service'
-import { FormBuilder, FormGroup, Validators } from '@angular/forms'
-import { CountriesModel } from '../../../../models/Countries.model'
-import { ParkingService } from '../../../../services/parking.service'
-import { ResponseModel } from '../../../../../../shared/model/Request.model'
-import { CreateParkingStepOneModel } from '../../../../models/CreateParking.model'
-import { UtilitiesService } from '../../../../../../shared/services/utilities.service'
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core'
+import {MessageService} from '../../../../../../shared/services/message.service'
+import {UntypedFormBuilder, UntypedFormGroup, Validators} from '@angular/forms'
+import {CountriesModel} from '../../../../models/Countries.model'
+import {ParkingService} from '../../../../services/parking.service'
+import {ResponseModel} from '../../../../../../shared/model/Request.model'
+import {CreateParkingStepOneModel} from '../../../../models/CreateParking.model'
+import {UtilitiesService} from '../../../../../../shared/services/utilities.service'
 
 @Component({
   selector: 'app-general-data',
@@ -13,7 +13,7 @@ import { UtilitiesService } from '../../../../../../shared/services/utilities.se
   styleUrls: ['./general-data.component.css']
 })
 export class GeneralDataComponent implements OnInit {
-  stepOneForm: FormGroup = this.createForm()
+  stepOneForm: UntypedFormGroup = this.createForm()
   @Output() changeStep = new EventEmitter<number>()
   @Input() isPublic = false
   coords = {
@@ -29,7 +29,7 @@ export class GeneralDataComponent implements OnInit {
   constructor(
     private message: MessageService,
     private parkingService: ParkingService,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private utilitiesService: UtilitiesService
   ) {}
 

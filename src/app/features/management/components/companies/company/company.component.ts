@@ -1,18 +1,18 @@
-import { environment } from 'src/environments/environment'
-import { PermissionsService } from './../../../../../shared/services/permissions.service'
-import { AfterViewInit, Component, Input, OnDestroy, ViewChild } from '@angular/core'
-import { UtilitiesService } from '../../../../../shared/services/utilities.service'
-import { CompaniesService } from '../../users/services/companies.service'
-import { AuthService } from '../../../../../shared/services/auth.service'
-import { Subject } from 'rxjs'
-import { NewUserModel } from '../../users/models/newUserModel'
-import { DataTableDirective } from 'angular-datatables'
-import { FormBuilder, FormGroup, Validators } from '@angular/forms'
-import { DataTableOptions } from '../../../../../shared/model/DataTableOptions'
-import { CompaniesModel } from '../../users/models/companies.model'
-import { ParkingService } from '../../../../parking/services/parking.service'
-import { ParkingModel } from '../../../../parking/models/Parking.model'
-import { MessageService } from '../../../../../shared/services/message.service'
+import {environment} from 'src/environments/environment'
+import {PermissionsService} from './../../../../../shared/services/permissions.service'
+import {AfterViewInit, Component, Input, OnDestroy, ViewChild} from '@angular/core'
+import {UtilitiesService} from '../../../../../shared/services/utilities.service'
+import {CompaniesService} from '../../users/services/companies.service'
+import {AuthService} from '../../../../../shared/services/auth.service'
+import {Subject} from 'rxjs'
+import {NewUserModel} from '../../users/models/newUserModel'
+import {DataTableDirective} from 'angular-datatables'
+import {UntypedFormBuilder, UntypedFormGroup, Validators} from '@angular/forms'
+import {DataTableOptions} from '../../../../../shared/model/DataTableOptions'
+import {CompaniesModel} from '../../users/models/companies.model'
+import {ParkingService} from '../../../../parking/services/parking.service'
+import {ParkingModel} from '../../../../parking/models/Parking.model'
+import {MessageService} from '../../../../../shared/services/message.service'
 
 @Component({
   selector: 'app-company',
@@ -21,7 +21,7 @@ import { MessageService } from '../../../../../shared/services/message.service'
 })
 export class CompanyComponent implements AfterViewInit, OnDestroy {
   idCompanyToEdit = ''
-  companiesForm: FormGroup
+  companiesForm: UntypedFormGroup
   companies: CompaniesModel[] = []
   states: Array<any> = this.companyService.states
   allParkingLot: ParkingModel[] = []
@@ -29,7 +29,7 @@ export class CompanyComponent implements AfterViewInit, OnDestroy {
   /*Table*/
   @Input() subject: Subject<NewUserModel> = new Subject<NewUserModel>()
   dtTrigger: Subject<any> = new Subject()
-  formGroup: FormGroup
+  formGroup: UntypedFormGroup
   /* Permissions */
   create: string = environment.createLocal
   disable: string = environment.disableLocal
@@ -40,7 +40,7 @@ export class CompanyComponent implements AfterViewInit, OnDestroy {
     private utilitiesService: UtilitiesService,
     private companyService: CompaniesService,
     private authService: AuthService,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private parkingService: ParkingService,
     private messageService: MessageService,
     private permissionService: PermissionsService

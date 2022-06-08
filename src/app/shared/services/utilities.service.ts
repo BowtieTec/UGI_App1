@@ -1,10 +1,5 @@
-import { Injectable } from '@angular/core'
-import {
-  AbstractControl,
-  FormArray,
-  FormControl,
-  FormGroup
-} from '@angular/forms'
+import {Injectable} from '@angular/core'
+import {AbstractControl, UntypedFormArray, UntypedFormControl, UntypedFormGroup} from '@angular/forms'
 
 @Injectable({
   providedIn: 'root'
@@ -14,13 +9,13 @@ export class UtilitiesService {
     return "^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$"
   }
 
-  markAsTouched(form: FormGroup) {
+  markAsTouched(form: UntypedFormGroup) {
     Object.values(form.controls).forEach((control: AbstractControl) =>
       control.markAsTouched()
     )
   }
 
-  markAsInvalid(form: FormGroup, control: string, error: any) {
+  markAsInvalid(form: UntypedFormGroup, control: string, error: any) {
     form.get(control)?.setErrors(error)
   }
 
@@ -91,27 +86,27 @@ export class UtilitiesService {
       .join('')
   }
 
-  markAsUnTouched(form: FormGroup) {
+  markAsUnTouched(form: UntypedFormGroup) {
     Object.values(form.controls).forEach((control: AbstractControl) =>
       control.markAsUntouched()
     )
   }
 
-  controlInvalid(form: FormGroup, control: string): boolean {
+  controlInvalid(form: UntypedFormGroup, control: string): boolean {
     const resp: boolean | undefined =
       form.get(control)?.invalid && form.get(control)?.touched
     return resp == undefined ? false : resp
   }
 
-  controlInvalidArray(arrayForm: FormArray) {
+  controlInvalidArray(arrayForm: UntypedFormArray) {
     Object.values(arrayForm.controls).forEach((group) => {
-      Object.values((group as FormArray).controls).forEach((control) => {
+      Object.values((group as UntypedFormArray).controls).forEach((control) => {
         control.markAsTouched()
       })
     })
   }
 
-  validateNIT(control: FormControl): { [s: string]: boolean } | null {
+  validateNIT(control: UntypedFormControl): { [s: string]: boolean } | null {
     if (control.value == null) {
       return null
     }
@@ -129,13 +124,13 @@ export class UtilitiesService {
     return null
   }
 
-  disableForm(form: FormGroup) {
+  disableForm(form: UntypedFormGroup) {
     for (const controlsKey in form.controls) {
       form.controls[controlsKey].disable()
     }
   }
 
-  enableForm(form: FormGroup) {
+  enableForm(form: UntypedFormGroup) {
     for (const controlsKey in form.controls) {
       form.controls[controlsKey].enable()
     }

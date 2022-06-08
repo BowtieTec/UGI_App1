@@ -1,5 +1,5 @@
 import {Component} from '@angular/core'
-import {FormBuilder, FormGroup, Validators} from '@angular/forms'
+import {UntypedFormBuilder, UntypedFormGroup, Validators} from '@angular/forms'
 import {MessageService} from '../../../shared/services/message.service'
 import {RecoveryPasswordService} from '../services/recovery-password.service'
 import {ConfirmCodeModel} from '../models/RecoveryPassword.model'
@@ -12,14 +12,14 @@ import {environment} from '../../../../environments/environment'
   styleUrls: ['./recover-password.component.css']
 })
 export class RecoverPasswordComponent {
-  recoveryPasswordForm: FormGroup
+  recoveryPasswordForm: UntypedFormGroup
   step = 1
   userId = ''
   email = ''
   token = ''
 
   constructor(
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private messageService: MessageService,
     private recoveryService: RecoveryPasswordService,
     private route: Router
