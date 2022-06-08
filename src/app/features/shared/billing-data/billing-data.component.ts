@@ -143,7 +143,6 @@ export class BillingDataComponent implements OnInit {
   async saveBillingData() {
     if (this.stepFourForm.valid) {
       this.parkingService.parkingStepFour = this.getStepFour()
-      console.log(this.parkingService.parkingStepFour);
       this.parkingService.parkingStepFour.parkingId = this.parkingId
       this.parkingService.setStepFour().subscribe((data) => {
         if (data.success) {

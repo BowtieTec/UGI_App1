@@ -77,7 +77,6 @@ export class AntennasComponent implements AfterViewInit, OnDestroy {
   addAntenna() {
 
     this.message.showLoading()
-    console.log(this.stepFiveForm);
     if (this.stepFiveForm.invalid) {
       this.message.warningTimeOut(
         'No ha llenado todos los datos. Para continuar por favor llene los datos necesarios.'

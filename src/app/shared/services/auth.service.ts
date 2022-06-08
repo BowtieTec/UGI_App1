@@ -75,8 +75,7 @@ export class AuthService {
             }
           })
           .catch((data) => {
-            console.log(data)
-            if(!data.error.success){
+            if (!data.error.success) {
               this.message.error(data.error.message);
               return
             }

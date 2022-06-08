@@ -72,7 +72,6 @@ export class FileUploadComponent implements OnInit {
     if (number == 1) {
 
       if (this.filesPlans) {
-        console.log(this.filesPlans);
         //Plans------------------------------------------
         const formData = new FormData()
         for (let i = 0; i < this.filesPlans.length; i++) {
