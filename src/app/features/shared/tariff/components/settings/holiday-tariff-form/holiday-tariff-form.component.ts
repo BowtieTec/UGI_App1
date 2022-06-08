@@ -12,7 +12,8 @@ export class HolidayTariffFormComponent implements OnInit {
   @Input() holidayForm!: UntypedFormGroup
   @Input() timeRange!: number
 
-  constructor(private utilitiesService: UtilitiesService) {}
+  constructor(private utilitiesService: UtilitiesService) {
+  }
 
   ngOnInit(): void {
   }

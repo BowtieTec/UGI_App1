@@ -9,7 +9,9 @@ import {UntypedFormGroup} from '@angular/forms'
 export class DaysOfWeekComponent implements OnInit {
   @Input() daysSelectedForm!: UntypedFormGroup
 
-  constructor() {}
+  constructor() {
+  }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+  }
 }

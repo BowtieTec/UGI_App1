@@ -58,16 +58,18 @@ export class StationaryCourtesyComponent implements AfterViewInit, OnDestroy {
     private companyService: CompaniesService
   ) {
     this.stationaryForm = this.createForm()
-    this.formGroup = formBuilder.group({ filter: [''] })
+    this.formGroup = formBuilder.group({filter: ['']})
     this.getInitialData().catch()
   }
 
   get dtOptions() {
     return DataTableOptions.getSpanishOptions(10)
   }
+
   get conditionValue() {
     return this.stationaryForm.get('condition')?.value
   }
+
   get isSudo() {
     return this.authService.isSudo
   }
@@ -85,13 +87,8 @@ export class StationaryCourtesyComponent implements AfterViewInit, OnDestroy {
     }
   }
 
-  async getTypeCourtesies(): Promise<SelectModel[]> {
-    return this.courtesyService
-      .getTypes()
-      .toPromise()
-      .then((x) => {
-        return x.data.type.filter((x:any) => x.id !=3)
-      })
+  get allAntennasFiltered() {
+    return this.parkingService.getAntennasWithStationaryCourtesy(this.parkingId).then(x => x.filter(a => a.courtesy_detail == null))
   }
 
   ifHaveAction(action: string) {
@@ -110,27 +107,34 @@ export class StationaryCourtesyComponent implements AfterViewInit, OnDestroy {
       cantHours: ['0']
     })
   }
-get allAntennasFiltered(){
-    return this.parkingService.getAntennasWithStationaryCourtesy(this.parkingId).then(x => x.filter(a=> a.courtesy_detail == null))
-}
+
+  async getTypeCourtesies(): Promise<SelectModel[]> {
+    return this.courtesyService
+      .getTypes()
+      .toPromise()
+      .then((x) => {
+        return x.data.type.filter((x: any) => x.id != 3)
+      })
+  }
+
   validateParam(param: any) {
     return param ? param : 'Sin valor'
   }
 
   async getCourtesiesStationary(): Promise<StationsCourtesyModel[]> {
- /*
-  *  When courtesy_details is null, that means that the antenna doesn't have courtesy
-  *  is just the antenna.
-  *  When courtesy_details is not null,
-  *  that means that the antennas has courtesy.
-  */
+    /*
+     *  When courtesy_details is null, that means that the antenna doesn't have courtesy
+     *  is just the antenna.
+     *  When courtesy_details is not null,
+     *  that means that the antennas has courtesy.
+     */
     return await this.parkingService.getAntennasWithStationaryCourtesy(this.parkingId).then(x => x.filter(a => a.courtesy_detail))
   }
 
   async searchAntennasByParking() {
     if (!this.idEditAntenna) {
       this.message.showLoading()
-      this.parkingId = this.stationaryForm.controls['parkingId']?.value? this.stationaryForm.controls['parkingId']?.value: this.parkingId
+      this.parkingId = this.stationaryForm.controls['parkingId']?.value ? this.stationaryForm.controls['parkingId']?.value : this.parkingId
       this.allAntennas = await this.allAntennasFiltered
       this.rerender()
       this.message.hideLoading()
@@ -189,7 +193,9 @@ get allAntennasFiltered(){
   }
 
   ngOnDestroy(): void {
-    try{this.dtTrigger.unsubscribe()}catch (e) {
+    try {
+      this.dtTrigger.unsubscribe()
+    } catch (e) {
     }
   }
 
@@ -208,7 +214,7 @@ get allAntennasFiltered(){
   getTypeDescription(id: number) {
     const newDescription = this.courtesyTypes.find((x) => x.id == id)
     return newDescription == undefined
-      ? { id: null, name: 'Sin descripción' }
+      ? {id: null, name: 'Sin descripción'}
       : newDescription
   }
 

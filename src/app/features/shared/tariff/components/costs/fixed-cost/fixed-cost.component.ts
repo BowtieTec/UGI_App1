@@ -11,11 +11,13 @@ export class FixedCostComponent implements OnInit {
   @Input() costType!: number
   @Input() fixedCostForm!: UntypedFormGroup
 
-  constructor(private utilitiesService: UtilitiesService) {}
+  constructor(private utilitiesService: UtilitiesService) {
+  }
 
   validateFixedCost(control: string) {
     return this.utilitiesService.controlInvalid(this.fixedCostForm, control)
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+  }
 }

@@ -31,7 +31,8 @@ export class GeneralDataComponent implements OnInit {
     private parkingService: ParkingService,
     private formBuilder: UntypedFormBuilder,
     private utilitiesService: UtilitiesService
-  ) {}
+  ) {
+  }
 
   get ParkingId() {
     return this.parkingService.parkingStepOne.parkingId
@@ -42,7 +43,7 @@ export class GeneralDataComponent implements OnInit {
     this.getPosition()
       .then((r) => {
         if (this.coords.lng == 0 && this.coords.lat == 0) {
-          this.coords = { ...r }
+          this.coords = {...r}
         }
       })
       .catch(() => {
@@ -63,7 +64,7 @@ export class GeneralDataComponent implements OnInit {
   }
 
   addMapMark(event: google.maps.MapMouseEvent) {
-    this.coordsMark = { lat: event.latLng.lat(), lng: event.latLng.lng() }
+    this.coordsMark = {lat: event.latLng.lat(), lng: event.latLng.lng()}
   }
 
   getPosition(): Promise<any> {
@@ -161,7 +162,7 @@ export class GeneralDataComponent implements OnInit {
       parking_spaces: this.stepOneForm.controls['parking_spaces'].value,
       rules: this.stepOneForm.controls['rules'].value,
       special_parking_spaces:
-        this.stepOneForm.controls['special_parking_spaces'].value,
+      this.stepOneForm.controls['special_parking_spaces'].value,
       public: this.isPublic,
       is_draft: this.isPublic,
       is_TAS: this.stepOneForm.controls['is_TAS'].value,

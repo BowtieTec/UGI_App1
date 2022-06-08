@@ -11,11 +11,13 @@ export class BlocksTariffFormComponent implements OnInit {
   @Input() blockForm!: UntypedFormGroup
   @Input() timeRange!: number
 
-  constructor(private utilitiesService: UtilitiesService) {}
+  constructor(private utilitiesService: UtilitiesService) {
+  }
 
   validateBlockForm(control: string) {
     return this.utilitiesService.controlInvalid(this.blockForm, control)
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+  }
 }

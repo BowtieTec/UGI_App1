@@ -11,9 +11,11 @@ export class PrincipalScheduleComponent implements OnInit {
   @Input() holidayForm!: UntypedFormGroup
   @Input() timeRange!: number
 
-  constructor(private utilitiesService: UtilitiesService) {}
+  constructor(private utilitiesService: UtilitiesService) {
+  }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+  }
 
   validateHolidayForm(control: string) {
     return this.utilitiesService.controlInvalid(this.holidayForm, control)

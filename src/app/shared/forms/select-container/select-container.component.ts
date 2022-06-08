@@ -20,7 +20,8 @@ export class SelectContainerComponent {
   @Input() data: any = []
   @Input() unselect: boolean = false
 
-  constructor(private utilitiesService: UtilitiesService) {}
+  constructor(private utilitiesService: UtilitiesService) {
+  }
 
   controlInvalid(control: string): boolean {
     return this.utilitiesService.controlInvalid(this.formGroup, control)

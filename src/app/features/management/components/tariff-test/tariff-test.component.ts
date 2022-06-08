@@ -28,6 +28,7 @@ export class TariffTestComponent {
   private courtesyId: string = ''
   private parkingId: string = this.authService.getParking().id
   tariffTestPermission = environment.tariffTest
+
   constructor(
     private permissionService: PermissionsService,
     private formBuilder: UntypedFormBuilder,
@@ -96,6 +97,7 @@ export class TariffTestComponent {
     this.tariffTestForm.controls['date_out'].setValue('')
     this.tariffTestForm.controls['courtesyId'].setValue(null)
   }
+
   private createTariffTestForm() {
     return this.formBuilder.group({
       parking: [this.parkingId, [Validators.required]],
@@ -124,19 +126,19 @@ export class TariffTestComponent {
       .toPromise()
       .then((data) => {
         if (data.success) {
-          this.courtesies = data.data.filter((t:CourtesyModel) => t.id != null)
+          this.courtesies = data.data.filter((t: CourtesyModel) => t.id != null)
         } else {
           this.messageService.error('', data.message)
         }
       })
   }
 
-  addItem(ticketTest: TicketTestModule){
-    if(sessionStorage.getItem('tariffTest') === null){
-        this.ListTicketTest.push(ticketTest)
-        this.listExist = true
-        sessionStorage.setItem('tariffTest', JSON.stringify(this.ListTicketTest))
-    }else{
+  addItem(ticketTest: TicketTestModule) {
+    if (sessionStorage.getItem('tariffTest') === null) {
+      this.ListTicketTest.push(ticketTest)
+      this.listExist = true
+      sessionStorage.setItem('tariffTest', JSON.stringify(this.ListTicketTest))
+    } else {
       this.ListTicketTest = JSON.parse(sessionStorage.getItem('tariffTest') || '[]')
       this.ListTicketTest.unshift(ticketTest)
       sessionStorage.setItem('tariffTest', JSON.stringify(this.ListTicketTest))

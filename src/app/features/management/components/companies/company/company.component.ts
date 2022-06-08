@@ -45,7 +45,7 @@ export class CompanyComponent implements AfterViewInit, OnDestroy {
     private messageService: MessageService,
     private permissionService: PermissionsService
   ) {
-    this.formGroup = formBuilder.group({ filter: [''] })
+    this.formGroup = formBuilder.group({filter: ['']})
     this.companiesForm = this.createCompanyForm()
     this.getInitialData().catch()
   }
@@ -109,12 +109,14 @@ export class CompanyComponent implements AfterViewInit, OnDestroy {
       .then(() => this.cleanCompanyForm())
 
   }
-cleanCompanyForm(){
-  this.companiesForm.reset()
-  this.idCompanyToEdit = ''
-  this.companiesForm.get('status')?.setValue(0)
-  this.companiesForm.get('parking')?.setValue(this.parkingId)
-}
+
+  cleanCompanyForm() {
+    this.companiesForm.reset()
+    this.idCompanyToEdit = ''
+    this.companiesForm.get('status')?.setValue(0)
+    this.companiesForm.get('parking')?.setValue(this.parkingId)
+  }
+
   async deleteTheCompany(company: CompaniesModel) {
     if (!company.id) {
       this.messageService.errorTimeOut(

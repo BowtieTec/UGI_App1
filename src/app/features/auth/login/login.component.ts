@@ -31,11 +31,11 @@ export class LoginComponent {
     this.loginForm = this.formBuilder.group({
       email: [
         '',
-           [Validators.required,
-             Validators.pattern(
-               "^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$"
-             ),
-           ]
+        [Validators.required,
+          Validators.pattern(
+            "^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$"
+          ),
+        ]
       ],
       password: ['', [Validators.required, Validators.pattern(environment.settings.passwordPattern)]]
     })

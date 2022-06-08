@@ -34,7 +34,7 @@ export class AntennasFromCourtesyComponent implements AfterViewInit, OnDestroy {
     private authService: AuthService
   ) {
     this.antennasForm = this.createAntennasForm()
-    this.formGroup = formBuilder.group({ filter: [''] })
+    this.formGroup = formBuilder.group({filter: ['']})
     this.getInitialData()
   }
 
@@ -77,13 +77,13 @@ export class AntennasFromCourtesyComponent implements AfterViewInit, OnDestroy {
   }
 
   async searchStationsByParking() {
-      const parkingId = this.antennasForm.controls['parkingId'].value
-      this.stationsCourtesy =
-        await this.parkingService.getAntennasWithStationaryCourtesy(parkingId)
-      if (this.stationsCourtesy) {
-        this.parkingId = parkingId
-        this.rerender()
-      }
+    const parkingId = this.antennasForm.controls['parkingId'].value
+    this.stationsCourtesy =
+      await this.parkingService.getAntennasWithStationaryCourtesy(parkingId)
+    if (this.stationsCourtesy) {
+      this.parkingId = parkingId
+      this.rerender()
+    }
 
   }
 

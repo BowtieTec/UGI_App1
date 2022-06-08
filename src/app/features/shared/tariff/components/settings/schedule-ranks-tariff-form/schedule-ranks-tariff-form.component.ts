@@ -11,9 +11,11 @@ export class ScheduleRanksTariffFormComponent implements OnInit {
   @Input() rankForm!: UntypedFormGroup
   @Input() timeRange!: number
 
-  constructor(private utilitiesService: UtilitiesService) {}
+  constructor(private utilitiesService: UtilitiesService) {
+  }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+  }
 
   validateRankForm(control: string) {
     return this.utilitiesService.controlInvalid(this.rankForm, control)

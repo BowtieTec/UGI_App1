@@ -10,9 +10,11 @@ import {UtilitiesService} from '../../../../../shared/services/utilities.service
 export class TariffGeneralDataComponent implements OnInit {
   @Input() generalDataForm!: UntypedFormGroup
 
-  constructor(private utilitiesService: UtilitiesService) {}
+  constructor(private utilitiesService: UtilitiesService) {
+  }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+  }
 
   validateGeneralDataForm(control: string) {
     return this.utilitiesService.controlInvalid(this.generalDataForm, control)

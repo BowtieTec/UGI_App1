@@ -12,7 +12,8 @@ export class TextAreaContainerComponent {
   @Input() controlName!: string
   @Input() formGroup!: UntypedFormGroup
 
-  constructor(private utilitiesService: UtilitiesService) {}
+  constructor(private utilitiesService: UtilitiesService) {
+  }
 
   controlInvalid(control: string): boolean {
     return this.utilitiesService.controlInvalid(this.formGroup, control)

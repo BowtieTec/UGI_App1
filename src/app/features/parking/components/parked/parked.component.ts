@@ -124,6 +124,7 @@ export class ParkedComponent implements OnDestroy, AfterViewInit {
       textToSearch
     }
   }
+
   ngAfterViewInit(): void {
     this.dtTrigger.next()
   }
