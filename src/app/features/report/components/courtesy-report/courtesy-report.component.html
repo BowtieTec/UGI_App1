@@ -75,7 +75,7 @@
           ></dxi-column>
           <dxi-column
             dataField="cd_type"
-            caption="Tipo"
+            caption="Tipo de cortesía"
           ></dxi-column>
           <dxi-column
             dataField="cd_quantity"
@@ -106,6 +106,10 @@
             dataType="number"
             format="currency"
             format="Q ,###,###,##0.00"
+          ></dxi-column>
+          <dxi-column
+            dataField="cd_tipoCortesia"
+            caption="Tipo"
           ></dxi-column>
           <dxo-header-filter [visible]="true"></dxo-header-filter>
           <dxo-search-panel [visible]="true" placeholder="Buscar..."></dxo-search-panel>
