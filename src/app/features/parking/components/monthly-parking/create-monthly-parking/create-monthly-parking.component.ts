@@ -293,7 +293,7 @@ export class CreateMonthlyParkingComponent implements OnInit {
 
   userSelect(user: any) {
     this.userSelected = user
-    this.message.OkTimeOut(user.name + ' ' + user.last_name + ' Seleccionado')
+    this.message.OkTimeOut(user.name + ' ' + (user.last_name? user.last_name: '') + ' Seleccionado')
   }
 
   private getDays() {
