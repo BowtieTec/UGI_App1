@@ -10,7 +10,6 @@
       </div>
       ​
       <div class = "row">
-
         <div class = "col-md-6 mb-4">
           <div class = "m-3 relative ">
             <app-select-container (change) = "getCourtesies(this.parkingSelected)"
@@ -29,9 +28,7 @@
                                 controlName = "courtesyId"
                                 name = "Cortesías"></app-select-container>
         </div>
-
         <div class = "col-md-6 mb-4">
-
           <app-input-container [formGroup] = "tariffTestForm"
                                controlName = "date_in"
                                name = "Fecha y hora de entrada"
@@ -40,7 +37,6 @@
           </app-input-container>
         </div>
         <div class = "col-md-6 mb-4">
-
           <app-input-container [formGroup] = "tariffTestForm"
                                controlName = "date_out"
                                name = "Fecha y hora de salida"
@@ -48,33 +44,23 @@
 
           </app-input-container>
         </div>
-
-
       </div>
-    </div>
-    <div class = "row">
-      <div class = "col-md-6">
-        <div class = "panels">
+      <div *ngIf = "this.ticket.hour || this.ticket.minute || this.ticket.days"
+           class = "row">
+        <div class = "col-md-6">
           <b>Tiempo Total:</b>
           <br>
           <p *ngIf = "this.ticket.days != 0"> Días: {{this.ticket.days}} </p>
           <p *ngIf = "this.ticket.hour != 0"> Horas: {{this.ticket.hour}} </p>
           <p *ngIf = "this.ticket.minute != 0"> Min.: {{this.ticket.minute}} </p>
         </div>
-
-      </div>
-
-      <div class = "col-md-6 ">
-        <div class = "panels">
+        <div class = "col-md-6 ">
           <b>Total a pagar:</b><br><br><b><h4>{{this.ticket.amount | currency:'GTQ'}}</h4></b>
         </div>
-
+        ​
       </div>
-      ​
-    </div>
-    <div class = "panels">
       <div class = "row">
-        <div class = "col-12 text-center">
+        <div class = "col-12 text-center mb-3 mt-3">
           <button
             (click) = "getTariffTest()"
             class = "btn btn-primary"
@@ -83,10 +69,6 @@
           </button>
         </div>
       </div>
-    </div>
-    ​
-    ​
-    <div class = 'panels'>
       <div class = 'row'>
         <div class = 'col-12 text-center'>
           <table class = "table">
@@ -123,6 +105,8 @@
         </div>
       </div>
     </div>
+    ​
+    ​
   </div>
 </div>
 

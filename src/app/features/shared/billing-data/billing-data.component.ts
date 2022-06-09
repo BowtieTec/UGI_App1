@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core'
-import {FormBuilder, FormGroup, Validators} from '@angular/forms'
+import {UntypedFormBuilder, UntypedFormGroup, Validators} from '@angular/forms'
 import {MessageService} from '../../../shared/services/message.service'
 import {ParkingService} from '../../parking/services/parking.service'
 import {UtilitiesService} from '../../../shared/services/utilities.service'
@@ -15,7 +15,7 @@ import {AuthService} from '../../../shared/services/auth.service'
   styleUrls: ['./billing-data.component.css']
 })
 export class BillingDataComponent implements OnInit {
-  stepFourForm: FormGroup = this.createForm()
+  stepFourForm: UntypedFormGroup = this.createForm()
   settingsOptions!: SettingsOptionsModel
   allParking: ParkingModel[] = []
 
@@ -28,7 +28,7 @@ export class BillingDataComponent implements OnInit {
   constructor(
     private message: MessageService,
     private parkingService: ParkingService,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private utilitiesService: UtilitiesService,
     private route: Router,
     private authService: AuthService
@@ -143,7 +143,6 @@ export class BillingDataComponent implements OnInit {
   async saveBillingData() {
     if (this.stepFourForm.valid) {
       this.parkingService.parkingStepFour = this.getStepFour()
-      console.log(this.parkingService.parkingStepFour);
       this.parkingService.parkingStepFour.parkingId = this.parkingId
       this.parkingService.setStepFour().subscribe((data) => {
         if (data.success) {

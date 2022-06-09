@@ -1,7 +1,7 @@
-import {FormGroup, ValidationErrors} from '@angular/forms'
+import {UntypedFormGroup, ValidationErrors} from '@angular/forms'
 
 export function DateGreaterValidations(): any {
-  return (form: FormGroup) => {
+  return (form: UntypedFormGroup) => {
     const from: Date = form.controls['from']?.value
     const to: Date = form.controls['to']?.value
     const result = from < to
@@ -10,7 +10,7 @@ export function DateGreaterValidations(): any {
 }
 
 export function NumberGreaterValidations(): ValidationErrors | any {
-  return (form: FormGroup) => {
+  return (form: UntypedFormGroup) => {
     const hourLowerLimit: Date = form.controls['hourLowerLimit']?.value
     const hourUpperLimit: Date = form.controls['hourUpperLimit']?.value
     const minuteLowerLimit: Date = form.controls['minuteLowerLimit']?.value
@@ -21,7 +21,7 @@ export function NumberGreaterValidations(): ValidationErrors | any {
 }
 
 export function NumberParkingGreaterValidations(): ValidationErrors | null {
-  return (form: FormGroup) => {
+  return (form: UntypedFormGroup) => {
     const special_parking_spaces: number = form.get(
       'special_parking_spaces'
     )?.value

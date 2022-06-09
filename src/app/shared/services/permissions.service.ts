@@ -67,7 +67,6 @@ export class PermissionsService {
           }
         })
         this.messageService.hideLoading()
-        console.log(menu)
         return menu
       })
   }

@@ -1,7 +1,7 @@
-import { NgModule } from '@angular/core'
-import { RouterModule, Routes } from '@angular/router'
-import { HomeComponent } from './home/home.component'
-import { AuthGuard } from '../../core/Services/auth.guard'
+import {NgModule} from '@angular/core'
+import {RouterModule, Routes} from '@angular/router'
+import {HomeComponent} from './home/home.component'
+import {AuthGuard} from '../../core/Services/auth.guard'
 
 const routes: Routes = [
   {
@@ -48,7 +48,6 @@ const routes: Routes = [
       },
       {
         path: '',
-        canActivate: [AuthGuard],
         redirectTo: 'dashboard',
         pathMatch: 'full'
       }
@@ -60,4 +59,5 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class HomeRoutingModule {}
+export class HomeRoutingModule {
+}

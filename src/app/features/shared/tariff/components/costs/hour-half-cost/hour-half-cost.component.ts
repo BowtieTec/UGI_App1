@@ -1,6 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core'
-import { FormGroup } from '@angular/forms'
-import { UtilitiesService } from '../../../../../../shared/services/utilities.service'
+import {Component, Input, OnInit} from '@angular/core'
+import {UntypedFormGroup} from '@angular/forms'
+import {UtilitiesService} from '../../../../../../shared/services/utilities.service'
 
 @Component({
   selector: 'app-hour-half-cost',
@@ -9,7 +9,7 @@ import { UtilitiesService } from '../../../../../../shared/services/utilities.se
 })
 export class HourHalfCostComponent implements OnInit {
   @Input() costType!: number
-  @Input() hourAHalfForm!: FormGroup
+  @Input() hourAHalfForm!: UntypedFormGroup
   @Input() settingValues!: any
 
   constructor(private utilitiesService: UtilitiesService) {

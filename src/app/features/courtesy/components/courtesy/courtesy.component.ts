@@ -2,7 +2,7 @@ import {AfterViewInit, Component, OnDestroy, ViewChild} from '@angular/core'
 import {CourtesyService} from '../../services/courtesy.service'
 import {MessageService} from '../../../../shared/services/message.service'
 import {CourtesyModel, CourtesyTypeModel} from '../../models/Courtesy.model'
-import {FormBuilder, FormGroup, Validators} from '@angular/forms'
+import {UntypedFormBuilder, UntypedFormGroup, Validators} from '@angular/forms'
 import {UtilitiesService} from '../../../../shared/services/utilities.service'
 import {AuthService} from '../../../../shared/services/auth.service'
 import {DataTableDirective} from 'angular-datatables'
@@ -26,7 +26,7 @@ import {ToastrService} from 'ngx-toastr'
 export class CourtesyComponent implements AfterViewInit, OnDestroy {
   allParking: ParkingModel[] = []
   courtesyTypes: CourtesyTypeModel[] = []
-  newCourtesyForm: FormGroup
+  newCourtesyForm: UntypedFormGroup
   parkingId: string = this.authService.getParking().id
   courtesies: CourtesyModel[] = []
   allCompanies: CompaniesModel[] = []
@@ -37,7 +37,7 @@ export class CourtesyComponent implements AfterViewInit, OnDestroy {
   @ViewChild(DataTableDirective)
   dtElement!: DataTableDirective
   dtTrigger: Subject<any> = new Subject()
-  formGroup: FormGroup
+  formGroup: UntypedFormGroup
 
   /*Permissions*/
   listCourtesy = environment.listCourtesy
@@ -47,7 +47,7 @@ export class CourtesyComponent implements AfterViewInit, OnDestroy {
   constructor(
     private courtesyService: CourtesyService,
     private messageService: MessageService,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private utilitiesService: UtilitiesService,
     private authService: AuthService,
     private permissionService: PermissionsService,

@@ -1,5 +1,5 @@
 import {AfterViewInit, Component, OnDestroy, ViewChild} from '@angular/core'
-import {FormBuilder, FormGroup} from '@angular/forms'
+import {UntypedFormBuilder, UntypedFormGroup} from '@angular/forms'
 import {MessageService} from '../../../../shared/services/message.service'
 import {ParkingService} from '../../services/parking.service'
 import {UtilitiesService} from '../../../../shared/services/utilities.service'
@@ -35,7 +35,7 @@ export class MonthlyParkingComponent implements AfterViewInit, OnDestroy {
   dtElement!: DataTableDirective
   dtOptions: DataTables.Settings = DataTableOptions.getSpanishOptions(10)
   dtTrigger: Subject<any> = new Subject()
-  formGroup: FormGroup
+  formGroup: UntypedFormGroup
   loadingUser = false
   createMonthlyParking = environment.createMonthlyParking
   deleteMonthlyParking = environment.deleteMonthlyParking
@@ -44,7 +44,7 @@ export class MonthlyParkingComponent implements AfterViewInit, OnDestroy {
   private actions: string[] = this.permissionService.actionsOfPermissions
 
   constructor(
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private message: MessageService,
     private parkingService: ParkingService,
     private utilitiesService: UtilitiesService,

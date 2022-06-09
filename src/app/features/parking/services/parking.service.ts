@@ -16,7 +16,7 @@ import {map} from 'rxjs/operators'
 import {CurrencyOptionModel, Day, PaymentMethodModel, SettingsOptionsModel} from '../models/SettingsOption.model'
 import {Observable, Subscribable} from 'rxjs'
 import {CountriesModel} from '../models/Countries.model'
-import {FormBuilder} from '@angular/forms'
+import {UntypedFormBuilder} from '@angular/forms'
 import {CreateTariffModel} from '../models/Tariff.model'
 import {CreateProfilesModel} from '../models/MontlyParking.model'
 import {CreateStation, CreateStationaryCourtesy, StationsCourtesyModel} from '../models/StationaryCourtesy.model'
@@ -40,7 +40,7 @@ export class ParkingService {
     private http: HttpClient,
     private message: MessageService,
     private route: Router,
-    private formBuilder: FormBuilder
+    private formBuilder: UntypedFormBuilder
   ) {
     this.getCountries()
       .toPromise()

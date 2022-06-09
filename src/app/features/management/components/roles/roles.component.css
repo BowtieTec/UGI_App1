@@ -6,7 +6,7 @@
   margin-bottom: 15px;
 }
 
-.panels > .title {
+.panelsWithOutMinHeight > .title {
   margin: -15px;
   padding: 5px 15px;
   background: #05ccae;

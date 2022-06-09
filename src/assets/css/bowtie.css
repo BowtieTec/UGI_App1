@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400&display=swap');
+
 body {
   background: #ffffff;
   font-family: 'Poppins', sans-serif;
@@ -382,6 +383,16 @@ button.login {
 
 
 .panels {
+  position: relative;
+  background: #fff;
+  padding: 15px;
+  margin-bottom: 15px;
+  border-radius: 8px;
+  box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.065);
+  min-height: 40vh;
+}
+
+.panelsWithOutMinHeight {
   position: relative;
   background: #fff;
   padding: 15px;

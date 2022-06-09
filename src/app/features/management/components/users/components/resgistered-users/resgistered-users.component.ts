@@ -2,7 +2,7 @@ import {AfterViewInit, Component, Input, OnDestroy, OnInit, ViewChild} from '@an
 import {NewUserModel} from '../../models/newUserModel'
 import {UserService} from '../../services/user.service'
 import {Subject} from 'rxjs'
-import {FormBuilder, FormGroup} from '@angular/forms'
+import {UntypedFormBuilder, UntypedFormGroup} from '@angular/forms'
 import {DataTableOptions} from '../../../../../../shared/model/DataTableOptions'
 import {DataTableDirective} from 'angular-datatables'
 import {MessageService} from '../../../../../../shared/services/message.service'
@@ -25,12 +25,12 @@ export class ResgisteredUsersComponent
   @ViewChild(DataTableDirective)
   dtElement!: DataTableDirective
   dtTrigger: Subject<any> = new Subject()
-  formGroup: FormGroup
+  formGroup: UntypedFormGroup
   users: NewUserModel[] = []
 
   constructor(
     private userService: UserService,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private message: MessageService,
     private permissionsService: PermissionsService,
     private recoveryService: RecoveryPasswordService,

@@ -21,7 +21,6 @@ export class LeftPanelComponent implements OnInit {
     this.permissions.getMenuOptionsValidated().then((options) => {
       this.menu = options.filter((optionFiltered) => optionFiltered.isShow)
     }).then(x => {
-      console.log(this.permissions.modules);
     })
   }
 }

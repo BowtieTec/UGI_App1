@@ -1,6 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core'
-import { FormGroup } from '@angular/forms'
-import { UtilitiesService } from '../../../../../../shared/services/utilities.service'
+import {Component, Input, OnInit} from '@angular/core'
+import {UntypedFormGroup} from '@angular/forms'
+import {UtilitiesService} from '../../../../../../shared/services/utilities.service'
 
 @Component({
   selector: 'app-blocks-tariff-form',
@@ -8,14 +8,16 @@ import { UtilitiesService } from '../../../../../../shared/services/utilities.se
   styleUrls: ['./blocks-tariff-form.component.css']
 })
 export class BlocksTariffFormComponent implements OnInit {
-  @Input() blockForm!: FormGroup
+  @Input() blockForm!: UntypedFormGroup
   @Input() timeRange!: number
 
-  constructor(private utilitiesService: UtilitiesService) {}
+  constructor(private utilitiesService: UtilitiesService) {
+  }
 
   validateBlockForm(control: string) {
     return this.utilitiesService.controlInvalid(this.blockForm, control)
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+  }
 }

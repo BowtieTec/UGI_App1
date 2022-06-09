@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core'
-import {FormBuilder, FormGroup} from '@angular/forms'
+import {UntypedFormBuilder, UntypedFormGroup} from '@angular/forms'
 import {MessageService} from '../../../shared/services/message.service'
 import {ParkingService} from '../../parking/services/parking.service'
 import {UtilitiesService} from '../../../shared/services/utilities.service'
@@ -13,7 +13,7 @@ import {AuthService} from '../../../shared/services/auth.service'
   styleUrls: ['./schedule.component.css']
 })
 export class ScheduleComponent implements OnInit {
-  stepTwoForm: FormGroup = this.createForm()
+  stepTwoForm: UntypedFormGroup = this.createForm()
   schedules: Array<any> = []
   allParking: ParkingModel[] = []
   @Input() parkingId!: string
@@ -23,7 +23,7 @@ export class ScheduleComponent implements OnInit {
   constructor(
     private message: MessageService,
     private parkingService: ParkingService,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private utilitiesService: UtilitiesService,
     private authService: AuthService
   ) {

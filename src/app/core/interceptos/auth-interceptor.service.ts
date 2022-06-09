@@ -17,20 +17,35 @@ export class AuthInterceptorService implements HttpInterceptor {
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
     const token: string = this.authService.getUser().token
-    const request = req.clone({
-      setHeaders: {
-        Authorization: `Bearer ${token}`,
-        'Referrer-Policy': 'no-referrer-when-downgrade',
-        'X-Permitted-Cross-Domain-Policies': 'none',
-        'strict-transport-security': 'max-age=31536000; includeSubDomains',
-        'Content-Security-Policy': 'default-src \'self\'',
-        'Permissions-Policy': '\'none\'',
-        'X-content-type-options': 'nosniff',
-        'Cross-Origin-Opener-Policy': 'same-origin',
-        'X-Frame-Options': 'SAMEORIGIN'
-      }
-    })
-
+    let request: HttpRequest<any>
+    if (!req.url.includes('recovery-password/changePassword')) {
+      request = req.clone({
+        setHeaders: {
+          Authorization: `Bearer ${token}`,
+          'Referrer-Policy': 'no-referrer-when-downgrade',
+          'X-Permitted-Cross-Domain-Policies': 'none',
+          'strict-transport-security': 'max-age=31536000; includeSubDomains',
+          'Content-Security-Policy': 'default-src \'self\'',
+          'Permissions-Policy': '\'none\'',
+          'X-content-type-options': 'nosniff',
+          'Cross-Origin-Opener-Policy': 'same-origin',
+          'X-Frame-Options': 'SAMEORIGIN'
+        }
+      })
+    } else {
+      request = req.clone({
+        setHeaders: {
+          'Referrer-Policy': 'no-referrer-when-downgrade',
+          'X-Permitted-Cross-Domain-Policies': 'none',
+          'strict-transport-security': 'max-age=31536000; includeSubDomains',
+          'Content-Security-Policy': 'default-src \'self\'',
+          'Permissions-Policy': '\'none\'',
+          'X-content-type-options': 'nosniff',
+          'Cross-Origin-Opener-Policy': 'same-origin',
+          'X-Frame-Options': 'SAMEORIGIN'
+        }
+      })
+    }
     return next
       .handle(request)
       .pipe(catchError((err: HttpErrorResponse) => throwError(err)))
