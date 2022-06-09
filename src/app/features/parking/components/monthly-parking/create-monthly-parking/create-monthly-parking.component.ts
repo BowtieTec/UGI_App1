@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core'
-import {UntypedFormBuilder, UntypedFormGroup, Validators} from '@angular/forms'
+import { FormGroup, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms'
 import {MessageService} from '../../../../../shared/services/message.service'
 import {ParkingService} from '../../../services/parking.service'
 import {UtilitiesService} from '../../../../../shared/services/utilities.service'
@@ -14,6 +14,7 @@ import {
 } from '../../../models/MontlyParking.model'
 import {environment} from '../../../../../../environments/environment'
 import {ResponseModel} from '../../../../../shared/model/Request.model'
+import { ParkingModel } from '../../../models/Parking.model'
 
 @Component({
   selector: 'app-create-monthly-parking',
@@ -21,12 +22,13 @@ import {ResponseModel} from '../../../../../shared/model/Request.model'
   styleUrls: ['./create-monthly-parking.component.css']
 })
 export class CreateMonthlyParkingComponent implements OnInit {
-  monthlyForm: UntypedFormGroup = this.createForm()
+  monthlyForm: FormGroup = this.createForm()
   currentDate: Date = new Date()
   userSelected: MonthlyUserModel = new MonthlyUserModel()
   userSearched: Array<MonthlyUserModel> = []
   profiles: ProfilesModel[] = []
   subscriptions: SubscriptionModel[] = []
+  allParking: ParkingModel[] = Array<ParkingModel>()
   stationsByParking: GetStationModel[] = []
   nameProfile = ''
   loadingUser = false
@@ -54,6 +56,13 @@ export class CreateMonthlyParkingComponent implements OnInit {
       })
       .then(() => this.getAntennasByParking())
       .then(() => {
+        return this.parkingService.getAllParking().then((parkings) => {
+          if (parkings.success) {
+            this.allParking = parkings.data.parkings
+          }
+        })
+      })
+      .then(() => {
         this.message.hideLoading()
       })
   }
@@ -67,6 +76,9 @@ export class CreateMonthlyParkingComponent implements OnInit {
 
   get completeNameSelected() {
     return `${this.userSelected.name} ${this.userSelected.last_name}`
+  }
+  get isSudo() {
+    return this.authService.isSudo
   }
 
   get isUnlimitedForm() {
@@ -168,22 +180,24 @@ export class CreateMonthlyParkingComponent implements OnInit {
     finish_date.setDate(finish_date.getDate() + 1)
     return {
       userId: this.userSelected.id,
-      parkingId: this.authService.getParking().id,
+      parkingId: this.monthlyForm.getRawValue().parkingId,
       amount: this.monthlyForm.controls['amount'].value,
       enables_days,
       isUnlimited: this.isUnlimitedForm.value,
       begin_date,
       finish_date,
       profile_subscription:
-      this.monthlyForm.controls['profile_subscription'].value
+      this.monthlyForm.getRawValue().profile_subscription
     }
   }
 
   cleanForm() {
-    this.monthlyForm.reset()
+    //this.monthlyForm.reset()
     this.userSelected = new MonthlyUserModel()
     this.userSearched = []
     this.isUnlimitedForm.setValue(true)
+    this.monthlyForm.getRawValue().profile_subscription = ''
+    this.monthlyForm.getRawValue().amount = ''
   }
 
   getProfiles() {
@@ -256,6 +270,7 @@ export class CreateMonthlyParkingComponent implements OnInit {
 
   createForm() {
     return this.formBuilder.group({
+      parkingId: [this.authService.getParking().id, [Validators.required]],
       amount: [null, [Validators.required, Validators.min(0)]],
       monday: [false],
       tuesday: [false],
@@ -264,7 +279,7 @@ export class CreateMonthlyParkingComponent implements OnInit {
       friday: [false],
       saturday: [false],
       sunday: [false],
-      telephone: [null],
+      telephone: [''],
       isUnlimited: [true],
       begin_date: [null],
       finish_date: [null],
