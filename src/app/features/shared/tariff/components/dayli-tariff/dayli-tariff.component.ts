@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {FormGroup} from "@angular/forms";
+import {UntypedFormGroup} from "@angular/forms";
 
 @Component({
   selector: 'app-dayli-tariff',
@@ -7,7 +7,7 @@ import {FormGroup} from "@angular/forms";
   styleUrls: ['./dayli-tariff.component.css']
 })
 export class DayliTariffComponent implements OnInit {
-  @Input() daysSelectedForm!: FormGroup
+  @Input() daysSelectedForm!: UntypedFormGroup
 
   constructor() {
   }

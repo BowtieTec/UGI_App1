@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core'
-import {FormBuilder, FormGroup, Validators} from '@angular/forms'
+import {UntypedFormBuilder, UntypedFormGroup, Validators} from '@angular/forms'
 import {CreateParkingFileModel} from 'src/app/features/parking/models/CreateParking.model'
 import {SettingsOptionsModel} from 'src/app/features/parking/models/SettingsOption.model'
 import {ParkingService} from 'src/app/features/parking/services/parking.service'
@@ -19,7 +19,7 @@ export class FileUploadComponent implements OnInit {
   fileLogo!: File
   backGroundApp!: File
   allParking: ParkingModel[] = []
-  stepFourForm: FormGroup = this.createForm()
+  stepFourForm: UntypedFormGroup = this.createForm()
   settingsOptions!: SettingsOptionsModel
 
   @Output() changeStep = new EventEmitter<number>()
@@ -29,7 +29,7 @@ export class FileUploadComponent implements OnInit {
   constructor(
     private message: MessageService,
     private parkingService: ParkingService,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private utilitiesService: UtilitiesService,
     private fileServices: FileUploadService
   ) {
@@ -72,7 +72,6 @@ export class FileUploadComponent implements OnInit {
     if (number == 1) {
 
       if (this.filesPlans) {
-        console.log(this.filesPlans);
         //Plans------------------------------------------
         const formData = new FormData()
         for (let i = 0; i < this.filesPlans.length; i++) {

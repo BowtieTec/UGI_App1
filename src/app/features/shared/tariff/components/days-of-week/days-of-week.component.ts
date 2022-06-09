@@ -1,5 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core'
-import { FormGroup } from '@angular/forms'
+import {Component, Input, OnInit} from '@angular/core'
+import {UntypedFormGroup} from '@angular/forms'
 
 @Component({
   selector: 'app-days-of-week',
@@ -7,9 +7,11 @@ import { FormGroup } from '@angular/forms'
   styleUrls: ['./days-of-week.component.css']
 })
 export class DaysOfWeekComponent implements OnInit {
-  @Input() daysSelectedForm!: FormGroup
+  @Input() daysSelectedForm!: UntypedFormGroup
 
-  constructor() {}
+  constructor() {
+  }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+  }
 }

@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core'
-import {FormBuilder, FormGroup, Validators} from '@angular/forms'
+import {UntypedFormBuilder, UntypedFormGroup, Validators} from '@angular/forms'
 import {MessageService} from '../../../../../shared/services/message.service'
 import {ParkingService} from '../../../services/parking.service'
 import {UtilitiesService} from '../../../../../shared/services/utilities.service'
@@ -21,7 +21,7 @@ import {ResponseModel} from '../../../../../shared/model/Request.model'
   styleUrls: ['./create-monthly-parking.component.css']
 })
 export class CreateMonthlyParkingComponent implements OnInit {
-  monthlyForm: FormGroup = this.createForm()
+  monthlyForm: UntypedFormGroup = this.createForm()
   currentDate: Date = new Date()
   userSelected: MonthlyUserModel = new MonthlyUserModel()
   userSearched: Array<MonthlyUserModel> = []
@@ -40,7 +40,7 @@ export class CreateMonthlyParkingComponent implements OnInit {
   private actions: string[] = this.permissionService.actionsOfPermissions
 
   constructor(
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private message: MessageService,
     private parkingService: ParkingService,
     private utilitiesService: UtilitiesService,

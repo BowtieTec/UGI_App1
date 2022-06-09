@@ -1,11 +1,11 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
-import { MessageService } from '../../../../../../shared/services/message.service'
-import { FormBuilder, FormGroup, Validators } from '@angular/forms'
-import { CountriesModel } from '../../../../models/Countries.model'
-import { ParkingService } from '../../../../services/parking.service'
-import { ResponseModel } from '../../../../../../shared/model/Request.model'
-import { CreateParkingStepOneModel } from '../../../../models/CreateParking.model'
-import { UtilitiesService } from '../../../../../../shared/services/utilities.service'
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core'
+import {MessageService} from '../../../../../../shared/services/message.service'
+import {UntypedFormBuilder, UntypedFormGroup, Validators} from '@angular/forms'
+import {CountriesModel} from '../../../../models/Countries.model'
+import {ParkingService} from '../../../../services/parking.service'
+import {ResponseModel} from '../../../../../../shared/model/Request.model'
+import {CreateParkingStepOneModel} from '../../../../models/CreateParking.model'
+import {UtilitiesService} from '../../../../../../shared/services/utilities.service'
 
 @Component({
   selector: 'app-general-data',
@@ -13,7 +13,7 @@ import { UtilitiesService } from '../../../../../../shared/services/utilities.se
   styleUrls: ['./general-data.component.css']
 })
 export class GeneralDataComponent implements OnInit {
-  stepOneForm: FormGroup = this.createForm()
+  stepOneForm: UntypedFormGroup = this.createForm()
   @Output() changeStep = new EventEmitter<number>()
   @Input() isPublic = false
   coords = {
@@ -29,9 +29,10 @@ export class GeneralDataComponent implements OnInit {
   constructor(
     private message: MessageService,
     private parkingService: ParkingService,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private utilitiesService: UtilitiesService
-  ) {}
+  ) {
+  }
 
   get ParkingId() {
     return this.parkingService.parkingStepOne.parkingId
@@ -42,7 +43,7 @@ export class GeneralDataComponent implements OnInit {
     this.getPosition()
       .then((r) => {
         if (this.coords.lng == 0 && this.coords.lat == 0) {
-          this.coords = { ...r }
+          this.coords = {...r}
         }
       })
       .catch(() => {
@@ -63,7 +64,7 @@ export class GeneralDataComponent implements OnInit {
   }
 
   addMapMark(event: google.maps.MapMouseEvent) {
-    this.coordsMark = { lat: event.latLng.lat(), lng: event.latLng.lng() }
+    this.coordsMark = {lat: event.latLng.lat(), lng: event.latLng.lng()}
   }
 
   getPosition(): Promise<any> {
@@ -161,7 +162,7 @@ export class GeneralDataComponent implements OnInit {
       parking_spaces: this.stepOneForm.controls['parking_spaces'].value,
       rules: this.stepOneForm.controls['rules'].value,
       special_parking_spaces:
-        this.stepOneForm.controls['special_parking_spaces'].value,
+      this.stepOneForm.controls['special_parking_spaces'].value,
       public: this.isPublic,
       is_draft: this.isPublic,
       is_TAS: this.stepOneForm.controls['is_TAS'].value,

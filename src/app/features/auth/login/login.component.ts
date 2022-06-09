@@ -1,8 +1,8 @@
-import { Component } from '@angular/core'
-import { FormBuilder, FormGroup, Validators } from '@angular/forms'
-import { AuthService } from '../../../shared/services/auth.service'
-import { MessageService } from '../../../shared/services/message.service'
-import { environment } from '../../../../environments/environment'
+import {Component} from '@angular/core'
+import {FormBuilder, FormGroup, Validators} from '@angular/forms'
+import {AuthService} from '../../../shared/services/auth.service'
+import {MessageService} from '../../../shared/services/message.service'
+import {environment} from '../../../../environments/environment'
 
 @Component({
   selector: 'app-login',
@@ -28,14 +28,14 @@ export class LoginComponent {
   }
 
   createForm() {
-    this.loginForm = this.formBuilder.group({
+    this.loginForm = this.formBuilder.nonNullable.group({
       email: [
         '',
-           [Validators.required,
-             Validators.pattern(
-               "^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$"
-             ),
-           ]
+        [Validators.required,
+          Validators.pattern(
+            "^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$"
+          ),
+        ]
       ],
       password: ['', [Validators.required, Validators.pattern(environment.settings.passwordPattern)]]
     })

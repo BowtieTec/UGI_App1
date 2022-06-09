@@ -1,5 +1,5 @@
 import {Component} from '@angular/core'
-import {FormBuilder, FormGroup, Validators} from '@angular/forms'
+import {UntypedFormBuilder, UntypedFormGroup, Validators} from '@angular/forms'
 import {Router} from '@angular/router'
 import {AuthModel} from 'src/app/shared/model/UserResponse.model'
 import {AuthService} from 'src/app/shared/services/auth.service'
@@ -15,14 +15,14 @@ import {SupportTicketService} from './Services/support-ticket.service'
   styleUrls: ['./new-ticket.component.css']
 })
 export class NewTicketComponent {
-  supportTicketForm: FormGroup
+  supportTicketForm: UntypedFormGroup
   date: Date = new Date()
   authData: AuthModel = this.authService.getUser()
 
 
   constructor(
     private permissionService: PermissionsService,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private authService: AuthService,
     private messageService: MessageService,
     private utilitiesService: UtilitiesService,

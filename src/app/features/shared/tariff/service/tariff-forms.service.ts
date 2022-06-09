@@ -1,12 +1,12 @@
 import {Injectable} from '@angular/core'
-import {FormBuilder, Validators} from '@angular/forms'
+import {UntypedFormBuilder, Validators} from '@angular/forms'
 import {DateGreaterValidations, NumberGreaterValidations} from '../../../../shared/validators/GreatherThan.validations'
 
 @Injectable({
   providedIn: 'root'
 })
 export class TariffFormsService {
-  constructor(private formBuilder: FormBuilder) {
+  constructor(private formBuilder: UntypedFormBuilder) {
   }
 
   createGeneralDataForm() {

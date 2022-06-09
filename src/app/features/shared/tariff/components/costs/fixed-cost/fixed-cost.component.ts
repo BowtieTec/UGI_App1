@@ -1,6 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core'
-import { UtilitiesService } from '../../../../../../shared/services/utilities.service'
-import { FormGroup } from '@angular/forms'
+import {Component, Input, OnInit} from '@angular/core'
+import {UtilitiesService} from '../../../../../../shared/services/utilities.service'
+import {UntypedFormGroup} from '@angular/forms'
 
 @Component({
   selector: 'app-fixed-cost',
@@ -9,13 +9,15 @@ import { FormGroup } from '@angular/forms'
 })
 export class FixedCostComponent implements OnInit {
   @Input() costType!: number
-  @Input() fixedCostForm!: FormGroup
+  @Input() fixedCostForm!: UntypedFormGroup
 
-  constructor(private utilitiesService: UtilitiesService) {}
+  constructor(private utilitiesService: UtilitiesService) {
+  }
 
   validateFixedCost(control: string) {
     return this.utilitiesService.controlInvalid(this.fixedCostForm, control)
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+  }
 }

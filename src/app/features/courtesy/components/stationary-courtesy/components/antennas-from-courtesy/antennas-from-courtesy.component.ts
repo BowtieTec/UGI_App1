@@ -1,13 +1,13 @@
-import { AfterViewInit, Component, EventEmitter, Input, OnDestroy, Output, ViewChild } from '@angular/core'
-import { CreateStation, StationsCourtesyModel } from '../../../../../parking/models/StationaryCourtesy.model'
-import { FormBuilder, FormGroup, Validators } from '@angular/forms'
-import { MessageService } from '../../../../../../shared/services/message.service'
-import { ParkingService } from '../../../../../parking/services/parking.service'
-import { ParkingModel } from '../../../../../parking/models/Parking.model'
-import { AuthService } from '../../../../../../shared/services/auth.service'
-import { DataTableDirective } from 'angular-datatables'
-import { Subject } from 'rxjs'
-import { DataTableOptions } from '../../../../../../shared/model/DataTableOptions'
+import {AfterViewInit, Component, EventEmitter, Input, OnDestroy, Output, ViewChild} from '@angular/core'
+import {CreateStation, StationsCourtesyModel} from '../../../../../parking/models/StationaryCourtesy.model'
+import {UntypedFormBuilder, UntypedFormGroup, Validators} from '@angular/forms'
+import {MessageService} from '../../../../../../shared/services/message.service'
+import {ParkingService} from '../../../../../parking/services/parking.service'
+import {ParkingModel} from '../../../../../parking/models/Parking.model'
+import {AuthService} from '../../../../../../shared/services/auth.service'
+import {DataTableDirective} from 'angular-datatables'
+import {Subject} from 'rxjs'
+import {DataTableOptions} from '../../../../../../shared/model/DataTableOptions'
 
 @Component({
   selector: 'app-antennas-from-courtesy',
@@ -18,23 +18,23 @@ export class AntennasFromCourtesyComponent implements AfterViewInit, OnDestroy {
   @Input() parkingId: string = this.authService.getParking().id
   @Output() stationsSaved = new EventEmitter<boolean>()
   stationsCourtesy: StationsCourtesyModel[] = []
-  antennasForm: FormGroup
+  antennasForm: UntypedFormGroup
   allParking: ParkingModel[] = Array<ParkingModel>()
 
   /*Table*/
   @ViewChild(DataTableDirective)
   dtElement!: DataTableDirective
   dtTrigger: Subject<any> = new Subject()
-  formGroup: FormGroup
+  formGroup: UntypedFormGroup
 
   constructor(
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private message: MessageService,
     private parkingService: ParkingService,
     private authService: AuthService
   ) {
     this.antennasForm = this.createAntennasForm()
-    this.formGroup = formBuilder.group({ filter: [''] })
+    this.formGroup = formBuilder.group({filter: ['']})
     this.getInitialData()
   }
 
@@ -77,13 +77,13 @@ export class AntennasFromCourtesyComponent implements AfterViewInit, OnDestroy {
   }
 
   async searchStationsByParking() {
-      const parkingId = this.antennasForm.controls['parkingId'].value
-      this.stationsCourtesy =
-        await this.parkingService.getAntennasWithStationaryCourtesy(parkingId)
-      if (this.stationsCourtesy) {
-        this.parkingId = parkingId
-        this.rerender()
-      }
+    const parkingId = this.antennasForm.controls['parkingId'].value
+    this.stationsCourtesy =
+      await this.parkingService.getAntennasWithStationaryCourtesy(parkingId)
+    if (this.stationsCourtesy) {
+      this.parkingId = parkingId
+      this.rerender()
+    }
 
   }
 

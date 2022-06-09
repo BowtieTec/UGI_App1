@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core'
-import {FormBuilder, FormGroup} from '@angular/forms'
+import {UntypedFormBuilder, UntypedFormGroup} from '@angular/forms'
 import {UtilitiesService} from '../../../shared/services/utilities.service'
 import {MessageService} from '../../../shared/services/message.service'
 import {HolidayInputModel} from './model/HolidayTariff.model'
@@ -33,22 +33,22 @@ export class TariffComponent implements OnInit {
   costType = 1
   tariffs: Array<any> = []
   createTariff = environment.createTariff
-  generalDataForm: FormGroup = this.tariffForms.createGeneralDataForm()
-  holidayForm: FormGroup = this.tariffForms.createHolidayOrRankForm()
-  rankForm: FormGroup = this.tariffForms.createHolidayOrRankForm()
-  blockForm: FormGroup = this.tariffForms.createBlockForm()
-  defaultForm: FormGroup = this.tariffForms.createDefaultForm()
-  dailyForm: FormGroup = this.tariffForms.createDailyForm()
-  prioriceForm: FormGroup = this.tariffForms.createPrioriceForm()
-  daysSelectedForm: FormGroup = this.tariffForms.createDaysSelectedForm()
-  principalScheduleForm: FormGroup =
+  generalDataForm: UntypedFormGroup = this.tariffForms.createGeneralDataForm()
+  holidayForm: UntypedFormGroup = this.tariffForms.createHolidayOrRankForm()
+  rankForm: UntypedFormGroup = this.tariffForms.createHolidayOrRankForm()
+  blockForm: UntypedFormGroup = this.tariffForms.createBlockForm()
+  defaultForm: UntypedFormGroup = this.tariffForms.createDefaultForm()
+  dailyForm: UntypedFormGroup = this.tariffForms.createDailyForm()
+  prioriceForm: UntypedFormGroup = this.tariffForms.createPrioriceForm()
+  daysSelectedForm: UntypedFormGroup = this.tariffForms.createDaysSelectedForm()
+  principalScheduleForm: UntypedFormGroup =
     this.tariffForms.createPrincipalScheduleForm()
 
-  hourAHalfForm: FormGroup = this.tariffForms.createHourHalfForm()
-  fixedCostForm: FormGroup = this.tariffForms.createFixedCostForm()
+  hourAHalfForm: UntypedFormGroup = this.tariffForms.createHourHalfForm()
+  fixedCostForm: UntypedFormGroup = this.tariffForms.createFixedCostForm()
 
   constructor(
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private utilitiesService: UtilitiesService,
     private messageService: MessageService,
     private parkingService: ParkingService,
