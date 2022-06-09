@@ -130,7 +130,13 @@ export class CourtesyComponent implements AfterViewInit, OnDestroy {
         this.messageService.hideLoading()
       })
   }
-
+get InputValueFromNewCourtesy(){
+    const type = this.newCourtesyForm.get('type')?.value
+  return type==0? 'Valor de tarifa fija':
+          type==1? 'Porcentaje de descuento':
+            type==2? 'Valor de descuento':
+              type==4? 'Cantidad de horas': 'Valor'
+}
   getCourtesy(): CourtesyModel {
     return {
       parkingId: this.parkingId,
