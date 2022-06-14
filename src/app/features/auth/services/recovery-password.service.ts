@@ -34,7 +34,7 @@ export class RecoveryPasswordService {
       `${this.apiUrl}backoffice/recovery-password/changePassword`,
       recoveryModel, {
         headers: {
-          'Authorization': `Bearer ${token}`
+          Authorization: `Bearer ${token}`
         }
       }
     )

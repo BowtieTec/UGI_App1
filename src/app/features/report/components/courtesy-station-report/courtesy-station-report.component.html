@@ -1,58 +1,63 @@
-<div class="row justify-content-center">
-  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 panelLeft animate__animated animate__fadeInLeft">
-    <div class="panels">
-      <div class="titleCards">
-        <span><i class="fas fa-sitemap"></i></span> Reporte de cortesias estacionarias
+<div class = "row justify-content-center">
+  <div class = "col-lg-12 col-md-12 col-sm-12 col-xs-12 panelLeft animate__animated animate__fadeInLeft">
+    <div class = "panelsWithOutMinHeight">
+      <div class = "titleCards">
+        <span><i class = "fas fa-sitemap"></i></span> Reporte de cortesias estacionarias
       </div>
-      <div class="row justify-content-center">
-        <div class="col-xl-4 col-lg-6 col-sm-12"
-             *ngIf="ifHaveAction(verTodosLosParqueosReport)">
-          <div class="mb-4 relative">
-            <label class="text-secondary" style="display:block">Parqueo</label>
+      <div class = "row justify-content-center">
+        <div *ngIf = "ifHaveAction(verTodosLosParqueosReport)"
+             class = "col-xl-4 col-lg-6 col-sm-12">
+          <div class = "mb-4 relative">
+            <label class = "text-secondary"
+                   style = "display:block">Parqueo</label>
             <select
               #inputParking
-              class="inputClass">
-              <option value="0">---- Todos los parqueos ----</option>
-              <option *ngFor="let parking of this.allParking"
-                      value="{{parking.id}}">{{parking.name}}</option>
+              class = "inputClass">
+              <option value = "0">---- Todos los parqueos ----</option>
+              <option *ngFor = "let parking of this.allParking"
+                      value = "{{parking.id}}">{{parking.name}}</option>
             </select>
 
           </div>
         </div>
-        <div class="col-xl-2 col-lg-6 col-sm-12">
-          <div class="mb-4 relative">
-            <label class="text-secondary" style="display:block">Fecha de inicio</label>
-            <input type="Date" #initDate
-                   class="form-control inputClass datetimepicker"
-                   name="initDate"
-                   for="initDate"
-                   placeholder="Fecha/Hora de entrada"
-                   max="{{nowDateTime | date: 'yyyy-MM-dd'}}"
-                   [value]="fechaActual"
+        <div class = "col-xl-2 col-lg-6 col-sm-12">
+          <div class = "mb-4 relative">
+            <label class = "text-secondary"
+                   style = "display:block">Fecha de inicio</label>
+            <input #initDate
+                   [value] = "fechaActual"
+                   class = "form-control inputClass datetimepicker"
+                   for = "initDate"
+                   max = "{{nowDateTime | date: 'yyyy-MM-dd'}}"
+                   name = "initDate"
+                   placeholder = "Fecha/Hora de entrada"
+                   type = "Date"
             >
 
           </div>
         </div>
-        <div class="col-xl-2 col-lg-6 col-sm-12">
-          <div class="mb-4 relative">
-            <label class="text-secondary" style="display:block">Fecha de fin</label>
+        <div class = "col-xl-2 col-lg-6 col-sm-12">
+          <div class = "mb-4 relative">
+            <label class = "text-secondary"
+                   style = "display:block">Fecha de fin</label>
             <input
-              type="date" #endDate
-              class="form-control inputClass datetimepicker"
-              name="endDate"
-              for="endDate"
-              placeholder="Fecha/Hora de salida"
-              max="{{nowDateTime | date: 'yyyy-MM-dd'}}"
-              [value]="fechaActual"
+              #endDate
+              [value] = "fechaActual"
+              class = "form-control inputClass datetimepicker"
+              for = "endDate"
+              max = "{{nowDateTime | date: 'yyyy-MM-dd'}}"
+              name = "endDate"
+              placeholder = "Fecha/Hora de salida"
+              type = "date"
             >
           </div>
         </div>
 
 
-        <div class="col-xl-12 col-lg-12 col-sm-12">
-          <div class="text-center">
-            <button class="btn btn-primary m-2"
-                    (click)="getCourtesyStationRpt(initDate.value,endDate.value)">Buscar
+        <div class = "col-xl-12 col-lg-12 col-sm-12">
+          <div class = "text-center">
+            <button (click) = "getCourtesyStationRpt(initDate.value,endDate.value)"
+                    class = "btn btn-primary m-2">Buscar
             </button>
           </div>
         </div>
@@ -60,69 +65,72 @@
 
     </div>
   </div>
-  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-    <div class="panels">
-      <div class="row">
-        <dx-data-grid id="gridContainer" [dataSource]="dataSource" [showBorders]="true">
+  <div class = "col-lg-12 col-md-12 col-sm-12 col-xs-12">
+    <div class = "panels">
+      <div class = "row">
+        <dx-data-grid [dataSource] = "dataSource"
+                      [showBorders] = "true"
+                      id = "gridContainer">
           <dxi-column
-            dataField="cs_name"
-            caption="Cortesía"
-            [width]="300"
+            [width] = "300"
+            caption = "Cortesía"
+            dataField = "cs_name"
           ></dxi-column>
           <dxi-column
-            dataField="parqueo"
-            caption="Parqueo"
+            caption = "Parqueo"
+            dataField = "parqueo"
           ></dxi-column>
           <dxi-column
-            dataField="comercio"
-            caption="Local"
+            caption = "Local"
+            dataField = "comercio"
           ></dxi-column>
           <dxi-column
-            dataField="cd_type"
-            caption="Tipo"
+            caption = "Tipo"
+            dataField = "cd_type"
           ></dxi-column>
           <dxi-column
-            dataField="cd_quantity"
-            caption="Cortesias"
-            dataType="number"
+            caption = "Cortesias"
+            dataField = "cd_quantity"
+            dataType = "number"
           ></dxi-column>
           <dxi-column
-            dataField="cd_value"
-            caption="Descuento por cortesias"
-            dataType="number"
-            format="currency"
-            format="Q ,###,###,##0.00"
+            caption = "Descuento por cortesias"
+            dataField = "cd_value"
+            dataType = "number"
+            format = "currency"
+            format = "Q ,###,###,##0.00"
           ></dxi-column>
           <dxi-column
-            dataField="transacciones"
-            caption="Transacciones"
-            dataType="number"
+            caption = "Transacciones"
+            dataField = "transacciones"
+            dataType = "number"
           ></dxi-column>
           <dxi-column
-            dataField="disponibles"
-            caption="Disponibles"
-            dataType="number"
+            caption = "Disponibles"
+            dataField = "disponibles"
+            dataType = "number"
           ></dxi-column>
           <dxi-column
-            dataField="total_descuento"
-            caption="Total descuento"
-            dataType="number"
-            format="currency"
-            format="Q ,###,###,##0.00"
+            caption = "Total descuento"
+            dataField = "total_descuento"
+            dataType = "number"
+            format = "currency"
+            format = "Q ,###,###,##0.00"
           ></dxi-column>
-          <dxo-header-filter [visible]="true"></dxo-header-filter>
-          <dxo-search-panel [visible]="true" placeholder="Buscar..."></dxo-search-panel>
+          <dxo-header-filter [visible] = "true"></dxo-header-filter>
+          <dxo-search-panel [visible] = "true"
+                            placeholder = "Buscar..."></dxo-search-panel>
           <dxo-toolbar>
-            <dxi-item location="after">
+            <dxi-item location = "after">
               <dx-button
-                icon="xlsxfile"
-                text="Exportar a Excel"
-                (onClick)="onExporting($event)"
+                (onClick) = "onExporting($event)"
+                icon = "xlsxfile"
+                text = "Exportar a Excel"
               ></dx-button>
             </dxi-item>
-            <dxi-item name="searchPanel"></dxi-item>
+            <dxi-item name = "searchPanel"></dxi-item>
           </dxo-toolbar>
-          <dxo-export [enabled]="true"></dxo-export>
+          <dxo-export [enabled] = "true"></dxo-export>
         </dx-data-grid>
       </div>
     </div>

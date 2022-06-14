@@ -2,10 +2,9 @@
       class = "needs-validation form-group"
       id = "form-wrapper"
       method = "post"
-      name = "form-wrapper"
-      novalidate = "">
+      name = "form-wrapper">
   <div *ngIf = "settingsOptions"
-       class = "container form-group panels animate__animated animate__fadeInLeft"
+       class = "form-group panels animate__animated animate__fadeInLeft"
        id = "steps-container">
     <div class = 'titleCards '>
       <span> <em class = 'fas fa-imges'></em></span> Archivos
@@ -118,13 +117,13 @@
               type = "button">Siguiente
       </button>
     </div>
-  </div>
-  <div *ngIf = "!isCreatingParking"
-       class = "text-center"
-       id = "saveButton">
-    <button (click) = "emmitStep(1)"
-            class = "btn btn-primary m-2"
-            type = "button">Guardar
-    </button>
+    <div *ngIf = "!isCreatingParking"
+         class = "text-center"
+         id = "saveButton">
+      <button (click) = "emmitStep(1)"
+              class = "btn btn-primary m-2"
+              type = "button">Guardar
+      </button>
+    </div>
   </div>
 </form>

@@ -141,9 +141,6 @@ export class ParkedComponent implements OnDestroy, AfterViewInit {
   async getStatusToSave(parked_type: number) {
     let status = 3
     if (parked_type == 0) {
-      if (this.ifHaveAction(this.getOutWithoutPayment)) {
-        status = 2
-      }
       if (
         this.ifHaveAction(this.getOutWithoutPayment) &&
         this.ifHaveAction(this.getOutWithPayment)
@@ -151,6 +148,7 @@ export class ParkedComponent implements OnDestroy, AfterViewInit {
         const statusWillUpdate = await this.messageService.areYouSureWithCancelAndInput(
           '¿Dejar salir a usuario con el cobro pendiente o cancelado?',
           'Cobrar parqueo',
+          'Sacar sin cobrar',
           this.dateOutToGetOut
         )
         if (statusWillUpdate.isConfirmed) status = 3

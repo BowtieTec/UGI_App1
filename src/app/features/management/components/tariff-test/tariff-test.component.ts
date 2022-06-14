@@ -83,8 +83,6 @@ export class TariffTestComponent {
       .then((x) => x.ticket)
 
     this.addItem(this.ticket)
-    this.tariffTestForm.reset()
-    this.resetTestForm()
   }
 
   validateDateForm(control: string) {
@@ -143,6 +141,5 @@ export class TariffTestComponent {
       this.ListTicketTest.unshift(ticketTest)
       sessionStorage.setItem('tariffTest', JSON.stringify(this.ListTicketTest))
     }
-
   }
 }
