@@ -148,17 +148,20 @@ export class MessageService {
 
   async areYouSureWithCancelAndInput(
     title: string,
-    denyButtonText = 'No',
+    denyButtonText: string,
+    confirmButtonText: string,
     output?: Date
   ) {
     return Swal.fire({
       denyButtonColor: '#415ba1',
+      confirmButtonColor: '#05ccae',
       title,
       showDenyButton: true,
       showCancelButton: true,
-      showConfirmButton: false,
+      showConfirmButton: true,
       allowOutsideClick: false,
       denyButtonText,
+      confirmButtonText,
       html: `
         <div>
         <label class = ""

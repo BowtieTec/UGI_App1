@@ -83,7 +83,6 @@ export class TariffTestComponent {
       .then((x) => x.ticket)
 
     this.addItem(this.ticket)
-    this.tariffTestForm.reset()
   }
 
   validateDateForm(control: string) {

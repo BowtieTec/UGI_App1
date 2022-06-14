@@ -6,7 +6,7 @@
                 <span>
                     <i aria-hidden = "true"
                        class = "fas fa-info-circle"></i>
-                </span> Pantalla de pruebas
+                </span> Pruebas de tarifa
       </div>
       ​
       <div class = "row">
@@ -45,14 +45,14 @@
           </app-input-container>
         </div>
       </div>
-      <div *ngIf = "this.ticket.hour || this.ticket.minute || this.ticket.days"
-           class = "row">
+      <div
+        class = "row">
         <div class = "col-md-6">
           <b>Tiempo Total:</b>
           <br>
-          <p *ngIf = "this.ticket.days != 0"> Días: {{this.ticket.days}} </p>
-          <p *ngIf = "this.ticket.hour != 0"> Horas: {{this.ticket.hour}} </p>
-          <p *ngIf = "this.ticket.minute != 0"> Min.: {{this.ticket.minute}} </p>
+          <p *ngIf = "this.ticket.days > 0"> Días: {{this.ticket.days}} </p>
+          <p *ngIf = "this.ticket.hour > 0"> Horas: {{this.ticket.hour}} </p>
+          <p *ngIf = "this.ticket.minute > 0"> Min.: {{this.ticket.minute}} </p>
         </div>
         <div class = "col-md-6 ">
           <b>Total a pagar:</b><br><br><b><h4>{{this.ticket.amount | currency:'GTQ'}}</h4></b>
