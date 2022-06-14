@@ -1,5 +1,5 @@
 import {AfterViewInit, Component, Input, OnDestroy, ViewChild} from '@angular/core'
-import {UntypedFormBuilder, UntypedFormGroup, Validators} from '@angular/forms'
+import { FormGroup, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms'
 import {MessageService} from '../../../../shared/services/message.service'
 import {ParkingService} from '../../../parking/services/parking.service'
 import {UtilitiesService} from '../../../../shared/services/utilities.service'
@@ -26,7 +26,7 @@ export class StationaryCourtesyComponent implements AfterViewInit, OnDestroy {
   loading = true
   @Input() parkingId: string = this.authService.getParking().id
   allCompanies: CompaniesModel[] = []
-  stationaryForm: UntypedFormGroup
+  stationaryForm: FormGroup
   courtesyTypes: CourtesyTypeModel[] = []
   idEditAntenna = ''
   allParking: ParkingModel[] = Array<ParkingModel>()
@@ -77,7 +77,8 @@ export class StationaryCourtesyComponent implements AfterViewInit, OnDestroy {
   get stationaryCourtesiesFormValue(): CreateStationaryCourtesy {
     return {
       parkingId: this.stationaryForm.get('parkingId')?.value,
-      value: this.stationaryForm.get('value')?.value,
+      value: this.stationaryForm.get('value')?.value + (this.stationaryForm.get('valueTimeMinutes')?.value /60),
+      valueTimeMinutes: this.stationaryForm.get('valueTimeMinutes')?.value,
       type: this.stationaryForm.get('type')?.value,
       name: this.stationaryForm.get('name')?.value,
       stationId: this.stationaryForm.get('stationId')?.value,
@@ -98,7 +99,8 @@ export class StationaryCourtesyComponent implements AfterViewInit, OnDestroy {
   createForm(): UntypedFormGroup {
     return this.formBuilder.group({
       parkingId: [this.authService.getParking().id, [Validators.required]],
-      value: ['', [Validators.required, Validators.min(1)]],
+      value: ['', [Validators.required, Validators.min(0)]],
+      valueTimeMinutes: [0, [Validators.max(60), Validators.min(0)]],
       type: ['0', [Validators.required]],
       name: ['', [Validators.required]],
       stationId: ['0', [Validators.required]],
@@ -113,6 +115,7 @@ export class StationaryCourtesyComponent implements AfterViewInit, OnDestroy {
       .getTypes()
       .toPromise()
       .then((x) => {
+        console.log(x)
         return x.data.type.filter((x: any) => x.id != 3)
       })
   }
@@ -154,7 +157,7 @@ export class StationaryCourtesyComponent implements AfterViewInit, OnDestroy {
       ])
         .then((resp) => {
           this.allParking = resp[0]
-          this.typeCourtesies = resp[1].filter(x => x.id <= 2)
+          this.typeCourtesies = resp[1]
           this.stationsCourtesies = resp[2]
           this.courtesyTypes = resp[3].data.type
           this.allCompanies = resp[4]
@@ -178,7 +181,8 @@ export class StationaryCourtesyComponent implements AfterViewInit, OnDestroy {
 
   cleanForm() {
     this.stationaryForm.reset()
-    this.stationaryForm.get('value')?.setValue('')
+    this.stationaryForm.get('value')?.setValue('0')
+    this.stationaryForm.get('valueTimeMinutes')?.setValue('0')
     this.stationaryForm.get('type')?.setValue('0')
     this.stationaryForm.get('name')?.setValue('')
     this.stationaryForm.get('stationId')?.setValue('0')
@@ -210,7 +214,13 @@ export class StationaryCourtesyComponent implements AfterViewInit, OnDestroy {
   downloadQR(antenna: StationsCourtesyModel) {
     this.message.infoTimeOut('Funcion en construccion')
   }
-
+  get InputValueFromNewCourtesy(){
+    const type = this.stationaryForm.getRawValue().type
+    return type==0? 'Valor de tarifa fija':
+      type==1? 'Porcentaje de descuento':
+        type==2? 'Valor de descuento':
+          type==4? 'Cantidad de horas': 'Valor'
+  }
   getTypeDescription(id: number) {
     const newDescription = this.courtesyTypes.find((x) => x.id == id)
     return newDescription == undefined
