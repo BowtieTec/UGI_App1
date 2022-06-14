@@ -44,4 +44,5 @@ export class CreateStationaryCourtesy {
   condition= 0
   companyId = 0
   cantHours = 0
+  valueTimeMinutes= 0
 }
