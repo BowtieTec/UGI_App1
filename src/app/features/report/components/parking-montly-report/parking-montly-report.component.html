@@ -90,11 +90,11 @@
             type = "text"
           ></dxi-column>
           <dxi-column
-            [allowSorting] = 'true'
-            caption = "Teléfono"
-            dataField = "u_phone_number"
-            type = "text"
-            width = '125'
+            caption="Teléfono"
+            dataField="phone_key"
+            [allowSorting]='true'
+            type="text"
+            width='125'
           ></dxi-column>
           <dxi-column
             [allowSorting] = 'true'
@@ -110,9 +110,13 @@
             type = "text"
           ></dxi-column>
           <dxi-column
-            [allowSorting] = 'true'
-            caption = "Estado"
-            dataField = "estadoSuscripcion"
+            dataField="estadoSuscripcion"[allowSorting]='true'
+            caption="Estado"
+          ></dxi-column>
+          <dxi-column
+            caption="No. Factura"
+            dataField="Estado_Factura"[allowSorting]='true'
+            type="text"
           ></dxi-column>
           <dxo-header-filter [visible] = "true"></dxo-header-filter>
           <dxo-search-panel [visible] = "true"
