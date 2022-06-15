@@ -43,7 +43,7 @@
                     </app-select-container>
 
                 </div>
-                <div class = 'col-md-6 col-sm-12'>
+                <div class = 'col-md-4 col-sm-12'>
 
                     <app-input-container
                       [formGroup] = 'stationaryForm'
@@ -52,14 +52,22 @@
                     </app-input-container>
 
               </div>
-          <div class = 'col-md-6 col-sm-12'>
+                <div class = 'col-md-4 col-sm-12'>
                     <app-input-container
                       [formGroup] = 'stationaryForm'
                       controlName = 'value'
-                      name = 'Valor de la cortesia'
+                      name = '{{this.InputValueFromNewCourtesy}}'
                       type = 'number'>
                     </app-input-container>
-
+                </div>
+                <div class = 'col-xl-4 col-lg-4 col-sm-12 animate__animated animate__fadeInDown'
+                     *ngIf='this.stationaryCourtesiesFormValue.type == 4'>
+                  <app-input-container
+                    [formGroup] = 'this.stationaryForm'
+                    controlName = 'valueTimeMinutes'
+                    name = 'Cantidad de minutos'
+                    type = 'number'>
+                  </app-input-container>
                 </div>
                 <div class = 'col-md-6 col-sm-12 '>
                   <div class='relative'>

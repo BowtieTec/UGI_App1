@@ -14,6 +14,7 @@ export class CourtesyModel {
   companyId?: string = ''
   condition? = 0
   cantHours? = 0
+  valueTimeMinutes? = 0
 }
 
 class CompanyModel {

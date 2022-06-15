@@ -527,7 +527,6 @@ export class BarChartComponent implements OnInit {
               }
             })
           }
-          console.log(data)
         }
 
         this.messageService.hideLoading()
