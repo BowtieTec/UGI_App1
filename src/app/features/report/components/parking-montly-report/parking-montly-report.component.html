@@ -71,10 +71,11 @@
                       id = "gridContainer">
           <dxi-column
             [allowSorting] = 'true'
-            caption = "Tipo parqueo"
-            dataField = "isUnlimited"
-            width = "120"
+            caption = "Nombre"
+            dataField = "full_name"
+            type = "text"
           ></dxi-column>
+
           <dxi-column
             [allowSorting] = 'true'
             caption = "Monto"
@@ -83,12 +84,7 @@
             type = "currency"
             width = "90"
           ></dxi-column>
-          <dxi-column
-            [allowSorting] = 'true'
-            caption = "Nombre"
-            dataField = "full_name"
-            type = "text"
-          ></dxi-column>
+
           <dxi-column
             [allowSorting] = 'true'
             caption = "Teléfono"
@@ -98,9 +94,9 @@
           ></dxi-column>
           <dxi-column
             [allowSorting] = 'true'
-            caption = "Correo"
-            dataField = "email"
-            type = "text"
+            caption = "Tipo parqueo"
+            dataField = "isUnlimited"
+            width = "120"
           ></dxi-column>
           <dxi-column
             [allowSorting] = 'true'
@@ -108,6 +104,23 @@
             caption = "Perfil de acceso"
             dataField = "suscripcion"
             type = "text"
+          ></dxi-column>
+          <dxi-column
+            [allowSorting] = 'true'
+            [customizeText] = "datetime"
+            caption = "Ultimo pago"
+            dataField = "ultimo_pago"
+            type = "text"
+            width = "180"
+          ></dxi-column>
+
+          <dxi-column
+            [allowSorting] = 'true'
+            caption = "Monto"
+            dataField = "ms_amount"
+            format = "Q ,###,###,##0.00"
+            type = "currency"
+            width = "90"
           ></dxi-column>
           <dxi-column
             [allowSorting] = 'true'
