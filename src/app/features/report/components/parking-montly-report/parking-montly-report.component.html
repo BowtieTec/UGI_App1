@@ -92,7 +92,7 @@
           <dxi-column
             [allowSorting] = 'true'
             caption = "Teléfono"
-            dataField = "u_phone_number"
+            dataField = "phone_key"
             type = "text"
             width = '125'
           ></dxi-column>
@@ -113,6 +113,12 @@
             [allowSorting] = 'true'
             caption = "Estado"
             dataField = "estadoSuscripcion"
+          ></dxi-column>
+          <dxi-column
+            [allowSorting] = 'true'
+            caption = "No. Factura"
+            dataField = "Estado_Factura"
+            type = "text"
           ></dxi-column>
           <dxo-header-filter [visible] = "true"></dxo-header-filter>
           <dxo-search-panel [visible] = "true"

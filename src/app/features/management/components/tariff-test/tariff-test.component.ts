@@ -1,6 +1,6 @@
 import {Component} from '@angular/core'
 import {PermissionsService} from 'src/app/shared/services/permissions.service'
-import {UntypedFormBuilder, UntypedFormGroup, Validators} from '@angular/forms'
+import {FormGroup, UntypedFormBuilder, Validators} from '@angular/forms'
 import {AuthService} from 'src/app/shared/services/auth.service'
 import {ParkingModel} from 'src/app/features/parking/models/Parking.model'
 import {ParkingService} from 'src/app/features/parking/services/parking.service'
@@ -19,7 +19,7 @@ import {environment} from '../../../../../environments/environment'
   styleUrls: ['./tariff-test.component.css']
 })
 export class TariffTestComponent {
-  tariffTestForm: UntypedFormGroup
+  tariffTestForm: FormGroup
   allParkingLot: ParkingModel[] = []
   courtesies: CourtesyModel[] = []
   ticket: TicketTestModule
@@ -78,12 +78,16 @@ export class TariffTestComponent {
       return
     }
     const newTest = this.formTariffTestValues
+    if (newTest.entry_date > newTest.exit_date) {
+      this.messageService.error('', 'Datos no válidos, la fecha de salida debe ser mayor o igual a la de entrada')
+      return
+    }
+
     this.ticket = await this.testService
       .getTariffTest(newTest)
       .then((x) => x.ticket)
 
     this.addItem(this.ticket)
-    this.tariffTestForm.reset()
   }
 
   validateDateForm(control: string) {
