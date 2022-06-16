@@ -1,21 +1,21 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core'
-import { DxDataGridComponent } from 'devextreme-angular'
-import { DataTableDirective } from 'angular-datatables'
-import { Subject } from 'rxjs'
-import { ParkingModel } from '../../../parking/models/Parking.model'
-import { environment } from '../../../../../environments/environment'
-import { AuthService } from '../../../../shared/services/auth.service'
-import { ReportService } from '../service/report.service'
-import { MessageService } from '../../../../shared/services/message.service'
-import { UtilitiesService } from '../../../../shared/services/utilities.service'
-import { PermissionsService } from '../../../../shared/services/permissions.service'
-import { ParkingService } from '../../../parking/services/parking.service'
-import { DataTableOptions } from '../../../../shared/model/DataTableOptions'
-import { jsPDF } from 'jspdf'
-import { exportDataGrid as exportDataGridToPdf } from 'devextreme/pdf_exporter'
-import { Workbook } from 'exceljs'
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core'
+import {DxDataGridComponent} from 'devextreme-angular'
+import {DataTableDirective} from 'angular-datatables'
+import {Subject} from 'rxjs'
+import {ParkingModel} from '../../../parking/models/Parking.model'
+import {environment} from '../../../../../environments/environment'
+import {AuthService} from '../../../../shared/services/auth.service'
+import {ReportService} from '../service/report.service'
+import {MessageService} from '../../../../shared/services/message.service'
+import {UtilitiesService} from '../../../../shared/services/utilities.service'
+import {PermissionsService} from '../../../../shared/services/permissions.service'
+import {ParkingService} from '../../../parking/services/parking.service'
+import {DataTableOptions} from '../../../../shared/model/DataTableOptions'
+import {jsPDF} from 'jspdf'
+import {exportDataGrid as exportDataGridToPdf} from 'devextreme/pdf_exporter'
+import {Workbook} from 'exceljs'
 import * as logoFile from '../logoEbi'
-import { saveAs } from 'file-saver'
+import {saveAs} from 'file-saver'
 
 
 export interface billingData {
@@ -37,7 +37,7 @@ export interface billingData {
 })
 export class BillingReportComponent implements OnInit {
 
-  @ViewChild(DxDataGridComponent, { static: false })
+  @ViewChild(DxDataGridComponent, {static: false})
   dataGrid!: DxDataGridComponent
   dtElement!: DataTableDirective
   dtOptions: DataTables.Settings = {}
@@ -45,7 +45,7 @@ export class BillingReportComponent implements OnInit {
   pdfTable!: ElementRef
 
   report: billingData[] = []
-    dataSource: any
+  dataSource: any
   parqueo: any
 
   allParking: ParkingModel[] = Array<ParkingModel>()
@@ -68,8 +68,8 @@ export class BillingReportComponent implements OnInit {
     private permisionService: PermissionsService,
     private excelService: ReportService,
     private parkingService: ParkingService
-
-  ) { }
+  ) {
+  }
 
   ngOnInit(): void {
     this.messageService.showLoading()
@@ -96,8 +96,8 @@ export class BillingReportComponent implements OnInit {
       )
       return
     }
-    this.startDateReport = new Date(initDate+'T00:00:00').toLocaleDateString('es-GT')
-    this.endDateReport = new Date(endDate+'T00:00:00').toLocaleDateString('es-GT')
+    this.startDateReport = new Date(initDate + 'T00:00:00').toLocaleDateString('es-GT')
+    this.endDateReport = new Date(endDate + 'T00:00:00').toLocaleDateString('es-GT')
 
     this.parqueo = this.datosUsuarioLogeado.id
     if (this.ifHaveAction('verTodosLosParqueosReport')) {
@@ -180,19 +180,19 @@ export class BillingReportComponent implements OnInit {
     worksheet.addRow([])
 
     const busienssRow = worksheet.addRow(['', '', '', 'ebiGO'])
-    busienssRow.font = { name: 'Calibri', family: 4, size: 11, bold: true }
-    busienssRow.alignment = { horizontal: 'center', vertical: 'middle' }
+    busienssRow.font = {name: 'Calibri', family: 4, size: 11, bold: true}
+    busienssRow.alignment = {horizontal: 'center', vertical: 'middle'}
     busienssRow.eachCell((cell, number) => {
       if (number > 1) {
         cell.border = {
-          top: { style: 'thin' },
-          left: { style: 'thin' },
-          bottom: { style: 'thin' },
-          right: { style: 'thin' }
+          top: {style: 'thin'},
+          left: {style: 'thin'},
+          bottom: {style: 'thin'},
+          right: {style: 'thin'}
         }
       }
     })
-    worksheet.mergeCells('D2:G3')
+    worksheet.mergeCells('D2:I3')
     let ParqueoReporte = 'Todos los parqueos'
     if (this.parqueo != '0') {
       const parqueoEncontrado = this.allParking.find(
@@ -203,29 +203,29 @@ export class BillingReportComponent implements OnInit {
       }
     }
     const addressRow = worksheet.addRow(['', '', '', ParqueoReporte])
-    addressRow.font = { name: 'Calibri', family: 4, size: 11, bold: true }
-    addressRow.alignment = { horizontal: 'center', vertical: 'middle' }
+    addressRow.font = {name: 'Calibri', family: 4, size: 11, bold: true}
+    addressRow.alignment = {horizontal: 'center', vertical: 'middle'}
     addressRow.eachCell((cell, number) => {
       if (number > 1) {
         cell.border = {
-          top: { style: 'thin' },
-          left: { style: 'thin' },
-          bottom: { style: 'thin' },
-          right: { style: 'thin' }
+          top: {style: 'thin'},
+          left: {style: 'thin'},
+          bottom: {style: 'thin'},
+          right: {style: 'thin'}
         }
       }
     })
     worksheet.mergeCells('D4:G5')
     const titleRow = worksheet.addRow(['', '', '', 'Reporte - ebiGO Facturación'])
-    titleRow.font = { name: 'Calibri', family: 4, size: 11, bold: true }
-    titleRow.alignment = { horizontal: 'center', vertical: 'middle' }
+    titleRow.font = {name: 'Calibri', family: 4, size: 11, bold: true}
+    titleRow.alignment = {horizontal: 'center', vertical: 'middle'}
     titleRow.eachCell((cell, number) => {
       if (number > 1) {
         cell.border = {
-          top: { style: 'thin' },
-          left: { style: 'thin' },
-          bottom: { style: 'thin' },
-          right: { style: 'thin' }
+          top: {style: 'thin'},
+          left: {style: 'thin'},
+          bottom: {style: 'thin'},
+          right: {style: 'thin'}
         }
       }
     })
@@ -239,15 +239,15 @@ export class BillingReportComponent implements OnInit {
     worksheet.addImage(logo, 'B3:C6')
     worksheet.addRow([])
     const infoRow = worksheet.addRow(['', 'Información General'])
-    infoRow.font = { name: 'Calibri', family: 4, size: 11, bold: true }
-    infoRow.alignment = { horizontal: 'center', vertical: 'middle' }
+    infoRow.font = {name: 'Calibri', family: 4, size: 11, bold: true}
+    infoRow.alignment = {horizontal: 'center', vertical: 'middle'}
     infoRow.eachCell((cell, number) => {
       if (number > 1) {
         cell.border = {
-          top: { style: 'thin' },
-          left: { style: 'thin' },
-          bottom: { style: 'thin' },
-          right: { style: 'thin' }
+          top: {style: 'thin'},
+          left: {style: 'thin'},
+          bottom: {style: 'thin'},
+          right: {style: 'thin'}
         }
       }
     })
@@ -265,10 +265,10 @@ export class BillingReportComponent implements OnInit {
     header1.eachCell((cell, number) => {
       if (number > 1) {
         cell.border = {
-          top: { style: 'thin' },
-          left: { style: 'thin' },
-          bottom: { style: 'thin' },
-          right: { style: 'thin' }
+          top: {style: 'thin'},
+          left: {style: 'thin'},
+          bottom: {style: 'thin'},
+          right: {style: 'thin'}
         }
       }
     })
@@ -289,10 +289,10 @@ export class BillingReportComponent implements OnInit {
     header2.eachCell((cell, number) => {
       if (number > 1) {
         cell.border = {
-          top: { style: 'thin' },
-          left: { style: 'thin' },
-          bottom: { style: 'thin' },
-          right: { style: 'thin' }
+          top: {style: 'thin'},
+          left: {style: 'thin'},
+          bottom: {style: 'thin'},
+          right: {style: 'thin'}
         }
       }
     })
@@ -307,14 +307,14 @@ export class BillingReportComponent implements OnInit {
         cell.fill = {
           type: 'pattern',
           pattern: 'solid',
-          fgColor: { argb: 'FFFFFF00' },
-          bgColor: { argb: 'FF0000FF' }
+          fgColor: {argb: 'FFFFFF00'},
+          bgColor: {argb: 'FF0000FF'}
         }
         cell.border = {
-          top: { style: 'thin' },
-          left: { style: 'thin' },
-          bottom: { style: 'thin' },
-          right: { style: 'thin' }
+          top: {style: 'thin'},
+          left: {style: 'thin'},
+          bottom: {style: 'thin'},
+          right: {style: 'thin'}
         }
       }
     })
@@ -333,10 +333,10 @@ export class BillingReportComponent implements OnInit {
       row.eachCell((cell, number) => {
         if (number > 1) {
           cell.border = {
-            top: { style: 'thin' },
-            left: { style: 'thin' },
-            bottom: { style: 'thin' },
-            right: { style: 'thin' }
+            top: {style: 'thin'},
+            left: {style: 'thin'},
+            bottom: {style: 'thin'},
+            right: {style: 'thin'}
           }
         }
       })

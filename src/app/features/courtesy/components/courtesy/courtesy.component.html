@@ -60,6 +60,15 @@
                 type = 'number'>
               </app-input-container>
             </div>
+            <div class = 'col-xl-4 col-lg-4 col-sm-12 animate__animated animate__fadeInDown'
+                 *ngIf='this.getCourtesy().type == 4'>
+              <app-input-container
+                [formGroup] = 'newCourtesyForm'
+                controlName = 'valueTimeMinutes'
+                name = 'Cantidad de minutos'
+                type = 'number'>
+              </app-input-container>
+            </div>
           </div>
           <div class = 'row justify-content-center'>
             <div class = 'col-xl-4 col-lg-4 col-sm-12'>
