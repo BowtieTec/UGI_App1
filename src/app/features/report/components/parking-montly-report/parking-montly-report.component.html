@@ -71,11 +71,10 @@
                       id = "gridContainer">
           <dxi-column
             [allowSorting] = 'true'
-            caption = "Nombre"
-            dataField = "full_name"
-            type = "text"
+            caption = "Tipo parqueo"
+            dataField = "isUnlimited"
+            width = "120"
           ></dxi-column>
-
           <dxi-column
             [allowSorting] = 'true'
             caption = "Monto"
@@ -84,19 +83,24 @@
             type = "currency"
             width = "90"
           ></dxi-column>
-
+          <dxi-column
+            [allowSorting] = 'true'
+            caption = "Nombre"
+            dataField = "full_name"
+            type = "text"
+          ></dxi-column>
           <dxi-column
             [allowSorting] = 'true'
             caption = "Teléfono"
-            dataField = "u_phone_number"
+            dataField = "phone_key"
             type = "text"
             width = '125'
           ></dxi-column>
           <dxi-column
             [allowSorting] = 'true'
-            caption = "Tipo parqueo"
-            dataField = "isUnlimited"
-            width = "120"
+            caption = "Correo"
+            dataField = "email"
+            type = "text"
           ></dxi-column>
           <dxi-column
             [allowSorting] = 'true'
@@ -107,25 +111,14 @@
           ></dxi-column>
           <dxi-column
             [allowSorting] = 'true'
-            [customizeText] = "datetime"
-            caption = "Ultimo pago"
-            dataField = "ultimo_pago"
-            type = "text"
-            width = "180"
-          ></dxi-column>
-
-          <dxi-column
-            [allowSorting] = 'true'
-            caption = "Monto"
-            dataField = "ms_amount"
-            format = "Q ,###,###,##0.00"
-            type = "currency"
-            width = "90"
-          ></dxi-column>
-          <dxi-column
-            [allowSorting] = 'true'
             caption = "Estado"
             dataField = "estadoSuscripcion"
+          ></dxi-column>
+          <dxi-column
+            [allowSorting] = 'true'
+            caption = "No. Factura"
+            dataField = "Estado_Factura"
+            type = "text"
           ></dxi-column>
           <dxo-header-filter [visible] = "true"></dxo-header-filter>
           <dxo-search-panel [visible] = "true"
