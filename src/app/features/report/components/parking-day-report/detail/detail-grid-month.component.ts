@@ -230,9 +230,7 @@ export class DetailGridMonthComponent implements AfterViewInit {
         '',
         d.fecha ? new Date(d.fecha).toLocaleDateString() : ' ',
         d.phone_key,
-        d.total,
-        d.descuento,
-        d.pagado
+
       ])
       row.eachCell((cell, number) => {
         if (number > 1) {

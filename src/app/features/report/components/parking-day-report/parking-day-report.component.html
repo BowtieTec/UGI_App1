@@ -66,24 +66,46 @@
         <dx-data-grid [dataSource] = "dataSource"
                       [showBorders] = "true"
                       id = "gridContainer"
-                      keyExpr = "fecha">
-          <dxi-column caption = "Fecha"
-                      dataField = "fecha"
-                      dataType = "date"
-                      format = "dd/MM/yyyy hh:mm a "
-                      sortOrder = "asc"
+                      keyExpr = "id">
+          <dxi-column
+            caption = "Nombre"
+            dataField = "user.name"
+            dataType = "text"
           ></dxi-column>
           <dxi-column
-            caption = "Total de vehículos"
-            dataField = "total_v"
-            dataType = "number"
+            caption = "Teléfono"
+            dataField = "user.phone_number"
+            dataType = "text"
           ></dxi-column>
           <dxi-column
-            caption = "Total"
-            dataField = "total"
-            dataType = "number"
-            format = "currency"
-            format = "Q ,###,###,##0.00"
+            caption = "Teléfono"
+            dataField = "user.email"
+            dataType = "text"
+          ></dxi-column>
+          <dxi-column
+            caption = "Apellido"
+            dataField = "user.last_name"
+            dataType = "text"
+          ></dxi-column>
+          <dxi-column
+            caption = "Entrada"
+            dataField = "entry_date"
+            dataType = "datetime"
+          ></dxi-column>
+          <dxi-column
+            caption = "Salida"
+            dataField = "exit_date"
+            dataType = "datetime"
+          ></dxi-column>
+          <dxi-column
+            caption = "Estación de Entrada"
+            dataField = "entry_station.name"
+            dataType = "text"
+          ></dxi-column>
+          <dxi-column
+            caption = "Estación de Salida"
+            dataField = "exit_station.name"
+            dataType = "text"
           ></dxi-column>
           <dxo-header-filter [visible] = "true"></dxo-header-filter>
           <dxo-search-panel [visible] = "true"
@@ -98,12 +120,6 @@
             </dxi-item>
             <dxi-item name = "searchPanel"></dxi-item>
           </dxo-toolbar>
-          <dxo-master-detail [enabled] = "true"
-                             template = "detail"></dxo-master-detail>
-          <div *dxTemplate = "let datos of 'detail'">
-            <detail-grid-month [key] = "datos.key"
-                               [parqueo] = "parqueoDetalle"></detail-grid-month>
-          </div>
           <dxo-export [enabled] = "true"></dxo-export>
         </dx-data-grid>
       </div>
