@@ -1,5 +1,5 @@
 import {AfterViewInit, Component, Input, OnDestroy, ViewChild} from '@angular/core'
-import { FormGroup, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms'
+import {FormGroup, UntypedFormBuilder, UntypedFormGroup, Validators} from '@angular/forms'
 import {MessageService} from '../../../../shared/services/message.service'
 import {ParkingService} from '../../../parking/services/parking.service'
 import {UtilitiesService} from '../../../../shared/services/utilities.service'
@@ -77,7 +77,7 @@ export class StationaryCourtesyComponent implements AfterViewInit, OnDestroy {
   get stationaryCourtesiesFormValue(): CreateStationaryCourtesy {
     return {
       parkingId: this.stationaryForm.get('parkingId')?.value,
-      value: this.stationaryForm.get('value')?.value + (this.stationaryForm.get('valueTimeMinutes')?.value /60),
+      value: this.stationaryForm.get('value')?.value + (this.stationaryForm.get('valueTimeMinutes')?.value / 60),
       valueTimeMinutes: this.stationaryForm.get('valueTimeMinutes')?.value,
       type: this.stationaryForm.get('type')?.value,
       name: this.stationaryForm.get('name')?.value,
@@ -115,7 +115,6 @@ export class StationaryCourtesyComponent implements AfterViewInit, OnDestroy {
       .getTypes()
       .toPromise()
       .then((x) => {
-        console.log(x)
         return x.data.type.filter((x: any) => x.id != 3)
       })
   }
@@ -214,13 +213,15 @@ export class StationaryCourtesyComponent implements AfterViewInit, OnDestroy {
   downloadQR(antenna: StationsCourtesyModel) {
     this.message.infoTimeOut('Funcion en construccion')
   }
-  get InputValueFromNewCourtesy(){
+
+  get InputValueFromNewCourtesy() {
     const type = this.stationaryForm.getRawValue().type
-    return type==0? 'Valor de tarifa fija':
-      type==1? 'Porcentaje de descuento':
-        type==2? 'Valor de descuento':
-          type==4? 'Cantidad de horas': 'Valor'
+    return type == 0 ? 'Valor de tarifa fija' :
+      type == 1 ? 'Porcentaje de descuento' :
+        type == 2 ? 'Valor de descuento' :
+          type == 4 ? 'Cantidad de horas' : 'Valor'
   }
+
   getTypeDescription(id: number) {
     const newDescription = this.courtesyTypes.find((x) => x.id == id)
     return newDescription == undefined
