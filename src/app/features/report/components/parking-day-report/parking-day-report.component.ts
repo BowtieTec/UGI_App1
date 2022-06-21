@@ -306,19 +306,18 @@ export class ParkingDayReportComponent implements OnInit {
     })
     // Add Data and Conditional Formatting
     this.dataSource.forEach((d: any) => {
-      console.log(d);
       const row = worksheet.addRow([
         '',
-        d.user?.name ? d.user?.name : '',
-        d.user?.last_name ? d.user?.last_name : '',
-        `${d.user?.name ? d.user?.name : ''} ${d.user?.last_name ? d.user?.last_name : ''}`,
-        d.user?.email ? d.user?.email : '',
+        d.user?.name ?? '',
+        d.user?.last_name ?? '',
+        `${d.user?.name ?? ''} ${d.user?.last_name ?? ''}`,
+        d.user?.email ?? '',
         d.user?.gender == 2 ? 'Masculino' : 'Femenino',
-        d.user?.phone_number ? d.user?.phone_number : '',
-        d.entry_date ? new Date(d.entry_date).toLocaleString('es-GT') : '',
-        d.exit_date ? new Date(d.exit_date).toLocaleString('es-GT') : '',
-        d.entry_station.name ? d.entry_station.name : '',
-        d.exit_station.name ? d.exit_station.name : '',
+        d.user?.phone_number ?? '',
+        new Date(d.entry_date).toLocaleString('es-GT') ?? '',
+        new Date(d.exit_date).toLocaleString('es-GT') ?? '',
+        d.entry_station?.name ? d.entry_station?.name : '',
+        d.exit_station?.name ? d.exit_station?.name : '',
         d.type == 1 ? 'ebiGo Ticket' : 'ebiGo Mensual'
       ])
     })

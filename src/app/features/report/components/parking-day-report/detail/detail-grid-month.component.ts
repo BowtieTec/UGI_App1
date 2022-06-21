@@ -40,7 +40,6 @@ export class DetailGridMonthComponent implements AfterViewInit {
       .toPromise()
       .then((data) => {
         if (data.success) {
-          console.log(data);
           this.task = data.data
           this.dataSource = data.data
           this.parqueDetalle = this.parqueo

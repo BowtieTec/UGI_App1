@@ -22,14 +22,10 @@ export interface billingData {
   serial: string
   fiscal_number: string
   receip_number: string
-  fiscal_uuid: string
   total: string
   descuento: number
   pagado: number
   nit: number
-  name: string
-  lastName: string
-  email: string
   typeService: string
   dateBilling: Date
 }
@@ -171,8 +167,6 @@ export class BillingReportComponent implements OnInit {
       '',
       'Número de Factura',
       'Nit del Cliente',
-      'Nombres Completo',
-      'Correo asignado',
       'Total (Q)',
       'Moneda del documento',
       'Fecha emisión factura',
@@ -221,7 +215,7 @@ export class BillingReportComponent implements OnInit {
         }
       }
     })
-    worksheet.mergeCells('D4:I5')
+    worksheet.mergeCells('D4:G5')
     const titleRow = worksheet.addRow(['', '', '', 'Reporte - ebiGO Facturación'])
     titleRow.font = {name: 'Calibri', family: 4, size: 11, bold: true}
     titleRow.alignment = {horizontal: 'center', vertical: 'middle'}
@@ -235,7 +229,7 @@ export class BillingReportComponent implements OnInit {
         }
       }
     })
-    worksheet.mergeCells('D6:I8')
+    worksheet.mergeCells('D6:G8')
     //Add Image
     worksheet.mergeCells('B2:C8')
     const logo = workbook.addImage({
@@ -257,7 +251,7 @@ export class BillingReportComponent implements OnInit {
         }
       }
     })
-    worksheet.mergeCells('B10:I11')
+    worksheet.mergeCells('B10:G11')
     worksheet.addRow([])
     const header1 = worksheet.addRow([
       '',
@@ -279,7 +273,7 @@ export class BillingReportComponent implements OnInit {
       }
     })
     worksheet.mergeCells('B13:F14')
-    worksheet.mergeCells('G13:I14')
+    worksheet.mergeCells('G13:G14')
     const header2 = worksheet.addRow([
       '',
       'Total de facturas emitidas: ' + this.dataSource.length,
@@ -303,7 +297,7 @@ export class BillingReportComponent implements OnInit {
       }
     })
     worksheet.mergeCells('B15:F16')
-    worksheet.mergeCells('G15:I16')
+    worksheet.mergeCells('G15:G16')
     worksheet.addRow([])
     const headerRow = worksheet.addRow(header)
 
@@ -331,14 +325,10 @@ export class BillingReportComponent implements OnInit {
         '',
         d.fiscal_number,
         d.nit,
-        d.full_name,
-        d.u_email,
         d.total,
         'GTQ',
         d.dateBilling ? new Date(d.dateBilling) : ' ',
         d.typeService
-
-
       ])
       row.eachCell((cell, number) => {
         if (number > 1) {
