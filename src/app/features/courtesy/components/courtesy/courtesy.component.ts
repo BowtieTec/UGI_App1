@@ -2,7 +2,7 @@ import {AfterViewInit, Component, OnDestroy, ViewChild} from '@angular/core'
 import {CourtesyService} from '../../services/courtesy.service'
 import {MessageService} from '../../../../shared/services/message.service'
 import {CourtesyModel, CourtesyTypeModel} from '../../models/Courtesy.model'
-import { FormGroup, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms'
+import {FormBuilder, FormGroup, Validators} from '@angular/forms'
 import {UtilitiesService} from '../../../../shared/services/utilities.service'
 import {AuthService} from '../../../../shared/services/auth.service'
 import {DataTableDirective} from 'angular-datatables'
@@ -31,13 +31,13 @@ export class CourtesyComponent implements AfterViewInit, OnDestroy {
   courtesies: CourtesyModel[] = []
   allCompanies: CompaniesModel[] = []
   discountOnWhatList: SelectModel[] = this.courtesyService.DiscountOnWhatOptions
-  typeOfCondition: SelectModel[] = this.courtesyService.TypeOfConditions
+  typeOfCondition: SelectModel[] = environment.TypeOfCondition
   cantCourtesiesCreating = 0
   /*Table*/
   @ViewChild(DataTableDirective)
   dtElement!: DataTableDirective
   dtTrigger: Subject<any> = new Subject()
-  formGroup: UntypedFormGroup
+  formGroup: FormGroup
 
   /*Permissions*/
   listCourtesy = environment.listCourtesy
@@ -47,7 +47,7 @@ export class CourtesyComponent implements AfterViewInit, OnDestroy {
   constructor(
     private courtesyService: CourtesyService,
     private messageService: MessageService,
-    private formBuilder: UntypedFormBuilder,
+    private formBuilder: FormBuilder,
     private utilitiesService: UtilitiesService,
     private authService: AuthService,
     private permissionService: PermissionsService,
@@ -58,9 +58,8 @@ export class CourtesyComponent implements AfterViewInit, OnDestroy {
     this.messageService.showLoading()
     this.formGroup = formBuilder.group({filter: ['']})
     this.newCourtesyForm = this.createForm()
-    this.getInitialData().then(() => {
-      this.messageService.hideLoading()
-    })
+    this.getInitialData()
+      .then(() => this.messageService.hideLoading())
   }
 
   get isSudo() {
@@ -130,15 +129,17 @@ export class CourtesyComponent implements AfterViewInit, OnDestroy {
         this.messageService.hideLoading()
       })
   }
-get InputValueFromNewCourtesy(){
+
+  get InputValueFromNewCourtesy() {
     const type = this.newCourtesyForm.get('type')?.value
-  return type==0? 'Valor de tarifa fija':
-          type==1? 'Porcentaje de descuento':
-            type==2? 'Valor de descuento':
-              type==4? 'Cantidad de horas': 'Valor'
-}
+    return type == 0 ? 'Valor de tarifa fija' :
+      type == 1 ? 'Porcentaje de descuento' :
+        type == 2 ? 'Valor de descuento' :
+          type == 4 ? 'Cantidad de horas' : 'Valor'
+  }
+
   getCourtesy(): CourtesyModel {
-    const minutes: number =  (this.newCourtesyForm.getRawValue().valueTimeMinutes / 60) <=0? 0: (this.newCourtesyForm.getRawValue().valueTimeMinutes / 60)
+    const minutes: number = (this.newCourtesyForm.getRawValue().valueTimeMinutes / 60) <= 0 ? 0 : (this.newCourtesyForm.getRawValue().valueTimeMinutes / 60)
     const value: number = (Number(this.newCourtesyForm.getRawValue().value) + Number(minutes))
     return {
       parkingId: this.parkingId,
@@ -255,5 +256,13 @@ get InputValueFromNewCourtesy(){
         this.dtTrigger.next()
       })
     }
+  }
+
+  getNewConditions() {
+    if (this.newCourtesyForm.getRawValue().type != "0") {
+      this.typeOfCondition = environment.TypeOfCondition.filter(x => x.id != 3)
+      return
+    }
+    this.typeOfCondition = environment.TypeOfCondition
   }
 }
