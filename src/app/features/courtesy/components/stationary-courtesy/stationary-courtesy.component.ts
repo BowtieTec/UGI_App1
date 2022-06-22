@@ -63,7 +63,8 @@ export class StationaryCourtesyComponent implements AfterViewInit, OnDestroy {
   }
 
   getNewConditions() {
-    if (this.stationaryForm.getRawValue().type != "0") {
+    const type = this.stationaryForm.getRawValue().type
+    if (type != "0") {
       this.typeOfCondition = environment.TypeOfCondition.filter(x => x.id != 3)
       return
     }

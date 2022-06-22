@@ -113,9 +113,9 @@ export const DiscountOnWhat = [
   {id: 2, name: 'Cantidad de horas'}
 ]
 export const TypeOfCondition = [
-  {id: 1, name: 'Aplicar siempre sobre el total'},
+  {id: 1, name: 'Aplicar si cumple'},
   {id: 2, name: 'Solo si Cant. Horas es menor o igual a '},
-  {id: 3, name: 'Solo aplicar a '}
+  {id: 3, name: 'Aplicar parcialmente solo a'}
 ]
 export const settings = {
   siteKey: '6LesloIfAAAAANKGMOJ5SOxyRugy3woH7Y1DP1f6',

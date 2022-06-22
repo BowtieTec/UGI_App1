@@ -259,7 +259,8 @@ export class CourtesyComponent implements AfterViewInit, OnDestroy {
   }
 
   getNewConditions() {
-    if (this.newCourtesyForm.getRawValue().type != "0") {
+    const type = this.newCourtesyForm.getRawValue().type
+    if (type != "0") {
       this.typeOfCondition = environment.TypeOfCondition.filter(x => x.id != 3)
       return
     }
