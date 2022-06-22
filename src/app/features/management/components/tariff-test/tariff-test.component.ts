@@ -50,11 +50,12 @@ export class TariffTestComponent {
   }
 
   get formTariffTestValues(): tariffTestModel {
+    const courtesyId = this.tariffTestForm.get('courtesyId')?.value == "null" ? null : this.tariffTestForm.get('courtesyId')?.value
     return {
       parkingId: this.parkingId,
       entry_date: new Date(this.tariffTestForm.get('date_in')?.value),
       exit_date: new Date(this.tariffTestForm.get('date_out')?.value),
-      courtesyId: this.tariffTestForm.get('courtesyId')?.value
+      courtesyId
     }
   }
 
@@ -78,10 +79,12 @@ export class TariffTestComponent {
       return
     }
     const newTest = this.formTariffTestValues
+    console.log(newTest);
     if (newTest.entry_date > newTest.exit_date) {
       this.messageService.error('', 'Datos no válidos, la fecha de salida debe ser mayor o igual a la de entrada')
       return
     }
+
 
     this.ticket = await this.testService
       .getTariffTest(newTest)
@@ -92,13 +95,6 @@ export class TariffTestComponent {
 
   validateDateForm(control: string) {
     return this.utilitiesService.controlInvalid(this.tariffTestForm, control)
-  }
-
-  private resetTestForm() {
-    this.tariffTestForm.controls['parking'].setValue(this.parkingId)
-    this.tariffTestForm.controls['date_in'].setValue('')
-    this.tariffTestForm.controls['date_out'].setValue('')
-    this.tariffTestForm.controls['courtesyId'].setValue(null)
   }
 
   private createTariffTestForm() {
