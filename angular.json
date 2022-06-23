@@ -95,12 +95,15 @@
               "outputHashing": "all"
             },
             "local": {
-              "optimization": true,
-              "buildOptimizer": true,
-              "vendorChunk": true,
+              "outputHashing": "none",
+              "sourceMap": false,
+              "namedChunks": false,
+              "aot": true,
               "extractLicenses": false,
-              "sourceMap": true,
-              "namedChunks": true,
+              "statsJson": false,
+              "progress": false,
+              "vendorChunk": true,
+              "buildOptimizer": false,
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",

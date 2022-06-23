@@ -67,6 +67,15 @@ export class StationaryCourtesyComponent implements AfterViewInit, OnDestroy {
     this.getInitialData().catch()
   }
 
+  getNewConditions() {
+    const type = this.stationaryForm.getRawValue().type
+    if (type != "0") {
+      this.typeOfCondition = environment.TypeOfCondition.filter(x => x.id != 3)
+      return
+    }
+    this.typeOfCondition = environment.TypeOfCondition
+  }
+
   get dtOptions() {
     return DataTableOptions.getSpanishOptions(10)
   }
