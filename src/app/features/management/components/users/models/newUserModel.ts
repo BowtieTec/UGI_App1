@@ -12,9 +12,10 @@ export class NewUserModel {
   Admin?: string
   googleId?: string
   appleId?: string
+  validate_code?: string = ''
 }
 
-export class updateUserApp{
+export class updateUserApp {
   id: string = ''
   name = ''
   last_name ? = ''
