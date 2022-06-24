@@ -71,6 +71,14 @@
                       [showBorders] = "true"
                       id = "gridContainer">
           <dxi-column
+            caption = "Fecha de Creación"
+            dataField = "cd_created_at"
+            dataType = "date"
+            format = "dd/MM/yyyy"
+            sortOrder='desc'
+            width='auto'
+          ></dxi-column>
+          <dxi-column
             [width] = "300"
             caption = "Cortesía"
             dataField = "cd_name"
@@ -82,29 +90,35 @@
           <dxi-column
             caption = "Tipo de cortesía"
             dataField = "cd_type"
+            width='auto'
           ></dxi-column>
           <dxi-column
             caption = "Cortesias"
             dataField = "cd_quantity"
             dataType = "number"
+            width='auto'
+          ></dxi-column>
+          <dxi-column
+            caption = "Tipo de condición"
+            dataField = "cd_tipoCondicion"
+            width='auto'
           ></dxi-column>
           <dxi-column
             caption = "Descuento por cortesias"
             dataField = "cd_value"
-            dataType = "number"
-            format = "currency"
-            format = "Q ,###,###,##0.00"
+            width='auto'
           ></dxi-column>
           <dxi-column
             caption = "Cortesias usadas"
             dataField = "transacciones"
             dataType = "number"
+            width='auto'
           ></dxi-column>
           <dxi-column
             caption = "Disponibles"
             dataField = "disponibles"
             dataType = "number"
-            width = "8%"
+            width='auto'
           ></dxi-column>
           <dxi-column
             caption = "Total descuento"
@@ -112,10 +126,12 @@
             dataType = "number"
             format = "currency"
             format = "Q ,###,###,##0.00"
+            width='auto'
           ></dxi-column>
           <dxi-column
             caption = "Tipo"
             dataField = "cd_tipoCortesia"
+            width='auto'
           ></dxi-column>
           <dxo-header-filter [visible] = "true"></dxo-header-filter>
           <dxo-search-panel [visible] = "true"

@@ -8,6 +8,10 @@ import {AuthService} from '../../../../../../shared/services/auth.service'
 import {DataTableDirective} from 'angular-datatables'
 import {Subject} from 'rxjs'
 import {DataTableOptions} from '../../../../../../shared/model/DataTableOptions'
+import { ResponseModel } from '../../../../../../shared/model/Request.model'
+import { UtilitiesService } from '../../../../../../shared/services/utilities.service'
+import { environment } from '../../../../../../../environments/environment'
+import { PermissionsService } from '../../../../../../shared/services/permissions.service'
 
 @Component({
   selector: 'app-antennas-from-courtesy',
@@ -18,20 +22,26 @@ export class AntennasFromCourtesyComponent implements AfterViewInit, OnDestroy {
   @Input() parkingId: string = this.authService.getParking().id
   @Output() stationsSaved = new EventEmitter<boolean>()
   stationsCourtesy: StationsCourtesyModel[] = []
+  idEditAntenna = ''
   antennasForm: UntypedFormGroup
   allParking: ParkingModel[] = Array<ParkingModel>()
+  /* Permissions */
+  editStationsCourtesyStationary: string = environment.editStationsCourtesyStationary
+  deleteStationsCourtesyStationary: string = environment.deleteStationsCourtesyStationary
 
   /*Table*/
   @ViewChild(DataTableDirective)
   dtElement!: DataTableDirective
   dtTrigger: Subject<any> = new Subject()
   formGroup: UntypedFormGroup
-
+  private actions: string[] = this.permissionService.actionsOfPermissions
   constructor(
     private formBuilder: UntypedFormBuilder,
     private message: MessageService,
     private parkingService: ParkingService,
-    private authService: AuthService
+    private utilitiesService: UtilitiesService,
+    private authService: AuthService,
+    private permissionService: PermissionsService
   ) {
     this.antennasForm = this.createAntennasForm()
     this.formGroup = formBuilder.group({filter: ['']})
@@ -46,6 +56,15 @@ export class AntennasFromCourtesyComponent implements AfterViewInit, OnDestroy {
     return DataTableOptions.getSpanishOptions(10)
   }
 
+  cleanForm() {
+    this.idEditAntenna = ''
+    this.antennasForm.controls['parkingId'].setValue(this.parkingId)
+    this.antennasForm.controls['name'].setValue('');
+    this.antennasForm.controls['mac'].setValue('');
+    this.antennasForm.controls['antena'].setValue('');
+    this.utilitiesService.markAsUnTouched(this.antennasForm)
+  }
+
   get antennaFormValue(): CreateStation {
     return {
       parking: this.antennasForm.get('parkingId')?.value,
@@ -53,6 +72,34 @@ export class AntennasFromCourtesyComponent implements AfterViewInit, OnDestroy {
       name: this.antennasForm.get('name')?.value,
       antena: this.antennasForm.get('antena')?.value
     }
+  }
+
+  validateId(id: string | undefined) {
+    return id == undefined ? '' : id
+  }
+
+  editAntenna(antenna: StationsCourtesyModel){
+    antenna.id = this.validateId(antenna.id);
+    this.idEditAntenna = antenna.id;
+    this.antennasForm.controls['parkingId'].setValue(antenna.parking.id);
+    this.antennasForm.controls['name'].setValue(antenna.name);
+    this.antennasForm.controls['mac'].setValue(antenna.mac);
+    this.antennasForm.controls['antena'].setValue(antenna.antena);
+
+  }
+
+  deleteAntenna(antenna: StationsCourtesyModel){
+    this.message.showLoading()
+    antenna.id = this.validateId(antenna.id)
+    this.parkingService.deleteAntennaWithCourtesy(antenna.id).subscribe((data)=>{
+      if(data.success){
+        this.searchStationsByParking()
+        this.message.OkTimeOut('Borrada')
+        this.stationsSaved.emit(true)
+      } else {
+        this.message.error(data.message)
+      }
+    })
   }
 
   getInitialData() {
@@ -75,6 +122,11 @@ export class AntennasFromCourtesyComponent implements AfterViewInit, OnDestroy {
       }, 3000)
     }
   }
+
+  ifHaveAction(action: string) {
+    return !!this.actions.find((x) => x == action)
+  }
+
 
   async searchStationsByParking() {
     const parkingId = this.antennasForm.controls['parkingId'].value
@@ -100,26 +152,50 @@ export class AntennasFromCourtesyComponent implements AfterViewInit, OnDestroy {
       this.message.errorTimeOut('', 'Datos incorrectos o faltantes.')
       return
     }
-    this.message.showLoading()
+        this.message.showLoading()
     const newAntenna = this.antennaFormValue
-    const result = await this.parkingService.createStationWithCourtesy(
-      newAntenna
-    )
-    if (result.success) {
-      await this.searchStationsByParking()
-      this.message.OkTimeOut()
-      this.stationsSaved.emit(true)
-    } else {
-      this.message.error(result.message)
+
+    if(this.idEditAntenna == ''){
+      this.parkingService.createStationWithCourtesy(
+        newAntenna
+      ).subscribe((data) =>{
+        if(data.success){
+          this.cleanForm()
+          this.searchStationsByParking()
+          this.message.OkTimeOut()
+          this.stationsSaved.emit(true)
+        } else {
+          this.message.error(data.message)
+        }
+
+      })
+
+    }else{
+      newAntenna.id = this.idEditAntenna
+      this.parkingService.editStationWithCourtesy(newAntenna)
+        .subscribe((data) =>{
+          if(data.success){
+            this.cleanForm()
+            this.searchStationsByParking()
+            this.message.OkTimeOut()
+            this.stationsSaved.emit(true)
+          } else {
+            this.message.error(data.message)
+          }
+
+        })
+      this.idEditAntenna = ''
     }
+
+
   }
 
   private createAntennasForm() {
     return this.formBuilder.group({
       parkingId: [this.parkingId, [Validators.required]],
-      mac: [null, [Validators.required, Validators.maxLength(17)]],
-      name: [null, [Validators.required, Validators.maxLength(30)]],
-      antena: [null, [Validators.required, Validators.maxLength(20)]]
+      mac: ['', [Validators.required]],
+      name: [null, [Validators.required, Validators.maxLength(50)]],
+      antena: ['']
     })
   }
 

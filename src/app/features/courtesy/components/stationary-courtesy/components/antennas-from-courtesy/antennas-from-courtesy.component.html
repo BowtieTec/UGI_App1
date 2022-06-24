@@ -1,7 +1,11 @@
+
 <form [formGroup]="antennasForm"
       action="">
   <div class="row">
+    <span *ngIf = "idEditAntenna"
+          class = "badge bg-warning text-dark animate__animated animate__flipInX " >Editando</span >
     <div class="col-md-6 col-sm-12">
+
       <div class="m-3 relative ">
         <app-select-container
           (change)="searchStationsByParking()"
@@ -40,9 +44,14 @@
   </div>
   <div class=" d-flex justify-content-center m-3">
     <button (click)="createStationWithCourtesy()"
-            class="btn btn-primary col-md-3"
+            class="btn btn-success animate__animated animate__fadeInDown"
             data-bs-dismiss="modal"
             type="button">Guardar
+    </button>
+    <button (click) = "idEditAntenna = '' "
+            *ngIf = "idEditAntenna"
+            class = "btn btn-success animate__animated animate__fadeInDown m-1"
+            type = "button" >Cancelar edición
     </button>
   </div>
   <div class="row">
@@ -60,6 +69,7 @@
         <th scope="col"
             style="width: 17%">Creada en:
         </th>
+        <th scope="col">Acciones</th>
       </tr>
       </thead>
       <tbody>
@@ -69,6 +79,20 @@
         <td>{{antenna.mac}}</td>
         <td>{{antenna.antena}}</td>
         <td>{{antenna.created_at  | date: 'medium'}}</td>
+        <td >
+          <button (click) = " editAntenna(antenna) "
+                  *ngIf = "ifHaveAction(editStationsCourtesyStationary)"
+                  class = "buttonRowEdit"
+                  title = "Editar" ><em class = "fas fa-edit" ></em >
+          </button >
+
+          <button (click) = " deleteAntenna(antenna) "
+                  *ngIf = "ifHaveAction(deleteStationsCourtesyStationary)"
+                  class = "buttonRowDelete m-1"
+                  title = "Eliminar" ><em class = "fas fa-trash" ></em >
+          </button >
+
+        </td>
       </tr>
       </tbody>
     </table>
