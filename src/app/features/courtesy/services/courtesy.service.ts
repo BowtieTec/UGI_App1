@@ -1,9 +1,9 @@
-import { Injectable } from '@angular/core'
-import { HttpClient } from '@angular/common/http'
-import { environment } from '../../../../environments/environment'
-import { ResponseModel } from '../../../shared/model/Request.model'
-import { CourtesyModel } from '../models/Courtesy.model'
-import { SelectModel } from '../../../shared/model/CommonModels'
+import {Injectable} from '@angular/core'
+import {HttpClient} from '@angular/common/http'
+import {environment} from '../../../../environments/environment'
+import {ResponseModel} from '../../../shared/model/Request.model'
+import {CourtesyModel} from '../models/Courtesy.model'
+import {SelectModel} from '../../../shared/model/CommonModels'
 
 
 @Injectable({
@@ -12,7 +12,8 @@ import { SelectModel } from '../../../shared/model/CommonModels'
 export class CourtesyService {
   private apiUrl = environment.serverAPI
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+  }
 
   getTypes() {
     return this.http.get<ResponseModel>(
@@ -27,13 +28,22 @@ export class CourtesyService {
     )
   }
 
+  getNewConditions(type: string | number) {
+    type = Number(type)
+    console.log(type);
+    if (type == 2) {
+      return environment.TypeOfCondition.filter(x => x.id != 3)
+    }
+    return environment.TypeOfCondition
+  }
+
   getCourtesys(id: string) {
     return this.http.get<ResponseModel>(
       `${this.apiUrl}backoffice/cortesy/cortesiesDetails/${id}`
     )
   }
 
-  getCourtesiesByParking(id: string){
+  getCourtesiesByParking(id: string) {
     return this.http.get<ResponseModel>(
       `${this.apiUrl}backoffice/cortesy/cortesiesByParking/${id}`
     )
@@ -42,7 +52,7 @@ export class CourtesyService {
   getPDF(id: string) {
     return this.http.get(
       `${this.apiUrl}backoffice/cortesy/cortesiespdf/${id}`,
-      { responseType: 'blob' }
+      {responseType: 'blob'}
     )
   }
 

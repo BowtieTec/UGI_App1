@@ -336,11 +336,11 @@ export class ParkingService {
       )
   }
 
-  getOutParked(parkedId: string, status: number, dateOutToGetOut: Date) {
+  getOutParked(parkedId: string, payment_method: number, dateOutToGetOut: Date) {
     return this.http
       .post<ResponseModel>(`${this.apiUrl}backoffice/parking/getOut`, {
         parkedId,
-        status,
+        payment_method,
         dateOutToGetOut
       })
       .toPromise()
