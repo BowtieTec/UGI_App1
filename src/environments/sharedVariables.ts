@@ -47,6 +47,7 @@ export const permission = {
   verTodosLosParqueosReport: 'verTodosLosParqueosReport',
   verCourtesiesStationReport: 'verCourtesiesStationReport',
   verBillingReport: 'verBillingReport',
+  verHistoryOfCourtesyReport: 'verHistoryOfCourtesy',
   graficosCortesiasEstacionarias: 'graficosCortesiasEstacionarias',
   listLocal: 'listLocal',
   createLocal: 'createLocal',
