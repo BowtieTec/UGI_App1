@@ -138,8 +138,8 @@ export class ParkedComponent implements OnDestroy, AfterViewInit {
     return !!this.actions.find((x) => x == action)
   }
 
-  async getStatusToSave(parked_type: number) {
-    let status = 3
+  async getStatusToSave(parked_type: number): Promise<number> {
+    let payment_method = 3
     if (parked_type == 0) {
       if (
         this.ifHaveAction(this.getOutWithoutPayment) &&
@@ -147,20 +147,29 @@ export class ParkedComponent implements OnDestroy, AfterViewInit {
       ) {
         const statusWillUpdate = await this.messageService.areYouSureWithCancelAndInput(
           '¿Dejar salir a usuario con el cobro pendiente o cancelado?',
-          'Cobrar parqueo',
-          'Sacar sin cobrar',
+          'Salir y cobrar a la tarjeta',
+          'Salir sin cobrar',
           this.dateOutToGetOut
         )
-        if (statusWillUpdate.isConfirmed) status = 3
-        if (statusWillUpdate.isDenied) status = 2
+        console.log(statusWillUpdate)
+        if (statusWillUpdate.isConfirmed) payment_method = 3
+        if (statusWillUpdate.isDenied) payment_method = 1
+        if (statusWillUpdate.isCash) payment_method = 2
+        /*
+        *  get_out_and_pay = 1,
+        *   payment_cash = 2,
+        *  get_out = 3
+        * */
         if (statusWillUpdate.isDismissed) return -1
       }
     }
-    return status
+
+    return -1
+    return payment_method
   }
 
   async getOut(parked: ParkedModel) {
-    const status = await this.getStatusToSave(parked.type)
+    const payment_method = await this.getStatusToSave(parked.type)
     if (!this.dateOutToGetOut) {
       this.messageService.error('Debe seleccionar una fecha de salida')
       return
@@ -169,7 +178,7 @@ export class ParkedComponent implements OnDestroy, AfterViewInit {
       this.messageService.error('La fecha y hora de salida debe ser mayor a la de entrada.')
       return
     }
-    if (status == -1) {
+    if (payment_method == -1) {
       return
     }
     const result = await this.messageService.areYouSure(
@@ -183,7 +192,7 @@ export class ParkedComponent implements OnDestroy, AfterViewInit {
     }
     if (result.isConfirmed) {
       this.messageService.showLoading()
-      this.parkingService.getOutParked(parked.id, status, this.dateOutToGetOut).then((data) => {
+      this.parkingService.getOutParked(parked.id, payment_method, this.dateOutToGetOut).then((data) => {
         if (data.success) {
           this.refreshParkedData()
           this.messageService.Ok(data.message)

@@ -161,7 +161,7 @@ export class MessageService {
       showConfirmButton: true,
       allowOutsideClick: false,
       denyButtonText,
-      confirmButtonText,
+      confirmButtonText: 'Salir sin cobrar a la tarjeta',
       html: `
         <div>
         <label class = ""
@@ -176,9 +176,32 @@ export class MessageService {
           placeholder = 'Hora de salida'
           autocomplete = 'off'
           type = 'datetime-local'>
-
       </div>
+      <br>
       `
-    }).then((result) => result)
+    }).then((result: any) => {
+      if (result.isConfirmed) {
+        return Swal.fire({
+          denyButtonColor: '#415ba1',
+          confirmButtonColor: '#05ccae',
+          title,
+          showDenyButton: true,
+          showCancelButton: true,
+          showConfirmButton: true,
+          allowOutsideClick: false,
+          denyButtonText: 'El pago fue en efectivo',
+          confirmButtonText,
+        }).then((lastQuestion) => {
+          return {
+            isConfirmed: lastQuestion.isConfirmed,
+            isDenied: result.isDenied,
+            isDismissed: lastQuestion.isDismissed,
+            isCash: lastQuestion.isDenied
+          }
+        })
+      }
+      return result
+    })
   }
+
 }
