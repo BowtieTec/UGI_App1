@@ -165,11 +165,11 @@ export class BillingReportComponent implements OnInit {
 
     const header = [
       '',
-      'Número de Factura',
+      'Fecha emisión factura',
       'Nit del Cliente',
       'Total (Q)',
       'Moneda del documento',
-      'Fecha emisión factura',
+      'Número de Factura',
       'Tipo',
 
     ]
@@ -192,7 +192,7 @@ export class BillingReportComponent implements OnInit {
         }
       }
     })
-    worksheet.mergeCells('D2:I3')
+    worksheet.mergeCells('D2:G3')
     let ParqueoReporte = 'Todos los parqueos'
     if (this.parqueo != '0') {
       const parqueoEncontrado = this.allParking.find(
@@ -272,13 +272,11 @@ export class BillingReportComponent implements OnInit {
         }
       }
     })
-    worksheet.mergeCells('B13:F14')
-    worksheet.mergeCells('G13:G14')
+    worksheet.mergeCells('B13:D14')
+    worksheet.mergeCells('E13:G14')
     const header2 = worksheet.addRow([
       '',
       'Total de facturas emitidas: ' + this.dataSource.length,
-      '',
-      '',
       '',
       '',
       'Documento generado: ' +
@@ -296,8 +294,8 @@ export class BillingReportComponent implements OnInit {
         }
       }
     })
-    worksheet.mergeCells('B15:F16')
-    worksheet.mergeCells('G15:G16')
+    worksheet.mergeCells('B15:D16')
+    worksheet.mergeCells('E15:G16')
     worksheet.addRow([])
     const headerRow = worksheet.addRow(header)
 
@@ -323,11 +321,11 @@ export class BillingReportComponent implements OnInit {
 
       const row = worksheet.addRow([
         '',
-        d.fiscal_number,
+        d.dateBilling ? new Date(d.dateBilling).toLocaleDateString('es-GT')  : ' ',
         d.nit,
         d.total,
         'GTQ',
-        d.dateBilling ? new Date(d.dateBilling) : ' ',
+        d.noFactura,
         d.typeService
       ])
       row.eachCell((cell, number) => {
@@ -345,13 +343,13 @@ export class BillingReportComponent implements OnInit {
     worksheet.addRow([])
     worksheet.addRow([])
 
-    worksheet.getColumn(2).width = 11
+    worksheet.getColumn(2).width = 20
     worksheet.getColumn(3).width = 20
     worksheet.getColumn(4).width = 20
-    worksheet.getColumn(5).width = 35
-    worksheet.getColumn(6).width = 15
+    worksheet.getColumn(5).width = 20
+    worksheet.getColumn(6).width = 20
     worksheet.getColumn(7).width = 20
-    worksheet.getColumn(8).width = 30
+    worksheet.getColumn(8).width = 20
     worksheet.getColumn(9).width = 15
     worksheet.getColumn(10).width = 15
     worksheet.getColumn(11).width = 30
