@@ -77,6 +77,8 @@ export class CourtesyReportComponent implements OnInit {
         this.allParking = data.data.parkings
       }
     })
+
+
   }
 
   ifHaveAction(action: string) {
@@ -84,26 +86,17 @@ export class CourtesyReportComponent implements OnInit {
   }
 
   getInitialData() {
-    // Calling
-    //this.getPaymentRpt();
+
   }
 
-  getCourtesyRpt(initDate: string, endDate: string) {
-    if (endDate < initDate) {
-      this.messageService.error(
-        '',
-        'La fecha de inicio debe ser mayor a la fecha fin'
-      )
-      return
-    }
-    this.startDateReport = new Date(initDate+'T00:00:00').toLocaleDateString('es-GT')
-    this.endDateReport = new Date(endDate+'T00:00:00').toLocaleDateString('es-GT')
+  getCourtesyRpt() {
+
     this.parqueo = this.datosUsuarioLogeado.id
     if (this.ifHaveAction('verTodosLosParqueosReport')) {
       this.parqueo = this.inputParking.nativeElement.value
     }
     return this.reportService
-      .getCourtesyRpt(initDate, endDate, this.parqueo)
+      .getCourtesyRpt(this.parqueo)
       .toPromise()
       .then((data) => {
         if (data.success) {
@@ -125,9 +118,7 @@ export class CourtesyReportComponent implements OnInit {
   ngAfterViewInit() {
     this.dtTrigger.next()
     this.parqueo = this.datosUsuarioLogeado.id
-    if (this.ifHaveAction('verTodosLosParqueosReport')) {
-      this.parqueo = '0'
-    }
+    this.getCourtesyRpt()
   }
 
   exportGrid() {

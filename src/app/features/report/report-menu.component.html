@@ -37,6 +37,13 @@
       <app-duration-report></app-duration-report>
     </ng-template>
   </ng-container>
+  <ng-container *ngIf = "ifHaveAction(verHistoryOfCourtesy)"
+                ngbNavItem>
+    <a ngbNavLink><em class = "fas fa-parking"></em> Historial de cortesias</a>
+    <ng-template ngbNavContent>
+      <app-history-courtesy></app-history-courtesy>
+    </ng-template>
+  </ng-container>
   <ng-container *ngIf = "ifHaveAction(verMenuPayment)"
                 ngbNavItem>
     <a ngbNavLink><em class = "fas fa-parking"></em> Detalle de Pagos Ticket</a>

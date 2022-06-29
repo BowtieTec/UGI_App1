@@ -30,6 +30,13 @@ export class ReportService {
     )
   }
 
+  getHistoryOfCourtesyRpt(initDate: string, endDate: string, parqueo: string) {
+    return this.http.get<ResponseModel>(
+      `${this.apiUrl}backoffice/report/historyOfCourtesies/dates?initDate=${initDate}&endDate=${endDate}&parqueo=${parqueo}`
+    )
+  }
+
+
   getTicketsRpt(initDate: string, endDate: string, parqueo: string) {
     return this.http.get<ResponseModel>(
       `${this.apiUrl}backoffice/report/ticketRpt/dates?initDate=${initDate}&endDate=${endDate}&parqueo=${parqueo}`
@@ -54,9 +61,9 @@ export class ReportService {
     )
   }
 
-  getCourtesyRpt(initDate: string, endDate: string, parqueo: string) {
+  getCourtesyRpt(parqueo: string) {
     return this.http.get<ResponseModel>(
-      `${this.apiUrl}backoffice/report/courtesiesDetail/dates?initDate=${initDate}&endDate=${endDate}&parqueo=${parqueo}`
+      `${this.apiUrl}backoffice/report/courtesiesDetail/info?parqueo=${parqueo}`
     )
   }
 

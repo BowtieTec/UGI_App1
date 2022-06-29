@@ -20,42 +20,11 @@
 
           </div>
         </div>
-        <div class = "col-xl-2 col-lg-3 col-sm-12">
-          <div class = "mb-4 relative">
-            <label class = "text-secondary"
-                   style = "display:block">Fecha de inicio</label>
-            <input #initDate
-                   [value] = "fechaActual"
-                   class = "form-control inputClass datetimepicker"
-                   for = "initDate"
-                   max = "{{nowDateTime | date: 'yyyy-MM-dd'}}"
-                   name = "initDate"
-                   placeholder = "Fecha/Hora de entrada"
-                   type = "Date"
-            >
 
-          </div>
-        </div>
-        <div class = "col-xl-2 col-lg-3 col-sm-12">
-          <div class = "mb-4 relative">
-            <label class = "text-secondary"
-
-                   style = "display:block">Fecha de fin</label>
-            <input
-              #endDate
-              [value] = "fechaActual"
-              class = "form-control inputClass datetimepicker"
-              for = "endDate"
-              max = "{{nowDateTime | date: 'yyyy-MM-dd'}}"
-              name = "endDate"
-              placeholder = "Fecha/Hora de salida"
-              type = "date"
-            >
-          </div>
-        </div>
-        <div class = "col-xl-12 col-lg-12 col-sm-12">
+        <div *ngIf = "ifHaveAction(verTodosLosParqueosReport)"
+          class = "col-xl-12 col-lg-12 col-sm-12">
           <div class = "text-center">
-            <button (click) = "getCourtesyRpt(initDate.value,endDate.value)"
+            <button (click) = "getCourtesyRpt()"
                     class = "btn btn-primary m-2">Buscar
             </button>
           </div>
@@ -69,6 +38,7 @@
       <div class = "row">
         <dx-data-grid [dataSource] = "dataSource"
                       [showBorders] = "true"
+
                       id = "gridContainer">
           <dxi-column
             caption = "Fecha de Creación"
@@ -79,25 +49,18 @@
             width='auto'
           ></dxi-column>
           <dxi-column
-            [width] = "300"
+            width='250'
             caption = "Cortesía"
             dataField = "cd_name"
+
           ></dxi-column>
-          <dxi-column
-            caption = "Local"
-            dataField = "comercio"
-          ></dxi-column>
+
           <dxi-column
             caption = "Tipo de cortesía"
             dataField = "cd_type"
             width='auto'
           ></dxi-column>
-          <dxi-column
-            caption = "Cortesias"
-            dataField = "cd_quantity"
-            dataType = "number"
-            width='auto'
-          ></dxi-column>
+
           <dxi-column
             caption = "Tipo de condición"
             dataField = "cd_tipoCondicion"
@@ -108,26 +71,27 @@
             dataField = "cd_value"
             width='auto'
           ></dxi-column>
+
+          <dxi-column
+            caption = "Creadas"
+            dataField = "cd_quantity"
+            dataType = "number"
+            width='auto'
+          ></dxi-column>
           <dxi-column
             caption = "Cortesias usadas"
             dataField = "transacciones"
             dataType = "number"
             width='auto'
           ></dxi-column>
+
           <dxi-column
             caption = "Disponibles"
             dataField = "disponibles"
             dataType = "number"
             width='auto'
           ></dxi-column>
-          <dxi-column
-            caption = "Total descuento"
-            dataField = "total_descuento"
-            dataType = "number"
-            format = "currency"
-            format = "Q ,###,###,##0.00"
-            width='auto'
-          ></dxi-column>
+
           <dxi-column
             caption = "Tipo"
             dataField = "cd_tipoCortesia"
