@@ -163,8 +163,6 @@ export class ParkedComponent implements OnDestroy, AfterViewInit {
         if (statusWillUpdate.isDismissed) return -1
       }
     }
-
-    return -1
     return payment_method
   }
 
