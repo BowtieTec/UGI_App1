@@ -137,7 +137,7 @@ export class HistoryCourtesyComponent implements OnInit, AfterViewInit {
       jsPDFDocument: doc,
       component: this.dataGrid.instance
     }).then(() => {
-      doc.save('Duracin.pdf')
+      doc.save('HistoryOfCourtesies.pdf')
     })
   }
 
@@ -156,7 +156,8 @@ export class HistoryCourtesyComponent implements OnInit, AfterViewInit {
       'Hora de ingreso',
       'Fecha de Salida',
       'Hora de Salida',
-      'Cortesia Aplicada',
+      'Cortesía Aplicada',
+      'Tipo Cortesía',
       'Sub monto (Q)',
       'Descuento (Q)',
       'Total (Q)',
@@ -184,7 +185,7 @@ export class HistoryCourtesyComponent implements OnInit, AfterViewInit {
         }
       }
     })
-    worksheet.mergeCells('D2:P3')
+    worksheet.mergeCells('D2:Q3')
     let ParqueoReporte = 'Todos los parqueos'
     if (this.parqueo != '0') {
       const parqueoEncontrado = this.allParking.find(
@@ -207,7 +208,7 @@ export class HistoryCourtesyComponent implements OnInit, AfterViewInit {
         }
       }
     })
-    worksheet.mergeCells('D4:P5')
+    worksheet.mergeCells('D4:Q5')
     const titleRow = worksheet.addRow(['', '', '', 'Reporte - Historial de cortesias'])
     titleRow.font = {name: 'Calibri', family: 4, size: 11, bold: true}
     titleRow.alignment = {horizontal: 'center', vertical: 'middle'}
@@ -221,7 +222,7 @@ export class HistoryCourtesyComponent implements OnInit, AfterViewInit {
         }
       }
     })
-    worksheet.mergeCells('D6:P8')
+    worksheet.mergeCells('D6:Q8')
     //Add Image
     worksheet.mergeCells('B2:C8')
     const logo = workbook.addImage({
@@ -243,7 +244,7 @@ export class HistoryCourtesyComponent implements OnInit, AfterViewInit {
         }
       }
     })
-    worksheet.mergeCells('B10:P11')
+    worksheet.mergeCells('B10:Q11')
     worksheet.addRow([])
     const header1 = worksheet.addRow([
       '',
@@ -267,7 +268,7 @@ export class HistoryCourtesyComponent implements OnInit, AfterViewInit {
       }
     })
     worksheet.mergeCells('B13:H14')
-    worksheet.mergeCells('I13:P14')
+    worksheet.mergeCells('I13:Q14')
     const header2 = worksheet.addRow([
       '',
       'Total de cortesias aplicadas: ' + this.dataSource.length,
@@ -293,7 +294,7 @@ export class HistoryCourtesyComponent implements OnInit, AfterViewInit {
       }
     })
     worksheet.mergeCells('B15:H16')
-    worksheet.mergeCells('I15:P16')
+    worksheet.mergeCells('I15:Q16')
     worksheet.addRow([])
     const headerRow = worksheet.addRow(header)
 
@@ -326,6 +327,7 @@ export class HistoryCourtesyComponent implements OnInit, AfterViewInit {
         d.ep_exit_date ? new Date(d.ep_exit_date).toLocaleDateString() : ' ',
         d.ep_exit_date ? new Date(d.ep_exit_date).toLocaleTimeString() : ' ',
         d.cd_name,
+        d.tipoCortesia,
         d.total,
         d.descuento,
         d.pagado,
@@ -358,13 +360,14 @@ export class HistoryCourtesyComponent implements OnInit, AfterViewInit {
     worksheet.getColumn(7).width = 20
     worksheet.getColumn(8).width = 20
     worksheet.getColumn(9).width = 25
-    worksheet.getColumn(10).width = 15
+    worksheet.getColumn(10).width = 20
     worksheet.getColumn(11).width = 15
     worksheet.getColumn(12).width = 15
-    worksheet.getColumn(13).width = 25
+    worksheet.getColumn(13).width = 15
     worksheet.getColumn(14).width = 25
-    worksheet.getColumn(15).width = 15
+    worksheet.getColumn(15).width = 25
     worksheet.getColumn(16).width = 15
+    worksheet.getColumn(17).width = 15
 
     //Generate Excel File with given name
     workbook.xlsx.writeBuffer().then((data) => {

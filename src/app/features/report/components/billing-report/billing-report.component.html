@@ -71,10 +71,13 @@
                       [showBorders] = "true"
                       id = "gridContainer">
           <dxi-column
-            caption = "No Factura"
-            dataField = "fiscal_number"
+            caption = "Fecha facturación"
+            dataField = "dateBilling"
+            dataType = "datetime"
+            format = "dd/MM/yyyy hh:mm:ss"
             width = "auto"
           ></dxi-column>
+
           <dxi-column
             caption = "Nit"
             dataField = "nit"
@@ -90,15 +93,13 @@
             width = "auto"
           ></dxi-column>
           <dxi-column
-            caption = "Fecha Factura"
-            dataField = "dateBilling"
-            dataType = "datetime"
-            format = "dd/MM/yyyy hh:mm:ss"
+            caption = "No. Facturación"
+            dataField = "noFactura"
             width = "auto"
           ></dxi-column>
           <dxi-column
-            caption = "Tipo"
-            dataField = "typeService"
+            caption = "Tipo de Servicio"
+            dataField = "service_type"
             width = "auto"
           ></dxi-column>
 
