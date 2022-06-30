@@ -75,6 +75,9 @@ export class PaymentReportComponent implements OnInit, AfterViewInit {
       if (data.success) {
         this.allParking = data.data.parkings
       }
+    }).then(() => {
+      this.getPaymentRpt(this.fechaActual, this.fechaActual)
+    }).finally(() => {
       this.messageService.hideLoading()
     })
   }
@@ -84,6 +87,7 @@ export class PaymentReportComponent implements OnInit, AfterViewInit {
   }
 
   getPaymentRpt(initDate: string, endDate: string) {
+
     if (endDate < initDate) {
       this.messageService.error(
         '',
@@ -91,7 +95,7 @@ export class PaymentReportComponent implements OnInit, AfterViewInit {
       )
       return
     }
-
+    this.messageService.showLoading()
     this.startDateReport = new Date(initDate + 'T00:00:00').toLocaleDateString('es-GT')
     this.endDateReport = new Date(endDate + 'T00:00:00').toLocaleDateString('es-GT')
     this.parqueo = this.datosUsuarioLogeado.id
@@ -113,7 +117,7 @@ export class PaymentReportComponent implements OnInit, AfterViewInit {
           this.messageService.error('', data.message)
         }
       })
-      .then(() => {
+      .finally(() => {
         this.messageService.hideLoading()
       })
   }

@@ -12,6 +12,7 @@
                    style = "display:block">Parqueo</label>
             <select
               #inputParking
+              (change) = "getPaymentRpt(initDate.value,endDate.value)"
               class = "inputClass">
               <option value = "0">---- Todos los parqueos ----</option>
               <option *ngFor = "let parking of this.allParking"
@@ -26,6 +27,7 @@
                    style = "display:block">Fecha de inicio</label>
             <input #initDate
                    [value] = "fechaActual"
+                   (change) = "getPaymentRpt(initDate.value,endDate.value)"
                    class = "form-control inputClass datetimepicker"
                    for = "initDate"
                    max = "{{nowDateTime | date: 'yyyy-MM-dd'}}"
@@ -41,6 +43,7 @@
                    style = "display:block">Fecha de fin</label>
             <input
               #endDate
+              (change) = "getPaymentRpt(initDate.value,endDate.value)"
               [value] = "fechaActual"
               class = "form-control inputClass datetimepicker"
               for = "endDate"
@@ -49,13 +52,6 @@
               placeholder = "Fecha/Hora de salida"
               type = "date"
             >
-          </div>
-        </div>
-        <div class = "col-xl-12 col-lg-12 col-sm-12">
-          <div class = "text-center">
-            <button (click) = "getPaymentRpt(initDate.value,endDate.value)"
-                    class = "btn btn-primary m-2">Buscar
-            </button>
           </div>
         </div>
       </div>
