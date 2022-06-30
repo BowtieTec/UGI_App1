@@ -447,9 +447,20 @@ export class PaymentReportComponent implements OnInit, AfterViewInit {
     const oldTime: Date = new Date(rowData.ep_entry_date)
     const timeNow: Date = new Date(rowData.ep_exit_date)
 
-    const days: number = timeNow.getDay() - oldTime.getDay()
-    const hours: number = timeNow.getHours() - oldTime.getHours()
-    const minutes: number = timeNow.getMinutes() - oldTime.getMinutes()
+    let days: number = timeNow.getDay() - oldTime.getDay()
+    let hours: number = timeNow.getHours() - oldTime.getHours()
+    let minutes: number = timeNow.getMinutes() - oldTime.getMinutes()
+    if (minutes < 0) {
+      hours--
+      minutes += 60
+    }
+    if (hours < 0) {
+      days--
+      hours += 24
+    }
+    if (days < 0) {
+      days += 7
+    }
     let response: string = ''
 
     if (days > 0 && hours > 0 && minutes > 0) return `${days} días, ${hours} horas y ${minutes} minutos`
