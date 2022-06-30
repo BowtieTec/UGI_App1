@@ -444,19 +444,24 @@ export class PaymentReportComponent implements OnInit, AfterViewInit {
   }
 
   getTimeInParking(rowData: any) {
-    const oldTime = new Date(rowData.ep_entry_date).getTime()
-    const timeNow = new Date(rowData.ep_exit_date).getTime()
-    const days = Math.round((timeNow - oldTime) / (1000 * 60 * 60 * 24))
-    const hours = Math.round(
-      (Math.abs(timeNow - oldTime) / (1000 * 60 * 60)) % 24
-    )
-    const minutes = Math.round((Math.abs(timeNow - oldTime) / (1000 * 60)) % 60)
+    const oldTime: Date = new Date(rowData.ep_entry_date)
+    const timeNow: Date = new Date(rowData.ep_exit_date)
 
-    if (days > 0) return `${days} dias con ${hours} horas`
-    if (hours > 0) return `${hours} horas con ${minutes} minutos`
-    if (minutes > 0) return `${minutes} minutos`
+    const days: number = timeNow.getDay() - oldTime.getDay()
+    const hours: number = timeNow.getHours() - oldTime.getHours()
+    const minutes: number = timeNow.getMinutes() - oldTime.getMinutes()
+    let response: string = ''
 
-    return 'Menos de un minuto'
+    if (days > 0 && hours > 0 && minutes > 0) return `${days} días, ${hours} horas y ${minutes} minutos`
+    if (days > 0 && hours > 0 && minutes === 0) return `${days} días, ${hours} horas`
+    if (days > 0 && hours === 0 && minutes > 0) return `${days} días y ${minutes} minutos`
+    if (days > 0 && hours === 0 && minutes === 0) return `${days} días`
+    if (days === 0 && hours > 0 && minutes > 0) return `${hours} horas y ${minutes} minutos`
+    if (days === 0 && hours > 0 && minutes === 0) return `${hours} horas`
+    if (days === 0 && hours === 0 && minutes > 0) return `${minutes} minutos`
+    if (days === 0 && hours === 0 && minutes === 0) return '0 minutos'
+
+    return response
   }
 
   private rerender() {
