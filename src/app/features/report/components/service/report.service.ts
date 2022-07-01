@@ -1,9 +1,10 @@
-import { Injectable } from '@angular/core'
-import { MessageService } from 'src/app/shared/services/message.service'
-import { environment } from '../../../../../environments/environment'
-import { HttpClient } from '@angular/common/http'
-import { ResponseModel } from 'src/app/shared/model/Request.model'
-import { payFilter } from '../model/paymentModel'
+import {Injectable} from '@angular/core'
+import {MessageService} from 'src/app/shared/services/message.service'
+import {environment} from '../../../../../environments/environment'
+import {HttpClient} from '@angular/common/http'
+import {ResponseModel} from 'src/app/shared/model/Request.model'
+import {payFilter} from '../model/paymentModel'
+import {map} from "rxjs/operators";
 //import * as jsPDF from 'jspdf';
 
 const EXCEL_TYPE =
@@ -73,10 +74,31 @@ export class ReportService {
     )
   }
 
-  getParkingMonthlyRpt(initDate: string, endDate: string, parqueo: string) {
+  getParkingMonthlyRpt(initDate: string, endDate: string, parqueo: string, telephone: string) {
     return this.http.get<ResponseModel>(
-      `${this.apiUrl}backoffice/report/parkingMonthlyRpt/dates?initDate=${initDate}&endDate=${endDate}&parqueo=${parqueo}`
-    )
+      `${this.apiUrl}backoffice/report/parkingMonthlyRpt/dates?initDate=${initDate}&endDate=${endDate}&parqueo=${parqueo}&phoneNumber=${telephone}`
+    ).pipe(
+      map(res => {
+          return res.data.map((item: any) => {
+            return {
+              phone_number: item.user.phone_number,
+              name: `${item.user.name} ${item.user.lastName ?? ''}`,
+              email: item.user.email,
+              nit: item.billing?.buyer_nit ?? 'CF',
+              amount_monthly: item.subscription?.amount,
+              amount: item.amount ?? '',
+              month_paid: item.month_paid ?? '',
+              payment_date: new Date(item.created_at).toLocaleString(),
+              trace_number: item.trace_number,
+              certification_time: item.billing?.certification_time,
+              noInvoice: item.billing?.fiscal_number && item.billing?.fiscal_number != ' ' ? item.billing?.fiscal_number : 'No generada',
+              is_aproved: item.is_aproved,
+              last_payment: item.subscription?.last_payment_date ?? '',
+              parking: item.terminal?.parking.name
+            }
+          })
+        }
+      ))
   }
 
   getParkingRpt(initDate: string, endDate: string, parqueo: string) {
