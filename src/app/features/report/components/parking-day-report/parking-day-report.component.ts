@@ -105,16 +105,14 @@ export class ParkingDayReportComponent implements OnInit {
       .getParkingRpt(initDate, endDate, this.parqueo)
       .toPromise()
       .then((data) => {
-        if (data.success) {
-          this.report = data.data
-          this.dataSource = data.data
-          if (this.report.length == 0) {
-            this.messageService.infoTimeOut('No se encontraron datos')
-          }
-          this.rerender()
-        } else {
-          this.messageService.error('', data.message)
+        console.log(data);
+        this.report = data
+        this.dataSource = data
+        if (this.report.length == 0) {
+          this.messageService.infoTimeOut('No se encontraron datos')
         }
+        this.rerender()
+
       })
       .then(() => {
         this.messageService.hideLoading()
@@ -152,16 +150,15 @@ export class ParkingDayReportComponent implements OnInit {
     const header = [
       '',
       'Nombre',
-      'Apellido',
-      'Nombre completo',
       'Email',
       'Género',
       'Teléfono',
       'Entrada',
       'Salida',
+      'Tiempo dentro',
       'Estación de entrada',
       'Estación de salida',
-      'Tipo de entrada',
+      'Tipo',
     ]
     //Create workbook and worksheet
     const workbook = new Workbook()
@@ -308,16 +305,15 @@ export class ParkingDayReportComponent implements OnInit {
     this.dataSource.forEach((d: any) => {
       const row = worksheet.addRow([
         '',
-        d.user?.name ?? '',
-        d.user?.last_name ?? '',
-        `${d.user?.name ?? ''} ${d.user?.last_name ?? ''}`,
-        d.user?.email ?? '',
-        d.user?.gender == 2 ? 'Masculino' : 'Femenino',
-        d.user?.phone_number ?? '',
+        d.name ?? '',
+        d.email ?? '',
+        d.gender == 2 ? 'Masculino' : 'Femenino',
+        d.phone_number ?? '',
         new Date(d.entry_date).toLocaleString('es-GT') ?? '',
         new Date(d.exit_date).toLocaleString('es-GT') ?? '',
-        d.entry_station?.name ? d.entry_station?.name : '',
-        d.exit_station?.name ? d.exit_station?.name : '',
+        d.timeIn ?? '',
+        d.entry_station ?? '',
+        d.exit_station ?? '',
         d.type == 1 ? 'ebiGo Ticket' : 'ebiGo Mensual'
       ])
     })

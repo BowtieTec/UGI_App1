@@ -69,22 +69,12 @@
                       keyExpr = "id">
           <dxi-column
             caption = "Nombre"
-            dataField = "user.name"
+            dataField = "name"
             dataType = "text"
           ></dxi-column>
           <dxi-column
             caption = "Teléfono"
-            dataField = "user.phone_number"
-            dataType = "text"
-          ></dxi-column>
-          <dxi-column
-            caption = "Teléfono"
-            dataField = "user.email"
-            dataType = "text"
-          ></dxi-column>
-          <dxi-column
-            caption = "Apellido"
-            dataField = "user.last_name"
+            dataField = "phone_number"
             dataType = "text"
           ></dxi-column>
           <dxi-column
@@ -98,13 +88,18 @@
             dataType = "datetime"
           ></dxi-column>
           <dxi-column
+            caption = "Tiempo dentro"
+            dataField = "timeIn"
+            dataType = "datetime"
+          ></dxi-column>
+          <dxi-column
             caption = "Estación de Entrada"
-            dataField = "entry_station.name"
+            dataField = "entry_station"
             dataType = "text"
           ></dxi-column>
           <dxi-column
             caption = "Estación de Salida"
-            dataField = "exit_station.name"
+            dataField = "exit_station"
             dataType = "text"
           ></dxi-column>
           <dxo-header-filter [visible] = "true"></dxo-header-filter>
