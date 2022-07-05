@@ -7,6 +7,8 @@ import {MessageService} from 'src/app/shared/services/message.service'
 import {UtilitiesService} from 'src/app/shared/services/utilities.service'
 import {FileUploadService} from "./services/fileUploadService";
 import {ParkingModel} from "../../parking/models/Parking.model";
+import { UserService } from '../../management/components/users/services/user.service'
+import { AuthService } from '../../../shared/services/auth.service'
 
 @Component({
   selector: 'app-file-upload',
@@ -22,6 +24,7 @@ export class FileUploadComponent implements OnInit {
   stepFourForm: UntypedFormGroup = this.createForm()
   settingsOptions!: SettingsOptionsModel
 
+
   @Output() changeStep = new EventEmitter<number>()
   @Input() parkingId: string = this.parkingService.parkingStepOne.parkingId
   @Input() isCreatingParking: boolean = true
@@ -31,7 +34,8 @@ export class FileUploadComponent implements OnInit {
     private parkingService: ParkingService,
     private formBuilder: UntypedFormBuilder,
     private utilitiesService: UtilitiesService,
-    private fileServices: FileUploadService
+    private fileServices: FileUploadService,
+    private authService: AuthService
   ) {
   }
 
@@ -134,7 +138,9 @@ export class FileUploadComponent implements OnInit {
       parkingId: [this.parkingId, Validators.required]
     })
   }
-
+  getIsSudo(): boolean{
+    return this.authService.isSudo
+  }
   private getFile(): CreateParkingFileModel {
     return {
       parkingId: '',

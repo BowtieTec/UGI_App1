@@ -16,7 +16,7 @@ import {ReCaptchaV3Service} from "ng-recaptcha";
 export class AuthService {
   private apiUrl = environment.serverAPI
   userContext = ''
-
+  isSudo: boolean = this.getUser().user?.role?.isSudo
   constructor(
     private http: HttpClient,
     private message: MessageService,
@@ -28,9 +28,6 @@ export class AuthService {
     //this.userContext = sha512(this.utilities.randomString())
   }
 
-  get isSudo() {
-    return this.getUser().user.role.isSudo
-  }
 
   saveUser(user: AuthModel) {
     sessionStorage.setItem(
