@@ -18,23 +18,13 @@ import {ParkingService} from '../../../parking/services/parking.service'
 import {ParkingModel} from '../../../parking/models/Parking.model'
 import * as logoFile from '../logoEbi'
 
-export interface pagos {
-  name: string
-  last_name: string
-  email: string
-  phone_number: string
-  amount: number
-  created_at: Date
-}
-
 @Component({
   selector: 'app-payment-report',
   templateUrl: './payment-report.component.html',
   styleUrls: ['./payment-report.component.css']
 })
 export class PaymentReportComponent implements OnInit, AfterViewInit {
-  //report = new MatTableDataSource(report)
-  //@ViewChild(DataTableDirective)
+
   @ViewChild(DxDataGridComponent, {static: false})
   dataGrid!: DxDataGridComponent
   dtElement!: DataTableDirective
@@ -42,7 +32,7 @@ export class PaymentReportComponent implements OnInit, AfterViewInit {
   dtTrigger: Subject<any> = new Subject()
   pdfTable!: ElementRef
 
-  report: pagos[] = []
+  report: any
   dataSource: any
   parqueo: any
   nowDateTime = new Date()
@@ -86,7 +76,7 @@ export class PaymentReportComponent implements OnInit, AfterViewInit {
     return this.permisionService.ifHaveAction(action)
   }
 
-  getPaymentRpt(initDate: string, endDate: string) {
+  getPaymentRpt(initDate: string, endDate: string, telephone: string = '') {
 
     if (endDate < initDate) {
       this.messageService.error(
@@ -103,19 +93,11 @@ export class PaymentReportComponent implements OnInit, AfterViewInit {
       this.parqueo = this.inputParking.nativeElement.value
     }
     return this.reportService
-      .getPaymentsRpt(initDate, endDate, this.parqueo)
+      .getPaymentsRpt(initDate, endDate, this.parqueo, telephone)
       .toPromise()
       .then((data) => {
-        if (data.success) {
-          this.report = data.data
-          this.dataSource = data.data
-          if (this.report.length == 0) {
-            this.messageService.infoTimeOut('No se encontraron datos')
-          }
-          this.rerender()
-        } else {
-          this.messageService.error('', data.message)
-        }
+        this.report = data
+        this.dataSource = data
       })
       .finally(() => {
         this.messageService.hideLoading()
@@ -149,39 +131,21 @@ export class PaymentReportComponent implements OnInit, AfterViewInit {
       this.messageService.infoTimeOut('No hay información para exportar')
       return
     }
-    /*     const context = this;
-        const workbook = new Workbook();
-        const worksheet = workbook.addWorksheet('Pagos');
-
-        exportDataGrid({
-          component: context.dataGrid.instance,
-          worksheet: worksheet,
-          autoFilterEnabled: true,
-        }).then(() => {
-          workbook.xlsx.writeBuffer().then((buffer: any) => {
-            let xmlString="<table><tr><td>Hola</td></tr></table>";
-            let wrapper = document.createElement('div');
-            wrapper.innerHTML = xmlString;
-            saveAs(new Blob([wrapper.innerHTML], {type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'}), 'Pagos.xlsx');
-          })
-        }); */
     const header = [
       '',
-      'Codigo cliente',
-      'Fecha de ingreso',
-      'Hora de ingreso',
-      'Fecha de salida',
-      'Hora de salida',
+      'Teléfono',
+      'Ingreso',
+      'Salida',
       'Tiempo estacionado',
-      'Linea de ingreso',
-      'Linea de egreso',
       'Sub monto (Q)',
-      'Tipo cortesia',
-      'Monto/Tiempo',
+      'Descuento',
       'Total (Q)',
+      'Nombre de descuento',
       'No. Factura',
-      /*'Factura',
-      'Id Descuento'*/
+      'Fecha de emisión de Factura',
+      'Fecha de pago',
+      'No. Transacción',
+      'Método de pago',
     ]
     //Create workbook and worksheet
     const workbook = new Workbook()
@@ -337,20 +301,18 @@ export class PaymentReportComponent implements OnInit, AfterViewInit {
       const row = worksheet.addRow([
         '',
         d.phone_key,
-        d.ep_entry_date ? new Date(d.ep_entry_date).toLocaleDateString() : ' ',
-        d.ep_entry_date ? new Date(d.ep_entry_date).toLocaleTimeString() : ' ',
-        d.ep_exit_date ? new Date(d.ep_exit_date).toLocaleDateString() : ' ',
-        d.ep_exit_date ? new Date(d.ep_exit_date).toLocaleTimeString() : ' ',
-        d.diferencia,
-        d.estacionEntrada,
-        d.estacionSalida ? d.estacionSalida : ' ',
+        d.entry_date ? new Date(d.entry_date).toLocaleString() : '',
+        d.exit_date ? new Date(d.exit_date).toLocaleString() : '',
+        d.timeIn,
+        d.subtotal,
+        d.discount,
         d.total,
-        d.cd_type,
-        d.descuento,
-        d.pagado,
-        d.noFactura,
-        /*d.py_billingId ? d.py_billingId : ' ',
-        d.courtesyId ? d.courtesyId : ' '*/
+        d.courtesy,
+        d.invoice,
+        d.invoiceDate ? new Date(d.invoiceDate).toLocaleString() : '',
+        d.paymentDate ? new Date(d.paymentDate).toLocaleString() : '',
+        d.transaction,
+        d.typePayment,
       ])
       row.eachCell((cell, number) => {
         if (number > 1) {
@@ -366,60 +328,7 @@ export class PaymentReportComponent implements OnInit, AfterViewInit {
     worksheet.addRow([])
     worksheet.addRow([])
     worksheet.addRow([])
-    const headerResumen = worksheet.addRow([
-      '',
-      'Fecha',
-      'Total de vehiculos',
-      'Total de ingresos',
-      'Total de descuento (Q)',
-      'Total pagado (Q)'
-    ])
-    headerResumen.eachCell((cell, number) => {
-      if (number > 1) {
-        cell.border = {
-          top: {style: 'thin'},
-          left: {style: 'thin'},
-          bottom: {style: 'thin'},
-          right: {style: 'thin'}
-        }
-      }
-    })
-    const groupData = this.dataSource.reduce((r: any, a: any) => {
-      r[a.ep_entry_date.slice(0, 10)] = [
-        ...(r[a.ep_entry_date.slice(0, 10)] || []),
-        a
-      ]
-      return r
-    }, {})
-    Object.entries(groupData).forEach(([key, value]) => {
-      const valor = JSON.parse(JSON.stringify(value))
-      let total = 0
-      let descuento = 0
-      let pagado = 0
-      valor.forEach((element: any) => {
-        total += +element.total
-        descuento += +element.descuento
-        pagado += +element.pagado
-      })
-      const detailResumen = worksheet.addRow([
-        '',
-        key,
-        valor.length,
-        total,
-        descuento,
-        pagado
-      ])
-      detailResumen.eachCell((cell, number) => {
-        if (number > 1) {
-          cell.border = {
-            top: {style: 'thin'},
-            left: {style: 'thin'},
-            bottom: {style: 'thin'},
-            right: {style: 'thin'}
-          }
-        }
-      })
-    })
+
 
     worksheet.getColumn(2).width = 15
     worksheet.getColumn(3).width = 20
@@ -442,41 +351,16 @@ export class PaymentReportComponent implements OnInit, AfterViewInit {
       const blob = new Blob([data], {
         type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
       })
-      saveAs(blob, 'ReportePagos.xlsx')
+      saveAs(blob, `Reporte Detalle de Pagos por Ticket - Generado - '${this.nowDateTime.toLocaleString()}.xlsx`)
     })
     e.cancel = true
   }
 
   getTimeInParking(rowData: any) {
-    const oldTime: Date = new Date(rowData.ep_entry_date)
-    const timeNow: Date = new Date(rowData.ep_exit_date)
+    const oldTime: Date = new Date(rowData.entry_date)
+    const timeNow: Date = new Date(rowData.exit_date)
 
-    let days: number = timeNow.getDay() - oldTime.getDay()
-    let hours: number = timeNow.getHours() - oldTime.getHours()
-    let minutes: number = timeNow.getMinutes() - oldTime.getMinutes()
-    if (minutes < 0) {
-      hours--
-      minutes += 60
-    }
-    if (hours < 0) {
-      days--
-      hours += 24
-    }
-    if (days < 0) {
-      days += 7
-    }
-    let response: string = ''
-
-    if (days > 0 && hours > 0 && minutes > 0) return `${days} días, ${hours} horas y ${minutes} minutos`
-    if (days > 0 && hours > 0 && minutes === 0) return `${days} días, ${hours} horas`
-    if (days > 0 && hours === 0 && minutes > 0) return `${days} días y ${minutes} minutos`
-    if (days > 0 && hours === 0 && minutes === 0) return `${days} días`
-    if (days === 0 && hours > 0 && minutes > 0) return `${hours} horas y ${minutes} minutos`
-    if (days === 0 && hours > 0 && minutes === 0) return `${hours} horas`
-    if (days === 0 && hours === 0 && minutes > 0) return `${minutes} minutos`
-    if (days === 0 && hours === 0 && minutes === 0) return '0 minutos'
-
-    return response
+    return this.reportService.descriptionOfDiffOfTime(oldTime, timeNow)
   }
 
   private rerender() {
