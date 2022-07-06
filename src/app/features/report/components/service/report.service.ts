@@ -25,10 +25,31 @@ export class ReportService {
     //this.getInitialData();
   }
 
-  getPaymentsRpt(initDate: string, endDate: string, parqueo: string) {
+  getPaymentsRpt(initDate: string, endDate: string, parqueo: string, telephone: string) {
     return this.http.get<ResponseModel>(
-      `${this.apiUrl}backoffice/report/getPagos/dates?initDate=${initDate}&endDate=${endDate}&parqueo=${parqueo}`
-    )
+      `${this.apiUrl}backoffice/report/getPagos/dates?initDate=${initDate}&endDate=${endDate}&parqueo=${parqueo}&telephone=${telephone}`
+    ).pipe(map((res) => {
+      console.log(res);
+      return res.data.map((item: any) => {
+        return {
+          phone_key: item.user.phone_number,
+          subtotal: item.entry.subtotal,
+          discount: item.entry.discount,
+          total: item.entry.total,
+          entry_date: item.entry.entry_date,
+          exit_date: item.entry.exit_date,
+          invoice: item.billing?.fiscal_number ?? 'No generada',
+          invoiceDate: item.billing?.certification_time ?? '',
+          paymentDate: item.created_at,
+          timeIn: this.descriptionOfDiffOfTime(new Date(item.entry.entry_date), new Date(item.entry.exit_date)),
+          transaction: item.trace_number,
+          courtesy: item.entry.courtesy?.courtesy_details?.name ?? '',
+          typePayment: item.entry.payment_type == 0 ?
+            'Tarjeta C/D' : item.entry.payment_type == 1 ? 'Efectivo' :
+              item.entry.payment_type == 3 ? 'Salida gratuita' : ''
+        }
+      })
+    }))
   }
 
   getHistoryOfCourtesyRpt(initDate: string, endDate: string, parqueo: string) {
@@ -101,7 +122,7 @@ export class ReportService {
       ))
   }
 
-  descriptionOfDiffOfTime(oldTime: Date, timeNow: Date) {
+  descriptionOfDiffOfTime(oldTime: Date, timeNow: Date): string {
     if (!timeNow) {
       return 'No ha salido del parqueo'
     }

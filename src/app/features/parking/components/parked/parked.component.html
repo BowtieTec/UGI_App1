@@ -19,7 +19,8 @@
             </div>
           </div>
 
-          <div class = "col-xl-6 col-lg-6  col-sm-12">
+          <div *ngIf = "isSudo"
+               class = "col-xl-6 col-lg-6  col-sm-12">
             <div class = "mb-4 relative">
               <app-select-container
                 (change) = "this.refreshParkedData()"
