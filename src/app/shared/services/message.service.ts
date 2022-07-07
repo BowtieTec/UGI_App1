@@ -152,6 +152,7 @@ export class MessageService {
     confirmButtonText: string,
     output?: Date
   ) {
+    let dateToGetOut: any
     return Swal.fire({
       denyButtonColor: '#415ba1',
       confirmButtonColor: '#05ccae',
@@ -169,17 +170,29 @@ export class MessageService {
         <input
           class = "inputClass"
           id='dateOut'
-          name='dateOut'
-          value='${output}'
-          ngModel='${output}'
+          name='dateOutToGetOut'
           max='${this.nowTimeFormat}'
           placeholder = 'Hora de salida'
           autocomplete = 'off'
           type = 'datetime-local'>
       </div>
       <br>
-      `
-    }).then((result: any) => {
+      `, preConfirm(inputValue: any) {
+        return new Promise((resolve, reject) => {
+          dateToGetOut = $('input[name="dateOutToGetOut"]').val()
+          resolve({
+            dateToGetOut: $('input[name="dateOutToGetOut"]').val()
+          })
+        })
+      }, preDeny(inputValue: any) {
+        return new Promise((resolve, reject) => {
+          dateToGetOut = $('input[name="dateOutToGetOut"]').val()
+          resolve({
+            dateToGetOut: $('input[name="dateOutToGetOut"]').val()
+          })
+        })
+      }
+    }).then((result: any): any => {
       if (result.isConfirmed) {
         return Swal.fire({
           denyButtonColor: '#415ba1',
@@ -191,16 +204,17 @@ export class MessageService {
           allowOutsideClick: false,
           denyButtonText: 'El pago fue en efectivo',
           confirmButtonText,
-        }).then((lastQuestion) => {
+        }).then((lastQuestion: any) => {
           return {
             isConfirmed: lastQuestion.isConfirmed,
             isDenied: result.isDenied,
             isDismissed: lastQuestion.isDismissed,
-            isCash: lastQuestion.isDenied
+            isCash: lastQuestion.isDenied,
+            dateToGetOut: dateToGetOut
           }
         })
       }
-      return result
+      return {result, dateToGetOut}
     })
   }
 
