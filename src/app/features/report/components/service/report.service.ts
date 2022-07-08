@@ -155,6 +155,7 @@ export class ReportService {
   }
 
   getParkingRpt(initDate: string, endDate: string, parqueo: string) {
+
     return this.http.get<ResponseModel>(
       `${this.apiUrl}backoffice/report/parkingDailyMoSubRpt/dates?initDate=${initDate}&endDate=${endDate}&parqueo=${parqueo}`
     ).pipe(map((res: any) => {
