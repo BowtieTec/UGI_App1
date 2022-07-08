@@ -159,18 +159,19 @@ export class ReportService {
       `${this.apiUrl}backoffice/report/parkingDailyMoSubRpt/dates?initDate=${initDate}&endDate=${endDate}&parqueo=${parqueo}`
     ).pipe(map((res: any) => {
       return res.data.map((item: any) => {
+        console.log(item);
         return {
           id: item.id,
-          name: `${item.user.name ?? ''} ${item.user.lastName ?? ''}`,
-          email: item.user.email,
-          gender: item.user.gender == 2 ? 'Masculino' : 'Femenino',
-          phone_number: item.user.phone_number,
-          entry_date: item.entry_date.toLocaleString() ?? '',
-          exit_date: item.exit_date.toLocaleString() ?? '',
-          timeIn: this.descriptionOfDiffOfTime(new Date(item.entry_date), new Date(item.exit_date)),
-          entry_station: item.entry_station.name ?? '',
-          exit_station: item.exit_station.name ?? '',
-          type: item.type == 1 ? 'ebiGo Ticket' : 'ebiGo Mensual'
+          name: `${item?.user?.name ?? ''} ${item?.user?.lastName ?? ''}`,
+          email: item?.user?.email,
+          gender: item?.user?.gender == 2 ? 'Masculino' : 'Femenino',
+          phone_number: item?.user?.phone_number,
+          entry_date: item?.entry_date ? item?.entry_date.toLocaleString() : '',
+          exit_date: item?.exit_date ? item?.exit_date.toLocaleString() : '',
+          timeIn: this.descriptionOfDiffOfTime(new Date(item?.entry_date), new Date(item?.exit_date)),
+          entry_station: item?.entry_station?.name ?? '',
+          exit_station: item?.exit_station?.name ?? '',
+          type: item?.type == 1 ? 'ebiGo Ticket' : 'ebiGo Mensual'
         }
       })
 
