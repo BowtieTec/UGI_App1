@@ -9,6 +9,7 @@ import {Subject} from 'rxjs'
 import {MessageService} from '../../../../shared/services/message.service'
 import {environment} from '../../../../../environments/environment'
 import {PermissionsService} from '../../../../shared/services/permissions.service'
+import {ReportService} from "../../../report/components/service/report.service";
 
 @Component({
   selector: 'app-parked',
@@ -35,7 +36,8 @@ export class ParkedComponent implements OnDestroy, AfterViewInit {
     private parkingService: ParkingService,
     private authService: AuthService,
     private messageService: MessageService,
-    private permissionService: PermissionsService
+    private permissionService: PermissionsService,
+    private reportService: ReportService,
   ) {
     this.getInitialData().catch()
   }
@@ -71,21 +73,9 @@ export class ParkedComponent implements OnDestroy, AfterViewInit {
   }
 
   getTimeInParking(entry: ParkedModel) {
-    const entry_date = entry.entry_date
-    const oldTime = new Date(entry_date).getTime()
-    const timeNow = entry.exit_date ? (new Date(entry.exit_date).getTime()) : new Date().getTime()
-
-    const days = Math.round((timeNow - oldTime) / (1000 * 60 * 60 * 24))
-    const hours = Math.round(
-      (Math.abs(timeNow - oldTime) / (1000 * 60 * 60)) % 24
-    )
-    const minutes = Math.round((Math.abs(timeNow - oldTime) / (1000 * 60)) % 60)
-
-    if (days > 0) return `${days} dias con ${hours} horas`
-    if (hours > 0) return `${hours} horas con ${minutes} minutos`
-    if (minutes > 0) return `${minutes} minutos`
-
-    return 'No calculable'
+    const entry_date: Date = new Date(entry.entry_date)
+    const exit_date: Date = entry.exit_date ? new Date(entry.exit_date) : new Date()
+    return this.reportService.descriptionOfDiffOfTime(entry_date, exit_date)
   }
 
   createForm(): UntypedFormGroup {
