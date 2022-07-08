@@ -33,20 +33,20 @@ export class ReportService {
       return res.data.map((item: any) => {
         return {
           phone_key: item.user.phone_number,
-          subtotal: item.entry.subtotal,
-          discount: item.entry.discount,
-          total: item.entry.total,
-          entry_date: item.entry.entry_date,
-          exit_date: item.entry.exit_date,
-          invoice: item.billing?.fiscal_number ?? 'No generada',
-          invoiceDate: item.billing?.certification_time ?? '',
-          paymentDate: item.created_at,
-          timeIn: this.descriptionOfDiffOfTime(new Date(item.entry.entry_date), new Date(item.entry.exit_date)),
-          transaction: item.trace_number,
-          courtesy: item.entry.courtesy?.courtesy_details?.name ?? '',
-          typePayment: item.entry.payment_type == 0 ?
-            'Tarjeta C/D' : item.entry.payment_type == 1 ? 'Efectivo' :
-              item.entry.payment_type == 3 ? 'Salida gratuita' : ''
+          subtotal: item.subtotal,
+          discount: item.discount,
+          total: item.total,
+          entry_date: item.entry_date,
+          exit_date: item.exit_date,
+          invoice: item.payment[0]?.billing?.fiscal_number ?? 'No generada',
+          invoiceDate: item.payment[0]?.billing?.certification_time ?? '',
+          paymentDate: item.payment[0]?.created_at ?? '',
+          timeIn: this.descriptionOfDiffOfTime(new Date(item.entry_date), new Date(item.exit_date)),
+          transaction: item.payment[0]?.trace_number ?? '',
+          courtesy: item.courtesy?.courtesy_details?.name ?? '',
+          typePayment: item.payment_type == 0 ?
+            'Tarjeta C/D' : item.payment_type == 1 ? 'Efectivo' :
+              item.payment_type == 3 ? 'Salida gratuita' : ''
         }
       })
     }))
@@ -155,22 +155,24 @@ export class ReportService {
   }
 
   getParkingRpt(initDate: string, endDate: string, parqueo: string) {
+
     return this.http.get<ResponseModel>(
       `${this.apiUrl}backoffice/report/parkingDailyMoSubRpt/dates?initDate=${initDate}&endDate=${endDate}&parqueo=${parqueo}`
     ).pipe(map((res: any) => {
       return res.data.map((item: any) => {
+        console.log(item);
         return {
           id: item.id,
-          name: `${item.user.name ?? ''} ${item.user.lastName ?? ''}`,
-          email: item.user.email,
-          gender: item.user.gender == 2 ? 'Masculino' : 'Femenino',
-          phone_number: item.user.phone_number,
-          entry_date: item.entry_date.toLocaleString() ?? '',
-          exit_date: item.exit_date.toLocaleString() ?? '',
-          timeIn: this.descriptionOfDiffOfTime(new Date(item.entry_date), new Date(item.exit_date)),
-          entry_station: item.entry_station.name ?? '',
-          exit_station: item.exit_station.name ?? '',
-          type: item.type == 1 ? 'ebiGo Ticket' : 'ebiGo Mensual'
+          name: `${item?.user?.name ?? ''} ${item?.user?.lastName ?? ''}`,
+          email: item?.user?.email,
+          gender: item?.user?.gender == 2 ? 'Masculino' : 'Femenino',
+          phone_number: item?.user?.phone_number,
+          entry_date: item?.entry_date ? item?.entry_date.toLocaleString() : '',
+          exit_date: item?.exit_date ? item?.exit_date.toLocaleString() : '',
+          timeIn: this.descriptionOfDiffOfTime(new Date(item?.entry_date), new Date(item?.exit_date)),
+          entry_station: item?.entry_station?.name ?? '',
+          exit_station: item?.exit_station?.name ?? '',
+          type: item?.type == 1 ? 'ebiGo Ticket' : 'ebiGo Mensual'
         }
       })
 

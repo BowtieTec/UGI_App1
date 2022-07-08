@@ -397,9 +397,9 @@ export class BarChartComponent implements OnInit {
 
   ngOnChanges(): void {
     this.messageService.showLoading()
-    if(this.auth.isSudo){
-      this.parking = this.parking? this.parking: this.auth.getParking().id
-    }else{
+    if (this.auth.isSudo) {
+      this.parking = this.parking ? this.parking : this.auth.getParking().id
+    } else {
       this.parking = this.auth.getParking().id
     }
 
@@ -408,30 +408,30 @@ export class BarChartComponent implements OnInit {
     const mes = partesFecha[1]
     const anio = partesFecha[0]
     if (this.tipo === 'Ingresos') {
-      this.periodo=='dia'? this.getDatosDiarios(this.parking, fecha).then(x => this.messageService.hideLoading()):
-        this.periodo== 'mes'? this.getDatosMes(this.parking, mes, anio).then(x => this.messageService.hideLoading()):
-          this.periodo=='anio'? this.getDatosAnio(this.parking, anio).then(x => this.messageService.hideLoading()): false
-    }else if (this.tipo === 'Flujo') {
-      this.periodo=='dia'? this.getDatosFlujoDiarios(this.parking, fecha).then(x => this.messageService.hideLoading()):
-        this.periodo== 'mes'? this.getDatosFlujoMes(this.parking, mes, anio).then(x => this.messageService.hideLoading()):
-          this.periodo=='anio'?  this.getDatosFlujoAnio(this.parking, anio).then(x => this.messageService.hideLoading()): false
-    }else if (this.tipo === 'Cortesias') {
-      this.periodo=='dia'? this.getDatosCortesiasDiarios(this.datosUsuarioLogeado.id, fecha).then(x => this.messageService.hideLoading()):
-        this.periodo== 'mes'? this.getDatosCortesiasMes(this.datosUsuarioLogeado.id, mes, anio).then(x => this.messageService.hideLoading()):
-          this.periodo=='anio'?   this.getDatosCortesiasAnio(this.datosUsuarioLogeado.id, anio).then(x => this.messageService.hideLoading()): false
-    }else if (this.tipo === 'CortesiasEstacionarias') {
+      this.periodo == 'dia' ? this.getDatosDiarios(this.parking, fecha).then(x => this.messageService.hideLoading()) :
+        this.periodo == 'mes' ? this.getDatosMes(this.parking, mes, anio).then(x => this.messageService.hideLoading()) :
+          this.periodo == 'anio' ? this.getDatosAnio(this.parking, anio).then(x => this.messageService.hideLoading()) : false
+    } else if (this.tipo === 'Flujo') {
+      this.periodo == 'dia' ? this.getDatosFlujoDiarios(this.parking, fecha).then(x => this.messageService.hideLoading()) :
+        this.periodo == 'mes' ? this.getDatosFlujoMes(this.parking, mes, anio).then(x => this.messageService.hideLoading()) :
+          this.periodo == 'anio' ? this.getDatosFlujoAnio(this.parking, anio).then(x => this.messageService.hideLoading()) : false
+    } else if (this.tipo === 'Cortesias') {
+      this.periodo == 'dia' ? this.getDatosCortesiasDiarios(this.datosUsuarioLogeado.id, fecha).then(x => this.messageService.hideLoading()) :
+        this.periodo == 'mes' ? this.getDatosCortesiasMes(this.datosUsuarioLogeado.id, mes, anio).then(x => this.messageService.hideLoading()) :
+          this.periodo == 'anio' ? this.getDatosCortesiasAnio(this.datosUsuarioLogeado.id, anio).then(x => this.messageService.hideLoading()) : false
+    } else if (this.tipo === 'CortesiasEstacionarias') {
       if (this.periodo == 'dia') {
         this.getDatosCortesiasEstacionariasDiarios(
           this.datosUsuarioLogeado.id,
           fecha
         ).then()
-      }else if (this.periodo == 'mes') {
+      } else if (this.periodo == 'mes') {
         this.getDatosCortesiasEstacionariasMes(
           this.datosUsuarioLogeado.id,
           mes,
           anio
         ).then()
-      }else if (this.periodo == 'anio') {
+      } else if (this.periodo == 'anio') {
         this.getDatosCortesiasEstacionariasAnio(
           this.datosUsuarioLogeado.id,
           anio

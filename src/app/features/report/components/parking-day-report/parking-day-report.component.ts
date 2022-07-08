@@ -94,8 +94,8 @@ export class ParkingDayReportComponent implements OnInit {
       )
       return
     }
-    this.startDateReport = new Date(initDate + 'T00:00:00').toLocaleDateString('es-GT')
-    this.endDateReport = new Date(endDate + 'T00:00:00').toLocaleDateString('es-GT')
+    this.startDateReport = new Date(initDate).toLocaleDateString()
+    this.endDateReport = new Date(endDate).toLocaleDateString()
     this.parqueo = this.datosUsuarioLogeado.id
     if (this.ifHaveAction('verTodosLosParqueosReport')) {
       this.parqueo = this.inputParking.nativeElement.value
@@ -309,8 +309,8 @@ export class ParkingDayReportComponent implements OnInit {
         d.email ?? '',
         d.gender == 2 ? 'Masculino' : 'Femenino',
         d.phone_number ?? '',
-        new Date(d.entry_date).toLocaleString('es-GT') ?? '',
-        new Date(d.exit_date).toLocaleString('es-GT') ?? '',
+        d.d.entry_date ? new Date(d.entry_date).toLocaleString('es-GT') : '',
+        d.exit_date ? new Date(d.exit_date).toLocaleString('es-GT') : '',
         d.timeIn ?? '',
         d.entry_station ?? '',
         d.exit_station ?? '',
