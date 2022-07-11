@@ -12,6 +12,7 @@
                    style = "display:block">Parqueo</label>
             <select
               #inputParking
+              (change) = "getCourtesyRpt()"
               class = "inputClass">
               <option value = "0">---- Todos los parqueos ----</option>
               <option *ngFor = "let parking of this.allParking"
@@ -21,14 +22,6 @@
           </div>
         </div>
 
-        <div *ngIf = "ifHaveAction(verTodosLosParqueosReport)"
-          class = "col-xl-12 col-lg-12 col-sm-12">
-          <div class = "text-center">
-            <button (click) = "getCourtesyRpt()"
-                    class = "btn btn-primary m-2">Buscar
-            </button>
-          </div>
-        </div>
       </div>
 
     </div>
