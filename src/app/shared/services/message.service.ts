@@ -206,13 +206,22 @@ export class MessageService {
           confirmButtonText,
         }).then((lastQuestion: any) => {
           return {
-            isConfirmed: lastQuestion.isConfirmed,
+            isFree: lastQuestion.isConfirmed,
             isDenied: result.isDenied,
             isDismissed: lastQuestion.isDismissed,
             isCash: lastQuestion.isDenied,
             dateToGetOut: dateToGetOut
           }
         })
+      }
+      if (result.isDenied) {
+        return {
+          isFree: false,
+          isWithPayment: true,
+          isDismissed: false,
+          isCash: false,
+          dateToGetOut: dateToGetOut
+        }
       }
       return {result, dateToGetOut}
     })
