@@ -141,10 +141,9 @@ export class ParkedComponent implements OnDestroy, AfterViewInit {
           'Salir sin cobrar',
           this.dateOutToGetOut
         )
-        if (statusWillUpdate.isConfirmed) payment_method = 3
-        if (statusWillUpdate.isDenied) payment_method = 1
+        if (statusWillUpdate.isFree) payment_method = 3
+        if (statusWillUpdate.isWithPayment) payment_method = 1
         if (statusWillUpdate.isCash) payment_method = 2
-
         return {
           payment_method,
           dateToGetOut: statusWillUpdate.dateToGetOut
