@@ -5,6 +5,7 @@ import {HttpClient} from '@angular/common/http'
 import {ResponseModel} from 'src/app/shared/model/Request.model'
 import {payFilter} from '../model/paymentModel'
 import {map} from "rxjs/operators";
+import { subscribeTo } from 'rxjs/internal-compatibility'
 //import * as jsPDF from 'jspdf';
 
 const EXCEL_TYPE =
@@ -29,23 +30,23 @@ export class ReportService {
     return this.http.get<ResponseModel>(
       `${this.apiUrl}backoffice/report/getPagos/dates?initDate=${initDate}&endDate=${endDate}&parqueo=${parqueo}&telephone=${telephone}`
     ).pipe(map((res) => {
-      console.log(res);
       return res.data.map((item: any) => {
         return {
-          phone_key: item.user.phone_number,
+          phone_key: item.status == 2 ? item.user.phone_number : 'xxxx-'+item.user.phone_number.substr(item.user.phone_number.length - 4),
+          paymentStatus: item.status == 2 ? 'Pendiente de Pago' : 'Exitoso',
           subtotal: item.subtotal,
           discount: item.discount,
           total: item.total,
           entry_date: item.entry_date,
           exit_date: item.exit_date,
-          invoice: item.payment[0]?.billing?.fiscal_number ?? 'No generada',
+          invoice: item.status == 2 ? 'Pendiente de Pago' : item.payment[0]?.billing?.fiscal_number ?? (item.total > 0 ? 'No generada' : 'No requerida'),
           invoiceDate: item.payment[0]?.billing?.certification_time ?? '',
           paymentDate: item.payment[0]?.created_at ?? '',
           timeIn: this.descriptionOfDiffOfTime(new Date(item.entry_date), new Date(item.exit_date)),
           transaction: item.payment[0]?.trace_number ?? '',
           courtesy: item.courtesy?.courtesy_details?.name ?? '',
           typePayment: item.payment_type == 0 ?
-            'Tarjeta C/D' : item.payment_type == 1 ? 'Efectivo' :
+            'Tarjeta C/D' : item.payment_type == 1 ? 'Efectivo ó Pendiente de Pago' :
               item.payment_type == 3 ? 'Salida gratuita' : ''
         }
       })
