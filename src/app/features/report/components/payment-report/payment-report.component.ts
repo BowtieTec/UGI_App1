@@ -141,6 +141,7 @@ export class PaymentReportComponent implements OnInit, AfterViewInit {
       'Descuento',
       'Total (Q)',
       'Nombre de descuento',
+      'Estado',
       'No. Factura',
       'Fecha de emisión de Factura',
       'Fecha de pago',
@@ -166,7 +167,7 @@ export class PaymentReportComponent implements OnInit, AfterViewInit {
         }
       }
     })
-    worksheet.mergeCells('D2:N3')
+    worksheet.mergeCells('D2:O3')
     let ParqueoReporte = 'Todos los parqueos'
     if (this.parqueo != '0') {
       const parqueoEncontrado = this.allParking.find(
@@ -189,7 +190,7 @@ export class PaymentReportComponent implements OnInit, AfterViewInit {
         }
       }
     })
-    worksheet.mergeCells('D4:N5')
+    worksheet.mergeCells('D4:O5')
     const titleRow = worksheet.addRow(['', '', '', 'Reporte - Pago de parqueo'])
     titleRow.font = {name: 'Calibri', family: 4, size: 11, bold: true}
     titleRow.alignment = {horizontal: 'center', vertical: 'middle'}
@@ -203,7 +204,7 @@ export class PaymentReportComponent implements OnInit, AfterViewInit {
         }
       }
     })
-    worksheet.mergeCells('D6:N8')
+    worksheet.mergeCells('D6:O8')
     //Add Image
     worksheet.mergeCells('B2:C8')
     const logo = workbook.addImage({
@@ -225,7 +226,7 @@ export class PaymentReportComponent implements OnInit, AfterViewInit {
         }
       }
     })
-    worksheet.mergeCells('B10:N11')
+    worksheet.mergeCells('B10:O11')
     worksheet.addRow([])
     const header1 = worksheet.addRow([
       '',
@@ -249,7 +250,7 @@ export class PaymentReportComponent implements OnInit, AfterViewInit {
       }
     })
     worksheet.mergeCells('B13:H14')
-    worksheet.mergeCells('I13:N14')
+    worksheet.mergeCells('I13:O14')
     const header2 = worksheet.addRow([
       '',
       'Total de vehiculos que ingresaron: ' + this.dataSource.length,
@@ -275,7 +276,7 @@ export class PaymentReportComponent implements OnInit, AfterViewInit {
       }
     })
     worksheet.mergeCells('B15:H16')
-    worksheet.mergeCells('I15:N16')
+    worksheet.mergeCells('I15:O16')
     worksheet.addRow([])
     const headerRow = worksheet.addRow(header)
 
@@ -308,6 +309,7 @@ export class PaymentReportComponent implements OnInit, AfterViewInit {
         d.discount,
         d.total,
         d.courtesy,
+        d.paymentStatus,
         d.invoice,
         d.invoiceDate ? new Date(d.invoiceDate).toLocaleString() : '',
         d.paymentDate ? new Date(d.paymentDate).toLocaleString() : '',
@@ -338,12 +340,12 @@ export class PaymentReportComponent implements OnInit, AfterViewInit {
     worksheet.getColumn(7).width = 20
     worksheet.getColumn(8).width = 25
     worksheet.getColumn(9).width = 25
-    worksheet.getColumn(10).width = 15
+    worksheet.getColumn(10).width = 20
     worksheet.getColumn(11).width = 15
-    worksheet.getColumn(12).width = 15
-    worksheet.getColumn(13).width = 15
+    worksheet.getColumn(12).width = 20
+    worksheet.getColumn(13).width = 20
     worksheet.getColumn(14).width = 15
-    worksheet.getColumn(15).width = 15
+    worksheet.getColumn(15).width = 25
     worksheet.getColumn(16).width = 25
 
     //Generate Excel File with given name

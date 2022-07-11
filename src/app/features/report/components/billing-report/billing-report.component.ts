@@ -166,6 +166,7 @@ export class BillingReportComponent implements OnInit {
     const header = [
       '',
       'Fecha emisión factura',
+      'Teléfono',
       'Nit del Cliente',
       'Total (Q)',
       'Moneda del documento',
@@ -322,6 +323,7 @@ export class BillingReportComponent implements OnInit {
       const row = worksheet.addRow([
         '',
         d.dateBilling ? new Date(d.dateBilling).toLocaleDateString('es-GT')  : ' ',
+        d.phone_key,
         d.nit,
         d.total,
         'GTQ',
