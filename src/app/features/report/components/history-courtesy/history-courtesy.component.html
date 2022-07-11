@@ -25,6 +25,7 @@
             <label class = "text-secondary"
                    style = "display:block">Fecha de inicio</label>
             <input #initDate
+                   (change) = "getHistoryOfCourtesyRpt(initDate.value,endDate.value)"
                    [value] = "fechaActual"
                    class = "form-control inputClass datetimepicker"
                    for = "initDate"
@@ -41,6 +42,7 @@
                    style = "display:block">Fecha de fin</label>
             <input
               #endDate
+              (change) = "getHistoryOfCourtesyRpt(initDate.value,endDate.value)"
               [value] = "fechaActual"
               class = "form-control inputClass datetimepicker"
               for = "endDate"
@@ -51,13 +53,7 @@
             >
           </div>
         </div>
-        <div class = "col-xl-12 col-lg-12 col-sm-12">
-          <div class = "text-center">
-            <button (click) = "getHistoryOfCourtesyRpt(initDate.value,endDate.value)"
-                    class = "btn btn-primary m-2">Buscar
-            </button>
-          </div>
-        </div>
+
       </div>
     </div>
   </div>
