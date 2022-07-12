@@ -72,8 +72,11 @@ export class HistoryCourtesyComponent implements OnInit, AfterViewInit {
       if (data.success) {
         this.allParking = data.data.parkings
       }
-      this.messageService.hideLoading()
-    })
+    }).then(() => {
+      this.getHistoryOfCourtesyRpt(this.fechaActual, this.fechaActual)
+    }).finally(() => {
+        this.messageService.hideLoading()
+      })
   }
 
   ifHaveAction(action: string) {

@@ -12,6 +12,7 @@
                    style = "display:block">Parqueo</label>
             <select
               #inputParking
+              (change) = "getHistoryOfCourtesyRpt(initDate.value,endDate.value)"
               class = "inputClass">
               <option value = "0">---- Todos los parqueos ----</option>
               <option *ngFor = "let parking of this.allParking"

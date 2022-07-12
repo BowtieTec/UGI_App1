@@ -69,11 +69,16 @@ export class ParkingDayReportComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.messageService.showLoading()
     this.dtOptions = DataTableOptions.getSpanishOptions(10)
     this.parkingService.getAllParking().then((data) => {
       if (data.success) {
         this.allParking = data.data.parkings
       }
+    }).then(() => {
+      this.getParkingsRpt(this.fechaActual, this.fechaActual)
+    }).finally(() => {
+      this.messageService.hideLoading()
     })
   }
 

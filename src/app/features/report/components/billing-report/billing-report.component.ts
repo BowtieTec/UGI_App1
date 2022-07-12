@@ -80,8 +80,11 @@ export class BillingReportComponent implements OnInit {
         if (data.success) {
           this.allParking = data.data.parkings
         }
-      })
-      .finally(() => this.messageService.hideLoading())
+      }).then(() => {
+      this.getBillingRpt(this.fechaActual, this.fechaActual)
+    }).finally(() => {
+      this.messageService.hideLoading()
+    })
   }
 
   ifHaveAction(action: string) {
