@@ -867,7 +867,7 @@ nav > .nav-link.active {
     margin-top: 74px;
     height: calc(100vh - 120px) !important;
     margin-left: 0;
-    z-index: 1 !important;
+
   }
 
   .headerDashboard {
