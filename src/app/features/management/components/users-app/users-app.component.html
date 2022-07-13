@@ -17,6 +17,7 @@
       <th class = 'col'>Teléfono</th>
       <th scope = "col">Estado</th>
       <th scope = "col">Tipo Registro</th>
+      <th scope = "col">Código de validación</th>
       <th scope = "col">Opciones</th>
     </tr>
     </thead>
@@ -30,6 +31,7 @@
       <td>{{user.phone_number ? user.phone_number : 'Sin registrar'}}</td>
       <td>{{getStatus(!user.status ? 0 : user.status)}}</td>
       <td> {{getRegister(user)}}</td>
+      <td> {{user.validate_code}}</td>
       <td class = "text-right">
         <button
           (click) = 'open(contenido,user)'

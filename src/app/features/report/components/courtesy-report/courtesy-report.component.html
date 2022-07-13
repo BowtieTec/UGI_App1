@@ -12,6 +12,7 @@
                    style = "display:block">Parqueo</label>
             <select
               #inputParking
+              (change) = "getCourtesyRpt()"
               class = "inputClass">
               <option value = "0">---- Todos los parqueos ----</option>
               <option *ngFor = "let parking of this.allParking"
@@ -20,46 +21,7 @@
 
           </div>
         </div>
-        <div class = "col-xl-2 col-lg-3 col-sm-12">
-          <div class = "mb-4 relative">
-            <label class = "text-secondary"
-                   style = "display:block">Fecha de inicio</label>
-            <input #initDate
-                   [value] = "fechaActual"
-                   class = "form-control inputClass datetimepicker"
-                   for = "initDate"
-                   max = "{{nowDateTime | date: 'yyyy-MM-dd'}}"
-                   name = "initDate"
-                   placeholder = "Fecha/Hora de entrada"
-                   type = "Date"
-            >
 
-          </div>
-        </div>
-        <div class = "col-xl-2 col-lg-3 col-sm-12">
-          <div class = "mb-4 relative">
-            <label class = "text-secondary"
-
-                   style = "display:block">Fecha de fin</label>
-            <input
-              #endDate
-              [value] = "fechaActual"
-              class = "form-control inputClass datetimepicker"
-              for = "endDate"
-              max = "{{nowDateTime | date: 'yyyy-MM-dd'}}"
-              name = "endDate"
-              placeholder = "Fecha/Hora de salida"
-              type = "date"
-            >
-          </div>
-        </div>
-        <div class = "col-xl-12 col-lg-12 col-sm-12">
-          <div class = "text-center">
-            <button (click) = "getCourtesyRpt(initDate.value,endDate.value)"
-                    class = "btn btn-primary m-2">Buscar
-            </button>
-          </div>
-        </div>
       </div>
 
     </div>
@@ -69,53 +31,64 @@
       <div class = "row">
         <dx-data-grid [dataSource] = "dataSource"
                       [showBorders] = "true"
+
                       id = "gridContainer">
           <dxi-column
-            [width] = "300"
-            caption = "Cortesía"
-            dataField = "cd_name"
+            caption = "Fecha de Creación"
+            dataField = "cd_created_at"
+            dataType = "date"
+            format = "dd/MM/yyyy"
+            sortOrder='desc'
+            width='auto'
           ></dxi-column>
           <dxi-column
-            caption = "Local"
-            dataField = "comercio"
+            width='250'
+            caption = "Cortesía"
+            dataField = "cd_name"
+
           ></dxi-column>
+
           <dxi-column
             caption = "Tipo de cortesía"
             dataField = "cd_type"
+            width='auto'
           ></dxi-column>
+
           <dxi-column
-            caption = "Cortesias"
-            dataField = "cd_quantity"
-            dataType = "number"
+            caption = "Tipo de condición"
+            dataField = "cd_tipoCondicion"
+            width='auto'
           ></dxi-column>
           <dxi-column
             caption = "Descuento por cortesias"
             dataField = "cd_value"
+            width='auto'
+          ></dxi-column>
+
+          <dxi-column
+            caption = "Creadas"
+            dataField = "cd_quantity"
             dataType = "number"
-            format = "currency"
-            format = "Q ,###,###,##0.00"
+            width='auto'
           ></dxi-column>
           <dxi-column
             caption = "Cortesias usadas"
             dataField = "transacciones"
             dataType = "number"
+            width='auto'
           ></dxi-column>
+
           <dxi-column
             caption = "Disponibles"
             dataField = "disponibles"
             dataType = "number"
-            width = "8%"
+            width='auto'
           ></dxi-column>
-          <dxi-column
-            caption = "Total descuento"
-            dataField = "total_descuento"
-            dataType = "number"
-            format = "currency"
-            format = "Q ,###,###,##0.00"
-          ></dxi-column>
+
           <dxi-column
             caption = "Tipo"
             dataField = "cd_tipoCortesia"
+            width='auto'
           ></dxi-column>
           <dxo-header-filter [visible] = "true"></dxo-header-filter>
           <dxo-search-panel [visible] = "true"

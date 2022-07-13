@@ -2,19 +2,17 @@
   <div class = "col-lg-12 col-md-12 col-sm-12 col-xs-12 panelLeft animate__animated animate__fadeInLeft">
     <div class = "panelsWithOutMinHeight">
       <div class = "titleCards">
-        <span><i class = "fas fa-sitemap"></i></span> Reporte de Facturación
+        <span><i class = "fas fa-sitemap"></i></span> Mensualidades de parqueo
       </div>
       <div class = "row justify-content-center">
         <div *ngIf = "ifHaveAction(verTodosLosParqueosReport)"
              class = "col-xl-4 col-lg-6 col-sm-12">
           <div class = "mb-4 relative">
-            <label class = "text-secundary"
+            <label class = "text-secondary"
                    style = "display:block">Parqueo</label>
             <select
               #inputParking
-              (change) = "getBillingRpt(initDate.value,endDate.value)"
               class = "inputClass">
-
               <option value = "0">---- Todos los parqueos ----</option>
               <option *ngFor = "let parking of this.allParking"
                       value = "{{parking.id}}">{{parking.name}}</option>
@@ -27,8 +25,8 @@
             <label class = "text-secondary"
                    style = "display:block">Fecha de inicio</label>
             <input #initDate
-                   (change) = "getBillingRpt(initDate.value,endDate.value)"
                    [value] = "fechaActual"
+                   (change) = "getMontlyParkingRpt(initDate.value,endDate.value, telephone.value)"
                    class = "form-control inputClass datetimepicker"
                    for = "initDate"
                    max = "{{nowDateTime | date: 'yyyy-MM-dd'}}"
@@ -36,6 +34,7 @@
                    placeholder = "Fecha/Hora de entrada"
                    type = "Date"
             >
+
           </div>
         </div>
         <div class = "col-xl-2 col-lg-6 col-sm-12">
@@ -44,8 +43,8 @@
                    style = "display:block">Fecha de fin</label>
             <input
               #endDate
-              (change) = "getBillingRpt(initDate.value,endDate.value)"
               [value] = "fechaActual"
+              (change) = "getMontlyParkingRpt(initDate.value,endDate.value, telephone.value)"
               class = "form-control inputClass datetimepicker"
               for = "endDate"
               max = "{{nowDateTime | date: 'yyyy-MM-dd'}}"
@@ -55,56 +54,88 @@
             >
           </div>
         </div>
-
+        <div class = "col-xl-2 col-lg-6 col-sm-12">
+          <div class = "mb-4 relative">
+            <label class = "text-secondary"
+                   style = "display:block">Teléfono</label>
+            <input
+              #telephone
+              (change) = "getMontlyParkingRpt(initDate.value,endDate.value, telephone.value)"
+              class = "form-control inputClass datetimepicker"
+              maxlength = "12"
+              name = "telephone"
+              placeholder = "Número de teléfono"
+              type = "text"
+            >
+          </div>
+        </div>
       </div>
     </div>
   </div>
   <div class = "col-lg-12 col-md-12 col-sm-12 col-xs-12">
     <div class = "panels">
-      <div class = "row"
-           id = "exportable">
-
+      <div class = "row">
         <dx-data-grid [columnHidingEnabled] = "false"
                       [dataSource] = "dataSource"
                       [showBorders] = "true"
                       id = "gridContainer">
           <dxi-column
-            caption = "Fecha facturación"
-            dataField = "dateBilling"
-            dataType = "datetime"
-            format = "dd/MM/yyyy hh:mm:ss"
-            width = "auto"
+            [allowSorting] = 'true'
+            caption = "Nombre"
+            dataField = "name"
+            type = "text"
           ></dxi-column>
           <dxi-column
+            [allowSorting] = 'true'
             caption = "Teléfono"
-            dataField = "phone_key"
-            width = "auto"
+            dataField = "phone_number"
+            type = "text"
+            width = '125'
           ></dxi-column>
           <dxi-column
+            [allowSorting] = 'true'
+            caption = "Correo"
+            dataField = "email"
+            type = "text"
+          ></dxi-column>
+          <dxi-column
+            [allowSorting] = 'true'
+            caption = "No. Factura"
+            dataField = "noInvoice"
+            type = "text"
+          ></dxi-column>
+          <dxi-column
+            [allowSorting] = 'true'
             caption = "Nit"
             dataField = "nit"
-            width = "auto"
+            type = "text"
           ></dxi-column>
-
           <dxi-column
-            caption = "Total "
-            dataField = "total"
-            dataType = "number"
-            format = "currency"
+            [allowSorting] = 'true'
+            caption = "No. Transacción"
+            dataField = "trace_number"
+            type = "text"
+          ></dxi-column>
+          <dxi-column
+            [allowSorting] = 'true'
+            caption = "Mes pagado"
+            dataField = "month_paid"
+            type = "text"
+          ></dxi-column>
+          <dxi-column
+            [allowSorting] = 'true'
+            caption = "Monto Pagado"
+            dataField = "amount"
             format = "Q ,###,###,##0.00"
-            width = "auto"
+            type = "currency"
+            width = "90"
           ></dxi-column>
           <dxi-column
-            caption = "No. Facturación"
-            dataField = "noFactura"
-            width = "auto"
+            [allowSorting] = 'true'
+            caption = "Fecha de pago"
+            dataField = "payment_date"
+            type = "text"
           ></dxi-column>
-          <dxi-column
-            caption = "Tipo de Servicio"
-            dataField = "typeService"
-            width = "auto"
-          ></dxi-column>
-
           <dxo-header-filter [visible] = "true"></dxo-header-filter>
           <dxo-search-panel [visible] = "true"
                             placeholder = "Buscar..."></dxo-search-panel>
@@ -124,3 +155,4 @@
     </div>
   </div>
 </div>
+

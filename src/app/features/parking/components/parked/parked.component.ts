@@ -1,5 +1,5 @@
 import {AfterViewInit, Component, OnDestroy, ViewChild} from '@angular/core'
-import {UntypedFormBuilder, UntypedFormGroup} from '@angular/forms'
+import {UntypedFormBuilder, UntypedFormGroup, Validators} from '@angular/forms'
 import {ParkingService} from '../../services/parking.service'
 import {ParkedModel, ParkingModel, StatusParked} from '../../models/Parking.model'
 import {AuthService} from '../../../../shared/services/auth.service'
@@ -9,6 +9,7 @@ import {Subject} from 'rxjs'
 import {MessageService} from '../../../../shared/services/message.service'
 import {environment} from '../../../../../environments/environment'
 import {PermissionsService} from '../../../../shared/services/permissions.service'
+import {ReportService} from "../../../report/components/service/report.service";
 
 @Component({
   selector: 'app-parked',
@@ -35,7 +36,8 @@ export class ParkedComponent implements OnDestroy, AfterViewInit {
     private parkingService: ParkingService,
     private authService: AuthService,
     private messageService: MessageService,
-    private permissionService: PermissionsService
+    private permissionService: PermissionsService,
+    private reportService: ReportService,
   ) {
     this.getInitialData().catch()
   }
@@ -71,21 +73,9 @@ export class ParkedComponent implements OnDestroy, AfterViewInit {
   }
 
   getTimeInParking(entry: ParkedModel) {
-    const entry_date = entry.entry_date
-    const oldTime = new Date(entry_date).getTime()
-    const timeNow = entry.exit_date ? (new Date(entry.exit_date).getTime()) : new Date().getTime()
-
-    const days = Math.round((timeNow - oldTime) / (1000 * 60 * 60 * 24))
-    const hours = Math.round(
-      (Math.abs(timeNow - oldTime) / (1000 * 60 * 60)) % 24
-    )
-    const minutes = Math.round((Math.abs(timeNow - oldTime) / (1000 * 60)) % 60)
-
-    if (days > 0) return `${days} dias con ${hours} horas`
-    if (hours > 0) return `${hours} horas con ${minutes} minutos`
-    if (minutes > 0) return `${minutes} minutos`
-
-    return 'No calculable'
+    const entry_date: Date = new Date(entry.entry_date)
+    const exit_date: Date = entry.exit_date ? new Date(entry.exit_date) : new Date()
+    return this.reportService.descriptionOfDiffOfTime(entry_date, exit_date)
   }
 
   createForm(): UntypedFormGroup {
@@ -93,7 +83,7 @@ export class ParkedComponent implements OnDestroy, AfterViewInit {
       parkingId: ['0'],
       status: ['1'],
       textToSearch: [''],
-      dateOutToGetOut: ['']
+      dateOutToGetOut: [null, [Validators.required]]
     })
   }
 
@@ -138,8 +128,8 @@ export class ParkedComponent implements OnDestroy, AfterViewInit {
     return !!this.actions.find((x) => x == action)
   }
 
-  async getStatusToSave(parked_type: number) {
-    let status = 3
+  async getStatusToSave(parked_type: number): Promise<any> {
+    let payment_method = 3
     if (parked_type == 0) {
       if (
         this.ifHaveAction(this.getOutWithoutPayment) &&
@@ -147,33 +137,53 @@ export class ParkedComponent implements OnDestroy, AfterViewInit {
       ) {
         const statusWillUpdate = await this.messageService.areYouSureWithCancelAndInput(
           '¿Dejar salir a usuario con el cobro pendiente o cancelado?',
-          'Cobrar parqueo',
-          'Sacar sin cobrar',
+          'Salir y cobrar a la tarjeta',
+          'Salir sin cobrar',
           this.dateOutToGetOut
         )
-        if (statusWillUpdate.isConfirmed) status = 3
-        if (statusWillUpdate.isDenied) status = 2
+        if (statusWillUpdate.isFree) payment_method = 3
+        if (statusWillUpdate.isWithPayment) payment_method = 1
+        if (statusWillUpdate.isCash) payment_method = 2
+        return {
+          payment_method,
+          dateToGetOut: statusWillUpdate.dateToGetOut
+        }
+        /*
+        *  get_out_and_pay = 1,
+        *   payment_cash = 2,
+        *  get_out = 3
+        * */
         if (statusWillUpdate.isDismissed) return -1
       }
     }
-    return status
+    return payment_method
+  }
+
+  isValidDate(d: any) {
+    // @ts-ignore
+    return d instanceof Date && !isNaN(d);
   }
 
   async getOut(parked: ParkedModel) {
-    const status = await this.getStatusToSave(parked.type)
-    if (!this.dateOutToGetOut) {
-      this.messageService.error('Debe seleccionar una fecha de salida')
+    const statusData = await this.getStatusToSave(parked.type)
+    const payment_method = statusData.payment_method
+    this.dateOutToGetOut = new Date(statusData.dateToGetOut)
+    if (!this.dateOutToGetOut || !this.isValidDate(this.dateOutToGetOut) && parked.type == 0) {
+      this.messageService.error('Debe seleccionar una fecha de salida valida')
       return
     }
-    if (new Date(this.dateOutToGetOut) <= new Date(parked.entry_date)) {
+    if (parked.type == 1) {
+      this.dateOutToGetOut = new Date()
+    }
+    if (this.dateOutToGetOut <= new Date(parked.entry_date)) {
       this.messageService.error('La fecha y hora de salida debe ser mayor a la de entrada.')
       return
     }
-    if (status == -1) {
+    if (payment_method == -1) {
       return
     }
     const result = await this.messageService.areYouSure(
-      `¿Está seguro que desea sacar al usuario ${parked.user_name} ${parked.last_name} del parqueo ${parked.parking}?`
+      `¿Está seguro que desea sacar al usuario ${parked.user_name} ${parked.last_name} del parqueo ${parked.parking} con fecha y hora de salida ${this.dateOutToGetOut.toLocaleString()}?`
     )
     if (result.isDenied) {
       this.messageService.infoTimeOut(
@@ -181,9 +191,10 @@ export class ParkedComponent implements OnDestroy, AfterViewInit {
       )
       return
     }
+
     if (result.isConfirmed) {
       this.messageService.showLoading()
-      this.parkingService.getOutParked(parked.id, status, this.dateOutToGetOut).then((data) => {
+      this.parkingService.getOutParked(parked.id, payment_method, this.dateOutToGetOut).then((data) => {
         if (data.success) {
           this.refreshParkedData()
           this.messageService.Ok(data.message)

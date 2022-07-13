@@ -79,7 +79,6 @@ export class TariffTestComponent {
       return
     }
     const newTest = this.formTariffTestValues
-    console.log(newTest);
     if (newTest.entry_date > newTest.exit_date) {
       this.messageService.error('', 'Datos no válidos, la fecha de salida debe ser mayor o igual a la de entrada')
       return
@@ -89,7 +88,7 @@ export class TariffTestComponent {
     this.ticket = await this.testService
       .getTariffTest(newTest)
       .then((x) => x.ticket)
-
+    console.log(this.ticket)
     this.addItem(this.ticket)
   }
 

@@ -37,7 +37,7 @@
             <div class = 'col-xl-4 col-lg-4  col-sm-12'>
               <app-select-container
                 [data] = 'courtesyTypes'
-                (change) = "getNewConditions()"
+                (change) = "this.getNewConditions()"
                 [formGroup] = 'newCourtesyForm'
                 controlName = 'type'
                 name = 'Tipo de cortesia'>
@@ -81,7 +81,7 @@
               </app-select-container>
             </div>
             <div
-              *ngIf = 'this.conditionValue == 2 || this.conditionValue == 3'
+              *ngIf = 'this.conditionValue != 2'
               class = 'col-xl-4 col-lg-4 col-sm-12 animate__animated animate__fadeInDown'>
               <app-input-container
                 [formGroup] = 'newCourtesyForm'

@@ -152,6 +152,7 @@ export class MessageService {
     confirmButtonText: string,
     output?: Date
   ) {
+    let dateToGetOut: any
     return Swal.fire({
       denyButtonColor: '#415ba1',
       confirmButtonColor: '#05ccae',
@@ -161,7 +162,7 @@ export class MessageService {
       showConfirmButton: true,
       allowOutsideClick: false,
       denyButtonText,
-      confirmButtonText,
+      confirmButtonText: 'Salir sin cobrar a la tarjeta',
       html: `
         <div>
         <label class = ""
@@ -169,16 +170,61 @@ export class MessageService {
         <input
           class = "inputClass"
           id='dateOut'
-          name='dateOut'
-          value='${output}'
-          ngModel='${output}'
+          name='dateOutToGetOut'
           max='${this.nowTimeFormat}'
           placeholder = 'Hora de salida'
           autocomplete = 'off'
           type = 'datetime-local'>
-
       </div>
-      `
-    }).then((result) => result)
+      <br>
+      `, preConfirm(inputValue: any) {
+        return new Promise((resolve, reject) => {
+          dateToGetOut = $('input[name="dateOutToGetOut"]').val()
+          resolve({
+            dateToGetOut: $('input[name="dateOutToGetOut"]').val()
+          })
+        })
+      }, preDeny(inputValue: any) {
+        return new Promise((resolve, reject) => {
+          dateToGetOut = $('input[name="dateOutToGetOut"]').val()
+          resolve({
+            dateToGetOut: $('input[name="dateOutToGetOut"]').val()
+          })
+        })
+      }
+    }).then((result: any): any => {
+      if (result.isConfirmed) {
+        return Swal.fire({
+          denyButtonColor: '#415ba1',
+          confirmButtonColor: '#05ccae',
+          title,
+          showDenyButton: true,
+          showCancelButton: true,
+          showConfirmButton: true,
+          allowOutsideClick: false,
+          denyButtonText: 'El pago fue en efectivo',
+          confirmButtonText,
+        }).then((lastQuestion: any) => {
+          return {
+            isFree: lastQuestion.isConfirmed,
+            isDenied: result.isDenied,
+            isDismissed: lastQuestion.isDismissed,
+            isCash: lastQuestion.isDenied,
+            dateToGetOut: dateToGetOut
+          }
+        })
+      }
+      if (result.isDenied) {
+        return {
+          isFree: false,
+          isWithPayment: true,
+          isDismissed: false,
+          isCash: false,
+          dateToGetOut: dateToGetOut
+        }
+      }
+      return {result, dateToGetOut}
+    })
   }
+
 }

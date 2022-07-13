@@ -2,7 +2,7 @@
   <div class = "col-lg-12 col-md-12 col-sm-12 col-xs-12 panelLeft animate__animated animate__fadeInLeft">
     <div class = "panelsWithOutMinHeight">
       <div class = "titleCards">
-        <span><i class = "fas fa-sitemap"></i></span> Reporte de Pagos por Ticket
+        <span><i class = "fas fa-sitemap"></i></span> Reporte de Detalle de Pagos por Ticket
       </div>
       <div class = "row justify-content-center">
         <div *ngIf = "ifHaveAction(verTodosLosParqueosReport)"
@@ -12,6 +12,7 @@
                    style = "display:block">Parqueo</label>
             <select
               #inputParking
+              (change) = "getPaymentRpt(initDate.value,endDate.value)"
               class = "inputClass">
               <option value = "0">---- Todos los parqueos ----</option>
               <option *ngFor = "let parking of this.allParking"
@@ -26,6 +27,7 @@
                    style = "display:block">Fecha de inicio</label>
             <input #initDate
                    [value] = "fechaActual"
+                   (change) = "getPaymentRpt(initDate.value,endDate.value, telephone.value)"
                    class = "form-control inputClass datetimepicker"
                    for = "initDate"
                    max = "{{nowDateTime | date: 'yyyy-MM-dd'}}"
@@ -41,6 +43,7 @@
                    style = "display:block">Fecha de fin</label>
             <input
               #endDate
+              (change) = "getPaymentRpt(initDate.value,endDate.value, telephone.value)"
               [value] = "fechaActual"
               class = "form-control inputClass datetimepicker"
               for = "endDate"
@@ -51,11 +54,20 @@
             >
           </div>
         </div>
-        <div class = "col-xl-12 col-lg-12 col-sm-12">
-          <div class = "text-center">
-            <button (click) = "getPaymentRpt(initDate.value,endDate.value)"
-                    class = "btn btn-primary m-2">Buscar
-            </button>
+        <div class = "col-xl-2 col-lg-6 col-sm-12">
+          <div class = "mb-4 relative">
+            <label class = "text-secondary"
+                   style = "display:block">Teléfono</label>
+            <input
+              #telephone
+              (change) = "getPaymentRpt(initDate.value,endDate.value, telephone.value)"
+              class = "form-control inputClass datetimepicker"
+              maxlength = "12"
+              name = "telephone"
+              placeholder = "Teléfono"
+              type = "text"
+              value = ""
+            >
           </div>
         </div>
       </div>
@@ -71,13 +83,13 @@
                       [showBorders] = "true"
                       id = "gridContainer">
           <dxi-column
-            caption = "ID"
+            caption = "Teléfono"
             dataField = "phone_key"
-            width = "100"
+            width = "125"
           ></dxi-column>
           <dxi-column
             caption = "Sub Monto"
-            dataField = "total"
+            dataField = "subtotal"
             dataType = "number"
             format = "currency"
             format = "Q ,###,###,##0.00"
@@ -85,40 +97,31 @@
           ></dxi-column>
           <dxi-column
             caption = "Descuento"
-            dataField = "descuento"
+            dataField = "discount"
             dataType = "number"
-
             format = "currency"
             format = "Q ,###,###,##0.00"
             width = "125"
           ></dxi-column>
           <dxi-column
             caption = "Total "
-            dataField = "pagado"
+            dataField = "total"
             dataType = "number"
             format = "currency"
             format = "Q ,###,###,##0.00"
           ></dxi-column>
-          <!--<dxi-column
-            dataField="estacionEntrada"
-            caption="Estación de entrada"
-          ></dxi-column>-->
           <dxi-column
-            [calculateCellValue] = "getTimeInParking"
+            caption = "Tiempo estacionado "
+            dataField = "timeIn"
             caption = "Tiempo estacionado"
             dataType = "text"
           ></dxi-column>
           <dxi-column
             [allowSorting] = 'true'
             caption = "No. Factura"
-            dataField = "noFactura"
+            dataField = "invoice"
             type = "text"
           ></dxi-column>
-          <!--<dxi-column
-            dataField="estacionSalida"
-            caption="Estación de salida"
-          ></dxi-column>-->
-
           <dxo-header-filter [visible] = "true"></dxo-header-filter>
           <dxo-search-panel [visible] = "true"
                             placeholder = "Buscar..."></dxo-search-panel>

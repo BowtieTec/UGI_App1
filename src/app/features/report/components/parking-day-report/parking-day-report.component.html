@@ -2,7 +2,7 @@
   <div class = "col-lg-12 col-md-12 col-sm-12 col-xs-12 panelLeft animate__animated animate__fadeInLeft">
     <div class = "panelsWithOutMinHeight">
       <div class = "titleCards">
-        <span><i class = "fas fa-sitemap"></i></span> Reporte de entradas de parqueos mensuales
+        <span><i class = "fas fa-sitemap"></i></span> Entradas de parqueos mensuales
       </div>
       <div class = "row justify-content-center">
         <div *ngIf = "ifHaveAction(verTodosLosParqueosReport)"
@@ -12,6 +12,7 @@
                    style = "display:block">Parqueo</label>
             <select
               #inputParking
+              (change) = "getParkingsRpt(initDate.value,endDate.value)"
               class = "inputClass">
               <option value = "0">---- Todos los parqueos ----</option>
               <option *ngFor = "let parking of this.allParking"
@@ -25,6 +26,7 @@
                    style = "display:block">Fecha de inicio</label>
             <input #initDate
                    [value] = "fechaActual"
+                   (change) = "getParkingsRpt(initDate.value,endDate.value)"
                    class = "form-control inputClass datetimepicker"
                    for = "initDate"
                    max = "{{nowDateTime | date: 'yyyy-MM-dd'}}"
@@ -41,6 +43,7 @@
             <input
               #endDate
               [value] = "fechaActual"
+              (change) = "getParkingsRpt(initDate.value,endDate.value)"
               class = "form-control inputClass datetimepicker"
               for = "endDate"
               max = "{{nowDateTime | date: 'yyyy-MM-dd'}}"
@@ -48,13 +51,6 @@
               placeholder = "Fecha/Hora de salida"
               type = "date"
             >
-          </div>
-        </div>
-        <div class = "col-xl-12 col-lg-12 col-sm-12">
-          <div class = "text-center">
-            <button (click) = "getParkingsRpt(initDate.value,endDate.value)"
-                    class = "btn btn-primary m-2">Buscar
-            </button>
           </div>
         </div>
       </div>
@@ -69,22 +65,12 @@
                       keyExpr = "id">
           <dxi-column
             caption = "Nombre"
-            dataField = "user.name"
+            dataField = "name"
             dataType = "text"
           ></dxi-column>
           <dxi-column
             caption = "Teléfono"
-            dataField = "user.phone_number"
-            dataType = "text"
-          ></dxi-column>
-          <dxi-column
-            caption = "Teléfono"
-            dataField = "user.email"
-            dataType = "text"
-          ></dxi-column>
-          <dxi-column
-            caption = "Apellido"
-            dataField = "user.last_name"
+            dataField = "phone_number"
             dataType = "text"
           ></dxi-column>
           <dxi-column
@@ -98,28 +84,23 @@
             dataType = "datetime"
           ></dxi-column>
           <dxi-column
+            caption = "Tiempo dentro"
+            dataField = "timeIn"
+            dataType = "datetime"
+          ></dxi-column>
+          <dxi-column
             caption = "Estación de Entrada"
-            dataField = "entry_station.name"
+            dataField = "entry_station"
             dataType = "text"
           ></dxi-column>
           <dxi-column
             caption = "Estación de Salida"
-            dataField = "exit_station.name"
+            dataField = "exit_station"
             dataType = "text"
           ></dxi-column>
           <dxo-header-filter [visible] = "true"></dxo-header-filter>
           <dxo-search-panel [visible] = "true"
                             placeholder = "Buscar..."></dxo-search-panel>
-          <dxo-toolbar>
-            <dxi-item location = "after">
-              <dx-button
-                (onClick) = "onExporting($event)"
-                icon = "xlsxfile"
-                text = "Exportar a Excel"
-              ></dx-button>
-            </dxi-item>
-            <dxi-item name = "searchPanel"></dxi-item>
-          </dxo-toolbar>
           <dxo-export [enabled] = "true"></dxo-export>
         </dx-data-grid>
       </div>

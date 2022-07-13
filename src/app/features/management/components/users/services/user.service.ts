@@ -77,7 +77,8 @@ export class UserService {
             parking: administrator.idParking,
             email: administrator.email,
             password: administrator.password,
-            last_name: administrator.last_name
+            last_name: administrator.last_name,
+            validate_code: administrator.validate_code
           })
         })
         this.messageService.hideLoading()

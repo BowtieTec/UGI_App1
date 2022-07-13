@@ -77,6 +77,8 @@ export class CourtesyReportComponent implements OnInit {
         this.allParking = data.data.parkings
       }
     })
+
+
   }
 
   ifHaveAction(action: string) {
@@ -84,26 +86,17 @@ export class CourtesyReportComponent implements OnInit {
   }
 
   getInitialData() {
-    // Calling
-    //this.getPaymentRpt();
+
   }
 
-  getCourtesyRpt(initDate: string, endDate: string) {
-    if (endDate < initDate) {
-      this.messageService.error(
-        '',
-        'La fecha de inicio debe ser mayor a la fecha fin'
-      )
-      return
-    }
-    this.startDateReport = new Date(initDate+'T00:00:00').toLocaleDateString('es-GT')
-    this.endDateReport = new Date(endDate+'T00:00:00').toLocaleDateString('es-GT')
+  getCourtesyRpt() {
+
     this.parqueo = this.datosUsuarioLogeado.id
     if (this.ifHaveAction('verTodosLosParqueosReport')) {
       this.parqueo = this.inputParking.nativeElement.value
     }
     return this.reportService
-      .getCourtesyRpt(initDate, endDate, this.parqueo)
+      .getCourtesyRpt(this.parqueo)
       .toPromise()
       .then((data) => {
         if (data.success) {
@@ -125,9 +118,7 @@ export class CourtesyReportComponent implements OnInit {
   ngAfterViewInit() {
     this.dtTrigger.next()
     this.parqueo = this.datosUsuarioLogeado.id
-    if (this.ifHaveAction('verTodosLosParqueosReport')) {
-      this.parqueo = '0'
-    }
+    this.getCourtesyRpt()
   }
 
   exportGrid() {
@@ -164,13 +155,15 @@ export class CourtesyReportComponent implements OnInit {
         }); */
     const header = [
       '',
+      'Fecha de Creación',
       'Cortesía',
       'Parqueo',
       'Local',
       'Tipo de Cortesía',
       'Cortesias',
-      'Descuento (Q)',
-      'Transacciones',
+      'Tipo de Condición',
+      'Descuento',
+      'Utilizadas',
       'Disponibles',
       'Total descuento (Q)',
       'Tipo'
@@ -194,7 +187,7 @@ export class CourtesyReportComponent implements OnInit {
         }
       }
     })
-    worksheet.mergeCells('D2:K3')
+    worksheet.mergeCells('D2:M3')
     let ParqueoReporte = 'Todos los parqueos'
     if (this.parqueo != '0') {
       const parqueoEncontrado = this.allParking.find(
@@ -217,7 +210,7 @@ export class CourtesyReportComponent implements OnInit {
         }
       }
     })
-    worksheet.mergeCells('D4:K5')
+    worksheet.mergeCells('D4:M5')
     const titleRow = worksheet.addRow(['', '', '', 'Reporte - Cortesias'])
     titleRow.font = { name: 'Calibri', family: 4, size: 11, bold: true }
     titleRow.alignment = { horizontal: 'center', vertical: 'middle' }
@@ -231,7 +224,7 @@ export class CourtesyReportComponent implements OnInit {
         }
       }
     })
-    worksheet.mergeCells('D6:K8')
+    worksheet.mergeCells('D6:M8')
     //Add Image
     worksheet.mergeCells('B2:C8')
     const logo = workbook.addImage({
@@ -253,7 +246,7 @@ export class CourtesyReportComponent implements OnInit {
         }
       }
     })
-    worksheet.mergeCells('B10:K11')
+    worksheet.mergeCells('B10:M11')
     worksheet.addRow([])
     const header1 = worksheet.addRow([
       '',
@@ -274,7 +267,7 @@ export class CourtesyReportComponent implements OnInit {
       }
     })
     worksheet.mergeCells('B13:E14')
-    worksheet.mergeCells('F13:K14')
+    worksheet.mergeCells('F13:M14')
     const header2 = worksheet.addRow([
       '',
       'Total de cortesias: ' + this.dataSource.length,
@@ -297,7 +290,7 @@ export class CourtesyReportComponent implements OnInit {
       }
     })
     worksheet.mergeCells('B15:E16')
-    worksheet.mergeCells('F15:K16')
+    worksheet.mergeCells('F15:M16')
     worksheet.addRow([])
     const headerRow = worksheet.addRow(header)
 
@@ -322,11 +315,13 @@ export class CourtesyReportComponent implements OnInit {
     this.dataSource.forEach((d: any) => {
       const row = worksheet.addRow([
         '',
+        d.cd_created_at ? new Date(d.cd_created_at).toLocaleDateString('es-GT') : ' ',
         d.cd_name,
         d.parqueo,
         d.comercio,
         d.cd_type,
         d.cd_quantity,
+        d.cd_tipoCondicion,
         d.cd_value,
         d.transacciones,
         d.disponibles,
@@ -376,20 +371,21 @@ export class CourtesyReportComponent implements OnInit {
     }); */
 
     worksheet.getColumn(2).width = 25
-    worksheet.getColumn(3).width = 20
+    worksheet.getColumn(3).width = 25
     worksheet.getColumn(4).width = 20
     worksheet.getColumn(5).width = 20
     worksheet.getColumn(6).width = 20
     worksheet.getColumn(7).width = 20
-    worksheet.getColumn(8).width = 25
+    worksheet.getColumn(8).width = 30
     worksheet.getColumn(9).width = 25
-    worksheet.getColumn(10).width = 15
-    worksheet.getColumn(11).width = 15
-    worksheet.getColumn(12).width = 15
+    worksheet.getColumn(10).width = 25
+    worksheet.getColumn(11).width = 25
+    worksheet.getColumn(12).width = 25
     worksheet.getColumn(13).width = 15
     worksheet.getColumn(14).width = 15
     worksheet.getColumn(15).width = 15
     worksheet.getColumn(16).width = 15
+    worksheet.getColumn(17).width = 15
 
     //Generate Excel File with given name
     workbook.xlsx.writeBuffer().then((data) => {

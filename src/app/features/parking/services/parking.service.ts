@@ -336,11 +336,11 @@ export class ParkingService {
       )
   }
 
-  getOutParked(parkedId: string, status: number, dateOutToGetOut: Date) {
+  getOutParked(parkedId: string, payment_method: number, dateOutToGetOut: Date) {
     return this.http
       .post<ResponseModel>(`${this.apiUrl}backoffice/parking/getOut`, {
         parkedId,
-        status,
+        payment_method,
         dateOutToGetOut
       })
       .toPromise()
@@ -383,8 +383,22 @@ export class ParkingService {
         `${this.apiUrl}backoffice/station_cortesy/station`,
         newStation
       )
-      .toPromise()
-      .then((data) => data)
+
+  }
+
+  editStationWithCourtesy(editStation: CreateStation) {
+    return this.http
+      .put<ResponseModel>(
+        `${this.apiUrl}backoffice/station_cortesy/station/${editStation.id}`,
+        editStation
+      )
+
+  }
+
+  deleteAntennaWithCourtesy(id: string) {
+    return this.http.delete<ResponseModel>(
+      `${this.apiUrl}backoffice/station_cortesy/station/${id}`
+    )
   }
 
   createStationaryCourtesy(newCourtesy: CreateStationaryCourtesy) {
@@ -395,6 +409,15 @@ export class ParkingService {
       )
       .toPromise()
       .then((data) => data)
+  }
+
+  editStationaryCourtesy(editStationCourtesy: CreateStationaryCourtesy) {
+    return this.http
+      .put<ResponseModel>(
+        `${this.apiUrl}backoffice/station_cortesy/courtesy/${editStationCourtesy.id}`,
+        editStationCourtesy
+      )
+
   }
 
   getParkingInfo(parkingId: string) {

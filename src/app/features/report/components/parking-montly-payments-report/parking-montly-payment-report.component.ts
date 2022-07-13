@@ -1,42 +1,39 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core'
-import {DxDataGridComponent} from 'devextreme-angular'
 import {DataTableDirective} from 'angular-datatables'
 import {Subject} from 'rxjs'
-import {ParkingModel} from '../../../parking/models/Parking.model'
-import {environment} from '../../../../../environments/environment'
-import {AuthService} from '../../../../shared/services/auth.service'
-import {ReportService} from '../service/report.service'
 import {MessageService} from '../../../../shared/services/message.service'
-import {UtilitiesService} from '../../../../shared/services/utilities.service'
-import {PermissionsService} from '../../../../shared/services/permissions.service'
-import {ParkingService} from '../../../parking/services/parking.service'
 import {DataTableOptions} from '../../../../shared/model/DataTableOptions'
+import {ReportService} from '../service/report.service'
+import {UtilitiesService} from '../../../../shared/services/utilities.service'
+import {AuthService} from '../../../../shared/services/auth.service'
+import {PermissionsService} from '../../../../shared/services/permissions.service'
+import {environment} from 'src/environments/environment'
 import {jsPDF} from 'jspdf'
+import {DxDataGridComponent} from 'devextreme-angular'
 import {exportDataGrid as exportDataGridToPdf} from 'devextreme/pdf_exporter'
 import {Workbook} from 'exceljs'
-import * as logoFile from '../logoEbi'
 import {saveAs} from 'file-saver'
 
+import {ParkingService} from '../../../parking/services/parking.service'
+import {ParkingModel} from '../../../parking/models/Parking.model'
+import * as logoFile from '../logoEbi'
 
-export interface billingData {
-  serial: string
-  fiscal_number: string
-  receip_number: string
-  total: string
-  descuento: number
-  pagado: number
-  nit: number
-  typeService: string
-  dateBilling: Date
+export interface montlyPark {
+  number: number
+  user: string
+  begin_date: Date
+  finish_date: Date
+  status: string
+  amount: number
 }
 
 @Component({
-  selector: 'app-billing-report',
-  templateUrl: './billing-report.component.html',
-  styleUrls: ['./billing-report.component.css']
+  selector: 'app-parking-montly-payments-report',
+  templateUrl: './parking-montly-payment-report.component.html',
+  styleUrls: ['./parking-montly-payment-report.component.css']
 })
-export class BillingReportComponent implements OnInit {
-
+export class ParkingMontlyPaymentReportComponent implements OnInit {
+  //@ViewChild(DataTableDirective)
   @ViewChild(DxDataGridComponent, {static: false})
   dataGrid!: DxDataGridComponent
   dtElement!: DataTableDirective
@@ -44,20 +41,21 @@ export class BillingReportComponent implements OnInit {
   dtTrigger: Subject<any> = new Subject()
   pdfTable!: ElementRef
 
-  report: billingData[] = []
+  report: montlyPark[] = []
   dataSource: any
   parqueo: any
+  nowDateTime = new Date()
 
   allParking: ParkingModel[] = Array<ParkingModel>()
   verTodosLosParqueosReport = environment.verTodosLosParqueosReport
   @ViewChild('inputParking') inputParking!: ElementRef
   fechaActual = new Date().toISOString().split('T')[0]
 
-  nowDateTime = new Date()
+
   datosUsuarioLogeado = this.auth.getParking()
-  parqueoDetalle = '0'
   startDateReport: any
   endDateReport: any
+  telephone: string = ''
 
   constructor(
     private auth: AuthService,
@@ -72,18 +70,11 @@ export class BillingReportComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.messageService.showLoading()
     this.dtOptions = DataTableOptions.getSpanishOptions(10)
-    this.parkingService
-      .getAllParking()
-      .then((data) => {
-        if (data.success) {
-          this.allParking = data.data.parkings
-        }
-      }).then(() => {
-      this.getBillingRpt(this.fechaActual, this.fechaActual)
-    }).finally(() => {
-      this.messageService.hideLoading()
+    this.parkingService.getAllParking().then((data) => {
+      if (data.success) {
+        this.allParking = data.data.parkings
+      }
     })
   }
 
@@ -91,7 +82,12 @@ export class BillingReportComponent implements OnInit {
     return this.permisionService.ifHaveAction(action)
   }
 
-  getBillingRpt(initDate: string, endDate: string) {
+  getInitialData() {
+    // Calling
+    //this.getPaymentRpt();
+  }
+
+  getMontlyParkingRpt(initDate: string, endDate: string, telephone: string = '') {
     if (endDate < initDate) {
       this.messageService.error(
         '',
@@ -99,31 +95,29 @@ export class BillingReportComponent implements OnInit {
       )
       return
     }
-    this.startDateReport = new Date(initDate + 'T00:00:00').toLocaleDateString('es-GT')
-    this.endDateReport = new Date(endDate + 'T00:00:00').toLocaleDateString('es-GT')
-
+    this.messageService.showLoading()
+    this.startDateReport = initDate
+    this.endDateReport = endDate
     this.parqueo = this.datosUsuarioLogeado.id
     if (this.ifHaveAction('verTodosLosParqueosReport')) {
       this.parqueo = this.inputParking.nativeElement.value
     }
-    this.parqueoDetalle = this.parqueo
     return this.reportService
-      .getBillingRpt(initDate, endDate, this.parqueo)
+      .getParkingMonthlyRpt(initDate, endDate, this.parqueo, telephone)
       .toPromise()
       .then((data) => {
-        if (data.success) {
-          this.report = data.data
-          // this.dataSource = data.data.filter((data:billingData) => data.fiscal_uuid !== null)
-          this.dataSource = data.data
+        if (data) {
+          this.dataSource = data
+          this.report = data
           if (this.report.length == 0) {
             this.messageService.infoTimeOut('No se encontraron datos')
           }
           this.rerender()
         } else {
-          this.messageService.error('', data.message)
+          this.messageService.error('', 'No se encontraron datos')
         }
       })
-      .then(() => {
+      .finally(() => {
         this.messageService.hideLoading()
       })
   }
@@ -134,7 +128,6 @@ export class BillingReportComponent implements OnInit {
     if (this.ifHaveAction('verTodosLosParqueosReport')) {
       this.parqueo = '0'
     }
-    this.parqueoDetalle = this.parqueo
   }
 
   exportGrid() {
@@ -147,17 +140,8 @@ export class BillingReportComponent implements OnInit {
       jsPDFDocument: doc,
       component: this.dataGrid.instance
     }).then(() => {
-      doc.save('ReporteFacturación.pdf')
+      doc.save('Duracin.pdf')
     })
-  }
-
-  private rerender() {
-    if (this.dtElement != undefined) {
-      this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
-        dtInstance.destroy()
-        this.dtTrigger.next()
-      })
-    }
   }
 
   onExporting(e: any) {
@@ -165,21 +149,25 @@ export class BillingReportComponent implements OnInit {
       this.messageService.infoTimeOut('No hay información para exportar')
       return
     }
-
     const header = [
       '',
-      'Fecha emisión factura',
       'Teléfono',
-      'Nit del Cliente',
-      'Total (Q)',
-      'Moneda del documento',
-      'Número de Factura',
-      'Tipo',
-
+      'Nombre',
+      'Email',
+      'Nit',
+      'Monto Mensual',
+      'Monto Pagado',
+      'Mes Pagado',
+      'Fecha de Pago',
+      'Número de transacción',
+      'Fecha de facturación',
+      'No. de factura',
+      'Estado de Pago',
+      'Último pago',
     ]
     //Create workbook and worksheet
     const workbook = new Workbook()
-    const worksheet = workbook.addWorksheet('ebiGO Facturación')
+    const worksheet = workbook.addWorksheet('Parqueo mensual')
     //Add Row and formatting
     worksheet.addRow([])
 
@@ -196,7 +184,7 @@ export class BillingReportComponent implements OnInit {
         }
       }
     })
-    worksheet.mergeCells('D2:G3')
+    worksheet.mergeCells('D2:I3')
     let ParqueoReporte = 'Todos los parqueos'
     if (this.parqueo != '0') {
       const parqueoEncontrado = this.allParking.find(
@@ -219,8 +207,8 @@ export class BillingReportComponent implements OnInit {
         }
       }
     })
-    worksheet.mergeCells('D4:G5')
-    const titleRow = worksheet.addRow(['', '', '', 'Reporte - ebiGO Facturación'])
+    worksheet.mergeCells('D4:I5')
+    const titleRow = worksheet.addRow(['', '', '', 'Reporte - Parqueo mensual'])
     titleRow.font = {name: 'Calibri', family: 4, size: 11, bold: true}
     titleRow.alignment = {horizontal: 'center', vertical: 'middle'}
     titleRow.eachCell((cell, number) => {
@@ -233,7 +221,7 @@ export class BillingReportComponent implements OnInit {
         }
       }
     })
-    worksheet.mergeCells('D6:G8')
+    worksheet.mergeCells('D6:I8')
     //Add Image
     worksheet.mergeCells('B2:C8')
     const logo = workbook.addImage({
@@ -255,13 +243,11 @@ export class BillingReportComponent implements OnInit {
         }
       }
     })
-    worksheet.mergeCells('B10:G11')
+    worksheet.mergeCells('B10:I11')
     worksheet.addRow([])
     const header1 = worksheet.addRow([
       '',
       'Fecha Inicio: ' + this.startDateReport,
-      '',
-      '',
       '',
       '',
       'Fecha Fin: ' + this.endDateReport
@@ -277,10 +263,10 @@ export class BillingReportComponent implements OnInit {
       }
     })
     worksheet.mergeCells('B13:D14')
-    worksheet.mergeCells('E13:G14')
+    worksheet.mergeCells('E13:I14')
     const header2 = worksheet.addRow([
       '',
-      'Total de facturas emitidas: ' + this.dataSource.length,
+      'Total de membresias: ' + this.dataSource.length,
       '',
       '',
       'Documento generado: ' +
@@ -299,7 +285,7 @@ export class BillingReportComponent implements OnInit {
       }
     })
     worksheet.mergeCells('B15:D16')
-    worksheet.mergeCells('E15:G16')
+    worksheet.mergeCells('E15:I16')
     worksheet.addRow([])
     const headerRow = worksheet.addRow(header)
 
@@ -322,16 +308,25 @@ export class BillingReportComponent implements OnInit {
     })
     // Add Data and Conditional Formatting
     this.dataSource.forEach((d: any) => {
-
       const row = worksheet.addRow([
         '',
-        d.dateBilling ? new Date(d.dateBilling).toLocaleDateString('es-GT')  : ' ',
-        d.phone_key,
+        d.phone_number,
+        d.name,
+        d.email,
         d.nit,
-        d.total,
-        'GTQ',
-        d.noFactura,
-        d.typeService
+        new Intl.NumberFormat('es-GT', {style: 'currency', currency: 'GTQ'}).format(d.amount_monthly ?? 0).toString(),
+        new Intl.NumberFormat('es-GT', {style: 'currency', currency: 'GTQ'}).format(d.amount ?? 0).toString(),
+        d.month_paid,
+        d.payment_date ? new Date(d.payment_date).toLocaleString('es-GT') : '',
+        d.trace_number,
+        d.certification_time
+          ? new Date(d.certification_time).toLocaleString('es-GT')
+          : '',
+        d.noInvoice,
+        d.is_aproved ? 'Aprobado' : 'No aprobado',
+        d.last_payment
+          ? new Date(d.last_payment).toLocaleString('es-GT')
+          : '',
       ])
       row.eachCell((cell, number) => {
         if (number > 1) {
@@ -348,29 +343,57 @@ export class BillingReportComponent implements OnInit {
     worksheet.addRow([])
     worksheet.addRow([])
 
-    worksheet.getColumn(2).width = 20
+    worksheet.getColumn(2).width = 15
     worksheet.getColumn(3).width = 20
     worksheet.getColumn(4).width = 20
     worksheet.getColumn(5).width = 20
     worksheet.getColumn(6).width = 20
     worksheet.getColumn(7).width = 20
-    worksheet.getColumn(8).width = 20
-    worksheet.getColumn(9).width = 15
+    worksheet.getColumn(8).width = 25
+    worksheet.getColumn(9).width = 25
     worksheet.getColumn(10).width = 15
-    worksheet.getColumn(11).width = 30
-    worksheet.getColumn(12).width = 20
-    worksheet.getColumn(13).width = 20
-
+    worksheet.getColumn(11).width = 15
+    worksheet.getColumn(12).width = 15
+    worksheet.getColumn(13).width = 15
+    worksheet.getColumn(14).width = 15
+    worksheet.getColumn(15).width = 15
+    worksheet.getColumn(16).width = 25
 
     //Generate Excel File with given name
     workbook.xlsx.writeBuffer().then((data) => {
       const blob = new Blob([data], {
         type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
       })
-      saveAs(blob, 'ReporteFacturaciónEbigo.xlsx')
+      saveAs(blob, 'ReporteParqueoMensual.xlsx')
     })
     e.cancel = true
   }
+
+  private rerender() {
+    if (this.dtElement != undefined) {
+      this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+        dtInstance.destroy()
+        this.dtTrigger.next()
+      })
+    }
+  }
+
+  customizeText(cellInfo: any) {
+    let text: string =
+      cellInfo.value == null ? 'Sin perfil especial' : cellInfo.value
+    return text
+  }
+
+  datetime(cellInfo: any) {
+    let time: Date = new Date(cellInfo.value)
+    return time.toLocaleString([], {
+      year: 'numeric',
+      month: 'numeric',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: true
+    })
+  }
+
 }
-
-
