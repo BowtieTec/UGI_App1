@@ -5,7 +5,6 @@ import {HttpClient} from '@angular/common/http'
 import {ResponseModel} from 'src/app/shared/model/Request.model'
 import {payFilter} from '../model/paymentModel'
 import {map} from "rxjs/operators";
-import { subscribeTo } from 'rxjs/internal-compatibility'
 //import * as jsPDF from 'jspdf';
 
 const EXCEL_TYPE =
@@ -32,7 +31,7 @@ export class ReportService {
     ).pipe(map((res) => {
       return res.data.map((item: any) => {
         return {
-          phone_key: item.status == 2 ? item.user.phone_number : 'xxxx-'+item.user.phone_number.substr(item.user.phone_number.length - 4),
+          phone_key: item.status == 2 ? item.user.phone_number : 'xxxx-' + item.user.phone_number.substr(item.user.phone_number.length - 4),
           paymentStatus: item.status == 2 ? 'Pendiente de Pago' : 'Exitoso',
           subtotal: item.subtotal,
           discount: item.discount,
@@ -94,6 +93,36 @@ export class ReportService {
     return this.http.get<ResponseModel>(
       `${this.apiUrl}backoffice/report/courtesiesStationDetail/dates?initDate=${initDate}&endDate=${endDate}&parqueo=${parqueo}`
     )
+  }
+
+  getTransitDetailRpt(initDate: Date, endDate: Date, parqueo: string) {
+    const _initDate = new Date(initDate).toISOString().split('T')[0]
+    const _endDate = new Date(endDate).toISOString().split('T')[0]
+    return this.http.get<ResponseModel>(
+      `${this.apiUrl}backoffice/report/allTransitDetail/dates?dateInit=${_initDate}&dateEnd=${_endDate}&parqueo=${parqueo}`
+    ).pipe(map((res) => {
+      return res.data.map((item: any) => {
+        return {
+          phone_key: item.user.phone_number,
+          entry_date: item.entry_date ? new Date(item.entry_date).toLocaleString() : '',
+          exit_date: item.exit_date ? new Date(item.exit_date).toLocaleString() : '',
+          timeIn: this.descriptionOfDiffOfTime(new Date(item.entry_date), new Date(item.exit_date)),
+          subtotal: item.subtotal ?? '--',
+          discount: item.discount ?? '',
+          total: item.total ?? '--',
+          courtesy: item.courtesy?.courtesy_details?.name ?? '',
+          typePayment: item.payment_type == 0 ?
+            'Tarjeta C/D' : item.payment_type == 1 ? 'Efectivo' :
+              item.payment_type == 3 ? 'Salida gratuita' : '',
+          transaction: item.payment[0]?.trace_number ?? '',
+          invoice: item.payment[0]?.billing?.fiscal_number ?? '',
+          entry_station: item.entry_station?.name ?? '',
+          exit_station: item.exit_station?.name ?? '',
+          type: item.type == 0 ? 'ebigo Ticket' : item.type == 1 ? 'ebigo Mensual' : item.type == 5 ? 'Test' : '',
+          status: item.status == 2 ? 'Puede salir' : item.status == 1 ? 'Dentro del parqueo' : item.status == 3 || item.status == 5 ? 'Fuera del parqueo' : 'Intento fallido'
+        }
+      })
+    }))
   }
 
   getParkingMonthlyRpt(initDate: string, endDate: string, parqueo: string, telephone: string) {
@@ -161,7 +190,6 @@ export class ReportService {
       `${this.apiUrl}backoffice/report/parkingDailyMoSubRpt/dates?initDate=${initDate}&endDate=${endDate}&parqueo=${parqueo}`
     ).pipe(map((res: any) => {
       return res.data.map((item: any) => {
-        console.log(item);
         return {
           id: item.id,
           name: `${item?.user?.name ?? ''} ${item?.user?.lastName ?? ''}`,
@@ -176,7 +204,6 @@ export class ReportService {
           type: item?.type == 1 ? 'ebiGo Ticket' : 'ebiGo Mensual'
         }
       })
-
     }))
   }
 
