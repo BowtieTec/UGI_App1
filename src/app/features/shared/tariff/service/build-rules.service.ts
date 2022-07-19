@@ -14,12 +14,12 @@ export class BuildRulesService {
       {
         fact: 'date_in',
         operator: 'dateIsGreaterThan',
-        value: input.toDate
+        value: input.fromDate
       },
       {
         fact: 'date_in',
         operator: 'dateIsLessThan',
-        value: input.fromDate
+        value: input.toDate
       }
     ]
   }
@@ -49,39 +49,55 @@ export class BuildRulesService {
     ]
   }
 
-  public static isHalfOfHour(whenIsAHalf: number): All[] {
+  public static beginChargingWhen(whenIsAHalf: number): All[] {
     return [
       {
         fact: 'minute',
         operator: 'greaterThanInclusive',
-        value: whenIsAHalf
+        value: whenIsAHalf,
       }
     ]
   }
 
-  public static getBlock(input: BlockInputModel): All[] {
-    return [
-      {
-        fact: 'hour',
-        operator: 'greaterThanInclusive',
-        value: input.hourLowerLimit
-      },
-      {
-        fact: 'hour',
-        operator: 'lessThanInclusive',
-        value: input.hourUpperLimit
-      },
-      {
-        fact: 'minute',
-        operator: 'greaterThanInclusive',
-        value: input.minuteLowerLimit
-      },
-      {
-        fact: 'minute',
-        operator: 'lessThanInclusive',
-        value: input.minuteUpperLimit
-      }
-    ]
+  public static getBlock(input: BlockInputModel, isHour: number): All[] {
+    if (isHour == 0) {
+      return [
+        {
+          fact: 'hour',
+          operator: 'greaterThanInclusive',
+          value: input.hourLowerLimit
+        },
+        {
+          fact: 'hour',
+          operator: 'lessThanInclusive',
+          value: input.hourUpperLimit
+        },
+        {
+          fact: 'minute',
+          operator: 'greaterThanInclusive',
+          value: input.minuteLowerLimit
+        },
+        {
+          fact: 'minute',
+          operator: 'lessThanInclusive',
+          value: input.minuteUpperLimit
+        }
+      ]
+    } else {
+      return [
+        {
+          fact: 'hour',
+          operator: 'greaterThanInclusive',
+          value: input.hourLowerLimit
+        },
+        {
+          fact: 'hour',
+          operator: 'lessThanInclusive',
+          value: input.hourUpperLimit
+        },
+      ]
+    }
+
   }
 
   public static getRanksOut(input: RankInputModel): All[] {
@@ -266,30 +282,6 @@ export class BuildRulesService {
         path: 'minute',
         operator: 'lessThanInclusive',
         value: input.toTime.minutes
-      },
-      {
-        fact: 'date_out_object',
-        path: 'hour',
-        operator: 'greaterThanInclusive',
-        value: input.fromTime.hours
-      },
-      {
-        fact: 'date_out_object',
-        path: 'hour',
-        operator: 'lessThanInclusive',
-        value: input.toTime.hours
-      },
-      {
-        fact: 'date_out_object',
-        path: 'minute',
-        operator: 'greaterThanInclusive',
-        value: input.fromTime.minutes
-      },
-      {
-        fact: 'date_out_object',
-        path: 'minute',
-        operator: 'lessThanInclusive',
-        value: input.toTime.minutes
       }
     ]
   }
@@ -303,7 +295,8 @@ export class BuildRulesService {
             type: 'Fracción',
             params: {
               value: input.costAHalf,
-              path: 1
+              path: 1,
+              limit: input.subtractMinutes
             }
           }
         ]
@@ -316,13 +309,13 @@ export class BuildRulesService {
             type: 'Hora',
             params: {
               value: input.costHour,
-              path: 'hour'
+              path: 'hour',
+              limit: input.subtract,
             }
           }
         ]
       }
     }
-
   }
 
   public static getFixedPriceEvent(input: FixedCostInputModel): IEvent {
@@ -333,7 +326,8 @@ export class BuildRulesService {
           type: 'costo fijo',
           params: {
             value: input.fixedCost,
-            path: 1
+            path: 1,
+            limit: input.subtract
           }
         }
       ]

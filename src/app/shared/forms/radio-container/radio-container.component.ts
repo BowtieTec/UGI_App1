@@ -1,6 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core'
-import { UtilitiesService } from '../../services/utilities.service'
-import { FormGroup } from '@angular/forms'
+import {Component, Input, OnInit} from '@angular/core'
+import {UtilitiesService} from '../../services/utilities.service'
+import {UntypedFormGroup} from '@angular/forms'
 
 @Component({
   selector: 'app-radio-container',
@@ -11,7 +11,7 @@ export class RadioContainerComponent implements OnInit {
   @Input() desc!: string
   @Input() controlName!: string
   @Input() value!: number
-  @Input() formGroup!: FormGroup
+  @Input() formGroup!: UntypedFormGroup
   @Input() isChecked = false
   @Input() readOnly = false
   randomString: string = this.utilitiesService.randomString()

@@ -1,12 +1,12 @@
 import {Injectable} from '@angular/core'
-import {FormBuilder, Validators} from '@angular/forms'
+import {UntypedFormBuilder, Validators} from '@angular/forms'
 import {DateGreaterValidations, NumberGreaterValidations} from '../../../../shared/validators/GreatherThan.validations'
 
 @Injectable({
   providedIn: 'root'
 })
 export class TariffFormsService {
-  constructor(private formBuilder: FormBuilder) {
+  constructor(private formBuilder: UntypedFormBuilder) {
   }
 
   createGeneralDataForm() {
@@ -15,7 +15,8 @@ export class TariffFormsService {
       description: ['', Validators.required],
       isShowDescription: [true],
       hasGlobalSchedule: [false],
-      isPerDayCondition: [false]
+      isPerDayCondition: [false],
+      parkingId: []
     })
   }
 
@@ -23,13 +24,18 @@ export class TariffFormsService {
     return this.formBuilder.group({
       hourCost: [null, Validators.required],
       halfCost: [null, Validators.required],
-      whenIsAHalf: [null, Validators.required]
+      whenIsAHalf: ['1', Validators.required],
+      subtract: ['0', [Validators.required]],
+      subtractMinutes: ['0', [Validators.required]]
     })
   }
 
   createFixedCostForm() {
     return this.formBuilder.group({
-      fixedCost: [null, Validators.required]
+      fixedCost: [null, Validators.required],
+      whenIsAHalf: ['1', Validators.required],
+      subtract: ['0', [Validators.required]],
+      subtractMinutes: ['0', [Validators.required]]
     })
   }
 

@@ -107,8 +107,8 @@ export class ParkingTicketReportComponent implements OnInit {
       )
       return
     }
-    this.startDateReport = new Date(initDate).toLocaleDateString('es-GT')
-    this.endDateReport = new Date(endDate).toLocaleDateString('es-GT')
+    this.startDateReport = new Date(initDate+'T00:00:00').toLocaleDateString('es-GT')
+    this.endDateReport = new Date(endDate+'T00:00:00').toLocaleDateString('es-GT')
     this.parqueo = this.datosUsuarioLogeado.id
     if (this.ifHaveAction('verTodosLosParqueosReport')) {
       this.parqueo = this.inputParking.nativeElement.value
@@ -180,9 +180,9 @@ export class ParkingTicketReportComponent implements OnInit {
       '',
       'Fecha',
       'Total de vehículos',
-      'Total',
-      'Descuento',
-      'Pagado'
+      'Total (Q)',
+      'Cortesías (Q)',
+      'Pagado (Q)'
     ]
     //Create workbook and worksheet
     const workbook = new Workbook()

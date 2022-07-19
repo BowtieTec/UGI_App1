@@ -1,10 +1,10 @@
-import { Injectable } from '@angular/core'
-import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router'
-import { Observable } from 'rxjs'
-import { AuthService } from '../../shared/services/auth.service'
-import { PermissionsService } from '../../shared/services/permissions.service'
-import { MessageService } from '../../shared/services/message.service'
-import { EncryptionService } from '../../shared/services/encryption.service'
+import {Injectable} from '@angular/core'
+import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree} from '@angular/router'
+import {Observable} from 'rxjs'
+import {AuthService} from '../../shared/services/auth.service'
+import {PermissionsService} from '../../shared/services/permissions.service'
+import {MessageService} from '../../shared/services/message.service'
+import {EncryptionService} from '../../shared/services/encryption.service'
 
 @Injectable({
   providedIn: 'root'
@@ -15,8 +15,9 @@ export class AuthGuard implements CanActivate {
     private router: Router,
     private permissions: PermissionsService,
     private messageService: MessageService,
-    private crypto: EncryptionService
-  ) {}
+    private crypto: EncryptionService,
+  ) {
+  }
 
   canActivate(
     route: ActivatedRouteSnapshot,
@@ -26,8 +27,7 @@ export class AuthGuard implements CanActivate {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    this.messageService.showLoading()
-    if (sessionStorage.getItem(this.crypto.encryptKey('User', this.auth.userContext)) == undefined) {
+    if (sessionStorage.getItem(this.crypto.encryptKey('User')) == undefined) {
       this.messageService.infoTimeOut(
         'Debe iniciar sesión para acceder a las funcionalidades.',
         'Iniciar sesión'
@@ -35,16 +35,6 @@ export class AuthGuard implements CanActivate {
       this.router.navigate(['/'])
       return false
     }
-
-    return this.permissions
-      .getMenuOptionsValidated()
-      .then((options): boolean => {
-        this.messageService.hideLoading()
-        if (options.find((option) => option.module == route.url.toString())) {
-          return true
-        } else {
-          return false
-        }
-      })
+    return true
   }
 }

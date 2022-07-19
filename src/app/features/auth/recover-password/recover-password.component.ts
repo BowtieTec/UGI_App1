@@ -1,11 +1,10 @@
-import { Component } from '@angular/core'
-import { FormBuilder, FormGroup, Validators } from '@angular/forms'
-import { MessageService } from '../../../shared/services/message.service'
-import { RecoveryPasswordService } from '../services/recovery-password.service'
-import { ConfirmCodeModel } from '../models/RecoveryPassword.model'
-import { Router } from '@angular/router'
-import { HttpErrorResponse, HttpEventType } from '@angular/common/http'
-import { throwError } from 'rxjs'
+import {Component} from '@angular/core'
+import {UntypedFormBuilder, UntypedFormGroup, Validators} from '@angular/forms'
+import {MessageService} from '../../../shared/services/message.service'
+import {RecoveryPasswordService} from '../services/recovery-password.service'
+import {ConfirmCodeModel} from '../models/RecoveryPassword.model'
+import {Router} from '@angular/router'
+import {environment} from '../../../../environments/environment'
 
 @Component({
   selector: 'app-recover-password',
@@ -13,13 +12,14 @@ import { throwError } from 'rxjs'
   styleUrls: ['./recover-password.component.css']
 })
 export class RecoverPasswordComponent {
-  recoveryPasswordForm: FormGroup
+  recoveryPasswordForm: UntypedFormGroup
   step = 1
   userId = ''
   email = ''
+  token = ''
 
   constructor(
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private messageService: MessageService,
     private recoveryService: RecoveryPasswordService,
     private route: Router
@@ -52,21 +52,22 @@ export class RecoverPasswordComponent {
   }
 
   sendConfirmation(email: string) {
-      this.email = email
-      return this.recoveryService
-        .sendConfirmCode(email)
-        .toPromise()
-        .then((data) => {
-          if (data.success) {
-            this.messageService.Ok('Código Enviado')
-          } else {
-            this.messageService.error('', data.message)
-          }
-          return data.success
-        }).catch(err => {
-          this.messageService.error('', err.error.message)
+    this.email = email
+    return this.recoveryService
+      .sendConfirmCode(email)
+      .toPromise()
+      .then((data) => {
+        if (data.success) {
+          this.messageService.Ok('Código Enviado')
+
+        } else {
+          this.messageService.error('', data.message)
+        }
+        return data.success
+      }).catch(err => {
+        this.messageService.error('', err.error.message)
         return false
-        })
+      })
 
   }
 
@@ -81,6 +82,7 @@ export class RecoverPasswordComponent {
       .toPromise()
       .then((data) => {
         if (data.success) {
+          this.token = data.data
           this.messageService.OkTimeOut('Código correcto')
           this.userId = data.data
         } else {
@@ -88,6 +90,10 @@ export class RecoverPasswordComponent {
         }
         return data.success
       })
+  }
+
+  get passwordPattern() {
+    return environment.settings.passwordPattern
   }
 
   validations() {
@@ -152,7 +158,7 @@ export class RecoverPasswordComponent {
       return
     }
     this.recoveryService
-      .recoveryPassword(this.passwordsValues)
+      .recoveryPassword(this.passwordsValues, this.token)
       .toPromise()
       .then((data) => {
         if (data.success) {
@@ -161,7 +167,9 @@ export class RecoverPasswordComponent {
         } else {
           this.messageService.error('', data.message)
         }
-      })
+      }).catch((x) => {
+      this.messageService.error(x.message)
+    })
   }
 
   controlInvalid(control: string) {
@@ -179,20 +187,17 @@ export class RecoverPasswordComponent {
         '',
         [
           Validators.required,
-          Validators.minLength(8)
-          /*Validators.pattern(
-            '^(?=.*?[A-Z])(?=(.*[a-z]){1,})(?=(.*[\\d]){1,})(?=(.*[\\W]){1,})(?!.*\\s).{8,}$'
-          ),*/
+          Validators.minLength(8),
+          Validators.pattern(environment.settings.passwordPattern
+          ),
         ]
       ],
       newPasswordConfirmation: [
         '',
         [
           Validators.required,
-          Validators.minLength(8)
-          /* Validators.pattern(
-             '^(?=.*?[A-Z])(?=(.*[a-z]){1,})(?=(.*[\\d]){1,})(?=(.*[\\W]){1,})(?!.*\\s).{8,}$'
-           ),*/
+          Validators.minLength(8),
+          Validators.pattern(environment.settings.passwordPattern)
         ]
       ]
     })

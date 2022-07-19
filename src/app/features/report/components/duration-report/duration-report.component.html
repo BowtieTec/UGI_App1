@@ -1,124 +1,126 @@
-<div class="row justify-content-center">
-  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 panelLeft animate__animated animate__fadeInLeft">
-    <div class="panels">
-      <div class="titleCards">
-        <span><i class="fas fa-sitemap"></i></span> Reporte Duración
+<div class = "row justify-content-center">
+  <div class = "col-lg-12 col-md-12 col-sm-12 col-xs-12 panelLeft animate__animated animate__fadeInLeft">
+    <div class = "panelsWithOutMinHeight">
+      <div class = "titleCards">
+        <span><i class = "fas fa-sitemap"></i></span> Reporte de Duración
       </div>
-      <div class="row justify-content-center">
-        <div *ngIf="ifHaveAction(verTodosLosParqueosReport)"
-             class="col-xl-4 col-lg-6 col-sm-12">
-          <div class="mb-4 relative">
-            <label class="text-secondary" style="display:block">Parqueo</label>
+      <div class = "row justify-content-center">
+        <div *ngIf = "ifHaveAction(verTodosLosParqueosReport)"
+             class = "col-xl-4 col-lg-6 col-sm-12">
+          <div class = "mb-4 relative">
+            <label class = "text-secondary"
+                   style = "display:block">Parqueo</label>
             <select
               #inputParking
-              class="inputClass">
-              <option value="0">---- Todos los parqueos ----</option>
-              <option *ngFor="let parking of this.allParking"
-                      value="{{parking.id}}">{{parking.name}}</option>
+              (change) = "getDurationsRpt(initDate.value,endDate.value)"
+              class = "inputClass">
+              <option value = "0">---- Todos los parqueos ----</option>
+              <option *ngFor = "let parking of this.allParking"
+                      value = "{{parking.id}}">{{parking.name}}</option>
             </select>
 
           </div>
         </div>
-        <div class="col-xl-2 col-lg-6 col-sm-12">
-          <div class="mb-4 relative">
-            <label class="text-secondary"
+        <div class = "col-xl-2 col-lg-6 col-sm-12">
+          <div class = "mb-4 relative">
+            <label class = "text-secondary"
 
-                   style="display:block">Fecha de inicio</label>
-            <input #initDate class="form-control inputClass datetimepicker"
-                   for="initDate"
-                   name="initDate"
-                   placeholder="Fecha/Hora de entrada"
-                   type="Date"
-                   max="{{nowDateTime | date: 'yyyy-MM-dd'}}"
-                   [value]="fechaActual"
+                   style = "display:block">Fecha de inicio</label>
+            <input #initDate
+                   (change) = "getDurationsRpt(initDate.value,endDate.value)"
+                   [value] = "fechaActual"
+                   class = "form-control inputClass datetimepicker"
+                   for = "initDate"
+                   max = "{{nowDateTime | date: 'yyyy-MM-dd'}}"
+                   name = "initDate"
+                   placeholder = "Fecha/Hora de entrada"
+                   type = "Date"
             >
 
           </div>
         </div>
-        <div class="col-xl-2 col-lg-6 col-sm-12">
-          <div class="mb-4 relative">
-            <label class="text-secondary"
+        <div class = "col-xl-2 col-lg-6 col-sm-12">
+          <div class = "mb-4 relative">
+            <label class = "text-secondary"
 
-                   style="display:block">Fecha de fin</label>
+                   style = "display:block">Fecha de fin</label>
             <input
-              #endDate [value]="fechaActual"
-              class="form-control inputClass datetimepicker"
-              for="endDate"
-              name="endDate"
-              placeholder="Fecha/Hora de salida"
-              type="date"
-              max="{{nowDateTime | date: 'yyyy-MM-dd'}}"
+              #endDate
+              (change) = "getDurationsRpt(initDate.value,endDate.value)"
+              [value] = "fechaActual"
+              class = "form-control inputClass datetimepicker"
+              for = "endDate"
+              max = "{{nowDateTime | date: 'yyyy-MM-dd'}}"
+              name = "endDate"
+              placeholder = "Fecha/Hora de salida"
+              type = "date"
             >
           </div>
         </div>
 
-
-        <div class="col-xl-12 col-lg-12 col-sm-12">
-          <div class="text-center">
-            <button (click)="getDurationsRpt(initDate.value,endDate.value)"
-                    class="btn btn-primary m-2">Buscar
-            </button>
-          </div>
-        </div>
       </div>
 
     </div>
   </div>
-  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-    <div class="panels">
-      <div class="row">
-        <dx-data-grid id="gridContainer" [dataSource]="dataSource" [showBorders]="true">
-          <dxi-column caption="Duración"
-                      dataField="duracion"
-                      width="15%"
+  <div class = "col-lg-12 col-md-12 col-sm-12 col-xs-12">
+    <div class = "panels">
+      <div class = "row">
+        <dx-data-grid [dataSource] = "dataSource"
+                      [showBorders] = "true"
+                      id = "gridContainer">
+          <dxi-column caption = "Duración"
+                      dataField = "duracion"
+                      width = "15%"
           ></dxi-column>
           <dxi-column
-            dataField="vehicles"
-            width="10%"
-            caption="No. vehículos"
-            dataType="number"
+            caption = "No. vehículos"
+            dataField = "vehicles"
+            dataType = "number"
+            width = "10%"
           ></dxi-column>
           <dxi-column
-            dataField="porcentaje"
-            caption="Porcentaje"
-            dataType="percentage"
-            width="10%"
+            dataField = 'porcentaje'
+            caption = 'Porcentaje'
+            dataType = 'percentage'
+            format = 'percent'
+            width = '10%'
           ></dxi-column>
           <dxi-column
-            dataField="apply_disc_vehic"
-            caption="Aplicaron descuento"
-            width="10%"
-            dataType="number"
+            caption = "Aplicaron descuento"
+            dataField = "apply_disc_vehic"
+            dataType = "number"
+            width = "10%"
           ></dxi-column>
           <dxi-column
-            dataField="disc"
-            caption="Descuento"
-            dataType="number"
-            width="10%"
-            format="currency"
-            format="Q ,###,###,##0.00"
+            caption = "Descuento"
+            dataField = "disc"
+            dataType = "number"
+            format = "currency"
+            format = "Q ,###,###,##0.00"
+            width = "10%"
           ></dxi-column>
           <dxi-column
-            dataField="total_no_disc"
-            caption="Total sin descuento"
-            dataType="number"
-            format="currency"
-            width="15%"
-            format="Q ,###,###,##0.00"
+            caption = "Total sin descuento"
+            dataField = "total_no_disc"
+            dataType = "number"
+            format = "currency"
+            format = "Q ,###,###,##0.00"
+            width = "15%"
           ></dxi-column>
-          <dxo-header-filter [visible]="true"></dxo-header-filter>
-          <dxo-search-panel [visible]="true" placeholder="Buscar..."></dxo-search-panel>
+          <dxo-header-filter [visible] = "true"></dxo-header-filter>
+          <dxo-search-panel [visible] = "true"
+                            placeholder = "Buscar..."></dxo-search-panel>
           <dxo-toolbar>
-            <dxi-item location="after">
+            <dxi-item location = "after">
               <dx-button
-                icon="xlsxfile"
-                text="Exportar a Excel"
-                (onClick)="onExporting($event)"
+                (onClick) = "onExporting($event)"
+                icon = "xlsxfile"
+                text = "Exportar a Excel"
               ></dx-button>
             </dxi-item>
-            <dxi-item name="searchPanel"></dxi-item>
+            <dxi-item name = "searchPanel"></dxi-item>
           </dxo-toolbar>
-          <dxo-export [enabled]="true"></dxo-export>
+          <dxo-export [enabled] = "true"></dxo-export>
         </dx-data-grid>
       </div>
     </div>

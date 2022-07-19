@@ -1,12 +1,12 @@
-import { Injectable } from '@angular/core'
-import { MessageService } from '../../../../../shared/services/message.service'
-import { environment } from '../../../../../../environments/environment'
-import { HttpClient } from '@angular/common/http'
-import { ResponseModel } from '../../../../../shared/model/Request.model'
-import { RolesModel } from '../models/RolesModel'
-import { NewUserModel, updateUserApp } from '../models/newUserModel'
-import { Observable } from 'rxjs'
-import { AuthService } from '../../../../../shared/services/auth.service'
+import {Injectable} from '@angular/core'
+import {MessageService} from '../../../../../shared/services/message.service'
+import {environment} from '../../../../../../environments/environment'
+import {HttpClient} from '@angular/common/http'
+import {ResponseModel} from '../../../../../shared/model/Request.model'
+import {RolesModel} from '../models/RolesModel'
+import {NewUserModel, updateUserApp} from '../models/newUserModel'
+import {Observable} from 'rxjs'
+import {AuthService} from '../../../../../shared/services/auth.service'
 
 @Injectable({
   providedIn: 'root'
@@ -49,7 +49,7 @@ export class UserService {
   getUsers(): Observable<any> {
     this.messageService.showLoading()
     return this.http.get<ResponseModel>(
-      `${this.apiUrl}backoffice/admin/admins?page=1&per_page=1000&status=3`
+      `${this.apiUrl}backoffice/admin/admins?page=1&per_page=100&status=3`
     )
   }
 
@@ -59,11 +59,12 @@ export class UserService {
       `${this.apiUrl}backoffice/user/userApp/`
     )
   }
+
   getAdminsByParking() {
     this.messageService.showLoading()
     this.http
       .get<ResponseModel>(
-        `${this.apiUrl}backoffice/admin/admins?page=1&per_page=1000&status=3`
+        `${this.apiUrl}backoffice/admin/admins?page=1&per_page=100&status=3`
       )
       .subscribe((data) => {
         this.users = []
@@ -76,7 +77,8 @@ export class UserService {
             parking: administrator.idParking,
             email: administrator.email,
             password: administrator.password,
-            last_name: administrator.last_name
+            last_name: administrator.last_name,
+            validate_code: administrator.validate_code
           })
         })
         this.messageService.hideLoading()
@@ -104,8 +106,8 @@ export class UserService {
     )
   }
 
-  editUserApp(userApp: updateUserApp){
-    return this.http.put<ResponseModel>(`${this.apiUrl}backoffice/user/update/${userApp.id}`,userApp)
+  editUserApp(userApp: updateUserApp) {
+    return this.http.put<ResponseModel>(`${this.apiUrl}backoffice/user/update/${userApp.id}`, userApp)
   }
 
   deleteUser(id: string) {

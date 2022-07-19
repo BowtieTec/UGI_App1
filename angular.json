@@ -1,7 +1,12 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "cli": {
-    "analytics": "eb917650-3cda-4999-b191-4c2bdace5c85"
+    "analytics": "eb917650-3cda-4999-b191-4c2bdace5c85",
+    "cache": {
+      "enabled": true,
+      "path": ".cache",
+      "environment": "all"
+    }
   },
   "version": 1,
   "newProjectRoot": "projects",
@@ -47,7 +52,14 @@
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.js",
-              "node_modules/datatables.net/js/jquery.dataTables.js"
+              "node_modules/datatables.net/js/jquery.dataTables.js",
+              "node_modules/bootstrap/dist/js/bootstrap.js",
+              "node_modules/datatables.net-buttons/js/dataTables.buttons.js",
+              "node_modules/datatables.net-buttons/js/buttons.colVis.js",
+              "node_modules/datatables.net-buttons/js/buttons.flash.js",
+              "node_modules/datatables.net-buttons/js/buttons.html5.js",
+              "node_modules/datatables.net-buttons/js/buttons.print.js",
+              "node_modules/jszip/dist/jszip.js"
             ]
           },
           "configurations": {
@@ -79,15 +91,19 @@
               "vendorChunk": true,
               "extractLicenses": false,
               "sourceMap": true,
-              "namedChunks": true
+              "namedChunks": true,
+              "outputHashing": "all"
             },
             "local": {
-              "optimization": true,
-              "buildOptimizer": true,
-              "vendorChunk": true,
+              "outputHashing": "none",
+              "sourceMap": false,
+              "namedChunks": false,
+              "aot": true,
               "extractLicenses": false,
-              "sourceMap": true,
-              "namedChunks": true,
+              "statsJson": false,
+              "progress": false,
+              "vendorChunk": true,
+              "buildOptimizer": false,
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
@@ -140,6 +156,5 @@
         }
       }
     }
-  },
-  "defaultProject": "ebiGo"
+  }
 }

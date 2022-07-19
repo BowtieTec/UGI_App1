@@ -1,10 +1,10 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core'
-import { environment } from '../../../../environments/environment'
-import { PermissionsService } from '../../../shared/services/permissions.service'
-import { ParkingService } from '../../parking/services/parking.service'
-import { ParkingModel } from '../../parking/models/Parking.model'
-import { AuthService } from '../../../shared/services/auth.service'
-import { MessageService } from '../../../shared/services/message.service'
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core'
+import {environment} from '../../../../environments/environment'
+import {PermissionsService} from '../../../shared/services/permissions.service'
+import {ParkingService} from '../../parking/services/parking.service'
+import {ParkingModel} from '../../parking/models/Parking.model'
+import {AuthService} from '../../../shared/services/auth.service'
+import {MessageService} from '../../../shared/services/message.service'
 
 @Component({
   selector: 'app-dashboard',
@@ -98,18 +98,18 @@ export class DashboardComponent implements OnInit {
   AnioActual: any = +new Date().toISOString().split('T')[0].split('-')[0]
   monthFiltered: any[] = [];
   allMonths = [
-    { key: '01', valor: 'Enero' },
-    { key: '02', valor: 'Febrero' },
-    { key: '03', valor: 'Marzo' },
-    { key: '04', valor: 'Abril' },
-    { key: '05', valor: 'Mayo' },
-    { key: '06', valor: 'Junio' },
-    { key: '07', valor: 'Julio' },
-    { key: '08', valor: 'Agosto' },
-    { key: '09', valor: 'Septiembre' },
-    { key: '10', valor: 'Octubre' },
-    { key: '11', valor: 'Noviembre' },
-    { key: '12', valor: 'Diciembre' }
+    {key: '01', valor: 'Enero'},
+    {key: '02', valor: 'Febrero'},
+    {key: '03', valor: 'Marzo'},
+    {key: '04', valor: 'Abril'},
+    {key: '05', valor: 'Mayo'},
+    {key: '06', valor: 'Junio'},
+    {key: '07', valor: 'Julio'},
+    {key: '08', valor: 'Agosto'},
+    {key: '09', valor: 'Septiembre'},
+    {key: '10', valor: 'Octubre'},
+    {key: '11', valor: 'Noviembre'},
+    {key: '12', valor: 'Diciembre'}
   ]
   AniosSelect: any[] = []
 
@@ -120,6 +120,7 @@ export class DashboardComponent implements OnInit {
   tipoCortesiasEstacionarias = 'bar'
 
   datosUsuarioLogeado = this.auth.getParking()
+
 
   constructor(
     private auth: AuthService,
@@ -146,8 +147,9 @@ export class DashboardComponent implements OnInit {
         valor: iAnio
       })
     }
-   this.monthFiltered = this.allMonths.filter(x => Number(x.key) <= new Date().getMonth()+1)
+    this.monthFiltered = this.allMonths.filter(x => Number(x.key) <= new Date().getMonth() + 1)
   }
+
   ngOnInit(): void {
     this.parkingService.getAllParking().then((data) => {
       if (data.success) {
@@ -178,6 +180,7 @@ export class DashboardComponent implements OnInit {
       } else {
         this.parqueoFlujoDia = this.datosUsuarioLogeado.id
       }
+
     }
     if (tipo == this.cortesias) {
       this.fechaCortesiasDia = this.inputFechaCortesiasDia.nativeElement.value
@@ -275,9 +278,9 @@ export class DashboardComponent implements OnInit {
 
   filterMonth() {
     const yearSelected = this.inputIngresoMesAnio.nativeElement.value;
-    if(yearSelected == new Date().getFullYear()){
-      this.monthFiltered = this.allMonths.filter(x =>Number(x.key)<= Number(new Date().getMonth())+1)
-    }else{
+    if (yearSelected == new Date().getFullYear()) {
+      this.monthFiltered = this.allMonths.filter(x => Number(x.key) <= Number(new Date().getMonth()) + 1)
+    } else {
       this.monthFiltered = this.allMonths
     }
   }

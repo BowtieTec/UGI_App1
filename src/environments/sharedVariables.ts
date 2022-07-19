@@ -29,7 +29,10 @@ export const permission = {
   changeParkingAtCreateUser: 'changeParkingAtCreateUser',
   listCourtesyStationary: 'listCourtesyStationary',
   createCourtesyStationary: 'createCourtesyStationary',
+  editCourtesyStationary: 'editCourtesyStationary',
   addStationsCourtesyStationary: 'addStationsCourtesyStationary',
+  editStationsCourtesyStationary: 'editStationsCourtesyStationary',
+  deleteStationsCourtesyStationary:'deleteStationsCourtesyStationary',
   graficosIngresoVehiculos: 'graficosIngresoVehiculos',
   graficosFlujoDinero: 'graficosFlujoDinero',
   graficosCortesias: 'graficosCortesias',
@@ -43,17 +46,21 @@ export const permission = {
   verTodosLosParqueosDashboard: 'verTodosLosParqueosDashboard',
   verTodosLosParqueosReport: 'verTodosLosParqueosReport',
   verCourtesiesStationReport: 'verCourtesiesStationReport',
+  verBillingReport: 'verBillingReport',
+  verHistoryOfCourtesyReport: 'verHistoryOfCourtesy',
   graficosCortesiasEstacionarias: 'graficosCortesiasEstacionarias',
   listLocal: 'listLocal',
   createLocal: 'createLocal',
   disableLocal: 'disableLocal',
   editLocal: 'editLocal',
-
   listSchedules: 'listSchedules',
   listTariff: 'listTariff',
   createTariff: 'createTariff',
   tariffTest: 'tariffTest',
-  newTicket: 'newTicket'
+  newTicket: 'newTicket',
+  listInvoiceInfo: 'changeInvoiceInfo',
+  restartPassword: 'restartPassword',
+  updateFiles: 'updateFiles'
 }
 export const leftMenu = [
   {
@@ -106,14 +113,16 @@ export const leftMenu = [
   }
 ]
 export const DiscountOnWhat = [
-  { id: 1, name: 'Total' },
-  { id: 2, name: 'Cantidad de horas' }
+  {id: 1, name: 'Total'},
+  {id: 2, name: 'Cantidad de horas'}
 ]
 export const TypeOfCondition = [
-  { id: 1, name: 'Aplicar siempre' },
-  { id: 2, name: 'Solo si Cant. Horas es menor o igual a ' }
+  {id: 1, name: 'Aplicar si cumple'},
+  {id: 2, name: 'Solo si Cant. Horas es menor o igual a '},
+  {id: 3, name: 'Sumar tarifa normal y aplicar descuento solo a'}
 ]
 export const settings = {
-  siteKey: '6LesloIfAAAAANKGMOJ5SOxyRugy3woH7Y1DP1f6'
+  siteKey: '6LesloIfAAAAANKGMOJ5SOxyRugy3woH7Y1DP1f6',
+  passwordPattern: '^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[$@$!%*?&])([A-Za-z\\d$@$!%*?&]|[^ ]){8,30}$'
 }
 

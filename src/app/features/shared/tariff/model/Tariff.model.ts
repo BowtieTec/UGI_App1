@@ -1,4 +1,4 @@
-import { ParkingModel } from '../../../parking/models/Parking.model'
+import {ParkingModel} from '../../../parking/models/Parking.model'
 
 export class RuleModel {
   conditions?: Conditions
@@ -10,11 +10,16 @@ export class HourHalfInputModel {
   costHour = 0
   costAHalf = 0
   whenIsAHalf = 0
+  subtract = 0
+  subtractMinutes = 0
 }
 
 export class FixedCostInputModel {
   static_descriptionCost = ''
   fixedCost = 0
+  whenIsAHalf = 0
+  subtract = 0
+  subtractMinutes = 0
 }
 
 export class RuleModelSaved {
@@ -35,8 +40,8 @@ export class Conditions {
 }
 
 export class All implements ICondition {
-  fact = ''
-  operator = ''
+  fact? = ''
+  operator? = ''
   path?: string
   value?: string | number | Date | number[]
   any?: Any[]
@@ -58,11 +63,12 @@ export class Event implements IEvent {
 export class Params implements IParamParams {
   value?: number
   path?: number | string
+  limit: number = 0
 }
 
 export interface ICondition {
-  fact: string
-  operator: string
+  fact?: string
+  operator?: string
   path?: string
   value?: string | number | Date | number[]
 }
@@ -80,6 +86,7 @@ export interface IParam {
 export interface IParamParams {
   value?: number
   path?: number | string
+  limit?: number
 }
 
 export interface IParamsParams {

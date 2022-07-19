@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core'
-import { FormBuilder, FormGroup, Validators } from '@angular/forms'
-import { MessageService } from '../../../../../shared/services/message.service'
-import { ParkingService } from '../../../services/parking.service'
-import { UtilitiesService } from '../../../../../shared/services/utilities.service'
-import { AuthService } from '../../../../../shared/services/auth.service'
-import { PermissionsService } from '../../../../../shared/services/permissions.service'
+import {Component, OnInit} from '@angular/core'
+import { FormGroup, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms'
+import {MessageService} from '../../../../../shared/services/message.service'
+import {ParkingService} from '../../../services/parking.service'
+import {UtilitiesService} from '../../../../../shared/services/utilities.service'
+import {AuthService} from '../../../../../shared/services/auth.service'
+import {PermissionsService} from '../../../../../shared/services/permissions.service'
 import {
   CreateProfilesModel,
   GetStationModel,
@@ -12,8 +12,9 @@ import {
   ProfilesModel,
   SubscriptionModel
 } from '../../../models/MontlyParking.model'
-import { environment } from '../../../../../../environments/environment'
-import { ResponseModel } from '../../../../../shared/model/Request.model'
+import {environment} from '../../../../../../environments/environment'
+import {ResponseModel} from '../../../../../shared/model/Request.model'
+import { ParkingModel } from '../../../models/Parking.model'
 
 @Component({
   selector: 'app-create-monthly-parking',
@@ -27,6 +28,7 @@ export class CreateMonthlyParkingComponent implements OnInit {
   userSearched: Array<MonthlyUserModel> = []
   profiles: ProfilesModel[] = []
   subscriptions: SubscriptionModel[] = []
+  allParking: ParkingModel[] = Array<ParkingModel>()
   stationsByParking: GetStationModel[] = []
   nameProfile = ''
   loadingUser = false
@@ -40,7 +42,7 @@ export class CreateMonthlyParkingComponent implements OnInit {
   private actions: string[] = this.permissionService.actionsOfPermissions
 
   constructor(
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private message: MessageService,
     private parkingService: ParkingService,
     private utilitiesService: UtilitiesService,
@@ -53,6 +55,13 @@ export class CreateMonthlyParkingComponent implements OnInit {
         return this.getMonthlySubscription()
       })
       .then(() => this.getAntennasByParking())
+      .then(() => {
+        return this.parkingService.getAllParking().then((parkings) => {
+          if (parkings.success) {
+            this.allParking = parkings.data.parkings
+          }
+        })
+      })
       .then(() => {
         this.message.hideLoading()
       })
@@ -68,12 +77,17 @@ export class CreateMonthlyParkingComponent implements OnInit {
   get completeNameSelected() {
     return `${this.userSelected.name} ${this.userSelected.last_name}`
   }
+  get isSudo() {
+    return this.authService.isSudo
+  }
 
   get isUnlimitedForm() {
     return this.monthlyForm.controls['isUnlimited']
   }
 
-  ngOnInit(): void {}
+  get isUnlimitedValue() {
+    return this.monthlyForm.get('isUnlimited')?.value
+  }
 
   getAntennasByParking() {
     this.message.showLoading()
@@ -87,7 +101,7 @@ export class CreateMonthlyParkingComponent implements OnInit {
           solo se debe comentar las siguientes dos lineas que pertenecen al filter:
           */
           this.stationsByParking = this.stationsByParking.filter(
-            (x) => x.type == 2 || x.type == 3
+            (x) => x.isPrivate
           )
         } else {
           this.message.error('', data.message)
@@ -95,6 +109,7 @@ export class CreateMonthlyParkingComponent implements OnInit {
         this.message.hideLoading()
       })
   }
+
   searchUser() {
     this.loadingUser = true
     this.message.showLoading()
@@ -110,6 +125,9 @@ export class CreateMonthlyParkingComponent implements OnInit {
         this.message.hideLoading()
         this.loadingUser = false
       })
+  }
+
+  ngOnInit(): void {
   }
 
   changeValueIsUnlimited() {
@@ -162,22 +180,26 @@ export class CreateMonthlyParkingComponent implements OnInit {
     finish_date.setDate(finish_date.getDate() + 1)
     return {
       userId: this.userSelected.id,
-      parkingId: this.authService.getParking().id,
+      parkingId: this.monthlyForm.getRawValue().parkingId,
       amount: this.monthlyForm.controls['amount'].value,
       enables_days,
       isUnlimited: this.isUnlimitedForm.value,
       begin_date,
       finish_date,
       profile_subscription:
-      this.monthlyForm.controls['profile_subscription'].value
+      this.monthlyForm.getRawValue().profile_subscription
     }
   }
-cleanForm(){
-    this.monthlyForm.reset()
+
+  cleanForm() {
+    //this.monthlyForm.reset()
     this.userSelected = new MonthlyUserModel()
     this.userSearched = []
     this.isUnlimitedForm.setValue(true)
+    this.monthlyForm.getRawValue().profile_subscription = ''
+    this.monthlyForm.getRawValue().amount = ''
   }
+
   getProfiles() {
     const parkingId = this.authService.getParking().id
     return this.parkingService
@@ -219,7 +241,7 @@ cleanForm(){
       this.message.error(' Hacen falta datos o son inválidos.')
       return
     }
-    if(new Date(this.monthlyForm.get('begin_date')?.value)> new Date(this.monthlyForm.get('finish_date')?.value)){
+    if (new Date(this.monthlyForm.get('begin_date')?.value) > new Date(this.monthlyForm.get('finish_date')?.value)) {
       this.message.error('Las fechas no son validas. Valide que la segunda sea mayor que la primera.')
       return
     }
@@ -248,6 +270,7 @@ cleanForm(){
 
   createForm() {
     return this.formBuilder.group({
+      parkingId: [this.authService.getParking().id, [Validators.required]],
       amount: [null, [Validators.required, Validators.min(0)]],
       monday: [false],
       tuesday: [false],
@@ -256,7 +279,7 @@ cleanForm(){
       friday: [false],
       saturday: [false],
       sunday: [false],
-      telephone: [null],
+      telephone: [''],
       isUnlimited: [true],
       begin_date: [null],
       finish_date: [null],
@@ -270,7 +293,7 @@ cleanForm(){
 
   userSelect(user: any) {
     this.userSelected = user
-    this.message.OkTimeOut(user.name + ' ' + user.last_name + ' Seleccionado')
+    this.message.OkTimeOut(user.name + ' ' + (user.last_name? user.last_name: '') + ' Seleccionado')
   }
 
   private getDays() {

@@ -16,7 +16,7 @@ import {map} from 'rxjs/operators'
 import {CurrencyOptionModel, Day, PaymentMethodModel, SettingsOptionsModel} from '../models/SettingsOption.model'
 import {Observable, Subscribable} from 'rxjs'
 import {CountriesModel} from '../models/Countries.model'
-import {FormBuilder} from '@angular/forms'
+import {UntypedFormBuilder} from '@angular/forms'
 import {CreateTariffModel} from '../models/Tariff.model'
 import {CreateProfilesModel} from '../models/MontlyParking.model'
 import {CreateStation, CreateStationaryCourtesy, StationsCourtesyModel} from '../models/StationaryCourtesy.model'
@@ -40,7 +40,7 @@ export class ParkingService {
     private http: HttpClient,
     private message: MessageService,
     private route: Router,
-    private formBuilder: FormBuilder
+    private formBuilder: UntypedFormBuilder
   ) {
     this.getCountries()
       .toPromise()
@@ -80,10 +80,10 @@ export class ParkingService {
 
   getAccesses(): Array<AccessModel> {
     return [
-      {id: 0, name: 'Entrada'},
-      {id: 1, name: 'Salida'},
-      {id: 2, name: 'Entrada restringida'},
-      {id: 3, name: 'Salida restringida'}
+      {id: 0, name: 'Entrada primaria'},
+      {id: 1, name: 'Salida primaria'},
+      {id: 2, name: 'Entrada secundaria'},
+      {id: 3, name: 'Salida secundaria'}
     ]
   }
 
@@ -336,11 +336,12 @@ export class ParkingService {
       )
   }
 
-  getOutParked(parkedId: string, status: number) {
+  getOutParked(parkedId: string, payment_method: number, dateOutToGetOut: Date) {
     return this.http
       .post<ResponseModel>(`${this.apiUrl}backoffice/parking/getOut`, {
         parkedId,
-        status
+        payment_method,
+        dateOutToGetOut
       })
       .toPromise()
   }
@@ -382,8 +383,22 @@ export class ParkingService {
         `${this.apiUrl}backoffice/station_cortesy/station`,
         newStation
       )
-      .toPromise()
-      .then((data) => data)
+
+  }
+
+  editStationWithCourtesy(editStation: CreateStation) {
+    return this.http
+      .put<ResponseModel>(
+        `${this.apiUrl}backoffice/station_cortesy/station/${editStation.id}`,
+        editStation
+      )
+
+  }
+
+  deleteAntennaWithCourtesy(id: string) {
+    return this.http.delete<ResponseModel>(
+      `${this.apiUrl}backoffice/station_cortesy/station/${id}`
+    )
   }
 
   createStationaryCourtesy(newCourtesy: CreateStationaryCourtesy) {
@@ -394,6 +409,15 @@ export class ParkingService {
       )
       .toPromise()
       .then((data) => data)
+  }
+
+  editStationaryCourtesy(editStationCourtesy: CreateStationaryCourtesy) {
+    return this.http
+      .put<ResponseModel>(
+        `${this.apiUrl}backoffice/station_cortesy/courtesy/${editStationCourtesy.id}`,
+        editStationCourtesy
+      )
+
   }
 
   getParkingInfo(parkingId: string) {
@@ -418,5 +442,14 @@ export class ParkingService {
       this.parkingFile = new CreateParkingFileModel()
       this.parkingStepFive = []
     })
+  }
+
+  tariffStatusUpdate(parkingId: string, newStatus: boolean) {
+    return this.http
+      .put<ResponseModel>(
+        `${this.apiUrl}backoffice/tariff/rule/active/${parkingId}`,
+        {isActive: newStatus}
+      )
+      .toPromise()
   }
 }

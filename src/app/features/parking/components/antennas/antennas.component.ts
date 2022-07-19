@@ -1,28 +1,17 @@
-import {
-  AfterViewInit,
-  Component,
-  EventEmitter,
-  Input,
-  OnDestroy,
-  Output,
-  ViewChild
-} from '@angular/core'
-import { FormBuilder, FormGroup, Validators } from '@angular/forms'
-import {
-  AccessModel,
-  CreateParkingStepFiveModel
-} from '../../models/CreateParking.model'
-import { MessageService } from '../../../../shared/services/message.service'
-import { ParkingService } from '../../services/parking.service'
-import { UtilitiesService } from '../../../../shared/services/utilities.service'
-import { ResponseModel } from '../../../../shared/model/Request.model'
-import { AuthService } from '../../../../shared/services/auth.service'
-import { PermissionsService } from '../../../../shared/services/permissions.service'
-import { environment } from '../../../../../environments/environment'
-import { ParkingModel } from '../../models/Parking.model'
-import { DataTableDirective } from 'angular-datatables'
-import { DataTableOptions } from '../../../../shared/model/DataTableOptions'
-import { Subject } from 'rxjs'
+import {AfterViewInit, Component, EventEmitter, Input, OnDestroy, Output, ViewChild} from '@angular/core'
+import {UntypedFormBuilder, UntypedFormGroup, Validators} from '@angular/forms'
+import {AccessModel, CreateParkingStepFiveModel} from '../../models/CreateParking.model'
+import {MessageService} from '../../../../shared/services/message.service'
+import {ParkingService} from '../../services/parking.service'
+import {UtilitiesService} from '../../../../shared/services/utilities.service'
+import {ResponseModel} from '../../../../shared/model/Request.model'
+import {AuthService} from '../../../../shared/services/auth.service'
+import {PermissionsService} from '../../../../shared/services/permissions.service'
+import {environment} from '../../../../../environments/environment'
+import {ParkingModel} from '../../models/Parking.model'
+import {DataTableDirective} from 'angular-datatables'
+import {DataTableOptions} from '../../../../shared/model/DataTableOptions'
+import {Subject} from 'rxjs'
 
 @Component({
   selector: 'app-antennas',
@@ -32,7 +21,7 @@ import { Subject } from 'rxjs'
 export class AntennasComponent implements AfterViewInit, OnDestroy {
   @Input() isCreatingParking = false
   @Input() parkingId: string = this.authService.getParking().id
-  stepFiveForm!: FormGroup
+  stepFiveForm!: UntypedFormGroup
   @Output() changeStep = new EventEmitter<number>()
   idEditAntenna = ''
   accessList: AccessModel[] = this.parkingService.getAccesses()
@@ -43,7 +32,7 @@ export class AntennasComponent implements AfterViewInit, OnDestroy {
   @ViewChild(DataTableDirective)
   dtElement!: DataTableDirective
   dtTrigger: Subject<any> = new Subject()
-  formGroup: FormGroup
+  formGroup: UntypedFormGroup
   /*Permissions*/
   editAntennaAction = environment.editAntennas
   deleteAntennaAction = environment.deleteAntennas
@@ -52,7 +41,7 @@ export class AntennasComponent implements AfterViewInit, OnDestroy {
   private actions: string[] = this.permissionService.actionsOfPermissions
 
   constructor(
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private message: MessageService,
     private parkingService: ParkingService,
     private utilitiesService: UtilitiesService,
@@ -68,7 +57,7 @@ export class AntennasComponent implements AfterViewInit, OnDestroy {
         this.rerender()
       })
     this.stepFiveForm = this.createForm()
-    this.formGroup = formBuilder.group({ filter: [''] })
+    this.formGroup = formBuilder.group({filter: ['']})
   }
 
   get dtOptions() {
@@ -86,6 +75,7 @@ export class AntennasComponent implements AfterViewInit, OnDestroy {
   }
 
   addAntenna() {
+
     this.message.showLoading()
     if (this.stepFiveForm.invalid) {
       this.message.warningTimeOut(

@@ -1,6 +1,6 @@
-import { Component, Input } from '@angular/core'
-import { FormGroup } from '@angular/forms'
-import { UtilitiesService } from '../../services/utilities.service'
+import {Component, Input} from '@angular/core'
+import {UntypedFormGroup} from '@angular/forms'
+import {UtilitiesService} from '../../services/utilities.service'
 
 @Component({
   selector: 'app-text-area-container',
@@ -10,9 +10,10 @@ import { UtilitiesService } from '../../services/utilities.service'
 export class TextAreaContainerComponent {
   @Input() name!: string
   @Input() controlName!: string
-  @Input() formGroup!: FormGroup
+  @Input() formGroup!: UntypedFormGroup
 
-  constructor(private utilitiesService: UtilitiesService) {}
+  constructor(private utilitiesService: UtilitiesService) {
+  }
 
   controlInvalid(control: string): boolean {
     return this.utilitiesService.controlInvalid(this.formGroup, control)

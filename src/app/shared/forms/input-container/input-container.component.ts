@@ -1,6 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core'
-import { ControlContainer, FormGroup, FormGroupDirective, Validators } from '@angular/forms'
-import { UtilitiesService } from '../../services/utilities.service'
+import {Component, Input, OnInit} from '@angular/core'
+import {ControlContainer, FormGroupDirective, UntypedFormGroup, Validators} from '@angular/forms'
+import {UtilitiesService} from '../../services/utilities.service'
 
 @Component({
   selector: 'app-input-container',
@@ -16,14 +16,15 @@ import { UtilitiesService } from '../../services/utilities.service'
 export class InputContainerComponent implements OnInit {
   @Input() name!: string
   @Input() controlName!: string
-  @Input() formGroup!: FormGroup
+  @Input() formGroup!: UntypedFormGroup
   @Input() type = 'text'
   @Input() textInfo = ''
   @Input() readonly: boolean = false
   @Input() minL = '0'
-  @Input() maxL = '30'
+  @Input() maxL = '80'
 
-  constructor(private utilitiesService: UtilitiesService) {}
+  constructor(private utilitiesService: UtilitiesService) {
+  }
 
   controlInvalid(control: string): boolean {
     return this.utilitiesService.controlInvalid(this.formGroup, control)
@@ -34,7 +35,7 @@ export class InputContainerComponent implements OnInit {
       this.formGroup.controls[this.controlName].addValidators([
         Validators.minLength(1),
         Validators.maxLength(parseInt(this.maxL)),
-        Validators.pattern(/^[^$%&|*'\\";:>#]*$/)
+        Validators.pattern(/^[^$%()=+&|*'\\";>#]*$/)
       ])
     } else if (this.type == 'number') {
       this.formGroup.controls[this.controlName].addValidators([

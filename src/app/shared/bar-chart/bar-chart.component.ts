@@ -1,8 +1,8 @@
-import { Component, Input, OnInit } from '@angular/core'
+import {Component, Input, OnInit} from '@angular/core'
 import * as ApexCharts from 'apexcharts'
-import { DashboardService } from '../services/dashboard.service'
-import { AuthService } from '../services/auth.service'
-import { MessageService } from '../services/message.service'
+import {DashboardService} from '../services/dashboard.service'
+import {AuthService} from '../services/auth.service'
+import {MessageService} from '../services/message.service'
 
 @Component({
   selector: 'app-bar-chart',
@@ -76,8 +76,8 @@ export class BarChartComponent implements OnInit {
       }
     ],
     labels: [
-      1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21,
-      22, 23, 24
+      0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21,
+      22, 23
     ],
     xaxis: {
       type: 'category',
@@ -284,7 +284,7 @@ export class BarChartComponent implements OnInit {
         endingShape: 'rounded',
         borderRadius: 4
       },
-      markers: { sieze: 5 }
+      markers: {sieze: 5}
     },
     dataLabels: {
       enabled: true,
@@ -390,65 +390,55 @@ export class BarChartComponent implements OnInit {
 
   }
 
+  get currentDate() {
+    const now = new Date()
+    return `${now.getDay()}-${now.getMonth()}-${now.getFullYear()}`
+  }
+
   ngOnChanges(): void {
+    this.messageService.showLoading()
+    if (this.auth.isSudo) {
+      this.parking = this.parking ? this.parking : this.auth.getParking().id
+    } else {
+      this.parking = this.auth.getParking().id
+    }
+
     const fecha = this.fecha
     const partesFecha = fecha.split('-')
     const mes = partesFecha[1]
     const anio = partesFecha[0]
     if (this.tipo === 'Ingresos') {
-      if (this.periodo == 'dia') {
-        this.getDatosDiarios(this.parking, fecha)
-      }
-      if (this.periodo == 'mes') {
-        this.getDatosMes(this.parking, mes, anio)
-      }
-      if (this.periodo == 'anio') {
-        this.getDatosAnio(this.parking, anio)
-      }
-    }
-    if (this.tipo === 'Flujo') {
-      if (this.periodo == 'dia') {
-        this.getDatosFlujoDiarios(this.parking, fecha)
-      }
-      if (this.periodo == 'mes') {
-        this.getDatosFlujoMes(this.parking, mes, anio)
-      }
-      if (this.periodo == 'anio') {
-        this.getDatosFlujoAnio(this.parking, anio)
-      }
-    }
-    if (this.tipo === 'Cortesias') {
-      if (this.periodo == 'dia') {
-        this.getDatosCortesiasDiarios(this.datosUsuarioLogeado.id, fecha)
-      }
-      if (this.periodo == 'mes') {
-        this.getDatosCortesiasMes(this.datosUsuarioLogeado.id, mes, anio)
-      }
-      if (this.periodo == 'anio') {
-        this.getDatosCortesiasAnio(this.datosUsuarioLogeado.id, anio)
-      }
-    }
-    if (this.tipo === 'CortesiasEstacionarias') {
+      this.periodo == 'dia' ? this.getDatosDiarios(this.parking, fecha).then(x => this.messageService.hideLoading()) :
+        this.periodo == 'mes' ? this.getDatosMes(this.parking, mes, anio).then(x => this.messageService.hideLoading()) :
+          this.periodo == 'anio' ? this.getDatosAnio(this.parking, anio).then(x => this.messageService.hideLoading()) : false
+    } else if (this.tipo === 'Flujo') {
+      this.periodo == 'dia' ? this.getDatosFlujoDiarios(this.parking, fecha).then(x => this.messageService.hideLoading()) :
+        this.periodo == 'mes' ? this.getDatosFlujoMes(this.parking, mes, anio).then(x => this.messageService.hideLoading()) :
+          this.periodo == 'anio' ? this.getDatosFlujoAnio(this.parking, anio).then(x => this.messageService.hideLoading()) : false
+    } else if (this.tipo === 'Cortesias') {
+      this.periodo == 'dia' ? this.getDatosCortesiasDiarios(this.datosUsuarioLogeado.id, fecha).then(x => this.messageService.hideLoading()) :
+        this.periodo == 'mes' ? this.getDatosCortesiasMes(this.datosUsuarioLogeado.id, mes, anio).then(x => this.messageService.hideLoading()) :
+          this.periodo == 'anio' ? this.getDatosCortesiasAnio(this.datosUsuarioLogeado.id, anio).then(x => this.messageService.hideLoading()) : false
+    } else if (this.tipo === 'CortesiasEstacionarias') {
       if (this.periodo == 'dia') {
         this.getDatosCortesiasEstacionariasDiarios(
           this.datosUsuarioLogeado.id,
           fecha
-        )
-      }
-      if (this.periodo == 'mes') {
+        ).then()
+      } else if (this.periodo == 'mes') {
         this.getDatosCortesiasEstacionariasMes(
           this.datosUsuarioLogeado.id,
           mes,
           anio
-        )
-      }
-      if (this.periodo == 'anio') {
+        ).then()
+      } else if (this.periodo == 'anio') {
         this.getDatosCortesiasEstacionariasAnio(
           this.datosUsuarioLogeado.id,
           anio
-        )
+        ).then()
       }
     }
+
   }
 
   ngOnInit(): void {
@@ -465,7 +455,7 @@ export class BarChartComponent implements OnInit {
     }
     if (this.periodo == 'mes') {
       this.mesOptions.chart.type = this.tipoChart
-      this.mesOptions.chart.toolbar.export.csv.filename =` ${this.tipo.toLocaleUpperCase()} - POR MES - ${this.currentDate}`;
+      this.mesOptions.chart.toolbar.export.csv.filename = ` ${this.tipo.toLocaleUpperCase()} - POR MES - ${this.currentDate}`;
 
       this.chart = new ApexCharts(
         document.querySelector(
@@ -488,10 +478,7 @@ export class BarChartComponent implements OnInit {
       this.chart.render()
     }
   }
-get currentDate(){
-    const now = new Date()
-    return `${now.getDay()}-${now.getMonth()}-${now.getFullYear()}`
-}
+
   //Entradas
   getDatosDiarios(parkingId: string, fecha: string) {
     this.messageService.showLoading()
@@ -541,6 +528,7 @@ get currentDate(){
             })
           }
         }
+
         this.messageService.hideLoading()
       })
   }

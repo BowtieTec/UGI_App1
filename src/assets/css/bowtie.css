@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Poppins:wght@100;200;300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400&display=swap');
 
 body {
   background: #ffffff;
@@ -6,9 +6,31 @@ body {
   font-size: 12px;
 }
 
+.dt-button {
+  background: #fff;
+  color: #021C70;
+  border: 1px solid #021C70;
+  border-radius: 4px;
+  height: 32px;
+  font-size: 12px;
+  min-width: 50px;
+}
+
+
+button.dt-button:hover {
+  background: #05b197;
+  color: #fff;
+}
+
+.buttons-columnVisibility.active {
+  background: #021C70;
+  color: #fff;
+}
+
 .bgBody {
   background: #f7f7f7;
 }
+
 .iconInput {
   position: absolute;
   right: 0;
@@ -361,6 +383,16 @@ button.login {
 
 
 .panels {
+  position: relative;
+  background: #fff;
+  padding: 15px;
+  margin-bottom: 15px;
+  border-radius: 8px;
+  box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.065);
+  min-height: 40vh;
+}
+
+.panelsWithOutMinHeight {
   position: relative;
   background: #fff;
   padding: 15px;
@@ -756,18 +788,21 @@ nav > .nav-link.active {
   background-color: #04ccae;
   transition: width .6s ease;
 }
-.btn-check:active+.btn-outline-primary, .btn-check:checked+.btn-outline-primary, .btn-outline-primary.active, .btn-outline-primary.dropdown-toggle.show, .btn-outline-primary:active {
+
+.btn-check:active + .btn-outline-primary, .btn-check:checked + .btn-outline-primary, .btn-outline-primary.active, .btn-outline-primary.dropdown-toggle.show, .btn-outline-primary:active {
   color: #fff;
-  background-color: #415ba2!important;
-  border-color: #415ba2!important;
+  background-color: #415ba2 !important;
+  border-color: #415ba2 !important;
 }
+
 .btn-outline-primary {
-  color: #415ba2 ;
-  border-color: #415ba2!important;
+  color: #415ba2;
+  border-color: #415ba2 !important;
 }
+
 .btn-outline-primary:hover {
   color: #fff;
-  background-color: #415ba2 ;
+  background-color: #415ba2;
   border-color: #415ba2;
 }
 
@@ -838,7 +873,7 @@ nav > .nav-link.active {
   .headerDashboard {
     width: 100vw !important;
     min-height: 75px;
-    z-index: 1;
+    z-index: 2;
   }
 
   .search {
@@ -871,6 +906,7 @@ nav > .nav-link.active {
 .apexcharts-menu-item.exportSVG {
   display: none;
 }
+
 .apexcharts-menu-item.exportPNG {
   display: none;
 }
@@ -900,16 +936,18 @@ nav > .nav-link.active {
   width: 10px;
   height: 10px
 }
+
 ::-webkit-scrollbar-track {
   box-shadow: inset 0 0 3px grey;
   border-radius: 24px;
 }
+
 ::-webkit-scrollbar-thumb {
   background: #415BA1;
   border-radius: 10px;
 }
 
-input[type="date"]::-webkit-calendar-picker-indicator,input[type="datetime-local"]::-webkit-calendar-picker-indicator , input[type="time"]::-webkit-calendar-picker-indicator{
+input[type="date"]::-webkit-calendar-picker-indicator, input[type="datetime-local"]::-webkit-calendar-picker-indicator, input[type="time"]::-webkit-calendar-picker-indicator {
   background: transparent;
   bottom: 0;
   color: transparent;

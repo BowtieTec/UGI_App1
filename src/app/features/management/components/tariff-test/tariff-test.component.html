@@ -1,127 +1,112 @@
-<div class="row justify-content-md-center">
-  <div class="col-xl-12 col-lg-10 col-md-12 col-sm-12">
+<div class = "row justify-content-md-center">
+  <div class = "col-xl-12 col-lg-10 col-md-12 col-sm-12">
     ​
-    <div class="panels">
-      <div class="titleCards">
+    <div class = "panels">
+      <div class = "titleCards">
                 <span>
-                    <i aria-hidden="true" class="fas fa-info-circle"></i>
-                </span> Pantalla de pruebas
+                    <i aria-hidden = "true"
+                       class = "fas fa-info-circle"></i>
+                </span> Pruebas de tarifa
       </div>
       ​
-      <div class="row">
-
-        <div class="col-md-6 mb-4">
-          <div class="m-3 relative ">
-            <app-select-container (change)="getCourtesies(this.parkingSelected)" *ngIf="isSudo"
-                                  [data]="this.allParkingLot"
-                                  [formGroup]="tariffTestForm"
-                                  controlName="parking"
-                                  name="Parqueo"></app-select-container>
+      <div class = "row">
+        <div class = "col-md-6 mb-4">
+          <div class = "m-3 relative ">
+            <app-select-container (change) = "getCourtesies(this.parkingSelected)"
+                                  *ngIf = "isSudo"
+                                  [data] = "this.allParkingLot"
+                                  [formGroup] = "tariffTestForm"
+                                  controlName = "parking"
+                                  name = "Parqueo"></app-select-container>
           </div>
         </div>
-        <div class="col-md-6 mb-4">
+        <div class = "col-md-6 mb-4">
           <app-select-container (change) = "this.courtesySelected()"
-                                [data]="this.courtesies"
-                                [formGroup]="tariffTestForm"
-                                controlName="courtesyId"
-                                [unselect]="true"
-                                name="Cortesías"></app-select-container>
+                                [data] = "this.courtesies"
+                                [formGroup] = "tariffTestForm"
+                                [unselect] = "true"
+                                controlName = "courtesyId"
+                                name = "Cortesías"></app-select-container>
         </div>
-
-        <div class="col-md-6 mb-4">
-
-          <app-input-container [formGroup]="tariffTestForm"
-                               controlName="date_in"
-                               name="Fecha y hora de entrada"
-                               type="datetime-local">
+        <div class = "col-md-6 mb-4">
+          <app-input-container [formGroup] = "tariffTestForm"
+                               controlName = "date_in"
+                               name = "Fecha y hora de entrada"
+                               type = "datetime-local">
 
           </app-input-container>
         </div>
-        <div class="col-md-6 mb-4">
-
-          <app-input-container [formGroup]="tariffTestForm"
-                               controlName="date_out"
-                               name="Fecha y hora de salida"
-                               type="datetime-local">
+        <div class = "col-md-6 mb-4">
+          <app-input-container [formGroup] = "tariffTestForm"
+                               controlName = "date_out"
+                               name = "Fecha y hora de salida"
+                               type = "datetime-local">
 
           </app-input-container>
         </div>
-
-
       </div>
-    </div>
-    <div class="row">
-      <div class="col-md-6">
-        <div class="panels">
+      <div
+        class = "row">
+        <div class = "col-md-6">
           <b>Tiempo Total:</b>
           <br>
-          <p *ngIf="this.ticket.days != 0"> Días: {{this.ticket.days}} </p>
-          <p *ngIf="this.ticket.hour != 0"> Horas: {{this.ticket.hour}} </p>
-          <p *ngIf="this.ticket.minute != 0"> Min.: {{this.ticket.minute}} </p>
+          <p *ngIf = "this.ticket.days > 0"> Días: {{this.ticket.days}} </p>
+          <p *ngIf = "this.ticket.hour > 0"> Horas: {{this.ticket.hour}} </p>
+          <p *ngIf = "this.ticket.minute > 0"> Min.: {{this.ticket.minute}} </p>
         </div>
-
-      </div>
-
-      <div class="col-md-6 ">
-        <div class="panels">
-          <b>Total a pagar:</b><br><br><b><h4>{{this.ticket.amount | currency:'GTQ'}}</h4></b> 
+        <div class = "col-md-6 ">
+          <b>Total a pagar:</b><br><br><b><h4>{{this.ticket.amount | currency:'GTQ'}}</h4></b>
         </div>
-
+        ​
       </div>
-      ​
-    </div>
-    <div class="panels">
-      <div class="row">
-        <div class="col-12 text-center">
+      <div class = "row">
+        <div class = "col-12 text-center mb-3 mt-3">
           <button
-            (click)="getTariffTest()"
-            class="btn btn-primary" type="button">
+            (click) = "getTariffTest()"
+            class = "btn btn-primary"
+            type = "button">
             Probar
           </button>
         </div>
       </div>
-    </div>
-    ​
-    ​
-    <div class='panels' *ngIf='listExist' >
-      <div class='row'>
-        <div class='col-12 text-center'>
-          <table class="table">
-            <thead >
-            <tr >
-              <th scope = "col" >Parqueo</th >
-              <th scope = "col" >Fecha de entrada</th >
-              <th scope = "col" >Fecha de salida</th >
-              <th scope = "col" >Tiempo</th >
-              <th scope = "col" >Descuento</th >
-              <th scope = "col" >Total
-              </th >
-
-
-            </tr >
-            </thead >
-            <tbody >
+      <div class = 'row'>
+        <div class = 'col-12 text-center'>
+          <table class = "table">
+            <thead>
+            <tr>
+              <th scope = "col">Parqueo</th>
+              <th scope = "col">Fecha de entrada</th>
+              <th scope = "col">Fecha de salida</th>
+              <th scope = "col">Tiempo</th>
+              <th scope = "col">Descuento</th>
+              <th scope = "col">Total
+              </th>
+            </tr>
+            </thead>
+            <tbody>
             <tr *ngFor = "let ticket of ListTicketTest"
-                class = "animate__animated animate__fadeIn" >
-              <td >{{ticket.parking }}</td >
-              <td >{{ticket.date_in | date: 'dd/MM/YYYY hh:mm a'}}</td >
-              <td >{{ticket.date_out | date: 'dd/MM/YYYY hh:mm a'}}</td >
-              <td ><p *ngIf="this.ticket.days != 0"> Días: {{this.ticket.days}} </p>
-                <p *ngIf="this.ticket.hour != 0"> Horas: {{this.ticket.hour}} </p>
-                <p *ngIf="this.ticket.minute != 0"> Min.: {{this.ticket.minute}} </p></td>
-              <td >{{ticket.amount_disount ? (ticket.amount_disount | currency: 'GTQ') : 0 | currency: 'GTQ' }}</td >
-              <td >{{ticket.amount | currency: 'GTQ' }}</td >
-            </tr >
-            </tbody >
+                class = "animate__animated animate__fadeIn">
+              <td>{{ticket.parking }}</td>
+              <td>{{ticket.date_in | date: 'dd/MM/YYYY hh:mm a'}}</td>
+              <td>{{ticket.date_out | date: 'dd/MM/YYYY hh:mm a'}}</td>
+              <td><p *ngIf = "this.ticket.days != 0"> Días: {{this.ticket.days}} </p>
+                <p *ngIf = "this.ticket.hour != 0"> Horas: {{this.ticket.hour}} </p>
+                <p *ngIf = "this.ticket.minute != 0"> Min.: {{this.ticket.minute}} </p></td>
+              <td>{{ticket.amount_disount ? (ticket.amount_disount | currency: 'GTQ') : 0 | currency: 'GTQ' }}</td>
+              <td>{{ticket.amount | currency: 'GTQ' }}</td>
+            </tr>
+            </tbody>
             <tfoot>
             <tr>
-              <td colspan="6">Esta es una tabla temporal</td>
+              <td colspan = "6">Esta es una tabla temporal</td>
             </tr>
             </tfoot>
-          </table >
+          </table>
         </div>
       </div>
     </div>
+    ​
+    ​
   </div>
 </div>
 

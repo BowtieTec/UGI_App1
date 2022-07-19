@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core'
-import { environment } from '../../../environments/environment'
+import {Injectable} from '@angular/core'
+import {environment} from '../../../environments/environment'
 import * as CryptoJS from 'crypto-js'
 
 @Injectable({
@@ -32,13 +32,13 @@ export class EncryptionService {
     )
   }
 
-  encryptKey(sentence: string, userContext: string): string {
+  encryptKey(sentence: string): string {
     if (sentence == undefined) {
       return '{}'
     }
     return CryptoJS.HmacSHA256(
       CryptoJS.enc.Utf8.parse(sentence),
-      userContext
+      this.secretKey
     ).toString()
   }
 

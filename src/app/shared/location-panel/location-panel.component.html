@@ -1,29 +1,29 @@
-<div class = "animate__animated animate__fadeInDown" >
-  <div class = "locationPanel" >
-    <nav class = "navbar " >
-      <div class = "container-fluid" >
-        <div class = "d-flex" >
-          <div class = "locationImage" >
+<div class = "animate__animated animate__fadeInDown">
+  <div class = "locationPanel">
+    <nav class = "navbar ">
+      <div class = "container-fluid">
+        <div class = "d-flex">
+          <div class = "locationImage">
             <img alt = "Parqueo"
-                 src = "assets/img/parking.jpg" >
-          </div >
-          <div class = "titleLocation" >
+                 src = "{{this.urlLogo}}">
+          </div>
+          <div class = "titleLocation">
             {{this.parking.name}}
-            <div class = "subtitleLocation" >{{this.parking.address}}</div >
-          </div >
-        </div >
-        <div class = "d-flex" >
-          <div class = "titleLocation text-end" >
-            <div id = "diaActual" >
+            <div class = "subtitleLocation">{{this.parking.address}}</div>
+          </div>
+        </div>
+        <div class = "d-flex">
+          <div class = "titleLocation text-end">
+            <div id = "diaActual">
               {{date | date: 'longDate'}}
-            </div >
-            <div class = "subtitleLocation" >
-              <div id = "reloj" >{{time | async | date: 'mediumTime'}}</div >
-            </div >
-          </div >
-        </div >
-      </div >
-    </nav >
-  </div >
+            </div>
+            <div class = "subtitleLocation">
+              <div id = "reloj">{{time | async | date: 'mediumTime'}}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
+  </div>
 
-</div >
+</div>

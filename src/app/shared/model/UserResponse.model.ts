@@ -38,6 +38,9 @@ export class ParkingAuthModel {
   pay_method: any
   is_our_bac_credential: any
   is_our_visa_credential: any
+  url_logo: string = ''
+  url_background: string = ''
+  url_tariff: string = ''
 }
 
 export class RoleAuthModel {

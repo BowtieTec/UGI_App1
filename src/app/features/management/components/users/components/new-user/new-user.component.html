@@ -43,11 +43,12 @@
       </div>
       <div class='col-xl-12 col-lg-12 col-sm-12'>
         <app-input-container
-          [formGroup]='newUserForm'
-          [readonly]='isEdit'
-          controlName='password'
-          type='password'
-          name='Contraseña'>
+          [formGroup] = 'newUserForm'
+          [readonly] = 'isEdit'
+          controlName = 'password'
+          name = 'Contraseña'
+          textInfo = 'La contraseña debe contener al menos 8 caracteres, una letra mayúscula, un dígito y un carácter especial($@!%*?&)'
+          type = 'password'>
         </app-input-container>
       </div>
       <div *ngIf='ifHaveAction(changeParkingAtCreateUser)' class='col-xl-12 col-lg-12  col-sm-12'>

@@ -7,14 +7,15 @@ export class NewUserModel {
   phone_number?: string = ''
   password?: string = ''
   role = ''
-  parking: string = ''
+  parking: any
   status?: number
   Admin?: string
   googleId?: string
   appleId?: string
+  validate_code?: string = ''
 }
 
-export class updateUserApp{
+export class updateUserApp {
   id: string = ''
   name = ''
   last_name ? = ''

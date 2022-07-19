@@ -1,11 +1,12 @@
-import { DiscountOnWhat, leftMenu, permission, settings, TypeOfCondition } from './sharedVariables'
+import {DiscountOnWhat, leftMenu, permission, settings, TypeOfCondition} from './sharedVariables'
 
-const Ip = 'app.bowtietech.pro'
+const Ip = 'go.ebi.com.gt'
 const Port = '3000'
 export const environment = {
   production: true,
+  path: `https://${Ip}/public/`,
   serverAPI: `https://${Ip}:${Port}/v1/`,
-  secretKey: '3%UC!C$WR7m$v^as@Sq8$4!^Mb25WS4i',
+  secretKey: 'N6fL57vA^5ZGP$qHJ!6gQ5#!5VijE@6We%NjJ',
   DiscountOnWhat,
   TypeOfCondition,
   leftMenu: leftMenu,

@@ -1,9 +1,11 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
-import { FormBuilder, FormGroup } from '@angular/forms'
-import { MessageService } from '../../../shared/services/message.service'
-import { ParkingService } from '../../parking/services/parking.service'
-import { UtilitiesService } from '../../../shared/services/utilities.service'
-import { CreateParkingStepTwoModel } from '../../parking/models/CreateParking.model'
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core'
+import {UntypedFormBuilder, UntypedFormGroup} from '@angular/forms'
+import {MessageService} from '../../../shared/services/message.service'
+import {ParkingService} from '../../parking/services/parking.service'
+import {UtilitiesService} from '../../../shared/services/utilities.service'
+import {CreateParkingStepTwoModel} from '../../parking/models/CreateParking.model'
+import {ParkingModel} from '../../parking/models/Parking.model'
+import {AuthService} from '../../../shared/services/auth.service'
 
 @Component({
   selector: 'app-schedule',
@@ -11,8 +13,9 @@ import { CreateParkingStepTwoModel } from '../../parking/models/CreateParking.mo
   styleUrls: ['./schedule.component.css']
 })
 export class ScheduleComponent implements OnInit {
-  stepTwoForm: FormGroup = this.createForm()
+  stepTwoForm: UntypedFormGroup = this.createForm()
   schedules: Array<any> = []
+  allParking: ParkingModel[] = []
   @Input() parkingId!: string
   @Input() isCreatingParking = false
   @Output() changeStep = new EventEmitter<number>()
@@ -20,9 +23,41 @@ export class ScheduleComponent implements OnInit {
   constructor(
     private message: MessageService,
     private parkingService: ParkingService,
-    private formBuilder: FormBuilder,
-    private utilitiesService: UtilitiesService
-  ) {}
+    private formBuilder: UntypedFormBuilder,
+    private utilitiesService: UtilitiesService,
+    private authService: AuthService
+  ) {
+  }
+
+  get ParkingIdSelected() {
+    return this.stepTwoForm.get('parkingId')?.value ? this.stepTwoForm.get('parkingId')?.value : this.parkingId
+  }
+
+  get isSudo() {
+    return this.authService.isSudo
+  }
+
+  async emmitStep(number: number) {
+    this.message.showLoading()
+    if (number == 1) {
+      await this.saveSchedules()
+      this.changeStep.emit(number)
+    } else {
+      this.message.hideLoading()
+      this.changeStep.emit(number)
+    }
+  }
+
+  getParkingLot() {
+    return this.parkingService.getAllParking().then(x => {
+      if (x.success) {
+        this.allParking = x.data.parkings
+      } else {
+        this.message.error(x.message)
+        return
+      }
+    })
+  }
 
   async saveSchedules() {
     if (this.stepTwoForm.valid) {
@@ -45,36 +80,31 @@ export class ScheduleComponent implements OnInit {
     }
   }
 
-  async emmitStep(number: number) {
+  getParkingInf(parkingId: string) {
     this.message.showLoading()
-    if (number == 1) {
-      await this.saveSchedules()
-      this.changeStep.emit(number)
-    } else {
+    this.parkingId = this.ParkingIdSelected
+    this.parkingService.getParkingInfo(parkingId).subscribe((x) => {
+      this.schedules = x.schedules
+      this.setSchedules(x.schedules)
       this.message.hideLoading()
-      this.changeStep.emit(number)
-    }
+    })
   }
 
   ngOnInit(): void {
     if (!this.isCreatingParking) {
-      this.message.showLoading()
-      this.parkingService.getParkingInfo(this.parkingId).subscribe((x) => {
-        this.schedules = x.schedules
-        this.setSchedules(x.schedules)
-        this.message.hideLoading()
-      })
+      this.getParkingInf(this.parkingId)
+      this.getParkingLot().then()
     }
   }
 
   private getStepTwo(): CreateParkingStepTwoModel {
     try {
       return {
-        parkingId: this.parkingId,
+        parkingId: this.stepTwoForm.controls['parkingId'].value,
         schedules: [
           {
             isOpen: this.stepTwoForm.controls['isOpen0'].value,
-            day: 0,
+            day: 1,
             openning_time: {
               hour: this.stepTwoForm.controls['openning_time0'].value.split(
                 ':'
@@ -94,7 +124,7 @@ export class ScheduleComponent implements OnInit {
           },
           {
             isOpen: this.stepTwoForm.controls['isOpen1'].value,
-            day: 1,
+            day: 2,
             openning_time: {
               hour: this.stepTwoForm.controls['openning_time1'].value.split(
                 ':'
@@ -114,7 +144,7 @@ export class ScheduleComponent implements OnInit {
           },
           {
             isOpen: this.stepTwoForm.controls['isOpen2'].value,
-            day: 2,
+            day: 3,
             openning_time: {
               hour: this.stepTwoForm.controls['openning_time2'].value.split(
                 ':'
@@ -134,7 +164,7 @@ export class ScheduleComponent implements OnInit {
           },
           {
             isOpen: this.stepTwoForm.controls['isOpen3'].value,
-            day: 3,
+            day: 4,
             openning_time: {
               hour: this.stepTwoForm.controls['openning_time3'].value.split(
                 ':'
@@ -154,7 +184,7 @@ export class ScheduleComponent implements OnInit {
           },
           {
             isOpen: this.stepTwoForm.controls['isOpen4'].value,
-            day: 4,
+            day: 5,
             openning_time: {
               hour: this.stepTwoForm.controls['openning_time4'].value.split(
                 ':'
@@ -174,7 +204,7 @@ export class ScheduleComponent implements OnInit {
           },
           {
             isOpen: this.stepTwoForm.controls['isOpen5'].value,
-            day: 5,
+            day: 6,
             openning_time: {
               hour: this.stepTwoForm.controls['openning_time5'].value.split(
                 ':'
@@ -194,7 +224,7 @@ export class ScheduleComponent implements OnInit {
           },
           {
             isOpen: this.stepTwoForm.controls['isOpen6'].value,
-            day: 6,
+            day: 0,
             openning_time: {
               hour: this.stepTwoForm.controls['openning_time6'].value.split(
                 ':'
@@ -221,38 +251,44 @@ export class ScheduleComponent implements OnInit {
 
   private createForm() {
     return this.formBuilder.group({
+      parkingId: [this.parkingId],
       //Monday
-      isOpen0: [{ value: true, disabled: true }],
+      isOpen0: [{value: true, disabled: true}],
       openning_time0: ['06:00:00'],
       closing_time0: ['00:00:00'],
       //Tuesday
-      isOpen1: [{ value: true, disabled: true }],
+      isOpen1: [{value: true, disabled: true}],
       openning_time1: ['06:00:00'],
       closing_time1: ['00:00:00'],
       //Wednesday
-      isOpen2: [{ value: true, disabled: true }],
+      isOpen2: [{value: true, disabled: true}],
       openning_time2: ['06:00:00'],
       closing_time2: ['00:00:00'],
       //Thursday
-      isOpen3: [{ value: true, disabled: true }],
+      isOpen3: [{value: true, disabled: true}],
       openning_time3: ['06:00:00'],
       closing_time3: ['00:00:00'],
       //Friday
-      isOpen4: [{ value: true, disabled: true }],
+      isOpen4: [{value: true, disabled: true}],
       openning_time4: ['06:00:00'],
       closing_time4: ['00:00:00'],
       //Saturday
-      isOpen5: [{ value: true, disabled: true }],
+      isOpen5: [{value: true, disabled: true}],
       openning_time5: ['06:00:00'],
       closing_time5: ['00:00:00'],
       //Sunday
-      isOpen6: [{ value: true, disabled: true }],
+      isOpen6: [{value: true, disabled: true}],
       openning_time6: ['06:00:00'],
       closing_time6: ['00:00:00']
     })
   }
 
   private setSchedules(schedules: any) {
+    if (!schedules) {
+      this.message.error('No se encontraron horarios para este parqueo')
+      return;
+    }
+    this.stepTwoForm.get('parkingId')?.setValue(this.parkingId)
     //Monday
     this.stepTwoForm
       .get('openning_time0')

@@ -1,8 +1,8 @@
-import { AfterViewInit, Component, OnDestroy, ViewChild } from '@angular/core'
-import { FormBuilder, FormGroup } from '@angular/forms'
-import { MessageService } from '../../../../shared/services/message.service'
-import { ParkingService } from '../../services/parking.service'
-import { UtilitiesService } from '../../../../shared/services/utilities.service'
+import {AfterViewInit, Component, OnDestroy, ViewChild} from '@angular/core'
+import { FormBuilder, FormGroup, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms'
+import {MessageService} from '../../../../shared/services/message.service'
+import {ParkingService} from '../../services/parking.service'
+import {UtilitiesService} from '../../../../shared/services/utilities.service'
 import {
   CreateProfilesModel,
   GetStationModel,
@@ -10,13 +10,14 @@ import {
   ProfilesModel,
   SubscriptionModel
 } from '../../models/MontlyParking.model'
-import { AuthService } from '../../../../shared/services/auth.service'
-import { DataTableDirective } from 'angular-datatables'
-import { Subject } from 'rxjs'
-import { DataTableOptions } from '../../../../shared/model/DataTableOptions'
-import { ResponseModel } from '../../../../shared/model/Request.model'
-import { PermissionsService } from '../../../../shared/services/permissions.service'
-import { environment } from '../../../../../environments/environment'
+import {AuthService} from '../../../../shared/services/auth.service'
+import {DataTableDirective} from 'angular-datatables'
+import {Subject} from 'rxjs'
+import {DataTableOptions} from '../../../../shared/model/DataTableOptions'
+import {ResponseModel} from '../../../../shared/model/Request.model'
+import {PermissionsService} from '../../../../shared/services/permissions.service'
+import {environment} from '../../../../../environments/environment'
+import { ParkingModel } from '../../models/Parking.model'
 
 @Component({
   selector: 'app-monthly-parking',
@@ -30,21 +31,24 @@ export class MonthlyParkingComponent implements AfterViewInit, OnDestroy {
   subscriptions: SubscriptionModel[] = []
   stationsByParking: GetStationModel[] = []
   nameProfile = ''
+  parkingId: string = this.authService.getParking().id
 
   @ViewChild(DataTableDirective)
   dtElement!: DataTableDirective
   dtOptions: DataTables.Settings = DataTableOptions.getSpanishOptions(10)
   dtTrigger: Subject<any> = new Subject()
-  formGroup: FormGroup
+  formGroup: UntypedFormGroup
+  searchForm: FormGroup
   loadingUser = false
   createMonthlyParking = environment.createMonthlyParking
   deleteMonthlyParking = environment.deleteMonthlyParking
   cancelMonthlyParking = environment.cancelMonthlyParking
   disableMonthlyParking = environment.disableMonthlyParking
+  allParking: ParkingModel[] = Array<ParkingModel>()
   private actions: string[] = this.permissionService.actionsOfPermissions
 
   constructor(
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private message: MessageService,
     private parkingService: ParkingService,
     private utilitiesService: UtilitiesService,
@@ -52,19 +56,32 @@ export class MonthlyParkingComponent implements AfterViewInit, OnDestroy {
     private permissionService: PermissionsService
   ) {
     this.message.showLoading()
-    this.formGroup = formBuilder.group({ filter: [''] })
+    this.formGroup = formBuilder.group({filter: ['']})
+    this.searchForm = this.createSearchForm()
     this.getProfiles()
       .then(() => {
         return this.getMonthlySubscription()
+      }).then(() => {
+      return this.parkingService.getAllParking().then((parkings) => {
+        if (parkings.success) {
+          this.allParking = parkings.data.parkings
+        }
       })
-      .then(() => {
-        return this.rerender()
-      })
-      .then((data) => {
+    })
+      .finally(() => {
         this.message.hideLoading()
       })
   }
-
+  get isSudo() {
+    return this.authService.isSudo
+  }
+createSearchForm(){
+    return this.formBuilder.group(
+      {
+        parkingId: [this.parkingId, [Validators.required]]
+      }
+    )
+}
   get completeNameSelected() {
     return `${this.userSelected.name} ${this.userSelected.last_name}`
   }
@@ -106,17 +123,18 @@ export class MonthlyParkingComponent implements AfterViewInit, OnDestroy {
   }
 
   getMonthlySubscription() {
-    const parkingId = this.authService.getParking().id
+    this.message.showLoading()
+    const parkingId = this.searchForm.getRawValue().parkingId
     return this.parkingService
       .getMonthlySubscription(parkingId)
       .then((data) => {
         if (data.success) {
           this.subscriptions = data.data.subscriptions
-          this.rerender()
         } else {
           this.message.error('', data.message)
         }
-      })
+        return this.rerender()
+      }).finally(() => this.message.hideLoading())
   }
 
   ngAfterViewInit(): void {
@@ -129,7 +147,7 @@ export class MonthlyParkingComponent implements AfterViewInit, OnDestroy {
 
   disableSubscription(idSubscription: string) {
     this.message
-      .areYouSure('¿Esta seguro que desea congelar eta suscripción?')
+      .areYouSure('¿Está seguro que desea congelar esta suscripción?')
       .then((x) => {
         if (x.isConfirmed) {
           this.message.showLoading()
@@ -150,7 +168,7 @@ export class MonthlyParkingComponent implements AfterViewInit, OnDestroy {
 
   deleteSubscription(idSubscription: string) {
     this.message
-      .areYouSure('¿Esta seguro que desea eliminar esta suscripción?')
+      .areYouSure('¿Está seguro que desea eliminar esta suscripción?')
       .then((x) => {
         if (x.isConfirmed) {
           this.message.showLoading()
@@ -167,6 +185,7 @@ export class MonthlyParkingComponent implements AfterViewInit, OnDestroy {
   resolveResponse(data: ResponseModel) {
     if (data.success) {
       this.getMonthlySubscription().then(() => this.getProfiles())
+      this.message.OkTimeOut()
     } else {
       this.message.error('', data.message)
     }
@@ -183,10 +202,11 @@ export class MonthlyParkingComponent implements AfterViewInit, OnDestroy {
 
   private rerender() {
     if (this.dtElement != undefined) {
-      this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+      return this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
         dtInstance.destroy()
         this.dtTrigger.next()
       })
     }
+    return
   }
 }

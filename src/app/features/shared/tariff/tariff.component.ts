@@ -1,22 +1,23 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
-import { FormBuilder, FormGroup } from '@angular/forms'
-import { UtilitiesService } from '../../../shared/services/utilities.service'
-import { MessageService } from '../../../shared/services/message.service'
-import { HolidayInputModel } from './model/HolidayTariff.model'
-import { RankInputModel } from './model/RankTariff.model'
-import { BlockInputModel } from './model/BlockTariff.model'
-import { DefaultInputModel } from './model/DefaultTariff.model'
-import { ParkingService } from '../../parking/services/parking.service'
-import { CurrencyPipe, DatePipe, Time } from '@angular/common'
-import { ValidationsService } from './service/validations.service'
-import { AuthService } from '../../../shared/services/auth.service'
-import { TariffFormsService } from './service/tariff-forms.service'
-import { All, FixedCostInputModel, HourHalfInputModel, IEvent, Rules } from './model/Tariff.model'
-import { CreateTariffModel } from '../../parking/models/Tariff.model'
-import { BuildRulesService } from './service/build-rules.service'
-import { environment } from '../../../../environments/environment'
-import { PermissionsService } from '../../../shared/services/permissions.service'
-import { DailyInputModel } from './model/DailyTariff.model'
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core'
+import {UntypedFormBuilder, UntypedFormGroup} from '@angular/forms'
+import {UtilitiesService} from '../../../shared/services/utilities.service'
+import {MessageService} from '../../../shared/services/message.service'
+import {HolidayInputModel} from './model/HolidayTariff.model'
+import {RankInputModel} from './model/RankTariff.model'
+import {BlockInputModel} from './model/BlockTariff.model'
+import {DefaultInputModel} from './model/DefaultTariff.model'
+import {ParkingService} from '../../parking/services/parking.service'
+import {CurrencyPipe, DatePipe, Time} from '@angular/common'
+import {ValidationsService} from './service/validations.service'
+import {AuthService} from '../../../shared/services/auth.service'
+import {TariffFormsService} from './service/tariff-forms.service'
+import {All, FixedCostInputModel, HourHalfInputModel, IEvent, Rules} from './model/Tariff.model'
+import {CreateTariffModel} from '../../parking/models/Tariff.model'
+import {BuildRulesService} from './service/build-rules.service'
+import {environment} from '../../../../environments/environment'
+import {PermissionsService} from '../../../shared/services/permissions.service'
+import {DailyInputModel} from './model/DailyTariff.model'
+import {ParkingModel} from '../../parking/models/Parking.model'
 
 @Component({
   selector: 'app-tariff',
@@ -27,26 +28,27 @@ export class TariffComponent implements OnInit {
   @Input() parkingId!: string
   @Input() isCreatingParking!: boolean
   @Output() changeStep = new EventEmitter<number>()
+  allParking: ParkingModel[] = []
   timeRange = 1
   costType = 1
   tariffs: Array<any> = []
   createTariff = environment.createTariff
-  generalDataForm: FormGroup = this.tariffForms.createGeneralDataForm()
-  holidayForm: FormGroup = this.tariffForms.createHolidayOrRankForm()
-  rankForm: FormGroup = this.tariffForms.createHolidayOrRankForm()
-  blockForm: FormGroup = this.tariffForms.createBlockForm()
-  defaultForm: FormGroup = this.tariffForms.createDefaultForm()
-  dailyForm: FormGroup = this.tariffForms.createDailyForm()
-  prioriceForm: FormGroup = this.tariffForms.createPrioriceForm()
-  daysSelectedForm: FormGroup = this.tariffForms.createDaysSelectedForm()
-  principalScheduleForm: FormGroup =
+  generalDataForm: UntypedFormGroup = this.tariffForms.createGeneralDataForm()
+  holidayForm: UntypedFormGroup = this.tariffForms.createHolidayOrRankForm()
+  rankForm: UntypedFormGroup = this.tariffForms.createHolidayOrRankForm()
+  blockForm: UntypedFormGroup = this.tariffForms.createBlockForm()
+  defaultForm: UntypedFormGroup = this.tariffForms.createDefaultForm()
+  dailyForm: UntypedFormGroup = this.tariffForms.createDailyForm()
+  prioriceForm: UntypedFormGroup = this.tariffForms.createPrioriceForm()
+  daysSelectedForm: UntypedFormGroup = this.tariffForms.createDaysSelectedForm()
+  principalScheduleForm: UntypedFormGroup =
     this.tariffForms.createPrincipalScheduleForm()
 
-  hourAHalfForm: FormGroup = this.tariffForms.createHourHalfForm()
-  fixedCostForm: FormGroup = this.tariffForms.createFixedCostForm()
+  hourAHalfForm: UntypedFormGroup = this.tariffForms.createHourHalfForm()
+  fixedCostForm: UntypedFormGroup = this.tariffForms.createFixedCostForm()
 
   constructor(
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private utilitiesService: UtilitiesService,
     private messageService: MessageService,
     private parkingService: ParkingService,
@@ -93,6 +95,21 @@ export class TariffComponent implements OnInit {
     }
   }
 
+  get isSudo() {
+    return this.authService.isSudo
+  }
+
+  get generalDataFormValues() {
+    return {
+      name: this.generalDataForm.get('name')?.value,
+      description: this.generalDataForm.get('description')?.value,
+      isShowDescription: this.generalDataForm.get('isShowDescription')?.value,
+      hasGlobalSchedule: this.generalDataForm.get('hasGlobalSchedule')?.value,
+      isPerDayCondition: this.generalDataForm.get('isPerDayCondition')?.value,
+      parkingId: this.generalDataForm.get('parkingId')?.value
+    }
+  }
+
   get daysValuesDescription() {
     const days: string[] = []
     const {mon, tue, wen, thu, fri, sat, sun} = this.justDaysValue
@@ -108,14 +125,15 @@ export class TariffComponent implements OnInit {
     return days
   }
 
-  get generalDataFormValues() {
-    return {
-      name: this.generalDataForm.get('name')?.value,
-      description: this.generalDataForm.get('description')?.value,
-      isShowDescription: this.generalDataForm.get('isShowDescription')?.value,
-      hasGlobalSchedule: this.generalDataForm.get('hasGlobalSchedule')?.value,
-      isPerDayCondition: this.generalDataForm.get('isPerDayCondition')?.value
-    }
+  getParkingLot() {
+    return this.parkingService.getAllParking().then(x => {
+      if (x.success) {
+        this.allParking = x.data.parkings
+      } else {
+        this.messageService.error(x.message)
+        return
+      }
+    })
   }
 
   get hasGlobalSchedule() {
@@ -185,14 +203,20 @@ export class TariffComponent implements OnInit {
     const costHour = this.hourAHalfForm.get('hourCost')?.value
     const costAHalf = this.hourAHalfForm.get('halfCost')?.value
     const whenIsAHalf = this.hourAHalfForm.get('whenIsAHalf')?.value
+    const subtract = this.hourAHalfForm.get('subtract')?.value ? this.hourAHalfForm.get('subtract')?.value : '0'
+    const subtractMinutes = this.hourAHalfForm.get('subtractMinutes')?.value ? this.hourAHalfForm.get('subtractMinutes')?.value : '0'
+
     return {
       static_descriptionCost: `Costo por hora: ${this.currencyPipe.transform(
         costHour,
         'GTQ'
-      )} Costo por fracción: ${this.currencyPipe.transform(costAHalf, 'GTQ')}`,
+      )} Costo por fracción: ${this.currencyPipe.transform(costAHalf, 'GTQ')}. Comenzando a cobrar desde el minuto ${whenIsAHalf}.
+      Se le resta ${subtract} horas al cobro.`,
       costHour,
       costAHalf,
-      whenIsAHalf
+      whenIsAHalf,
+      subtract,
+      subtractMinutes,
     }
   }
 
@@ -226,12 +250,18 @@ export class TariffComponent implements OnInit {
 
   get fixedCostFormValue(): FixedCostInputModel {
     const fixedCost = this.fixedCostForm.get('fixedCost')?.value
+    const whenIsAHalf = this.fixedCostForm.get('whenIsAHalf')?.value
+    const subtract = this.fixedCostForm.get('subtract')?.value ? this.hourAHalfForm.get('subtract')?.value : '0'
+    const subtractMinutes = this.fixedCostForm.get('subtractMinutes')?.value ? this.fixedCostForm.get('subtractMinutes')?.value : '0'
     return {
       static_descriptionCost: `Único pago o Tarifa única: ${this.currencyPipe.transform(
         fixedCost,
         'GTQ'
-      )}`,
-      fixedCost
+      )}. Cobrar desde el minuto ${whenIsAHalf}. Se le resta ${subtract} horas al cobro.`,
+      fixedCost,
+      whenIsAHalf,
+      subtract,
+      subtractMinutes,
     }
   }
 
@@ -313,22 +343,64 @@ export class TariffComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.generalDataForm.get('parkingId')?.setValue(this.parkingId)
     if (!this.isCreatingParking) {
       this.parkingId = this.authService.getParking().id
       this.getTariffs().catch()
+      this.getParkingLot().catch()
     }
+  }
+
+  markAsUntouchedAllForms() {
+    this.utilitiesService.markAsUnTouched(this.generalDataForm)
+    this.utilitiesService.markAsUnTouched(this.holidayForm)
+    this.utilitiesService.markAsUnTouched(this.rankForm)
+    this.utilitiesService.markAsUnTouched(this.blockForm)
+    this.utilitiesService.markAsUnTouched(this.defaultForm)
+    this.utilitiesService.markAsUnTouched(this.dailyForm)
+    this.utilitiesService.markAsUnTouched(this.prioriceForm)
+    this.utilitiesService.markAsUnTouched(this.daysSelectedForm)
+    this.utilitiesService.markAsUnTouched(this.principalScheduleForm)
+    this.utilitiesService.markAsUnTouched(this.hourAHalfForm)
+    this.utilitiesService.markAsUnTouched(this.fixedCostForm)
   }
 
   cleanForms() {
     this.generalDataForm.reset()
     this.generalDataForm.controls['isShowDescription'].setValue(true)
-    this.holidayForm.reset()
-    this.rankForm.reset()
-    this.blockForm.reset()
-    this.defaultForm.reset()
-    this.principalScheduleForm.reset()
-    this.hourAHalfForm.reset()
-    this.fixedCostForm.reset()
+    this.generalDataForm.controls['parkingId'].setValue(this.parkingId)
+    this.markAsUntouchedAllForms()
+    this.utilitiesService.markAsUnTouched(this.generalDataForm)
+    this.utilitiesService.markAsUnTouched(this.generalDataForm)
+    this.holidayForm.setValue({
+      from: '',
+      to: ''
+    })
+    this.rankForm.setValue({
+      from: '',
+      to: ''
+    })
+    this.blockForm.setValue({
+      hourLowerLimit: '',
+      hourUpperLimit: '',
+      minuteLowerLimit: '',
+      minuteUpperLimit: ''
+    })
+    this.principalScheduleForm.setValue({
+      from: '',
+      to: ''
+    })
+    this.hourAHalfForm.setValue({
+      hourCost: '',
+      halfCost: '',
+      whenIsAHalf: '1',
+      subtract: '0'
+    })
+    this.fixedCostForm.setValue({
+      fixedCost: '',
+      whenIsAHalf: '1',
+      subtract: '0',
+    })
     this.costType = 1
   }
 
@@ -382,7 +454,9 @@ export class TariffComponent implements OnInit {
     this.timeRange = timeRange
   }
 
-  private async getTariffs() {
+  async getTariffs() {
+    if (this.isSudo)
+      this.parkingId = this.generalDataFormValues.parkingId
     return this.parkingService.getTariffsSaved(this.parkingId).then((data) => {
       if (data.success) {
         this.tariffs = data.data.rules
@@ -534,7 +608,9 @@ export class TariffComponent implements OnInit {
   private otherConditions() {
     let conditions: All[] = []
     if (this.costType == 1) {
-      conditions.push(...BuildRulesService.isHalfOfHour(this.hourHalfFormValues.whenIsAHalf))
+      conditions.push(...BuildRulesService.beginChargingWhen(this.hourHalfFormValues.whenIsAHalf))
+    } else if (this.costType == 2) {
+      conditions.push(...BuildRulesService.beginChargingWhen(this.fixedCostFormValue.whenIsAHalf))
     }
 
     return conditions
@@ -551,22 +627,26 @@ export class TariffComponent implements OnInit {
   }
 
   private buildTariffJsonRules() {
-    let newRule: CreateTariffModel
-    let rules: Rules[] = []
-    if (this.generalDataFormValues.isPerDayCondition) {
-      rules = [
-        ...this.DailyRules
-      ]
-    } else {
-      rules = [
-        ...this.FractionOrFixedRules,
-        ...this.HourRules,
-      ]
-    }
+    try {
+      let newRule: CreateTariffModel
+      let rules: Rules[] = []
+      if (this.generalDataFormValues.isPerDayCondition) {
+        rules = [
+          ...this.DailyRules
+        ]
+      } else {
+        rules = [
+          ...this.FractionOrFixedRules,
+          ...this.HourRules,
+        ]
+      }
 
-    newRule = {...this.generalDataFormValues, parking: this.parkingId, rules}
-    newRule.static_description = this.getStaticDescription()
-    return newRule
+      newRule = {...this.generalDataFormValues, parking: this.parkingId, rules}
+      newRule.static_description = this.getStaticDescription()
+      return newRule
+    } catch (ex: any) {
+      throw new Error(ex.message)
+    }
   }
 
   private getHourConditions(): All[] {
@@ -597,7 +677,7 @@ export class TariffComponent implements OnInit {
       }
     }
     if (this.timeRange == 3) {
-      return BuildRulesService.getBlock(this.blockFormValues)
+      return BuildRulesService.getBlock(this.blockFormValues, isHour)
     }
     if (this.timeRange == 4) {
       return []
@@ -648,5 +728,17 @@ export class TariffComponent implements OnInit {
         ? this.hourHalfFormValues.static_descriptionCost
         : this.fixedCostFormValue.static_descriptionCost
     return static_description
+  }
+
+  changeStatusTariff(tariff: any) {
+    this.messageService.showLoading()
+    this.parkingService.tariffStatusUpdate(tariff.id, !tariff.isActive).then((x: any) => {
+      if (x.success) {
+        this.getTariffs()
+          .then(() => this.messageService.OkTimeOut())
+      } else {
+        this.messageService.error(x.message)
+      }
+    })
   }
 }
