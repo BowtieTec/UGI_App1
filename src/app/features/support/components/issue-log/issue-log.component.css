@@ -1,0 +1,8 @@
+.typeIssue{
+    position: absolute;
+    height: 15px;
+    width: 15px;
+    margin: 15px;
+    background: rgb(226, 74, 74);
+    right: 0;
+}
