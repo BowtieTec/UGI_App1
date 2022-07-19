@@ -22,6 +22,7 @@ export class InputContainerComponent implements OnInit {
   @Input() readonly: boolean = false
   @Input() minL = '0'
   @Input() maxL = '80'
+  @Input() value: any
 
   constructor(private utilitiesService: UtilitiesService) {
   }
@@ -43,5 +44,6 @@ export class InputContainerComponent implements OnInit {
         Validators.max(999999.99)
       ])
     }
+    this.formGroup.controls[this.controlName].setValue(this.value)
   }
 }

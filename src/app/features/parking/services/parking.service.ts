@@ -16,11 +16,10 @@ import {map} from 'rxjs/operators'
 import {CurrencyOptionModel, Day, PaymentMethodModel, SettingsOptionsModel} from '../models/SettingsOption.model'
 import {Observable, Subscribable} from 'rxjs'
 import {CountriesModel} from '../models/Countries.model'
-import {UntypedFormBuilder} from '@angular/forms'
 import {CreateTariffModel} from '../models/Tariff.model'
 import {CreateProfilesModel} from '../models/MontlyParking.model'
 import {CreateStation, CreateStationaryCourtesy, StationsCourtesyModel} from '../models/StationaryCourtesy.model'
-import {ParkedModel} from '../models/Parking.model'
+import {ParkedModel, ParkingModel} from '../models/Parking.model'
 
 @Injectable({
   providedIn: 'root'
@@ -35,12 +34,12 @@ export class ParkingService {
   settingsOptions!: SettingsOptionsModel
   countries: CountriesModel[] = new Array<CountriesModel>()
   private apiUrl = environment.serverAPI
+  allParkingLot: ParkingModel[] = []
 
   constructor(
     private http: HttpClient,
     private message: MessageService,
     private route: Router,
-    private formBuilder: UntypedFormBuilder
   ) {
     this.getCountries()
       .toPromise()
@@ -53,7 +52,11 @@ export class ParkingService {
           .then((data) => {
             this.settingsOptions = data
           })
+      }).then(() => {
+      this.getAllParking().then((data) => {
+        this.allParkingLot = data.data.parkings
       })
+    })
   }
 
   getCountries() {
@@ -98,6 +101,10 @@ export class ParkingService {
           return data
         })
       )
+  }
+
+  getAllParkingLot(): ParkingModel[] {
+    return this.allParkingLot
   }
 
   setStepTwo(): Observable<ResponseModel> {

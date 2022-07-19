@@ -32,7 +32,7 @@ export const permission = {
   editCourtesyStationary: 'editCourtesyStationary',
   addStationsCourtesyStationary: 'addStationsCourtesyStationary',
   editStationsCourtesyStationary: 'editStationsCourtesyStationary',
-  deleteStationsCourtesyStationary:'deleteStationsCourtesyStationary',
+  deleteStationsCourtesyStationary: 'deleteStationsCourtesyStationary',
   graficosIngresoVehiculos: 'graficosIngresoVehiculos',
   graficosFlujoDinero: 'graficosFlujoDinero',
   graficosCortesias: 'graficosCortesias',
@@ -60,7 +60,8 @@ export const permission = {
   newTicket: 'newTicket',
   listInvoiceInfo: 'changeInvoiceInfo',
   restartPassword: 'restartPassword',
-  updateFiles: 'updateFiles'
+  updateFiles: 'updateFiles',
+  transitDetailReport: 'transitDetailReport'
 }
 export const leftMenu = [
   {

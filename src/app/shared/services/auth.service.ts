@@ -6,8 +6,6 @@ import {environment} from '../../../environments/environment'
 import {MessageService} from './message.service'
 import {EncryptionService} from './encryption.service'
 import {Router} from '@angular/router'
-import {UtilitiesService} from './utilities.service'
-import {ReCaptchaV3Service} from "ng-recaptcha";
 
 
 @Injectable({
@@ -15,17 +13,14 @@ import {ReCaptchaV3Service} from "ng-recaptcha";
 })
 export class AuthService {
   private apiUrl = environment.serverAPI
-  userContext = ''
   isSudo: boolean = this.getUser().user?.role?.isSudo
+
   constructor(
     private http: HttpClient,
     private message: MessageService,
     private crypto: EncryptionService,
     private route: Router,
-    private utilities: UtilitiesService,
-    private recaptcha: ReCaptchaV3Service
   ) {
-    //this.userContext = sha512(this.utilities.randomString())
   }
 
 
@@ -54,34 +49,27 @@ export class AuthService {
 
   login(login: UserRequestModel) {
     this.message.showLoading()
-    this.recaptcha.execute('login')
-      .subscribe((token: string) => {
-        login.userContext = token
-        this.http
-          .post<UserResponseModel>(`${this.apiUrl}backoffice/admin/signin`, login)
-          .toPromise()
-          .then((data) => {
-            if (data.success) {
-              this.saveUser(data.data)
-              this.message.OkTimeOut('!Listo!')
-              this.route.navigate(['/home']).catch()
-            } else {
-              this.cleanUser()
-              this.message.error('', data.message)
-              this.route.navigate(['/']).catch()
-            }
-          })
-          .catch((data) => {
-            if (!data.error.success) {
-              this.message.error(data.error.message);
-              return
-            }
-            this.route.navigate(['/']).catch()
-            throw new Error(data.message)
-          })
-      }, (err) => {
-        this.message.hideLoading()
-        throw new Error('Error: No pudo completarse el reCAPTCHA. Vuelva a iniciar sesión.')
+    this.http
+      .post<UserResponseModel>(`${this.apiUrl}backoffice/admin/signin`, login)
+      .toPromise()
+      .then((data) => {
+        if (data.success) {
+          this.saveUser(data.data)
+          this.message.OkTimeOut('!Listo!')
+          this.route.navigate(['/home']).catch()
+        } else {
+          this.cleanUser()
+          this.message.error('', data.message)
+          this.route.navigate(['/']).catch()
+        }
+      })
+      .catch((data) => {
+        if (!data.error.success) {
+          this.message.error(data.error.message);
+          return
+        }
+        this.route.navigate(['/']).catch()
+        throw new Error(data.message)
       })
   }
 }
