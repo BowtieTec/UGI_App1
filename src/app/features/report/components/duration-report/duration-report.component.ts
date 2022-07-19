@@ -67,11 +67,16 @@ export class DurationReportComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.messageService.showLoading()
     this.dtOptions = DataTableOptions.getSpanishOptions(10)
     this.parkingService.getAllParking().then((data) => {
       if (data.success) {
         this.allParking = data.data.parkings
       }
+    }).then(() => {
+      this.getDurationsRpt(this.fechaActual, this.fechaActual)
+    }).finally(() => {
+      this.messageService.hideLoading()
     })
   }
 
@@ -92,8 +97,8 @@ export class DurationReportComponent implements OnInit {
       )
       return
     }
-    this.startDateReport = new Date(initDate+'T00:00:00').toLocaleDateString('es-GT')
-    this.endDateReport = new Date(endDate+'T00:00:00').toLocaleDateString('es-GT')
+    this.startDateReport = new Date(initDate + 'T00:00:00').toLocaleDateString('es-GT')
+    this.endDateReport = new Date(endDate + 'T00:00:00').toLocaleDateString('es-GT')
     this.parqueo = this.datosUsuarioLogeado.id
     if (this.ifHaveAction('verTodosLosParqueosReport')) {
       this.parqueo = this.inputParking.nativeElement.value
@@ -105,9 +110,6 @@ export class DurationReportComponent implements OnInit {
         if (data.success) {
           this.report = data.data
           this.dataSource = data.data
-          if (this.report.length == 0) {
-            this.messageService.infoTimeOut('No se encontraron datos')
-          }
           this.rerender()
         } else {
           this.messageService.error('', data.message)
@@ -145,20 +147,7 @@ export class DurationReportComponent implements OnInit {
       this.messageService.infoTimeOut('No hay información para exportar')
       return
     }
-    /* const context = this;
-    const workbook = new Workbook();
-    const worksheet = workbook.addWorksheet('General');
 
-    exportDataGrid({
-      component: context.dataGrid.instance,
-      worksheet: worksheet,
-      autoFilterEnabled: true,
-    }).then(() => {
-      workbook.xlsx.writeBuffer().then((buffer: any) => {
-        saveAs(new Blob([buffer], {type: 'application/octet-stream'}), 'Duracion.xlsx');
-      })
-    });
-    e.cancel = true; */
     const header = [
       '',
       'Duración',
@@ -278,9 +267,9 @@ export class DurationReportComponent implements OnInit {
       '',
       '',
       'Documento generado: ' +
-        new Date().toLocaleDateString('es-GT') +
-        '  ' +
-        new Date().toLocaleTimeString()
+      new Date().toLocaleDateString('es-GT') +
+      '  ' +
+      new Date().toLocaleTimeString()
     ])
     header2.eachCell((cell, number) => {
       if (number > 1) {
@@ -320,7 +309,7 @@ export class DurationReportComponent implements OnInit {
         '',
         d.duracion,
         d.vehicles,
-        d.porcentaje,
+        Number(d.porcentaje) * 100,
         d.apply_disc_vehic,
         d.disc,
         d.total_no_disc
@@ -339,33 +328,6 @@ export class DurationReportComponent implements OnInit {
     worksheet.addRow([])
     worksheet.addRow([])
     worksheet.addRow([])
-    /* let headerResumen = worksheet.addRow(['','Fecha','Total de vehiculos','Total de ingresos','Total de descuento','Total pagado']);
-    headerResumen.eachCell((cell, number) => {
-      if(number > 1){
-        cell.border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } }
-      }
-    });
-    let groupData = this.dataSource.reduce((r:any, a:any) =>{
-      r[a.ep_entry_date.slice(0,10)] = [...r[a.ep_entry_date.slice(0,10)] || [], a];
-      return r;
-    },{});
-    Object.entries(groupData).forEach(([key,value]) => {
-      let valor = JSON.parse(JSON.stringify(value));
-      let total = 0;
-      let descuento = 0;
-      let pagado = 0;
-      valor.forEach((element:any) => {
-        total+= +element.total;
-        descuento+= +element.descuento;
-        pagado+= +element.pagado;
-      });
-      let detailResumen = worksheet.addRow(['',key,valor.length,total,descuento,pagado]);
-      detailResumen.eachCell((cell, number) => {
-        if(number > 1){
-          cell.border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } }
-        }
-      });
-    }); */
 
     worksheet.getColumn(2).width = 25
     worksheet.getColumn(3).width = 20
@@ -378,7 +340,7 @@ export class DurationReportComponent implements OnInit {
       const blob = new Blob([data], {
         type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
       })
-      saveAs(blob, 'ReporteDuracion.xlsx')
+      saveAs(blob, `Report de Duración - Generado - ${this.nowDateTime.toLocaleString()}.xlsx`)
     })
     e.cancel = true
   }
