@@ -73,7 +73,7 @@ export const leftMenu = [
   {
     path: '/home/dashboard',
     module: 'dashboard',
-    description: 'Dashboard',
+    description: 'Dashboard.model.ts',
     icon: 'fa-tachometer-alt',
     isShow: true
   },

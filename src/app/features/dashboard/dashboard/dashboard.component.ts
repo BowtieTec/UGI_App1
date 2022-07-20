@@ -18,10 +18,10 @@ export class DashboardComponent implements OnInit {
   cortesias = 'Cortesias'
   cortesiasEstacionarias = 'CortesiasEstacionarias'
 
-  graficosIngresoVehiculos = environment.graficosIngresoVehiculos
-  graficosFlujoDinero = environment.graficosFlujoDinero
-  graficosCortesias = environment.graficosCortesias
-  graficosCortesiasEstacionarias = environment.graficosCortesiasEstacionarias
+  transitPermission = environment.graficosIngresoVehiculos
+  cashFlowPermission = environment.graficosFlujoDinero
+  courtesiesPermission = environment.graficosCortesias
+  stationaryCourtesiesPermission = environment.graficosCortesiasEstacionarias
   verTodosLosParqueosDashboard = environment.verTodosLosParqueosDashboard
   allParking: ParkingModel[] = Array<ParkingModel>()
 
@@ -165,13 +165,7 @@ export class DashboardComponent implements OnInit {
 
   searchDia(tipo: any) {
     if (tipo == this.ingresos) {
-      this.fechaIngresosDia = this.inputFechaIngresoDia.nativeElement.value
-      if (this.ifHaveAction('verTodosLosParqueosDashboard')) {
-        this.parqueoIngresosDia =
-          this.inputParkingIngresoDia.nativeElement.value
-      } else {
-        this.parqueoIngresosDia = this.datosUsuarioLogeado.id
-      }
+
     }
     if (tipo == this.flujo) {
       this.fechaFlujoDia = this.inputFechaFlujoDia.nativeElement.value
