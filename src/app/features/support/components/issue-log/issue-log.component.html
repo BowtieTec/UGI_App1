@@ -80,15 +80,14 @@
     </thead>
     <tbody>
 
-    <tr *ngFor = "let isuue of issues"
-        class = "animate__animated animate__fadeIn">
+    <tr *ngFor = "let isuue of issues" class = "animate__animated animate__fadeIn">
       <td>{{isuue.name}}</td>
       <td>{{isuue.message}}</td>
-      <td> {{isuue.level}}</td>
+     
       <td> {{isuue.userDevice}}</td>
-      <td> {{isuue.created_at}} <div class="typeIssue"></div></td>
-
-
+      <td> {{isuue.created_at}} </td>
+      <td style="position: relative"> {{isuue.level}} <div class="typeIssue"></div> </td>
+      
     </tr>
     </tbody>
   </table>

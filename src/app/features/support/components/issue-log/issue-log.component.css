@@ -3,6 +3,13 @@
     height: 15px;
     width: 15px;
     margin: 15px;
-    background: rgb(226, 74, 74);
+    border-radius: 50%;
     right: 0;
+}
+.lowstatus{
+    background: rgb(74, 226, 137);
+}
+.highstatus{
+    background: rgb(226, 74, 74);
+    
 }
