@@ -115,9 +115,6 @@ export class BillingReportComponent implements OnInit {
           this.report = data.data
           // this.dataSource = data.data.filter((data:billingData) => data.fiscal_uuid !== null)
           this.dataSource = data.data
-          if (this.report.length == 0) {
-            this.messageService.infoTimeOut('No se encontraron datos')
-          }
           this.rerender()
         } else {
           this.messageService.error('', data.message)
@@ -367,7 +364,7 @@ export class BillingReportComponent implements OnInit {
       const blob = new Blob([data], {
         type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
       })
-      saveAs(blob, 'ReporteFacturaciónEbigo.xlsx')
+      saveAs(blob, `Reporte de Facturación - Generado - ${this.nowDateTime.toLocaleString()}.xlsx`)
     })
     e.cancel = true
   }

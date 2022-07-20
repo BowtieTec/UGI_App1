@@ -102,9 +102,6 @@ export class CourtesyReportComponent implements OnInit {
         if (data.success) {
           this.report = data.data
           this.dataSource = data.data
-          if (this.report.length == 0) {
-            this.messageService.infoTimeOut('No se encontraron datos')
-          }
           this.rerender()
         } else {
           this.messageService.error('', data.message)
@@ -392,7 +389,7 @@ export class CourtesyReportComponent implements OnInit {
       const blob = new Blob([data], {
         type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
       })
-      saveAs(blob, 'ReporteCortesias.xlsx')
+      saveAs(blob, `Reporte de Cortesias - Generado - ${this.nowDateTime.toLocaleString()}.xlsx`)
     })
     e.cancel = true
   }
