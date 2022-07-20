@@ -64,7 +64,7 @@
                 scope = "col">Parqueo
             </th>
             <th scope = "col"
-                style = "width: 6%">Acciones
+                style = "width: 9%">Acciones
             </th>
           </tr>
           </thead>
@@ -97,8 +97,13 @@
             <td>
               <button (click) = "getOut(parked)"
                       *ngIf = "(ifHaveAction(getOutWithPayment) || ifHaveAction(getOutWithoutPayment)) && parked.status!=2 "
-                      class = "buttonRowDelete ms-1 me-1"
+                      class = "buttonRowDelete ms-1 me-1 mt-1"
                       title = "Sacar del parqueo"><em class = "fas fa-door-open "></em>
+              </button>
+              <button (click) = "assignCourtesy(parked)"
+                      *ngIf = "ifHaveAction(assignCourtesyPermission)"
+                      class = "buttonRowEdit ms-1 me-1 mt-1"
+                      title = "Asignar Cortesía"><em class = "fas fa-gift"></em>
               </button>
             </td>
           </tr>

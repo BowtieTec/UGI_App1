@@ -1,5 +1,5 @@
 import {AfterViewInit, Component, OnDestroy, ViewChild} from '@angular/core'
-import {UntypedFormBuilder, UntypedFormGroup, Validators} from '@angular/forms'
+import {FormBuilder, FormGroup, Validators} from '@angular/forms'
 import {ParkingService} from '../../services/parking.service'
 import {ParkedModel, ParkingModel, StatusParked} from '../../models/Parking.model'
 import {AuthService} from '../../../../shared/services/auth.service'
@@ -17,7 +17,7 @@ import {ReportService} from "../../../report/components/service/report.service";
   styleUrls: ['./parked.component.css']
 })
 export class ParkedComponent implements OnDestroy, AfterViewInit {
-  parkedForm: UntypedFormGroup = this.createForm()
+  parkedForm: FormGroup = this.createForm()
   parkingData: ParkingModel[] = []
   parkedData: Array<ParkedModel> = []
   statusParked = StatusParked
@@ -25,14 +25,15 @@ export class ParkedComponent implements OnDestroy, AfterViewInit {
 
   @ViewChild(DataTableDirective) dtElement!: DataTableDirective
   dtTrigger: Subject<any> = new Subject()
-  formGroup: UntypedFormGroup = this.formBuilder.group({filter: ['']})
+  formGroup: FormGroup = this.formBuilder.group({filter: ['']})
 
   getOutWithPayment = environment.getOutWithPaymentDoneParkedParking
   getOutWithoutPayment = environment.getOutWithoutPaymentDoneParkedParking
+  assignCourtesyPermission = environment.assignCourtesyPermission
   private actions: string[] = this.permissionService.actionsOfPermissions
 
   constructor(
-    private formBuilder: UntypedFormBuilder,
+    private formBuilder: FormBuilder,
     private parkingService: ParkingService,
     private authService: AuthService,
     private messageService: MessageService,
@@ -78,7 +79,7 @@ export class ParkedComponent implements OnDestroy, AfterViewInit {
     return this.reportService.descriptionOfDiffOfTime(entry_date, exit_date)
   }
 
-  createForm(): UntypedFormGroup {
+  createForm(): FormGroup {
     return this.formBuilder.group({
       parkingId: ['0'],
       status: ['1'],
@@ -223,5 +224,9 @@ export class ParkedComponent implements OnDestroy, AfterViewInit {
       .toPromise().then((data) => {
         this.parkedData = data.data
       })
+  }
+
+  assignCourtesy(parked: ParkedModel) {
+
   }
 }
