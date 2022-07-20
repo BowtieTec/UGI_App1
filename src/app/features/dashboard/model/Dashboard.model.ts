@@ -13,7 +13,6 @@ export class DayTransitDashboardModel {
   }
 }
 
-
 export class MonthTransitDashboardModel {
   fecha: string
   parking: string = ''
