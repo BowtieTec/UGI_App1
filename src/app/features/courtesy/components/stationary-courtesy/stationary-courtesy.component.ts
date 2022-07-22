@@ -8,11 +8,7 @@ import {PermissionsService} from '../../../../shared/services/permissions.servic
 import {environment} from '../../../../../environments/environment'
 import {ParkingModel} from '../../../parking/models/Parking.model'
 import {CourtesyService} from '../../services/courtesy.service'
-import {
-  CourtesyDetail,
-  CreateStationaryCourtesy,
-  StationsCourtesyModel
-} from '../../../parking/models/StationaryCourtesy.model'
+import {CreateStationaryCourtesy, StationsCourtesyModel} from '../../../parking/models/StationaryCourtesy.model'
 import {CourtesyTypeModel} from '../../models/Courtesy.model'
 import {DataTableDirective} from 'angular-datatables'
 import {Subject} from 'rxjs'
@@ -103,7 +99,6 @@ export class StationaryCourtesyComponent implements AfterViewInit, OnDestroy {
   }
 
   createForm(): UntypedFormGroup {
-    console.log(this.parkingId)
     return this.formBuilder.group({
 
       parkingId: [this.parkingId, [Validators.required]],
@@ -143,16 +138,16 @@ export class StationaryCourtesyComponent implements AfterViewInit, OnDestroy {
 
   async searchAntennasByParking() {
 
-      this.message.showLoading()
-      const parkingId = this.stationaryForm.controls['parkingId'].value
-      this.allAntennas = await this.parkingService.getAntennasWithStationaryCourtesy(parkingId).then(x => x.filter(a => a.courtesy_detail == null))
-      if(this.allAntennas){
-        this.parkingId = parkingId
-        this.stationsCourtesies = await this.getCourtesiesStationary(parkingId)
-        this.rerender()
-      }
+    this.message.showLoading()
+    const parkingId = this.stationaryForm.controls['parkingId'].value
+    this.allAntennas = await this.parkingService.getAntennasWithStationaryCourtesy(parkingId).then(x => x.filter(a => a.courtesy_detail == null))
+    if (this.allAntennas) {
+      this.parkingId = parkingId
+      this.stationsCourtesies = await this.getCourtesiesStationary(parkingId)
+      this.rerender()
+    }
 
-      this.message.hideLoading()
+    this.message.hideLoading()
 
   }
 
@@ -267,7 +262,7 @@ export class StationaryCourtesyComponent implements AfterViewInit, OnDestroy {
     try {
       const newCourtesy: CreateStationaryCourtesy =
         this.stationaryCourtesiesFormValue
-      if(this.idEditAntenna == '') {
+      if (this.idEditAntenna == '') {
 
         const resp = await this.parkingService.createStationaryCourtesy(
           newCourtesy
@@ -277,11 +272,11 @@ export class StationaryCourtesyComponent implements AfterViewInit, OnDestroy {
         } else {
           this.message.error('', resp.message)
         }
-      }else{
+      } else {
         newCourtesy.id = this.idEditAntenna
         this.parkingService.editStationaryCourtesy(newCourtesy)
-          .subscribe((data) =>{
-            if(data.success){
+          .subscribe((data) => {
+            if (data.success) {
               this.idEditAntenna = ''
               this.getInitialData()
             } else {

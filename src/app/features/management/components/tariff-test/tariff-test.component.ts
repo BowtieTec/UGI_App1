@@ -123,11 +123,7 @@ export class TariffTestComponent {
       .getCourtesiesByParking(parkingId)
       .toPromise()
       .then((data) => {
-        if (data.success) {
-          this.courtesies = data.data.filter((t: CourtesyModel) => t.id != null)
-        } else {
-          this.messageService.error('', data.message)
-        }
+        this.courtesies = data.filter((t: CourtesyModel) => t.id != null)
       })
   }
 
