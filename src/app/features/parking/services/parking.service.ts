@@ -333,7 +333,8 @@ export class ParkingService {
                 user_name: x?.user?.name,
                 last_name: x?.user?.last_name,
                 phone_number: x?.user?.phone_number,
-                parking: x?.parking?.name
+                parking: x?.parking?.name,
+                parkingId: x?.parking.id
               }
             }),
             recordsTotal: res.data.recordsFiltered,

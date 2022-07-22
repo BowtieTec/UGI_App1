@@ -100,10 +100,13 @@
                       class = "buttonRowDelete ms-1 me-1 mt-1"
                       title = "Sacar del parqueo"><em class = "fas fa-door-open "></em>
               </button>
-              <button (click) = "assignCourtesy(parked)"
-                      *ngIf = "ifHaveAction(assignCourtesyPermission)"
-                      class = "buttonRowEdit ms-1 me-1 mt-1"
-                      title = "Asignar Cortesía"><em class = "fas fa-gift"></em>
+              <button
+                (click) = "this.changeParkedSelected(parked)"
+                *ngIf = "ifHaveAction(assignCourtesyPermission)"
+                class = "buttonRowEdit ms-1 me-1 mt-1"
+                data-bs-target = "#assignCourtesy"
+                data-bs-toggle = "modal"
+                title = "Asignar Cortesía"><em class = "fas fa-gift"></em>
               </button>
             </td>
           </tr>
@@ -113,4 +116,11 @@
     </div>
   </div>
 </div>
+<app-assign-courtesy [parked$] = "parked$"></app-assign-courtesy>
+
+
+
+
+
+
 

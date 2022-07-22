@@ -23,6 +23,7 @@ export class ParkedComponent implements OnDestroy, AfterViewInit {
   statusParked = StatusParked
   dateOutToGetOut: Date = new Date()
 
+  parked$ = new Subject<ParkedModel>()
   @ViewChild(DataTableDirective) dtElement!: DataTableDirective
   dtTrigger: Subject<any> = new Subject()
   formGroup: FormGroup = this.formBuilder.group({filter: ['']})
@@ -226,7 +227,8 @@ export class ParkedComponent implements OnDestroy, AfterViewInit {
       })
   }
 
-  assignCourtesy(parked: ParkedModel) {
-
+  changeParkedSelected(parked: ParkedModel) {
+    console.log(parked)
+    this.parked$.next(parked)
   }
 }
