@@ -63,9 +63,6 @@ export class ParkingDayReportComponent implements OnInit {
     private excelService: ReportService,
     private parkingService: ParkingService
   ) {
-    this.messageService.showLoading()
-
-    this.messageService.hideLoading()
   }
 
   ngOnInit(): void {
@@ -86,10 +83,6 @@ export class ParkingDayReportComponent implements OnInit {
     return this.permisionService.ifHaveAction(action)
   }
 
-  getInitialData() {
-    // Calling
-    //this.getPaymentRpt();
-  }
 
   getParkingsRpt(initDate: string, endDate: string) {
     if (endDate < initDate) {
@@ -99,6 +92,7 @@ export class ParkingDayReportComponent implements OnInit {
       )
       return
     }
+    this.messageService.showLoading()
     this.startDateReport = new Date(initDate).toLocaleDateString()
     this.endDateReport = new Date(endDate).toLocaleDateString()
     this.parqueo = this.datosUsuarioLogeado.id
@@ -110,7 +104,6 @@ export class ParkingDayReportComponent implements OnInit {
       .getParkingRpt(initDate, endDate, this.parqueo)
       .toPromise()
       .then((data) => {
-        console.log(data);
         this.report = data
         this.dataSource = data
         if (this.report.length == 0) {
