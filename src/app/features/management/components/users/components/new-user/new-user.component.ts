@@ -1,4 +1,4 @@
-import {Component, Input, NgZone, OnInit} from '@angular/core'
+import {Component, Input, OnInit} from '@angular/core'
 import {UserService} from '../../services/user.service'
 import {UntypedFormBuilder, UntypedFormGroup, Validators} from '@angular/forms'
 import {UtilitiesService} from '../../../../../../shared/services/utilities.service'
@@ -32,7 +32,6 @@ export class NewUserComponent implements OnInit {
     private parkingService: ParkingService,
     private permissionService: PermissionsService,
     private authService: AuthService,
-    private zone: NgZone
   ) {
     this.newUserForm = this.createForm()
     this.getInitialData().catch()
@@ -42,9 +41,6 @@ export class NewUserComponent implements OnInit {
     return this.userService.roles
   }
 
-  get userRoleSelected() {
-    return this.newUserForm.get('role')?.value
-  }
 
   ifHaveAction(action: string) {
     return this.permissionService.ifHaveAction(action)
