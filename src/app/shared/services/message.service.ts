@@ -39,7 +39,7 @@ export class MessageService {
     })
   }
 
-  warning(text: string, title = '!Cuidado!') {
+  warning(text: string, title = '¡Cuidado!') {
     this.hideLoading()
     Swal.fire({
       icon: 'warning',
