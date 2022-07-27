@@ -257,7 +257,6 @@ export class CourtesyComponent implements AfterViewInit, OnDestroy, OnInit {
 
   ngOnInit(): void {
     this.authService.user$.subscribe(({parkingId, user}) => {
-      console.log({parkingId})
       this.messageService.showLoading()
       this.parkingId = parkingId
       this.getInitialData()
