@@ -17,7 +17,7 @@ export class AuthService implements OnDestroy {
   isSudo: boolean = this.getUser().user?.role?.isSudo
   private userSubject$: BehaviorSubject<AuthParkingModel> = new BehaviorSubject<AuthParkingModel>({
     user: this.getUser().user,
-    parkingId: this.getUser().user.parking.id
+    parkingId: this.getUser().user?.parking?.id
   })
   user$ = this.userSubject$ as Observable<AuthParkingModel>
 
@@ -31,11 +31,11 @@ export class AuthService implements OnDestroy {
   }
 
   saveUser(user: AuthModel) {
-    this.userSubject$.next({user: user.user, parkingId: user.user.parking.id})
     sessionStorage.setItem(
       this.crypto.encryptKey('User'),
       this.crypto.encrypt(JSON.stringify(user).replace('/n', ''))
     )
+    this.userSubject$.next({user: user.user, parkingId: user.user.parking.id})
   }
 
   getUser(): AuthModel {
@@ -89,4 +89,5 @@ export class AuthService implements OnDestroy {
   ngOnDestroy(): void {
     this.userSubject$.unsubscribe()
   }
+
 }
