@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnDestroy, ViewChild} from '@angular/core'
+import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/core'
 import {FormBuilder, FormGroup, Validators} from '@angular/forms'
 import {ParkingService} from '../../services/parking.service'
 import {ParkedModel, ParkingModel, StatusParked} from '../../models/Parking.model'
@@ -16,13 +16,12 @@ import {ReportService} from "../../../report/components/service/report.service";
   templateUrl: './parked.component.html',
   styleUrls: ['./parked.component.css']
 })
-export class ParkedComponent implements OnDestroy, AfterViewInit {
+export class ParkedComponent implements OnDestroy, AfterViewInit, OnInit {
   parkedForm: FormGroup = this.createForm()
-  parkingData: ParkingModel[] = []
   parkedData: Array<ParkedModel> = []
   statusParked = StatusParked
   dateOutToGetOut: Date = new Date()
-
+  parkingLots: Array<ParkingModel> = []
   parked$ = new Subject<ParkedModel>()
   @ViewChild(DataTableDirective) dtElement!: DataTableDirective
   dtTrigger: Subject<any> = new Subject()
@@ -41,7 +40,7 @@ export class ParkedComponent implements OnDestroy, AfterViewInit {
     private permissionService: PermissionsService,
     private reportService: ReportService,
   ) {
-    this.getInitialData().catch()
+    this.getInitialData().then()
   }
 
   get isSudo() {
@@ -54,14 +53,15 @@ export class ParkedComponent implements OnDestroy, AfterViewInit {
 
   async getInitialData() {
     this.messageService.showLoading()
-    await this.getAllParking()
+    await this.parkingService.parkingLot$.subscribe((data) => {
+      this.parkingLots = data
+    })
     if (this.isSudo) {
       await this.parkedForm
         .get('parkingId')
         ?.setValue(this.authService.getParking().id)
     }
-    await this.getParkedData().then(() => this.rerender()).then(() => {
-    })
+    await this.getParkedData().then(() => this.rerender())
     setInterval(() => {
       if (!this.dtTrigger.closed)
         this.refreshParkedData()
@@ -89,16 +89,6 @@ export class ParkedComponent implements OnDestroy, AfterViewInit {
     })
   }
 
-  async getAllParking() {
-    if (!this.authService.isSudo) {
-      return
-    }
-    return this.parkingService.getAllParking().then((data) => {
-      if (data.success) {
-        this.parkingData = data.data.parkings
-      }
-    })
-  }
 
   getParkedFormValues() {
     const status =
@@ -228,7 +218,10 @@ export class ParkedComponent implements OnDestroy, AfterViewInit {
   }
 
   changeParkedSelected(parked: ParkedModel) {
-    console.log(parked)
     this.parked$.next(parked)
+  }
+
+  ngOnInit(): void {
+
   }
 }

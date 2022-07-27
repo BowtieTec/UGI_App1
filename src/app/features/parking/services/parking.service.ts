@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core'
+import {Injectable, OnInit} from '@angular/core'
 import {environment} from '../../../../environments/environment'
 import {HttpClient} from '@angular/common/http'
 import {MessageService} from '../../../shared/services/message.service'
@@ -14,7 +14,7 @@ import {
 import {Router} from '@angular/router'
 import {map} from 'rxjs/operators'
 import {CurrencyOptionModel, Day, PaymentMethodModel, SettingsOptionsModel} from '../models/SettingsOption.model'
-import {Observable, Subscribable} from 'rxjs'
+import {Observable, Subject, Subscribable} from 'rxjs'
 import {CountriesModel} from '../models/Countries.model'
 import {CreateTariffModel} from '../models/Tariff.model'
 import {CreateProfilesModel} from '../models/MontlyParking.model'
@@ -24,7 +24,7 @@ import {ParkedModel, ParkingModel} from '../models/Parking.model'
 @Injectable({
   providedIn: 'root'
 })
-export class ParkingService {
+export class ParkingService implements OnInit {
   parkingStepOne: CreateParkingStepOneModel = new CreateParkingStepOneModel()
   parkingStepTwo: CreateParkingStepTwoModel = new CreateParkingStepTwoModel()
   parkingStepFour: CreateParkingStepFourModel = new CreateParkingStepFourModel()
@@ -35,6 +35,7 @@ export class ParkingService {
   countries: CountriesModel[] = new Array<CountriesModel>()
   private apiUrl = environment.serverAPI
   allParkingLot: ParkingModel[] = []
+  parkingLot$: Subject<ParkingModel[]> = new Subject<ParkingModel[]>()
 
   constructor(
     private http: HttpClient,
@@ -53,11 +54,21 @@ export class ParkingService {
             this.settingsOptions = data
           })
       }).then(() => {
-      this.getAllParking().then((data) => {
-        this.allParkingLot = data.data.parkings
-      })
+
+    })
+    this.getAllParking().then(data => {
+      this.parkingLot$.next(data.data.parkings)
     })
   }
+
+  /*
+    get allParkingLogData() {
+      if (this.allParkingLot.length == 0) {
+
+      }
+      return this.allParkingLot
+    }
+  */
 
   getCountries() {
     return this.http.get<ResponseModel>(`${this.apiUrl}utilities/countries`)
@@ -103,9 +114,11 @@ export class ParkingService {
       )
   }
 
+
   getAllParkingLot(): ParkingModel[] {
     return this.allParkingLot
   }
+
 
   setStepTwo(): Observable<ResponseModel> {
     return this.http
@@ -459,5 +472,9 @@ export class ParkingService {
         {isActive: newStatus}
       )
       .toPromise()
+  }
+
+  ngOnInit(): void {
+
   }
 }

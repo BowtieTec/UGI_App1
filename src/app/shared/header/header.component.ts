@@ -1,8 +1,8 @@
-import { Component } from '@angular/core'
-import { AuthService } from '../services/auth.service'
-import { Router } from '@angular/router'
-import { MessageService } from '../services/message.service'
-import { AuthModel } from '../model/UserResponse.model'
+import {Component} from '@angular/core'
+import {AuthService} from '../services/auth.service'
+import {Router} from '@angular/router'
+import {MessageService} from '../services/message.service'
+import {AuthModel, ParkingAuthModel} from '../model/UserResponse.model'
 
 @Component({
   selector: 'app-header',
@@ -16,7 +16,9 @@ export class HeaderComponent {
     private auth: AuthService,
     private route: Router,
     private messageService: MessageService
-  ) {}
+  ) {
+
+  }
 
   logout() {
     this.auth.cleanUser()
@@ -25,4 +27,10 @@ export class HeaderComponent {
       this.messageService.OkTimeOut('Sesión cerrada')
     })
   }
+
+  async setParkedSelected(parking: ParkingAuthModel) {
+
+    await this.auth.saveNewParking(parking)
+  }
+
 }
