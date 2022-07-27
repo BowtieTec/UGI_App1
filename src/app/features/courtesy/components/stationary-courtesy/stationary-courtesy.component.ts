@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, Input, OnDestroy, ViewChild} from '@angular/core'
+import {AfterViewInit, Component, Input, OnDestroy, OnInit, ViewChild} from '@angular/core'
 import {FormGroup, UntypedFormBuilder, UntypedFormGroup, Validators} from '@angular/forms'
 import {MessageService} from '../../../../shared/services/message.service'
 import {ParkingService} from '../../../parking/services/parking.service'
@@ -22,7 +22,7 @@ import {SelectModel} from '../../../../shared/model/CommonModels'
   templateUrl: './stationary-courtesy.component.html',
   styleUrls: ['./stationary-courtesy.component.css']
 })
-export class StationaryCourtesyComponent implements AfterViewInit, OnDestroy {
+export class StationaryCourtesyComponent implements AfterViewInit, OnDestroy, OnInit {
   loading = true
   @Input() parkingId: string = this.authService.getParking().id
   allCompanies: CompaniesModel[] = []
@@ -60,7 +60,6 @@ export class StationaryCourtesyComponent implements AfterViewInit, OnDestroy {
   ) {
     this.stationaryForm = this.createForm()
     this.formGroup = formBuilder.group({filter: ['']})
-    this.getInitialData().catch()
   }
 
   getNewConditions() {
@@ -196,7 +195,6 @@ export class StationaryCourtesyComponent implements AfterViewInit, OnDestroy {
     this.stationaryForm.get('companyId')?.setValue('0')
     this.stationaryForm.get('condition')?.setValue('0')
     this.stationaryForm.get('cantHours')?.setValue('0')
-    console.log(this.parkingId)
     this.stationaryForm.controls['parkingId'].setValue(this.parkingId)
   }
 
@@ -298,5 +296,12 @@ export class StationaryCourtesyComponent implements AfterViewInit, OnDestroy {
         this.dtTrigger.next()
       })
     }
+  }
+
+  ngOnInit(): void {
+    this.authService.user$.subscribe(({parkingId}) => {
+      this.parkingId = parkingId
+      this.getInitialData().catch()
+    })
   }
 }
