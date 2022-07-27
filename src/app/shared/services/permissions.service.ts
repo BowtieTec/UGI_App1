@@ -48,7 +48,6 @@ export class PermissionsService implements OnInit {
   }
 
   getMenuOptionsValidated(userId: string) {
-    this.messageService.showLoading()
     const options: OptionMenuModel[] = environment.leftMenu
     const menu: OptionMenuModel[] = Array<OptionMenuModel>()
     return this.getPermissions(userId)
@@ -65,7 +64,6 @@ export class PermissionsService implements OnInit {
             menu.push(option)
           }
         })
-        this.messageService.hideLoading()
         return menu
       })
   }
