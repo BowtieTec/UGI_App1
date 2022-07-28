@@ -14,7 +14,7 @@ import {
 import {Router} from '@angular/router'
 import {map} from 'rxjs/operators'
 import {CurrencyOptionModel, Day, PaymentMethodModel, SettingsOptionsModel} from '../models/SettingsOption.model'
-import {Observable, Subject, Subscribable} from 'rxjs'
+import {BehaviorSubject, Observable, Subscribable} from 'rxjs'
 import {CountriesModel} from '../models/Countries.model'
 import {CreateTariffModel} from '../models/Tariff.model'
 import {CreateProfilesModel} from '../models/MontlyParking.model'
@@ -33,9 +33,10 @@ export class ParkingService implements OnInit {
     new Array<CreateParkingStepFiveModel>()
   settingsOptions!: SettingsOptionsModel
   countries: CountriesModel[] = new Array<CountriesModel>()
-  private apiUrl = environment.serverAPI
   allParkingLot: ParkingModel[] = []
-  parkingLot$: Subject<ParkingModel[]> = new Subject<ParkingModel[]>()
+  private apiUrl = environment.serverAPI
+  private parkingLotSubject$: BehaviorSubject<ParkingModel[]> = new BehaviorSubject<ParkingModel[]>([])
+  public parkingLot$: Observable<ParkingModel[]> = this.parkingLotSubject$.asObservable()
 
   constructor(
     private http: HttpClient,
@@ -57,7 +58,7 @@ export class ParkingService implements OnInit {
 
     })
     this.getAllParking().then(data => {
-      this.parkingLot$.next(data.data.parkings)
+      this.parkingLotSubject$.next(data.data.parkings)
     })
   }
 
@@ -114,7 +115,7 @@ export class ParkingService implements OnInit {
       )
   }
 
-
+//TODO: Eliminar este método
   getAllParkingLot(): ParkingModel[] {
     return this.allParkingLot
   }
@@ -317,6 +318,7 @@ export class ParkingService implements OnInit {
       .toPromise()
   }
 
+//TODO: Hacer privado este metodo
   getAllParking() {
     return this.http
       .get<ResponseModel>(`${this.apiUrl}backoffice/parking/enables`)
