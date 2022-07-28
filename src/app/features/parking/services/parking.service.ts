@@ -62,15 +62,6 @@ export class ParkingService implements OnDestroy {
     })
   }
 
-  /*
-    get allParkingLogData() {
-      if (this.allParkingLot.length == 0) {
-
-      }
-      return this.allParkingLot
-    }
-  */
-
   getCountries() {
     return this.http.get<ResponseModel>(`${this.apiUrl}utilities/countries`)
   }
@@ -119,7 +110,6 @@ export class ParkingService implements OnDestroy {
   getAllParkingLot(): ParkingModel[] {
     return this.allParkingLot
   }
-
 
   setStepTwo(): Observable<ResponseModel> {
     return this.http
