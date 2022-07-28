@@ -145,16 +145,8 @@ export class CompanyComponent implements AfterViewInit, OnDestroy, OnInit {
     this.dtTrigger.unsubscribe()
   }
 
-  private getAllParkingLot() {
-    return this.parkingService.getAllParking().then((x) => {
-      if (x.success) {
-        this.allParkingLot = x.data.parkings
-      }
-    })
-  }
 
   private async getInitialData() {
-    await this.getAllParkingLot()
     await this.getCompanies().then(() => this.rerender())
   }
 
@@ -190,7 +182,11 @@ export class CompanyComponent implements AfterViewInit, OnDestroy, OnInit {
   ngOnInit(): void {
     this.authService.user$.subscribe(({parkingId}) => {
       this.parkingId = parkingId
+      this.companiesForm.get('parking')?.setValue(parkingId)
       this.getInitialData().catch()
+    })
+    this.parkingService.parkingLot$.subscribe((parkingLot) => {
+      this.allParkingLot = parkingLot
     })
   }
 }
