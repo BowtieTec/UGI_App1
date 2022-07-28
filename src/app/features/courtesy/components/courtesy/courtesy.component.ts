@@ -108,11 +108,6 @@ export class CourtesyComponent implements AfterViewInit, OnDestroy, OnInit {
         return this.getCourtesies()
       })
       .then(() => {
-        return this.parkingService
-          .getAllParking()
-          .then((x) => (this.allParking = x.data.parkings))
-      })
-      .then(() => {
         if (this.ifHaveAction('listLocal')) {
           return this.companyService
             .getCompanies(this.parkingId)
@@ -259,8 +254,12 @@ export class CourtesyComponent implements AfterViewInit, OnDestroy, OnInit {
     this.authService.user$.subscribe(({parkingId, user}) => {
       this.messageService.showLoading()
       this.parkingId = parkingId
+      this.newCourtesyForm.get('parkingId')?.setValue(parkingId)
       this.getInitialData()
         .finally(() => this.messageService.hideLoading())
+    })
+    this.parkingService.parkingLot$.subscribe((parkings) => {
+      this.allParking = parkings
     })
   }
 }
