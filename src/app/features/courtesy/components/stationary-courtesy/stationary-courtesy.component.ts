@@ -154,7 +154,6 @@ export class StationaryCourtesyComponent implements AfterViewInit, OnDestroy, On
     try {
       this.message.showLoading()
       Promise.all([
-        this.parkingService.getAllParking().then((data) => data.data.parkings),
         this.getTypeCourtesies(),
         this.getCourtesiesStationary(),
         this.courtesyService.getTypes().toPromise(),
@@ -162,11 +161,10 @@ export class StationaryCourtesyComponent implements AfterViewInit, OnDestroy, On
         this.searchAntennasByParking()
       ])
         .then((resp) => {
-          this.allParking = resp[0]
-          this.typeCourtesies = resp[1]
-          this.stationsCourtesies = resp[2]
-          this.courtesyTypes = resp[3].data.type
-          this.allCompanies = resp[4]
+          this.typeCourtesies = resp[0]
+          this.stationsCourtesies = resp[1]
+          this.courtesyTypes = resp[2].data.type
+          this.allCompanies = resp[3]
           // ignore resp [5]
         })
         .catch((x) => {
@@ -301,7 +299,11 @@ export class StationaryCourtesyComponent implements AfterViewInit, OnDestroy, On
   ngOnInit(): void {
     this.authService.user$.subscribe(({parkingId}) => {
       this.parkingId = parkingId
+      this.stationaryForm.get('parkingId')?.setValue(parkingId)
       this.getInitialData().catch()
+    })
+    this.parkingService.parkingLot$.subscribe((parkings) => {
+      this.allParking = parkings
     })
   }
 }
