@@ -1,5 +1,5 @@
-import {AfterViewInit, Component, OnDestroy, ViewChild} from '@angular/core'
-import { FormBuilder, FormGroup, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms'
+import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/core'
+import {FormGroup, UntypedFormBuilder, UntypedFormGroup, Validators} from '@angular/forms'
 import {MessageService} from '../../../../shared/services/message.service'
 import {ParkingService} from '../../services/parking.service'
 import {UtilitiesService} from '../../../../shared/services/utilities.service'
@@ -17,14 +17,14 @@ import {DataTableOptions} from '../../../../shared/model/DataTableOptions'
 import {ResponseModel} from '../../../../shared/model/Request.model'
 import {PermissionsService} from '../../../../shared/services/permissions.service'
 import {environment} from '../../../../../environments/environment'
-import { ParkingModel } from '../../models/Parking.model'
+import {ParkingModel} from '../../models/Parking.model'
 
 @Component({
   selector: 'app-monthly-parking',
   templateUrl: './monthly-parking.component.html',
   styleUrls: ['./monthly-parking.component.css']
 })
-export class MonthlyParkingComponent implements AfterViewInit, OnDestroy {
+export class MonthlyParkingComponent implements AfterViewInit, OnDestroy, OnInit {
   userSelected: MonthlyUserModel = new MonthlyUserModel()
   userSearched: Array<MonthlyUserModel> = []
   profiles: ProfilesModel[] = []
@@ -55,33 +55,24 @@ export class MonthlyParkingComponent implements AfterViewInit, OnDestroy {
     private authService: AuthService,
     private permissionService: PermissionsService
   ) {
-    this.message.showLoading()
     this.formGroup = formBuilder.group({filter: ['']})
     this.searchForm = this.createSearchForm()
-    this.getProfiles()
-      .then(() => {
-        return this.getMonthlySubscription()
-      }).then(() => {
-      return this.parkingService.getAllParking().then((parkings) => {
-        if (parkings.success) {
-          this.allParking = parkings.data.parkings
-        }
-      })
-    })
-      .finally(() => {
-        this.message.hideLoading()
-      })
+
+
   }
+
   get isSudo() {
     return this.authService.isSudo
   }
-createSearchForm(){
+
+  createSearchForm() {
     return this.formBuilder.group(
       {
         parkingId: [this.parkingId, [Validators.required]]
       }
     )
-}
+  }
+
   get completeNameSelected() {
     return `${this.userSelected.name} ${this.userSelected.last_name}`
   }
@@ -123,7 +114,6 @@ createSearchForm(){
   }
 
   getMonthlySubscription() {
-    this.message.showLoading()
     const parkingId = this.searchForm.getRawValue().parkingId
     return this.parkingService
       .getMonthlySubscription(parkingId)
@@ -134,7 +124,7 @@ createSearchForm(){
           this.message.error('', data.message)
         }
         return this.rerender()
-      }).finally(() => this.message.hideLoading())
+      })
   }
 
   ngAfterViewInit(): void {
@@ -208,5 +198,17 @@ createSearchForm(){
       })
     }
     return
+  }
+
+  ngOnInit(): void {
+    this.authService.user$.subscribe(({parkingId}) => {
+      this.parkingId = parkingId
+      this.searchForm.get('parkingId')?.setValue(parkingId)
+      this.getProfiles().then()
+      this.getMonthlySubscription().then()
+    })
+    this.parkingService.parkingLot$.subscribe((parkingLot) => {
+      this.allParking = parkingLot
+    })
   }
 }
