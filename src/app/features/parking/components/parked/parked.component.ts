@@ -21,7 +21,7 @@ export class ParkedComponent implements OnDestroy, AfterViewInit, OnInit {
   parkedData: Array<ParkedModel> = []
   statusParked = StatusParked
   dateOutToGetOut: Date = new Date()
-  parkingLots: Array<ParkingModel> = []
+  allParking: Array<ParkingModel> = []
   parked$ = new Subject<ParkedModel>()
   @ViewChild(DataTableDirective) dtElement!: DataTableDirective
   dtTrigger: Subject<any> = new Subject()
@@ -40,7 +40,6 @@ export class ParkedComponent implements OnDestroy, AfterViewInit, OnInit {
     private permissionService: PermissionsService,
     private reportService: ReportService,
   ) {
-    this.getInitialData().then()
   }
 
   get isSudo() {
@@ -52,10 +51,6 @@ export class ParkedComponent implements OnDestroy, AfterViewInit, OnInit {
   }
 
   async getInitialData() {
-    this.messageService.showLoading()
-    await this.parkingService.parkingLot$.subscribe((data) => {
-      this.parkingLots = data
-    })
     if (this.isSudo) {
       await this.parkedForm
         .get('parkingId')
@@ -65,9 +60,7 @@ export class ParkedComponent implements OnDestroy, AfterViewInit, OnInit {
     setInterval(() => {
       if (!this.dtTrigger.closed)
         this.refreshParkedData()
-    }, 10000)
-
-    this.messageService.hideLoading()
+    }, 60000)
   }
 
   async refreshParkedData() {
@@ -222,6 +215,13 @@ export class ParkedComponent implements OnDestroy, AfterViewInit, OnInit {
   }
 
   ngOnInit(): void {
+    this.authService.user$.subscribe(({parkingId}) => {
+      this.parkedForm.get('parkingId')?.setValue(parkingId)
+      this.getInitialData().then()
+    })
 
+    this.parkingService.parkingLot$.subscribe((parkingLot) => {
+      this.allParking = parkingLot
+    })
   }
 }
