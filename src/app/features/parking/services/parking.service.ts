@@ -1,4 +1,4 @@
-import {Injectable, OnInit} from '@angular/core'
+import {Injectable, OnDestroy} from '@angular/core'
 import {environment} from '../../../../environments/environment'
 import {HttpClient} from '@angular/common/http'
 import {MessageService} from '../../../shared/services/message.service'
@@ -24,7 +24,7 @@ import {ParkedModel, ParkingModel} from '../models/Parking.model'
 @Injectable({
   providedIn: 'root'
 })
-export class ParkingService implements OnInit {
+export class ParkingService implements OnDestroy {
   parkingStepOne: CreateParkingStepOneModel = new CreateParkingStepOneModel()
   parkingStepTwo: CreateParkingStepTwoModel = new CreateParkingStepTwoModel()
   parkingStepFour: CreateParkingStepFourModel = new CreateParkingStepFourModel()
@@ -476,7 +476,8 @@ export class ParkingService implements OnInit {
       .toPromise()
   }
 
-  ngOnInit(): void {
 
+  ngOnDestroy(): void {
+    this.parkingLotSubject$.unsubscribe()
   }
 }
