@@ -55,6 +55,7 @@ export class TransitDetailReportComponent implements OnInit {
 
     this.parkingService.parkingLot$.subscribe((parkingLot) => {
       this.allParking = parkingLot
+      this.allParking.push({ id: '0', name: '-- Todos los parqueos --' })
     })
   }
 

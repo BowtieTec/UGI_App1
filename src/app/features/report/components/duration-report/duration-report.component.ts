@@ -1,23 +1,23 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core'
-import {DataTableDirective} from 'angular-datatables'
-import {Subject} from 'rxjs'
-import {MessageService} from '../../../../shared/services/message.service'
-import {DataTableOptions} from '../../../../shared/model/DataTableOptions'
-import {ReportService} from '../service/report.service'
-import {UtilitiesService} from '../../../../shared/services/utilities.service'
-import {AuthService} from '../../../../shared/services/auth.service'
-import {PermissionsService} from '../../../../shared/services/permissions.service'
-import {environment} from 'src/environments/environment'
-import {jsPDF} from 'jspdf'
-import {DxDataGridComponent} from 'devextreme-angular'
-import {exportDataGrid as exportDataGridToPdf} from 'devextreme/pdf_exporter'
-import {Workbook} from 'exceljs'
-import {saveAs} from 'file-saver'
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core'
+import { DataTableDirective } from 'angular-datatables'
+import { Subject } from 'rxjs'
+import { MessageService } from '../../../../shared/services/message.service'
+import { DataTableOptions } from '../../../../shared/model/DataTableOptions'
+import { ReportService } from '../service/report.service'
+import { UtilitiesService } from '../../../../shared/services/utilities.service'
+import { AuthService } from '../../../../shared/services/auth.service'
+import { PermissionsService } from '../../../../shared/services/permissions.service'
+import { environment } from 'src/environments/environment'
+import { jsPDF } from 'jspdf'
+import { DxDataGridComponent } from 'devextreme-angular'
+import { exportDataGrid as exportDataGridToPdf } from 'devextreme/pdf_exporter'
+import { Workbook } from 'exceljs'
+import { saveAs } from 'file-saver'
 
-import {ParkingService} from '../../../parking/services/parking.service'
-import {ParkingModel} from '../../../parking/models/Parking.model'
+import { ParkingService } from '../../../parking/services/parking.service'
+import { ParkingModel } from '../../../parking/models/Parking.model'
 import * as logoFile from '../logoEbi'
-import {FormBuilder, FormGroup} from "@angular/forms";
+import { FormBuilder, FormGroup } from '@angular/forms'
 
 export interface duration {
   duration: number
@@ -34,7 +34,7 @@ export interface duration {
 })
 export class DurationReportComponent implements OnInit {
   //@ViewChild(DataTableDirective)
-  @ViewChild(DxDataGridComponent, {static: false})
+  @ViewChild(DxDataGridComponent, { static: false })
   dataGrid!: DxDataGridComponent
   dtElement!: DataTableDirective
   dtOptions: DataTables.Settings = {}
@@ -68,13 +68,14 @@ export class DurationReportComponent implements OnInit {
 
   ngOnInit(): void {
     this.dtOptions = DataTableOptions.getSpanishOptions(10)
-    this.authService.user$.subscribe(({parkingId}) => {
+    this.authService.user$.subscribe(({ parkingId }) => {
       this.reportForm.get('parkingId')?.setValue(parkingId)
       this.getReport()
     })
 
     this.parkingService.parkingLot$.subscribe((parkingLot) => {
       this.allParking = parkingLot
+      this.allParking.push({ id: '0', name: '-- Todos los parqueos --' })
     })
   }
 
@@ -83,8 +84,9 @@ export class DurationReportComponent implements OnInit {
   }
 
   getReport() {
-    const {startDate, endDate, parkingId} = this.reportForm.value
-    let _startDate = new Date(startDate).toISOString().split('T')[0] + 'T00:00:00'
+    const { startDate, endDate, parkingId } = this.reportForm.value
+    let _startDate =
+      new Date(startDate).toISOString().split('T')[0] + 'T00:00:00'
     let _endDate = new Date(endDate).toISOString().split('T')[0] + 'T23:59:59'
     if (endDate < startDate) {
       this.messageService.error(
@@ -116,8 +118,9 @@ export class DurationReportComponent implements OnInit {
       this.messageService.infoTimeOut('No hay información para exportar')
       return
     }
-    const {startDate, endDate, parkingId} = this.reportForm.value
-    let _startDate = new Date(startDate).toISOString().split('T')[0] + 'T00:00:00'
+    const { startDate, endDate, parkingId } = this.reportForm.value
+    let _startDate =
+      new Date(startDate).toISOString().split('T')[0] + 'T00:00:00'
     let _endDate = new Date(endDate).toISOString().split('T')[0] + 'T23:59:59'
     const header = [
       '',
@@ -135,15 +138,15 @@ export class DurationReportComponent implements OnInit {
     worksheet.addRow([])
 
     const busienssRow = worksheet.addRow(['', '', '', 'ebiGO'])
-    busienssRow.font = {name: 'Calibri', family: 4, size: 11, bold: true}
-    busienssRow.alignment = {horizontal: 'center', vertical: 'middle'}
+    busienssRow.font = { name: 'Calibri', family: 4, size: 11, bold: true }
+    busienssRow.alignment = { horizontal: 'center', vertical: 'middle' }
     busienssRow.eachCell((cell, number) => {
       if (number > 1) {
         cell.border = {
-          top: {style: 'thin'},
-          left: {style: 'thin'},
-          bottom: {style: 'thin'},
-          right: {style: 'thin'}
+          top: { style: 'thin' },
+          left: { style: 'thin' },
+          bottom: { style: 'thin' },
+          right: { style: 'thin' }
         }
       }
     })
@@ -158,15 +161,15 @@ export class DurationReportComponent implements OnInit {
       }
     }
     const addressRow = worksheet.addRow(['', '', '', ParqueoReporte])
-    addressRow.font = {name: 'Calibri', family: 4, size: 11, bold: true}
-    addressRow.alignment = {horizontal: 'center', vertical: 'middle'}
+    addressRow.font = { name: 'Calibri', family: 4, size: 11, bold: true }
+    addressRow.alignment = { horizontal: 'center', vertical: 'middle' }
     addressRow.eachCell((cell, number) => {
       if (number > 1) {
         cell.border = {
-          top: {style: 'thin'},
-          left: {style: 'thin'},
-          bottom: {style: 'thin'},
-          right: {style: 'thin'}
+          top: { style: 'thin' },
+          left: { style: 'thin' },
+          bottom: { style: 'thin' },
+          right: { style: 'thin' }
         }
       }
     })
@@ -177,15 +180,15 @@ export class DurationReportComponent implements OnInit {
       '',
       'Reporte - Duración en parqueo'
     ])
-    titleRow.font = {name: 'Calibri', family: 4, size: 11, bold: true}
-    titleRow.alignment = {horizontal: 'center', vertical: 'middle'}
+    titleRow.font = { name: 'Calibri', family: 4, size: 11, bold: true }
+    titleRow.alignment = { horizontal: 'center', vertical: 'middle' }
     titleRow.eachCell((cell, number) => {
       if (number > 1) {
         cell.border = {
-          top: {style: 'thin'},
-          left: {style: 'thin'},
-          bottom: {style: 'thin'},
-          right: {style: 'thin'}
+          top: { style: 'thin' },
+          left: { style: 'thin' },
+          bottom: { style: 'thin' },
+          right: { style: 'thin' }
         }
       }
     })
@@ -199,15 +202,15 @@ export class DurationReportComponent implements OnInit {
     worksheet.addImage(logo, 'B3:C6')
     worksheet.addRow([])
     const infoRow = worksheet.addRow(['', 'Información General'])
-    infoRow.font = {name: 'Calibri', family: 4, size: 11, bold: true}
-    infoRow.alignment = {horizontal: 'center', vertical: 'middle'}
+    infoRow.font = { name: 'Calibri', family: 4, size: 11, bold: true }
+    infoRow.alignment = { horizontal: 'center', vertical: 'middle' }
     infoRow.eachCell((cell, number) => {
       if (number > 1) {
         cell.border = {
-          top: {style: 'thin'},
-          left: {style: 'thin'},
-          bottom: {style: 'thin'},
-          right: {style: 'thin'}
+          top: { style: 'thin' },
+          left: { style: 'thin' },
+          bottom: { style: 'thin' },
+          right: { style: 'thin' }
         }
       }
     })
@@ -218,15 +221,15 @@ export class DurationReportComponent implements OnInit {
       'Fecha Inicio: ' + new Date(startDate).toLocaleDateString(),
       '',
       '',
-      'Fecha Fin: ' + new Date(endDate).toLocaleDateString(),
+      'Fecha Fin: ' + new Date(endDate).toLocaleDateString()
     ])
     header1.eachCell((cell, number) => {
       if (number > 1) {
         cell.border = {
-          top: {style: 'thin'},
-          left: {style: 'thin'},
-          bottom: {style: 'thin'},
-          right: {style: 'thin'}
+          top: { style: 'thin' },
+          left: { style: 'thin' },
+          bottom: { style: 'thin' },
+          right: { style: 'thin' }
         }
       }
     })
@@ -238,17 +241,17 @@ export class DurationReportComponent implements OnInit {
       '',
       '',
       'Documento generado: ' +
-      new Date().toLocaleDateString('es-GT') +
-      '  ' +
-      new Date().toLocaleTimeString()
+        new Date().toLocaleDateString('es-GT') +
+        '  ' +
+        new Date().toLocaleTimeString()
     ])
     header2.eachCell((cell, number) => {
       if (number > 1) {
         cell.border = {
-          top: {style: 'thin'},
-          left: {style: 'thin'},
-          bottom: {style: 'thin'},
-          right: {style: 'thin'}
+          top: { style: 'thin' },
+          left: { style: 'thin' },
+          bottom: { style: 'thin' },
+          right: { style: 'thin' }
         }
       }
     })
@@ -263,14 +266,14 @@ export class DurationReportComponent implements OnInit {
         cell.fill = {
           type: 'pattern',
           pattern: 'solid',
-          fgColor: {argb: 'FFFFFF00'},
-          bgColor: {argb: 'FF0000FF'}
+          fgColor: { argb: 'FFFFFF00' },
+          bgColor: { argb: 'FF0000FF' }
         }
         cell.border = {
-          top: {style: 'thin'},
-          left: {style: 'thin'},
-          bottom: {style: 'thin'},
-          right: {style: 'thin'}
+          top: { style: 'thin' },
+          left: { style: 'thin' },
+          bottom: { style: 'thin' },
+          right: { style: 'thin' }
         }
       }
     })
@@ -288,10 +291,10 @@ export class DurationReportComponent implements OnInit {
       row.eachCell((cell, number) => {
         if (number > 1) {
           cell.border = {
-            top: {style: 'thin'},
-            left: {style: 'thin'},
-            bottom: {style: 'thin'},
-            right: {style: 'thin'}
+            top: { style: 'thin' },
+            left: { style: 'thin' },
+            bottom: { style: 'thin' },
+            right: { style: 'thin' }
           }
         }
       })
@@ -311,7 +314,10 @@ export class DurationReportComponent implements OnInit {
       const blob = new Blob([data], {
         type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
       })
-      saveAs(blob, `Report de Duración - Generado - ${this.now.toLocaleString()}.xlsx`)
+      saveAs(
+        blob,
+        `Report de Duración - Generado - ${this.now.toLocaleString()}.xlsx`
+      )
     })
     e.cancel = true
   }
@@ -336,7 +342,9 @@ export class DurationReportComponent implements OnInit {
 
   private createReportForm() {
     return this.formBuilder.group({
-      startDate: [new Date()], endDate: [new Date()], parkingId: ['0']
+      startDate: [new Date()],
+      endDate: [new Date()],
+      parkingId: ['0']
     })
   }
 
