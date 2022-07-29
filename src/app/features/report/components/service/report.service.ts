@@ -182,14 +182,17 @@ export class ReportService {
   }
 
   getParkingMonthlyRpt(
-    initDate: string,
-    endDate: string,
+    initDate: Date,
+    endDate: Date,
     parqueo: string,
-    telephone: string
+    telephone: string = ''
   ) {
+    let _initDate = new Date(initDate).toISOString().split('T')[0]
+    let _endDate = new Date(endDate).toISOString().split('T')[0]
+
     return this.http
       .get<ResponseModel>(
-        `${this.apiUrl}backoffice/report/parkingMonthlyRpt/dates?initDate=${initDate}&endDate=${endDate}&parqueo=${parqueo}&phoneNumber=${telephone}`
+        `${this.apiUrl}backoffice/report/parkingMonthlyRpt/dates?initDate=${_initDate}&endDate=${_endDate}&parqueo=${parqueo}&phoneNumber=${telephone}`
       )
       .pipe(
         map((res) => {
