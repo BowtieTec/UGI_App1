@@ -114,8 +114,6 @@ export class HistoryCourtesyComponent implements OnInit, AfterViewInit {
       return
     }
     const {startDate, endDate, parkingId} = this.reportForm.getRawValue()
-    let _startDate = new Date(startDate).toISOString().split('T')[0]
-    let _endDate = new Date(endDate).toISOString().split('T')[0]
     const header = [
       '',
       'Parqueo',
