@@ -90,8 +90,6 @@ export class BillingReportComponent implements OnInit {
   }
 
   getInitialData() {
-    this.reportForm.get('startDate')?.setValue(new Date())
-    this.reportForm.get('endDate')?.setValue(new Date())
     return this.getReport()?.then()
   }
 
