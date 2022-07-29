@@ -16,6 +16,7 @@ import {exportDataGrid as exportDataGridToPdf} from 'devextreme/pdf_exporter'
 import {Workbook} from 'exceljs'
 import * as logoFile from '../logoEbi'
 import {saveAs} from 'file-saver'
+import {FormBuilder, FormGroup} from "@angular/forms";
 
 
 export interface billingData {
@@ -43,10 +44,9 @@ export class BillingReportComponent implements OnInit {
   dtOptions: DataTables.Settings = {}
   dtTrigger: Subject<any> = new Subject()
   pdfTable!: ElementRef
-
+  now: Date = new Date()
   report: billingData[] = []
   dataSource: any
-  parqueo: any
 
   allParking: ParkingModel[] = Array<ParkingModel>()
   verTodosLosParqueosReport = environment.verTodosLosParqueosReport
@@ -54,10 +54,8 @@ export class BillingReportComponent implements OnInit {
   fechaActual = new Date().toISOString().split('T')[0]
 
   nowDateTime = new Date()
-  datosUsuarioLogeado = this.auth.getParking()
-  parqueoDetalle = '0'
-  startDateReport: any
-  endDateReport: any
+  parkingId: string = ''
+  reportForm: FormGroup
 
   constructor(
     private auth: AuthService,
@@ -65,55 +63,65 @@ export class BillingReportComponent implements OnInit {
     private messageService: MessageService,
     private utilitiesService: UtilitiesService,
     private authService: AuthService,
-    private permisionService: PermissionsService,
+    private permissionService: PermissionsService,
     private excelService: ReportService,
-    private parkingService: ParkingService
+    private parkingService: ParkingService,
+    private formBuilder: FormBuilder
   ) {
+    this.reportForm = this.createReportForm()
+  }
+
+  get isSudo() {
+    return this.authService.isSudo
   }
 
   ngOnInit(): void {
     this.messageService.showLoading()
     this.dtOptions = DataTableOptions.getSpanishOptions(10)
-    this.parkingService
-      .getAllParking()
-      .then((data) => {
-        if (data.success) {
-          this.allParking = data.data.parkings
-        }
-      }).then(() => {
-      this.getBillingRpt(this.fechaActual, this.fechaActual)
-    }).finally(() => {
-      this.messageService.hideLoading()
+
+    this.parkingService.parkingLot$.subscribe((parkingLot) => {
+      this.allParking = parkingLot
+    })
+    this.authService.user$.subscribe(({parkingId}) => {
+      this.parkingId = parkingId
+      this.reportForm.get('parkingId')?.setValue(parkingId)
+      this.getInitialData()?.then()
     })
   }
 
-  ifHaveAction(action: string) {
-    return this.permisionService.ifHaveAction(action)
+  getInitialData() {
+    this.reportForm.get('startDate')?.setValue(new Date())
+    this.reportForm.get('endDate')?.setValue(new Date())
+    return this.getReport()?.then()
   }
 
-  getBillingRpt(initDate: string, endDate: string) {
-    if (endDate < initDate) {
+  ifHaveAction(action: string) {
+    return this.permissionService.ifHaveAction(action)
+  }
+
+  getReport() {
+    const {
+      startDate,
+      endDate,
+      parkingId
+    }: { startDate: Date, endDate: Date, parkingId: string } = this.reportForm.getRawValue()
+    let _startDate = startDate + ' 00:00:00'
+    let _endDate = endDate + ' 23:59:59'
+    if (endDate < startDate) {
       this.messageService.error(
         '',
         'La fecha de inicio debe ser mayor a la fecha fin'
       )
       return
     }
-    this.startDateReport = new Date(initDate + 'T00:00:00').toLocaleDateString('es-GT')
-    this.endDateReport = new Date(endDate + 'T00:00:00').toLocaleDateString('es-GT')
-
-    this.parqueo = this.datosUsuarioLogeado.id
     if (this.ifHaveAction('verTodosLosParqueosReport')) {
-      this.parqueo = this.inputParking.nativeElement.value
     }
-    this.parqueoDetalle = this.parqueo
     return this.reportService
-      .getBillingRpt(initDate, endDate, this.parqueo)
+      .getBillingRpt(_startDate, _endDate, parkingId)
       .toPromise()
       .then((data) => {
         if (data.success) {
           this.report = data.data
-          // this.dataSource = data.data.filter((data:billingData) => data.fiscal_uuid !== null)
           this.dataSource = data.data
           this.rerender()
         } else {
@@ -125,44 +133,12 @@ export class BillingReportComponent implements OnInit {
       })
   }
 
-  ngAfterViewInit() {
-    this.dtTrigger.next()
-    this.parqueo = this.datosUsuarioLogeado.id
-    if (this.ifHaveAction('verTodosLosParqueosReport')) {
-      this.parqueo = '0'
-    }
-    this.parqueoDetalle = this.parqueo
-  }
-
-  exportGrid() {
-    if (this.report.length == 0) {
-      this.messageService.infoTimeOut('No hay información para exportar')
-      return
-    }
-    const doc = new jsPDF()
-    exportDataGridToPdf({
-      jsPDFDocument: doc,
-      component: this.dataGrid.instance
-    }).then(() => {
-      doc.save('ReporteFacturación.pdf')
-    })
-  }
-
-  private rerender() {
-    if (this.dtElement != undefined) {
-      this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
-        dtInstance.destroy()
-        this.dtTrigger.next()
-      })
-    }
-  }
-
   onExporting(e: any) {
     if (this.report.length == 0) {
       this.messageService.infoTimeOut('No hay información para exportar')
       return
     }
-
+    const {startDate, endDate, parkingId} = this.reportForm.getRawValue()
     const header = [
       '',
       'Fecha emisión factura',
@@ -195,9 +171,9 @@ export class BillingReportComponent implements OnInit {
     })
     worksheet.mergeCells('D2:G3')
     let ParqueoReporte = 'Todos los parqueos'
-    if (this.parqueo != '0') {
+    if (this.parkingId != '0') {
       const parqueoEncontrado = this.allParking.find(
-        (parqueos) => parqueos.id == this.parqueo
+        (parqueos) => parqueos.id == parkingId
       )
       if (parqueoEncontrado) {
         ParqueoReporte = parqueoEncontrado.name
@@ -256,12 +232,11 @@ export class BillingReportComponent implements OnInit {
     worksheet.addRow([])
     const header1 = worksheet.addRow([
       '',
-      'Fecha Inicio: ' + this.startDateReport,
+      'Fecha Inicio: ' + new Date(startDate).toLocaleDateString(),
       '',
       '',
-      '',
-      '',
-      'Fecha Fin: ' + this.endDateReport
+
+      'Fecha Fin: ' + new Date(endDate).toLocaleDateString(),
     ])
     header1.eachCell((cell, number) => {
       if (number > 1) {
@@ -281,7 +256,7 @@ export class BillingReportComponent implements OnInit {
       '',
       '',
       'Documento generado: ' +
-      new Date().toLocaleDateString('es-GT') +
+      new Date().toLocaleDateString() +
       '  ' +
       new Date().toLocaleTimeString()
     ])
@@ -322,7 +297,7 @@ export class BillingReportComponent implements OnInit {
 
       const row = worksheet.addRow([
         '',
-        d.dateBilling ? new Date(d.dateBilling).toLocaleDateString('es-GT')  : ' ',
+        d.dateBilling ? new Date(d.dateBilling).toLocaleDateString('es-GT') : ' ',
         d.phone_key,
         d.nit,
         d.total,
@@ -367,6 +342,39 @@ export class BillingReportComponent implements OnInit {
       saveAs(blob, `Reporte de Facturación - Generado - ${this.nowDateTime.toLocaleString()}.xlsx`)
     })
     e.cancel = true
+  }
+
+  ngAfterViewInit() {
+    this.dtTrigger.next()
+  }
+
+  exportGrid() {
+    if (this.report.length == 0) {
+      this.messageService.infoTimeOut('No hay información para exportar')
+      return
+    }
+    const doc = new jsPDF()
+    exportDataGridToPdf({
+      jsPDFDocument: doc,
+      component: this.dataGrid.instance
+    }).then(() => {
+      doc.save('ReporteFacturación.pdf')
+    })
+  }
+
+  private rerender() {
+    if (this.dtElement != undefined) {
+      this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+        dtInstance.destroy()
+        this.dtTrigger.next()
+      })
+    }
+  }
+
+  private createReportForm() {
+    return this.formBuilder.group({
+      startDate: [new Date()], endDate: [new Date()], parkingId: ['0']
+    })
   }
 }
 
