@@ -26,10 +26,9 @@ export class TransitDetailReportComponent implements OnInit {
   pdfTable!: ElementRef
   reportForm: FormGroup
   formGroup: FormGroup
-  allParking: ParkingModel[]
+  allParking: ParkingModel[] = []
   dataSource: any
   now: Date = new Date()
-  parkingId: string = ''
 
   constructor(
     private formBuilder: FormBuilder,
@@ -41,7 +40,6 @@ export class TransitDetailReportComponent implements OnInit {
   ) {
     this.formGroup = formBuilder.group({ filter: [''] })
     this.reportForm = this.createReportForm()
-    this.allParking = [...this.parkingService.getAllParkingLot()]
   }
 
   get isSudo() {
@@ -50,19 +48,26 @@ export class TransitDetailReportComponent implements OnInit {
 
   ngOnInit(): void {
     this.getReport()
-    this.allParking.push({ id: '0', name: '-- Todos los parqueos --' })
-    if (this.isSudo) {
-      this.reportForm.get('parkingId')?.setValue('0')
-    } else {
-      this.reportForm
-        .get('parkingId')
-        ?.setValue(this.authService.getParking().id)
-    }
+    this.authService.user$.subscribe(({ parkingId }) => {
+      this.reportForm.get('parkingId')?.setValue(parkingId)
+      this.getReport()
+    })
+
+    this.parkingService.parkingLot$.subscribe((parkingLot) => {
+      this.allParking = parkingLot
+    })
   }
 
   getReport() {
     this.messageService.showLoading()
     const { startDate, endDate, parkingId } = this.reportForm.getRawValue()
+    if (endDate < startDate) {
+      this.messageService.error(
+        '',
+        'La fecha de fin debe ser mayor a la fecha de inicio'
+      )
+      return
+    }
     this.reportService
       .getTransitDetailRpt(startDate, endDate, parkingId)
       .toPromise()
@@ -123,7 +128,7 @@ export class TransitDetailReportComponent implements OnInit {
     let ParqueoReporte = 'Todos los parqueos'
     if (parkingId != '0') {
       const parqueoEncontrado = this.allParking.find(
-        (parqueos) => parqueos.id == this.parkingId
+        (parqueos) => parqueos.id == parkingId
       )
       if (parqueoEncontrado) {
         ParqueoReporte = parqueoEncontrado.name
