@@ -23,7 +23,7 @@ export class ReportService {
     initDate: string,
     endDate: string,
     parqueo: string,
-    telephone: string
+    telephone: string = ''
   ) {
     return this.http
       .get<ResponseModel>(
