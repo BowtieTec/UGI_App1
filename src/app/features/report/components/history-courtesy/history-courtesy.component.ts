@@ -1,21 +1,22 @@
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core'
-import { DxDataGridComponent } from 'devextreme-angular'
-import { DataTableDirective } from 'angular-datatables'
-import { Subject } from 'rxjs'
-import { ParkingModel } from '../../../parking/models/Parking.model'
-import { environment } from '../../../../../environments/environment'
-import { AuthService } from '../../../../shared/services/auth.service'
-import { ReportService } from '../service/report.service'
-import { MessageService } from '../../../../shared/services/message.service'
-import { UtilitiesService } from '../../../../shared/services/utilities.service'
-import { PermissionsService } from '../../../../shared/services/permissions.service'
-import { ParkingService } from '../../../parking/services/parking.service'
-import { DataTableOptions } from '../../../../shared/model/DataTableOptions'
-import { jsPDF } from 'jspdf'
-import { exportDataGrid as exportDataGridToPdf } from 'devextreme/pdf_exporter'
-import { Workbook } from 'exceljs'
+import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core'
+import {DxDataGridComponent} from 'devextreme-angular'
+import {DataTableDirective} from 'angular-datatables'
+import {Subject} from 'rxjs'
+import {ParkingModel} from '../../../parking/models/Parking.model'
+import {environment} from '../../../../../environments/environment'
+import {AuthService} from '../../../../shared/services/auth.service'
+import {ReportService} from '../service/report.service'
+import {MessageService} from '../../../../shared/services/message.service'
+import {UtilitiesService} from '../../../../shared/services/utilities.service'
+import {PermissionsService} from '../../../../shared/services/permissions.service'
+import {ParkingService} from '../../../parking/services/parking.service'
+import {DataTableOptions} from '../../../../shared/model/DataTableOptions'
+import {jsPDF} from 'jspdf'
+import {exportDataGrid as exportDataGridToPdf} from 'devextreme/pdf_exporter'
+import {Workbook} from 'exceljs'
 import * as logoFile from '../logoEbi'
-import { saveAs } from 'file-saver'
+import {saveAs} from 'file-saver'
+import {FormBuilder, FormGroup} from "@angular/forms";
 
 export interface historyOfCourtesy {
   completeName: string
@@ -38,20 +39,12 @@ export class HistoryCourtesyComponent implements OnInit, AfterViewInit {
   dtOptions: DataTables.Settings = {}
   dtTrigger: Subject<any> = new Subject()
   pdfTable!: ElementRef
-
+  reportForm: FormGroup
   report: historyOfCourtesy[] = []
   dataSource: any
-  parqueo: any
-  nowDateTime = new Date()
+  now = new Date()
   allParking: ParkingModel[] = Array<ParkingModel>()
   verTodosLosParqueosReport = environment.verTodosLosParqueosReport
-  @ViewChild('inputParking') inputParking!: ElementRef
-  fechaActual = new Date().toISOString().split('T')[0]
-
-  datosUsuarioLogeado = this.auth.getParking()
-
-  startDateReport: any
-  endDateReport: any
 
   constructor(
     private auth: AuthService,
@@ -59,51 +52,43 @@ export class HistoryCourtesyComponent implements OnInit, AfterViewInit {
     private messageService: MessageService,
     private utilitiesService: UtilitiesService,
     private authService: AuthService,
-    private permisionService: PermissionsService,
+    private permissionService: PermissionsService,
     private excelService: ReportService,
-    private parkingService: ParkingService
+    private parkingService: ParkingService,
+    private formBuilder: FormBuilder
   ) {
+    this.reportForm = this.createReportForm()
   }
 
   ngOnInit(): void {
-    this.messageService.showLoading()
     this.dtOptions = DataTableOptions.getSpanishOptions(10)
-    this.parkingService.getAllParking().then((data) => {
-      if (data.success) {
-        this.allParking = data.data.parkings
-      }
-    }).then(() => {
-      this.getHistoryOfCourtesyRpt(this.fechaActual, this.fechaActual)
-    }).finally(() => {
-        this.messageService.hideLoading()
-      })
+    this.authService.user$.subscribe(({parkingId}) => {
+      this.reportForm.get('parkingId')?.setValue(parkingId)
+      this.getReport()
+    })
+
+    this.parkingService.parkingLot$.subscribe((parkingLot) => {
+      this.allParking = parkingLot
+    })
   }
 
   ifHaveAction(action: string) {
-    return this.permisionService.ifHaveAction(action)
+    return this.permissionService.ifHaveAction(action)
   }
 
-  get isSudo() {
-    return this.authService.isSudo
-  }
-
-  getHistoryOfCourtesyRpt(initDate: string, endDate: string) {
-    if (endDate < initDate) {
+  getReport() {
+    const {startDate, endDate, parkingId} = this.reportForm.getRawValue()
+    let _startDate = new Date(startDate).toISOString().split('T')[0]
+    let _endDate = new Date(endDate).toISOString().split('T')[0]
+    if (endDate < startDate) {
       this.messageService.error(
         '',
         'La fecha de inicio debe ser mayor a la fecha fin'
       )
       return
     }
-
-    this.startDateReport = new Date(initDate + 'T00:00:00').toLocaleDateString('es-GT')
-    this.endDateReport = new Date(endDate + 'T00:00:00').toLocaleDateString('es-GT')
-    this.parqueo = this.datosUsuarioLogeado.id
-    if (this.ifHaveAction('verTodosLosParqueosReport')) {
-      this.parqueo = this.inputParking.nativeElement.value
-    }
     return this.reportService
-      .getHistoryOfCourtesyRpt(initDate, endDate, this.parqueo)
+      .getHistoryOfCourtesyRpt(_startDate, _endDate, parkingId)
       .toPromise()
       .then((data) => {
         if (data.success) {
@@ -119,26 +104,8 @@ export class HistoryCourtesyComponent implements OnInit, AfterViewInit {
       })
   }
 
-  ngAfterViewInit() {
-    this.dtTrigger.next()
-    this.parqueo = this.datosUsuarioLogeado.id
-    if (this.ifHaveAction('verTodosLosParqueosReport')) {
-      this.parqueo = '0'
-    }
-  }
-
-  exportGrid() {
-    if (this.report.length == 0) {
-      this.messageService.infoTimeOut('No hay información para exportar')
-      return
-    }
-    const doc = new jsPDF()
-    exportDataGridToPdf({
-      jsPDFDocument: doc,
-      component: this.dataGrid.instance
-    }).then(() => {
-      doc.save('HistoryOfCourtesies.pdf')
-    })
+  get isSudo() {
+    return this.authService.isSudo
   }
 
   onExporting(e: any) {
@@ -146,7 +113,9 @@ export class HistoryCourtesyComponent implements OnInit, AfterViewInit {
       this.messageService.infoTimeOut('No hay información para exportar')
       return
     }
-
+    const {startDate, endDate, parkingId} = this.reportForm.getRawValue()
+    let _startDate = new Date(startDate).toISOString().split('T')[0]
+    let _endDate = new Date(endDate).toISOString().split('T')[0]
     const header = [
       '',
       'Parqueo',
@@ -187,9 +156,9 @@ export class HistoryCourtesyComponent implements OnInit, AfterViewInit {
     })
     worksheet.mergeCells('D2:Q3')
     let ParqueoReporte = 'Todos los parqueos'
-    if (this.parqueo != '0') {
+    if (parkingId != '0') {
       const parqueoEncontrado = this.allParking.find(
-        (parqueos) => parqueos.id == this.parqueo
+        (parqueos) => parqueos.id == parkingId
       )
       if (parqueoEncontrado) {
         ParqueoReporte = parqueoEncontrado.name
@@ -248,14 +217,14 @@ export class HistoryCourtesyComponent implements OnInit, AfterViewInit {
     worksheet.addRow([])
     const header1 = worksheet.addRow([
       '',
-      'Fecha Inicio: ' + this.startDateReport,
+      'Fecha Inicio: ' + new Date(startDate).toLocaleDateString(),
       '',
       '',
       '',
       '',
       '',
       '',
-      'Fecha Fin: ' + this.endDateReport
+      'Fecha Fin: ' + new Date(endDate).toLocaleDateString(),
     ])
     header1.eachCell((cell, number) => {
       if (number > 1) {
@@ -374,9 +343,33 @@ export class HistoryCourtesyComponent implements OnInit, AfterViewInit {
       const blob = new Blob([data], {
         type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
       })
-      saveAs(blob, `Reporte Historial De Cortesias - Generado - ${this.nowDateTime.toLocaleString()}.xlsx`)
+      saveAs(blob, `Reporte Historial De Cortesias - Generado - ${this.now.toLocaleString()}.xlsx`)
     })
     e.cancel = true
+  }
+
+  ngAfterViewInit() {
+    this.dtTrigger.next()
+  }
+
+  exportGrid() {
+    if (this.report.length == 0) {
+      this.messageService.infoTimeOut('No hay información para exportar')
+      return
+    }
+    const doc = new jsPDF()
+    exportDataGridToPdf({
+      jsPDFDocument: doc,
+      component: this.dataGrid.instance
+    }).then(() => {
+      doc.save('HistoryOfCourtesies.pdf')
+    })
+  }
+
+  private createReportForm() {
+    return this.formBuilder.group({
+      startDate: [new Date()], endDate: [new Date()], parkingId: ['0']
+    })
   }
 
   private rerender() {
