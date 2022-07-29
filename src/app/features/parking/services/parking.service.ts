@@ -1,8 +1,8 @@
-import {Injectable, OnDestroy} from '@angular/core'
-import {environment} from '../../../../environments/environment'
-import {HttpClient} from '@angular/common/http'
-import {MessageService} from '../../../shared/services/message.service'
-import {ResponseModel} from '../../../shared/model/Request.model'
+import { Injectable, OnDestroy } from '@angular/core'
+import { environment } from '../../../../environments/environment'
+import { HttpClient } from '@angular/common/http'
+import { MessageService } from '../../../shared/services/message.service'
+import { ResponseModel } from '../../../shared/model/Request.model'
 import {
   AccessModel,
   CreateParkingFileModel,
@@ -11,15 +11,24 @@ import {
   CreateParkingStepOneModel,
   CreateParkingStepTwoModel
 } from '../models/CreateParking.model'
-import {Router} from '@angular/router'
-import {map} from 'rxjs/operators'
-import {CurrencyOptionModel, Day, PaymentMethodModel, SettingsOptionsModel} from '../models/SettingsOption.model'
-import {BehaviorSubject, Observable, Subscribable} from 'rxjs'
-import {CountriesModel} from '../models/Countries.model'
-import {CreateTariffModel} from '../models/Tariff.model'
-import {CreateProfilesModel} from '../models/MontlyParking.model'
-import {CreateStation, CreateStationaryCourtesy, StationsCourtesyModel} from '../models/StationaryCourtesy.model'
-import {ParkedModel, ParkingModel} from '../models/Parking.model'
+import { Router } from '@angular/router'
+import { map } from 'rxjs/operators'
+import {
+  CurrencyOptionModel,
+  Day,
+  PaymentMethodModel,
+  SettingsOptionsModel
+} from '../models/SettingsOption.model'
+import { BehaviorSubject, Observable, Subscribable } from 'rxjs'
+import { CountriesModel } from '../models/Countries.model'
+import { CreateTariffModel } from '../models/Tariff.model'
+import { CreateProfilesModel } from '../models/MontlyParking.model'
+import {
+  CreateStation,
+  CreateStationaryCourtesy,
+  StationsCourtesyModel
+} from '../models/StationaryCourtesy.model'
+import { ParkedModel, ParkingModel } from '../models/Parking.model'
 
 @Injectable({
   providedIn: 'root'
@@ -35,31 +44,27 @@ export class ParkingService implements OnDestroy {
   countries: CountriesModel[] = new Array<CountriesModel>()
   allParkingLot: ParkingModel[] = []
   private apiUrl = environment.serverAPI
-  private parkingLotSubject$: BehaviorSubject<ParkingModel[]> = new BehaviorSubject<ParkingModel[]>([])
-  public parkingLot$: Observable<ParkingModel[]> = this.parkingLotSubject$.asObservable()
+  private parkingLotSubject$: BehaviorSubject<ParkingModel[]> =
+    new BehaviorSubject<ParkingModel[]>([])
+  public parkingLot$: Observable<ParkingModel[]> =
+    this.parkingLotSubject$.asObservable()
 
   constructor(
     private http: HttpClient,
     private message: MessageService,
-    private route: Router,
+    private route: Router
   ) {
-    this.getCountries()
-      .toPromise()
-      .then((data) => {
-        this.countries = data.data
+    Promise.all([
+      this.getCountries()
+        .toPromise()
+        .then((data) => {
+          this.countries = data.data
+        }),
+      this.getSettingsOptions().toPromise().then(),
+      this.getAllParking().then((data) => {
+        this.parkingLotSubject$.next(data.data.parkings)
       })
-      .then(() => {
-        this.getSettingsOptions()
-          .toPromise()
-          .then((data) => {
-            this.settingsOptions = data
-          })
-      }).then(() => {
-
-    })
-    this.getAllParking().then(data => {
-      this.parkingLotSubject$.next(data.data.parkings)
-    })
+    ]).then()
   }
 
   getCountries() {
@@ -72,7 +77,8 @@ export class ParkingService implements OnDestroy {
       .pipe(
         map((data) => {
           if (!data.success) throw data.message
-          return {...data.data}
+          this.settingsOptions = data.data
+          return { ...data.data }
         })
       )
   }
@@ -86,10 +92,10 @@ export class ParkingService implements OnDestroy {
 
   getAccesses(): Array<AccessModel> {
     return [
-      {id: 0, name: 'Entrada primaria'},
-      {id: 1, name: 'Salida primaria'},
-      {id: 2, name: 'Entrada secundaria'},
-      {id: 3, name: 'Salida secundaria'}
+      { id: 0, name: 'Entrada primaria' },
+      { id: 1, name: 'Salida primaria' },
+      { id: 2, name: 'Entrada secundaria' },
+      { id: 3, name: 'Salida secundaria' }
     ]
   }
 
@@ -106,7 +112,7 @@ export class ParkingService implements OnDestroy {
       )
   }
 
-//TODO: Eliminar este método
+  //TODO: Eliminar este método
   getAllParkingLot(): ParkingModel[] {
     return this.allParkingLot
   }
@@ -203,7 +209,7 @@ export class ParkingService implements OnDestroy {
   getQR(stationID: string): Observable<Blob> {
     return this.http.get(
       `${this.apiUrl}backoffice/parking/station/${stationID}/downloadqr`,
-      {responseType: 'blob'}
+      { responseType: 'blob' }
     )
   }
 
@@ -308,7 +314,7 @@ export class ParkingService implements OnDestroy {
       .toPromise()
   }
 
-//TODO: Hacer privado este metodo
+  //TODO: Hacer privado este metodo
   getAllParking() {
     return this.http
       .get<ResponseModel>(`${this.apiUrl}backoffice/parking/enables`)
@@ -349,7 +355,11 @@ export class ParkingService implements OnDestroy {
       )
   }
 
-  getOutParked(parkedId: string, payment_method: number, dateOutToGetOut: Date) {
+  getOutParked(
+    parkedId: string,
+    payment_method: number,
+    dateOutToGetOut: Date
+  ) {
     return this.http
       .post<ResponseModel>(`${this.apiUrl}backoffice/parking/getOut`, {
         parkedId,
@@ -391,21 +401,17 @@ export class ParkingService implements OnDestroy {
   }
 
   createStationWithCourtesy(newStation: CreateStation) {
-    return this.http
-      .post<ResponseModel>(
-        `${this.apiUrl}backoffice/station_cortesy/station`,
-        newStation
-      )
-
+    return this.http.post<ResponseModel>(
+      `${this.apiUrl}backoffice/station_cortesy/station`,
+      newStation
+    )
   }
 
   editStationWithCourtesy(editStation: CreateStation) {
-    return this.http
-      .put<ResponseModel>(
-        `${this.apiUrl}backoffice/station_cortesy/station/${editStation.id}`,
-        editStation
-      )
-
+    return this.http.put<ResponseModel>(
+      `${this.apiUrl}backoffice/station_cortesy/station/${editStation.id}`,
+      editStation
+    )
   }
 
   deleteAntennaWithCourtesy(id: string) {
@@ -425,12 +431,10 @@ export class ParkingService implements OnDestroy {
   }
 
   editStationaryCourtesy(editStationCourtesy: CreateStationaryCourtesy) {
-    return this.http
-      .put<ResponseModel>(
-        `${this.apiUrl}backoffice/station_cortesy/courtesy/${editStationCourtesy.id}`,
-        editStationCourtesy
-      )
-
+    return this.http.put<ResponseModel>(
+      `${this.apiUrl}backoffice/station_cortesy/courtesy/${editStationCourtesy.id}`,
+      editStationCourtesy
+    )
   }
 
   getParkingInfo(parkingId: string) {
@@ -461,11 +465,10 @@ export class ParkingService implements OnDestroy {
     return this.http
       .put<ResponseModel>(
         `${this.apiUrl}backoffice/tariff/rule/active/${parkingId}`,
-        {isActive: newStatus}
+        { isActive: newStatus }
       )
       .toPromise()
   }
-
 
   ngOnDestroy(): void {
     this.parkingLotSubject$.unsubscribe()
