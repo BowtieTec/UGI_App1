@@ -79,9 +79,11 @@ export class ReportService {
     )
   }
 
-  getTicketsRpt(initDate: string, endDate: string, parqueo: string) {
+  getTicketsRpt(initDate: Date, endDate: Date, parqueo: string) {
+    let _initDate = new Date(initDate).toISOString().split('T')[0]
+    let _endDate = new Date(endDate).toISOString().split('T')[0]
     return this.http.get<ResponseModel>(
-      `${this.apiUrl}backoffice/report/ticketRpt/dates?initDate=${initDate}&endDate=${endDate}&parqueo=${parqueo}`
+      `${this.apiUrl}backoffice/report/ticketRpt/dates?initDate=${_initDate}&endDate=${_endDate}&parqueo=${parqueo}`
     )
   }
 
