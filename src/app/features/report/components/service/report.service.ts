@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core'
-import { MessageService } from 'src/app/shared/services/message.service'
 import { environment } from '../../../../../environments/environment'
 import { HttpClient } from '@angular/common/http'
 import { ResponseModel } from 'src/app/shared/model/Request.model'
@@ -18,12 +17,7 @@ export class ReportService {
   payDate: payFilter[] = new Array<payFilter>()
   private apiUrl = environment.serverAPI
 
-  constructor(
-    private http: HttpClient,
-    private messageService: MessageService
-  ) {
-    //this.getInitialData();
-  }
+  constructor(private http: HttpClient) {}
 
   getPaymentsRpt(
     initDate: string,
