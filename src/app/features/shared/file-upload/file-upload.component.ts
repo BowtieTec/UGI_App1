@@ -50,17 +50,6 @@ export class FileUploadComponent implements OnInit {
     }
   }
 
-  getParkingLot() {
-    return this.parkingService.getAllParking().then((x) => {
-      if (x.success) {
-        this.allParking = x.data.parkings
-      } else {
-        this.message.error(x.message)
-        return
-      }
-    })
-  }
-
   controlInvalid(control: string): boolean {
     return this.utilitiesService.controlInvalid(this.stepFourForm, control)
   }

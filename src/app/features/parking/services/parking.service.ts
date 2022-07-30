@@ -112,11 +112,6 @@ export class ParkingService implements OnDestroy {
       )
   }
 
-  //TODO: Eliminar este método
-  getAllParkingLot(): ParkingModel[] {
-    return this.allParkingLot
-  }
-
   setStepTwo(): Observable<ResponseModel> {
     return this.http
       .post<ResponseModel>(
@@ -314,13 +309,6 @@ export class ParkingService implements OnDestroy {
       .toPromise()
   }
 
-  //TODO: Hacer privado este metodo
-  getAllParking() {
-    return this.http
-      .get<ResponseModel>(`${this.apiUrl}backoffice/parking/enables`)
-      .toPromise()
-  }
-
   getParked(
     parkedFormValues: { parkingId: string; status: string },
     page = 1,
@@ -472,5 +460,11 @@ export class ParkingService implements OnDestroy {
 
   ngOnDestroy(): void {
     this.parkingLotSubject$.unsubscribe()
+  }
+
+  private getAllParking() {
+    return this.http
+      .get<ResponseModel>(`${this.apiUrl}backoffice/parking/enables`)
+      .toPromise()
   }
 }
