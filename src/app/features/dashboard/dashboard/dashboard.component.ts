@@ -149,12 +149,10 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit(): void {
     this.messageService.showLoading()
-    this.parkingService.getAllParking().then((data) => {
-      if (data.success) {
-        this.allParking = data.data.parkings
-      }
+    this.parkingService.parkingLot$.subscribe((parkingLot) => {
+      this.allParking= parkingLot
     })
-    this.auth.user$.subscribe(({ user }) => {
+    /*this.auth.user$.subscribe(({ user }) => {
       console.log('asdfasdf')
       this.datosUsuarioLogeado = user.parking
       if (this.idTabActiva == 'Ingresos') {
@@ -176,6 +174,7 @@ export class DashboardComponent implements OnInit {
       }
       this.messageService.hideLoading()
     })
+     */
   }
 
   ifHaveAction(action: string) {
