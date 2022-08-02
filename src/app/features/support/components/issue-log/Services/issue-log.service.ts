@@ -29,8 +29,8 @@ export class IssueLogService {
           name: item.full_name ?? '',
           userDevice: item.model ?? '',
           context: item.context ?? '',
-          created_at: new Date(item.l_created_at).toLocaleDateString('es-GT') + ' '+new Date(item.l_created_at).toLocaleTimeString('es-GT') ?? ''
-
+          created_at: new Date(item.l_created_at).toLocaleDateString('es-GT') + ' '+new Date(item.l_created_at).toLocaleTimeString('es-GT') ?? '',
+          phone_number: item.phone_number ?? ''
         }
       })
     }))

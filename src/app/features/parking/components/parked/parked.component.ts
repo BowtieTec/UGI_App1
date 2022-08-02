@@ -1,5 +1,5 @@
-import {AfterViewInit, Component, OnDestroy, ViewChild} from '@angular/core'
-import {UntypedFormBuilder, UntypedFormGroup, Validators} from '@angular/forms'
+import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/core'
+import {FormBuilder, FormGroup, Validators} from '@angular/forms'
 import {ParkingService} from '../../services/parking.service'
 import {ParkedModel, ParkingModel, StatusParked} from '../../models/Parking.model'
 import {AuthService} from '../../../../shared/services/auth.service'
@@ -16,30 +16,30 @@ import {ReportService} from "../../../report/components/service/report.service";
   templateUrl: './parked.component.html',
   styleUrls: ['./parked.component.css']
 })
-export class ParkedComponent implements OnDestroy, AfterViewInit {
-  parkedForm: UntypedFormGroup = this.createForm()
-  parkingData: ParkingModel[] = []
+export class ParkedComponent implements OnDestroy, AfterViewInit, OnInit {
+  parkedForm: FormGroup = this.createForm()
   parkedData: Array<ParkedModel> = []
   statusParked = StatusParked
   dateOutToGetOut: Date = new Date()
-
+  allParking: Array<ParkingModel> = []
+  parked$ = new Subject<ParkedModel>()
   @ViewChild(DataTableDirective) dtElement!: DataTableDirective
   dtTrigger: Subject<any> = new Subject()
-  formGroup: UntypedFormGroup = this.formBuilder.group({filter: ['']})
+  formGroup: FormGroup = this.formBuilder.group({filter: ['']})
 
   getOutWithPayment = environment.getOutWithPaymentDoneParkedParking
   getOutWithoutPayment = environment.getOutWithoutPaymentDoneParkedParking
+  assignCourtesyPermission = environment.assignCourtesyPermission
   private actions: string[] = this.permissionService.actionsOfPermissions
 
   constructor(
-    private formBuilder: UntypedFormBuilder,
+    private formBuilder: FormBuilder,
     private parkingService: ParkingService,
     private authService: AuthService,
     private messageService: MessageService,
     private permissionService: PermissionsService,
     private reportService: ReportService,
   ) {
-    this.getInitialData().catch()
   }
 
   get isSudo() {
@@ -51,21 +51,16 @@ export class ParkedComponent implements OnDestroy, AfterViewInit {
   }
 
   async getInitialData() {
-    this.messageService.showLoading()
-    await this.getAllParking()
     if (this.isSudo) {
       await this.parkedForm
         .get('parkingId')
         ?.setValue(this.authService.getParking().id)
     }
-    await this.getParkedData().then(() => this.rerender()).then(() => {
-    })
+    await this.getParkedData().then(() => this.rerender())
     setInterval(() => {
       if (!this.dtTrigger.closed)
         this.refreshParkedData()
-    }, 10000)
-
-    this.messageService.hideLoading()
+    }, 60000)
   }
 
   async refreshParkedData() {
@@ -78,7 +73,7 @@ export class ParkedComponent implements OnDestroy, AfterViewInit {
     return this.reportService.descriptionOfDiffOfTime(entry_date, exit_date)
   }
 
-  createForm(): UntypedFormGroup {
+  createForm(): FormGroup {
     return this.formBuilder.group({
       parkingId: ['0'],
       status: ['1'],
@@ -87,16 +82,6 @@ export class ParkedComponent implements OnDestroy, AfterViewInit {
     })
   }
 
-  async getAllParking() {
-    if (!this.authService.isSudo) {
-      return
-    }
-    return this.parkingService.getAllParking().then((data) => {
-      if (data.success) {
-        this.parkingData = data.data.parkings
-      }
-    })
-  }
 
   getParkedFormValues() {
     const status =
@@ -223,5 +208,20 @@ export class ParkedComponent implements OnDestroy, AfterViewInit {
       .toPromise().then((data) => {
         this.parkedData = data.data
       })
+  }
+
+  changeParkedSelected(parked: ParkedModel) {
+    this.parked$.next(parked)
+  }
+
+  ngOnInit(): void {
+    this.authService.user$.subscribe(({parkingId}) => {
+      this.parkedForm.get('parkingId')?.setValue(parkingId)
+      this.getInitialData().then()
+    })
+
+    this.parkingService.parkingLot$.subscribe((parkingLot) => {
+      this.allParking = parkingLot
+    })
   }
 }

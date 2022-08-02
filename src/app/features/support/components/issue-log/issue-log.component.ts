@@ -51,11 +51,6 @@ export class IssueLogComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getLogsApp(this.fechaActual,this.fechaActual,'')
-    this.subject.subscribe((issue: IssueModel) => {
-      this.getLogsApp(this.fechaActual,this.fechaActual,'')
-    })
-
   }
   ngAfterViewInit(): void {
     this.dtTrigger.next()
