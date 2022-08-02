@@ -37,29 +37,32 @@
                 {{this.authData.user.name + ' ' + this.authData.user.last_name}}
               </li >
               <hr> -->
-              <li class = "nav-item text-center">
-                {{this.authData.user.email}}
+              <li class = "nav-item text-end">
+                <div style="padding-right: 15px;">{{this.authData.user.email}}</div>
               </li>
-              <li class = "nav-item text-center">
-                <div style = "font-size:12px; font-weight:600">{{this.authData.user.role.name}}</div>
+              <li class = "nav-item text-end">
+                <div style = "font-size:12px; font-weight:600; padding-right: 15px">{{this.authData.user.role.name}}</div>
               </li>
               <hr>
 
-              <div class = "list-group"
+              <div class = ""
                    id = "list-tab"
                    role = "tablist">
                 <a (click) = "setParkedSelected(item)"
                    *ngFor = "let item of authData.user.otherParkings"
                    [ngClass] = "{'active': item.id == this.authData.user.parking.id}"
                    aria-controls = "settings"
-                   class = "list-group-item list-group-item-action"
+                   class = "list-group-item multiParking"
                    data-toggle = "list"
                    id = "list-settings-list"
                    role = "tab">{{item.name}}</a>
+                   <hr>
               </div>
               <li class = "nav-item">
                 <a (click) = "logout()"
-                   class = "nav-link">
+                   class = "nav-link" style="    background: #e97b79;
+                   color: #fff;
+                   border-radius: 6px;">
                   <span><em class = "fa fa-power-off"></em></span>
                   Cerrar sesión</a>
               </li>
