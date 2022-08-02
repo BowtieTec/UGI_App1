@@ -30,7 +30,7 @@
 
           </div>
           <div
-            class = "dropdown-content">
+            class = "dropdown-content animate__animated animate__fadeInDown">
             <ul class = "nav flex-column">
 
               <!-- <li class = "nav-item text-center" >
@@ -50,7 +50,7 @@
                    role = "tablist">
                 <a (click) = "setParkedSelected(item)"
                    *ngFor = "let item of authData.user.otherParkings"
-                   [ngClass] = "{'active': item.id == this.authData.user.parking.id}"
+                   [ngClass] = "{'active': item.id === this.parkingId}"
                    aria-controls = "settings"
                    class = "list-group-item multiParking"
                    data-toggle = "list"

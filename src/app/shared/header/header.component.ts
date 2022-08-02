@@ -11,13 +11,13 @@ import {AuthModel, ParkingAuthModel} from '../model/UserResponse.model'
 })
 export class HeaderComponent {
   authData: AuthModel = this.auth.getUser()
-
+  parkingId: string = ''
   constructor(
     private auth: AuthService,
     private route: Router,
     private messageService: MessageService
   ) {
-
+this.parkingId = this.authData.user.parking.id
   }
 
   logout() {
@@ -29,7 +29,7 @@ export class HeaderComponent {
   }
 
   async setParkedSelected(parking: ParkingAuthModel) {
-
+    this.parkingId = parking.id
     await this.auth.saveNewParking(parking)
   }
 
